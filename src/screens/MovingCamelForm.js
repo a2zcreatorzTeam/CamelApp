@@ -1,0 +1,649 @@
+import React from 'react';
+import { Text, View, TextInput, TouchableOpacity, Switch, Image, SafeAreaView, Dimensions, ScrollView, Modal } from 'react-native';
+import { Styles } from '../styles/globlestyle'
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import * as ArabicText from "../language/EnglishToArabic"
+import Video from 'react-native-video';
+import Carousel from 'react-native-snap-carousel';
+import Loader from '../components/PleaseWait';
+import camelapp from '../api/camelapp';
+import Ads from '../components/Ads';
+import RNFS from 'react-native-fs';
+import { connect } from 'react-redux';
+import * as userActions from '../redux/actions/user_actions';
+import { bindActionCreators } from 'redux';
+const width = Dimensions.get('screen').width
+const height = Dimensions.get('screen').height
+import * as ImageCropPicker from 'react-native-image-crop-picker';
+
+class SellingCamel extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      videoForPost: undefined,
+      imagesForPost: undefined,
+      image: undefined,
+      video: undefined,
+      mixed: [],
+      imageFlage: false,
+      title: "",
+      description: "",
+      location: "",
+      color: "",
+      camel_type: "",
+      price_type: "",
+      price: "",
+      commission: false,
+      checked: "first",
+      register: 0,
+      register_value: 0,
+      moving_camel_amount: 0,
+      to_location: "",
+      images: { uri: "", name: "", type: "" },
+      localUrii: "",
+      paySwitch: false,
+      fileName: "",
+      car_name: "",
+      car_type: "",
+      Bank: "",
+      registerSwitch: false,
+      pay: 0,
+      loading: false,
+      modalVisible: false,
+      accountTitle: "",
+      accountNumber: 0,
+      branchCode: "",
+      cameraimage: [],
+
+      cameraimagesForPost: undefined,
+    }
+  }
+  createPostMovingCamel = async () => {
+
+    var image1 = this.state.imagesForPost;
+    var image2 = this.state.cameraimagesForPost;
+    var combineImages;
+    if (image1?.length && image2?.length) {
+      combineImages = image1.concat(image2);
+    }
+    if (image1?.length && !image2?.length) {
+      combineImages = image1;
+    }
+    if (!image1?.length && image2?.length) {
+      combineImages = image2;
+    }
+
+    if (this.state.videoForPost === undefined) {
+      return alert('Can not post without video');
+    }
+    console.log(
+      '==================this.state.imagesForPost==================',
+      combineImages?.length,
+    );
+    if (combineImages == undefined || combineImages?.length == 0) {
+      return alert('Can not post without image');
+    }
+    if (combineImages?.length > 4) {
+      return alert('Upload upto 4 images');
+    }
+
+    if (
+      this.state.title != "" &&
+      this.state.location != "" &&
+      this.state.description != "" &&
+      this.state.image != "" &&
+      this.state.car_name != "" &&
+      this.state.car_type != "" &&
+      this.state.price != "" &&
+      this.state.to_location != "") {
+
+      this.setState({ loading: true });
+      let { user } = this.props;
+
+      let user_id = user.user.user.id;
+
+      camelapp.post("/add/camel_moving",
+        {
+          user_id: user_id,
+          title: this.state.title,
+          location: this.state.location,
+          description: this.state.description,
+          images:combineImages,
+          video: this.state.videoForPost,
+          register: this.state.register,
+          pay: this.state.pay,
+          car_model: this.state.car_name,
+          car_type: this.state.car_type,
+          price: this.state.price,
+          to_location: this.state.to_location
+        }
+      ).then((response) => {
+
+        console.log("response", response);
+
+        // alert("Post Added Successfully");
+        this.setState({loading: false,  
+          video: undefined,
+          videoForPost: undefined,
+          imagesForPost: undefined,
+          image: undefined,
+          cameraimage: [],
+          cameraimagesForPost: undefined,});
+        alert(ArabicText.Post_added_successfully + "");
+
+
+        this.setState({ title: "", description: "", location: "", image: "", fileName: "" })
+        this.props.navigation.navigate("Home")
+      }).catch((error) => {
+        console.log("error", error);
+        this.setState({ loading: false });
+      });
+    } else {
+      alert(ArabicText.Please_complete_the_fields + "");
+
+      // alert("Please complete the fields")
+    }
+  };
+
+  checkBoxChanged() {
+    this.setState({ commission: !this.state.commission });
+    if (this.state.commission == false) {
+      this.setState({ moving_camel_amount: 1 })
+    } else {
+      this.setState({ moving_camel_amount: 0 })
+    }
+
+  }
+
+  openCamera = async () => {
+    this.setState({ video: {} })
+    ImageCropPicker.openPicker({
+      mediaType: 'video',
+    }).then(async (video) => {
+      if (video?.size > 10000000) {
+        alert("Video must be less then 10 MB")
+      } else {
+        RNFS.readFile(video.path, 'base64').then(res => {
+          this.setState({ videoForPost: "data:video/mp4;base64," + res });
+          let tempMixed = this.state.mixed;
+          let mixed = this.state.mixed;
+          let videoFlag = false;
+          if (tempMixed.length > 0) {
+            tempMixed.map((item, index) => {
+              if (item?.mime != undefined) {
+
+                if (item?.mime.includes("video") === true) {
+                  mixed[index] = video
+                  videoFlag = true;
+                }
+              }
+            })
+            if (videoFlag === false) {
+              mixed.push(video);
+            }
+            this.setState({ mixed: mixed, video: video });
+          } else {
+            tempMixed.push(video);
+            this.setState({ mixed: tempMixed, video: video });
+          }
+        }).catch(err => {
+          console.log(err.message, err.code);
+        });
+      }
+    });
+
+  };
+
+  openGallery() {
+    ImageCropPicker.openPicker({
+      mediaType: 'photo',
+      multiple: true,
+      includeBase64: true,
+      selectionLimit: 4,
+    }).then(async (images) => {
+
+      if (images.length <= 4) {
+        let tempImage = images;
+        let bse64images = [];
+        let mixedTemp = [];
+        for (let i = 0; i < tempImage.length; i++) {
+          bse64images.push("data:image/png;base64," + images[i].data)
+          mixedTemp.push(tempImage[i]);
+        }
+        this.setState({ imagesForPost: bse64images, image: tempImage });
+
+        if (this.state.video != undefined) {
+          let video = this.state.video;
+          mixedTemp.push(video);
+        }
+        if (this.state.cameraimage != undefined) {
+          let cameraimage = this.state.cameraimage;
+          for (var i = 0; i < cameraimage?.length; i++) {
+            mixedTemp.push(cameraimage[i]);
+          }
+        }
+        this.setState({ mixed: mixedTemp })
+      } else {
+        alert("Only 4 images allowed")
+      }
+      console.log("images", images)
+    }).catch((error) => {
+
+      console.log("error", error)
+    });
+  }
+
+  openCameraForCapture() {
+    ImageCropPicker.openCamera({
+      mediaType: 'photo',
+      includeBase64: true,
+    })
+      .then(async images => {
+        if (images) {
+          let tempImage = images;
+          let bse64images = [];
+          let mixedTemp = [];
+
+          this.setState(prevstate => ({
+            cameraimage: prevstate.cameraimage.concat(tempImage),
+          }));
+          const newImageArray = this?.state?.cameraimage;
+
+          for (var i = 0; i < newImageArray?.length; i++) {
+            mixedTemp.push(newImageArray[i]);
+            bse64images.push('data:image/png;base64,' + newImageArray[i]?.data);
+            // mixedTemp.push(tempImage);
+            this.setState({
+              cameraimagesForPost: bse64images,
+            });
+          }
+
+          if (this.state.image != undefined) {
+            let image = this.state.image;
+            for (var i = 0; i < image?.length; i++) {
+              mixedTemp.push(image[i]);
+            }
+          }
+          if (this.state.video != undefined) {
+            let video = this.state.video;
+            mixedTemp.push(video);
+          }
+          this.setState({mixed: mixedTemp});
+        }
+        // else {
+        //   alert(" IF Only 4 images allowed")
+        // }
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
+  }
+
+
+
+  onRegisterSwitchChanged(value) {
+    //console.log(" ----- value", value)
+
+    this.setState({ registerSwitch: value });
+    if (value === false) {
+      this.setState({ register: 0 })
+
+    }
+    if (value === true) {
+
+      this.setState({ register: 1 })
+    }
+    //console.log("this.state.registerSwitch", this.state.registerSwitch)
+    //console.log("register", this.state.register)
+  }
+
+  onpaySwitchChanged(value) {
+    //console.log(" ----- value", value)
+
+    this.setState({ paySwitch: value });
+    if (value === false) {
+      this.setState({ pay: 0 })
+
+    }
+    if (value === true) {
+      this.setState({ modalVisible: true })
+      this.setState({ pay: 1 })
+    }
+  }
+
+  bankDetailHandler() {
+    // if (this.state.accountNumber.length < 14) {
+    //   alert("account number length 14 required")
+    // } else if (this.state.accountTitle === "") {
+    //   alert("Please Enter Account Title")
+    // } else if (this.state.branchCode === "") {
+    //   alert("Please Enter Branch Code")
+    // } else {
+
+    //   console.log(this.state.accountTitle)
+    //   console.log(this.state.accountNumber)
+    //   console.log(this.state.branchCode)
+
+    //   this.setState({ modalVisible: false })
+    //   this.setState({ paySwitch: true })
+    // }
+    this.setState({ modalVisible: false })
+    this.setState({ paySwitch: true })
+  }
+
+  render() {
+    const { checked } = this.state;
+
+    return (
+
+      <SafeAreaView style={Styles.container}>
+        <Ads />
+        <ScrollView style={{ backgroundColor: "#ffffff" }}>
+          <View style={Styles.container}>
+
+            <Text style={[Styles.headingPostText, { marginTop: 30 }]}>نقل الابل</Text>
+            <Carousel
+              keyExtractor={this.state.mixed.fileName}
+              data={this.state.mixed}
+              layout={"default"}
+              scrollEnabled={true}
+              onScroll={() => this.setState({ pauseVideo: true})}
+              renderItem={({ item, index }) => {
+                return (
+                  <View style={Styles.imageCarousal}>
+                    {
+
+                      item.mime != undefined && item.mime.includes("image") && <Image source={{ uri: item.path }}
+                        key={String(index)}
+                        resizeMode={"cover"}
+                        style={{ width: "100%", height: "100%" }}
+                      />
+                    }
+                    {item.mime != undefined && item.mime.includes("video") &&
+                      <Video
+                        onTouchStart={() => {
+                          this.setState({ pauseVideo: !this.state.pauseVideo })
+                        }}
+                        source={{ uri: item.path }}
+                        key={String(index)}
+                        resizeMode='stretch'
+                        repeat
+                        controls={false}
+                        paused={this.state.pauseVideo}
+                        style={Styles.video} />}
+                  </View>
+                );
+              }}
+              sliderWidth={width}
+              itemWidth={width}
+            />
+
+
+            <View style={{ flexDirection: 'row', marginTop: 10 }}>
+              <View style={Styles.cameraview}>
+                <TouchableOpacity onPress={() => this.openCamera()}>
+                  <Ionicons
+                    name="md-camera-outline"
+                    size={30}
+                    color="#D2691Eff"
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={Styles.cameraview}>
+              <TouchableOpacity onPress={() => this.openCameraForCapture()}>
+                <Ionicons name="md-camera-sharp" size={30} color="#D2691Eff" />
+              </TouchableOpacity>
+            </View>
+              <View style={Styles.cameraview}>
+
+                <TouchableOpacity
+                  onPress={() => this.openGallery()}>
+                  <Ionicons name="images-outline" size={30} color="#D2691Eff" />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <TextInput
+              style={Styles.forminputs}
+              placeholder={ArabicText.Title}
+              placeholderTextColor="#b0b0b0"
+              value={this.state.title}
+              onChangeText={(text) => {
+                if (text.length <= 24) {
+                  this.setState({ title: text })
+                } else {
+                  alert(ArabicText.limitCharacters);
+                }
+              }}
+            ></TextInput>
+
+            <TextInput
+              style={Styles.forminputs}
+              placeholder={ArabicText.Car_Name}
+              placeholderTextColor="#b0b0b0"
+              value={this.state.car_name}
+              onChangeText={(text) => {
+                if (text.length <= 24) {
+                  this.setState({ car_name: text })
+                } else {
+                  alert(ArabicText.limitCharacters);
+                }
+              }}
+
+
+            ></TextInput>
+
+            <TextInput
+              style={Styles.forminputs}
+              placeholder={ArabicText.car_type}
+              placeholderTextColor="#b0b0b0"
+              value={this.state.car_type}
+              onChangeText={(text) => {
+                if (text.length <= 24) {
+                  this.setState({ car_type: text })
+                } else {
+                  alert(ArabicText.limitCharacters);
+                }
+              }}
+
+
+            ></TextInput>
+
+            <TextInput
+              style={Styles.forminputs}
+              keyboardType="numeric"
+              placeholder={ArabicText.Price}
+              placeholderTextColor="#b0b0b0"
+              value={this.state.price}
+              onChangeText={(text) => {
+                if (text.length <= 24) {
+                  this.setState({ price: text })
+                } else {
+                  alert(ArabicText.limitCharacters);
+                }
+              }}
+            ></TextInput>
+
+            <View style={{ flexDirection: 'row', margin: 5 }}>
+              <TextInput
+                style={Styles.mforminputs}
+                placeholder={ArabicText.From}
+                placeholderTextColor="#b0b0b0"
+                value={this.state.location}
+                onChangeText={(text) => {
+                  if (text.length <= 24) {
+                    this.setState({ location: text })
+                  } else {
+                    alert(ArabicText.limitCharacters);
+                  }
+                }}
+
+              ></TextInput>
+
+
+              <TextInput
+                style={Styles.mforminputs}
+                placeholder={ArabicText.To}
+                placeholderTextColor="#b0b0b0"
+                value={this.state.to_location}
+                onChangeText={(text) => {
+                  if (text.length <= 300) {
+                    this.setState({ to_location: text })
+                  } else {
+                    alert(ArabicText.limitCharacters);
+                  }
+                }}
+
+              ></TextInput>
+            </View>
+
+
+            <TextInput
+              style={[Styles.inputdecrp, { marginTop: 20 }]}
+              placeholder={ArabicText.Description}
+              placeholderTextColor="#b0b0b0"
+              value={this.state.description}
+              onChangeText={(text) => {
+                if (text.length <= 300) {
+                  this.setState({ description: text })
+                } else {
+                  alert(ArabicText.limitCharacters);
+                }
+              }}
+
+            ></TextInput>
+
+            <View style={{ flexDirection: 'row', alignSelf: 'flex-end', margin: 20, alignItems: 'center', marginTop: 10 }}>
+
+              <Text style={{ margin: 3, fontWeight: 'bold', color: 'black' }}>{ArabicText.I_am_registered_to_ministry_of_articulator}</Text>
+
+              <Switch
+                trackColor={{ false: "#767577", true: "#D2691Eff" }}
+                thumbColor={this.state.registerSwitch ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={(value) => this.onRegisterSwitchChanged(value)}
+                value={this.state.registerSwitch}
+              />
+            </View>
+
+
+            <View style={{ flexDirection: 'row', alignSelf: 'flex-end', margin: 20, alignItems: 'center', marginTop: 10 }}>
+
+              <Text style={{ margin: 3, fontWeight: 'bold', color: 'black' }}>{ArabicText.In_order_to_activity_your_account_pay}
+              </Text>
+              <Switch
+                trackColor={{ false: "#767577", true: "#D2691Eff" }}
+                thumbColor={this.state.paySwitch ? "#f5dd4b" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={(value) => this.onpaySwitchChanged(value)}
+                value={this.state.paySwitch}
+              />
+            </View>
+
+            <Loader loading={this.state.loading} />
+            <TouchableOpacity
+              onPress={() => this.createPostMovingCamel()}
+            >
+
+              <View style={Styles.btnform}><Text style={Styles.textbtn}>{ArabicText.add}</Text></View>
+            </TouchableOpacity>
+
+
+            <Modal
+              animationType="slide"
+              visible={this.state.modalVisible}
+              transparent={true}
+              onRequestClose={() => this.setState({ paySwitch: false, modalVisible: false })}
+            >
+              <TouchableOpacity activeOpacity={1} style={{ height: height }}
+                onPress={() => this.setState({ paySwitch: false, modalVisible: false })}
+              />
+              <View style={{
+                height: 300,
+                width: width,
+                marginTop: 'auto',
+                backgroundColor: '#ddd',
+                borderRadius: 20,
+                alignItems: "center",
+              }}>
+                <View style={{
+                  height: 30,
+                  borderTopEndRadius: 25,
+                  borderTopStartRadius: 25,
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}>
+                  <Text style={{ color: "#8b4513", fontSize: 15, fontWeight: "600" }}>Enter Bank Details</Text>
+                </View>
+                <View style={[Styles.forminputs, { justifyContent: "space-between", }]}>
+                  <Text style={{ color: "#000", fontSize: 15 }}>
+                    <Text style={{ color: "grey", fontSize: 13 }}>Account Title:  </Text>
+                    Mansoor Akhter</Text>
+                </View>
+                <View style={[Styles.forminputs, { justifyContent: "space-between", }]}>
+                  <Text style={{ color: "#000", fontSize: 15 }}>
+                    <Text style={{ color: "grey", fontSize: 13 }}>
+                      Account Number:  </Text>
+                    0000-1111-2222-33</Text>
+                </View>
+                <View style={[Styles.forminputs, { justifyContent: "space-between", }]}>
+                  <Text style={{ color: "#000", fontSize: 15 }}>
+                    <Text style={{ color: "grey", fontSize: 13 }}>
+                      Branch Code:  </Text>
+                    SC7512</Text>
+                </View>
+                {/* <TextInput
+                  style={Styles.forminputs}
+                  placeholder="Account Title"
+                  placeholderTextColor="#aaa"
+                  value={this.state.accountTitle}
+                  onChangeText={(text) => this.setState({ accountTitle: text })}
+                />
+                <TextInput
+                  style={Styles.forminputs}
+                  placeholder="Account Number"
+                  placeholderTextColor="#aaa"
+                  keyboardType='number-pad'
+                  value={this.state.accountNumber}
+                  maxLength={14}
+                  onChangeText={(text) => this.setState({ accountNumber: text })}
+                />
+                <TextInput
+                  style={Styles.forminputs}
+                  placeholder="Branch Code"
+                  placeholderTextColor="#aaa"
+                  value={this.state.branchCode}
+                  onChangeText={(text) => this.setState({ branchCode: text })}
+                /> */}
+
+                <TouchableOpacity style={{ alignSelf: 'center', marginTop: 20 }} onPress={() => this.bankDetailHandler()}>
+                  <View style={Styles.btn}>
+                    <Text style={Styles.textbtn}>
+                      Close</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </Modal>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+
+  user: state.user
+
+});
+
+const ActionCreators = Object.assign(
+  {},
+  userActions
+);
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SellingCamel);

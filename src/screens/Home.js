@@ -18,14 +18,15 @@ import {I18nManager} from 'react-native';
 I18nManager.forceRTL(false);
 I18nManager.allowRTL(false);
 import {Styles} from '../styles/globlestyle';
-import Item from '../components/Post';
+import Post from '../components/Post';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
-const width = Dimensions.get('screen').width;
 import Header from '../components/Header';
 import Loader from '../components/PleaseWait';
 import Ads from '../components/Ads';
+
+const {width, height} = Dimensions.get('screen');
 
 class Home extends Component {
   constructor(props) {
@@ -158,15 +159,17 @@ class Home extends Component {
     this.scrollRef.current.scrollToEnd({animated: false});
   };
   playVideo(item) {
-    let {filterPosts} = this.state;
+    // let {filterPosts} = this.state;
 
-    let index = filterPosts.indexOf(item);
+    // let index = filterPosts.indexOf(item);
 
-    console.log('index', index);
+    // filterPosts[index].flagForVideo = !filterPosts[index].flagForVideo;
 
-    filterPosts[index].flagForVideo = !filterPosts[index].flagForVideo;
-
-    this.setState({filterPosts: filterPosts});
+    // this.setState({filterPosts: filterPosts});
+    console.log(
+      'Video Post index=======',
+      this.state?.filterPosts?.indexOf(item),
+    );
   }
   onCategoryClick = async item => {
     if (item.category_id == '1') {
@@ -209,7 +212,7 @@ class Home extends Component {
       await camelapp
         .post('/add/view', {
           user_id: user.id,
-          post_id: post_id
+          post_id: post_id,
         })
         .then(response => {
           console.log('response.data', response.data);
@@ -484,42 +487,33 @@ class Home extends Component {
     }
   };
 
-
   componentDidMount = () => {
     this.focusListener = this.props.navigation.addListener('focus', () => {
       this.viewPosts();
     });
   };
   render() {
+    const {
+      onUserProfileClick,
+      onCategoryClick,
+      onCommentsClick,
+      onDetailsClick,
+      onLikesClick,
+      playVideo,
+      sharePosts,
+    } = this;
     const renderItem = ({item}) => {
       return (
-        <Item
-          price={item?.price}
+        <Post
           item={item}
-          title={item?.title}
-          date={item?.date}
-          image={item?.image}
-          likes={item?.like_count}
-          likeStatus={item?.flagForLike}
-          description={item?.description}
-          comments={item?.comment_count}
-          shares={item?.share_count}
-          views={item?.view_count}
-          userName={item?.name}
-          userCity={item?.user_location}
-          userImage={item?.user_images}
-          imagesArray={item?.imagesArray}
-          category={item?.category_name}
-          onCommentsClick={() => this.onCommentsClick(item)}
-          onDetailsClick={() => this.onDetailsClick(item)}
-          onLikesClick={() => this.onLikesClick(item)}
-          onUserProfileClick={() => this.onUserProfileClick(item)}
-          onCategoryClick={() => this.onCategoryClick(item)}
-          sharePost={() => this.sharePosts(item)}
-          onTouchStart={() => this.playVideo(item)}
-          playVideo={false}
-          pauseFlag={item?.flagForVideo}
-          lastBidPrice={item?.lastBidPrice}
+          onUserProfileClick={onUserProfileClick}
+          onCategoryClick={onCategoryClick}
+          onCommentsClick={onCommentsClick}
+          onDetailsClick={onDetailsClick}
+          onLikesClick={onLikesClick}
+          onTouchStart={playVideo}
+          sharePost={sharePosts}
+          flagForVideo={false}
         />
       );
     };
@@ -819,24 +813,27 @@ class Home extends Component {
                 </View>
               </ScrollView>
             </View>
-
             {/* POST FLATLIST */}
             <Loader loading={this.state.loading} />
-
             <FlatList
               data={this?.state?.filterPosts}
+              keyExtractor={item => item.id.toString()}
               renderItem={renderItem}
-              keyExtractor={item => item.id}
-              contentContainerStyle={{paddingBottom: 160}}
-              initialNumToRender={5}
-              maxToRenderPerBatch={5}
+              initialNumToRender={8}
+              maxToRenderPerBatch={8}
               ListHeaderComponent={() => <Ads />}
+              contentContainerStyle={{paddingBottom: 80}}
               refreshControl={
                 <RefreshControl
                   refreshing={this.state.refreshing}
                   onRefresh={() => this.ScrollToRefresh()}
                 />
               }
+              getItemLayout={(data, index) => ({
+                length: height / 2,
+                offset: (height / 2) * index,
+                index,
+              })}
             />
           </>
         )}
@@ -860,9 +857,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: width,
-    // height: height,
-    // alignItems: 'center',
-    // justifyContent: 'center',
     backgroundColor: '#fff',
   },
 });

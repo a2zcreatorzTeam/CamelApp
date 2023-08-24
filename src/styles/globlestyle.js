@@ -1,7 +1,7 @@
-import { StyleSheet, Platform, StatusBar } from "react-native";
-import { Dimensions } from "react-native";
-const width = Dimensions.get('screen').width
-const hight = Dimensions.get('screen').height
+import {StyleSheet, Platform, StatusBar} from 'react-native';
+import {Dimensions} from 'react-native';
+const width = Dimensions.get('screen').width;
+const hight = Dimensions.get('screen').height;
 export const Styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -14,19 +14,16 @@ export const Styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#D2691Eff'
-
+    color: '#D2691Eff',
   },
-  video: { width: "100%", height: 400, borderWidth: 1, backgroundColor: "black" },
-  imageCarousal:
-  {
-    alignSelf: "center",
-    marginTop: 20,
-    width: "100%",
+  video: {width: '100%', height: 400, borderWidth: 1, backgroundColor: 'black'},
+  imageCarousal: {
+    width: width,
     height: hight / 2.5,
-    justifyContent: "center",
+    alignSelf: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
-    overflow: "hidden",
+    overflow: 'hidden',
   },
   containerBidsItem: {
     flex: 1,
@@ -38,7 +35,6 @@ export const Styles = StyleSheet.create({
   containerSponsor: {
     // backgroundColor: '#ffffff',
     width: width,
-
   },
   WinnerIcon: {
     width: 60,
@@ -51,23 +47,19 @@ export const Styles = StyleSheet.create({
     borderWidth: 2,
     marginBottom: 10,
     borderColor: 'white',
-    marginTop: 5
-
+    marginTop: 5,
   },
   containerFollowing: {
     backgroundColor: '#DCDCDC',
     // alignItems: 'center',
     // justifyContent: 'center',
     width: width,
-
   },
   containerSellingCamel: {
     backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center',
     width: width,
-
-
   },
   containerMessageView: {
     flexGrow: 1,
@@ -83,21 +75,19 @@ export const Styles = StyleSheet.create({
     width: width,
   },
   floatIcon: {
-
     borderRadius: 50,
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: "#d2691e",
+    borderColor: '#d2691e',
     borderWidth: 2,
-
   },
   containerComments: {
     flex: 1,
     backgroundColor: '#ffffff',
 
     width: width,
-    height: hight
+    height: hight,
   },
 
   containerHome: {
@@ -106,7 +96,6 @@ export const Styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: width,
-
   },
   containerScroll: {
     flex: 1,
@@ -124,13 +113,12 @@ export const Styles = StyleSheet.create({
 
     width: width,
     // height: hight
-
   },
   text: {
     fontSize: 30,
     fontWeight: 'bold',
     color: '#d2691e',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   inputs: {
     height: 40,
@@ -152,7 +140,7 @@ export const Styles = StyleSheet.create({
   },
   card: {
     shadowColor: 'black',
-    shadowOffset: { width: 0, height: 7 },
+    shadowOffset: {width: 0, height: 7},
     shadowOpacity: 0.27,
     shadowRadius: 25,
     backgroundColor: 'white',
@@ -170,14 +158,12 @@ export const Styles = StyleSheet.create({
     backgroundColor: '#8b4513',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 3
+    margin: 3,
   },
   textbtn: {
-
     fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
-
   },
   header: {
     backgroundColor: '#d2691e',
@@ -188,14 +174,13 @@ export const Styles = StyleSheet.create({
     height: 60,
     top: 0,
     marginTop: Platform.OS === 'ios' ? 35 : 0,
-
   },
   searchbar: {
     height: 40,
-    width: "70%",
+    width: '70%',
     borderRadius: 30,
-    justifyContent: "center",
-    backgroundColor: '#fff'
+    justifyContent: 'center',
+    backgroundColor: '#fff',
   },
 
   postcard: {
@@ -216,17 +201,14 @@ export const Styles = StyleSheet.create({
     justifyContent: 'center',
     borderTopWidth: 2,
     borderColor: '#f0f8ff',
-
   },
-  image:
-  {
+  image: {
     width: width,
     height: hight / 2.5,
   },
   surveyImage: {
     width: width / 1.25,
     height: hight / 2.9,
-
   },
   HomeTopIcons: {
     width: 85,
@@ -240,7 +222,7 @@ export const Styles = StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 10
+    marginRight: 10,
   },
   detailsIcons: {
     width: 30,
@@ -251,10 +233,10 @@ export const Styles = StyleSheet.create({
     alignItems: 'center',
   },
   posticon: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between"
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 10,
   },
   posticonCommentLikes: {
     flex: 0.1,
@@ -268,7 +250,6 @@ export const Styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     position: 'absolute',
-
   },
   posticonCommentLikesSection: {
     flex: 0.1,
@@ -280,8 +261,7 @@ export const Styles = StyleSheet.create({
     right: 0,
     alignItems: 'center',
     position: 'absolute',
-    marginTop: 50
-
+    marginTop: 50,
   },
   btnHome: {
     height: hight / 23,
@@ -298,8 +278,6 @@ export const Styles = StyleSheet.create({
     backgroundColor: '#f3f3f3',
     alignItems: 'center',
     justifyContent: 'center',
-    alignContent: 'center'
-
   },
   bidsButton: {
     height: hight / 23,
@@ -308,10 +286,8 @@ export const Styles = StyleSheet.create({
     backgroundColor: '#f3f3f3',
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   bidsButtonAccept: {
-
     padding: 5,
     borderRadius: 20,
     backgroundColor: '#f3f3f3',
@@ -319,7 +295,6 @@ export const Styles = StyleSheet.create({
     borderColor: '#D2691Eff',
     alignItems: 'center',
     // justifyContent: 'center',
-
   },
   bidsButtonAcceptGray: {
     marginLeft: 5,
@@ -331,7 +306,6 @@ export const Styles = StyleSheet.create({
     borderColor: '#f3f3f3',
     alignItems: 'center',
     // justifyContent: 'center',
-
   },
 
   homeimg: {
@@ -340,7 +314,7 @@ export const Styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
-    alignSelf: "center"
+    alignSelf: 'center',
   },
   homesec: {
     backgroundColor: '#fff',
@@ -351,7 +325,6 @@ export const Styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 5,
     marginTop: 5,
-
   },
 
   topImages: {
@@ -378,9 +351,8 @@ export const Styles = StyleSheet.create({
     marginRight: 10,
     marginLeft: 10,
 
-
     padding: 30,
-    borderRadius: 10
+    borderRadius: 10,
   },
   BeautyOpacity: {
     backgroundColor: '#f8f8f8',
@@ -394,19 +366,21 @@ export const Styles = StyleSheet.create({
     padding: 8,
     paddingHorizontal: 20,
     // paddingRight: 5,
-    borderRadius: 10
+    borderRadius: 10,
   },
   imageAdnew: {
-    width: 120, height: 120,
+    width: 120,
+    height: 120,
   },
   topImageshome: {
-    width: 80, height: 80,
+    width: 80,
+    height: 80,
     margin: 7,
     // borderWidth: 1,
     // borderColor: '#ffffff',
     // backgroundColor: '#ffffff'
   },
-  //CSS ADD NEW 
+  //CSS ADD NEW
   containerBeauty: {
     flex: 1,
     backgroundColor: '#fff',
@@ -414,13 +388,12 @@ export const Styles = StyleSheet.create({
     // justifyContent: 'center',
     width: width,
     // marginTop: Platform.OS === 'android' ? 50 : 0,
-
   },
   BeautyImages: {
     width: 160,
     height: 136,
     borderRadius: 10,
-    padding: 10
+    padding: 10,
     // borderWidth: 1,
     // borderColor: '#ffffff',
     // backgroundColor: '#ffffff'
@@ -434,7 +407,7 @@ export const Styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    borderColor: "black",
+    borderColor: 'black',
     borderWidth: 0.5,
   },
 
@@ -445,7 +418,6 @@ export const Styles = StyleSheet.create({
     justifyContent: 'center',
     width: width,
     marginTop: Platform.OS === 'android' ? 0 : 0,
-
   },
   BeatyCard: {
     backgroundColor: '#fff',
@@ -454,8 +426,6 @@ export const Styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
-
-
   },
   cardaddew: {
     backgroundColor: '#7E7E7E',
@@ -464,20 +434,18 @@ export const Styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
-
-
   },
   beautyimg: {
     flexDirection: 'row',
     marginBottom: 10,
     borderRadius: 10,
-    gap: 25
+    gap: 25,
   },
   viewimg: {
     flexDirection: 'row',
     marginBottom: 10,
     borderRadius: 10,
-    gap: 5
+    gap: 5,
   },
   //Forms
   RadioInput: {
@@ -489,7 +457,7 @@ export const Styles = StyleSheet.create({
     marginTop: 15,
     textAlign: 'right',
 
-    borderRadius: 6
+    borderRadius: 6,
   },
   forminputs: {
     height: 40,
@@ -500,7 +468,7 @@ export const Styles = StyleSheet.create({
     marginTop: 15,
     textAlign: 'right',
     borderRadius: 20,
-    color: 'black'
+    color: 'black',
   },
   forminputsPrice: {
     height: 40,
@@ -510,8 +478,8 @@ export const Styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 15,
     textAlign: 'right',
-    borderRadius: 6, color: 'black',
-
+    borderRadius: 6,
+    color: 'black',
   },
   centeredView: {
     flex: 1,
@@ -519,8 +487,7 @@ export const Styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 22,
     backgroundColor: '#DCDCDC',
-    opacity: 0.9
-
+    opacity: 0.9,
   },
   modalView: {
     backgroundColor: 'white',
@@ -535,7 +502,7 @@ export const Styles = StyleSheet.create({
     // shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    width: width - 100
+    width: width - 100,
   },
   textHeadingg: {
     textAlign: 'right',
@@ -544,7 +511,7 @@ export const Styles = StyleSheet.create({
     padding: 5,
     marginTop: 2,
     right: 0,
-    color: 'black'
+    color: 'black',
   },
   forminputsDetails: {
     padding: 10,
@@ -557,14 +524,14 @@ export const Styles = StyleSheet.create({
     color: 'black',
     // marginRight: 10,
     // textColor: "#000000"
-  }, containerProfile: {
+  },
+  containerProfile: {
     flex: 1,
     backgroundColor: '#ffffff',
     alignItems: 'center',
     justifyContent: 'center',
     width: width,
     marginTop: Platform.OS === 'android' ? 15 : 0,
-
   },
   containerBids: {
     flex: 1,
@@ -573,11 +540,7 @@ export const Styles = StyleSheet.create({
     // justifyContent: 'center',
     width: width,
     marginTop: Platform.OS === 'android' ? 15 : 0,
-
   },
-
-
-
 
   forminputsPicker: {
     height: 40,
@@ -587,7 +550,7 @@ export const Styles = StyleSheet.create({
     marginTop: 8,
     textAlign: 'right',
     borderRadius: 6,
-    marginLeft: width / 3
+    marginLeft: width / 3,
   },
   inputsdecrp: {
     paddingBottom: 15,
@@ -598,7 +561,7 @@ export const Styles = StyleSheet.create({
     textAlign: 'right',
     borderRadius: 6,
     margin: 6,
-    color: 'black'
+    color: 'black',
   },
   inputdecrp: {
     padding: 10,
@@ -608,12 +571,12 @@ export const Styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 15,
     textAlign: 'right',
-    borderRadius: 6, 
-    color: 'black'
-  }, fontDetails:
-  {
+    borderRadius: 6,
+    color: 'black',
+  },
+  fontDetails: {
     fontSize: 10,
-    color: 'black'
+    color: 'black',
   },
   btnform: {
     height: hight / 20,
@@ -623,7 +586,7 @@ export const Styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     margin: 10,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   mforminputs: {
     height: 40,
@@ -639,7 +602,7 @@ export const Styles = StyleSheet.create({
   },
   cardsignup: {
     shadowColor: 'black',
-    shadowOffset: { width: 0, height: 7 },
+    shadowOffset: {width: 0, height: 7},
     shadowOpacity: 0.27,
     shadowRadius: 25,
     backgroundColor: 'white',
@@ -659,10 +622,10 @@ export const Styles = StyleSheet.create({
     borderLeftWidth: 0,
     borderRightWidth: 0,
     textAlign: 'right',
-
   },
   pricetag: {
-    width: 60, height: 70,
+    width: 60,
+    height: 70,
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
     backgroundColor: '#D2691Eff',
@@ -673,8 +636,7 @@ export const Styles = StyleSheet.create({
     position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
-    alignContent: 'center'
-
+    alignContent: 'center',
   },
   //Style Msg
   headermsg: {
@@ -685,7 +647,7 @@ export const Styles = StyleSheet.create({
     width: width,
     height: hight / 10,
     flexDirection: 'row',
-    alignSelf: 'flex-start'
+    alignSelf: 'flex-start',
   },
   msgcard: {
     paddingBottom: 10,
@@ -695,8 +657,7 @@ export const Styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignContent: 'center',
     height: hight / 1.5,
-    right: 10
-
+    right: 10,
   },
   text_recv: {
     backgroundColor: '#f0f8ff',
@@ -707,7 +668,6 @@ export const Styles = StyleSheet.create({
     borderBottomRightRadius: 20,
     margin: 10,
     marginRight: 130,
-
   },
   text_send: {
     backgroundColor: '#d2691e',
@@ -740,7 +700,6 @@ export const Styles = StyleSheet.create({
     width: width,
     height: 50,
     flexDirection: 'row',
-
   },
   msginput: {
     height: 40,
@@ -748,10 +707,12 @@ export const Styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#fff',
     borderWidth: 1,
-    borderColor: 'grey', textAlign: 'right', paddingRight: 10,
+    borderColor: 'grey',
+    textAlign: 'right',
+    paddingRight: 10,
     marginLeft: 50,
     marginRight: 10,
-    color: 'black'
+    color: 'black',
   },
   sendbtn: {
     padding: 14,
@@ -760,7 +721,6 @@ export const Styles = StyleSheet.create({
     backgroundColor: '#D2691E',
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   forgetinputs: {
     height: 40,
@@ -782,7 +742,7 @@ export const Styles = StyleSheet.create({
     borderBottomRightRadius: 40,
     textAlign: 'center',
   },
-  // Style Notofication 
+  // Style Notofication
 
   winnerBeauty: {
     top: 0,
@@ -796,7 +756,7 @@ export const Styles = StyleSheet.create({
   winners5: {
     width: width / 1.2,
     backgroundColor: '#f0f8ff',
-    position: "absolute",
+    position: 'absolute',
     paddingTop: 20,
     paddingBottom: 20,
     paddingRight: 60,
@@ -808,7 +768,7 @@ export const Styles = StyleSheet.create({
   winners4: {
     width: width / 1.2,
     backgroundColor: '#f0f8ff',
-    position: "absolute",
+    position: 'absolute',
     paddingTop: 20,
     paddingBottom: 20,
     paddingRight: 60,
@@ -820,7 +780,7 @@ export const Styles = StyleSheet.create({
   winners3: {
     width: width / 1.2,
     backgroundColor: '#f0f8ff',
-    position: "absolute",
+    position: 'absolute',
     paddingTop: 20,
     paddingBottom: 20,
     paddingRight: 60,
@@ -832,7 +792,7 @@ export const Styles = StyleSheet.create({
   winners2: {
     width: width / 1.2,
     backgroundColor: '#f0f8ff',
-    position: "absolute",
+    position: 'absolute',
     paddingTop: 20,
     paddingBottom: 20,
     paddingRight: 60,
@@ -844,7 +804,7 @@ export const Styles = StyleSheet.create({
   winners: {
     width: width / 1.2,
     backgroundColor: '#f0f8ff',
-    position: "absolute",
+    position: 'absolute',
     paddingTop: 20,
     paddingBottom: 20,
     paddingRight: 60,
@@ -863,7 +823,7 @@ export const Styles = StyleSheet.create({
     width: width,
     height: hight / 10,
     flexDirection: 'row',
-    alignSelf: 'flex-start'
+    alignSelf: 'flex-start',
   },
   newsbox: {
     top: 0,
@@ -875,14 +835,14 @@ export const Styles = StyleSheet.create({
     width: width,
     height: hight / 5,
     flexDirection: 'row',
-    alignSelf: 'flex-start'
+    alignSelf: 'flex-start',
   },
   //Style whatsappShare Screen
 
   aboutUsTouchableOpacity: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center"
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   quesmark: {
     height: 50,
@@ -890,7 +850,6 @@ export const Styles = StyleSheet.create({
     backgroundColor: '#8b4513',
     justifyContent: 'center',
     margin: 3,
-
   },
   hand: {
     height: 50,
@@ -898,7 +857,6 @@ export const Styles = StyleSheet.create({
     backgroundColor: '#deb887',
     justifyContent: 'center',
     margin: 3,
-
   },
   warning: {
     height: 50,
@@ -906,8 +864,6 @@ export const Styles = StyleSheet.create({
     justifyContent: 'center',
     margin: 3,
     backgroundColor: '#a9a9a9',
-
-
   },
   bank: {
     height: 50,
@@ -915,7 +871,6 @@ export const Styles = StyleSheet.create({
     justifyContent: 'center',
     margin: 3,
     backgroundColor: '#0000cd',
-
   },
   whtsapp: {
     height: hight / 15,
@@ -933,14 +888,14 @@ export const Styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
-    position: "absolute",
+    position: 'absolute',
     right: 0,
   },
   boxtext: {
     fontWeight: '400',
     fontSize: 16,
     color: '#fff',
-    marginRight: 10
+    marginRight: 10,
   },
   sharebtn: {
     width: 43,
@@ -950,19 +905,14 @@ export const Styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     margin: 5,
-
-
   },
   bottomimg: {
     width: width,
     height: hight / 4.8,
     bottom: 0,
-    position: 'absolute'
-
-
+    position: 'absolute',
   },
-  Beautycard:
-  {
+  Beautycard: {
     backgroundColor: '#f0f8ff',
     width: width / 2,
     height: hight / 4,
@@ -982,7 +932,6 @@ export const Styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     position: 'absolute',
-
   },
   top: {
     // top: 0,
@@ -994,7 +943,7 @@ export const Styles = StyleSheet.create({
 
     justifyContent: 'center',
     flexDirection: 'row',
-    padding: 10
+    padding: 10,
   },
   topbtn: {
     height: hight / 23,
@@ -1003,7 +952,7 @@ export const Styles = StyleSheet.create({
     backgroundColor: '#D2691Eff',
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 5
+    margin: 5,
   },
   topbtnn: {
     height: hight / 23,
@@ -1014,7 +963,7 @@ export const Styles = StyleSheet.create({
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 3
+    margin: 3,
   },
   underTop: {
     // top:50,
@@ -1027,7 +976,7 @@ export const Styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 5,
     alignSelf: 'center',
-    padding: 5
+    padding: 5,
   },
   bottombtnn: {
     height: hight / 23,
@@ -1038,7 +987,6 @@ export const Styles = StyleSheet.create({
     borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'center',
-
   },
   underTopview: {
     backgroundColor: '#faf0e6',
@@ -1047,9 +995,9 @@ export const Styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
-    margin: 10
+    margin: 10,
   },
-  //Winner page style 
+  //Winner page style
   winnerList: {
     backgroundColor: '#faf0e6',
     width: width - 10,
@@ -1058,7 +1006,7 @@ export const Styles = StyleSheet.create({
     justifyContent: 'center',
     borderTopWidth: 2,
     borderColor: '#faf0e6',
-    marginTop: 30
+    marginTop: 30,
   },
   winnerinfo: {
     backgroundColor: '#fff',
@@ -1075,14 +1023,14 @@ export const Styles = StyleSheet.create({
     height: 80,
     borderRadius: 50,
     right: 30,
-    position: 'absolute'
+    position: 'absolute',
   },
   ratingline: {
     backgroundColor: '#D2691Eff',
     width: width - 150,
     height: hight / 190,
     marginRight: 120,
-    marginTop: 5
+    marginTop: 5,
   },
   inputNews: {
     height: 40,
@@ -1090,7 +1038,7 @@ export const Styles = StyleSheet.create({
     borderColor: '#d2691e',
     borderBottomWidth: 1,
     textAlign: 'right',
-    color: 'black'
+    color: 'black',
   },
   paragraph: {
     width: width - 140,
@@ -1109,7 +1057,7 @@ export const Styles = StyleSheet.create({
     fontWeight: 'bold',
     padding: 5,
     textAlign: 'right',
-    color: 'black'
+    color: 'black',
     // alignItems:  "5",
     //  'flex-start' : 'center'
   },
@@ -1117,14 +1065,14 @@ export const Styles = StyleSheet.create({
     width: width - 245,
     height: 155,
     borderRadius: 10,
-    marginRight: -10
+    marginRight: -10,
   },
   profileimagecircle: {
     width: 50,
     height: 50,
     borderRadius: 20,
     right: 50,
-    position: 'absolute'
+    position: 'absolute',
   },
 
   newsbox1: {
@@ -1132,7 +1080,7 @@ export const Styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'space-around',
-    flexDirection:'row', //remved for news screen
+    flexDirection: 'row', //remved for news screen
     width: width - 20,
     height: 160,
     alignSelf: 'center',
@@ -1149,7 +1097,7 @@ export const Styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#f0f8ff',
     shadowColor: 'black',
-    shadowOffset: { width: 0, height: 7 },
+    shadowOffset: {width: 0, height: 7},
     shadowOpacity: 0.27,
     shadowRadius: 25,
     margin: 15,
@@ -1164,10 +1112,10 @@ export const Styles = StyleSheet.create({
     width: width - 40,
     borderColor: '#d2691e',
     borderWidth: 1,
-    borderRadius:15,
+    borderRadius: 15,
     paddingHorizontal: 15,
-    paddingBottom:15,
-    marginBottom:10
+    paddingBottom: 15,
+    marginBottom: 10,
   },
   newsQuestioncard: {
     backgroundColor: '#fff',
@@ -1178,7 +1126,7 @@ export const Styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#f0f8ff',
     shadowColor: 'black',
-    shadowOffset: { width: 0, height: 7 },
+    shadowOffset: {width: 0, height: 7},
     shadowOpacity: 0.27,
     shadowRadius: 25,
     margin: 15,
@@ -1198,7 +1146,7 @@ export const Styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#f0f8ff',
     shadowColor: 'black',
-    shadowOffset: { width: 0, height: 7 },
+    shadowOffset: {width: 0, height: 7},
     shadowOpacity: 0.27,
     shadowRadius: 25,
     margin: 15,
@@ -1210,23 +1158,22 @@ export const Styles = StyleSheet.create({
   },
   ansinput: {
     height: 40,
-    width: "70%",
+    width: '70%',
     backgroundColor: '#fff',
     borderWidth: 1,
     borderColor: '#d2691e',
     padding: 5,
-
   },
   questions: {
     margin: 10,
     fontSize: 16,
     textAlign: 'right',
     marginRight: 50,
-    fontWeight: "bold",
-    color: "black",
+    fontWeight: 'bold',
+    color: 'black',
   },
   radiotxt: {
-    marginTop: 7
+    marginTop: 7,
   },
   breakLine: {
     width: 320,
@@ -1249,7 +1196,7 @@ export const Styles = StyleSheet.create({
     width: width,
     height: hight / 15,
     flexDirection: 'row',
-    alignSelf: 'flex-start'
+    alignSelf: 'flex-start',
   },
   headerProfile: {
     width: width,
@@ -1266,7 +1213,7 @@ export const Styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     margin: 5,
-    backgroundColor: '#f7f7ff'
+    backgroundColor: '#f7f7ff',
   },
   user_Home: {
     width: 50,
@@ -1281,7 +1228,8 @@ export const Styles = StyleSheet.create({
     right: 10,
     position: 'absolute',
     marginBottom: 10,
-    borderColor: 'grey', marginTop: 10,
+    borderColor: 'grey',
+    marginTop: 10,
   },
 
   user_HomeComment: {
@@ -1298,7 +1246,7 @@ export const Styles = StyleSheet.create({
     top: 5,
     position: 'absolute',
     marginBottom: 10,
-    borderColor: 'grey'
+    borderColor: 'grey',
   },
 
   user_HomeMessageModal: {
@@ -1314,7 +1262,7 @@ export const Styles = StyleSheet.create({
 
     position: 'absolute',
     marginBottom: 10,
-    borderColor: 'grey'
+    borderColor: 'grey',
   },
   user_HomeMessage: {
     width: 50,
@@ -1328,7 +1276,7 @@ export const Styles = StyleSheet.create({
     right: 10,
     position: 'absolute',
     marginBottom: 10,
-    borderColor: 'grey'
+    borderColor: 'grey',
   },
   bidsItem: {
     padding: 10,
@@ -1341,20 +1289,17 @@ export const Styles = StyleSheet.create({
     borderWidth: 2,
     right: 10,
     position: 'absolute',
-    borderColor: 'grey'
+    borderColor: 'grey',
   },
   sponsorItem: {
     width: width - 30,
     borderRadius: 20,
     // backgroundColor: '#fff',
     //  backgroundColor: '#f3f3f3',
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    flexDirection: "row",
-    alignSelf: "center",
-
-
-
+    flexDirection: 'row',
+    alignSelf: 'center',
   },
   user_detail: {
     width: 170,
@@ -1362,8 +1307,7 @@ export const Styles = StyleSheet.create({
     // justifyContent: 'center',
     alignItems: 'center',
     right: 60,
-    position: 'absolute'
-
+    position: 'absolute',
   },
   comments: {
     // width: 100,
@@ -1372,7 +1316,7 @@ export const Styles = StyleSheet.create({
     alignItems: 'center',
     marginright: 5,
     // position: 'absolute',
-    top: 10
+    top: 10,
   },
   commentsName: {
     // width: 100,
@@ -1381,11 +1325,10 @@ export const Styles = StyleSheet.create({
     alignItems: 'center',
     right: 50,
     position: 'absolute',
-    marginTop: 3
+    marginTop: 3,
   },
   error: {
     color: 'red',
-    marginRight: 200
-  }
+    marginRight: 200,
+  },
 });
-

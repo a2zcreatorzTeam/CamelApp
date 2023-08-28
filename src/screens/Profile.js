@@ -60,31 +60,28 @@ class Profile extends Component {
     };
   }
 
+  // ==========NEW============
   checkUserLogedIn() {
-    let {user} = this.props;
-    if (user.user.user != undefined) {
-      let length = parseInt(user.user.posts.length);
-      //console.log("length", length);
+    const {user} = this.props;
+    if (user.user.user) {
+      const length = parseInt(user.user.posts.length);
+      let rating = 0;
 
       if (length > 30 && length < 100) {
-        this.setState({rating: 1});
-      }
-      if (length >= 100 && length < 150) {
-        this.setState({rating: 2});
-      }
-      if (length >= 150 && length < 200) {
-        this.setState({rating: 3});
+        rating = 1;
+      } else if (length >= 100 && length < 150) {
+        rating = 2;
+      } else if (length >= 150 && length < 200) {
+        rating = 3;
+      } else if (length >= 200 && length < 250) {
+        rating = 4;
+      } else if (length > 250) {
+        rating = 5;
       }
 
-      if (length >= 200 && length < 250) {
-        this.setState({rating: 4});
-      }
-      if (length > 250) {
-        this.setState({rating: 5});
-      } else {
-        this.setState({rating: 0});
-      }
+      this.setState({rating});
       this.fetchUser();
+      console.log(this.state.rating, 'RATING');
     } else {
       this.props.navigation.navigate('Login');
     }
@@ -94,12 +91,10 @@ class Profile extends Component {
     let {user, actions} = this.props;
     user = user.user.user;
 
-    //console.log("this.state.registerSwitch", this.state.chatFlag)
-
     try {
       camelapp
         .post('/add/chat/' + user.id, {
-          chat_status: this?.state?.chatFlag==true ? 1 : 0,
+          chat_status: this?.state?.chatFlag == true ? 1 : 0,
         })
         .then(res => {
           this.setState({modalChat: false});
@@ -180,10 +175,10 @@ class Profile extends Component {
       });
   }
   chatflag(value) {
-    console.log('================++VALUE++====================');
+    console.log('================++VALUE++===========');
     console.log(value);
     console.log('====================================');
-    //console.log("value", value)
+
     this.setState({chatFlag: value});
   }
   onRegisterSwitchChanged(value) {
@@ -191,39 +186,61 @@ class Profile extends Component {
     this.setState({registerSwitch: value});
   }
 
-  onCategoryClick = async item => {
-    if (item.category_id == '1') {
-      this.props.navigation.navigate('CamelClubList');
-    }
-    if (item.category_id == '4') {
-      this.props.navigation.navigate('CamelTreatmentList');
-    }
-    if (item.category_id == '3') {
-      this.props.navigation.navigate('CamelMissingList');
-    }
-    if (item.category_id == '2') {
-      this.props.navigation.navigate('CamelSellingList');
-    }
-    if (item.category_id == '6') {
-      this.props.navigation.navigate('CamelFoodList');
-    }
-    if (item.category_id == '8') {
-      this.props.navigation.navigate('CamelEquipmentList');
-    }
-    if (item.category_id == '7') {
-      this.props.navigation.navigate('CamelEquipmentList');
-    }
-    if (item.category_id == '5') {
-      this.props.navigation.navigate('CamelMovingList');
-    }
-    if (item.category_id == '9') {
-      this.props.navigation.navigate('CamelMarketingList');
-    }
+  // onCategoryClick = async item => {
+  //   if (item.category_id == '1') {
+  //     this.props.navigation.navigate('CamelClubList');
+  //   }
+  //   if (item.category_id == '4') {
+  //     this.props.navigation.navigate('CamelTreatmentList');
+  //   }
+  //   if (item.category_id == '3') {
+  //     this.props.navigation.navigate('CamelMissingList');
+  //   }
+  //   if (item.category_id == '2') {
+  //     this.props.navigation.navigate('CamelSellingList');
+  //   }
+  //   if (item.category_id == '6') {
+  //     this.props.navigation.navigate('CamelFoodList');
+  //   }
+  //   if (item.category_id == '8') {
+  //     this.props.navigation.navigate('CamelEquipmentList');
+  //   }
+  //   if (item.category_id == '7') {
+  //     this.props.navigation.navigate('CamelEquipmentList');
+  //   }
+  //   if (item.category_id == '5') {
+  //     this.props.navigation.navigate('CamelMovingList');
+  //   }
+  //   if (item.category_id == '9') {
+  //     this.props.navigation.navigate('CamelMarketingList');
+  //   }
 
-    if (item.category_id == '11') {
-      this.props.navigation.navigate('FemaleList');
+  //   if (item.category_id == '11') {
+  //     this.props.navigation.navigate('FemaleList');
+  //   }
+  // };
+
+  // ============NEW=============
+  onCategoryClick = async item => {
+    const categoryMap = {
+      1: 'CamelClubList',
+      2: 'CamelSellingList',
+      3: 'CamelMissingList',
+      4: 'CamelTreatmentList',
+      5: 'CamelMovingList',
+      6: 'CamelFoodList',
+      7: 'CamelEquipmentList',
+      8: 'CamelEquipmentList',
+      9: 'CamelMarketingList',
+      11: 'FemaleList',
+    };
+
+    const navigationKey = categoryMap[item.category_id];
+    if (navigationKey) {
+      this.props.navigation.navigate(navigationKey);
     }
   };
+
   fetchUser() {
     let {user, actions} = this.props;
     user = user.user.user;
@@ -237,7 +254,8 @@ class Profile extends Component {
         this.setState({
           whatsappNumber: this.props.user.user.user.whatsapp_no,
           phoneNumber: this.props.user.user.user.phone,
-          chatFlag: this?.props?.user?.user?.user?.chat_status==0 ? false : true,
+          chatFlag:
+            this?.props?.user?.user?.user?.chat_status == 0 ? false : true,
           registerSwitch:
             this.props.user.user.user.whatsapp_status == 0 ? false : true,
 
@@ -296,7 +314,7 @@ class Profile extends Component {
 
   logOut() {
     console.log('====================================');
-    console.log("LOGOUT");
+    console.log('LOGOUT');
     console.log('====================================');
     AsyncStorage.removeItem('user');
     AsyncStorage.removeItem('user_check_in');
@@ -352,7 +370,6 @@ class Profile extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-
     const onCommentsClick = item => {
       let {user} = this.props;
       user = user.user.user;
@@ -424,131 +441,179 @@ class Profile extends Component {
         this.props.navigation.navigate('Login');
       }
     };
+    // onDetailsClick = async item => {
+    //   let {user} = this.props;
+    //   user = user.user.user;
+    //   let post_id = item.id;
+    //   if (user != undefined) {
+    //     await camelapp
+    //       .post('/add/view', {
+    //         user_id: user.id,
+    //         post_id: post_id,
+    //       })
+    //       .then(response => {
+    //         console.log('response.data', response.data);
+    //         if (item.category_id == '1') {
+    //           this.props.navigation.navigate('CamelClubDetailsComponent', {
+    //             itemFromDetails: item,
+    //           });
+    //         }
+
+    //         if (item.category_id == '4') {
+    //           this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
+    //             itemFromDetails: item,
+    //           });
+    //         }
+    //         if (item.category_id == '3') {
+    //           this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
+    //             itemFromDetails: item,
+    //           });
+    //         }
+    //         if (item.category_id == '2') {
+    //           this.props.navigation.navigate('DetailsSellingCamel', {
+    //             itemFromDetails: item,
+    //           });
+    //         }
+    //         if (item.category_id == '6') {
+    //           this.props.navigation.navigate('DetailsComponentWithPrice', {
+    //             itemFromDetails: item,
+    //           });
+    //         }
+    //         if (item.category_id == '8') {
+    //           this.props.navigation.navigate('DetailsComponentWithPrice', {
+    //             itemFromDetails: item,
+    //           });
+    //         }
+    //         if (item.category_id == '5') {
+    //           this.props.navigation.navigate('DetailsMovingCamel', {
+    //             itemFromDetails: item,
+    //           });
+    //         }
+    //         if (item.category_id == '9') {
+    //           this.props.navigation.navigate('DetailsMarketingCamel', {
+    //             itemFromDetails: item,
+    //           });
+    //         }
+
+    //         if (item.category_id == '11') {
+    //           this.props.navigation.navigate('DetailsFemaleCamel', {
+    //             itemFromDetails: item,
+    //           });
+    //         }
+    //         if (item.category_id == '7') {
+    //           this.props.navigation.navigate('DetailsComponent', {
+    //             itemFromDetails: item,
+    //           });
+    //         }
+    //       })
+    //       .catch(error => {
+    //         console.log('error', error);
+    //       });
+    //   } else {
+    //     if (item.category_id == '1') {
+    //       this.props.navigation.navigate('CamelClubDetailsComponent', {
+    //         itemFromDetails: item,
+    //       });
+    //     }
+
+    //     if (item.category_id == '4') {
+    //       this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
+    //         itemFromDetails: item,
+    //       });
+    //     }
+    //     if (item.category_id == '3') {
+    //       this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
+    //         itemFromDetails: item,
+    //       });
+    //     }
+    //     if (item.category_id == '2') {
+    //       this.props.navigation.navigate('DetailsSellingCamel', {
+    //         itemFromDetails: item,
+    //       });
+    //     }
+    //     if (item.category_id == '6') {
+    //       this.props.navigation.navigate('DetailsComponentWithPrice', {
+    //         itemFromDetails: item,
+    //       });
+    //     }
+    //     if (item.category_id == '8') {
+    //       this.props.navigation.navigate('DetailsComponentWithPrice', {
+    //         itemFromDetails: item,
+    //       });
+    //     }
+    //     if (item.category_id == '5') {
+    //       this.props.navigation.navigate('DetailsMovingCamel', {
+    //         itemFromDetails: item,
+    //       });
+    //     }
+    //     if (item.category_id == '9') {
+    //       this.props.navigation.navigate('DetailsMarketingCamel', {
+    //         itemFromDetails: item,
+    //       });
+    //     }
+
+    //     if (item.category_id == '11') {
+    //       this.props.navigation.navigate('DetailsFemaleCamel', {
+    //         itemFromDetails: item,
+    //       });
+    //     }
+    //     if (item.category_id == '7') {
+    //       this.props.navigation.navigate('DetailsComponent', {
+    //         itemFromDetails: item,
+    //       });
+    //     }
+    //   }
+
+    //   // this.props.navigation.navigate("DetailsComponent", { itemFromDetails: item })
+    // };
+
+    // ========NEW==========
     onDetailsClick = async item => {
-      let {user} = this.props;
-      user = user.user.user;
-      let post_id = item.id;
-      if (user != undefined) {
+      const {user} = this.props;
+      const post_id = item.id;
+      const categoryMap = {
+        1: 'CamelClubDetailsComponent',
+        2: 'DetailsSellingCamel',
+        3: 'DetailsMissingAndTreatingCamel',
+        4: 'DetailsMissingAndTreatingCamel',
+        5: 'DetailsMovingCamel',
+        6: 'DetailsComponentWithPrice',
+        7: 'DetailsComponent',
+        8: 'DetailsComponentWithPrice',
+        9: 'DetailsMarketingCamel',
+        11: 'DetailsFemaleCamel',
+      };
+
+      const navigateToDetails = categoryName => {
+        this.props.navigation.navigate(categoryName, {
+          itemFromDetails: item,
+        });
+      };
+
+      if (user && user.user.user) {
         await camelapp
           .post('/add/view', {
-            user_id: user.id,
-            post_id: post_id
+            user_id: user.user.user.id,
+            post_id: post_id,
           })
           .then(response => {
             console.log('response.data', response.data);
-            if (item.category_id == '1') {
-              this.props.navigation.navigate('CamelClubDetailsComponent', {
-                itemFromDetails: item,
-              });
-            }
-      
-            if (item.category_id == '4') {
-              this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
-                itemFromDetails: item,
-              });
-            }
-            if (item.category_id == '3') {
-              this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
-                itemFromDetails: item,
-              });
-            }
-            if (item.category_id == '2') {
-              this.props.navigation.navigate('DetailsSellingCamel', {
-                itemFromDetails: item,
-              });
-            }
-            if (item.category_id == '6') {
-              this.props.navigation.navigate('DetailsComponentWithPrice', {
-                itemFromDetails: item,
-              });
-            }
-            if (item.category_id == '8') {
-              this.props.navigation.navigate('DetailsComponentWithPrice', {
-                itemFromDetails: item,
-              });
-            }
-            if (item.category_id == '5') {
-              this.props.navigation.navigate('DetailsMovingCamel', {
-                itemFromDetails: item,
-              });
-            }
-            if (item.category_id == '9') {
-              this.props.navigation.navigate('DetailsMarketingCamel', {
-                itemFromDetails: item,
-              });
-            }
-      
-            if (item.category_id == '11') {
-              this.props.navigation.navigate('DetailsFemaleCamel', {
-                itemFromDetails: item,
-              });
-            }
-            if (item.category_id == '7') {
-              this.props.navigation.navigate('DetailsComponent', {
-                itemFromDetails: item,
-              });
+            const navigationKey = categoryMap[item.category_id];
+            if (navigationKey) {
+              navigateToDetails(navigationKey);
             }
           })
           .catch(error => {
             console.log('error', error);
           });
       } else {
-        if (item.category_id == '1') {
-          this.props.navigation.navigate('CamelClubDetailsComponent', {
-            itemFromDetails: item,
-          });
-        }
-  
-        if (item.category_id == '4') {
-          this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
-            itemFromDetails: item,
-          });
-        }
-        if (item.category_id == '3') {
-          this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
-            itemFromDetails: item,
-          });
-        }
-        if (item.category_id == '2') {
-          this.props.navigation.navigate('DetailsSellingCamel', {
-            itemFromDetails: item,
-          });
-        }
-        if (item.category_id == '6') {
-          this.props.navigation.navigate('DetailsComponentWithPrice', {
-            itemFromDetails: item,
-          });
-        }
-        if (item.category_id == '8') {
-          this.props.navigation.navigate('DetailsComponentWithPrice', {
-            itemFromDetails: item,
-          });
-        }
-        if (item.category_id == '5') {
-          this.props.navigation.navigate('DetailsMovingCamel', {
-            itemFromDetails: item,
-          });
-        }
-        if (item.category_id == '9') {
-          this.props.navigation.navigate('DetailsMarketingCamel', {
-            itemFromDetails: item,
-          });
-        }
-  
-        if (item.category_id == '11') {
-          this.props.navigation.navigate('DetailsFemaleCamel', {
-            itemFromDetails: item,
-          });
-        }
-        if (item.category_id == '7') {
-          this.props.navigation.navigate('DetailsComponent', {
-            itemFromDetails: item,
-          });
+        const navigationKey = categoryMap[item.category_id];
+        if (navigationKey) {
+          navigateToDetails(navigationKey);
         }
       }
-  
-      // this.props.navigation.navigate("DetailsComponent", { itemFromDetails: item })
     };
+
     const renderItem = ({item}) => {
       let array = item?.img;
 
@@ -623,27 +688,22 @@ class Profile extends Component {
               <View style={{position: 'absolute', right: 15, bottom: 5}}>
                 {/* Rating */}
                 <Rating
-                  // onFinishRating={(rating) => {
-                  //   //console.log('Star Rating' + JSON.stringify(rating));
-                  // }}
-                  // value={4}
                   ratingCount={5}
                   jumpValue={4}
-                  startingValue={this.state.rating}
+                  imageSize={16}
                   readonly={true}
-                  imageSize={17}
+                  startingValue={this.state.rating}
+                  ratingBackgroundColor={'#aaa'}
                   style={{paddingVertical: 10}}
                   ratingColor={'crimson'}
-                  type="custom"
-                  ratingBackgroundColor={'black'}
                   tintColor="white"
+                  type="custom"
                 />
                 {/* Rating */}
               </View>
 
               <View
                 style={{
-                  
                   width: 140,
                   padding: 5,
                   alignItems: 'center',
@@ -997,7 +1057,6 @@ const Item = ({
   title,
   userName,
   userCity,
-
   image,
   likes,
   comments,

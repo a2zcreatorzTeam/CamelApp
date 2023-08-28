@@ -1,315 +1,313 @@
-import React, { Component } from 'react';
-import { Text, View, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { Styles } from '../styles/globlestyle'
+import React, {Component} from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import {Styles} from '../styles/globlestyle';
 
-import * as ArabicText from "../language/EnglishToArabic"
+import * as ArabicText from '../language/EnglishToArabic';
 import camelapp from '../api/camelapp';
 export default class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            one: '',
-            two: '',
-            three: '',
-            four: '',
-            btnPressed: false,
-            oneFocus: false,
-            twoFocus: false,
-            threeFocus: false,
-            fourFocus: false,
-            number: props.route.params.code,
+  constructor(props) {
+    super(props);
+    this.state = {
+      one: '',
+      two: '',
+      three: '',
+      four: '',
+      btnPressed: false,
+      oneFocus: false,
+      twoFocus: false,
+      threeFocus: false,
+      fourFocus: false,
+      number: props.route.params.code,
 
-            loader: false,
-            password: '',
-            confirm_password: '',
-            phone: props.route.params.phone
-        };
+      loader: false,
+      password: '',
+      confirm_password: '',
+      phone: props.route.params.phone,
+    };
 
-        this.first = React.createRef();
-        this.second = React.createRef();
-        this.third = React.createRef();
-        this.fourth = React.createRef();
-    }
+    this.first = React.createRef();
+    this.second = React.createRef();
+    this.third = React.createRef();
+    this.fourth = React.createRef();
+  }
 
-    componentDidMount() {
+  componentDidMount() {
+    this.first.current.focus();
+  }
+
+  handleChangeTextOne = text => {
+    this.setState({one: text}, () => {
+      if (this.state.one) this.second.current.focus();
+    });
+  };
+  handleChangeTextTwo = text => {
+    this.setState({two: text}, () => {
+      if (this.state.two) this.third.current.focus();
+    });
+  };
+  handleChangeTextThree = text => {
+    this.setState({three: text}, () => {
+      if (this.state.three) this.fourth.current.focus();
+    });
+  };
+  handleChangeTextFour = text => {
+    this.setState({four: text});
+  };
+
+  backspace = id => {
+    if (id === 'two') {
+      if (this.state.two) {
+        this.setState({two: ''});
+      } else if (this.state.one) {
+        this.setState({one: ''});
         this.first.current.focus();
+      }
+    } else if (id === 'three') {
+      if (this.state.three) {
+        this.setState({three: ''});
+      } else if (this.state.two) {
+        this.setState({two: ''});
+        this.second.current.focus();
+      }
+    } else if (id === 'four') {
+      if (this.state.four) {
+        this.setState({four: ''});
+      } else if (this.state.three) {
+        this.setState({three: ''});
+        this.third.current.focus();
+      }
     }
+  };
+  submitOTP(signUpUser) {
+    this.setState({loader: true});
 
-    handleChangeTextOne = (text) => {
-        this.setState({ one: text }
-            ,
-            () => {
-                if (this.state.one) this.second.current.focus();
-            }
-        );
-    }
-    handleChangeTextTwo = (text) => {
-        this.setState({ two: text }
-            , () => { if (this.state.two) this.third.current.focus(); }
-        );
+    let number =
+      this.state.one + this.state.two + this.state.three + this.state.four;
 
-    }
-    handleChangeTextThree = (text) => {
-        this.setState({ three: text }
-            , () => { if (this.state.three) this.fourth.current.focus(); }
-        );
-    }
-    handleChangeTextFour = (text) => {
-        this.setState({ four: text });
-    }
+    //console.log("number", number);
 
-    backspace = (id) => {
-        if (id === "two") {
-            if (this.state.two) { this.setState({ two: '' }); } else if (this.state.one) {
-                this.setState({ one: '' });
-                this.first.current.focus();
-            }
-        } else if (id === "three") {
-            if (this.state.three) { this.setState({ three: '' }); } else if (this.state.two) {
-                this.setState({ two: '' });
-                this.second.current.focus();
-            }
-        } else if (id === "four") {
-            if (this.state.four) { this.setState({ four: '' }); } else if (this.state.three) {
-                this.setState({ three: '' });
-                this.third.current.focus();
-            }
-        }
-    }
-    submitOTP(signUpUser) {
-        this.setState({ loader: true })
+    //console.log("previous number", this.state.number)
+    if (number != '') {
+      if (this.state.password.length > 8) {
+        if (this.state.password === this.state.confirm_password) {
+          if (parseInt(this.state.number) === parseInt(number)) {
+            camelapp
+              .post('password/reset', {
+                phone: this.state.phone,
+                password: this.state.password,
+              })
+              .then(response => {
+                //console.log("response", response)
 
-
-        let number = this.state.one + this.state.two + this.state.three + this.state.four;
-
-        //console.log("number", number);
-
-
-        //console.log("previous number", this.state.number)
-        if (number != "") {
-            if (this.state.password.length > 8) {
-                if (this.state.password === this.state.confirm_password) {
-                    if (parseInt(this.state.number) === parseInt(number)) {
-
-
-                        camelapp.post("password/reset", {
-
-                            phone: this.state.phone,
-                            password: this.state.password,
-
-                        }).then((response) => {
-
-                            //console.log("response", response)
-
-                            if (response.data.status === true) {
-                                this.props.navigation.navigate("Login");
-                            }
-
-                        }).catch((error) => {
-
-                            //console.log("error", error)
-
-                        })
-
-
-
-
-
-                    } else {
-                        setTimeout(() => {
-                            this.setState({ loader: false })
-                            alert("Invalid OTP!");
-                        }, 2000)
-                    }
-                } else {
-                    alert('Password does not match')
-                    this.setState({ loader: false })
+                if (response.data.status === true) {
+                  this.props.navigation.navigate('Login');
                 }
-            } else {
-                alert('Password must contan 8 characters')
-                this.setState({ loader: false })
-            }
-        } else {
+              })
+              .catch(error => {
+                //console.log("error", error)
+              });
+          } else {
             setTimeout(() => {
-                this.setState({ loader: false })
-                alert("Please enter the OTP");
-
-            }, 2000)
+              this.setState({loader: false});
+              alert('Invalid OTP!');
+            }, 2000);
+          }
+        } else {
+          alert('Password does not match');
+          this.setState({loader: false});
         }
-
+      } else {
+        alert('Password must contan 8 characters');
+        this.setState({loader: false});
+      }
+    } else {
+      setTimeout(() => {
+        this.setState({loader: false});
+        alert('Please enter the OTP');
+      }, 2000);
     }
+  }
 
-    render() {
-        const { oneFocus, twoFocus, threeFocus } = this.state;
-        const oneStyle = {
-            borderBottomColor: oneFocus ? 'red' : 'black',
-            borderBottomWidth: oneFocus ? 2 : 1,
-        };
-        const twoStyle = {
-            borderBottomColor: twoFocus ? 'red' : 'black',
-            borderBottomWidth: twoFocus ? 2 : 1,
-        };
-        const threeStyle = {
-            borderBottomColor: threeFocus ? 'red' : 'black',
-            borderBottomWidth: threeFocus ? 2 : 1,
-        };
-        const fourStyle = {
-            borderBottomColor: threeFocus ? 'red' : 'black',
-            borderBottomWidth: threeFocus ? 2 : 1,
-        };
-        return (
+  render() {
+    const {oneFocus, twoFocus, threeFocus} = this.state;
+    const oneStyle = {
+      borderBottomColor: oneFocus ? 'red' : 'black',
+      borderBottomWidth: oneFocus ? 2 : 1,
+    };
+    const twoStyle = {
+      borderBottomColor: twoFocus ? 'red' : 'black',
+      borderBottomWidth: twoFocus ? 2 : 1,
+    };
+    const threeStyle = {
+      borderBottomColor: threeFocus ? 'red' : 'black',
+      borderBottomWidth: threeFocus ? 2 : 1,
+    };
+    const fourStyle = {
+      borderBottomColor: threeFocus ? 'red' : 'black',
+      borderBottomWidth: threeFocus ? 2 : 1,
+    };
+    return (
+      <View style={styles.container}>
+        <Text
+          style={{textAlign: 'center', justifyContent: 'center', fontSize: 24}}
+          numberOfLines={3}>
+          Enter the OTP Sent to Your Mobile
+        </Text>
 
-            <View style={styles.container}>
-                <Text
-                    style={{ textAlign: "center", justifyContent: "center", fontSize: 24 }}
-                    numberOfLines={3}>Enter the OTP Sent to Your Mobile</Text>
+        <View style={styles.inputcontainer}>
+          <TextInput
+            ref={this.first}
+            style={[styles.textInput, {...oneStyle}]}
+            autoCorrect={false}
+            autoCapitalize="none"
+            keyboardType="number-pad"
+            caretHidden
+            onFocus={() => this.setState({oneFocus: true})}
+            onBlur={() => this.setState({oneFocus: false})}
+            maxLength={1}
+            onChangeText={text => {
+              this.handleChangeTextOne(text);
+            }}
+            value={this.state.one}
+          />
+          <TextInput
+            ref={this.second}
+            onKeyPress={({nativeEvent}) =>
+              nativeEvent.key === 'Backspace' ? this.backspace('two') : null
+            }
+            style={[styles.textInput, {...twoStyle}]}
+            autoCorrect={false}
+            autoCapitalize="none"
+            maxLength={1}
+            onFocus={() => this.setState({twoFocus: true})}
+            onBlur={() => this.setState({twoFocus: false})}
+            caretHidden
+            keyboardType="number-pad"
+            onChangeText={text => {
+              this.handleChangeTextTwo(text);
+            }}
+            value={this.state.two}
+          />
+          <TextInput
+            ref={this.third}
+            onKeyPress={({nativeEvent}) =>
+              nativeEvent.key === 'Backspace' ? this.backspace('three') : null
+            }
+            style={[styles.textInput, {...threeStyle}]}
+            autoCorrect={false}
+            autoCapitalize="none"
+            onFocus={() => this.setState({threeFocus: true})}
+            onBlur={() => this.setState({threeFocus: false})}
+            maxLength={1}
+            caretHidden
+            keyboardType="number-pad"
+            onChangeText={text => {
+              this.handleChangeTextThree(text);
+            }}
+            value={this.state.three}
+          />
+          <TextInput
+            ref={this.fourth}
+            onKeyPress={({nativeEvent}) =>
+              nativeEvent.key === 'Backspace' ? this.backspace('four') : null
+            }
+            style={[styles.textInput, {...fourStyle}]}
+            autoCorrect={false}
+            autoCapitalize="none"
+            onFocus={() => this.setState({fourFocus: true})}
+            onBlur={() => this.setState({fourFocus: false})}
+            maxLength={1}
+            caretHidden
+            keyboardType="number-pad"
+            onChangeText={text => {
+              this.handleChangeTextFour(text);
+            }}
+            value={this.state.five}
+          />
+        </View>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <TextInput
+            style={Styles.inputs}
+            placeholder={ArabicText.passwords}
+            onChangeText={text => this.setState({password: text})}
+            secureTextEntry={true}></TextInput>
 
-                <View style={styles.inputcontainer}>
-                    <TextInput
-                        ref={this.first}
-                        style={[styles.textInput, { ...oneStyle }]}
-                        autoCorrect={false}
-                        autoCapitalize='none'
-                        keyboardType='number-pad'
-                        caretHidden
-                        onFocus={() => this.setState({ oneFocus: true })}
-                        onBlur={() => this.setState({ oneFocus: false })}
-                        maxLength={1}
-                        onChangeText={(text) => { this.handleChangeTextOne(text); }}
-                        value={this.state.one}
-                    />
-                    <TextInput
-                        ref={this.second}
-                        onKeyPress={({ nativeEvent }) => (
-                            nativeEvent.key === 'Backspace' ? this.backspace('two') : null
-                        )}
-                        style={[styles.textInput, { ...twoStyle }]}
-                        autoCorrect={false}
-                        autoCapitalize='none'
-                        maxLength={1}
-                        onFocus={() => this.setState({ twoFocus: true })}
-                        onBlur={() => this.setState({ twoFocus: false })}
-                        caretHidden
-                        keyboardType='number-pad'
-                        onChangeText={(text) => { this.handleChangeTextTwo(text); }}
-                        value={this.state.two}
-                    />
-                    <TextInput
-                        ref={this.third}
-                        onKeyPress={({ nativeEvent }) => (
-                            nativeEvent.key === 'Backspace' ? this.backspace('three') : null
-                        )}
-                        style={[styles.textInput, { ...threeStyle }]}
-                        autoCorrect={false}
-                        autoCapitalize='none'
-                        onFocus={() => this.setState({ threeFocus: true })}
-                        onBlur={() => this.setState({ threeFocus: false })}
-                        maxLength={1}
-                        caretHidden
-                        keyboardType='number-pad'
-                        onChangeText={(text) => { this.handleChangeTextThree(text); }}
-                        value={this.state.three}
-                    />
-                    <TextInput
-                        ref={this.fourth}
-                        onKeyPress={({ nativeEvent }) => (
-                            nativeEvent.key === 'Backspace' ? this.backspace('four') : null
-                        )}
-                        style={[styles.textInput, { ...fourStyle }]}
-                        autoCorrect={false}
-                        autoCapitalize='none'
-                        onFocus={() => this.setState({ fourFocus: true })}
-                        onBlur={() => this.setState({ fourFocus: false })}
-                        maxLength={1}
-                        caretHidden
-                        keyboardType='number-pad'
-                        onChangeText={(text) => { this.handleChangeTextFour(text); }}
-                        value={this.state.five}
-                    />
+          <TextInput
+            style={Styles.inputs}
+            placeholder={ArabicText.confirm_password}
+            onChangeText={text => this.setState({confirm_password: text})}
+            secureTextEntry={true}></TextInput>
+        </View>
 
-
-                </View>
-                <View style={{ justifyContent: "center", alignItems: 'center' }}>
-
-                    <TextInput
-                        style={Styles.inputs}
-                        placeholder={ArabicText.passwords}
-                        onChangeText={(text) => this.setState({ password: text })}
-                        secureTextEntry={true}
-
-                    ></TextInput>
-
-
-                    <TextInput
-                        style={Styles.inputs}
-                        placeholder={ArabicText.confirm_password}
-                        onChangeText={(text) => this.setState({ confirm_password: text })}
-                        secureTextEntry={true}
-                    ></TextInput>
-
-                </View>
-
-
-                {/* <TouchableOpacity
+        {/* <TouchableOpacity
                             onPress={() => this.submitOTP()}
                             style={{ alignSelf: 'center', margin: 10 }}>
                             <View style={Styles.btn}><Text style={Styles.textbtn}>{ArabicText.Confirm}</Text></View>
                         </TouchableOpacity> */}
-                <TouchableOpacity
-                    onPress={() => {
+        <TouchableOpacity
+          onPress={() => {
+            if (this.state.btnPressed != true) {
+              this.submitOTP();
+            } else {
+              //console.log("Waiting For Response")
+            }
+          }}
+          style={{alignSelf: 'center', margin: 10}}>
+          <View
+            style={[
+              Styles.btn,
+              {
+                backgroundColor:
+                  this.state.loader == false ? '#8b4513' : '#cccbca',
+              },
+            ]}>
+            {this.state.loader && (
+              <ActivityIndicator
+                size="large"
+                color="#D2691Eff"
+                animating={this.state.loader}
+              />
+            )}
+            {this.state.loader == false && (
+              <Text style={Styles.textbtn}>{ArabicText.Confirm}</Text>
+            )}
+          </View>
+        </TouchableOpacity>
 
-
-                        if (this.state.btnPressed != true) {
-
-                            this.submitOTP()
-                        } else {
-                            //console.log("Waiting For Response")
-                        }
-                    }}
-                    style={{ alignSelf: 'center', margin: 10 }}>
-                    <View style={[Styles.btn, {
-                        backgroundColor: this.state.loader == false ? '#8b4513' : "#cccbca",
-
-                    }]}>
-                        {this.state.loader &&
-                            <ActivityIndicator size="large" color='#D2691Eff' animating={this.state.loader} />
-                        }
-                        {this.state.loader == false &&
-                            <Text style={Styles.textbtn}
-                            >{ArabicText.Confirm}</Text>
-                        }
-
-                    </View>
-                </TouchableOpacity>
-
-                {/* <Text
+        {/* <Text
                             style={{ textAlign: "center", justifyContent: "center", fontSize: 15, textDecorationLine: "underline" }}
                             numberOfLines={3}>Resend</Text> */}
-            </View>
-
-        );
-    }
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-    },
-    inputcontainer: {
-        marginVertical:25,
-        // flexDirection: 'row-reverse',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        paddingHorizontal: '20%',
-        marginBottom: '2%',
-    },
-    textInput: {
-        fontSize: 22,
-        textAlign: 'center',
-        paddingVertical: 0,
-        paddingHorizontal: 0,
-        width: '12%',
-    },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  inputcontainer: {
+    marginVertical: 25,
+    // flexDirection: 'row-reverse',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    paddingHorizontal: '20%',
+    marginBottom: '2%',
+  },
+  textInput: {
+    fontSize: 22,
+    textAlign: 'center',
+    paddingVertical: 0,
+    paddingHorizontal: 0,
+    width: '12%',
+  },
 });

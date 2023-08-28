@@ -26,6 +26,7 @@ import {bindActionCreators} from 'redux';
 import Header from '../components/Header';
 import Loader from '../components/PleaseWait';
 import Ads from '../components/Ads';
+import NotFound from '../components/NotFound';
 
 const {width, height} = Dimensions.get('screen');
 const debounce = (func, delay) => {
@@ -72,7 +73,7 @@ class Home extends Component {
     this.setState({refreshing: false});
   }
 
-  // =============NEW Search Handler==============
+  // =============NEW Updated Search Handler==============
   searchHandler = value => {
     if (!value?.length) {
       this.setState({filterPosts: this.state.posts});
@@ -105,12 +106,6 @@ class Home extends Component {
         this.setState({filterPosts: [], dataNotFound: true});
       }
     }
-    console.log(
-      this.state.dataNotFound,
-      '<<<<<========OUT===',
-      this.state.filterPosts,
-      '<<===========',
-    );
   };
   // =============NEW Search Handler==============
 
@@ -599,13 +594,7 @@ class Home extends Component {
               size="large"
               color="#D2691Eff"
               animating={this.state.loader}
-              style={{
-                position: 'absolute',
-                top: 0,
-                bottom: 0,
-                right: 0,
-                left: 0,
-              }}
+              style={styles.activityIndicator}
             />
           </>
         )}
@@ -850,16 +839,7 @@ class Home extends Component {
             {/* POST FLATLIST */}
             <Loader loading={this.state.loading} />
             {this.state.dataNotFound ? (
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text style={{fontSize: 20, color: 'grey', fontWeight: '600'}}>
-                  Data Not Found
-                </Text>
-              </View>
+              <NotFound />
             ) : (
               <FlatList
                 data={this?.state?.filterPosts}
@@ -905,5 +885,12 @@ const styles = StyleSheet.create({
     flex: 1,
     width: width,
     backgroundColor: '#eee',
+  },
+  activityIndicator: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
   },
 });

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {
   View,
+  Text,
   Image,
   LogBox,
   TouchableOpacity,
@@ -27,14 +28,24 @@ import Loader from '../components/PleaseWait';
 import Ads from '../components/Ads';
 
 const {width, height} = Dimensions.get('screen');
+const debounce = (func, delay) => {
+  let timeoutId;
+  return function (...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      func.apply(this, args);
+    }, delay);
+  };
+};
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: {},
+      posts: [],
       loader: true,
       filterPosts: [],
+      dataNotFound: false,
       loading: false,
       pauseFlag: true,
       refreshing: false,
@@ -47,6 +58,8 @@ class Home extends Component {
       'Warning: Cannot update during an existing state transition',
       'VirtualizedLists should never be nested inside plain ScrollViews',
     ]);
+
+    this.debouncedSearchHandler = debounce(this.searchHandler, 300);
   }
 
   componentDidMount() {
@@ -58,32 +71,48 @@ class Home extends Component {
     this.viewPosts();
     this.setState({refreshing: false});
   }
-  searchFunction(searchtext) {
-    if (searchtext != undefined && searchtext.length != 0) {
-      let tempPost = this.state.posts?.filter(item => {
+
+  // =============NEW Search Handler==============
+  searchHandler = value => {
+    if (!value?.length) {
+      this.setState({filterPosts: this.state.posts});
+    } else {
+      // Data Filtration
+      const filteredData = this.state.posts.filter(item => {
+        const {
+          user_name,
+          title,
+          description,
+          user_location,
+          user_phone,
+          camel_type,
+          category_name,
+        } = item;
         return (
-          item.user_name.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item.user_phone.toLowerCase().indexOf(searchtext) > -1 ||
-          item.id == this.searchtext ||
-          item.title.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item.location.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.category_name.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.user_phone.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.description.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) > -1
+          user_name?.toLowerCase().includes(value.toLowerCase()) ||
+          title?.toLowerCase().includes(value.toLowerCase()) ||
+          description?.toLowerCase().includes(value.toLowerCase()) ||
+          user_location?.toLowerCase()?.includes(value.toLowerCase()) ||
+          camel_type?.toLowerCase()?.includes(value.toLowerCase()) ||
+          category_name?.toLowerCase()?.includes(value.toLowerCase()) ||
+          user_phone?.includes(value)
         );
       });
 
-      this.setState({filterPosts: tempPost});
+      if (filteredData.length > 0) {
+        this.setState({filterPosts: filteredData, dataNotFound: false});
+      } else {
+        this.setState({filterPosts: [], dataNotFound: true});
+      }
     }
-  }
+    console.log(
+      this.state.dataNotFound,
+      '<<<<<========OUT===',
+      this.state.filterPosts,
+      '<<===========',
+    );
+  };
+  // =============NEW Search Handler==============
 
   search(text) {
     this.setState({searchText: text});
@@ -158,19 +187,19 @@ class Home extends Component {
   scrollToEnd = () => {
     this.scrollRef.current.scrollToEnd({animated: false});
   };
-  playVideo(item) {
-    // let {filterPosts} = this.state;
+  // playVideo(item) {
+  //   // let {filterPosts} = this.state;
 
-    // let index = filterPosts.indexOf(item);
+  //   // let index = filterPosts.indexOf(item);
 
-    // filterPosts[index].flagForVideo = !filterPosts[index].flagForVideo;
+  //   // filterPosts[index].flagForVideo = !filterPosts[index].flagForVideo;
 
-    // this.setState({filterPosts: filterPosts});
-    console.log(
-      'Video Post index=======',
-      this.state?.filterPosts?.indexOf(item),
-    );
-  }
+  //   // this.setState({filterPosts: filterPosts});
+  //   console.log(
+  //     'Video Post index=======',
+  //     this.state?.filterPosts?.indexOf(item),
+  //   );
+  // }
   onCategoryClick = async item => {
     if (item.category_id == '1') {
       this.props.navigation.navigate('CamelClubList');
@@ -488,10 +517,11 @@ class Home extends Component {
   };
 
   componentDidMount = () => {
-    this.focusListener = this.props.navigation.addListener('focus', () => {
-      this.viewPosts();
-    });
+    this.viewPosts();
+    // this.focusListener = this.props.navigation.addListener('focus', () => {
+    // });
   };
+
   render() {
     const {
       onUserProfileClick,
@@ -502,21 +532,20 @@ class Home extends Component {
       playVideo,
       sharePosts,
     } = this;
-    const renderItem = ({item}) => {
-      return (
-        <Post
-          item={item}
-          onUserProfileClick={onUserProfileClick}
-          onCategoryClick={onCategoryClick}
-          onCommentsClick={onCommentsClick}
-          onDetailsClick={onDetailsClick}
-          onLikesClick={onLikesClick}
-          onTouchStart={playVideo}
-          sharePost={sharePosts}
-          flagForVideo={false}
-        />
-      );
-    };
+
+    const renderItem = ({item}) => (
+      <Post
+        item={item}
+        onUserProfileClick={onUserProfileClick}
+        onCategoryClick={onCategoryClick}
+        onCommentsClick={onCommentsClick}
+        onDetailsClick={onDetailsClick}
+        onLikesClick={onLikesClick}
+        onTouchStart={playVideo}
+        sharePost={sharePosts}
+        flagForVideo={false}
+      />
+    );
 
     const onCamelClubListClick = () => {
       this.props.navigation.navigate('CamelClubList');
@@ -586,12 +615,17 @@ class Home extends Component {
             <Header
               navRoute="Home"
               onChangeText={text => {
-                this.search(text);
+                this.searchHandler(text);
               }}
-              onPressSearch={() => this.searchFunction(this.state.searchText)}
+              // onPressSearch={() => this.searchFunction(this.state.searchText)}
             />
-
-            <View style={{paddingTop: 3, height: 90, paddingBottom: -15}}>
+            <View
+              style={{
+                paddingTop: 3,
+                height: 90,
+                paddingBottom: -15,
+                backgroundColor: '#fff',
+              }}>
               <ScrollView
                 snapToAlignment="end"
                 horizontal={true}
@@ -815,26 +849,39 @@ class Home extends Component {
             </View>
             {/* POST FLATLIST */}
             <Loader loading={this.state.loading} />
-            <FlatList
-              data={this?.state?.filterPosts}
-              keyExtractor={item => item.id.toString()}
-              renderItem={renderItem}
-              initialNumToRender={8}
-              maxToRenderPerBatch={8}
-              ListHeaderComponent={() => <Ads />}
-              contentContainerStyle={{paddingBottom: 80}}
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.state.refreshing}
-                  onRefresh={() => this.ScrollToRefresh()}
-                />
-              }
-              getItemLayout={(data, index) => ({
-                length: height / 2,
-                offset: (height / 2) * index,
-                index,
-              })}
-            />
+            {this.state.dataNotFound ? (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={{fontSize: 20, color: 'grey', fontWeight: '600'}}>
+                  Data Not Found
+                </Text>
+              </View>
+            ) : (
+              <FlatList
+                data={this?.state?.filterPosts}
+                keyExtractor={item => item.id.toString()}
+                renderItem={renderItem}
+                initialNumToRender={8}
+                maxToRenderPerBatch={8}
+                ListHeaderComponent={() => <Ads />}
+                contentContainerStyle={{paddingBottom: 80}}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={this.state.refreshing}
+                    onRefresh={() => this.ScrollToRefresh()}
+                  />
+                }
+                getItemLayout={(data, index) => ({
+                  length: height / 2,
+                  offset: (height / 2) * index,
+                  index,
+                })}
+              />
+            )}
           </>
         )}
       </View>
@@ -857,6 +904,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: width,
-    backgroundColor: '#fff',
+    backgroundColor: '#eee',
   },
 });

@@ -70,15 +70,15 @@ class CamelTreatmentList extends Component {
   }
 
   playVideo(item) {
-    let {filterPosts} = this.state;
+    // let {filterPosts} = this.state;
 
-    let index = filterPosts.indexOf(item);
+    // let index = filterPosts.indexOf(item);
 
-    console.log('index', index);
+    // console.log('index', index);
 
-    filterPosts[index].flagForVideo = !filterPosts[index].flagForVideo;
+    // filterPosts[index].flagForVideo = !filterPosts[index].flagForVideo;
 
-    this.setState({filterPosts: filterPosts});
+    // this.setState({filterPosts: filterPosts});
   }
 
   ScrollToRefresh() {
@@ -151,6 +151,9 @@ class CamelTreatmentList extends Component {
           onTouchStart={() => this.playVideo(item)}
           playVideo={true}
           pauseFlag={item?.flagForVideo}
+          onCategoryClick={()=>console.log("first")}
+       
+       
         />
       );
     };
@@ -204,6 +207,7 @@ class CamelTreatmentList extends Component {
               filterPosts[tempIndex] = tempItem;
 
               this.setState({loading: false, filterPosts: filterPosts});
+              this.viewPosts()
             }
           })
           .catch(error => {
@@ -215,6 +219,42 @@ class CamelTreatmentList extends Component {
       }
     };
 
+   const onCategoryClick = async item => {
+      console.log('====================================');
+      console.log("onCategoryClick");
+      console.log('====================================');
+      if (item.category_id == '1') {
+        this.props.navigation.navigate('CamelClubList');
+      }
+      if (item.category_id == '4') {
+        this.props.navigation.navigate('CamelTreatmentList');
+      }
+      if (item.category_id == '3') {
+        this.props.navigation.navigate('CamelMissingList');
+      }
+      if (item.category_id == '2') {
+        this.props.navigation.navigate('CamelSellingList');
+      }
+      if (item.category_id == '6') {
+        this.props.navigation.navigate('CamelFoodList');
+      }
+      if (item.category_id == '8') {
+        this.props.navigation.navigate('CamelEquipmentList');
+      }
+      if (item.category_id == '7') {
+        this.props.navigation.navigate('CamelEquipmentList');
+      }
+      if (item.category_id == '5') {
+        this.props.navigation.navigate('CamelMovingList');
+      }
+      if (item.category_id == '9') {
+        this.props.navigation.navigate('CamelMarketingList');
+      }
+  
+      if (item.category_id == '11') {
+        this.props.navigation.navigate('FemaleList');
+      }
+    };
     const onLikesClick = item => {
       this.setState({loading: false});
 
@@ -242,6 +282,7 @@ class CamelTreatmentList extends Component {
               filterPosts[tempIndex] = tempItem;
 
               this.setState({loading: false, filterPosts: filterPosts});
+            
             }
             if (response.data.status == false) {
               let filterPosts = this.state.filterPosts;
@@ -254,6 +295,7 @@ class CamelTreatmentList extends Component {
               this.setState({loading: false, filterPosts: filterPosts});
               // alert(ArabicText.Successfully_Unliked);
             }
+            this.viewPosts()
           })
           .catch(error => {
             console.log('error', error);

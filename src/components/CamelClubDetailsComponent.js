@@ -155,7 +155,7 @@ class CamelClubDetailsComponent extends Component {
         }
     }
     render() {
-        console.log(this.state.user.image, "=-=-=")
+        console.log("=CAMEL CLUB DETAILS-=-=")
 
         return (
             <ScrollView style={{ backgroundColor: "#ffff" }}>

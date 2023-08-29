@@ -183,7 +183,7 @@ class DetailsComponent extends Component {
             post_id: this.state.itemFromDetails.id,
           })
           .then(response => {
-            this.getLastPrice()
+            this.getLastPrice();
             if (response.data.status == 'Not Exists') {
               camelapp
                 .post('/add/bid', {
@@ -234,7 +234,6 @@ class DetailsComponent extends Component {
             res?.data?.data?.price,
           );
           this.setState({higherAmount: res?.data?.data?.price});
-         
         }
       });
   }
@@ -242,9 +241,11 @@ class DetailsComponent extends Component {
   render() {
     console.log(
       '===============PRICE=====================',
-      this?.state?.user_ids ,this?.state?.user?.id    );
+      this?.state?.user_ids,
+      this?.state?.user?.id,
+    );
     return (
-      <ScrollView style={{backgroundColor: '#ffff'}}>
+      <ScrollView style={{backgroundColor: '#fff', flex:1}} >
         <View
           style={{
             flexDirection: 'row',
@@ -267,7 +268,7 @@ class DetailsComponent extends Component {
               {this.state.itemFromDetails.user_location}
             </Text>
           </View>
-          {this?.state?.higherAmount==0 ? (
+          {this?.state?.higherAmount == 0 ? (
             <View
               style={{
                 marginTop: '24%',
@@ -312,52 +313,52 @@ class DetailsComponent extends Component {
                 </Text>
               </View>
             </View>
-          ) : 
-          <View
-          style={{
-            marginTop: '25%',
-            marginHorizontal: 20,
-            position: 'absolute',
-            zIndex: 1111,
-            alignSelf: 'flex-start',
-            alignItems: 'flex-start',
-            justifyContent: 'flex-start',
-            height: hight / 2.5,
-            width: '100%',
-          }}>
-          <View
-            style={{
-              paddingTop: 5,
-              alignItems: 'center',
-              alignContent: 'center',
-              width: 60,
-              backgroundColor: '#D2691Eff',
-              height: hight * 0.065,
-              borderBottomRightRadius: 50,
-              borderBottomLeftRadius: 50,
-            }}>
-            <Text
+          ) : (
+            <View
               style={{
-                color: 'white',
-                fontWeight: '800',
-                fontSize: 14,
+                marginTop: '25%',
+                marginHorizontal: 20,
+                position: 'absolute',
+                zIndex: 1111,
+                alignSelf: 'flex-start',
+                alignItems: 'flex-start',
+                justifyContent: 'flex-start',
+                height: hight / 2.5,
+                width: '100%',
               }}>
-              {' '}
-              {ArabicText.Price}
-            </Text>
-            <Text
-              numberOfLines={2}
-              style={{
-                textAlign: 'center',
-                color: 'white',
-                fontWeight: '500',
-                fontSize: 13,
-              }}>
-              {this?.state?.higherAmount}
-            </Text>
-          </View>
-        </View>
-          }
+              <View
+                style={{
+                  paddingTop: 5,
+                  alignItems: 'center',
+                  alignContent: 'center',
+                  width: 60,
+                  backgroundColor: '#D2691Eff',
+                  height: hight * 0.065,
+                  borderBottomRightRadius: 50,
+                  borderBottomLeftRadius: 50,
+                }}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontWeight: '800',
+                    fontSize: 14,
+                  }}>
+                  {' '}
+                  {ArabicText.Price}
+                </Text>
+                <Text
+                  numberOfLines={2}
+                  style={{
+                    textAlign: 'center',
+                    color: 'white',
+                    fontWeight: '500',
+                    fontSize: 13,
+                  }}>
+                  {this?.state?.higherAmount}
+                </Text>
+              </View>
+            </View>
+          )}
           <View
             style={{
               height: 63,
@@ -426,7 +427,7 @@ class DetailsComponent extends Component {
             sliderWidth={width}
             itemWidth={width}
           />
-          <View style={{textAlign: 'right'}}>
+          <View style={{textAlign: 'right',}}>
             <Text style={Styles.textHeadingg}>{ArabicText.Title}</Text>
             <TextInput
               value={this.state.itemFromDetails.title}

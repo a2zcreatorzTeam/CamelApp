@@ -154,6 +154,8 @@ class CamelClubList extends Component {
           playVideo={true}
           pauseFlag={item?.flagForVideo}
           date={item?.date}
+          onCategoryClick={()=>console.log("first")}
+
         />
       );
     };
@@ -200,6 +202,7 @@ class CamelClubList extends Component {
               let filterPosts = this.state.filterPosts;
 
               let tempIndex = filterPosts.indexOf(item);
+              this.viewPosts()
 
               let share_count = item.share_count + 1;
               let tempItem = item;
@@ -262,6 +265,7 @@ class CamelClubList extends Component {
               this.setState({loading: false, filterPosts: filterPosts});
               // alert(ArabicText.Successfully_Unliked);
             }
+            this.viewPosts()
           })
           .catch(error => {
             console.log('error', error);

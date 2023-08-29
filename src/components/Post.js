@@ -33,8 +33,11 @@ const Post = ({
   onTouchStart,
   flagForVideo,
   pauseVideo,
+  createdDate
+
 }) => {
   const [modal, setModal] = useState(false);
+  const [pausedCheck, setpausedCheck] = useState(false);
 
   // =====MEMO=====
   const memoizedItemProps = useMemo(() => {
@@ -102,6 +105,9 @@ const Post = ({
   const handleCommentsClick = useCallback(() => {
     onCommentsClick(item);
   }, [onCommentsClick, item]);
+  const handleShareClick = useCallback(() => {
+    sharePost(item);
+  }, [sharePost, item]);
 
   const handleDetailsClick = useCallback(() => {
     onDetailsClick(item);
@@ -116,6 +122,7 @@ const Post = ({
   }, [onUserProfileClick, item]);
 
   const handleCategoryClick = useCallback(() => {
+    console.log(item,"POST SCREEN ON CATEGORY");
     onCategoryClick(item);
   }, [onCategoryClick, item]);
 
@@ -142,10 +149,12 @@ const Post = ({
     <View style={styles.main}>
       {/*Post Header*/}
       <View style={styles.headerContainer}>
-        <TouchableOpacity style={Styles.btnHome2} onPress={handleCategoryClick}>
+        <TouchableOpacity style={Styles.btnHome2} 
+
+        onPress={ handleCategoryClick}>
           <Text style={styles.catBtnText}>{category_name}</Text>
         </TouchableOpacity>
-
+{console.log("firsts date ", date)}
         {/* Profile Btn */}
         <TouchableOpacity
           activeOpacity={0.9}
@@ -153,7 +162,7 @@ const Post = ({
           style={styles.userIcon}>
           <View style={{maxWidth: 200, paddingRight: 5, marginBottom: 2}}>
             <Text style={styles.userName}>{name}</Text>
-            <Text style={styles.postDate}>{date}</Text>
+            <Text style={styles.postDate}>{date ? date : createdDate}</Text>
             <Text style={styles.userLocation}>{user_location}</Text>
           </View>
           <Image
@@ -210,19 +219,25 @@ const Post = ({
                 {isVideo && (
                   <>
                     <Video
-                      // onTouchStart={onTouchStart}
+                    
+                      repeat={true}
+                      // onTouchStart={()=> setpausedCheck(false)}
+
                       key={index}
                       controls={false}
                       source={mediaSource}
                       resizeMode="stretch"
-                      paused={flagForVideo}
                       style={Styles.image}
+                      paused={pausedCheck}
+                      onLoad={() => {
+                        setpausedCheck(true);
+                      }}
                     />
                     <TouchableOpacity
                       style={styles.mediaControllerBTNs}
-                      onPress={onTouchStart}>
+                      onPress={() => setpausedCheck(!pausedCheck)}>
                       <Text style={styles.mediaControllerTxt}>
-                        {flagForVideo ? 'Pause' : 'Play'}
+                        {pausedCheck ? 'Play' : 'Pause'}
                       </Text>
                     </TouchableOpacity>
                   </>
@@ -350,15 +365,31 @@ const Post = ({
                       />
                     )}
                     {item.type === 'video' && (
+                  <>
+                  
                       <Video
-                        onTouchStart={onTouchStart}
+                        // onTouchStart={onTouchStart}
                         source={mediaSource}
                         key={String(index)}
                         resizeMode="stretch"
                         controls={false}
-                        paused={pauseVideo}
                         style={Styles.image}
+repeat={true}
+
+                        paused={pausedCheck}
+                        onLoad={() => {
+                          setpausedCheck(true);
+                        }}
                       />
+                      <TouchableOpacity
+                      style={styles.mediaControllerBTNs}
+                      onPress={() => setpausedCheck(!pausedCheck)}>
+                      <Text style={styles.mediaControllerTxt}>
+                        {pausedCheck ? 'Play' : 'Pause'}
+                      </Text>
+                    </TouchableOpacity>
+                  </>
+
                     )}
                   </View>
                 );
@@ -433,7 +464,7 @@ const Post = ({
             justifyContent: 'center',
             marginRight: 5,
           }}
-          onPress={sharePost}>
+          onPress={handleShareClick}>
           <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
             {share_count}
           </Text>

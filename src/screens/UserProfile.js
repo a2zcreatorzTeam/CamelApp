@@ -235,7 +235,7 @@ class UserProfile extends Component {
   }
 
   render() {
-
+console.log("USER PRFILE")
     const Item = ({
       userName,
       userCity,

@@ -156,6 +156,8 @@ class CamelFoodList extends Component {
           onTouchStart={() => this.playVideo(item)}
           playVideo={true}
           pauseFlag={item?.flagForVideo}
+          onCategoryClick={()=>console.log("first")}
+
         />
       );
     };
@@ -224,6 +226,8 @@ class CamelFoodList extends Component {
               this.setState({loading: false, filterPosts: filterPosts});
               // alert(ArabicText.Successfully_Unliked);
             }
+    this.viewPosts();
+
           })
           .catch(error => {
             console.log('error', error);
@@ -275,6 +279,7 @@ class CamelFoodList extends Component {
             console.log('response.data', response.data);
             if (response.data) {
               let filterPosts = this.state.filterPosts;
+              this.viewPosts();
 
               let tempIndex = filterPosts.indexOf(item);
 

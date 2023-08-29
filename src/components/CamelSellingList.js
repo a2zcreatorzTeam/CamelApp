@@ -70,12 +70,12 @@ class CamelSellingList extends Component {
           "/get/camel_selling"
         )
         .then((res) => {
-
+console.log(res,"RESPONSE CAMEL SELLINg");
           var arrayPosts = res?.data?.Posts;
 
           arrayPosts.map((item, index) => {
 
-            console.log("index", index)
+            console.log("indexex", index)
             let array = item?.img;
             let imagesArray = [];
             array?.forEach(element => {
@@ -215,6 +215,7 @@ date={item?.date}
           onTouchStart={() => this.playVideo(item)}
           playVideo={true}
           pauseFlag={item?.flagForVideo}
+          onCategoryClick={()=>console.log("first")}  
 
         />
       );
@@ -265,13 +266,15 @@ date={item?.date}
             let filterPosts = this.state.filterPosts;
 
             let tempIndex = filterPosts.indexOf(item);
-
+            this.viewPosts()
             let share_count = item.share_count + 1;
             let tempItem = item;
             tempItem['share_count'] = share_count
             filterPosts[tempIndex] = tempItem;
 
             this.setState({ loading: false, filterPosts: filterPosts });
+  
+
           }
 
         }).catch((error) => {
@@ -282,6 +285,9 @@ date={item?.date}
         this.props.navigation.navigate("Login");
       }
     }
+
+
+
     const onLikesClick = (item) => {
 
       this.setState({ loading: false });
@@ -299,11 +305,11 @@ date={item?.date}
           }
         ).then((response) => {
 
-          console.log("response.data", response.data)
+          console.log("response.data1223", response.data)
           if (response.data.status == true) {
 
             let filterPosts = this.state.filterPosts;
-
+            this.viewPosts()
             let tempIndex = filterPosts.indexOf(item);
 
             let like_count = item.like_count + 1;
@@ -372,7 +378,7 @@ date={item?.date}
         this.props.navigation.navigate("Login")
       }
     };
-
+console.log("IS THIS SAME SCREEN");
     return (
       <View style={styles.container}>
         <Header onChangeText={(text) => {

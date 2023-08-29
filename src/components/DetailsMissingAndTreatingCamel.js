@@ -163,7 +163,7 @@ class DetailsComponent extends Component {
   render() {
 
 
-
+console.log("DetailsMissingAndTreatingCamel")
     return (
       <ScrollView>
         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-end", paddingHorizontal: 20, marginTop: 15 }}>

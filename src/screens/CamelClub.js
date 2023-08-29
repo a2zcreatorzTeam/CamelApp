@@ -252,6 +252,7 @@ if (combineImages?.length > 4) {
 
 
   render() {
+    console.log("Camel Club ===>>>");
     return (
 
       <View style={{ backgroundColor: "#ffffff" }}>

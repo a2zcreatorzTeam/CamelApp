@@ -10,8 +10,9 @@ import {
   ActivityIndicator,
   Dimensions,
   RefreshControl,
+  Text,
 } from 'react-native';
-
+ import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import camelapp from '../api/camelapp';
 import {I18nManager} from 'react-native';
@@ -39,6 +40,7 @@ class Home extends Component {
       pauseFlag: true,
       refreshing: false,
       searchText: '',
+      counta: 5,
     };
     this.scrollRef = React.createRef();
     LogBox.ignoreLogs([
@@ -50,6 +52,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
+ 
     this.viewPosts();
     this.checkUser();
   }
@@ -159,6 +162,8 @@ class Home extends Component {
     this.scrollRef.current.scrollToEnd({animated: false});
   };
   playVideo(item) {
+  
+
     // let {filterPosts} = this.state;
 
     // let index = filterPosts.indexOf(item);
@@ -166,12 +171,11 @@ class Home extends Component {
     // filterPosts[index].flagForVideo = !filterPosts[index].flagForVideo;
 
     // this.setState({filterPosts: filterPosts});
-    console.log(
-      'Video Post index=======',
-      this.state?.filterPosts?.indexOf(item),
-    );
   }
   onCategoryClick = async item => {
+    console.log('====================================');
+    console.log("onCategoryClick");
+    console.log('====================================');
     if (item.category_id == '1') {
       this.props.navigation.navigate('CamelClubList');
     }
@@ -353,10 +357,11 @@ class Home extends Component {
             filterPosts[tempIndex] = tempItem;
 
             this.setState({loading: false, filterPosts: filterPosts});
+            this.viewPosts();
           }
         })
         .catch(error => {
-          console.log('error', error);
+          console.log('error', error.response);
           this.setState({loading: false});
         });
     } else {
@@ -379,6 +384,7 @@ class Home extends Component {
             user: user,
             post: item,
           });
+          this.viewPosts();
         });
     } else {
       this.props.navigation.navigate('Login');
@@ -387,7 +393,7 @@ class Home extends Component {
 
   onLikesClick = async item => {
     this.setState({loading: false});
-
+    console.log(item, 'ITEMEMEM');
     let {user} = this.props;
     user = user.user.user;
     let post_id = item.id;
@@ -404,15 +410,14 @@ class Home extends Component {
             let filterPosts = this.state.filterPosts;
 
             let tempIndex = filterPosts.indexOf(item);
-
             let like_count = item.like_count + 1;
             let tempItem = item;
             tempItem['like_count'] = like_count;
             tempItem['flagForLike'] = true;
             filterPosts[tempIndex] = tempItem;
-
             this.setState({loading: false, filterPosts: filterPosts});
             // alert(ArabicText.Succesfully_liked);
+            this.viewPosts();
           }
           if (response.data.status == false) {
             let filterPosts = this.state.filterPosts;
@@ -492,6 +497,12 @@ class Home extends Component {
       this.viewPosts();
     });
   };
+
+  readMore = n => {
+    this.setState({
+      counta:this.state.counta + n,
+    });
+  };
   render() {
     const {
       onUserProfileClick,
@@ -514,6 +525,8 @@ class Home extends Component {
           onTouchStart={playVideo}
           sharePost={sharePosts}
           flagForVideo={false}
+          createdDate={item?.created_at?.slice(0, 10)}
+
         />
       );
     };
@@ -554,6 +567,65 @@ class Home extends Component {
     const onGroupSurvey = () => {
       this.props.navigation.navigate('SurveyList');
     };
+    const ddd = [
+      {
+        id: 1,
+        name: 'S',
+      },
+      {
+        id: 21,
+        name: 'AS',
+      },
+      {
+        id: 31,
+        name: 'DS',
+      },
+      {
+        id: 41,
+        name: 'FS',
+      },
+      {
+        id: 51,
+        name: 'BS',
+      },
+      {
+        id: 61,
+        name: 'WS',
+      },
+      {
+        id: 71,
+        name: 'MS',
+      },
+      {
+        id: 1,
+        name: 'S',
+      },
+      {
+        id: 21,
+        name: 'AS',
+      },
+      {
+        id: 31,
+        name: 'DS',
+      },
+      {
+        id: 41,
+        name: 'FS',
+      },
+      {
+        id: 51,
+        name: 'BS',
+      },
+      {
+        id: 61,
+        name: 'WS',
+      },
+      {
+        id: 71,
+        name: 'MS',
+      },
+    ];
+ 
 
     return (
       <View style={styles.container}>
@@ -815,12 +887,24 @@ class Home extends Component {
             </View>
             {/* POST FLATLIST */}
             <Loader loading={this.state.loading} />
+
             <FlatList
-              data={this?.state?.filterPosts}
+              data={this?.state?.filterPosts?.slice(0,this.state.counta)}
               keyExtractor={item => item.id.toString()}
               renderItem={renderItem}
-              initialNumToRender={8}
-              maxToRenderPerBatch={8}
+              onEndReachedThreshold={0.5}
+              //   onEndReached={() => {
+              //     this.readMore(n);
+              // }}
+              initialNumToRender={1}
+              // maxToRenderPerBatch={2}
+              ListFooterComponent={() => {
+                return (
+                  <TouchableOpacity style={{backgroundColor:'lightgrey', alignSelf:'center', padding:10,marginVertical:20, borderRadius:100 }} onPress={() => this.readMore(4)}>
+                   <SimpleLineIcons name='reload' size={30} color="white"  />
+                  </TouchableOpacity>
+                );
+              }}
               ListHeaderComponent={() => <Ads />}
               contentContainerStyle={{paddingBottom: 80}}
               refreshControl={

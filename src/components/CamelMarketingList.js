@@ -133,9 +133,7 @@ class CamelMarketingList extends Component {
 
   render() {
     const renderItem = ({item}) => {
-      console.log('================ITEM PIRICE====================');
-      console.log(item);
-      console.log('====================================');
+   
       return (
         <Post
           item={item}
@@ -155,11 +153,13 @@ class CamelMarketingList extends Component {
           onLikesClick={() => onLikesClick(item)}
           onDetailsClick={() => onDetailsClick(item)}
           imagesArray={item?.imagesArray}
-          date={item?.created_at?.slice(0, 10)}
+          createdDate={item?.created_at?.slice(0, 10)}
           sharePost={() => sharePosts(item)}
           onTouchStart={() => this.playVideo(item)}
           playVideo={true}
           pauseFlag={item?.flagForVideo}
+          onCategoryClick={()=>console.log("first")}
+
         />
       );
     };
@@ -204,7 +204,7 @@ class CamelMarketingList extends Component {
             console.log('response.data', response.data);
             if (response.data) {
               let filterPosts = this.state.filterPosts;
-
+                this.viewPosts()
               let tempIndex = filterPosts.indexOf(item);
 
               let share_count = item.share_count + 1;
@@ -268,6 +268,8 @@ class CamelMarketingList extends Component {
               this.setState({loading: false, filterPosts: filterPosts});
               // alert(ArabicText.Successfully_Unliked);
             }
+            this.viewPosts()
+
           })
           .catch(error => {
             console.log('error', error);

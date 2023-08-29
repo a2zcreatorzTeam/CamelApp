@@ -182,6 +182,8 @@ class CamelEquipmentList extends Component {
           playVideo={true}
           pauseFlag={item?.flagForVideo}
           date={item?.date}
+          onCategoryClick={()=>console.log("first")}
+
 
         />
       );
@@ -227,7 +229,7 @@ class CamelEquipmentList extends Component {
 
           console.log("response.data", response.data)
           if (response.data) {
-
+this.viewPosts()
             let filterPosts = this.state.filterPosts;
 
             let tempIndex = filterPosts.indexOf(item);
@@ -297,6 +299,8 @@ class CamelEquipmentList extends Component {
 
             this.setState({ loading: false, filterPosts: filterPosts });
           }
+this.viewPosts()
+
         }).catch((error) => {
           console.log("error", error)
           this.setState({ loading: false });

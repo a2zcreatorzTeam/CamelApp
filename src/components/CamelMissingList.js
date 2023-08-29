@@ -176,6 +176,8 @@ date={item?.date}
           onTouchStart={() => this.playVideo(item)}
           playVideo={true}
           pauseFlag={item?.flagForVideo}
+          onCategoryClick={()=>console.log("first")}
+
 
         />
       );
@@ -222,6 +224,7 @@ date={item?.date}
 
           console.log("response.data", response.data)
           if (response.data) {
+            this.viewPosts()
 
             let filterPosts = this.state.filterPosts;
 
@@ -296,6 +299,7 @@ date={item?.date}
             this.setState({ loading: false, filterPosts: filterPosts });
             // alert(ArabicText.Successfully_Unliked);
           }
+          this.viewPosts()
         }).catch((error) => {
           console.log("error", error)
           this.setState({ loading: false });

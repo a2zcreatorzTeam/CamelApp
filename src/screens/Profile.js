@@ -57,6 +57,7 @@ class Profile extends Component {
       modalOtp: false,
       refreshing: false,
       posts: [],
+      pausedCheck: false,
     };
   }
 
@@ -64,7 +65,7 @@ class Profile extends Component {
     let {user} = this.props;
     if (user.user.user != undefined) {
       let length = parseInt(user.user.posts.length);
-      //console.log("length", length);
+      // console.log("length", length);
 
       if (length > 30 && length < 100) {
         this.setState({rating: 1});
@@ -99,7 +100,7 @@ class Profile extends Component {
     try {
       camelapp
         .post('/add/chat/' + user.id, {
-          chat_status: this?.state?.chatFlag==true ? 1 : 0,
+          chat_status: this?.state?.chatFlag == true ? 1 : 0,
         })
         .then(res => {
           this.setState({modalChat: false});
@@ -180,9 +181,6 @@ class Profile extends Component {
       });
   }
   chatflag(value) {
-    console.log('================++VALUE++====================');
-    console.log(value);
-    console.log('====================================');
     //console.log("value", value)
     this.setState({chatFlag: value});
   }
@@ -237,7 +235,8 @@ class Profile extends Component {
         this.setState({
           whatsappNumber: this.props.user.user.user.whatsapp_no,
           phoneNumber: this.props.user.user.user.phone,
-          chatFlag: this?.props?.user?.user?.user?.chat_status==0 ? false : true,
+          chatFlag:
+            this?.props?.user?.user?.user?.chat_status == 0 ? false : true,
           registerSwitch:
             this.props.user.user.user.whatsapp_status == 0 ? false : true,
 
@@ -249,11 +248,19 @@ class Profile extends Component {
     }
   }
 
+
+  VideoPlay=(item)=>{
+console.log(item, "LOPLPOPLo");
+if(item?.source=='UOmNlxYosf.mp4'){
+  this.setState({ pausedCheck:true})
+}
+  }
   componentDidMount() {
     this.checkUserLogedIn();
   }
 
   onPostDelete(item) {
+    console.log('DELETE POST');
     //console.log("item", item.id);
 
     this.setState({loader: true});
@@ -296,7 +303,7 @@ class Profile extends Component {
 
   logOut() {
     console.log('====================================');
-    console.log("LOGOUT");
+    console.log('LOGOUT');
     console.log('====================================');
     AsyncStorage.removeItem('user');
     AsyncStorage.removeItem('user_check_in');
@@ -315,6 +322,7 @@ class Profile extends Component {
   // };
 
   render() {
+    console.log('PROFILE SCREEN', this.state?.pausedCheck);
     const sharePosts = item => {
       console.log('working');
 
@@ -432,7 +440,7 @@ class Profile extends Component {
         await camelapp
           .post('/add/view', {
             user_id: user.id,
-            post_id: post_id
+            post_id: post_id,
           })
           .then(response => {
             console.log('response.data', response.data);
@@ -441,7 +449,7 @@ class Profile extends Component {
                 itemFromDetails: item,
               });
             }
-      
+
             if (item.category_id == '4') {
               this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
                 itemFromDetails: item,
@@ -477,7 +485,7 @@ class Profile extends Component {
                 itemFromDetails: item,
               });
             }
-      
+
             if (item.category_id == '11') {
               this.props.navigation.navigate('DetailsFemaleCamel', {
                 itemFromDetails: item,
@@ -498,7 +506,7 @@ class Profile extends Component {
             itemFromDetails: item,
           });
         }
-  
+
         if (item.category_id == '4') {
           this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
             itemFromDetails: item,
@@ -534,7 +542,7 @@ class Profile extends Component {
             itemFromDetails: item,
           });
         }
-  
+
         if (item.category_id == '11') {
           this.props.navigation.navigate('DetailsFemaleCamel', {
             itemFromDetails: item,
@@ -546,7 +554,7 @@ class Profile extends Component {
           });
         }
       }
-  
+
       // this.props.navigation.navigate("DetailsComponent", { itemFromDetails: item })
     };
     const renderItem = ({item}) => {
@@ -587,6 +595,9 @@ class Profile extends Component {
           onCategoryClick={() => this.onCategoryClick(item)}
           onCommentsClick={() => onCommentsClick(item)}
           sharePost={() => sharePosts(item)}
+          onVideoPlay={(item)=> this.VideoPlay(item)}
+          pausedCheck={this.state.pausedCheck}
+          pauseCheckHandler={(txt)=> this.setState({ pausedCheck: txt})  }
         />
       );
     };
@@ -643,7 +654,6 @@ class Profile extends Component {
 
               <View
                 style={{
-                  
                   width: 140,
                   padding: 5,
                   alignItems: 'center',
@@ -1011,6 +1021,9 @@ const Item = ({
   onCategoryClick,
   onLikesClick,
   imagesArray,
+  pauseCheckHandler,
+  pausedCheck,
+  onVideoPlay
 }) => (
   <Card style={{elevation: 5, marginTop: 10}}>
     <View style={Styles.homesec}>
@@ -1103,21 +1116,56 @@ const Item = ({
               />
             )}
             {item.type == 'video' && (
-              <Video
-                // onTouchStart={() => {
-                //     ////console.log("Pause:  ", this.state.pauseVideo)
-                //     this.setState({ pauseVideo: !this.state.pauseVideo })
-                // }}
-                source={{
-                  uri: 'http://www.tasdeertech.com/videos/' + item.source,
-                }} // Can be a URL or a local file.
-                key={String(index)}
-                resizeMode="stretch"
-                repeat
-                controls={false}
-                // paused={this.state.pauseVideo}
-                style={Styles.image}
-              />
+              <>
+   
+                <Video
+                  // onTouchStart={() => {
+                  //     ////console.log("Pause:  ", this.state.pauseVideo)
+                  //     this.setState({ pauseVideo: !this.state.pauseVideo })
+                  // }}
+                  source={{
+                    uri: 'http://www.tasdeertech.com/videos/' + item.source,
+                  }} // Can be a URL or a local file.
+                  key={String(index)}
+                  resizeMode="stretch"
+                  // repeat={true}
+                  controls={false}
+                  paused={true}
+                  // onLoad={()=> 
+                  //   // pauseCheckHandler(true)
+                  //   onVideoPlay(item)
+                  
+                  // }
+                  style={Styles.image}
+                />
+                <TouchableOpacity
+                  style={{
+                    height: 30,
+                    width: '15%',
+                    borderRadius: 15,
+                    backgroundColor: '#fff',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    position: 'absolute',
+                    elevation: 2,
+                    bottom: 25,
+                    left: 10,
+                  }}
+                  onPress={ console.log("first")
+                    // () =>
+                    // // pauseCheckHandler(!pausedCheck)
+                    // onVideoPlay(item)
+                  }
+                  >
+                  <Text style={{
+                     color: 'black',
+                     fontSize: 15,
+                     marginRight: 3,
+                  }}>
+                    {pausedCheck ? 'Play' : 'Pause'}
+                  </Text>
+                </TouchableOpacity>
+              </>
             )}
           </View>
         );

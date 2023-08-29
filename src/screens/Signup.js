@@ -241,6 +241,10 @@ class SignUp extends Component {
                 console.log('error', error);
                 this.setState({ loader: false, btnPressed: false });
               });
+          } else {
+            alert(response?.data?.message)
+      this.setState({ btnPressed: false, loader: false })
+
           }
         })
         .catch(error => {

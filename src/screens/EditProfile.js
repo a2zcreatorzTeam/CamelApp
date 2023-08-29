@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, TextInput, Text, Image, TouchableOpacity } from 'react-native'
+import { View, TextInput, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { Styles } from '../styles/globlestyle'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ArabicText from "../language/EnglishToArabic"
@@ -29,6 +29,7 @@ class EditProfile extends Component {
       pickedImage: undefined,
       modalVisible: false,
       optVal: {},
+      btnLoader:false
 
     }
   }
@@ -95,7 +96,9 @@ class EditProfile extends Component {
   }
 
   updateProfile = async () => {
-
+this.setState({
+  btnLoader:true 
+  })
 
     let { actions } = this.props;
     if (this.state.imageShow == undefined) {
@@ -111,12 +114,17 @@ class EditProfile extends Component {
           }
         )
         .then((res) => {
-
           if (res.data.status == true) {
-
+            this.setState({
+              btnLoader:false 
+              })
+              alert("User Updated Successfully");
             actions.userData(res.data);
             this.props.navigation.navigate("Profile")
           } else {
+            this.setState({
+              btnLoader:false 
+              })
             alert("User Update failed");
           }
 
@@ -145,9 +153,15 @@ class EditProfile extends Component {
 
             alert("User Updated Successfully");
           } else {
+            this.setState({
+              btnLoader:false 
+              })
             alert("User Update failed");
           }
         }).catch((error) => {
+          this.setState({
+            btnLoader:false 
+            })
           console.log("error", error)
         });
     }
@@ -234,7 +248,20 @@ class EditProfile extends Component {
         <TouchableOpacity
           onPress={this.updateProfile}
           style={{ backgroundColor: "#8b4513", width: 200, height: 40, borderRadius: 7, justifyContent: "center", alignItems: "center", marginVertical: 20 }}>
+         {this.state.btnLoader ? (
+                  <ActivityIndicator
+                    size="large"
+                    color="white"
+                    animating={this.state.btnLoader}
+                  />
+                )
+              :
+
           <Text style={{ color: "#fff", fontSize: 16 }}>Update Profile</Text>
+              }
+        
+        
+        
         </TouchableOpacity>
 
         {/* logout button */}

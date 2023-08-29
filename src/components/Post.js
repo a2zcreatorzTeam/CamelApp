@@ -178,6 +178,7 @@ const Post = ({
       <ScrollView
         horizontal
         pagingEnabled
+        showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
           backgroundColor: '#f3f3f3',
         }}>
@@ -216,7 +217,7 @@ const Post = ({
                   />
                 )}
 
-                {isVideo && (
+                {/* {isVideo && (
                   <>
                     <Video
                     
@@ -241,7 +242,7 @@ const Post = ({
                       </Text>
                     </TouchableOpacity>
                   </>
-                )}
+                )} */}
 
                 {!isImage && !isVideo && (
                   <Text style={{color: '#000'}}>Media not available</Text>
@@ -529,7 +530,7 @@ const styles = StyleSheet.create({
   main: {
     width: width,
     height: height / 2,
-    elevation: 5,
+    // elevation: 5,
     marginTop: 15,
     backgroundColor: '#fff',
   },

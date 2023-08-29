@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as userActions from './src/redux/actions/user_actions';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(['Remote debugger']);
@@ -56,13 +57,16 @@ class App extends Component {
       flex: 1,
     };
     return (
-      <View style={[backgroundStyle, {backgroundColor: '#fff'}]}>
+      // <View style={[backgroundStyle, {backgroundColor: '#fff'}]}>
+      <SafeAreaProvider>
         <StatusBar
           barStyle="default"
-          backgroundColor={backgroundStyle.backgroundColor}
+          backgroundColor="#d2691e"
+          // backgroundColor={backgroundStyle.backgroundColor}
         />
         <Navigation />
-      </View>
+      </SafeAreaProvider>
+      // </View>
     );
   }
 }

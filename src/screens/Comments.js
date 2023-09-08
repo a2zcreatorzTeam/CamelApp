@@ -361,6 +361,7 @@ class Comments extends Component {
         {
           this.state.commentsList?.length && loader == false ?
             <FlatList
+
               extraData={commentsList}
               key={dataNotFound}
               refreshControl={
@@ -369,10 +370,12 @@ class Comments extends Component {
               data={searchedItem ? filterPosts : commentsList}
               renderItem={(item) => renderItem(item)}
               keyExtractor={item => item?.id}
-            // initialNumToRender={5}
-            // maxToRenderPerBatch={5}
             />
-            : null}
+            : <View style={{ flex: 1, alignSelf: 'center', justifyContent: 'center' }}>
+              <Text style={{ color: 'black', alignSelf: 'center' }}>
+                No Comment Found
+              </Text>
+            </View>}
 
         <Loader loading={this.state.loading} />
 
@@ -383,7 +386,7 @@ class Comments extends Component {
               marginBottom: 10,
               alignItems: 'center',
               justifyContent: 'space-evenly',
-              marginTop:'auto'
+              marginTop: 'auto'
             }}>
             <TouchableOpacity
               style={{

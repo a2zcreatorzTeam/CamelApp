@@ -119,6 +119,7 @@ class Home extends Component {
   async viewPosts() {
     try {
       return await camelapp.get('/view/post').then(res => {
+        console.log(res, "response views");
         var arrayPosts = res?.data?.Posts;
 
         arrayPosts.map((item, index) => {

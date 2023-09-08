@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, { Component, useState } from 'react';
 import {
   Text,
   View,
@@ -10,22 +10,16 @@ import {
   LogBox,
   RefreshControl
 } from 'react-native';
-import {Styles} from '../styles/globlestyle';
+import { Styles } from '../styles/globlestyle';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import camelapp from '../api/camelapp';
 import Loader from '../components/PleaseWait';
-import {Card} from 'react-native-paper';
-import {
-  likeComment,
-  DataContext,
-  commentReply,
-  addnewComment,
-} from '../context/DataContext';
+import { Card } from 'react-native-paper';
 import * as ArabicText from '../language/EnglishToArabic';
-import {set} from 'react-native-reanimated';
+import { set } from 'react-native-reanimated';
 class Comments extends Component {
   constructor(props) {
     super(props);
@@ -40,28 +34,21 @@ class Comments extends Component {
       flagForReplyComment: false,
       loader: true,
       loading: false,
-      isRefreshing:false
+      isRefreshing: false
 
     };
-    this.getCommentsOnPost();
+    // this.getCommentsOnPost();
 
     LogBox.ignoreLogs([
       'Non-serializable values were found in the navigation state.',
     ]);
   }
   componentDidMount() {
-    // this.interval =
-    //     setInterval(() => {
-    //         this.getCommentsOnPost();
-    //     }, 5000)
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
+    console.log("componentDidMount");
+    this.getCommentsOnPost()
   }
 
   addReplyToComment = () => {
-    //console.log("comment id", this.state.commentId)
     if (this.state.newReply != '') {
       camelapp
         .post('/add/reply', {
@@ -70,7 +57,6 @@ class Comments extends Component {
           reply: this.state.newReply,
         })
         .then(response => {
-          //console.log("response", response.data);
           this.setState({
             flagForNewComment: true,
             flagForReplyComment: false,
@@ -83,19 +69,15 @@ class Comments extends Component {
     }
   };
   onCommentsClick = item => {
-    //console.log("item at reply comment", item.id);
-
     this.setState({
       commentId: item.id,
       flagForNewComment: false,
       flagForReplyComment: true,
     });
-
-    //console.log("comment id", this.state.commentId)
   };
 
   onLikesClick = item => {
-    this.setState({loading: true});
+    this.setState({ loading: true });
     let user = this.state.user;
     let post_id = this.props.route.params.post.id;
     if (user != undefined) {
@@ -108,17 +90,17 @@ class Comments extends Component {
           this.getCommentsOnPost()
           console.log('response.data', response.data);
           if (response.data.status == true) {
-            this.setState({loading: false});
-            alert(ArabicText.Succesfully_liked);
+            this.setState({ loading: false });
+            // alert(ArabicText.Succesfully_liked);
           }
           if (response.data.status == false) {
-            this.setState({loading: false});
-            alert(ArabicText.Successfully_Unliked);
+            this.setState({ loading: false });
+            // alert(ArabicText.Successfully_Unliked);
           }
         })
         .catch(error => {
           console.log('error', error);
-          this.setState({loading: false});
+          this.setState({ loading: false });
         });
     } else {
       this.props.navigation.navigate('Login');
@@ -131,22 +113,15 @@ class Comments extends Component {
         post_id: this.props.route.params.post.id,
       })
       .then(res => {
-        console.log('response', res.data);
-
-        response = res.data;
-
-        this.setState({commentsList: res.data});
+        this.setState({ commentsList: res.data });
       });
   };
   onRefresh = () => {
-    // this.setState({isRefreshing:true})
     this.getCommentsOnPost()
-    // this.setState({isRefreshing:false})
-      };
-  addNewComment = () => {
+  };
+  addNewComment = async () => {
     if (this.state.newComment != '') {
-      this.setState({loading: true});
-
+      this.setState({ loading: true });
       camelapp
         .post('/add/comment', {
           user_id: this.state.user.id,
@@ -154,11 +129,8 @@ class Comments extends Component {
           comment: this.state.newComment,
         })
         .then(response => {
-          //console.log("response", response.data);
-
-          if (response.data) {
+          if (response?.data) {
             this.getCommentsOnPost();
-
             this.setState({
               flagForNewComment: true,
               flagForReplyComment: false,
@@ -179,6 +151,7 @@ class Comments extends Component {
         });
     }
   };
+
   render() {
     const Item = ({
       userName,
@@ -190,7 +163,7 @@ class Comments extends Component {
       likes,
       time,
     }) => (
-      <Card style={{margintop: 5, marginBottom: 5, height: 80}}>
+      <Card style={{ margintop: 5, marginBottom: 5, height: 80 }}>
         <View>
           <View
             style={{
@@ -200,7 +173,7 @@ class Comments extends Component {
             }}>
             <View
               style={{
-                alignItems:'flex-end' ,
+                alignItems: 'flex-end',
                 right: 100,
                 top: 10,
                 position: 'absolute',
@@ -294,7 +267,7 @@ class Comments extends Component {
           </Text>
 
           <TouchableOpacity
-            style={{left: 20, position: 'absolute', bottom: 15}}
+            style={{ left: 20, position: 'absolute', bottom: 15 }}
             onPress={onLikesClick}>
             <AntDesign
               name={commentsCount > 0 ? 'heart' : 'hearto'}
@@ -307,7 +280,7 @@ class Comments extends Component {
       </Card>
     );
 
-    const renderItem = ({item}) => {
+    const renderItem = ({ item }) => {
       return (
         <Item
           item={item}
@@ -321,23 +294,25 @@ class Comments extends Component {
         />
       );
     };
-
     return (
       <SafeAreaView style={Styles.containerComments}>
-        <FlatList
+        {
+          this.state.commentsList?.length ?
+            <FlatList
+              refreshControl={
+                <RefreshControl onRefresh={() => this.onRefresh()} refreshing={this?.state?.isRefreshing} />
+              }
+              data={this.state?.commentsList}
+              renderItem={(item) => renderItem(item)}
+              keyExtractor={item => item?.id}
+            // initialNumToRender={5}
+            // maxToRenderPerBatch={5}
+            />
+            : null}
 
-refreshControl={
-    <RefreshControl onRefresh={this.onRefresh()} refreshing={this.state.isRefreshing} />
-  }
-          data={this.state.commentsList}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          initialNumToRender={5}
-          maxToRenderPerBatch={5}
-        />
         <Loader loading={this.state.loading} />
 
-        {this.state.flagForNewComment && (
+        {this?.state?.flagForNewComment && (
           <View
             style={{
               flexDirection: 'row',
@@ -347,7 +322,7 @@ refreshControl={
             }}>
             <TouchableOpacity
               style={{
-                transform: [{rotate: '215deg'}],
+                transform: [{ rotate: '215deg' }],
                 justifyContent: 'center',
                 alignItems: 'center',
                 marginTop: 10,
@@ -358,7 +333,7 @@ refreshControl={
             </TouchableOpacity>
             <TextInput
               style={Styles.forminputs}
-              onChangeText={text => this.setState({newComment: text})}
+              onChangeText={text => this.setState({ newComment: text })}
               placeholder={ArabicText.comments}
               placeholderTextColor="#b0b0b0"
               value={this.state?.newComment}></TextInput>
@@ -373,14 +348,14 @@ refreshControl={
               justifyContent: 'space-evenly',
             }}>
             <TouchableOpacity
-              style={{transform: [{rotate: '180deg'}]}}
+              style={{ transform: [{ rotate: '180deg' }] }}
               onPress={() => this.addReplyToComment()}>
               <Ionicons name="send" size={24} color="#D2691E" />
             </TouchableOpacity>
 
             <TextInput
               style={Styles.forminputs}
-              onChangeText={text => this.setState({newReply: text})}
+              onChangeText={text => this.setState({ newReply: text })}
               placeholder={ArabicText.Reply}
               placeholderTextColor="#b0b0b0"
               value={this?.state?.newReply}></TextInput>

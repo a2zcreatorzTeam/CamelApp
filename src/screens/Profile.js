@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -14,7 +14,7 @@ import {
   Switch,
   RefreshControl,
 } from 'react-native';
-import {Styles} from '../styles/globlestyle';
+import { Styles } from '../styles/globlestyle';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -23,15 +23,15 @@ import Foundation from 'react-native-vector-icons/Foundation';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ArabicText from '../language/EnglishToArabic';
-import {Dimensions} from 'react-native';
-import {Card} from 'react-native-paper';
+import { Dimensions } from 'react-native';
+import { Card } from 'react-native-paper';
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
-import {Rating} from 'react-native-ratings';
+import { Rating } from 'react-native-ratings';
 import camelapp from '../api/camelapp';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import Video from 'react-native-video';
 import Carousel from 'react-native-snap-carousel';
 import Loader from '../components/PleaseWait';
@@ -63,9 +63,9 @@ class Profile extends Component {
 
   // ==========NEW============
   checkUserLogedIn() {
-    const {user} = this.props;
-    if (user.user.user) {
-      const length = parseInt(user.user.posts.length);
+    const { user } = this.props;
+    if (user?.user?.user) {
+      const length = parseInt(user?.user?.posts?.length);
       let rating = 0;
 
       if (length > 30 && length < 100) {
@@ -80,7 +80,7 @@ class Profile extends Component {
         rating = 5;
       }
 
-      this.setState({rating:rating});
+      this.setState({ rating: rating });
       this.fetchUser();
     } else {
       this.props.navigation.navigate('Login');
@@ -88,8 +88,8 @@ class Profile extends Component {
   }
 
   saveChat() {
-    let {user, actions} = this.props;
-    user = user.user.user;
+    let { user, actions } = this.props;
+    user = user?.user?.user;
 
     try {
       camelapp
@@ -97,7 +97,7 @@ class Profile extends Component {
           chat_status: this?.state?.chatFlag == true ? 1 : 0,
         })
         .then(res => {
-          this.setState({modalChat: false});
+          this.setState({ modalChat: false });
           //console.log("response at fetch", res.data);
         });
     } catch (error) {
@@ -105,8 +105,8 @@ class Profile extends Component {
     }
   }
   saveWhatsApp() {
-    let {user, actions} = this.props;
-    user = user.user.user;
+    let { user, actions } = this.props;
+    user = user?.user?.user;
 
     //console.log("this.state.registerSwitch", this.state.registerSwitch)
 
@@ -118,7 +118,7 @@ class Profile extends Component {
             whatsapp_status: this.state.registerSwitch,
           })
           .then(res => {
-            this.setState({modal: false});
+            this.setState({ modal: false });
             //console.log("response at fetch", res.data);
           });
       } catch (error) {
@@ -129,13 +129,13 @@ class Profile extends Component {
     }
   }
   updateNumber() {
-    let {user, actions} = this.props;
-    user = user.user.user;
+    let { user, actions } = this.props;
+    user = user?.user?.user;
 
     var number = 0;
 
     do {
-      number = Math.floor(Math.random() * 10000) + 1;
+      number = Math.floor(Math?.random() * 10000) + 1;
       console.log('number', number);
     } while (number < 1000 || number > 10000);
 
@@ -146,28 +146,28 @@ class Profile extends Component {
       })
       .then(response => {
         if (response.data.status === true) {
-          this.setState({modalOtp: true, modalPhone: false, otpValue: number});
+          this.setState({ modalOtp: true, modalPhone: false, otpValue: number });
         }
       })
       .catch(error => {
         console.log('error', error);
-        this.setState({loader: false, btnPressed: false});
+        this.setState({ loader: false, btnPressed: false });
       });
   }
   verifiedSms() {
-    let {actions} = this.props;
+    let { actions } = this.props;
 
     camelapp
       .post('/update', {
-        user_id: this.props.user.user.user.id,
+        user_id: this.props?.user?.user?.user.id,
         phone: this.state.phoneNumber,
       })
       .then(res => {
         console.log('res', res.data);
 
-        if (res.data.status == true) {
+        if (res?.data?.status == true) {
           actions.userData(res.data);
-          this.setState({modalOtp: false, modalPhone: false});
+          this.setState({ modalOtp: false, modalPhone: false });
           alert('Phone Updated Successfully');
         } else {
           alert('Phone Number Already Exist');
@@ -176,11 +176,11 @@ class Profile extends Component {
   }
   chatflag(value) {
     //console.log("value", value)
-    this.setState({chatFlag: value});
+    this.setState({ chatFlag: value });
   }
   onRegisterSwitchChanged(value) {
     //console.log("value", value)
-    this.setState({registerSwitch: value});
+    this.setState({ registerSwitch: value });
   }
 
   // onCategoryClick = async item => {
@@ -232,31 +232,31 @@ class Profile extends Component {
       11: 'FemaleList',
     };
 
-    const navigationKey = categoryMap[item.category_id];
+    const navigationKey = categoryMap[item?.category_id];
     if (navigationKey) {
       this.props.navigation.navigate(navigationKey);
     }
   };
 
   fetchUser() {
-    let {user, actions} = this.props;
-    user = user.user.user;
+    let { user, actions } = this.props;
+    user = user?.user?.user;
     console.log('================00USER00====================');
     console.log(user);
     console.log('====================================');
     try {
       camelapp.get('/get/fetchUser/' + user.id).then(res => {
         // console.log('response at fetch', res.data);
-        actions.userData(res.data);
+        actions.userData(res?.data);
         this.setState({
-          whatsappNumber: this.props.user.user.user.whatsapp_no,
-          phoneNumber: this.props.user.user.user.phone,
+          whatsappNumber: this.props?.user?.user?.user?.whatsapp_no,
+          phoneNumber: this.props.user?.user?.user?.phone,
           chatFlag:
             this?.props?.user?.user?.user?.chat_status == 0 ? false : true,
           registerSwitch:
-            this.props.user.user.user.whatsapp_status == 0 ? false : true,
+            this.props.user?.user?.user?.whatsapp_status == 0 ? false : true,
 
-          posts: res.data.posts,
+          posts: res?.data?.posts,
         });
       });
     } catch (error) {
@@ -265,11 +265,11 @@ class Profile extends Component {
   }
 
 
-  VideoPlay=(item)=>{
-console.log(item, "LOPLPOPLo");
-if(item?.source=='UOmNlxYosf.mp4'){
-  this.setState({ pausedCheck:true})
-}
+  VideoPlay = (item) => {
+    console.log(item, "LOPLPOPLo");
+    if (item?.source == 'UOmNlxYosf.mp4') {
+      this.setState({ pausedCheck: true })
+    }
   }
   componentDidMount() {
     this.checkUserLogedIn();
@@ -279,7 +279,7 @@ if(item?.source=='UOmNlxYosf.mp4'){
     console.log('DELETE POST');
     //console.log("item", item.id);
 
-    this.setState({loader: true});
+    this.setState({ loader: true });
 
     camelapp
       .post('delete/post', {
@@ -292,7 +292,7 @@ if(item?.source=='UOmNlxYosf.mp4'){
           this.fetchUser();
           this.checkUserLogedIn();
 
-          this.setState({loader: false});
+          this.setState({ loader: false });
         }
       });
 
@@ -310,10 +310,10 @@ if(item?.source=='UOmNlxYosf.mp4'){
   openFollowersModal() {
     //console.log("follower Modal is")
 
-    this.setState({modal: true});
+    this.setState({ modal: true });
   }
   openFollowingModal() {
-    this.setState({modalFollowing: true});
+    this.setState({ modalFollowing: true });
     //console.log("Follwing Modal is")
   }
 
@@ -329,7 +329,7 @@ if(item?.source=='UOmNlxYosf.mp4'){
 
   ScrollToRefresh() {
     this.fetchUser();
-    this.setState({refreshing: false});
+    this.setState({ refreshing: false });
   }
   // componentDidMount = () => {
   //   this.focusListener = this.props.navigation.addListener('focus', () => {
@@ -342,11 +342,11 @@ if(item?.source=='UOmNlxYosf.mp4'){
     const sharePosts = item => {
       console.log('working');
 
-      this.setState({loading: true});
+      this.setState({ loading: true });
 
-      let {user} = this.props;
-      user = user.user.user;
-      let post_id = item.id;
+      let { user } = this.props;
+      user = user?.user?.user;
+      let post_id = item?.id;
       if (user != undefined) {
         camelapp
           .post('/add/sharess', {
@@ -358,35 +358,34 @@ if(item?.source=='UOmNlxYosf.mp4'){
             if (response.data) {
               let filterPosts = this.state.filterPosts;
 
-              let tempIndex = filterPosts.indexOf(item);
+              let tempIndex = filterPosts?.indexOf(item);
 
-              let share_count = item.share_count + 1;
+              let share_count = item?.share_count + 1;
               let tempItem = item;
               tempItem['share_count'] = share_count;
               filterPosts[tempIndex] = tempItem;
 
-              this.setState({loading: false, filterPosts: filterPosts});
+              this.setState({ loading: false, filterPosts: filterPosts });
             }
           })
           .catch(error => {
             console.log('error', error);
-            this.setState({loading: false});
+            this.setState({ loading: false });
           });
       } else {
         this.props.navigation.navigate('Login');
       }
     };
     const onCommentsClick = item => {
-      let {user} = this.props;
-      user = user.user.user;
-      let post_id = item.id;
+      let { user } = this.props;
+      user = user?.user?.user;
+      let post_id = item?.id;
       if (user != undefined) {
         camelapp
           .post('/get/comment', {
             post_id: post_id,
           })
           .then(res => {
-            //console.log("response", res.data);
             this.props.navigation.navigate('Comments', {
               commentsForPost: res,
               user: user,
@@ -398,11 +397,11 @@ if(item?.source=='UOmNlxYosf.mp4'){
       }
     };
     const onLikesClick = item => {
-      this.setState({loading: false});
+      this.setState({ loading: false });
 
-      let {user} = this.props;
-      user = user.user.user;
-      let post_id = item.id;
+      let { user } = this.props;
+      user = user?.user?.user;
+      let post_id = item?.id;
       if (user != undefined) {
         camelapp
           .post('/add/like', {
@@ -412,36 +411,36 @@ if(item?.source=='UOmNlxYosf.mp4'){
           })
           .then(response => {
             console.log('response.data', response.data);
-            if (response.data.status == true) {
+            if (response?.data?.status == true) {
               let filterPosts = this.state.filterPosts;
 
-              let tempIndex = filterPosts.indexOf(item);
+              let tempIndex = filterPosts?.indexOf(item);
 
-              let like_count = item.like_count + 1;
+              let like_count = item?.like_count + 1;
               let tempItem = item;
               tempItem['like_count'] = like_count;
               filterPosts[tempIndex] = tempItem;
 
-              this.setState({loading: false, filterPosts: filterPosts});
+              this.setState({ loading: false, filterPosts: filterPosts });
               alert(ArabicText.Succesfully_liked);
             }
-            if (response.data.status == false) {
+            if (response?.data?.status == false) {
               let filterPosts = this.state.filterPosts;
 
-              let tempIndex = filterPosts.indexOf(item);
+              let tempIndex = filterPosts?.indexOf(item);
 
-              let like_count = item.like_count - 1;
+              let like_count = item?.like_count - 1;
               let tempItem = item;
               tempItem['like_count'] = like_count;
               filterPosts[tempIndex] = tempItem;
 
-              this.setState({loading: false, filterPosts: filterPosts});
+              this.setState({ loading: false, filterPosts: filterPosts });
               alert(ArabicText.Successfully_Unliked);
             }
           })
           .catch(error => {
             console.log('error', error);
-            this.setState({loading: false});
+            this.setState({ loading: false });
           });
       } else {
         this.props.navigation.navigate('Login');
@@ -575,8 +574,8 @@ if(item?.source=='UOmNlxYosf.mp4'){
 
     // ========NEW==========
     onDetailsClick = async item => {
-      const {user} = this.props;
-      const post_id = item.id;
+      const { user } = this.props;
+      const post_id = item?.id;
       const categoryMap = {
         1: 'CamelClubDetailsComponent',
         2: 'DetailsSellingCamel',
@@ -719,37 +718,33 @@ if(item?.source=='UOmNlxYosf.mp4'){
       // this.props.navigation.navigate("DetailsComponent", { itemFromDetails: item })
     };
 
-    const renderItem = ({item}) => {
+    const renderItem = ({ item }) => {
       let array = item?.img;
-
-      // console.log("array", array)
       let imagesArray = [];
-
       array.forEach(element => {
         if (element) {
-          imagesArray.push({type: 'image', source: element});
+          imagesArray.push({ type: 'image', source: element });
         }
       });
-
-      if (item.video == null) {
-        imagesArray.push({type: 'video', source: null});
+      if (item?.video == null) {
+        imagesArray.push({ type: 'video', source: null });
       } else {
-        imagesArray.push({type: 'video', source: item.video});
+        imagesArray.push({ type: 'video', source: item.video });
       }
 
       return (
         <Item
           item={item}
           imagesArray={imagesArray}
-          likes={item.like_count}
-          title={item.title}
-          comments={item.comment_count}
-          shares={item.share_count}
-          views={item.view_count}
-          userName={item.user_name}
-          userCity={item.user_location}
-          userImage={item.user_images}
-          category={item.category_name}
+          likes={item?.like_count}
+          title={item?.title}
+          comments={item?.comment_count}
+          shares={item?.share_count}
+          views={item?.view_count}
+          userName={item?.user_name}
+          userCity={item?.user_location}
+          userImage={item?.user_images}
+          category={item?.category_name}
           onPostDelete={() => this.onPostDelete(item)}
           onDetailsClick={() => onDetailsClick(item)}
           onLikesClick={() => onLikesClick(item)}
@@ -757,9 +752,9 @@ if(item?.source=='UOmNlxYosf.mp4'){
           onCategoryClick={() => this.onCategoryClick(item)}
           onCommentsClick={() => onCommentsClick(item)}
           sharePost={() => sharePosts(item)}
-          onVideoPlay={(item)=> this.VideoPlay(item)}
+          onVideoPlay={(item) => this.VideoPlay(item)}
           pausedCheck={this.state.pausedCheck}
-          pauseCheckHandler={(txt)=> this.setState({ pausedCheck: txt})  }
+          pauseCheckHandler={(txt) => this.setState({ pausedCheck: txt })}
         />
       );
     };
@@ -793,7 +788,7 @@ if(item?.source=='UOmNlxYosf.mp4'){
               </View>
               {/* Edit & Cart Icons Profile */}
 
-              <View style={{position: 'absolute', right: 15, bottom: 5}}>
+              <View style={{ position: 'absolute', right: 15, bottom: 5 }}>
                 {/* Rating */}
                 <Rating
                   ratingCount={5}
@@ -802,7 +797,7 @@ if(item?.source=='UOmNlxYosf.mp4'){
                   readonly={true}
                   startingValue={this.state.rating}
                   ratingBackgroundColor={'#aaa'}
-                  style={{paddingVertical: 10}}
+                  style={{ paddingVertical: 10 }}
                   ratingColor={'crimson'}
                   tintColor="white"
                   type="custom"
@@ -822,15 +817,15 @@ if(item?.source=='UOmNlxYosf.mp4'){
                     uri:
                       // this.props.user.user.user  === undefined ? this.props.navigation.navigate('Login')  :
                       'http://www.tasdeertech.com/public/images/profiles/' +
-                      this.props.user.user.user.image,
+                      this.props?.user?.user?.user.image,
                     // "http://www.tasdeertech.com/public/images/profiles/" + this.props.user.user.user.image === undefined ? this.props.navigation.navigate('Login') : this.props.user.user.user.image
                   }}
                   style={styles.img}></Image>
                 <Text style={styles.name}>
-                  {this.props.user.user.user.name}
+                  {this.props?.user?.user?.user?.name}
                 </Text>
                 <View
-                  style={{flexDirection: 'row-reverse', alignItems: 'center'}}>
+                  style={{ flexDirection: 'row-reverse', alignItems: 'center' }}>
                   <AntDesign name="checkcircle" size={14} color="#e50000" />
                   <Text
                     style={{
@@ -845,19 +840,19 @@ if(item?.source=='UOmNlxYosf.mp4'){
                 {/* my contacts */}
                 <View style={styles.icons}>
                   <TouchableOpacity
-                    onPress={() => this.setState({modal: true})}
+                    onPress={() => this.setState({ modal: true })}
                     style={Styles.detailsIcons}>
                     <FontAwesome name="whatsapp" size={20} color="#CD853F" />
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    onPress={() => this.setState({modalPhone: true})}
+                    onPress={() => this.setState({ modalPhone: true })}
                     style={Styles.detailsIcons}>
                     <AntDesign name="mobile1" size={20} color="#CD853F" />
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    onPress={() => this.setState({modalChat: true})}
+                    onPress={() => this.setState({ modalChat: true })}
                     style={Styles.detailsIcons}>
                     <AntDesign name="message1" size={20} color="#CD853F" />
                   </TouchableOpacity>
@@ -872,31 +867,31 @@ if(item?.source=='UOmNlxYosf.mp4'){
                   // onPress={() => this.openFollowingModal()}
                   style={styles.video}>
                   <Text style={styles.textcolor}>
-                    {this.props.user.user.follwers}
+                    {this.props?.user?.user?.follwers}
                   </Text>
                   <Text style={styles.textcolor}>{ArabicText.Followers}</Text>
                 </View>
 
-                <Text style={{fontSize: 30, fontWeight: '400', color: '#fff'}}>
+                <Text style={{ fontSize: 30, fontWeight: '400', color: '#fff' }}>
                   |
                 </Text>
 
                 <View style={styles.video}>
                   <Text style={styles.textcolor}>
-                    {this.props.user.user.posts.length}
+                    {this.props?.user?.user?.posts?.length}
                   </Text>
                   <Text style={styles.textcolor}>{ArabicText.posts}</Text>
                 </View>
 
-                <Text style={{fontSize: 30, fontWeight: '400', color: '#fff'}}>
+                <Text style={{ fontSize: 30, fontWeight: '400', color: '#fff' }}>
                   |
                 </Text>
 
                 <TouchableOpacity style={styles.video}>
                   <Text style={styles.textcolor}>
-                    {this.props.user.user.following}
+                    {this.props?.user?.user?.following}
                   </Text>
-                  <Text style={styles.textcolor}>{ArabicText.Following}</Text>
+                  <Text style={styles.textcolor}>{ArabicText?.Following}</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -911,10 +906,10 @@ if(item?.source=='UOmNlxYosf.mp4'){
                 <View style={Styles.centeredView}>
                   <View style={Styles.modalView}>
                     <Pressable
-                      onPress={modalOffer => this.setState({modal: false})}>
+                      onPress={modalOffer => this.setState({ modal: false })}>
                       <Ionicons name="close" size={30} color="brown" />
                     </Pressable>
-                    <Text style={{margin: 5, color: 'black'}}>
+                    <Text style={{ margin: 5, color: 'black' }}>
                       Add Whatsapp number
                     </Text>
 
@@ -924,7 +919,7 @@ if(item?.source=='UOmNlxYosf.mp4'){
                       placeholder="Whats App Number"
                       keyboardType="numeric"
                       onChangeText={text =>
-                        this.setState({whatsappNumber: text})
+                        this.setState({ whatsappNumber: text })
                       }
                       placeholderTextColor="#b0b0b0"></TextInput>
                     <View
@@ -935,14 +930,14 @@ if(item?.source=='UOmNlxYosf.mp4'){
                         marginTop: 10,
                       }}>
                       <Text
-                        style={{margin: 3, fontWeight: 'bold', color: 'black'}}>
+                        style={{ margin: 3, fontWeight: 'bold', color: 'black' }}>
                         {this.state.registerSwitch == true
                           ? 'Active'
                           : 'In Active'}
                       </Text>
 
                       <Switch
-                        trackColor={{false: '#767577', true: '#D2691Eff'}}
+                        trackColor={{ false: '#767577', true: '#D2691Eff' }}
                         thumbColor={
                           this.state.registerSwitch == true
                             ? '#f5dd4b'
@@ -958,7 +953,7 @@ if(item?.source=='UOmNlxYosf.mp4'){
 
                     <TouchableOpacity onPress={() => this.saveWhatsApp()}>
                       <View style={Styles.btnform}>
-                        <Text style={Styles.textbtn}>{ArabicText.add}</Text>
+                        <Text style={Styles.textbtn}>{ArabicText?.add}</Text>
                       </View>
                     </TouchableOpacity>
                   </View>
@@ -976,10 +971,10 @@ if(item?.source=='UOmNlxYosf.mp4'){
                 <View style={Styles.centeredView}>
                   <View style={Styles.modalView}>
                     <Pressable
-                      onPress={() => this.setState({modalChat: false})}>
+                      onPress={() => this.setState({ modalChat: false })}>
                       <Ionicons name="close" size={30} color="brown" />
                     </Pressable>
-                    <Text style={{margin: 5, color: 'black'}}>
+                    <Text style={{ margin: 5, color: 'black' }}>
                       Enable/dissable Chat
                     </Text>
 
@@ -991,12 +986,12 @@ if(item?.source=='UOmNlxYosf.mp4'){
                         marginTop: 10,
                       }}>
                       <Text
-                        style={{margin: 3, fontWeight: 'bold', color: 'black'}}>
+                        style={{ margin: 3, fontWeight: 'bold', color: 'black' }}>
                         {this.state.chatFlag == true ? 'Active' : 'In Active'}
                       </Text>
 
                       <Switch
-                        trackColor={{false: '#767577', true: '#D2691Eff'}}
+                        trackColor={{ false: '#767577', true: '#D2691Eff' }}
                         thumbColor={
                           this.state.chatFlag == true ? '#f5dd4b' : '#f4f3f4'
                         }
@@ -1008,7 +1003,7 @@ if(item?.source=='UOmNlxYosf.mp4'){
 
                     <TouchableOpacity onPress={() => this.saveChat()}>
                       <View style={Styles.btnform}>
-                        <Text style={Styles.textbtn}>{ArabicText.add}</Text>
+                        <Text style={Styles.textbtn}>{ArabicText?.add}</Text>
                       </View>
                     </TouchableOpacity>
                   </View>
@@ -1027,11 +1022,11 @@ if(item?.source=='UOmNlxYosf.mp4'){
                   <View style={Styles.modalView}>
                     <Pressable
                       onPress={modalOffer =>
-                        this.setState({modalPhone: false})
+                        this.setState({ modalPhone: false })
                       }>
                       <Ionicons name="close" size={30} color="brown" />
                     </Pressable>
-                    <Text style={{margin: 5, color: 'black'}}>
+                    <Text style={{ margin: 5, color: 'black' }}>
                       Update Phone
                     </Text>
 
@@ -1040,7 +1035,7 @@ if(item?.source=='UOmNlxYosf.mp4'){
                       style={Styles.forminputsPrice}
                       placeholder="Phone Number"
                       keyboardType="numeric"
-                      onChangeText={text => this.setState({phoneNumber: text})}
+                      onChangeText={text => this.setState({ phoneNumber: text })}
                       placeholderTextColor="#b0b0b0"></TextInput>
 
                     <TouchableOpacity onPress={() => this.updateNumber()}>
@@ -1057,11 +1052,11 @@ if(item?.source=='UOmNlxYosf.mp4'){
               animationType="slide"
               visible={this.state.modalOtp}
               transparent={true}
-              onRequestClose={() => this.setState({modalOtp: false})}>
+              onRequestClose={() => this.setState({ modalOtp: false })}>
               <TouchableOpacity
                 activeOpacity={1}
-                style={{height: height}}
-                onPress={() => this.setState({modalOtp: false})}
+                style={{ height: height }}
+                onPress={() => this.setState({ modalOtp: false })}
               />
               <View
                 style={{
@@ -1083,7 +1078,7 @@ if(item?.source=='UOmNlxYosf.mp4'){
                     alignItems: 'center',
                   }}>
                   <Text
-                    style={{color: '#8b4513', fontSize: 15, fontWeight: '600'}}>
+                    style={{ color: '#8b4513', fontSize: 15, fontWeight: '600' }}>
                     Enter OTP Here
                   </Text>
                 </View>
@@ -1111,7 +1106,7 @@ if(item?.source=='UOmNlxYosf.mp4'){
                 size="large"
                 color="#D2691Eff"
                 animating={this.state.loader}
-                style={{marginTop: 20}}
+                style={{ marginTop: 20 }}
               />
             )}
             {this.state.loader == false && (
@@ -1132,7 +1127,7 @@ if(item?.source=='UOmNlxYosf.mp4'){
                 data={this.state.posts}
                 renderItem={renderItem}
                 keyExtractor={item_2 => item_2.id}
-                contentContainerStyle={{paddingBottom: 10}}
+                contentContainerStyle={{ paddingBottom: 10 }}
                 refreshControl={
                   <RefreshControl
                     refreshing={this.state.refreshing}
@@ -1180,11 +1175,12 @@ const Item = ({
   imagesArray,
   pauseCheckHandler,
   pausedCheck,
-  onVideoPlay
+  onVideoPlay,
+  sharePost
 }) => (
-  <Card style={{elevation: 5, marginTop: 10}}>
+  <Card style={{ elevation: 5, marginTop: 10 }}>
     <View style={Styles.homesec}>
-      <View style={{flexDirection: 'row', textAlign: 'right'}}>
+      <View style={{ flexDirection: 'row', textAlign: 'right' }}>
         <View
           style={{
             backgroundColor: '#fff',
@@ -1195,7 +1191,7 @@ const Item = ({
           }}>
           <TouchableOpacity onPress={onCategoryClick} style={Styles.btnHome2}>
             <Text
-              style={{color: '#D2691Eff', fontWeight: 'bold', fontSize: 15}}>
+              style={{ color: '#D2691Eff', fontWeight: 'bold', fontSize: 15 }}>
               {category}
             </Text>
           </TouchableOpacity>
@@ -1259,7 +1255,7 @@ const Item = ({
       layout={'default'}
       scrollEnabled={true}
       // onScroll={() => this.setState({ pauseVideo: true})}
-      renderItem={({item, index}) => {
+      renderItem={({ item, index }) => {
         return (
           <View style={Styles.imageCarousal}>
             {item.type == 'image' && (
@@ -1274,7 +1270,7 @@ const Item = ({
             )}
             {item.type == 'video' && (
               <>
-   
+
                 <Video
                   // onTouchStart={() => {
                   //     ////console.log("Pause:  ", this.state.pauseVideo)
@@ -1291,7 +1287,7 @@ const Item = ({
                   // onLoad={()=> 
                   //   // pauseCheckHandler(true)
                   //   onVideoPlay(item)
-                  
+
                   // }
                   style={Styles.image}
                 />
@@ -1308,16 +1304,16 @@ const Item = ({
                     bottom: 25,
                     left: 10,
                   }}
-                  onPress={ console.log("first")
+                  onPress={console.log("first")
                     // () =>
                     // // pauseCheckHandler(!pausedCheck)
                     // onVideoPlay(item)
                   }
-                  >
+                >
                   <Text style={{
-                     color: 'black',
-                     fontSize: 15,
-                     marginRight: 3,
+                    color: 'black',
+                    fontSize: 15,
+                    marginRight: 3,
                   }}>
                     {pausedCheck ? 'Play' : 'Pause'}
                   </Text>
@@ -1355,7 +1351,7 @@ const Item = ({
           justifyContent: 'center',
           marginRight: 5,
         }}>
-        <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
+        <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
           {' '}
           {views}
         </Text>
@@ -1363,13 +1359,14 @@ const Item = ({
       </TouchableOpacity>
 
       <TouchableOpacity
+        onPress={sharePost}
         style={{
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
           marginRight: 5,
         }}>
-        <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
+        <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
           {shares}
         </Text>
         <Ionicons name="share-social-sharp" size={20} color="#CD853F" />
@@ -1383,7 +1380,7 @@ const Item = ({
           justifyContent: 'center',
           marginRight: 5,
         }}>
-        <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
+        <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
           {comments}
         </Text>
         <Feather name="message-square" size={18} color="#CD853F" />
@@ -1396,26 +1393,26 @@ const Item = ({
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
+        <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
           {likes}
         </Text>
         <AntDesign name="hearto" size={18} color="#CD853F" />
       </TouchableOpacity>
     </View>
 
-    <View style={{width: width, height: 50}}>
+    <View style={{ width: width, height: 50 }}>
       <TouchableOpacity
-        style={{position: 'absolute', left: 10, top: 5}}
+        style={{ position: 'absolute', left: 10, top: 5 }}
         onPress={onDetailsClick}>
         <View style={Styles.btnHome}>
-          <Text style={{color: '#fff', fontWeight: 'bold'}}>
+          <Text style={{ color: '#fff', fontWeight: 'bold' }}>
             {ArabicText.Details}
           </Text>
         </View>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={{position: 'absolute', left: 100, top: 12, zIndex: 999}}
+        style={{ position: 'absolute', left: 100, top: 12, zIndex: 999 }}
         onPress={onPostDelete}>
         <AntDesign name="delete" size={19} color="#cd853f" />
       </TouchableOpacity>
@@ -1453,7 +1450,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  textcolor: {color: '#fff', fontWeight: '600'},
+  textcolor: { color: '#fff', fontWeight: '600' },
 
   headerContainer: {
     backgroundColor: '#d2691e',

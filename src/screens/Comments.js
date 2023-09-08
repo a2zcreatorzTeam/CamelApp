@@ -105,6 +105,7 @@ class Comments extends Component {
           comment_id: item.id,
         })
         .then(response => {
+          this.getCommentsOnPost()
           console.log('response.data', response.data);
           if (response.data.status == true) {
             this.setState({loading: false});
@@ -199,8 +200,8 @@ class Comments extends Component {
             }}>
             <View
               style={{
-                alignItems: 'center',
-                right: 60,
+                alignItems:'flex-end' ,
+                right: 100,
                 top: 10,
                 position: 'absolute',
                 marginBottom: 10,
@@ -360,7 +361,7 @@ refreshControl={
               onChangeText={text => this.setState({newComment: text})}
               placeholder={ArabicText.comments}
               placeholderTextColor="#b0b0b0"
-              value={this.newComment}></TextInput>
+              value={this.state?.newComment}></TextInput>
           </View>
         )}
         {this.state.flagForReplyComment && (
@@ -382,7 +383,7 @@ refreshControl={
               onChangeText={text => this.setState({newReply: text})}
               placeholder={ArabicText.Reply}
               placeholderTextColor="#b0b0b0"
-              value={this?.newReply}></TextInput>
+              value={this?.state?.newReply}></TextInput>
           </View>
         )}
       </SafeAreaView>

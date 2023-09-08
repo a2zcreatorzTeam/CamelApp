@@ -235,7 +235,10 @@ export default function Navigation() {
                options={{ header: () => <Header /> }} />
             <Stack.Screen name='Comments'
                component={Comments}
-               options={{ header: () => <Header /> }} />
+               // options={{ header: () => <Header /> 
+               // }}
+               options={{ headerShown: false }}
+            />
 
             <Stack.Screen name='Forgetpass'
                component={Forgetpass}

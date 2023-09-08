@@ -8,18 +8,21 @@ import {
   FlatList,
   SafeAreaView,
   LogBox,
-  RefreshControl
+  RefreshControl,
+  ActivityIndicator,
+  StyleSheet,
+  Dimensions
 } from 'react-native';
 import { Styles } from '../styles/globlestyle';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import camelapp from '../api/camelapp';
 import Loader from '../components/PleaseWait';
 import { Card } from 'react-native-paper';
 import * as ArabicText from '../language/EnglishToArabic';
-import { set } from 'react-native-reanimated';
+import Header from '../components/Header';
+const { width } = Dimensions.get('screen')
 class Comments extends Component {
   constructor(props) {
     super(props);
@@ -34,20 +37,21 @@ class Comments extends Component {
       flagForReplyComment: false,
       loader: true,
       loading: false,
-      isRefreshing: false
+      isRefreshing: false,
+      searchText: '',
+      searchedItem: '',
+      dataNotFound: false,
+      filterPosts: []
 
     };
-    // this.getCommentsOnPost();
 
     LogBox.ignoreLogs([
       'Non-serializable values were found in the navigation state.',
     ]);
   }
   componentDidMount() {
-    console.log("componentDidMount");
     this.getCommentsOnPost()
   }
-
   addReplyToComment = () => {
     if (this.state.newReply != '') {
       camelapp
@@ -75,7 +79,6 @@ class Comments extends Component {
       flagForReplyComment: true,
     });
   };
-
   onLikesClick = item => {
     this.setState({ loading: true });
     let user = this.state.user;
@@ -88,7 +91,6 @@ class Comments extends Component {
         })
         .then(response => {
           this.getCommentsOnPost()
-          console.log('response.data', response.data);
           if (response.data.status == true) {
             this.setState({ loading: false });
             // alert(ArabicText.Succesfully_liked);
@@ -106,14 +108,15 @@ class Comments extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-
   getCommentsOnPost = async () => {
+    const { searchedItem } = this.state
     await camelapp
       .post('/get/comment', {
         post_id: this.props.route.params.post.id,
       })
       .then(res => {
-        this.setState({ commentsList: res.data });
+        this.setState({ commentsList: res.data, loader: false });
+        searchedItem && this.searchHandler(searchedItem)
       });
   };
   onRefresh = () => {
@@ -151,7 +154,33 @@ class Comments extends Component {
         });
     }
   };
+  // =============NEW Updated Search Handler==============
+  searchHandler = value => {
+    const { dataNotFound } = this.state
+    if (!value) {
+      this.setState({ filterPosts: this.state.commentsList, searchedItem: "" });
+    } else {
+      this.setState({ searchedItem: value })
+      // Data Filtration
+      const filteredData = this.state?.commentsList?.filter(item => {
+        const {
+          comment
+        } = item;
+        return (
+          comment?.toLowerCase().includes(value.toLowerCase())
+        );
+      });
+      if (filteredData?.length > 0) {
+        this.setState({ filterPosts: filteredData, dataNotFound: !dataNotFound });
+      } else {
+        this.setState({ filterPosts: [], dataNotFound: !dataNotFound });
+      }
+    }
+  };
 
+  search(text) {
+    this.setState({ searchText: text });
+  }
   render() {
     const Item = ({
       userName,
@@ -279,7 +308,6 @@ class Comments extends Component {
         </Card.Actions>
       </Card>
     );
-
     const renderItem = ({ item }) => {
       return (
         <Item
@@ -294,15 +322,51 @@ class Comments extends Component {
         />
       );
     };
+    const { dataNotFound, loader, searchText, commentsList, filterPosts, searchedItem } = this.state
     return (
       <SafeAreaView style={Styles.containerComments}>
+        {loader == true && (
+          <>
+            <Header
+              navRoute="Home"
+              onChangeText={text => {
+                this.search(text);
+              }}
+              onPressSearch={() => this.searchFunction(searchText)}
+            />
+            <ActivityIndicator
+              size="large"
+              color="#D2691Eff"
+              animating={loader}
+              style={styles.activityIndicator}
+            />
+          </>
+        )}
+
         {
-          this.state.commentsList?.length ?
+          loader == false && <Header
+            navRoute="Home"
+            onChangeText={text => {
+              if (text) {
+                this.search(text);
+              }
+              else {
+                this.setState({ searchedItem: '' })
+              }
+            }}
+            onPressSearch={() => this?.searchHandler(this.state.searchText)}
+          />
+        }
+
+        {
+          this.state.commentsList?.length && loader == false ?
             <FlatList
+              extraData={commentsList}
+              key={dataNotFound}
               refreshControl={
                 <RefreshControl onRefresh={() => this.onRefresh()} refreshing={this?.state?.isRefreshing} />
               }
-              data={this.state?.commentsList}
+              data={searchedItem ? filterPosts : commentsList}
               renderItem={(item) => renderItem(item)}
               keyExtractor={item => item?.id}
             // initialNumToRender={5}
@@ -319,6 +383,7 @@ class Comments extends Component {
               marginBottom: 10,
               alignItems: 'center',
               justifyContent: 'space-evenly',
+              marginTop:'auto'
             }}>
             <TouchableOpacity
               style={{
@@ -365,4 +430,19 @@ class Comments extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: width,
+    backgroundColor: '#eee',
+  },
+  activityIndicator: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+  },
+});
 export default Comments;

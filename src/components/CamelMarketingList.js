@@ -59,7 +59,7 @@ class CamelMarketingList extends Component {
           item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) > -1
         );
       });
-      console.log('tempPost.length', tempPost.length);
+      console.log('tempPost.length--camelmarketing', tempPost.length);
 
       this.setState({filterPosts: tempPost});
     }

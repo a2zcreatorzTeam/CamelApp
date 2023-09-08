@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -11,9 +11,9 @@ import Post from './Post';
 import camelapp from '../api/camelapp';
 import * as ArabicText from '../language/EnglishToArabic';
 import AddButton from './AddButton';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import Loader from './PleaseWait';
 import Header from '../components/Header';
 
@@ -33,32 +33,33 @@ class CamelTreatmentList extends Component {
   }
 
   searchFunction(searchtext) {
-    console.log('searchtext', searchtext);
+    console.log('searchtext366', searchtext);
 
     if (searchtext != undefined && searchtext.length != 0) {
       let tempPost = this.state.posts.filter(item => {
+        console.log(item, "itemmm");
         return (
-          item.user_name.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item.user_phone.toLowerCase().indexOf(searchtext) > -1 ||
-          item.id == this.searchtext ||
-          item.title.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item.location.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.category_name.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.user_phone.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.description.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) > -1
+          item?.user_name.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
+          item?.user_phone.toLowerCase().indexOf(searchtext) > -1 ||
+          item?.id == this.searchtext ||
+          item?.title.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
+          item?.location.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
+          item?.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) >
+          -1 ||
+          item?.category_name.toLowerCase().indexOf(searchtext.toLowerCase()) >
+          -1 ||
+          item?.user_phone.toLowerCase().indexOf(searchtext.toLowerCase()) >
+          -1 ||
+          item?.description.toLowerCase().indexOf(searchtext.toLowerCase()) >
+          -1 ||
+          item?.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) >
+          -1 ||
+          item?.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) > -1
         );
       });
-      console.log('tempPost.length', tempPost.length);
+      console.log('tempPost8989', tempPost);
 
-      this.setState({filterPosts: tempPost});
+      this.setState({ filterPosts: tempPost });
     }
   }
 
@@ -66,7 +67,7 @@ class CamelTreatmentList extends Component {
     //console.log("post[0]", this.state.posts[0])
 
     //console.log("text", text);
-    this.setState({searchText: text});
+    this.setState({ searchText: text });
   }
 
   playVideo(item) {
@@ -83,7 +84,7 @@ class CamelTreatmentList extends Component {
 
   ScrollToRefresh() {
     this.viewPosts();
-    this.setState({refreshing: false});
+    this.setState({ refreshing: false });
   }
   async viewPosts() {
     try {
@@ -95,9 +96,9 @@ class CamelTreatmentList extends Component {
           let array = item?.img;
           let imagesArray = [];
           array?.forEach(element => {
-            imagesArray?.push({type: 'image', source: element});
+            imagesArray?.push({ type: 'image', source: element });
           });
-          imagesArray?.push({type: 'video', source: item?.video});
+          imagesArray?.push({ type: 'video', source: item?.video });
           item['imagesArray'] = imagesArray;
 
           arrayPosts[index] = item;
@@ -126,24 +127,25 @@ class CamelTreatmentList extends Component {
     });
   };
   render() {
-    const renderItem = ({item}) => {
+    console.log("======camelTreatmentttt=====");
+    const renderItem = ({ item }) => {
       return (
         <Post
           item={item}
           image={item.img}
           date={item?.date}
-          likes={item.like_count}
+          likes={item?.like_count}
           likeStatus={item?.flagForLike}
-          comments={item.comment_count}
-          shares={item.share_count}
-          views={item.view_count}
-          userName={item.name}
-          userCity={item.user_location}
-          title={item.title}
-          userImage={item.user_images}
+          comments={item?.comment_count}
+          shares={item?.share_count}
+          views={item?.view_count}
+          userName={item?.name}
+          userCity={item?.user_location}
+          title={item?.title}
+          userImage={item?.user_images}
           onCommentsClick={() => onCommentsClick(item)}
-          category={item.category_name}
-          price={item.price}
+          category={item?.category_name}
+          price={item?.price}
           onLikesClick={() => onLikesClick(item)}
           onDetailsClick={() => onDetailsClick(item)}
           imagesArray={item?.imagesArray}
@@ -151,15 +153,15 @@ class CamelTreatmentList extends Component {
           onTouchStart={() => this.playVideo(item)}
           playVideo={true}
           pauseFlag={item?.flagForVideo}
-          onCategoryClick={()=>console.log("first")}
-       
-       
+          onCategoryClick={() => console.log("first")}
+
+
         />
       );
     };
 
     const onCommentsClick = item => {
-      let {user} = this.props;
+      let { user } = this.props;
       user = user.user.user;
       let post_id = item.id;
       if (user != undefined) {
@@ -183,9 +185,9 @@ class CamelTreatmentList extends Component {
     const sharePosts = item => {
       console.log('working');
 
-      this.setState({loading: true});
+      this.setState({ loading: true });
 
-      let {user} = this.props;
+      let { user } = this.props;
       user = user.user.user;
       let post_id = item.id;
       if (user != undefined) {
@@ -206,20 +208,20 @@ class CamelTreatmentList extends Component {
               tempItem['share_count'] = share_count;
               filterPosts[tempIndex] = tempItem;
 
-              this.setState({loading: false, filterPosts: filterPosts});
+              this.setState({ loading: false, filterPosts: filterPosts });
               this.viewPosts()
             }
           })
           .catch(error => {
             console.log('error', error);
-            this.setState({loading: false});
+            this.setState({ loading: false });
           });
       } else {
         this.props.navigation.navigate('Login');
       }
     };
 
-   const onCategoryClick = async item => {
+    const onCategoryClick = async item => {
       console.log('====================================');
       console.log("onCategoryClick");
       console.log('====================================');
@@ -250,15 +252,15 @@ class CamelTreatmentList extends Component {
       if (item.category_id == '9') {
         this.props.navigation.navigate('CamelMarketingList');
       }
-  
+
       if (item.category_id == '11') {
         this.props.navigation.navigate('FemaleList');
       }
     };
     const onLikesClick = item => {
-      this.setState({loading: false});
+      this.setState({ loading: false });
 
-      let {user} = this.props;
+      let { user } = this.props;
       user = user.user.user;
       let post_id = item.id;
       if (user != undefined) {
@@ -281,8 +283,8 @@ class CamelTreatmentList extends Component {
               tempItem['flagForLike'] = true;
               filterPosts[tempIndex] = tempItem;
 
-              this.setState({loading: false, filterPosts: filterPosts});
-            
+              this.setState({ loading: false, filterPosts: filterPosts });
+
             }
             if (response.data.status == false) {
               let filterPosts = this.state.filterPosts;
@@ -292,14 +294,14 @@ class CamelTreatmentList extends Component {
               tempItem['like_count'] = like_count;
               tempItem['flagForLike'] = false;
               filterPosts[tempIndex] = tempItem;
-              this.setState({loading: false, filterPosts: filterPosts});
+              this.setState({ loading: false, filterPosts: filterPosts });
               // alert(ArabicText.Successfully_Unliked);
             }
             this.viewPosts()
           })
           .catch(error => {
             console.log('error', error);
-            this.setState({loading: false});
+            this.setState({ loading: false });
           });
       } else {
         this.props.navigation.navigate('Login');
@@ -307,7 +309,7 @@ class CamelTreatmentList extends Component {
     };
 
     const onDetailsClick = item => {
-      let {user} = this.props;
+      let { user } = this.props;
       user = user.user.user;
       let post_id = item?.id;
       if (user != undefined) {
@@ -330,7 +332,7 @@ class CamelTreatmentList extends Component {
     };
 
     const onAddButtonClick = () => {
-      let {user} = this.props;
+      let { user } = this.props;
       if (user.user.status == true) {
         this.props.navigation.navigate('TreatingCamel');
       } else {
@@ -352,7 +354,7 @@ class CamelTreatmentList extends Component {
             size="large"
             color="#D2691Eff"
             animating={this.state.loader}
-            style={{marginTop: 20}}
+            style={{ marginTop: 20 }}
           />
         )}
 
@@ -373,7 +375,7 @@ class CamelTreatmentList extends Component {
                 />
               }
             />
-            <View style={{marginBottom: 70}}></View>
+            <View style={{ marginBottom: 70 }}></View>
           </View>
         )}
       </View>

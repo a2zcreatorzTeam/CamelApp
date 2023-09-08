@@ -133,7 +133,7 @@ console.log(res,"RESPONSE CAMEL SELLINg");
 
         )
       });
-      console.log("tempPost.length", tempPost.length);
+      console.log("tempPost.length==camelSelling", tempPost.length);
 
       this.setState({ filterPosts: tempPost })
     }

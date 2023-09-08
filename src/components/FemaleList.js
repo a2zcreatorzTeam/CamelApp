@@ -56,7 +56,7 @@ class CamelFemaleList extends Component {
 
         )
       });
-      console.log("tempPost.length", tempPost.length);
+      console.log("tempPost.length--femaleList", tempPost.length);
 
       this.setState({ filterPosts: tempPost })
     }
@@ -111,7 +111,7 @@ class CamelFemaleList extends Component {
     });
   };
   render() {
-    console.log('=====================this.state.filterPosts===============');
+    console.log('=====================this.state.femaleListtt===============');
     console.log(this.state.filterPosts);
     console.log('====================================');
     const renderItem = ({ item }) => {

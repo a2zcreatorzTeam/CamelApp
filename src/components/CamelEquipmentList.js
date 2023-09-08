@@ -108,7 +108,7 @@ class CamelEquipmentList extends Component {
 
         )
       });
-      console.log("tempPost.length", tempPost.length);
+      console.log("tempPost.length--camelequipment", tempPost.length);
 
       this.setState({ filterPosts: tempPost })
     }

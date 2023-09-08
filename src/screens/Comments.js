@@ -328,7 +328,6 @@ class Comments extends Component {
         {loader == true && (
           <>
             <Header
-              navRoute="Home"
               onChangeText={text => {
                 this.search(text);
               }}
@@ -345,7 +344,6 @@ class Comments extends Component {
 
         {
           loader == false && <Header
-            navRoute="Home"
             onChangeText={text => {
               if (text) {
                 this.search(text);
@@ -361,7 +359,6 @@ class Comments extends Component {
         {
           this.state.commentsList?.length && loader == false ?
             <FlatList
-
               extraData={commentsList}
               key={dataNotFound}
               refreshControl={

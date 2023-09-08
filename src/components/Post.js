@@ -61,7 +61,7 @@ const Post = ({
       flagForVideo,
       lastBidPrice,
     } = item;
-console.log(flagForLike,"flagForLikeflagForLike");
+// console.log(flagForLike,"flagForLikeflagForLike");
     return {
       price,
       title,
@@ -107,7 +107,6 @@ console.log(flagForLike,"flagForLikeflagForLike");
     onCommentsClick(item);
   }, [onCommentsClick, item]);
   const handleShareClick = useCallback(() => {
-    console.log("sharebtn");
     sharePost(item);
   }, [sharePost, item]);
 
@@ -124,7 +123,6 @@ console.log(flagForLike,"flagForLikeflagForLike");
   }, [onUserProfileClick, item]);
 
   const handleCategoryClick = useCallback(() => {
-    console.log(item, "POST SCREEN ON CATEGORY");
     onCategoryClick(item);
   }, [onCategoryClick, item]);
 
@@ -183,7 +181,6 @@ console.log(flagForLike,"flagForLikeflagForLike");
           backgroundColor: '#f3f3f3',
         }}>
         {imagesArray?.map((item, index) => {
-          console.log(item,"itemmmmmmm");
           const isImage = item.type === 'image';
           const isVideo = item.type === 'video';
 

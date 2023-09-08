@@ -60,7 +60,7 @@ class CamelFoodList extends Component {
           item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) > -1
         );
       });
-      console.log('tempPost.length', tempPost.length);
+      console.log('tempPost.length--camelFood', tempPost.length);
 
       this.setState({filterPosts: tempPost});
     }

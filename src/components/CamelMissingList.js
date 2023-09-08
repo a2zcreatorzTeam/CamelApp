@@ -57,7 +57,7 @@ class CamelFoodList extends Component {
 
         )
       });
-      console.log("tempPost.length", tempPost.length);
+      console.log("tempPost.length--camelMising", tempPost.length);
 
       this.setState({ filterPosts: tempPost })
     }

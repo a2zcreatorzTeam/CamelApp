@@ -57,7 +57,7 @@ class CamelMovingList extends Component {
 
                 )
             });
-            console.log("tempPost.length", tempPost.length);
+            console.log("tempPost.length--camelmoving", tempPost.length);
 
             this.setState({ filterPosts: tempPost })
         }

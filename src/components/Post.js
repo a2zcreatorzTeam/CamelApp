@@ -53,7 +53,7 @@ const Post = ({
     } else {
       console.log("userProfillee");
       navigation?.navigate('UserProfile', {
-        // user_id: item?.user_id,
+        user_id: item?.user_id,
       });
     }
   };

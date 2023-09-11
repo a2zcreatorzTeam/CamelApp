@@ -172,7 +172,7 @@ class UserProfile extends Component {
 
   componentDidMount() {
     console.log("logggguserprofill");
-    // this.userProfile()
+    this.userProfile()
   }
 
   followRequest(followRequest) {

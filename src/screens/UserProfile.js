@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -11,25 +11,23 @@ import {
   Alert,
   Modal,
   Platform,
-  RefreshControl,
 } from 'react-native';
-import {Card} from 'react-native-paper';
+import { Card } from 'react-native-paper';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {Styles} from '../styles/globlestyle';
+import { Styles } from '../styles/globlestyle';
 
 import camelapp from '../api/camelapp';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import * as ArabicText from '../language/EnglishToArabic';
 
 const width = Dimensions.get('screen').width;
-const height = Dimensions.get('screen').height;
 
 class UserProfile extends Component {
   constructor(props) {
@@ -45,11 +43,12 @@ class UserProfile extends Component {
       profImgWidth: 0,
       profImgHeight: 0,
       refreshing: false,
+      loading: false
     };
   }
 
   sendWhatsAppMessage() {
-    let {user} = this.props;
+    let { user } = this.props;
 
     //console.log("user", user.user.user);
 
@@ -83,22 +82,21 @@ class UserProfile extends Component {
       this.props.navigation.navigate('Login');
     }
   }
-
-  audioCall(){
-    let {user} = this.props;
+  audioCall() {
+    let { user } = this.props;
     if (user.user.user != undefined) {
       if (user?.user?.user?.id != this.props.route.params.userProfile.user.id) {
-          console.log('callNumber ----> ', this.props.route.params.userProfile.user.phone);
-          let phoneNumber = this.props.route.params.userProfile.user?.phone;
-          let phone = this.props.route.params.userProfile.user?.phone;
+        console.log('callNumber ----> ', this.props.route.params.userProfile.user.phone);
+        let phoneNumber = this.props.route.params.userProfile.user?.phone;
+        let phone = this.props.route.params.userProfile.user?.phone;
 
-          if (Platform.OS !== 'android') {
-            phoneNumber = `telprompt:${phone}`;
-          }
-          else  {
-            phoneNumber = `tel:${phone}`;
-          }
-          Linking.canOpenURL(phoneNumber)
+        if (Platform.OS !== 'android') {
+          phoneNumber = `telprompt:${phone}`;
+        }
+        else {
+          phoneNumber = `tel:${phone}`;
+        }
+        Linking.canOpenURL(phoneNumber)
           .then(supported => {
             if (!supported) {
               Alert.alert('Phone number is not available');
@@ -107,8 +105,8 @@ class UserProfile extends Component {
             }
           })
           .catch(err => console.log(err));
-        }
-       else {
+      }
+      else {
         alert('This is your post');
       }
     } else {
@@ -116,7 +114,7 @@ class UserProfile extends Component {
     }
   }
   sendMessage() {
-    let {user} = this.props;
+    let { user } = this.props;
     if (user.user.user != undefined) {
       if (user?.user?.user?.id != this.props.route.params.userProfile.user.id) {
         if (
@@ -136,31 +134,50 @@ class UserProfile extends Component {
       this.props.navigation.navigate('Login');
     }
   }
+  userProfile = async () => {
+    const item = this.props.route?.params
+    this.setState({ loading: true });
+    let { user } = this.props;
+    user = user?.user;
+    await camelapp
+      .post('/userprofile', {
+        user_id: item?.user_id,
+      })
+      .then(response => {
+        const data = response.data
+        if (data) {
+          let tempObjOfUserProfile = data;
+          let tempArrayOfUserPosts = [];
+          for (let i = 0; i < tempObjOfUserProfile.posts.length; i++) {
+            tempArrayOfUserPosts.push(tempObjOfUserProfile.posts[i].post);
+          }
+          this.setState({
+            following: data?.following,
+            followers: data?.follwers,
+            postData: tempArrayOfUserPosts,
+            user: data.user,
+            noOfPosts: data?.posts.length,
+          });
+        }
+        if (user !== undefined) {
+          this.checkFriendshipStatus();
+        }
+        this.setState({ loading: false });
+      })
+      .catch(error => {
+        console.log('error', error);
+        this.setState({ loading: false });
+      });
+  }
 
   componentDidMount() {
-    if (this.props.route.params.userProfile) {
-      let tempObjOfUserProfile = this.props.route.params.userProfile;
-      let tempArrayOfUserPosts = [];
-      for (let i = 0; i < tempObjOfUserProfile.posts.length; i++) {
-        tempArrayOfUserPosts.push(tempObjOfUserProfile.posts[i].post);
-      }
-
-      this.setState({
-        following: this.props.route.params.userProfile.following,
-        followers: this.props.route.params.userProfile.follwers,
-        postData: tempArrayOfUserPosts,
-        user: this.props.route.params.userProfile.user,
-        noOfPosts: this.props.route.params.userProfile.posts.length,
-      });
-    }
-    if (this.props.user.user.user !== undefined) {
-      this.checkFriendshipStatus();
-    }
+    console.log("logggguserprofill");
+    // this.userProfile()
   }
 
   followRequest(followRequest) {
     let follower_id = this.state.user.id;
-    let {user} = this.props;
+    let { user } = this.props;
     user = user.user.user;
 
     if (user != undefined) {
@@ -185,18 +202,17 @@ class UserProfile extends Component {
       this.props.navigation.navigate('Login');
     }
   }
-
   // // check Friendship Status
   checkFriendshipStatus() {
-    let user_id = this.props.user.user.user.id;
-    let friend_id = this.props.route.params.userProfile.user.id;
+    let user_id = this.props?.user?.user?.user?.id;
+    let friend_id = this.props.route?.params?.user_id;
     console.log(user_id, 'user_id');
     console.log(friend_id, '==friend_id');
 
     camelapp
       .get('/friendshipstatus/' + user_id + '/' + friend_id)
       .then(res => {
-        this.setState({friendshipStatus: res?.data?.user_status});
+        this.setState({ friendshipStatus: res?.data?.user_status });
         console.log(res?.data?.user_status, 'Friend Ship Status');
       })
       .catch(error => {
@@ -206,7 +222,7 @@ class UserProfile extends Component {
 
   friendRequestHandler(status) {
     let friend_id = this.state.user.id;
-    let {user} = this.props;
+    let { user } = this.props;
     user = user.user.user;
 
     if (user != undefined) {
@@ -231,11 +247,10 @@ class UserProfile extends Component {
 
   ScrollToRefresh() {
     this.state.postData;
-    this.setState({refreshing: false});
+    this.setState({ refreshing: false });
   }
 
   render() {
-console.log("USER PRFILE")
     const Item = ({
       userName,
       userCity,
@@ -263,9 +278,9 @@ console.log("USER PRFILE")
             height: 60,
             flexDirection: 'row',
           }}>
-          <TouchableOpacity style={{marginLeft: 10}}>
+          <TouchableOpacity style={{ marginLeft: 10 }}>
             <View style={Styles.btnHome2}>
-              <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
+              <Text style={{ color: '#D2691Eff', fontWeight: 'bold' }}>
                 {category}
               </Text>
             </View>
@@ -286,13 +301,13 @@ console.log("USER PRFILE")
                 height: 50,
               }}>
               <Text
-                style={{color: 'black', textAlign: 'right'}}
+                style={{ color: 'black', textAlign: 'right' }}
                 numberOfLines={1}>
-                {userName}
+                {userName + "hello"}
               </Text>
               <Text
                 style={{
-                  fontSize:9,
+                  fontSize: 9,
                   paddingRight: 5,
                   color: 'black',
                   textAlign: 'right',
@@ -300,7 +315,7 @@ console.log("USER PRFILE")
                 {date}
               </Text>
               <Text
-                style={{color: 'black', textAlign: 'right'}}
+                style={{ color: 'black', textAlign: 'right' }}
                 numberOfLines={1}>
                 {userCity}
               </Text>
@@ -323,7 +338,7 @@ console.log("USER PRFILE")
         //  onPress={() => navigation.navigate({navigation})}
         >
           <Card.Cover
-            source={{uri: 'http://www.tasdeertech.com/images/posts/' + image}}
+            source={{ uri: 'http://www.tasdeertech.com/images/posts/' + image }}
             resizeMode="cover"
             style={Styles.image}
           />
@@ -344,40 +359,40 @@ console.log("USER PRFILE")
             }}>
             {views}
           </Text>
-          <View style={{right: 138, position: 'absolute', color: 'black'}}>
+          <View style={{ right: 138, position: 'absolute', color: 'black' }}>
             <Ionicons name="ios-eye-sharp" size={18} color="#cd853f" />
           </View>
-          <Text style={{right: 120, position: 'absolute', color: 'black'}}>
+          <Text style={{ right: 120, position: 'absolute', color: 'black' }}>
             {shares}
           </Text>
-          <TouchableOpacity style={{right: 98, position: 'absolute'}}>
+          <TouchableOpacity style={{ right: 98, position: 'absolute' }}>
             <Ionicons name="share-social-sharp" size={18} color="#cd853f" />
           </TouchableOpacity>
-          <Text style={{right: 77, position: 'absolute', color: 'black'}}>
+          <Text style={{ right: 77, position: 'absolute', color: 'black' }}>
             {comments}
           </Text>
-          <TouchableOpacity style={{right: 55, position: 'absolute'}}>
+          <TouchableOpacity style={{ right: 55, position: 'absolute' }}>
             <Feather name="message-square" size={18} color="#cd853f" />
           </TouchableOpacity>
-          <Text style={{right: 33, position: 'absolute', color: 'black'}}>
+          <Text style={{ right: 33, position: 'absolute', color: 'black' }}>
             {likes}
           </Text>
-          <TouchableOpacity style={{right: 10, position: 'absolute'}}>
+          <TouchableOpacity style={{ right: 10, position: 'absolute' }}>
             <AntDesign name="hearto" size={18} color="#cd853f" />
           </TouchableOpacity>
-          <TouchableOpacity style={{left: 5, position: 'absolute'}}>
+          <TouchableOpacity style={{ left: 5, position: 'absolute' }}>
             <View style={Styles.btnHome}>
-              <Text style={{color: '#fff', fontWeight: 'bold'}}>
+              <Text style={{ color: '#fff', fontWeight: 'bold' }}>
                 {ArabicText.Details}
               </Text>
             </View>
           </TouchableOpacity>
-          <Text style={{right: 120, position: 'absolute'}}>{}</Text>
+          <Text style={{ right: 120, position: 'absolute' }}>{ }</Text>
         </View>
       </Card>
     );
 
-    const renderItem = ({item}) => {
+    const renderItem = ({ item }) => {
       return (
         <Item
           item={item}
@@ -410,7 +425,7 @@ console.log("USER PRFILE")
               name="user-plus"
               size={30}
               color="#D2691Eff"
-              style={{margin: 5}}
+              style={{ margin: 5 }}
             />
           </TouchableOpacity>
         );
@@ -422,7 +437,7 @@ console.log("USER PRFILE")
               name="user-minus"
               size={30}
               color="#D2691Eff"
-              style={{margin: 5}}
+              style={{ margin: 5 }}
             />
           </TouchableOpacity>
         );
@@ -434,7 +449,7 @@ console.log("USER PRFILE")
               name="user-check"
               size={30}
               color="#D2691Eff"
-              style={{margin: 5}}
+              style={{ margin: 5 }}
             />
           </TouchableOpacity>
         );
@@ -444,23 +459,23 @@ console.log("USER PRFILE")
     return (
       <View style={styles.container}>
         <View style={Styles.headerProfile}>
-          <View style={{position: 'absolute', top: 40, right: 20}}>
+          <View style={{ position: 'absolute', top: 40, right: 20 }}>
             <TouchableOpacity onPress={() => this.followRequest()}>
               <Entypo
                 name="link"
                 size={30}
                 color="#D2691Eff"
-                style={{margin: 5}}
+                style={{ margin: 5 }}
               />
             </TouchableOpacity>
           </View>
 
-          <View style={{position: 'absolute', top: 40, left: 20}}>
+          <View style={{ position: 'absolute', top: 40, left: 20 }}>
             <FriendshipStatusBTN />
           </View>
 
           <View>
-            <TouchableOpacity onPress={() => this.setState({modal: true})}>
+            <TouchableOpacity onPress={() => this.setState({ modal: true })}>
               <Image
                 source={{
                   uri:
@@ -488,9 +503,9 @@ console.log("USER PRFILE")
                 style={Styles.detailsIcons}>
                 <FontAwesome name="whatsapp" size={20} color="#CD853F" />
               </TouchableOpacity>
-              <TouchableOpacity style={Styles.detailsIcons} 
-              
-              onPress={()=> this.audioCall()}>
+              <TouchableOpacity style={Styles.detailsIcons}
+
+                onPress={() => this.audioCall()}>
                 <AntDesign name="mobile1" size={20} color="#CD853F" />
               </TouchableOpacity>
               <TouchableOpacity
@@ -511,8 +526,8 @@ console.log("USER PRFILE")
               position: 'absolute',
               alignItems: 'center',
             }}>
-            <Text style={{color: '#fff'}}>{this.state.followers}</Text>
-            <Text style={{color: '#fff'}}>{ArabicText.Followers}</Text>
+            <Text style={{ color: '#fff' }}>{this.state.followers}</Text>
+            <Text style={{ color: '#fff' }}>{ArabicText.Followers}</Text>
           </View>
 
           <Text
@@ -528,9 +543,9 @@ console.log("USER PRFILE")
             |
           </Text>
 
-          <View style={{alignItems: 'center'}}>
-            <Text style={{color: '#fff'}}>{this.state.noOfPosts}</Text>
-            <Text style={{color: '#fff'}}>{ArabicText.posts}</Text>
+          <View style={{ alignItems: 'center' }}>
+            <Text style={{ color: '#fff' }}>{this.state.noOfPosts}</Text>
+            <Text style={{ color: '#fff' }}>{ArabicText.posts}</Text>
           </View>
 
           <Text
@@ -554,13 +569,13 @@ console.log("USER PRFILE")
               position: 'absolute',
               alignItems: 'center',
             }}>
-            <Text style={{color: '#fff'}}>{this.state.following}</Text>
-            <Text style={{color: '#fff'}}>{ArabicText.Following}</Text>
+            <Text style={{ color: '#fff' }}>{this.state.following}</Text>
+            <Text style={{ color: '#fff' }}>{ArabicText.Following}</Text>
           </View>
         </View>
 
         <FlatList
-        ListEmptyComponent={<Text style={{color:'black', fontSize:17, alignContent:'center', textAlign:'center', marginVertical:30}}> No Post Found</Text>}
+          ListEmptyComponent={<Text style={{ color: 'black', fontSize: 17, alignContent: 'center', textAlign: 'center', marginVertical: 30 }}> No Post Found</Text>}
           data={this.state.postData}
           renderItem={renderItem}
           keyExtractor={item_2 => item_2.id}
@@ -573,7 +588,7 @@ console.log("USER PRFILE")
           visible={this.state.modal}
           transparent={true}
           animationType={'fade'}
-          onRequestClose={() => this.setState({modal: false})}>
+          onRequestClose={() => this.setState({ modal: false })}>
           <View
             style={{
               height: '100%',
@@ -583,8 +598,8 @@ console.log("USER PRFILE")
             }}>
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => this.setState({modal: false})}
-              style={{top: 10, right: 15, position: 'absolute'}}>
+              onPress={() => this.setState({ modal: false })}
+              style={{ top: 10, right: 15, position: 'absolute' }}>
               <AntDesign name="closecircle" size={35} color="#fff" />
             </TouchableOpacity>
 
@@ -601,7 +616,7 @@ console.log("USER PRFILE")
                     'http://www.tasdeertech.com/public/images/profiles/' +
                     this?.state?.user?.image,
                 }}
-                style={{width: width, aspectRatio: 1}}
+                style={{ width: width, aspectRatio: 1 }}
               />
             </View>
           </View>

@@ -23,7 +23,8 @@ export const Styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    overflow: 'hidden',
+    flex:1
+    // overflow: 'hidden',
   },
   containerBidsItem: {
     flex: 1,

@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   FlatList,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -18,27 +19,44 @@ import Video from 'react-native-video';
 import Carousel from 'react-native-snap-carousel';
 import * as ArabicText from '../language/EnglishToArabic';
 const { width, height } = Dimensions.get('screen');
-
+import { useSelector } from 'react-redux';
 //------Global Styling--------------//
 import { Styles } from '../styles/globlestyle';
-
+import { useNavigation } from '@react-navigation/native';
 const Post = ({
   item,
   onCommentsClick,
   onDetailsClick,
   onLikesClick,
-  onUserProfileClick,
+  // onUserProfileClick,
   onCategoryClick,
   sharePost,
   onTouchStart,
   flagForVideo,
   pauseVideo,
-  createdDate
+  createdDate,
+
 
 }) => {
   // console.log(item, "postItemmmmm");
+  const navigation = useNavigation()
   const [modal, setModal] = useState(false);
-  const [pausedCheck, setpausedCheck] = useState(false);
+  const [pausedCheck, setpausedCheck] = useState(true);
+  const user = useSelector(state => state?.user?.user?.user)
+  const [load, setLoad] = useState(false)
+  const [modalItem, setModalItem] = useState('')
+  const [modalItemType, setModalItemType] = useState('')
+
+  const onUserProfileClick = async item => {
+    if (item?.user_id === user?.id) {
+      navigation?.navigate('Profile');
+    } else {
+      console.log("userProfillee");
+      navigation?.navigate('UserProfile', {
+        // user_id: item?.user_id,
+      });
+    }
+  };
 
   // =====MEMO=====
   const memoizedItemProps = useMemo(() => {
@@ -61,7 +79,7 @@ const Post = ({
       flagForVideo,
       lastBidPrice,
     } = item;
-// console.log(flagForLike,"flagForLikeflagForLike");
+    // console.log(item,"flagForLikeflagForLike");
     return {
       price,
       title,
@@ -118,13 +136,16 @@ const Post = ({
     onLikesClick(item);
   }, [onLikesClick, item]);
 
-  const handleUserProfileClick = useCallback(() => {
-    onUserProfileClick(item);
-  }, [onUserProfileClick, item]);
+  // const handleUserProfileClick = useCallback(() => {
+  //   onUserProfileClick && onUserProfileClick(item);
+  // }, [onUserProfileClick, item]);
 
   const handleCategoryClick = useCallback(() => {
     onCategoryClick(item);
   }, [onCategoryClick, item]);
+
+
+
 
   // price={item?.price}
   // item={item}
@@ -156,7 +177,7 @@ const Post = ({
         {/* Profile Btn */}
         <TouchableOpacity
           activeOpacity={0.9}
-          onPress={handleUserProfileClick}
+          onPress={() => onUserProfileClick(item)}
           style={styles.userIcon}>
           <View style={{ maxWidth: 200, paddingRight: 5, marginBottom: 2 }}>
             <Text style={styles.userName}>{name}</Text>
@@ -193,7 +214,7 @@ const Post = ({
           return (
             <TouchableWithoutFeedback
               key={index}
-              onPress={() => setModal(true)}
+              onPress={() => { setModal(true), setModalItem(mediaSource), setModalItemType(item?.type) }}
               style={{ backgroundColor: 'yellow' }}>
               <View
                 style={[Styles.imageCarousal, { backgroundColor: '#f3f3f3' }]}>
@@ -215,32 +236,63 @@ const Post = ({
                   />
                 )}
 
-                {/* {isVideo && (
-                  <>
-                    <Video
-                    
-                      repeat={true}
-                      // onTouchStart={()=> setpausedCheck(false)}
+                {isVideo && (
+                  <View style={{ flex: 1, backgroundColor: '#ededed' }}>
+                    {pausedCheck &&
+                      <Image
+                        activeOpacity={0.4}
+                        source={require('../../assets/camel3.png')}
+                        resizeMode={'cover'}
+                        style={[Styles.image, { backgroundColor: 'rgba(0,0,0,0.5)', opacity: 0.3 }]}
+                      />
+                      // :
+                      // <Video
+                      //   onLoadStart={() => setLoad(true)}
+                      //   onReadyForDisplay={() => setLoad(false)}
+                      //   source={{
+                      //     uri: 'http://www.tasdeertech.com/videos/' + item.source,
+                      //   }}
+                      //   key={String(index)}
+                      //   resizeMode="contain"
+                      //   repeat={true}
+                      //   controls={false}
+                      //   paused={pausedCheck}
+                      //   style={[Styles.image, {
+                      //     width: width,
+                      //     height: height / 2.5,
 
-                      key={index}
-                      controls={false}
-                      source={mediaSource}
-                      resizeMode="stretch"
-                      style={Styles.image}
-                      paused={pausedCheck}
-                      onLoad={() => {
-                        setpausedCheck(true);
-                      }}
-                    />
+                      //   }]}
+                      // />
+                    }
                     <TouchableOpacity
-                      style={styles.mediaControllerBTNs}
-                      onPress={() => setpausedCheck(!pausedCheck)}>
-                      <Text style={styles.mediaControllerTxt}>
-                        {pausedCheck ? 'Play' : 'Pause'}
-                      </Text>
+                      style={{
+                        height: 70,
+                        width: 70,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        position: 'absolute',
+                        elevation: 2,
+                        bottom: height / 6,
+                        left: width / 2.3,
+                      }}
+                      onPress={
+                        () => {
+                          // load ? null :
+                          // setPaused(!paused)
+                          setpausedCheck(false),
+                            setModal(true), setModalItem(mediaSource), setModalItemType(item?.type)
+                        }
+                      }
+                    >
+                      <Image
+                        activeOpacity={0.4}
+                        source={pausedCheck ? require('../../assets/play.png') : require('../../assets/pause.png')}
+                        resizeMode={'cover'}
+                        style={{ width: 70, height: 70 }}
+                      />
                     </TouchableOpacity>
-                  </>
-                )} */}
+                  </View>
+                )}
 
                 {!isImage && !isVideo && (
                   <Text style={{ color: '#000' }}>Media not available</Text>
@@ -327,80 +379,79 @@ const Post = ({
         visible={modal}
         transparent={true}
         animationType="fade"
-        onRequestClose={() => setModal(false)}>
+        onRequestClose={() => { setModal(false), setpausedCheck(true) }}>
         <View style={styles.modalContainer}>
           {/* Modal Close Button */}
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => setModal(false)}
+            onPress={() => { setModal(false), setpausedCheck(true) }}
             style={styles.modalCloseBTN}>
             <AntDesign name="closecircle" size={35} color="#fff" />
           </TouchableOpacity>
 
-          <View style={styles.carouselContainer}>
-            <Carousel
-              data={imagesArray}
-              layout={'default'}
-              scrollEnabled={true}
-              renderItem={({ item, index }) => {
-                const mediaSource =
-                  item.type === 'image'
-                    ? {
-                      uri:
-                        'https://www.tasdeertech.com/images/posts/' +
-                        item.source,
+          <View style={{ height: 300, backgroundColor: 'red' }}>
+            <View style={Styles.imageCarousal}>
+              {modalItemType === 'image' && (
+                <Image
+                  source={modalItem}
+                  resizeMode="cover"
+                  style={Styles.image}
+                />
+              )}
+              {modalItemType == 'video' && (
+                <View style={{ flex: 1, backgroundColor: '#ededed' }}>
+                  <Video
+                    onLoadStart={() => setLoad(true)}
+                    onReadyForDisplay={() => setLoad(false)}
+                    source={modalItem}
+                    resizeMode="contain"
+                    repeat={true}
+                    controls={false}
+                    paused={pausedCheck}
+                    style={[Styles.image, {
+                      width: width,
+                      height: height / 2.5,
+                    }]}
+                  />
+                  {/* } */}
+                  <TouchableOpacity
+                    style={{
+                      height: 70,
+                      width: 70,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      position: 'absolute',
+                      elevation: 2,
+                      bottom: height / 6,
+                      left: width / 2.3,
+                    }}
+                    onPress={
+                      () => {
+                        setpausedCheck(true)
+                        load ? null :
+                          setpausedCheck(!pausedCheck)
+                      }
                     }
-                    : item.type === 'video'
-                      ? { uri: 'https://www.tasdeertech.com/videos/' + item.source }
-                      : null;
-
-                return (
-                  <View style={Styles.imageCarousal}>
-                    {item.type === 'image' && (
-                      <Image
-                        source={mediaSource}
-                        key={String(index)}
-                        resizeMode="cover"
-                        style={Styles.image}
-                      />
-                    )}
-                    {item.type === 'video' && (
-                      <>
-                        <Video
-                          // onTouchStart={onTouchStart}
-                          source={mediaSource}
-                          key={String(index)}
-                          resizeMode="stretch"
-                          controls={false}
-                          style={Styles.image}
-                          repeat={true}
-                          paused={pausedCheck}
-                          onLoad={() => {
-                            setpausedCheck(true);
-                          }}
+                  >
+                    {
+                      load ? <ActivityIndicator size="large" /> :
+                        <Image
+                          activeOpacity={0.4}
+                          source={pausedCheck ? require('../../assets/play.png') : require('../../assets/pause.png')}
+                          resizeMode={'cover'}
+                          style={{ width: 70, height: 70 }}
                         />
-                        <TouchableOpacity
-                          style={styles.mediaControllerBTNs}
-                          onPress={() => setpausedCheck(!pausedCheck)}>
-                          <Text style={styles.mediaControllerTxt}>
-                            {pausedCheck ? 'Play' : 'Pause'}
-                          </Text>
-                        </TouchableOpacity>
-                      </>
-
-                    )}
-                  </View>
-                );
-              }}
-              sliderWidth={width}
-              itemWidth={width}
-            />
+                    }
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
           </View>
 
           <View style={styles.modalMediaWrpr}>
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={handleUserProfileClick}
+              onPress={() => onUserProfileClick()}
               style={styles.userProfileContainer}>
               <Image
                 source={{

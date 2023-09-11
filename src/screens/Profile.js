@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import {
   Text,
   View,
@@ -36,6 +36,7 @@ import Video from 'react-native-video';
 import Carousel from 'react-native-snap-carousel';
 import Loader from '../components/PleaseWait';
 import OTPTextInput from 'react-native-otp-textinput';
+import VideoPlayer from '../components/VideoPlayer';
 
 class Profile extends Component {
   constructor(props) {
@@ -336,6 +337,9 @@ class Profile extends Component {
   //     this.fetchUser();
   //   });
   // };
+
+
+
 
   render() {
     console.log('PROFILE SCREEN', this.state?.pausedCheck);
@@ -731,7 +735,7 @@ class Profile extends Component {
       } else {
         imagesArray.push({ type: 'video', source: item.video });
       }
-
+      console.log(item, "itemmm");
       return (
         <Item
           item={item}
@@ -741,14 +745,14 @@ class Profile extends Component {
           comments={item?.comment_count}
           shares={item?.share_count}
           views={item?.view_count}
-          userName={item?.user_name}
-          userCity={item?.user_location}
-          userImage={item?.user_images}
+          user_name={item?.user_name}
+          user_location={item?.user_location}
+          user_images={item?.user_images}
           category={item?.category_name}
           onPostDelete={() => this.onPostDelete(item)}
           onDetailsClick={() => onDetailsClick(item)}
           onLikesClick={() => onLikesClick(item)}
-          onUserProfileClick={() => onUserProfileClick(item)}
+          // onUserProfileClick={() => onUserProfileClick(item)}
           onCategoryClick={() => this.onCategoryClick(item)}
           onCommentsClick={() => onCommentsClick(item)}
           sharePost={() => sharePosts(item)}
@@ -1158,8 +1162,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(Profile);
 
 const Item = ({
   title,
-  userName,
-  userCity,
+  user_name,
+  user_location,
   image,
   likes,
   comments,
@@ -1174,262 +1178,365 @@ const Item = ({
   onLikesClick,
   imagesArray,
   pauseCheckHandler,
-  pausedCheck,
+  // pausedCheck,
   onVideoPlay,
-  sharePost
-}) => (
-  <Card style={{ elevation: 5, marginTop: 10 }}>
-    <View style={Styles.homesec}>
-      <View style={{ flexDirection: 'row', textAlign: 'right' }}>
-        <View
-          style={{
-            backgroundColor: '#fff',
-            width: width / 3,
-            height: 60,
-            flexDirection: 'row',
-            marginTop: 5,
-          }}>
-          <TouchableOpacity onPress={onCategoryClick} style={Styles.btnHome2}>
-            <Text
-              style={{ color: '#D2691Eff', fontWeight: 'bold', fontSize: 15 }}>
-              {category}
-            </Text>
-          </TouchableOpacity>
-        </View>
+  sharePost,
+  user_images,
 
-        <View
-          style={{
-            backgroundColor: '#fff',
-            width: width / 2,
-            height: 60,
-            // flexDirection: 'row',
-            marginTop: 10,
-            textAlign: 'right',
-          }}>
-          <View>
-            <Text
-              style={{
-                fontSize: 15,
-                paddingRight: 5,
-                color: 'black',
-                textAlign: 'right',
-              }}>
-              {userName}
-            </Text>
-            <Text
-              numberOfLines={1}
-              style={{
-                fontSize: 12,
-                paddingRight: 5,
-                color: 'black',
-                textAlign: 'right',
-              }}>
-              {userCity}
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            backgroundColor: '#fff',
-            width: width / 5,
-            height: 60,
-            flexDirection: 'row',
-            marginTop: 5,
-          }}>
-          <Image
-            source={{
-              uri: 'http://www.tasdeertech.com/images/profiles/' + userImage,
-            }}
+}) => {
+  const [pausedCheck, setpausedCheck] = useState(true)
+  const [load, setLoad] = useState(false)
+  const [modal, setModal] = useState(false)
+  const [modalItem, setModalItem] = useState("")
+  const [modalItemType, setModalItemType] = useState("")
+
+  return (
+    <Card style={{ elevation: 5, marginTop: 10 }}>
+      <View style={Styles.homesec}>
+        <View style={{ flexDirection: 'row', textAlign: 'right' }}>
+          <View
             style={{
-              width: 50,
-              height: 50,
-              borderRadius: 50 / 2,
-            }}></Image>
+              backgroundColor: '#fff',
+              width: width / 3,
+              height: 60,
+              flexDirection: 'row',
+              marginTop: 5,
+            }}>
+            <TouchableOpacity onPress={onCategoryClick} style={Styles.btnHome2}>
+              <Text
+                style={{ color: '#D2691Eff', fontWeight: 'bold', fontSize: 15 }}>
+                {category}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              backgroundColor: '#fff',
+              width: width / 2,
+              height: 60,
+              // flexDirection: 'row',
+              marginTop: 10,
+              textAlign: 'right',
+            }}>
+            <View>
+              <Text
+                style={{
+                  fontSize: 15,
+                  paddingRight: 5,
+                  color: 'black',
+                  textAlign: 'right',
+                }}>
+                {user_name}
+              </Text>
+              <Text
+                numberOfLines={1}
+                style={{
+                  fontSize: 12,
+                  paddingRight: 5,
+                  color: 'black',
+                  textAlign: 'right',
+                }}>
+                {user_location}
+              </Text>
+            </View>
+          </View>
+          <View
+            style={{
+              backgroundColor: '#fff',
+              width: width / 5,
+              height: 60,
+              flexDirection: 'row',
+              marginTop: 5,
+            }}>
+            <Image
+              source={{
+                uri: 'http://www.tasdeertech.com/images/profiles/' + user_images,
+              }}
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 50 / 2,
+              }}></Image>
+          </View>
         </View>
       </View>
-    </View>
 
-    <Carousel
-      // keyExtractor={this.state.mixed.fileName}
-      data={imagesArray}
-      layout={'default'}
-      scrollEnabled={true}
-      // onScroll={() => this.setState({ pauseVideo: true})}
-      renderItem={({ item, index }) => {
-        return (
-          <View style={Styles.imageCarousal}>
-            {item.type == 'image' && (
-              <Image
-                source={{
-                  uri: 'http://www.tasdeertech.com/images/posts/' + item.source,
-                }}
-                key={String(index)}
-                resizeMode={'cover'}
-                style={Styles.image}
-              />
-            )}
-            {item.type == 'video' && (
-              <>
-
-                <Video
-                  // onTouchStart={() => {
-                  //     ////console.log("Pause:  ", this.state.pauseVideo)
-                  //     this.setState({ pauseVideo: !this.state.pauseVideo })
-                  // }}
+      <Carousel
+        // keyExtractor={this.state.mixed.fileName}
+        data={imagesArray}
+        layout={'default'}
+        scrollEnabled={true}
+        // onScroll={() => this.setState({ pauseVideo: true})}
+        renderItem={({ item, index }) => {
+          const mediaSource = item.type == 'image'
+            ? { uri: 'http://www.tasdeertech.com/images/posts/' + item.source }
+            : item?.type == 'video'
+              ? { uri: 'http://www.tasdeertech.com/videos/' + item.source }
+              : null;
+          return (
+            <TouchableOpacity
+              onPress={() => { setModal(true), setModalItem(mediaSource), setModalItemType(item?.type) }}
+              style={Styles.imageCarousal}>
+              {item.type == 'image' && (
+                <Image
                   source={{
-                    uri: 'http://www.tasdeertech.com/videos/' + item.source,
-                  }} // Can be a URL or a local file.
+                    uri: 'http://www.tasdeertech.com/images/posts/' + item.source,
+                  }}
                   key={String(index)}
-                  resizeMode="stretch"
-                  // repeat={true}
-                  controls={false}
-                  paused={true}
-                  // onLoad={()=> 
-                  //   // pauseCheckHandler(true)
-                  //   onVideoPlay(item)
-
-                  // }
+                  resizeMode={'cover'}
                   style={Styles.image}
                 />
-                <TouchableOpacity
-                  style={{
-                    height: 30,
-                    width: '15%',
-                    borderRadius: 15,
-                    backgroundColor: '#fff',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    position: 'absolute',
-                    elevation: 2,
-                    bottom: 25,
-                    left: 10,
-                  }}
-                  onPress={console.log("first")
-                    // () =>
-                    // // pauseCheckHandler(!pausedCheck)
-                    // onVideoPlay(item)
+              )}
+              {item?.type == 'video' && (
+                <View style={{ flex: 1, backgroundColor: '#ededed' }}>
+                  {pausedCheck &&
+                    <Image
+                      activeOpacity={0.4}
+                      source={require('../../assets/camel3.png')}
+                      resizeMode={'cover'}
+                      style={[Styles.image, { backgroundColor: 'rgba(0,0,0,0.5)', opacity: 0.3 }]}
+                    />
                   }
-                >
-                  <Text style={{
-                    color: 'black',
-                    fontSize: 15,
-                    marginRight: 3,
-                  }}>
-                    {pausedCheck ? 'Play' : 'Pause'}
-                  </Text>
-                </TouchableOpacity>
-              </>
-            )}
-          </View>
-        );
-      }}
-      sliderWidth={width}
-      itemWidth={width}
-    />
+                  <TouchableOpacity
+                    style={{
+                      height: 70,
+                      width: 70,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      position: 'absolute',
+                      elevation: 2,
+                      bottom: height / 6,
+                      left: width / 2.3,
+                    }}
+                    onPress={
+                      () => {
+                        setpausedCheck(false),
+                          setModal(true), setModalItem(mediaSource), setModalItemType(item?.type)
+                      }
+                    }
+                  >
+                    <Image
+                      activeOpacity={0.4}
+                      source={pausedCheck ? require('../../assets/play.png') : require('../../assets/pause.png')}
+                      resizeMode={'cover'}
+                      style={{ width: 70, height: 70 }}
+                    />
+                  </TouchableOpacity>
+                </View>
+              )}
+            </TouchableOpacity>
+          );
+        }}
+        sliderWidth={width}
+        itemWidth={width}
+      />
 
-    {/* Post icons */}
-    <View
-      style={{
-        width: '50%',
-        height: 30,
-        borderRadius: 15,
-        alignSelf: 'flex-end',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        position: 'absolute',
-        bottom: 57,
-        right: 7,
-        zIndex: 999,
-        flexDirection: 'row',
-        backgroundColor: '#fff',
-        elevation: 2,
-      }}>
-      <TouchableOpacity
+      {/* Post icons */}
+      <View
         style={{
-          flexDirection: 'row',
+          width: '50%',
+          height: 30,
+          borderRadius: 15,
+          alignSelf: 'flex-end',
+          justifyContent: 'space-evenly',
           alignItems: 'center',
-          justifyContent: 'center',
-          marginRight: 5,
-        }}>
-        <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
-          {' '}
-          {views}
-        </Text>
-        <Ionicons name="ios-eye-sharp" size={20} color="#CD853F" />
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={sharePost}
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginRight: 5,
-        }}>
-        <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
-          {shares}
-        </Text>
-        <Ionicons name="share-social-sharp" size={20} color="#CD853F" />
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={onCommentsClick}
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginRight: 5,
-        }}>
-        <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
-          {comments}
-        </Text>
-        <Feather name="message-square" size={18} color="#CD853F" />
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={onLikesClick}
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
-          {likes}
-        </Text>
-        <AntDesign name="hearto" size={18} color="#CD853F" />
-      </TouchableOpacity>
-    </View>
-
-    <View style={{ width: width, height: 50 }}>
-      <TouchableOpacity
-        style={{ position: 'absolute', left: 10, top: 5 }}
-        onPress={onDetailsClick}>
-        <View style={Styles.btnHome}>
-          <Text style={{ color: '#fff', fontWeight: 'bold' }}>
-            {ArabicText.Details}
-          </Text>
-        </View>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={{ position: 'absolute', left: 100, top: 12, zIndex: 999 }}
-        onPress={onPostDelete}>
-        <AntDesign name="delete" size={19} color="#cd853f" />
-      </TouchableOpacity>
-
-      <Text
-        style={{
           position: 'absolute',
-          right: 10,
-          top: 12,
-          color: '#000',
-          fontWeight: '600',
+          bottom: 57,
+          right: 7,
+          zIndex: 999,
+          flexDirection: 'row',
+          backgroundColor: '#fff',
+          elevation: 2,
         }}>
-        {title}
-      </Text>
-    </View>
-  </Card>
-);
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginRight: 5,
+          }}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+            {' '}
+            {views}
+          </Text>
+          <Ionicons name="ios-eye-sharp" size={20} color="#CD853F" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={sharePost}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginRight: 5,
+          }}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+            {shares}
+          </Text>
+          <Ionicons name="share-social-sharp" size={20} color="#CD853F" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={onCommentsClick}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginRight: 5,
+          }}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+            {comments}
+          </Text>
+          <Feather name="message-square" size={18} color="#CD853F" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={onLikesClick}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+            {likes}
+          </Text>
+          <AntDesign name="hearto" size={18} color="#CD853F" />
+        </TouchableOpacity>
+      </View>
+
+      <View style={{ width: width, height: 50 }}>
+        <TouchableOpacity
+          style={{ position: 'absolute', left: 10, top: 5 }}
+          onPress={onDetailsClick}>
+          <View style={Styles.btnHome}>
+            <Text style={{ color: '#fff', fontWeight: 'bold' }}>
+              {ArabicText.Details}
+            </Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={{ position: 'absolute', left: 100, top: 12, zIndex: 999 }}
+          onPress={onPostDelete}>
+          <AntDesign name="delete" size={19} color="#cd853f" />
+        </TouchableOpacity>
+
+        <Text
+          style={{
+            position: 'absolute',
+            right: 10,
+            top: 12,
+            color: '#000',
+            fontWeight: '600',
+          }}>
+          {title}
+        </Text>
+      </View>
+
+      <Modal
+        visible={modal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => { setModal(false), setpausedCheck(true) }}>
+        <View style={styles.modalContainer}>
+          {/* Modal Close Button */}
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => { setModal(false), setpausedCheck(true) }}
+            style={styles.modalCloseBTN}>
+            <AntDesign name="closecircle" size={35} color="#fff" />
+          </TouchableOpacity>
+
+          <View style={{ height: 300, backgroundColor: 'red' }}>
+            <View style={Styles.imageCarousal}>
+              {modalItemType === 'image' && (
+                <Image
+                  source={modalItem}
+                  resizeMode="cover"
+                  style={Styles.image}
+                />
+              )}
+              {modalItemType == 'video' && (
+                <View style={{ flex: 1, backgroundColor: '#ededed' }}>
+                  <Video
+                    onLoadStart={() => setLoad(true)}
+                    onReadyForDisplay={() => setLoad(false)}
+                    source={modalItem}
+                    resizeMode="contain"
+                    repeat={true}
+                    controls={false}
+                    paused={pausedCheck}
+                    style={[Styles.image, {
+                      width: width,
+                      height: height / 2.5,
+                    }]}
+                  />
+                  {/* } */}
+                  <TouchableOpacity
+                    style={{
+                      height: 70,
+                      width: 70,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      position: 'absolute',
+                      elevation: 2,
+                      bottom: height / 6,
+                      left: width / 2.3,
+                    }}
+                    onPress={
+                      () => {
+                        setpausedCheck(true)
+                        load ? null :
+                          setpausedCheck(!pausedCheck)
+                      }
+                    }
+                  >
+                    {
+                      load ? <ActivityIndicator size="large" /> :
+                        <Image
+                          activeOpacity={0.4}
+                          source={pausedCheck ? require('../../assets/play.png') : require('../../assets/pause.png')}
+                          resizeMode={'cover'}
+                          style={{ width: 70, height: 70 }}
+                        />
+                    }
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
+          </View>
+
+          <View style={styles.modalMediaWrpr}>
+            <TouchableOpacity
+              activeOpacity={0.99}
+              onPress={() => { }}
+              style={styles.userProfileContainer}>
+              <Image
+                source={{
+                  uri:
+                    'http://www.tasdeertech.com/images/profiles/' + user_images,
+                }}
+                style={styles.userProfileImage}
+              />
+            </TouchableOpacity>
+            <View style={styles.userInfoContainer}>
+              <Text style={[styles.userName, { color: '#fff' }]}>{user_name}</Text>
+              <Text style={[styles.userLocation, { color: '#fff' }]}>
+                {user_location}
+              </Text>
+            </View>
+
+            <View style={styles.titleContainer}>
+              <Text style={styles.titleText}>{title}</Text>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+    </Card>
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -1491,5 +1598,36 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  modalContainer: {
+    height: '100%',
+    width: width,
+    backgroundColor: '#000000db',
+    justifyContent: 'center',
+  },
+  modalCloseBTN: { top: 10, right: 15, position: 'absolute' },
+  modalMediaWrpr: {
+    width: width,
+    height: 60,
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    position: 'absolute',
+    bottom: 10,
+  },
+  userProfileContainer: {
+    flexDirection: 'row',
+    marginHorizontal: 10,
+  },
+  userProfileImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 30,
+  },
+  titleContainer: { position: 'absolute', right: 5, width: 220 },
+  titleText: {
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: '600',
   },
 });

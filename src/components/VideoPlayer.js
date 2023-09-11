@@ -8,10 +8,8 @@ import {
     View,
   } from 'react-native';
   import React, {useRef} from 'react';
-  import Images from '../../assets/Images';
   import {Colors} from '../../config';
   import {WebView} from 'react-native-webview';
-  import AppBackground from '../../components/AppBackground';
   const VideoPlayer = ({props}) => {
     return (
      
@@ -20,6 +18,8 @@ import {
           style={[
             {
               backgroundColor: 'lightgrey',
+              width:300,
+              height:200
             }
            
           ]}

@@ -253,6 +253,10 @@ class TreatingCamels extends Component {
     }
   };
 
+  componentDidMount(){
+    console.log("component 257 trating camel");
+  }
+
   render() {
     return (
       <ScrollView style={{backgroundColor: '#ffffff'}}>

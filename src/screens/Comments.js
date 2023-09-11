@@ -329,7 +329,9 @@ class Comments extends Component {
           <>
             <Header
               onChangeText={text => {
-                this.search(text);
+                if(text){
+                  this.search(text);
+                }
               }}
               onPressSearch={() => this.searchFunction(searchText)}
             />

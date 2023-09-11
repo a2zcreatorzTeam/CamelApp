@@ -33,11 +33,11 @@ class CamelTreatmentList extends Component {
   }
 
   searchFunction(searchtext) {
-    console.log('searchtext366', searchtext);
+    // console.log('searchtext366', searchtext);
 
     if (searchtext != undefined && searchtext.length != 0) {
       let tempPost = this.state.posts.filter(item => {
-        console.log(item, "itemmm");
+        // console.log(item, "itemmm");
         return (
           item?.user_name.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
           item?.user_phone.toLowerCase().indexOf(searchtext) > -1 ||
@@ -57,7 +57,7 @@ class CamelTreatmentList extends Component {
           item?.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) > -1
         );
       });
-      console.log('tempPost8989', tempPost);
+      // console.log('tempPost8989', tempPost);
 
       this.setState({ filterPosts: tempPost });
     }
@@ -92,7 +92,7 @@ class CamelTreatmentList extends Component {
         var arrayPosts = res?.data?.Posts;
 
         arrayPosts.map((item, index) => {
-          console.log('index', index);
+          // console.log('index', index);
           let array = item?.img;
           let imagesArray = [];
           array?.forEach(element => {
@@ -127,10 +127,11 @@ class CamelTreatmentList extends Component {
     });
   };
   render() {
-    console.log("======camelTreatmentttt=====");
+    console.log("======camelTreatmentttt=====123");
     const renderItem = ({ item }) => {
       return (
         <Post
+          // onUserProfileClick={this.onUserProfileClick}
           item={item}
           image={item.img}
           date={item?.date}
@@ -154,8 +155,6 @@ class CamelTreatmentList extends Component {
           playVideo={true}
           pauseFlag={item?.flagForVideo}
           onCategoryClick={() => console.log("first")}
-
-
         />
       );
     };
@@ -183,7 +182,6 @@ class CamelTreatmentList extends Component {
     };
 
     const sharePosts = item => {
-      console.log('working');
 
       this.setState({ loading: true });
 
@@ -197,7 +195,7 @@ class CamelTreatmentList extends Component {
             post_id: post_id,
           })
           .then(response => {
-            console.log('response.data', response.data);
+            // console.log('response.data', response.data);
             if (response.data) {
               let filterPosts = this.state.filterPosts;
 
@@ -222,9 +220,9 @@ class CamelTreatmentList extends Component {
     };
 
     const onCategoryClick = async item => {
-      console.log('====================================');
-      console.log("onCategoryClick");
-      console.log('====================================');
+      // console.log('====================================');
+      // console.log("onCategoryClick");
+      // console.log('====================================');
       if (item.category_id == '1') {
         this.props.navigation.navigate('CamelClubList');
       }
@@ -271,7 +269,7 @@ class CamelTreatmentList extends Component {
             type: 'abc',
           })
           .then(response => {
-            console.log('response.data', response.data);
+            // console.log('response.data', response.data);
             if (response.data.status == true) {
               let filterPosts = this.state.filterPosts;
 
@@ -357,6 +355,7 @@ class CamelTreatmentList extends Component {
             style={{ marginTop: 20 }}
           />
         )}
+
 
         {this.state.loader == false && (
           <View>

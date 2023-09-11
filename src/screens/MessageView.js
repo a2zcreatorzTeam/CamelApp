@@ -36,6 +36,7 @@ class MessageView extends Component {
     }
 
     componentDidMount() {
+        console.log("chattt");
         // this.interval =
         //     setInterval(() => {
 

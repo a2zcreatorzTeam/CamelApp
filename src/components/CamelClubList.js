@@ -37,12 +37,12 @@ class CamelClubList extends Component {
       key: false
     };
 
-    this.viewPosts();
+    // this.viewPosts();
   }
 
   searchFunction(searchtext) {
     const { key } = this.state
-    if (searchtext != undefined && searchtext.length != 0) {
+    if (searchtext != undefined && searchtext?.length != 0) {
       this.setState({ searchedItem: searchtext })
       let tempPost = this.state.posts.filter(item => {
         return (
@@ -74,6 +74,7 @@ class CamelClubList extends Component {
     this.setState({ searchText: text });
   }
   async viewPosts() {
+    const { searchedItem } = this.state
     await camelapp
       .get('/postclub')
       .then(res => {
@@ -97,6 +98,7 @@ class CamelClubList extends Component {
 
           loader: false,
         });
+        searchedItem && this.searchFunction(searchedItem)
       })
       .catch(error => {
         this.setState({
@@ -128,14 +130,69 @@ class CamelClubList extends Component {
   componentDidMount = () => {
     this.focusListener = this.props.navigation.addListener('focus',
       () => {
+        // this.setState({ searchText: '', searchedItem: '' })
         this.viewPosts()
       }
     );
   }
+  // componentWillUnmount() {
+  //   console.log("componentWillUnmount");
+  //   this.setState({ searchText: '', searchedItem: '' })
+  // }
+  // onUserProfileClick = async item => {
+  //   this.setState({ loading: true });
+  //   let { user } = this.props;
+
+  //   user = user.user.user;
+
+  //   if (user != undefined) {
+  //     if (item.user_id === user.id) {
+  //       this.props.navigation.navigate('Profile');
+  //     } else {
+  //       await camelapp
+  //         .post('/userprofile', {
+  //           user_id: item.user_id,
+  //         })
+  //         .then(response => {
+  //           if (response.data) {
+  //             this.props.navigation.navigate('UserProfile', {
+  //               postData: item,
+  //               userProfile: response.data,
+  //             });
+  //             this.setState({ loading: false });
+  //           }
+  //         })
+  //         .catch(error => {
+  //           console.log('error', error);
+  //           this.setState({ loading: false });
+  //         });
+  //     }
+  //   } else {
+  //     await camelapp
+  //       .post('/userprofile', {
+  //         user_id: item.user_id,
+  //       })
+  //       .then(response => {
+  //         if (response.data) {
+  //           this.props.navigation.navigate('UserProfile', {
+  //             postData: item,
+  //             userProfile: response.data,
+  //           });
+  //           this.setState({ loading: false });
+  //         }
+  //       })
+  //       .catch(error => {
+  //         console.log('error', error);
+  //         this.setState({ loading: false });
+  //       });
+  //   }
+  // };
+
   render() {
     const renderItem = ({ item }) => {
       return (
         <Post
+          // onUserProfileClick={this.onUserProfileClick}
           item={item}
           image={item.img}
           likes={item.like_count}
@@ -207,7 +264,6 @@ class CamelClubList extends Component {
 
               let tempIndex = filterPosts.indexOf(item);
               this.viewPosts()
-
               let share_count = item.share_count + 1;
               let tempItem = item;
               tempItem['share_count'] = share_count;
@@ -226,7 +282,7 @@ class CamelClubList extends Component {
     };
 
     const onLikesClick = item => {
-      console.log('item', item);
+      console.log('item', searchedItem);
 
       this.setState({ loading: false });
 
@@ -311,7 +367,7 @@ class CamelClubList extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-    const { posts, filterPosts, key } = this.state
+    const { posts, filterPosts, key, searchedItem } = this.state
 
     return (
       <View style={styles.container}>
@@ -322,7 +378,7 @@ class CamelClubList extends Component {
               this.search(text);
             }
             else {
-              this.setState({ searchedItem: '' })
+              this.setState({ searchedItem: '', searchText: '' })
             }
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}
@@ -357,8 +413,8 @@ class CamelClubList extends Component {
                   onRefresh={() => this.ScrollToRefresh()}
                 />
               }
-              // initialNumToRender={5}
-              // maxToRenderPerBatch={5}
+            // initialNumToRender={5}
+            // maxToRenderPerBatch={5}
             />
 
             <View style={{ marginBottom: 70 }}></View>

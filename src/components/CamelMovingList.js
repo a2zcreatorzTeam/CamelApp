@@ -91,9 +91,9 @@ class CamelMovingList extends Component {
     }
     componentDidMount = () => {
         this.focusListener = this.props.navigation.addListener('focus', () => {
-          this.viewPosts();
+            this.viewPosts();
         });
-      };
+    };
     render() {
 
         const renderItem = ({ item }) => {
@@ -101,7 +101,7 @@ class CamelMovingList extends Component {
 
             return (
                 <Post
-                date={item?.date}
+                    date={item?.date}
                     item={item}
                     title={item?.title}
                     type={item?.car_type}
@@ -116,23 +116,23 @@ class CamelMovingList extends Component {
         }
 
         const onDetailsClick = item => {
-            let {user} = this.props;
+            let { user } = this.props;
             user = user.user.user;
             let post_id = item?.id;
             if (user != undefined) {
-              camelapp
-                .post('/add/view', {
-                  post_id: post_id,
-                  user_id: user?.id,
-                })
-                .then(res => {
-                  //console.log("response", res.data);
-                  this.props.navigation.navigate("DetailsMovingCamel", { itemFromDetails: item })
-                });
+                camelapp
+                    .post('/add/view', {
+                        post_id: post_id,
+                        user_id: user?.id,
+                    })
+                    .then(res => {
+                        //console.log("response", res.data);
+                        this.props.navigation.navigate("DetailsMovingCamel", { itemFromDetails: item })
+                    });
             } else {
-              this.props.navigation.navigate("DetailsMovingCamel", { itemFromDetails: item })
+                this.props.navigation.navigate("DetailsMovingCamel", { itemFromDetails: item })
             }
-          };
+        };
         const onAddButtonClick = () => {
             let { user } = this.props;
             if (user.user.status == true) {
@@ -158,7 +158,7 @@ class CamelMovingList extends Component {
                         />
 
                         <FlatList
-                        contentContainerStyle={{paddingBottom:'20%'}}
+                            contentContainerStyle={{ paddingBottom: '20%' }}
                             data={this.state.posts}
                             renderItem={renderItem}
                             keyExtractor={(item) => item.id}

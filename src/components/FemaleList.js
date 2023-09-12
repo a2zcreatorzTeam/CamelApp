@@ -1,22 +1,25 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   View,
   Text,
-  StyleSheet, FlatList, ActivityIndicator, RefreshControl
-} from "react-native";
-import Post from "./MovingPost";
-import camelapp from "../api/camelapp";
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+  RefreshControl,
+} from 'react-native';
+import Post from './MovingPost';
+import camelapp from '../api/camelapp';
 
-import AddButton from "./AddButton";
-import * as ArabicText from "../language/EnglishToArabic"
+import AddButton from './AddButton';
+import * as ArabicText from '../language/EnglishToArabic';
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import { bindActionCreators } from 'redux';
-import Loader from "./PleaseWait";
-import Header from "../components/Header";
+import {bindActionCreators} from 'redux';
+import Loader from './PleaseWait';
+import Header from '../components/Header';
 class CamelFemaleList extends Component {
   constructor(props) {
     super(props);
@@ -24,7 +27,7 @@ class CamelFemaleList extends Component {
       posts: {},
       loader: true,
       filterPosts: [],
-      searchText: "",
+      searchText: '',
       refreshing: false,
     };
 
@@ -32,78 +35,60 @@ class CamelFemaleList extends Component {
   }
 
   searchFunction(searchtext) {
-
-
-    console.log("searchtext", searchtext)
-
+    console.log('searchtext', searchtext);
 
     if (searchtext != undefined && searchtext.length != 0) {
-
-
-      let tempPost = this.state.posts.filter((item) => {
+      let tempPost = this.state.posts.filter(item => {
         return (
           item.user_name.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
           item.user_phone.toLowerCase().indexOf(searchtext) > -1 ||
           item.id == this.searchtext ||
           item.title.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
           item.location.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item.category_name.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item.user_phone.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item.description.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
+          item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) >
+            -1 ||
+          item.category_name.toLowerCase().indexOf(searchtext.toLowerCase()) >
+            -1 ||
+          item.user_phone.toLowerCase().indexOf(searchtext.toLowerCase()) >
+            -1 ||
+          item.description.toLowerCase().indexOf(searchtext.toLowerCase()) >
+            -1 ||
+          item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) >
+            -1 ||
           item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) > -1
-
-        )
+        );
       });
-      console.log("tempPost.length--femaleList", tempPost.length);
+      console.log('tempPost.length--femaleList', tempPost.length);
 
-      this.setState({ filterPosts: tempPost })
+      this.setState({filterPosts: tempPost});
     }
-
-
-
-
-
-
   }
 
   search(text) {
     //console.log("post[0]", this.state.posts[0])
 
     //console.log("text", text);
-    this.setState({ searchText: text })
-
-
-
+    this.setState({searchText: text});
   }
 
   async viewPosts() {
-
     try {
-
-      return await camelapp
-        .get(
-          "/get/camel_female"
-        )
-        .then((res) => {
-
-          console.log("res", res.data.Posts)
-          this.setState({
-            posts: res.data.Posts,
-            loader: false,
-            filterPosts: res.data.Posts,
-          });
-
+      return await camelapp.get('/get/camel_female').then(res => {
+        console.log('res', res.data.Posts);
+        this.setState({
+          posts: res.data.Posts,
+          loader: false,
+          filterPosts: res.data.Posts,
         });
+      });
     } catch (error) {
       //console.log("Error Message camel Moving List", error.response);
     }
   }
 
   ScrollToRefresh() {
-    this.viewPosts()
-    this.setState({ refreshing: false });
+    this.viewPosts();
+    this.setState({refreshing: false});
   }
   componentDidMount = () => {
     this.focusListener = this.props.navigation.addListener('focus', () => {
@@ -114,11 +99,10 @@ class CamelFemaleList extends Component {
     console.log('=====================this.state.femaleListtt===============');
     console.log(this.state.filterPosts);
     console.log('====================================');
-    const renderItem = ({ item }) => {
-
+    const renderItem = ({item}) => {
       return (
         <Post
-        date={item?.date}
+          date={item?.date}
           item={item}
           title={item.title}
           location={item.location}
@@ -129,9 +113,7 @@ class CamelFemaleList extends Component {
           OnDetailsClick={() => onDetailsClick(item)}
         />
       );
-    }
-
-
+    };
 
     const onDetailsClick = item => {
       let {user} = this.props;
@@ -145,63 +127,70 @@ class CamelFemaleList extends Component {
           })
           .then(res => {
             //console.log("response", res.data);
-            this.props.navigation.navigate("DetailsFemaleCamel", { itemFromDetails: item })
+            this.props.navigation.navigate('DetailsFemaleCamel', {
+              itemFromDetails: item,
+            });
           });
       } else {
-        this.props.navigation.navigate("DetailsFemaleCamel", { itemFromDetails: item })
+        this.props.navigation.navigate('DetailsFemaleCamel', {
+          itemFromDetails: item,
+        });
       }
     };
     const onAddButtonClick = () => {
-      let { user } = this.props;
+      let {user} = this.props;
       if (user.user.status == true) {
-        this.props.navigation.navigate("CamelFemale")
+        this.props.navigation.navigate('CamelFemale');
       } else {
-        this.props.navigation.navigate("Login")
+        this.props.navigation.navigate('Login');
       }
     };
     return (
       <View style={styles.container}>
-        <Header onChangeText={(text) => {
-          this.search(text)
-        }} onPressSearch={() => this.searchFunction(this.state.searchText)} />
-        {this.state.loader && <ActivityIndicator size="large" color='#D2691Eff' animating={this.state.loader} style={{ marginTop: 20 }} />}
+        <Header
+          onChangeText={text => {
+            this.search(text);
+          }}
+          onPressSearch={() => this.searchFunction(this.state.searchText)}
+        />
+        {this.state.loader && (
+          <ActivityIndicator
+            size="large"
+            color="#D2691Eff"
+            animating={this.state.loader}
+            style={{marginTop: 20}}
+          />
+        )}
 
-        {this.state.loader == false &&
+        {this.state.loader == false && (
           <View>
-
-            <AddButton
-              onPress={() => onAddButtonClick()}
-            />
+            <AddButton onPress={() => onAddButtonClick()} />
 
             <FlatList
-            contentContainerStyle={{paddingBottom:'20%'}}
+              contentContainerStyle={{paddingBottom: '20%'}}
               data={this.state.filterPosts}
               renderItem={renderItem}
-              keyExtractor={(item) => item.id}
+              keyExtractor={item => item.id}
               initialNumToRender={5}
               maxToRenderPerBatch={5}
               refreshControl={
                 <RefreshControl
                   refreshing={this.state.refreshing}
                   onRefresh={() => this.ScrollToRefresh()}
-                />}
+                />
+              }
             />
           </View>
-        }
+        )}
       </View>
     );
   }
 }
 const mapStateToProps = state => ({
-
-  user: state.user
-
+  user: state.user,
 });
 
-const ActionCreators = Object.assign(
-  {},
-  userActions
-);
+const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
@@ -213,6 +202,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     height: '100%',
-    backgroundColor: 'white'
-  }
+    backgroundColor: 'white',
+  },
 });

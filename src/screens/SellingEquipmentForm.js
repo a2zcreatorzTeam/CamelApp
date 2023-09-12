@@ -1,53 +1,61 @@
 import React from 'react';
 import {
-  Text, View, StyleSheet, TextInput, TouchableOpacity,
-  Image, ScrollView, Modal, Pressable
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  Modal,
+  Pressable,
 } from 'react-native';
-import { Styles } from '../styles/globlestyle'
-import camelapp from "../api/camelapp";
-import { connect } from 'react-redux';
+import {Styles} from '../styles/globlestyle';
+import camelapp from '../api/camelapp';
+import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import { bindActionCreators } from 'redux';
+import {bindActionCreators} from 'redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import * as ArabicText from "../language/EnglishToArabic"
+import * as ArabicText from '../language/EnglishToArabic';
 import Video from 'react-native-video';
 import Carousel from 'react-native-snap-carousel';
-import { Dimensions } from "react-native";
-import { RadioButton } from 'react-native-paper';
-const width = Dimensions.get('screen').width
-const hight = Dimensions.get('screen').height
+import {Dimensions} from 'react-native';
+import {RadioButton} from 'react-native-paper';
+const width = Dimensions.get('screen').width;
+const hight = Dimensions.get('screen').height;
 import RNFS from 'react-native-fs';
 import Loader from '../components/PleaseWait';
 import Ads from '../components/Ads';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
+import HorizontalCarousel from '../components/HorizontalCarousel';
+import VideoModal from '../components/VideoModal';
 
 class CamelFood extends React.Component {
-
-
   constructor(props) {
     super(props);
     this.state = {
       image: undefined,
       mixed: [],
       imageFlage: false,
-      title: "",
-      description: "",
-      location: "",
-      color: "",
-      camel_type: "",
-      price_type: "",
-      price: "",
-      commission: "",
+      title: '',
+      description: '',
+      location: '',
+      color: '',
+      camel_type: '',
+      price_type: '',
+      price: '',
+      commission: '',
       video: undefined,
-      checked: "first",
+      checked: 'first',
       register: false,
-      checked_register: "first",
+      checked_register: 'first',
       register_value: 0,
-      images: { uri: "", name: "", type: "" },
-      localUrii: "",
-      fileName: "",
-      user: "",
-      modal: false, modalOffer: false,
+      images: {uri: '', name: '', type: ''},
+      localUrii: '',
+      fileName: '',
+      user: '',
+      modal: false,
+      modalOffer: false,
       registerSwitch: false,
       paySwitch: false,
       video: undefined,
@@ -57,10 +65,14 @@ class CamelFood extends React.Component {
       cameraimage: [],
 
       cameraimagesForPost: undefined,
-    }
+
+      videoModal: false,
+      pausedCheck: true,
+      modalItem: '',
+      loadVideo: false,
+    };
   }
   createPostCamelFood = async () => {
-
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
     var combineImages;
@@ -85,98 +97,102 @@ class CamelFood extends React.Component {
       return alert('Upload upto 4 images');
     }
     if (this.state.videoForPost === undefined) {
-      return alert("Can not post without video");
+      return alert('Can not post without video');
     }
 
-
-
     if (
-      this.state.title != "" &&
-      this.state.location != "" &&
-      this.state.description != "" &&
+      this.state.title != '' &&
+      this.state.location != '' &&
+      this.state.description != '' &&
       this.state.mixed.length != 0 &&
-      this.state.color != "" &&
-      this.state.price != "" &&
-      this.state.price_type != "" &&
-      this.state.camel_type != ""
+      this.state.color != '' &&
+      this.state.price != '' &&
+      this.state.price_type != '' &&
+      this.state.camel_type != ''
     ) {
-      this.setState({ loading: true });
+      this.setState({loading: true});
 
-      let { user } = this.props;
+      let {user} = this.props;
       let user_id = user.user.user.id;
-      camelapp.post('/add/equipment',
-        {
-          "user_id": user_id,
-          "title": this.state.title,
-          "location": this.state.location,
-          "description": this.state.description,
-          "images": combineImages,
-          "video": this.state.videoForPost,
-          "camel_type": this.state.camel_type,
-          "color": this.state.color,
-          "price": this.state.price,
-          "price_type": this.state.price_type,
-        }
-      ).then((response) => {
-        this.setState({loading: false,  
-          video: undefined,
-          videoForPost: undefined,
-          imagesForPost: undefined,
-          image: undefined,
-          cameraimage: [],
-          cameraimagesForPost: undefined,});
+      camelapp
+        .post('/add/equipment', {
+          user_id: user_id,
+          title: this.state.title,
+          location: this.state.location,
+          description: this.state.description,
+          images: combineImages,
+          video: this.state.videoForPost,
+          camel_type: this.state.camel_type,
+          color: this.state.color,
+          price: this.state.price,
+          price_type: this.state.price_type,
+        })
+        .then(response => {
+          this.setState({
+            loading: false,
+            video: undefined,
+            videoForPost: undefined,
+            imagesForPost: undefined,
+            image: undefined,
+            cameraimage: [],
+            cameraimagesForPost: undefined,
+          });
 
-
-        alert(ArabicText.Post_added_successfully + "");
-        this.setState({ title: "", description: "", location: "", image: "", fileName: "" })
-        this.props.navigation.navigate("Home");
-
-      }).catch((error) => {
-        console.log("error", error.response)
-      });
-
+          alert(ArabicText.Post_added_successfully + '');
+          this.setState({
+            title: '',
+            description: '',
+            location: '',
+            image: '',
+            fileName: '',
+          });
+          this.props.navigation.navigate('Home');
+        })
+        .catch(error => {
+          console.log('error', error.response);
+        });
     } else {
-      alert(ArabicText.Please_complete_the_fields + "");
+      alert(ArabicText.Please_complete_the_fields + '');
     }
   };
 
   openCamera = async () => {
-    this.setState({ video: {} })
+    this.setState({video: {}});
     ImageCropPicker.openPicker({
       mediaType: 'video',
-    }).then(async (video) => {
+    }).then(async video => {
       if (video?.size > 10000000) {
-        alert("Video must be less then 10 MB")
+        alert('Video must be less then 10 MB');
       } else {
-        RNFS.readFile(video.path, 'base64').then(res => {
-          this.setState({ videoForPost: "data:video/mp4;base64," + res });
-          let tempMixed = this.state.mixed;
-          let mixed = this.state.mixed;
-          let videoFlag = false;
-          if (tempMixed.length > 0) {
-            tempMixed.map((item, index) => {
-              if (item?.mime != undefined) {
-
-                if (item?.mime.includes("video") === true) {
-                  mixed[index] = video
-                  videoFlag = true;
+        RNFS.readFile(video.path, 'base64')
+          .then(res => {
+            this.setState({videoForPost: 'data:video/mp4;base64,' + res});
+            let tempMixed = this.state.mixed;
+            let mixed = this.state.mixed;
+            let videoFlag = false;
+            if (tempMixed.length > 0) {
+              tempMixed.map((item, index) => {
+                if (item?.mime != undefined) {
+                  if (item?.mime.includes('video') === true) {
+                    mixed[index] = video;
+                    videoFlag = true;
+                  }
                 }
+              });
+              if (videoFlag === false) {
+                mixed.push(video);
               }
-            })
-            if (videoFlag === false) {
-              mixed.push(video);
+              this.setState({mixed: mixed, video: video});
+            } else {
+              tempMixed.push(video);
+              this.setState({mixed: tempMixed, video: video});
             }
-            this.setState({ mixed: mixed, video: video });
-          } else {
-            tempMixed.push(video);
-            this.setState({ mixed: tempMixed, video: video });
-          }
-        }).catch(err => {
-          console.log(err.message, err.code);
-        });
+          })
+          .catch(err => {
+            console.log(err.message, err.code);
+          });
       }
     });
-
   };
 
   openGallery() {
@@ -185,37 +201,37 @@ class CamelFood extends React.Component {
       multiple: true,
       includeBase64: true,
       selectionLimit: 4,
-    }).then(async (images) => {
-
-      if (images.length <= 4) {
-        let tempImage = images;
-        let bse64images = [];
-        let mixedTemp = [];
-        for (let i = 0; i < tempImage.length; i++) {
-          bse64images.push("data:image/png;base64," + images[i].data)
-          mixedTemp.push(tempImage[i]);
-        }
-        this.setState({ imagesForPost: bse64images, image: tempImage });
-
-        if (this.state.video != undefined) {
-          let video = this.state.video;
-          mixedTemp.push(video);
-        }
-        if (this.state.cameraimage != undefined) {
-          let cameraimage = this.state.cameraimage;
-          for (var i = 0; i < cameraimage?.length; i++) {
-            mixedTemp.push(cameraimage[i]);
+    })
+      .then(async images => {
+        if (images.length <= 4) {
+          let tempImage = images;
+          let bse64images = [];
+          let mixedTemp = [];
+          for (let i = 0; i < tempImage.length; i++) {
+            bse64images.push('data:image/png;base64,' + images[i].data);
+            mixedTemp.push(tempImage[i]);
           }
-        }
-        this.setState({ mixed: mixedTemp })
-      } else {
-        alert("Only 4 images allowed")
-      }
-      console.log("images", images)
-    }).catch((error) => {
+          this.setState({imagesForPost: bse64images, image: tempImage});
 
-      console.log("error", error)
-    });
+          if (this.state.video != undefined) {
+            let video = this.state.video;
+            mixedTemp.push(video);
+          }
+          if (this.state.cameraimage != undefined) {
+            let cameraimage = this.state.cameraimage;
+            for (var i = 0; i < cameraimage?.length; i++) {
+              mixedTemp.push(cameraimage[i]);
+            }
+          }
+          this.setState({mixed: mixedTemp});
+        } else {
+          alert('Only 4 images allowed');
+        }
+        console.log('images', images);
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
   }
 
   openCameraForCapture() {
@@ -265,32 +281,43 @@ class CamelFood extends React.Component {
   }
 
   onRegisterSwitchChanged(value) {
-    this.setState({ registerSwitch: value });
+    this.setState({registerSwitch: value});
     if (value === false) {
-      this.setState({ register_value: 0 })
+      this.setState({register_value: 0});
     }
     if (value === true) {
-      this.setState({ register_value: 1 })
+      this.setState({register_value: 1});
     }
   }
 
-
-
   render() {
-    const { checked } = this.state;
+    const {pausedCheck, loadVideo, videoModal, modalItem, checked} = this.state;
 
     return (
-
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <ScrollView
           showsHorizontalScrollIndicator={false}
-          style={{ backgroundColor: "white" }}>
+          style={{backgroundColor: 'white'}}>
           <Ads />
 
           <View style={Styles.container}>
-
             <Text style={Styles.headingPostText}>بيع المعدات</Text>
-            <Carousel
+            <HorizontalCarousel
+              CustomUrl
+              imagesArray={this.state.mixed}
+              onPress={mediaSource => {
+                this.setState({
+                  pausedCheck: false,
+                  videoModal: true,
+                  modalItem: mediaSource,
+                });
+              }}
+              pausedCheck={pausedCheck}
+              pauseVideo={() => {
+                this.setState({pausedCheck: true});
+              }}
+            />
+            {/* <Carousel
               keyExtractor={this.state.mixed.fileName}
               data={this.state.mixed}
               layout={"default"}
@@ -324,18 +351,16 @@ class CamelFood extends React.Component {
               }}
               sliderWidth={width}
               itemWidth={width}
-            />
-            {this.state.imageFlage &&
+            /> */}
+            {this.state.imageFlage && (
               <Image
                 source={{
-                  uri: this.state.image
+                  uri: this.state.image,
                 }}
-                style={Styles.image}
-              >
-              </Image>
-            }
+                style={Styles.image}></Image>
+            )}
 
-            <View style={{ flexDirection: 'row', marginTop: 10 }}>
+            <View style={{flexDirection: 'row', marginTop: 10}}>
               <View style={Styles.cameraview}>
                 <TouchableOpacity onPress={() => this.openCamera()}>
                   <Ionicons
@@ -345,15 +370,18 @@ class CamelFood extends React.Component {
                   />
                 </TouchableOpacity>
               </View>
-            {/* Click pic from camera */}
-            <View style={Styles.cameraview}>
-              <TouchableOpacity onPress={() => this.openCameraForCapture()}>
-                <Ionicons name="md-camera-sharp" size={30} color="#D2691Eff" />
-              </TouchableOpacity>
-            </View>
+              {/* Click pic from camera */}
               <View style={Styles.cameraview}>
-                <TouchableOpacity
-                  onPress={() => this.openGallery()}>
+                <TouchableOpacity onPress={() => this.openCameraForCapture()}>
+                  <Ionicons
+                    name="md-camera-sharp"
+                    size={30}
+                    color="#D2691Eff"
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={Styles.cameraview}>
+                <TouchableOpacity onPress={() => this.openGallery()}>
                   <Ionicons name="images-outline" size={30} color="#D2691Eff" />
                 </TouchableOpacity>
               </View>
@@ -364,171 +392,224 @@ class CamelFood extends React.Component {
               placeholder={ArabicText.Title}
               placeholderTextColor="#b0b0b0"
               value={this.state.title}
-              onChangeText={(text) => {
+              onChangeText={text => {
                 if (text.length <= 24) {
-                  this.setState({ title: text })
+                  this.setState({title: text});
                 } else {
                   alert(ArabicText.limitCharacters);
                 }
-              }}
-            ></TextInput>
+              }}></TextInput>
             <TextInput
               style={Styles.forminputs}
               placeholderTextColor="#b0b0b0"
               placeholder={ArabicText.Color}
               value={this.state.color}
-              onChangeText={(text) => {
+              onChangeText={text => {
                 if (text.length <= 24) {
-                  this.setState({ color: text })
+                  this.setState({color: text});
                 } else {
                   alert(ArabicText.limitCharacters);
                 }
-              }}
-            ></TextInput>
+              }}></TextInput>
 
             <TextInput
               style={Styles.forminputs}
               placeholderTextColor="#b0b0b0"
               placeholder={ArabicText.Type}
               value={this.state.camel_type}
-              onChangeText={(text) => {
+              onChangeText={text => {
                 if (text.length <= 24) {
-                  this.setState({ camel_type: text })
+                  this.setState({camel_type: text});
                 } else {
                   alert(ArabicText.limitCharacters);
                 }
-              }}
-            >
-            </TextInput>
+              }}></TextInput>
 
             <TextInput
               style={Styles.forminputs}
               placeholderTextColor="#b0b0b0"
               placeholder={ArabicText.Location}
               value={this.state.location}
-              onChangeText={(text) => {
+              onChangeText={text => {
                 if (text.length <= 24) {
-                  this.setState({ location: text })
+                  this.setState({location: text});
                 } else {
                   alert(ArabicText.limitCharacters);
                 }
-              }}
-            ></TextInput>
+              }}></TextInput>
             <Loader loading={this.state.loading} />
             <Modal
               animationType="slide"
               transparent={true}
               visible={this.state.modal}
-
               onRequestClose={() => {
                 setModalVisible(!modalVisible);
               }}>
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                  <Pressable onPress={(modal) => this.setState({ modal: !modal })}>
-                    <Ionicons name="close" size={30}
+                  <Pressable onPress={modal => this.setState({modal: !modal})}>
+                    <Ionicons
+                      name="close"
+                      size={30}
                       color="brown"
-                      style={{ marginLeft: width - 140 }}
+                      style={{marginLeft: width - 140}}
                     />
                   </Pressable>
-                  <Text style={{ color: "black", fontSize: 20 }}>{ArabicText.fixed}</Text>
+                  <Text style={{color: 'black', fontSize: 20}}>
+                    {ArabicText.fixed}
+                  </Text>
                   <TextInput
                     style={Styles.forminputsPrice}
                     placeholder={ArabicText.Price}
                     placeholderTextColor="#b0b0b0"
-                    keyboardType='numeric'
-                    onChangeText={(text) => this.setState({ price: text })}
-                  ></TextInput>
-                  <TouchableOpacity onPress={() => {
-                    this.setState({ modal: false })
-                  }}>
-                    <View style={Styles.btnform}><Text style={Styles.textbtn}>{ArabicText.fixed}</Text></View>
+                    keyboardType="numeric"
+                    onChangeText={text =>
+                      this.setState({price: text})
+                    }></TextInput>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.setState({modal: false});
+                    }}>
+                    <View style={Styles.btnform}>
+                      <Text style={Styles.textbtn}>{ArabicText.fixed}</Text>
+                    </View>
                   </TouchableOpacity>
                 </View>
               </View>
-
             </Modal>
             <Modal
               animationType="slide"
               transparent={true}
-              visible={this.state.modalOffer}
-            >
-
+              visible={this.state.modalOffer}>
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                  <Pressable onPress={(modalOffer) => this.setState({ modalOffer: !modalOffer })}>
-                    <Ionicons name="close" size={30}
+                  <Pressable
+                    onPress={modalOffer =>
+                      this.setState({modalOffer: !modalOffer})
+                    }>
+                    <Ionicons
+                      name="close"
+                      size={30}
                       color="brown"
-                      style={{ marginLeft: width - 140 }}
+                      style={{marginLeft: width - 140}}
                     />
                   </Pressable>
-                  <Text style={{ color: "black", fontSize: 20 }}>{ArabicText.offer_Up}</Text>
+                  <Text style={{color: 'black', fontSize: 20}}>
+                    {ArabicText.offer_Up}
+                  </Text>
                   <TextInput
                     style={Styles.forminputsPrice}
                     placeholderTextColor="#b0b0b0"
                     placeholder={ArabicText.Price}
-                    onChangeText={(text) => this.setState({ price: text })}
-                  ></TextInput>
+                    onChangeText={text =>
+                      this.setState({price: text})
+                    }></TextInput>
                   <TouchableOpacity
-                    onPress={() => this.setState({ modalOffer: false })}
-                  >
-                    <View style={Styles.btnform}><Text style={Styles.textbtn}>{ArabicText.fixed}</Text></View>
+                    onPress={() => this.setState({modalOffer: false})}>
+                    <View style={Styles.btnform}>
+                      <Text style={Styles.textbtn}>{ArabicText.fixed}</Text>
+                    </View>
                   </TouchableOpacity>
                 </View>
               </View>
-
             </Modal>
-            <Text style={{ alignSelf: 'center', marginTop: 50, color: "black", fontSize: 18, }}>{ArabicText.Please_select_price_type}</Text>
+            <Text
+              style={{
+                alignSelf: 'center',
+                marginTop: 50,
+                color: 'black',
+                fontSize: 18,
+              }}>
+              {ArabicText.Please_select_price_type}
+            </Text>
 
-            <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-
-              <Text style={{ color: "black", alignSelf: "center", fontSize: 16, }}>{ArabicText.fixed}</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text style={{color: 'black', alignSelf: 'center', fontSize: 16}}>
+                {ArabicText.fixed}
+              </Text>
 
               <RadioButton
-                style={{ margin: 3, marginTop: 10 }}
+                style={{margin: 3, marginTop: 10}}
                 value={ArabicText.fixed}
                 status={checked === 'first' ? 'checked' : 'unchecked'}
-                onPress={() => { this.setState({ checked: 'first', price_type: ArabicText.fixed, modal: true, modalOffer: false }); }}
+                onPress={() => {
+                  this.setState({
+                    checked: 'first',
+                    price_type: ArabicText.fixed,
+                    modal: true,
+                    modalOffer: false,
+                  });
+                }}
               />
 
-              <Text style={{ color: "black", alignSelf: "center", fontSize: 16, }}>{ArabicText.offer_Up}</Text>
+              <Text style={{color: 'black', alignSelf: 'center', fontSize: 16}}>
+                {ArabicText.offer_Up}
+              </Text>
 
               <RadioButton
-                style={{ margin: 3, marginTop: 5 }}
+                style={{margin: 3, marginTop: 5}}
                 value={ArabicText.offer_Up}
                 status={checked === 'second' ? 'checked' : 'unchecked'}
-                onPress={() => { this.setState({ checked: 'second', price_type: ArabicText.offer_Up, modal: false, modalOffer: true }); }}
+                onPress={() => {
+                  this.setState({
+                    checked: 'second',
+                    price_type: ArabicText.offer_Up,
+                    modal: false,
+                    modalOffer: true,
+                  });
+                }}
               />
-
             </View>
 
             <TextInput
-              style={[Styles.inputdecrp, { marginTop: 20 }]}
+              style={[Styles.inputdecrp, {marginTop: 20}]}
               placeholderTextColor="#b0b0b0"
               placeholder={ArabicText.Description}
               multiline
-              onChangeText={(text) => this.setState({ description: text })}
-
-            ></TextInput>
+              onChangeText={text =>
+                this.setState({description: text})
+              }></TextInput>
             <TouchableOpacity onPress={() => this.createPostCamelFood()}>
-              <View style={Styles.btnform}><Text style={Styles.textbtn}>{ArabicText.add}</Text></View>
+              <View style={Styles.btnform}>
+                <Text style={Styles.textbtn}>{ArabicText.add}</Text>
+              </View>
             </TouchableOpacity>
           </View>
-
+          {/* VIDEO MODAL */}
+          <VideoModal
+            onLoadStart={() => {
+              this.setState({loadVideo: true});
+            }}
+            onReadyForDisplay={() => {
+              this.setState({loadVideo: false});
+            }}
+            onPress={() => {
+              !loadVideo && this.setState({pausedCheck: !pausedCheck});
+            }}
+            closeModal={() => {
+              this.setState({videoModal: false, pausedCheck: true});
+            }}
+            pausedCheck={pausedCheck}
+            loadVideo={loadVideo}
+            videoModal={videoModal}
+            modalItem={modalItem}
+          />
         </ScrollView>
-      </View >
+      </View>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
 });
 
-const ActionCreators = Object.assign(
-  {},
-  userActions
-);
+const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
@@ -539,7 +620,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   centeredView: {
     width: width,
@@ -547,8 +628,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#DCDCDC',
-    opacity: 0.9
-
+    opacity: 0.9,
   },
   modalView: {
     backgroundColor: 'white',

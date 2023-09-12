@@ -23,6 +23,7 @@ const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
 import * as ArabicText from '../language/EnglishToArabic';
 import VideoModal from './VideoModal';
+import HorizontalCarousel from './HorizontalCarousel';
 
 class DetailsComponent extends Component {
   constructor(props) {
@@ -202,90 +203,19 @@ class DetailsComponent extends Component {
         </View>
         {/* IMAGE VIDEO Carousel */}
         <View style={Styles.containerDetails}>
-          <Carousel
-            data={this.state.imagesArray}
-            layout={'default'}
-            scrollEnabled={true}
-            onScroll={() => this.setState({pauseVideo: true})}
-            renderItem={({item, index}) => {
-              const mediaSource =
-                item.type == 'image'
-                  ? {
-                      uri:
-                        'http://www.tasdeertech.com/images/posts/' +
-                        item.source,
-                    }
-                  : item.type == 'video'
-                  ? {uri: 'http://www.tasdeertech.com/videos/' + item.source}
-                  : null;
-              return (
-                <View style={Styles.imageCarousal}>
-                  {item.type == 'image' && (
-                    <Image
-                      source={{
-                        uri:
-                          'http://www.tasdeertech.com/images/posts/' +
-                          item.source,
-                      }}
-                      key={String(index)}
-                      resizeMode={'cover'}
-                      style={Styles.image}
-                    />
-                  )}
-                  {item.type == 'video' && (
-                    <View
-                      style={{
-                        flex: 1,
-                        backgroundColor: '#ededed',
-                        width: width,
-                      }}>
-                      {pausedCheck && (
-                        <Image
-                          activeOpacity={0.4}
-                          source={require('../../assets/camel3.png')}
-                          resizeMode={'cover'}
-                          style={[
-                            Styles.image,
-                            {backgroundColor: 'rgba(0,0,0,0.5)', opacity: 0.3},
-                          ]}
-                        />
-                      )}
-                      <TouchableOpacity
-                        style={{
-                          height: 70,
-                          width: 70,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          position: 'absolute',
-                          elevation: 2,
-                          bottom: height / 6,
-                          left: width / 2.3,
-                        }}
-                        onPress={() => {
-                          this.setState({
-                            pausedCheck: false,
-                            videoModal: true,
-                            modalItem: mediaSource,
-                          });
-                        }}>
-                        <Image
-                          activeOpacity={0.4}
-                          source={
-                            pausedCheck
-                              ? require('../../assets/play.png')
-                              : require('../../assets/pause.png')
-                          }
-                          resizeMode={'cover'}
-                          style={{width: 70, height: 70}}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  )}
-                </View>
-              );
+          <HorizontalCarousel
+            imagesArray={this.state.imagesArray}
+            onPress={mediaSource => {
+              this.setState({
+                pausedCheck: false,
+                videoModal: true,
+                modalItem: mediaSource,
+              });
             }}
-            sliderWidth={width}
-            itemWidth={width}
+            pausedCheck={pausedCheck}
+            pauseVideo={() => {
+              this.setState({pausedCheck: true});
+            }}
           />
           <View style={{textAlign: 'right'}}>
             <Text style={Styles.textHeadingg}>{ArabicText.Title}</Text>

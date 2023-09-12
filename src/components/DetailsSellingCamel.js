@@ -28,6 +28,8 @@ import {bindActionCreators} from 'redux';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 import * as ArabicText from '../language/EnglishToArabic';
+import HorizontalCarousel from './HorizontalCarousel';
+import VideoModal from './VideoModal';
 class DetailsComponent extends Component {
   constructor(props) {
     super(props);
@@ -51,6 +53,10 @@ class DetailsComponent extends Component {
 
       imagesArray: [],
       pauseVideo: true,
+      videoModal: false,
+      pausedCheck: true,
+      modalItem: '',
+      loadVideo: false,
     };
     this.getLastPrice();
   }
@@ -244,8 +250,9 @@ class DetailsComponent extends Component {
       this?.state?.user_ids,
       this?.state?.user?.id,
     );
+    const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
     return (
-      <ScrollView style={{backgroundColor: '#fff', flex:1}} >
+      <ScrollView style={{backgroundColor: '#fff', flex: 1}}>
         <View
           style={{
             flexDirection: 'row',
@@ -384,7 +391,7 @@ class DetailsComponent extends Component {
           </View>
         </View>
         <View style={Styles.containerDetails}>
-          <Carousel
+          {/* <Carousel
             // keyExtractor={this.state.mixed.fileName}
             data={this.state.imagesArray}
             layout={'default'}
@@ -426,8 +433,23 @@ class DetailsComponent extends Component {
             }}
             sliderWidth={width}
             itemWidth={width}
+          /> */}
+
+          <HorizontalCarousel
+            imagesArray={this.state.imagesArray}
+            onPress={mediaSource => {
+              this.setState({
+                pausedCheck: false,
+                videoModal: true,
+                modalItem: mediaSource,
+              });
+            }}
+            pausedCheck={pausedCheck}
+            pauseVideo={() => {
+              this.setState({pausedCheck: true});
+            }}
           />
-          <View style={{textAlign: 'right',}}>
+          <View style={{textAlign: 'right'}}>
             <Text style={Styles.textHeadingg}>{ArabicText.Title}</Text>
             <TextInput
               value={this.state.itemFromDetails.title}
@@ -569,6 +591,25 @@ class DetailsComponent extends Component {
             </TouchableOpacity>
           </View>
         </View>
+        {/* VIDEO MODAL */}
+        <VideoModal
+          onLoadStart={() => {
+            this.setState({loadVideo: true});
+          }}
+          onReadyForDisplay={() => {
+            this.setState({loadVideo: false});
+          }}
+          onPress={() => {
+            !loadVideo && this.setState({pausedCheck: !pausedCheck});
+          }}
+          closeModal={() => {
+            this.setState({videoModal: false, pausedCheck: true});
+          }}
+          pausedCheck={pausedCheck}
+          loadVideo={loadVideo}
+          videoModal={videoModal}
+          modalItem={modalItem}
+        />
       </ScrollView>
     );
   }

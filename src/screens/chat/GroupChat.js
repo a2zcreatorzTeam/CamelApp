@@ -28,6 +28,7 @@ import {bindActionCreators} from 'redux';
 import GetLocation from 'react-native-get-location';
 const {width, height} = Dimensions.get('window');
 import Video from 'react-native-video';
+import VideoModal from '../../components/VideoModal';
 const GroupChat = props => {
   const flatListRef = useRef();
   const [inputValue, setInputValue] = useState('');
@@ -41,6 +42,12 @@ const GroupChat = props => {
   const [flagvideo, setFlagVedio] = useState([]);
   const [indexx, setIndexx] = useState();
   const [loader, setLoader] = useState(false);
+
+  const [pausedCheck, setPausedCheck] = useState(true);
+  const [modalItem, setModalItem] = useState('');
+  const [videoModal, setVideoModal] = useState(false);
+  const [loadVideo, setLoadVideo] = useState(false);
+
   const navigation = useNavigation();
   // const [sendMessage, setSendMessage] = useState([]);
   // const [showImage, setShowImage] = useState(undefined);
@@ -59,22 +66,20 @@ const GroupChat = props => {
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
           title: `Alsyahd Mobile App`,
-          message: 
-            'Alsyahd needs location access to get your current location',
-          
+          message: 'Alsyahd needs location access to get your current location',
+
           buttonNeutral: 'Ask Me Later',
           buttonNegative: 'Cancel',
           buttonPositive: 'OK',
-        }
-        )
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log("You can use the location")
-          alert("You can use the location");
-        } else {
-          console.log("location permission denied")
-          alert("Location permission denied");
-        }
-    
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('You can use the location');
+        alert('You can use the location');
+      } else {
+        console.log('location permission denied');
+        alert('Location permission denied');
+      }
     } catch (err) {
       console.log(err);
     }
@@ -143,51 +148,45 @@ const GroupChat = props => {
     }
   };
   const postGroupChat = async () => {
-   
-    
     const locations = `${lat},${long}`;
-    
+
     try {
-      if(!inputValue){
-        setLoader(false)
-        alert('Please Enter Message');
-      }
-      else{
-
-      setLoader(true);
-      const videoDummyLink = [`"data:${mimeVedio};base64",${video}"`];
-      const imageDummyLink = [
-        `"data:${image?.mediaType};base64,${image?.pickedImage}"`,
-      ];
-      console.log('====================================');
-      console.log(videoDummyLink);
-      console.log('====================================');
-      const paramsData = {
-        sender_id: user?.user?.user?.id,
-        reciever_id: null,
-        group_id: group_id,
-        message: inputValue,
-        location: lat ? locations?.toString() : null,
-        file_url: image ? imageDummyLink : video ? videoDummyLink : null,
-      };
-      console.log('====================================');
-      console.log(paramsData);
-      console.log('====================================');
-      await camelapp.post('/sendmsg', paramsData).then(res => {
+      if (!inputValue) {
         setLoader(false);
-        setInputValue('');
-        setImage(null);
-        getGroupChat();
-        setlat(null);
-        setlong(null);
-        setMimeVideo(null);
-        setVideo(null);
-        console.log(res.data, '<<<<postGroupChat res');
-      
-
-      });
-    }
-  } catch (error) {
+        alert('Please Enter Message');
+      } else {
+        setLoader(true);
+        const videoDummyLink = [`"data:${mimeVedio};base64",${video}"`];
+        const imageDummyLink = [
+          `"data:${image?.mediaType};base64,${image?.pickedImage}"`,
+        ];
+        console.log('====================================');
+        console.log(videoDummyLink);
+        console.log('====================================');
+        const paramsData = {
+          sender_id: user?.user?.user?.id,
+          reciever_id: null,
+          group_id: group_id,
+          message: inputValue,
+          location: lat ? locations?.toString() : null,
+          file_url: image ? imageDummyLink : video ? videoDummyLink : null,
+        };
+        console.log('====================================');
+        console.log(paramsData);
+        console.log('====================================');
+        await camelapp.post('/sendmsg', paramsData).then(res => {
+          setLoader(false);
+          setInputValue('');
+          setImage(null);
+          getGroupChat();
+          setlat(null);
+          setlong(null);
+          setMimeVideo(null);
+          setVideo(null);
+          console.log(res.data, '<<<<postGroupChat res');
+        });
+      }
+    } catch (error) {
       console.log(error.response, '<<<<postGroupChat ERROR');
     }
   };
@@ -266,7 +265,7 @@ const GroupChat = props => {
     // setGroupChat( tempArray)
   };
   useEffect(() => {
-    requestLocationPermission()
+    requestLocationPermission();
     setTimeout(() => {
       getGroupChat();
     }, 500);
@@ -423,30 +422,78 @@ const GroupChat = props => {
                     </View>
                   ) : null}
 
+                  {/* CHAT VIDEO */}
                   {item?.file_type == 'video' && (
-                    <Video
-                      onTouchStart={() => onTouchStart(index, item)}
-                      // onTouchStart={onTouchStart}
-                      paused={item?.flagForVideo}
-                      source={{
-                        uri: `http://www.tasdeertech.com${item.file_url}`,
-                      }} // Can be a URL or a local file.
-                      resizeMode="stretch"
-                      //  repeat
-                      controls={false}
+                    <View
                       style={{
-                        backgroundColor: 'grey',
-                        width: 200,
-                        height: 150,
-                        margin: 10,
-                        padding: 10,
-                        overflow: 'hidden',
-                        borderTopStartRadius: 25,
-                        borderBottomEndRadius: 25,
-                        borderBottomStartRadius: 25,
-                        left: width - 220,
-                      }}
-                    />
+                        flex: 1,
+                        backgroundColor: '#ededed',
+                        width: width,
+                      }}>
+                      {pausedCheck && (
+                        <Image
+                          activeOpacity={0.4}
+                          source={require('../../../assets/camel3.png')}
+                          resizeMode={'cover'}
+                          style={[
+                            Styles.image,
+                            {backgroundColor: 'rgba(0,0,0,0.5)', opacity: 0.3},
+                          ]}
+                        />
+                      )}
+                      <TouchableOpacity
+                        style={{
+                          height: 70,
+                          width: 70,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          position: 'absolute',
+                          elevation: 2,
+                          bottom: height / 6,
+                          left: width / 2.3,
+                        }}
+                        onPress={() => {
+                          setPausedCheck(false);
+                          setVideoModal(true);
+                          setModalItem({
+                            uri: `http://www.tasdeertech.com${item.file_url}`,
+                          });
+                        }}>
+                        <Image
+                          activeOpacity={0.4}
+                          source={
+                            pausedCheck
+                              ? require('../../../assets/play.png')
+                              : require('../../../assets/pause.png')
+                          }
+                          resizeMode={'cover'}
+                          style={{width: 70, height: 70}}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    // <Video
+                    //   onTouchStart={() => onTouchStart(index, item)}
+                    //   // onTouchStart={onTouchStart}
+                    //   paused={item?.flagForVideo}
+                    //   source={{
+                    //     uri: `http://www.tasdeertech.com${item.file_url}`,
+                    //   }} // Can be a URL or a local file.
+                    //   resizeMode="stretch"
+                    //   //  repeat
+                    //   controls={false}
+                    //   style={{
+                    //     backgroundColor: 'grey',
+                    //     width: 200,
+                    //     height: 150,
+                    //     margin: 10,
+                    //     padding: 10,
+                    //     overflow: 'hidden',
+                    //     borderTopStartRadius: 25,
+                    //     borderBottomEndRadius: 25,
+                    //     borderBottomStartRadius: 25,
+                    //     left: width - 220,
+                    //   }}
+                    // />
                   )}
                   {item?.location !== null && (
                     <>
@@ -551,6 +598,26 @@ const GroupChat = props => {
         openGallery={openGallery}
         selectOneFile={selectOneFile}
         getLocation={getLocation}
+      />
+      {/* VIDEO MODAL */}
+      <VideoModal
+        onLoadStart={() => {
+          setLoadVideo(true);
+        }}
+        onReadyForDisplay={() => {
+          setLoadVideo(false);
+        }}
+        onPress={() => {
+          !loadVideo && setPausedCheck(!pausedCheck);
+        }}
+        closeModal={() => {
+          setVideoModal(false);
+          setPausedCheck(true);
+        }}
+        pausedCheck={pausedCheck}
+        loadVideo={loadVideo}
+        videoModal={videoModal}
+        modalItem={modalItem}
       />
     </View>
   );

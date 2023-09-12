@@ -1,4 +1,4 @@
-import React, { useState, memo, useCallback, useMemo } from 'react';
+import React, {useState, memo, useCallback, useMemo} from 'react';
 import {
   Text,
   View,
@@ -18,11 +18,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Video from 'react-native-video';
 import Carousel from 'react-native-snap-carousel';
 import * as ArabicText from '../language/EnglishToArabic';
-const { width, height } = Dimensions.get('screen');
-import { useSelector } from 'react-redux';
+const {width, height} = Dimensions.get('screen');
+import {useSelector} from 'react-redux';
 //------Global Styling--------------//
-import { Styles } from '../styles/globlestyle';
-import { useNavigation } from '@react-navigation/native';
+import {Styles} from '../styles/globlestyle';
+import {useNavigation} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 const Post = ({
   item,
   onCommentsClick,
@@ -35,23 +36,21 @@ const Post = ({
   flagForVideo,
   pauseVideo,
   createdDate,
-
-
 }) => {
   // console.log(item, "postItemmmmm");
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const [modal, setModal] = useState(false);
   const [pausedCheck, setpausedCheck] = useState(true);
-  const user = useSelector(state => state?.user?.user?.user)
-  const [load, setLoad] = useState(false)
-  const [modalItem, setModalItem] = useState('')
-  const [modalItemType, setModalItemType] = useState('')
+  const user = useSelector(state => state?.user?.user?.user);
+  const [load, setLoad] = useState(false);
+  const [modalItem, setModalItem] = useState('');
+  const [modalItemType, setModalItemType] = useState('');
 
   const onUserProfileClick = async item => {
     if (item?.user_id === user?.id) {
       navigation?.navigate('Profile');
     } else {
-      console.log("userProfillee");
+      // console.log('userProfillee');
       navigation?.navigate('UserProfile', {
         user_id: item?.user_id,
       });
@@ -135,7 +134,7 @@ const Post = ({
   const handleLikesClick = useCallback(() => {
     onLikesClick(item);
   }, [onLikesClick, item]);
-
+console.log(flagForLike,"flagForLikeflagForLike");
   // const handleUserProfileClick = useCallback(() => {
   //   onUserProfileClick && onUserProfileClick(item);
   // }, [onUserProfileClick, item]);
@@ -143,9 +142,6 @@ const Post = ({
   const handleCategoryClick = useCallback(() => {
     onCategoryClick(item);
   }, [onCategoryClick, item]);
-
-
-
 
   // price={item?.price}
   // item={item}
@@ -169,9 +165,7 @@ const Post = ({
     <View style={styles.main}>
       {/*Post Header*/}
       <View style={styles.headerContainer}>
-        <TouchableOpacity style={Styles.btnHome2}
-
-          onPress={handleCategoryClick}>
+        <TouchableOpacity style={Styles.btnHome2} onPress={handleCategoryClick}>
           <Text style={styles.catBtnText}>{category_name}</Text>
         </TouchableOpacity>
         {/* Profile Btn */}
@@ -179,7 +173,7 @@ const Post = ({
           activeOpacity={0.9}
           onPress={() => onUserProfileClick(item)}
           style={styles.userIcon}>
-          <View style={{ maxWidth: 200, paddingRight: 5, marginBottom: 2 }}>
+          <View style={{maxWidth: 200, paddingRight: 5, marginBottom: 2}}>
             <Text style={styles.userName}>{name}</Text>
             <Text style={styles.postDate}>{date ? date : createdDate}</Text>
             <Text style={styles.userLocation}>{user_location}</Text>
@@ -188,7 +182,7 @@ const Post = ({
             source={{
               uri: 'http://www.tasdeertech.com/images/profiles/' + user_images,
             }}
-            style={{ width: 55, height: 55, borderRadius: 30 }}
+            style={{width: 55, height: 55, borderRadius: 30}}
           />
         </TouchableOpacity>
       </View>
@@ -202,22 +196,27 @@ const Post = ({
           backgroundColor: '#f3f3f3',
         }}>
         {imagesArray?.map((item, index) => {
+          // console.log(item, 'itemmm198');
           const isImage = item.type === 'image';
           const isVideo = item.type === 'video';
 
           const mediaSource = isImage
-            ? { uri: 'http://www.tasdeertech.com/images/posts/' + item.source }
+            ? {uri: 'http://www.tasdeertech.com/images/posts/' + item?.source}
             : isVideo
-              ? { uri: 'http://www.tasdeertech.com/videos/' + item.source }
-              : null;
-
+            ? {uri: 'http://www.tasdeertech.com/videos/' + item?.source}
+            : null;
+          // console.log(mediaSource);
           return (
             <TouchableWithoutFeedback
               key={index}
-              onPress={() => { setModal(true), setModalItem(mediaSource), setModalItemType(item?.type) }}
-              style={{ backgroundColor: 'yellow' }}>
+              onPress={() => {
+                setModal(true),
+                  setModalItem(mediaSource),
+                  setModalItemType(item?.type);
+              }}
+              style={{backgroundColor: 'yellow'}}>
               <View
-                style={[Styles.imageCarousal, { backgroundColor: '#f3f3f3' }]}>
+                style={[Styles.imageCarousal, {backgroundColor: '#f3f3f3'}]}>
                 {price && (
                   <View style={styles.priceContainer}>
                     <Text style={styles.priceTxt}> {ArabicText.Price}</Text>
@@ -227,43 +226,39 @@ const Post = ({
                   </View>
                 )}
 
-                {isImage && (
-                  <Image
-                    source={mediaSource}
-                    key={String(index)}
-                    resizeMode="cover"
+                {isImage && mediaSource && (
+                  // <Image
+                  //   source={mediaSource}
+                  //   key={String(index)}
+                  //   resizeMode="cover"
+                  //   style={Styles.image}
+                  // />
+                  <FastImage
                     style={Styles.image}
+                    source={{
+                      uri:
+                        'http://www.tasdeertech.com/images/posts/' +
+                        item?.source,
+                      headers: {Authorization: 'someAuthToken'},
+                      priority: FastImage.priority.normal,
+                    }}
+                    resizeMode={FastImage?.resizeMode.cover}
                   />
                 )}
 
                 {isVideo && (
-                  <View style={{ flex: 1, backgroundColor: '#ededed' }}>
-                    {pausedCheck &&
+                  <View style={{flex: 1, backgroundColor: '#ededed'}}>
+                    {pausedCheck && (
                       <Image
                         activeOpacity={0.4}
                         source={require('../../assets/camel3.png')}
                         resizeMode={'cover'}
-                        style={[Styles.image, { backgroundColor: 'rgba(0,0,0,0.5)', opacity: 0.3 }]}
+                        style={[
+                          Styles.image,
+                          {backgroundColor: 'rgba(0,0,0,0.5)', opacity: 0.3},
+                        ]}
                       />
-                      // :
-                      // <Video
-                      //   onLoadStart={() => setLoad(true)}
-                      //   onReadyForDisplay={() => setLoad(false)}
-                      //   source={{
-                      //     uri: 'http://www.tasdeertech.com/videos/' + item.source,
-                      //   }}
-                      //   key={String(index)}
-                      //   resizeMode="contain"
-                      //   repeat={true}
-                      //   controls={false}
-                      //   paused={pausedCheck}
-                      //   style={[Styles.image, {
-                      //     width: width,
-                      //     height: height / 2.5,
-
-                      //   }]}
-                      // />
-                    }
+                    )}
                     <TouchableOpacity
                       style={{
                         height: 70,
@@ -275,27 +270,28 @@ const Post = ({
                         bottom: height / 6,
                         left: width / 2.3,
                       }}
-                      onPress={
-                        () => {
-                          // load ? null :
-                          // setPaused(!paused)
-                          setpausedCheck(false),
-                            setModal(true), setModalItem(mediaSource), setModalItemType(item?.type)
-                        }
-                      }
-                    >
+                      onPress={() => {
+                        setpausedCheck(false),
+                          setModal(true),
+                          setModalItem(mediaSource),
+                          setModalItemType(item?.type);
+                      }}>
                       <Image
                         activeOpacity={0.4}
-                        source={pausedCheck ? require('../../assets/play.png') : require('../../assets/pause.png')}
+                        source={
+                          pausedCheck
+                            ? require('../../assets/play.png')
+                            : require('../../assets/pause.png')
+                        }
                         resizeMode={'cover'}
-                        style={{ width: 70, height: 70 }}
+                        style={{width: 70, height: 70}}
                       />
                     </TouchableOpacity>
                   </View>
                 )}
 
                 {!isImage && !isVideo && (
-                  <Text style={{ color: '#000' }}>Media not available</Text>
+                  <Text style={{color: '#000'}}>Media not available</Text>
                 )}
               </View>
             </TouchableWithoutFeedback>
@@ -379,17 +375,21 @@ const Post = ({
         visible={modal}
         transparent={true}
         animationType="fade"
-        onRequestClose={() => { setModal(false), setpausedCheck(true) }}>
+        onRequestClose={() => {
+          setModal(false), setpausedCheck(true);
+        }}>
         <View style={styles.modalContainer}>
           {/* Modal Close Button */}
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => { setModal(false), setpausedCheck(true) }}
+            onPress={() => {
+              setModal(false), setpausedCheck(true);
+            }}
             style={styles.modalCloseBTN}>
             <AntDesign name="closecircle" size={35} color="#fff" />
           </TouchableOpacity>
 
-          <View style={{ height: 300, backgroundColor: 'red' }}>
+          <View style={{height: 300}}>
             <View style={Styles.imageCarousal}>
               {modalItemType === 'image' && (
                 <Image
@@ -399,7 +399,7 @@ const Post = ({
                 />
               )}
               {modalItemType == 'video' && (
-                <View style={{ flex: 1, backgroundColor: '#ededed' }}>
+                <View style={{flex: 1, backgroundColor: '#ededed'}}>
                   <Video
                     onLoadStart={() => setLoad(true)}
                     onReadyForDisplay={() => setLoad(false)}
@@ -408,10 +408,13 @@ const Post = ({
                     repeat={true}
                     controls={false}
                     paused={pausedCheck}
-                    style={[Styles.image, {
-                      width: width,
-                      height: height / 2.5,
-                    }]}
+                    style={[
+                      Styles.image,
+                      {
+                        width: width,
+                        height: height / 2.5,
+                      },
+                    ]}
                   />
                   {/* } */}
                   <TouchableOpacity
@@ -425,23 +428,24 @@ const Post = ({
                       bottom: height / 6,
                       left: width / 2.3,
                     }}
-                    onPress={
-                      () => {
-                        setpausedCheck(true)
-                        load ? null :
-                          setpausedCheck(!pausedCheck)
-                      }
-                    }
-                  >
-                    {
-                      load ? <ActivityIndicator size="large" /> :
-                        <Image
-                          activeOpacity={0.4}
-                          source={pausedCheck ? require('../../assets/play.png') : require('../../assets/pause.png')}
-                          resizeMode={'cover'}
-                          style={{ width: 70, height: 70 }}
-                        />
-                    }
+                    onPress={() => {
+                      setpausedCheck(true);
+                      load ? null : setpausedCheck(!pausedCheck);
+                    }}>
+                    {load ? (
+                      <ActivityIndicator size="large" />
+                    ) : (
+                      <Image
+                        activeOpacity={0.4}
+                        source={
+                          pausedCheck
+                            ? require('../../assets/play.png')
+                            : require('../../assets/pause.png')
+                        }
+                        resizeMode={'cover'}
+                        style={{width: 70, height: 70}}
+                      />
+                    )}
                   </TouchableOpacity>
                 </View>
               )}
@@ -451,7 +455,7 @@ const Post = ({
           <View style={styles.modalMediaWrpr}>
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => onUserProfileClick()}
+              onPress={() => {}}
               style={styles.userProfileContainer}>
               <Image
                 source={{
@@ -462,8 +466,8 @@ const Post = ({
               />
             </TouchableOpacity>
             <View style={styles.userInfoContainer}>
-              <Text style={[styles.userName, { color: '#fff' }]}>{name}</Text>
-              <Text style={[styles.userLocation, { color: '#fff' }]}>
+              <Text style={[styles.userName, {color: '#fff'}]}>{name}</Text>
+              <Text style={[styles.userLocation, {color: '#fff'}]}>
                 {user_location}
               </Text>
             </View>
@@ -499,7 +503,7 @@ const Post = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
             {' '}
             {view_count}
           </Text>
@@ -514,7 +518,7 @@ const Post = ({
             marginRight: 5,
           }}
           onPress={handleShareClick}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
             {share_count}
           </Text>
           <Ionicons name="share-social-sharp" size={20} color="#CD853F" />
@@ -528,7 +532,7 @@ const Post = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
             {comment_count}
           </Text>
           <Feather name="message-square" size={18} color="#CD853F" />
@@ -541,7 +545,7 @@ const Post = ({
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
             {like_count}
           </Text>
 
@@ -555,7 +559,7 @@ const Post = ({
 
       <View style={Styles.posticon}>
         <TouchableOpacity onPress={handleDetailsClick} style={Styles.btnHome}>
-          <Text style={{ color: '#fff', fontWeight: 'bold' }}>
+          <Text style={{color: '#fff', fontWeight: 'bold'}}>
             {ArabicText.Details}
           </Text>
         </TouchableOpacity>
@@ -590,7 +594,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 10,
   },
-  catBtnText: { color: '#D2691Eff', fontWeight: 'bold', fontSize: 15 },
+  catBtnText: {color: '#D2691Eff', fontWeight: 'bold', fontSize: 15},
   userIcon: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -618,7 +622,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000db',
     justifyContent: 'center',
   },
-  modalCloseBTN: { top: 10, right: 15, position: 'absolute' },
+  modalCloseBTN: {top: 10, right: 15, position: 'absolute'},
   modalMediaWrpr: {
     width: width,
     height: 60,
@@ -679,7 +683,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 30,
   },
-  titleContainer: { position: 'absolute', right: 5, width: 220 },
+  titleContainer: {position: 'absolute', right: 5, width: 220},
   titleText: {
     color: '#fff',
     fontSize: 15,

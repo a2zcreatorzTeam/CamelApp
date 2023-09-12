@@ -23,6 +23,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Loader from '../components/PleaseWait';
 import Ads from '../components/Ads';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
+import HorizontalCarousel from '../components/HorizontalCarousel';
+import VideoModal from '../components/VideoModal';
 const width = Dimensions.get('screen').width;
 
 class TreatingCamels extends Component {
@@ -50,6 +52,10 @@ class TreatingCamels extends Component {
       controls: false,
       progress: null,
       loading: false,
+      videoModal: false,
+      pausedCheck: true,
+      modalItem: '',
+      loadVideo: false,
     };
   }
 
@@ -231,13 +237,15 @@ class TreatingCamels extends Component {
         })
         .then(response => {
           console.log('response', response.data);
-          this.setState({loading: false,  
+          this.setState({
+            loading: false,
             video: undefined,
             videoForPost: undefined,
             imagesForPost: undefined,
             image: undefined,
             cameraimage: [],
-            cameraimagesForPost: undefined,});
+            cameraimagesForPost: undefined,
+          });
 
           alert(ArabicText.Post_added_successfully);
           // this.props.navigation.navigate("Home")
@@ -253,11 +261,13 @@ class TreatingCamels extends Component {
     }
   };
 
-  componentDidMount(){
-    console.log("component 257 trating camel");
+  componentDidMount() {
+    console.log('component 257 trating camel');
   }
 
   render() {
+    const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
+
     return (
       <ScrollView style={{backgroundColor: '#ffffff'}}>
         <Ads />
@@ -271,8 +281,22 @@ class TreatingCamels extends Component {
             }}>
             علاج الحلال
           </Text>
-
-          <Carousel
+          <HorizontalCarousel
+            CustomUrl
+            imagesArray={this.state.mixed}
+            onPress={mediaSource => {
+              this.setState({
+                pausedCheck: false,
+                videoModal: true,
+                modalItem: mediaSource,
+              });
+            }}
+            pausedCheck={pausedCheck}
+            pauseVideo={() => {
+              this.setState({pausedCheck: true});
+            }}
+          />
+          {/* <Carousel
             keyExtractor={this.state.mixed.fileName}
             data={this.state.mixed}
             layout={'default'}
@@ -308,7 +332,7 @@ class TreatingCamels extends Component {
             }}
             sliderWidth={width}
             itemWidth={width}
-          />
+          /> */}
 
           {this.state.imageFlage && (
             <Image
@@ -413,6 +437,25 @@ class TreatingCamels extends Component {
             </View>
           </TouchableOpacity>
         </View>
+        {/* VIDEO MODAL */}
+        <VideoModal
+          onLoadStart={() => {
+            this.setState({loadVideo: true});
+          }}
+          onReadyForDisplay={() => {
+            this.setState({loadVideo: false});
+          }}
+          onPress={() => {
+            !loadVideo && this.setState({pausedCheck: !pausedCheck});
+          }}
+          closeModal={() => {
+            this.setState({videoModal: false, pausedCheck: true});
+          }}
+          pausedCheck={pausedCheck}
+          loadVideo={loadVideo}
+          videoModal={videoModal}
+          modalItem={modalItem}
+        />
       </ScrollView>
     );
   }

@@ -1,38 +1,44 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   View,
   Text,
-  TouchableOpacity, Image, TextInput, ScrollView, Dimensions, StyleSheet
-} from "react-native";
-import { Styles } from '../styles/globlestyle'
+  TouchableOpacity,
+  Image,
+  TextInput,
+  ScrollView,
+  Dimensions,
+  StyleSheet,
+} from 'react-native';
+import {Styles} from '../styles/globlestyle';
 import Video from 'react-native-video';
 import Carousel from 'react-native-snap-carousel';
-import "react-native-gesture-handler";
-import * as ArabicText from "../language/EnglishToArabic";
+import 'react-native-gesture-handler';
+import * as ArabicText from '../language/EnglishToArabic';
 import RNFS from 'react-native-fs';
-import camelapp from "../api/camelapp";
-import { connect } from 'react-redux';
+import camelapp from '../api/camelapp';
+import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import { bindActionCreators } from 'redux';
+import {bindActionCreators} from 'redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
+import VideoModal from '../components/VideoModal';
+import HorizontalCarousel from '../components/HorizontalCarousel';
 
-const width = Dimensions.get('screen').width
+const width = Dimensions.get('screen').width;
 
 class CamelClub extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      title: "",
-      location: "",
-      description: "",
-      age: "",
-      image:undefined,
+      title: '',
+      location: '',
+      description: '',
+      age: '',
+      image: undefined,
       cameraimage: [],
 
       cameraimagesForPost: undefined,
-      imageArray: "",
+      imageArray: '',
       imageFlage: false,
       video: undefined,
       videoForPost: undefined,
@@ -44,46 +50,50 @@ class CamelClub extends Component {
       progress: null,
       competitionItem: props.route.params.competitionItem,
 
-    }
+      videoModal: false,
+      pausedCheck: true,
+      modalItem: '',
+      loadVideo: false,
+    };
   }
 
   openCamera = async () => {
-    this.setState({ video: {} })
+    this.setState({video: {}});
     ImageCropPicker.openPicker({
       mediaType: 'video',
-    }).then(async (video) => {
+    }).then(async video => {
       if (video?.size > 10000000) {
-        alert("Video must be less then 10 MB")
+        alert('Video must be less then 10 MB');
       } else {
-        RNFS.readFile(video.path, 'base64').then(res => {
-          this.setState({ videoForPost: "data:video/mp4;base64," + res });
-          let tempMixed = this.state.mixed;
-          let mixed = this.state.mixed;
-          let videoFlag = false;
-          if (tempMixed.length > 0) {
-            tempMixed.map((item, index) => {
-              if (item?.mime != undefined) {
-
-                if (item?.mime.includes("video") === true) {
-                  mixed[index] = video
-                  videoFlag = true;
+        RNFS.readFile(video.path, 'base64')
+          .then(res => {
+            this.setState({videoForPost: 'data:video/mp4;base64,' + res});
+            let tempMixed = this.state.mixed;
+            let mixed = this.state.mixed;
+            let videoFlag = false;
+            if (tempMixed.length > 0) {
+              tempMixed.map((item, index) => {
+                if (item?.mime != undefined) {
+                  if (item?.mime.includes('video') === true) {
+                    mixed[index] = video;
+                    videoFlag = true;
+                  }
                 }
+              });
+              if (videoFlag === false) {
+                mixed.push(video);
               }
-            })
-            if (videoFlag === false) {
-              mixed.push(video);
+              this.setState({mixed: mixed, video: video});
+            } else {
+              tempMixed.push(video);
+              this.setState({mixed: tempMixed, video: video});
             }
-            this.setState({ mixed: mixed, video: video });
-          } else {
-            tempMixed.push(video);
-            this.setState({ mixed: tempMixed, video: video });
-          }
-        }).catch(err => {
-          console.log(err.message, err.code);
-        });
+          })
+          .catch(err => {
+            console.log(err.message, err.code);
+          });
       }
     });
-
   };
   openCameraForCapture() {
     ImageCropPicker.openCamera({
@@ -130,51 +140,45 @@ class CamelClub extends Component {
         console.log('error', error);
       });
   }
-
   openGallery() {
     ImageCropPicker.openPicker({
       mediaType: 'photo',
       multiple: true,
       includeBase64: true,
       selectionLimit: 4,
-    }).then(async (images) => {
-
-      if (images.length <= 4) {
-        let tempImage = images;
-        let bse64images = [];
-        let mixedTemp = [];
-        for (let i = 0; i < tempImage.length; i++) {
-          bse64images.push("data:image/png;base64," + images[i].data)
-          mixedTemp.push(tempImage[i]);
-        }
-        this.setState({ imagesForPost: bse64images, image: tempImage });
-
-        if (this.state.video != undefined) {
-          let video = this.state.video;
-          mixedTemp.push(video);
-        }
-        if (this.state.cameraimage != undefined) {
-          let cameraimage = this.state.cameraimage;
-          for (var i = 0; i < cameraimage?.length; i++) {
-            mixedTemp.push(cameraimage[i]);
+    })
+      .then(async images => {
+        if (images.length <= 4) {
+          let tempImage = images;
+          let bse64images = [];
+          let mixedTemp = [];
+          for (let i = 0; i < tempImage.length; i++) {
+            bse64images.push('data:image/png;base64,' + images[i].data);
+            mixedTemp.push(tempImage[i]);
           }
+          this.setState({imagesForPost: bse64images, image: tempImage});
+
+          if (this.state.video != undefined) {
+            let video = this.state.video;
+            mixedTemp.push(video);
+          }
+          if (this.state.cameraimage != undefined) {
+            let cameraimage = this.state.cameraimage;
+            for (var i = 0; i < cameraimage?.length; i++) {
+              mixedTemp.push(cameraimage[i]);
+            }
+          }
+          this.setState({mixed: mixedTemp});
+        } else {
+          alert('Only 4 images allowed');
         }
-        this.setState({ mixed: mixedTemp })
-      } else {
-        alert("Only 4 images allowed")
-      }
-      console.log("images", images)
-    }).catch((error) => {
-
-      console.log("error", error)
-    });
+        console.log('images', images);
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
   }
-
-
-
   createPostCamelClub = async () => {
-
-
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
     var combineImages;
@@ -202,24 +206,20 @@ class CamelClub extends Component {
       return alert('Upload upto 4 images');
     }
     if (
-      this.state.title != "" &&
-      this.state.description != "" &&
-      this.state.location != "" &&
-      this.state.age != "" &&
+      this.state.title != '' &&
+      this.state.description != '' &&
+      this.state.location != '' &&
+      this.state.age != '' &&
       this.state.mixed != []
-
     ) {
-
-      let { user } = this.props;
+      let {user} = this.props;
 
       let user_id = user.user.user.id;
 
       let competition_id = this.props.route.params.competitionItem;
 
-
-      camelapp.post('/add/competition',
-        {
-
+      camelapp
+        .post('/add/competition', {
           user_id: user_id,
           title: this.state.title,
           location: this.state.location,
@@ -227,37 +227,52 @@ class CamelClub extends Component {
           description: this.state.description,
           competition_id: competition_id,
           images: combineImages,
-          video: this.state.videoForPost
-        }).then((response) => {
-
-          console.log("response", response.data)
-
-          alert(ArabicText.Post_added_successfully + "");
-
-          this.setState({ title: "", description: "", location: "", image: [], fileName: "" })
-          this.props.navigation.navigate("Home")
-
-
-
-        }).catch((error) => {
+          video: this.state.videoForPost,
         })
+        .then(response => {
+          console.log('response', response.data);
 
+          alert(ArabicText.Post_added_successfully + '');
 
+          this.setState({
+            title: '',
+            description: '',
+            location: '',
+            image: [],
+            fileName: '',
+          });
+          this.props.navigation.navigate('Home');
+        })
+        .catch(error => {});
     } else {
-      alert(ArabicText.Please_complete_the_fields + "");
+      alert(ArabicText.Please_complete_the_fields + '');
       // alert("Please complete the fields")
     }
-
   };
 
-
   render() {
-
+    console.log('beautytytyty254');
+    const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
     return (
-      <ScrollView style={{ backgroundColor: "#FFFFFF" }}>
+      <ScrollView style={{backgroundColor: '#FFFFFF'}}>
         <View style={Styles.containerScroll}>
           <Text style={Styles.headingPostText}>{ArabicText.Camel_Club}</Text>
-
+          <HorizontalCarousel
+            CustomUrl
+            imagesArray={this.state.mixed?.length ? this.state.mixed : []}
+            onPress={mediaSource => {
+              this.setState({
+                pausedCheck: false,
+                videoModal: true,
+                modalItem: mediaSource,
+              });
+            }}
+            pausedCheck={pausedCheck}
+            pauseVideo={() => {
+              this.setState({pausedCheck: true});
+            }}
+          />
+          {/* 
           <Carousel
             keyExtractor={this.state.mixed.fileName}
             data={this.state.mixed}
@@ -292,13 +307,16 @@ class CamelClub extends Component {
             }}
             sliderWidth={width}
             itemWidth={width}
-          />
+          /> */}
 
-          <View style={{ flexDirection: 'row', marginTop: 10 }}>
+          <View style={{flexDirection: 'row', marginTop: 10}}>
             <View style={Styles.cameraview}>
-              <TouchableOpacity
-                onPress={() => this.openCamera()}>
-                <Ionicons name="md-camera-outline" size={30} color="#D2691Eff" />
+              <TouchableOpacity onPress={() => this.openCamera()}>
+                <Ionicons
+                  name="md-camera-outline"
+                  size={30}
+                  color="#D2691Eff"
+                />
               </TouchableOpacity>
             </View>
             <View style={Styles.cameraview}>
@@ -307,44 +325,37 @@ class CamelClub extends Component {
               </TouchableOpacity>
             </View>
             <View style={Styles.cameraview}>
-
-              <TouchableOpacity
-                onPress={() => this.openGallery()}>
+              <TouchableOpacity onPress={() => this.openGallery()}>
                 <Ionicons name="images-outline" size={30} color="#D2691Eff" />
               </TouchableOpacity>
             </View>
           </View>
-
-
-
 
           <TextInput
             style={Styles.forminputs}
             placeholder={ArabicText.Title}
             placeholderTextColor="#b0b0b0"
             value={this.state.title}
-            onChangeText={(text) => {
+            onChangeText={text => {
               if (text.length <= 24) {
-                this.setState({ title: text })
+                this.setState({title: text});
               } else {
                 alert(ArabicText.limitCharacters);
               }
-            }}
-          ></TextInput>
+            }}></TextInput>
 
           <TextInput
             style={Styles.forminputs}
             placeholder={ArabicText.Location}
             placeholderTextColor="#b0b0b0"
             value={this.state.location}
-            onChangeText={(text) => {
+            onChangeText={text => {
               if (text.length <= 24) {
-                this.setState({ location: text })
+                this.setState({location: text});
               } else {
                 alert(ArabicText.limitCharacters);
               }
             }}></TextInput>
-
 
           <TextInput
             style={Styles.forminputs}
@@ -352,53 +363,62 @@ class CamelClub extends Component {
             placeholderTextColor="#b0b0b0"
             keyboardType="default"
             value={this.state.age}
-            onChangeText={(text) => {
+            onChangeText={text => {
               if (text.length <= 24) {
-                this.setState({ age: text })
+                this.setState({age: text});
               } else {
                 alert(ArabicText.limitCharacters);
               }
             }}></TextInput>
           <TextInput
-            style={[Styles.inputdecrp, { marginTop: 20 }]}
+            style={[Styles.inputdecrp, {marginTop: 20}]}
             placeholder={ArabicText.Description}
             placeholderTextColor="#b0b0b0"
             value={this.state.description}
             multiline
-            onChangeText={(text) => {
+            onChangeText={text => {
               if (text.length <= 300) {
-                this.setState({ description: text })
+                this.setState({description: text});
               } else {
                 alert(ArabicText.description);
               }
-            }}
-
-          ></TextInput>
-
-
+            }}></TextInput>
 
           <TouchableOpacity onPress={() => this.createPostCamelClub()}>
-            <View style={Styles.btnform}><Text style={Styles.textbtn}>{ArabicText.add}</Text></View>
+            <View style={Styles.btnform}>
+              <Text style={Styles.textbtn}>{ArabicText.add}</Text>
+            </View>
           </TouchableOpacity>
         </View>
+        {/* VIDEO MODAL */}
+        <VideoModal
+          onLoadStart={() => {
+            this.setState({loadVideo: true});
+          }}
+          onReadyForDisplay={() => {
+            this.setState({loadVideo: false});
+          }}
+          onPress={() => {
+            !loadVideo && this.setState({pausedCheck: !pausedCheck});
+          }}
+          closeModal={() => {
+            this.setState({videoModal: false, pausedCheck: true});
+          }}
+          pausedCheck={pausedCheck}
+          loadVideo={loadVideo}
+          videoModal={videoModal}
+          modalItem={modalItem}
+        />
       </ScrollView>
-
-
     );
   }
 }
 
-
 const mapStateToProps = state => ({
-
-  user: state.user
-
+  user: state.user,
 });
 
-const ActionCreators = Object.assign(
-  {},
-  userActions
-);
+const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
@@ -409,6 +429,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
-  }
+    justifyContent: 'center',
+  },
 });

@@ -150,7 +150,6 @@ class Home extends Component {
       console.log('Error Message--- view post', error);
     }
   }
-
   async checkUser() {
     const userPhone = await AsyncStorage.getItem('@UserPhone');
     const userPass = await AsyncStorage.getItem('@UserPassword');
@@ -554,7 +553,6 @@ class Home extends Component {
         />
       );
     };
-
     const onCamelClubListClick = () => {
       this.props.navigation.navigate('CamelClubList');
     };

@@ -73,6 +73,7 @@ class CamelClub extends Component {
             cameraimage: prevstate.cameraimage.concat(tempImage),
           }));
           const newImageArray = this?.state?.cameraimage;
+          console.log(newImageArray, 'newImageArray');
 
           for (var i = 0; i < newImageArray?.length; i++) {
             mixedTemp.push(newImageArray[i]);
@@ -174,7 +175,7 @@ class CamelClub extends Component {
         } else {
           alert('Only 4 images allowed');
         }
-        console.log('images', images);
+        // console.log('images', images);
       })
       .catch(error => {
         console.log('error', error);
@@ -198,10 +199,10 @@ class CamelClub extends Component {
     if (this.state.videoForPost === undefined) {
       return alert('Can not post without video');
     }
-    console.log(
-      '==================this.state.imagesForPost==================',
-      combineImages?.length,
-    );
+    // console.log(
+    //   '==================this.state.imagesForPost==================',
+    //   combineImages?.length,
+    // );
     if (combineImages == undefined || combineImages?.length == 0) {
       return alert('Can not post without image');
     }
@@ -256,7 +257,7 @@ class CamelClub extends Component {
             CustomUrl
             imagesArray={this.state.mixed}
             onPress={mediaSource => {
-              console.log(mediaSource, 'mediaSource');
+              // console.log(mediaSource, 'mediaSource');
               this.setState({
                 pausedCheck: false,
                 videoModal: true,

@@ -110,7 +110,7 @@ class CamelClub extends Component {
             cameraimage: prevstate.cameraimage.concat(tempImage),
           }));
           const newImageArray = this?.state?.cameraimage;
-          console.log(newImageArray,"newImageArray");
+          console.log(newImageArray, 'newImageArray');
 
           for (var i = 0; i < newImageArray?.length; i++) {
             mixedTemp.push(newImageArray[i]);

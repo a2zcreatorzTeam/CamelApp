@@ -27,6 +27,7 @@ import {bindActionCreators} from 'redux';
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
 import * as ImageCropPicker from 'react-native-image-crop-picker';
+import VideoModal from '../components/VideoModal';
 
 class SellingCamel extends React.Component {
   constructor(props) {
@@ -188,8 +189,11 @@ class SellingCamel extends React.Component {
             let tempMixed = this.state.mixed;
             let mixed = this.state.mixed;
             let videoFlag = false;
+            console.log('19111');
             if (tempMixed.length > 0) {
+              console.log('19');
               tempMixed.map((item, index) => {
+                console.log(index, video, 'videorlllll');
                 if (item?.mime != undefined) {
                   if (item?.mime.includes('video') === true) {
                     mixed[index] = video;
@@ -341,7 +345,8 @@ class SellingCamel extends React.Component {
   }
 
   render() {
-    const {checked, videoModal, pausedCheck, loadVideo} = this.state;
+    const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
+
     console.log('item camel moving form');
     return (
       <SafeAreaView style={Styles.container}>
@@ -351,7 +356,22 @@ class SellingCamel extends React.Component {
             <Text style={[Styles.headingPostText, {marginTop: 30}]}>
               نقل الابل
             </Text>
-            <Carousel
+            <HorizontalCarousel
+              CustomUrl
+              imagesArray={this.state.mixed}
+              onPress={mediaSource => {
+                this.setState({
+                  pausedCheck: false,
+                  videoModal: true,
+                  modalItem: mediaSource,
+                });
+              }}
+              pausedCheck={pausedCheck}
+              pauseVideo={() => {
+                this.setState({pausedCheck: true});
+              }}
+            />
+            {/* <Carousel
               keyExtractor={this.state.mixed.fileName}
               data={this.state.mixed}
               layout={'default'}
@@ -421,7 +441,7 @@ class SellingCamel extends React.Component {
               }}
               sliderWidth={width}
               itemWidth={width}
-            />
+            /> */}
 
             <View style={{flexDirection: 'row', marginTop: 10}}>
               <View style={Styles.cameraview}>
@@ -698,109 +718,24 @@ class SellingCamel extends React.Component {
             </Modal>
 
             {/* VIDEO MODAL */}
-            <Modal
-              visible={videoModal}
-              transparent={true}
-              animationType="fade"
-              onRequestClose={() => {
+            <VideoModal
+              onLoadStart={() => {
+                this.setState({loadVideo: true});
+              }}
+              onReadyForDisplay={() => {
+                this.setState({loadVideo: false});
+              }}
+              onPress={() => {
+                !loadVideo && this.setState({pausedCheck: !pausedCheck});
+              }}
+              closeModal={() => {
                 this.setState({videoModal: false, pausedCheck: true});
-              }}>
-              <View style={styles.modalContainer}>
-                {/* Modal Close Button */}
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  onPress={() => {
-                    this.setState({videoModal: false, pausedCheck: true});
-                  }}
-                  style={styles.modalCloseBTN}>
-                  <AntDesign name="closecircle" size={35} color="#fff" />
-                </TouchableOpacity>
-
-                <View style={{height: 300, backgroundColor: 'red'}}>
-                  <View style={Styles.imageCarousal}>
-                    {
-                      <View style={{flex: 1, backgroundColor: '#ededed'}}>
-                        <Video
-                          onLoadStart={() => this.setState({loadVideo: true})}
-                          onReadyForDisplay={() =>
-                            this.setState({loadVideo: false})
-                          }
-                          source={modalItem}
-                          resizeMode="contain"
-                          repeat={true}
-                          controls={false}
-                          paused={pausedCheck}
-                          style={[
-                            Styles.image,
-                            {
-                              width: width,
-                              height: height / 2.5,
-                            },
-                          ]}
-                        />
-                        <TouchableOpacity
-                          style={{
-                            height: 70,
-                            width: 70,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            position: 'absolute',
-                            elevation: 2,
-                            bottom: height / 6,
-                            left: width / 2.3,
-                          }}
-                          onPress={() => {
-                            !loadVideo && this.setState({pausedCheck: true});
-                          }}>
-                          {loadVideo ? (
-                            <ActivityIndicator size="large" />
-                          ) : (
-                            <Image
-                              activeOpacity={0.4}
-                              source={
-                                pausedCheck
-                                  ? require('../../assets/play.png')
-                                  : require('../../assets/pause.png')
-                              }
-                              resizeMode={'cover'}
-                              style={{width: 70, height: 70}}
-                            />
-                          )}
-                        </TouchableOpacity>
-                      </View>
-                    }
-                  </View>
-                </View>
-
-                <View style={styles.modalMediaWrpr}>
-                  <TouchableOpacity
-                    activeOpacity={0.7}
-                    onPress={() => onUserProfileClick()}
-                    style={styles.userProfileContainer}>
-                    <Image
-                      source={{
-                        uri:
-                          'http://www.tasdeertech.com/images/profiles/' +
-                          user_images,
-                      }}
-                      style={styles.userProfileImage}
-                    />
-                  </TouchableOpacity>
-                  <View style={styles.userInfoContainer}>
-                    <Text style={[styles.userName, {color: '#fff'}]}>
-                      {name}
-                    </Text>
-                    <Text style={[styles.userLocation, {color: '#fff'}]}>
-                      {user_location}
-                    </Text>
-                  </View>
-
-                  <View style={styles.titleContainer}>
-                    <Text style={styles.titleText}>{title}</Text>
-                  </View>
-                </View>
-              </View>
-            </Modal>
+              }}
+              pausedCheck={pausedCheck}
+              loadVideo={loadVideo}
+              videoModal={videoModal}
+              modalItem={modalItem}
+            />
           </View>
         </ScrollView>
       </SafeAreaView>

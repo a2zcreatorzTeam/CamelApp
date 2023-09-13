@@ -23,6 +23,7 @@ import {Styles} from '../styles/globlestyle';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 import * as ArabicText from '../language/EnglishToArabic';
+import VideoModal from './VideoModal';
 
 class CamelClubDetailsComponent extends Component {
   constructor(props) {
@@ -39,6 +40,11 @@ class CamelClubDetailsComponent extends Component {
       },
       imagesArray: [],
       pauseVideo: true,
+
+      videoModal: false,
+      pausedCheck: true,
+      modalItem: '',
+      loadVideo: false,
     };
 
     console.log(
@@ -150,7 +156,7 @@ class CamelClubDetailsComponent extends Component {
   }
   render() {
     console.log('=CAMEL CLUB DETAILS-=-=');
-
+    const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
         <View
@@ -202,7 +208,22 @@ class CamelClubDetailsComponent extends Component {
         </View>
 
         <View style={Styles.containerDetails}>
-          <Carousel
+        <HorizontalCarousel
+            CustomUrl
+            imagesArray={this.state.imagesArray}
+            onPress={mediaSource => {
+              this.setState({
+                pausedCheck: false,
+                videoModal: true,
+                modalItem: mediaSource,
+              });
+            }}
+            pausedCheck={pausedCheck}
+            pauseVideo={() => {
+              this.setState({pausedCheck: true});
+            }}
+          />
+          {/* <Carousel
             data={this.state.imagesArray}
             layout={'default'}
             scrollEnabled={true}
@@ -242,7 +263,7 @@ class CamelClubDetailsComponent extends Component {
             }}
             sliderWidth={width}
             itemWidth={width}
-          />
+          /> */}
           <View style={{textAlign: 'right'}}>
             <Text style={Styles.textHeadingg}>{ArabicText.Title}</Text>
             <TextInput
@@ -314,6 +335,25 @@ class CamelClubDetailsComponent extends Component {
             </TouchableOpacity>
           </View>
         </View>
+         {/* VIDEO MODAL */}
+         <VideoModal
+          onLoadStart={() => {
+            this.setState({loadVideo: true});
+          }}
+          onReadyForDisplay={() => {
+            this.setState({loadVideo: false});
+          }}
+          onPress={() => {
+            !loadVideo && this.setState({pausedCheck: !pausedCheck});
+          }}
+          closeModal={() => {
+            this.setState({videoModal: false, pausedCheck: true});
+          }}
+          pausedCheck={pausedCheck}
+          loadVideo={loadVideo}
+          videoModal={videoModal}
+          modalItem={modalItem}
+        />
       </ScrollView>
     );
   }

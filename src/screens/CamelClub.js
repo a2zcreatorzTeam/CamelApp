@@ -10,8 +10,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
-import Video from 'react-native-video';
-import Carousel from 'react-native-snap-carousel';
 import * as ArabicText from '../language/EnglishToArabic';
 import RNFS from 'react-native-fs';
 import camelapp from '../api/camelapp';
@@ -23,7 +21,7 @@ import * as ImageCropPicker from 'react-native-image-crop-picker';
 import Loader from '../components/PleaseWait';
 import Ads from '../components/Ads';
 import VideoModal from '../components/VideoModal';
-const width = Dimensions.get('screen').width;
+import HorizontalCarousel from '../components/HorizontalCarousel';
 class CamelClub extends Component {
   constructor(props) {
     super(props);
@@ -262,7 +260,7 @@ class CamelClub extends Component {
           <View style={Styles.containerScroll}>
             <Text style={Styles.headingPostText}>{ArabicText.Camel_Club}</Text>
 
-            <HorizontalCarous
+            <HorizontalCarousel
               CustomUrl
               imagesArray={this.state.mixed}
               onPress={mediaSource => {
@@ -278,45 +276,8 @@ class CamelClub extends Component {
               }}
             />
 
-            {/* <Carousel
-              keyExtractor={this.state.mixed.fileName}
-              data={this.state.mixed}
-              layout={"default"}
-              scrollEnabled={true}
-              onScroll={() => this.setState({ pauseVideo: false })}
-              renderItem={({ item, index }) => {
-                return (
-                  <View style={Styles.imageCarousal}>
-                    {
-
-                      item.mime != undefined && item.mime.includes("image") && <Image source={{ uri: item.path }}
-                        key={String(index)}
-                        resizeMode={"cover"}
-                        style={{ width: "100%", height: "100%" }}
-                      />
-                    }
-                    {item.mime != undefined && item.mime.includes("video") &&
-
-
-                      < Video
-                        onTouchStart={() => {
-                          this.setState({ pauseVideo: !this.state.pauseVideo })
-                        }}
-                        source={{ uri: item.path }}
-                        key={String(index)}
-                        resizeMode='stretch'
-                        repeat
-                        controls={false}
-                        paused={this.state.pauseVideo}
-                        style={Styles.video} />}
-                  </View>
-                );
-              }}
-              sliderWidth={width}
-              itemWidth={width}
-            /> */}
-
             <View style={{flexDirection: 'row', marginTop: 10}}>
+              {/* VIDEO PICKER */}
               <View style={Styles.cameraview}>
                 <TouchableOpacity onPress={() => this.selectOneFile()}>
                   <Ionicons

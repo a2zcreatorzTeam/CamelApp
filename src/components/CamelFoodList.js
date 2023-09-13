@@ -31,14 +31,12 @@ class CamelFoodList extends Component {
       filterPosts: [],
       searchText: '',
       refreshing: false,
+      key: false,
     };
-
     this.viewPosts();
   }
-
   searchFunction(searchtext) {
     console.log('searchtext', searchtext);
-
     if (searchtext != undefined && searchtext.length != 0) {
       let tempPost = this.state.posts.filter(item => {
         return (
@@ -65,14 +63,12 @@ class CamelFoodList extends Component {
       this.setState({filterPosts: tempPost});
     }
   }
-
   search(text) {
     //console.log("post[0]", this.state.posts[0])
 
     //console.log("text", text);
     this.setState({searchText: text});
   }
-
   playVideo(item) {
     let {filterPosts} = this.state;
 
@@ -84,12 +80,10 @@ class CamelFoodList extends Component {
 
     this.setState({filterPosts: filterPosts});
   }
-
   ScrollToRefresh() {
     this.viewPosts();
     this.setState({refreshing: false});
   }
-
   async viewPosts() {
     try {
       return await camelapp.get('/get/camel_food').then(res => {
@@ -131,6 +125,7 @@ class CamelFoodList extends Component {
     });
   };
   render() {
+    const {key} = this.state;
     const renderItem = ({item}) => {
       return (
         <Post
@@ -156,8 +151,7 @@ class CamelFoodList extends Component {
           onTouchStart={() => this.playVideo(item)}
           playVideo={true}
           pauseFlag={item?.flagForVideo}
-          onCategoryClick={()=>console.log("first")}
-
+          onCategoryClick={() => console.log('first')}
         />
       );
     };
@@ -185,7 +179,6 @@ class CamelFoodList extends Component {
     };
     const onLikesClick = item => {
       this.setState({loading: false});
-
       let {user} = this.props;
       user = user.user.user;
       let post_id = item.id;
@@ -200,34 +193,35 @@ class CamelFoodList extends Component {
             console.log('response.data', response.data);
             if (response.data.status == true) {
               let filterPosts = this.state.filterPosts;
-
               let tempIndex = filterPosts.indexOf(item);
-
               let like_count = item.like_count + 1;
               let tempItem = item;
               tempItem['like_count'] = like_count;
               tempItem['flagForLike'] = true;
               filterPosts[tempIndex] = tempItem;
-
-              this.setState({loading: false, filterPosts: filterPosts});
+              this.setState({
+                loading: false,
+                filterPosts: filterPosts,
+                key: !key,
+              });
               // alert(ArabicText.Succesfully_liked);
             }
             if (response.data.status == false) {
               let filterPosts = this.state.filterPosts;
-
               let tempIndex = filterPosts.indexOf(item);
-
               let like_count = item.like_count - 1;
               let tempItem = item;
               tempItem['like_count'] = like_count;
               tempItem['flagForLike'] = false;
               filterPosts[tempIndex] = tempItem;
-
-              this.setState({loading: false, filterPosts: filterPosts});
+              this.setState({
+                loading: false,
+                filterPosts: filterPosts,
+                key: !key,
+              });
               // alert(ArabicText.Successfully_Unliked);
             }
-    this.viewPosts();
-
+            // this.viewPosts();
           })
           .catch(error => {
             console.log('error', error);
@@ -332,6 +326,7 @@ class CamelFoodList extends Component {
             <AddButton onPress={() => onAddButtonClick()} />
             <Loader loading={this.state.loading} />
             <FlatList
+              key={key}
               data={this.state.filterPosts}
               renderItem={renderItem}
               keyExtractor={item => item.id}

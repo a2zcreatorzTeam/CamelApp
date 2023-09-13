@@ -77,6 +77,7 @@ const Post = ({
       flagForVideo,
       lastBidPrice,
     } = item;
+    // console.log(item, "itemmmmm");
     // console.log(item,"flagForLikeflagForLike");
     return {
       price,
@@ -130,10 +131,10 @@ const Post = ({
     onDetailsClick(item);
   }, [onDetailsClick, item]);
 
-  const handleLikesClick = useCallback(() => {
-    onLikesClick(item);
-  }, [onLikesClick, item]);
-  console.log(flagForLike, 'flagForLikeflagForLike');
+  // const handleLikesClick = useCallback(() => {
+  //   onLikesClick(item);
+  // }, [onLikesClick, item]);
+  console.log(flagForLike == 'true', 'flagForLikeflagForLike', flagForLike);
   // const handleUserProfileClick = useCallback(() => {
   //   onUserProfileClick && onUserProfileClick(item);
   // }, [onUserProfileClick, item]);
@@ -538,7 +539,7 @@ const Post = ({
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={handleLikesClick}
+          onPress={() => onLikesClick(item)}
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -548,7 +549,7 @@ const Post = ({
             {like_count}
           </Text>
 
-          {flagForLike == true ? (
+          {flagForLike == 'true' || flagForLike == true ? (
             <AntDesign name="heart" size={18} color="#CD853F" />
           ) : (
             <AntDesign name="hearto" size={18} color="#CD853F" />

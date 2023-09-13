@@ -28,6 +28,7 @@ class CamelSellingList extends Component {
       refreshing: false,
       userId: null,
       searchedItem: '',
+      key: false,
     };
 
     this.viewPosts();
@@ -92,7 +93,6 @@ class CamelSellingList extends Component {
       console.log('Error Message--- view post', error);
     }
   }
-
   searchFunction(searchtext) {
     console.log('searchtext', searchtext);
 
@@ -120,7 +120,6 @@ class CamelSellingList extends Component {
       this.setState({filterPosts: tempPost});
     }
   }
-
   playVideo(item) {
     let {filterPosts} = this.state;
 
@@ -132,19 +131,16 @@ class CamelSellingList extends Component {
 
     this.setState({filterPosts: filterPosts});
   }
-
   search(text) {
     //console.log("post[0]", this.state.posts[0])
 
     //console.log("text", text);
     this.setState({searchText: text});
   }
-
   ScrollToRefresh() {
     this.viewPosts();
     this.setState({refreshing: false});
   }
-
   componentDidMount = () => {
     this.fetchUser();
     this.checkUserLogedIn();
@@ -153,7 +149,7 @@ class CamelSellingList extends Component {
     });
   };
   render() {
-    const {filterPosts, searchedItem} = this.state;
+    const {filterPosts, searchedItem, key} = this.state;
     console.log('====================================');
     console.log('IS THIS IS CAMEL SELLEING POST SCREEN?');
     const renderItem = ({item}) => {
@@ -182,7 +178,6 @@ class CamelSellingList extends Component {
         />
       );
     };
-
     const onCommentsClick = item => {
       let {user} = this.props;
       user = user.user.user;
@@ -204,7 +199,6 @@ class CamelSellingList extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-
     const sharePosts = item => {
       // console.log('working');
 
@@ -242,10 +236,9 @@ class CamelSellingList extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-
     const onLikesClick = item => {
+      const {key} = this.state;
       this.setState({loading: false});
-
       let {user} = this.props;
       user = user.user.user;
       let post_id = item.id;
@@ -262,29 +255,31 @@ class CamelSellingList extends Component {
               let filterPosts = this.state.filterPosts;
               this.viewPosts();
               let tempIndex = filterPosts.indexOf(item);
-
               let like_count = item.like_count + 1;
               let tempItem = item;
               tempItem['like_count'] = like_count;
               tempItem['flagForLike'] = true;
               filterPosts[tempIndex] = tempItem;
-
-              this.setState({loading: false, filterPosts: filterPosts});
+              this.setState({
+                loading: false,
+                filterPosts: filterPosts,
+                key: !key,
+              });
               // alert(ArabicText.Succesfully_liked);
             }
             if (response.data.status == false) {
               let filterPosts = this.state.filterPosts;
-
               let tempIndex = filterPosts.indexOf(item);
-
               let like_count = item.like_count - 1;
               let tempItem = item;
               tempItem['like_count'] = like_count;
               tempItem['flagForLike'] = false;
-
               filterPosts[tempIndex] = tempItem;
-
-              this.setState({loading: false, filterPosts: filterPosts});
+              this.setState({
+                loading: false,
+                filterPosts: filterPosts,
+                key: !key,
+              });
               // alert(ArabicText.Successfully_Unliked);
             }
           })
@@ -296,7 +291,6 @@ class CamelSellingList extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-
     const onDetailsClick = item => {
       let {user} = this.props;
       user = user.user.user;
@@ -357,6 +351,7 @@ class CamelSellingList extends Component {
             <AddButton onPress={() => onAddButtonClick()} />
             <Loader loading={this.state.loading} />
             <FlatList
+              key={key}
               data={searchedItem ? filterPosts : this.state.posts}
               renderItem={renderItem}
               keyExtractor={item => item.id}
@@ -369,7 +364,6 @@ class CamelSellingList extends Component {
                 />
               }
             />
-
             <View style={{marginBottom: 70}}></View>
           </View>
         )}

@@ -11,9 +11,8 @@ import {
   ActivityIndicator,
   Dimensions,
   RefreshControl,
- 
 } from 'react-native';
- import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import camelapp from '../api/camelapp';
 import {I18nManager} from 'react-native';
@@ -53,6 +52,7 @@ class Home extends Component {
       refreshing: false,
       searchText: '',
       counta: 5,
+      key: false,
     };
     this.scrollRef = React.createRef();
     LogBox.ignoreLogs([
@@ -66,7 +66,6 @@ class Home extends Component {
   }
 
   componentDidMount() {
- 
     this.viewPosts();
     this.checkUser();
   }
@@ -185,19 +184,14 @@ class Home extends Component {
     this.scrollRef.current.scrollToEnd({animated: false});
   };
   playVideo(item) {
-  
-
     // let {filterPosts} = this.state;
-
-  //   // let index = filterPosts.indexOf(item);
-
-  //   // filterPosts[index].flagForVideo = !filterPosts[index].flagForVideo;
-
+    //   // let index = filterPosts.indexOf(item);
+    //   // filterPosts[index].flagForVideo = !filterPosts[index].flagForVideo;
     // this.setState({filterPosts: filterPosts});
   }
   onCategoryClick = async item => {
     console.log('====================================');
-    console.log("onCategoryClick");
+    console.log('onCategoryClick');
     console.log('====================================');
     if (item.category_id == '1') {
       this.props.navigation.navigate('CamelClubList');
@@ -415,8 +409,8 @@ class Home extends Component {
   };
 
   onLikesClick = async item => {
+    const {key} = this.state;
     this.setState({loading: false});
-    console.log(item, 'ITEMEMEM');
     let {user} = this.props;
     user = user.user.user;
     let post_id = item.id;
@@ -431,30 +425,31 @@ class Home extends Component {
           console.log('response.data', response.data);
           if (response.data.status == true) {
             let filterPosts = this.state.filterPosts;
-
             let tempIndex = filterPosts.indexOf(item);
-            let like_count = item.like_count + 1;
+            let like_count = item?.like_count + 1;
             let tempItem = item;
             tempItem['like_count'] = like_count;
             tempItem['flagForLike'] = true;
             filterPosts[tempIndex] = tempItem;
-            this.setState({loading: false, filterPosts: filterPosts});
-            // alert(ArabicText.Succesfully_liked);
-            this.viewPosts();
+            this.setState({
+              loading: false,
+              filterPosts: filterPosts,
+              key: !key,
+            });
           }
           if (response.data.status == false) {
             let filterPosts = this.state.filterPosts;
-
             let tempIndex = filterPosts.indexOf(item);
-
             let like_count = item.like_count - 1;
             let tempItem = item;
             tempItem['like_count'] = like_count;
             tempItem['flagForLike'] = false;
             filterPosts[tempIndex] = tempItem;
-
-            this.setState({loading: false, filterPosts: filterPosts});
-            // alert(ArabicText.Successfully_Unliked);
+            this.setState({
+              loading: false,
+              filterPosts: filterPosts,
+              key: !key,
+            });
           }
         })
         .catch(error => {
@@ -523,7 +518,7 @@ class Home extends Component {
 
   readMore = n => {
     this.setState({
-      counta:this.state.counta + n,
+      counta: this.state.counta + n,
     });
   };
   render() {
@@ -536,6 +531,7 @@ class Home extends Component {
       playVideo,
       sharePosts,
     } = this;
+    const {key} = this.state;
     const renderItem = ({item}) => {
       return (
         <Post
@@ -544,12 +540,11 @@ class Home extends Component {
           onCategoryClick={onCategoryClick}
           onCommentsClick={onCommentsClick}
           onDetailsClick={onDetailsClick}
-          onLikesClick={onLikesClick}
+          onLikesClick={item => onLikesClick(item)}
           onTouchStart={playVideo}
           sharePost={sharePosts}
           flagForVideo={false}
           createdDate={item?.created_at?.slice(0, 10)}
-
         />
       );
     };
@@ -647,7 +642,6 @@ class Home extends Component {
         name: 'MS',
       },
     ];
- 
 
     return (
       <View style={styles.container}>
@@ -910,19 +904,25 @@ class Home extends Component {
             <Loader loading={this.state.loading} />
 
             <FlatList
-              data={this?.state?.filterPosts?.slice(0,this.state.counta)}
+              key={key}
+              data={this?.state?.filterPosts?.slice(0, this.state.counta)}
               keyExtractor={item => item.id.toString()}
               renderItem={renderItem}
-              onEndReachedThreshold={0.5}
-              //   onEndReached={() => {
-              //     this.readMore(n);
-              // }}
-              initialNumToRender={1}
+              // onEndReachedThreshold={0.5}
+              // initialNumToRender={1}
               // maxToRenderPerBatch={2}
               ListFooterComponent={() => {
                 return (
-                  <TouchableOpacity style={{backgroundColor:'lightgrey', alignSelf:'center', padding:10,marginVertical:20, borderRadius:100 }} onPress={() => this.readMore(4)}>
-                   <SimpleLineIcons name='reload' size={30} color="white"  />
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: 'lightgrey',
+                      alignSelf: 'center',
+                      padding: 10,
+                      marginVertical: 20,
+                      borderRadius: 100,
+                    }}
+                    onPress={() => this.readMore(4)}>
+                    <SimpleLineIcons name="reload" size={30} color="white" />
                   </TouchableOpacity>
                 );
               }}

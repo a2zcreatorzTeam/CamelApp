@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, {Component, useState} from 'react';
 import {
   Text,
   View,
@@ -14,7 +14,7 @@ import {
   Switch,
   RefreshControl,
 } from 'react-native';
-import { Styles } from '../styles/globlestyle';
+import {Styles} from '../styles/globlestyle';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -23,15 +23,15 @@ import Foundation from 'react-native-vector-icons/Foundation';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ArabicText from '../language/EnglishToArabic';
-import { Dimensions } from 'react-native';
-import { Card } from 'react-native-paper';
+import {Dimensions} from 'react-native';
+import {Card} from 'react-native-paper';
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
-import { Rating } from 'react-native-ratings';
+import {Rating} from 'react-native-ratings';
 import camelapp from '../api/camelapp';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import { bindActionCreators } from 'redux';
+import {bindActionCreators} from 'redux';
 import Video from 'react-native-video';
 import Carousel from 'react-native-snap-carousel';
 import Loader from '../components/PleaseWait';
@@ -59,12 +59,13 @@ class Profile extends Component {
       refreshing: false,
       posts: [],
       pausedCheck: false,
+      key: false,
     };
   }
 
   // ==========NEW============
   checkUserLogedIn() {
-    const { user } = this.props;
+    const {user} = this.props;
     if (user?.user?.user) {
       const length = parseInt(user?.user?.posts?.length);
       let rating = 0;
@@ -81,7 +82,7 @@ class Profile extends Component {
         rating = 5;
       }
 
-      this.setState({ rating: rating });
+      this.setState({rating: rating});
       this.fetchUser();
     } else {
       this.props.navigation.navigate('Login');
@@ -89,7 +90,7 @@ class Profile extends Component {
   }
 
   saveChat() {
-    let { user, actions } = this.props;
+    let {user, actions} = this.props;
     user = user?.user?.user;
 
     try {
@@ -98,7 +99,7 @@ class Profile extends Component {
           chat_status: this?.state?.chatFlag == true ? 1 : 0,
         })
         .then(res => {
-          this.setState({ modalChat: false });
+          this.setState({modalChat: false});
           //console.log("response at fetch", res.data);
         });
     } catch (error) {
@@ -106,7 +107,7 @@ class Profile extends Component {
     }
   }
   saveWhatsApp() {
-    let { user, actions } = this.props;
+    let {user, actions} = this.props;
     user = user?.user?.user;
 
     //console.log("this.state.registerSwitch", this.state.registerSwitch)
@@ -119,7 +120,7 @@ class Profile extends Component {
             whatsapp_status: this.state.registerSwitch,
           })
           .then(res => {
-            this.setState({ modal: false });
+            this.setState({modal: false});
             //console.log("response at fetch", res.data);
           });
       } catch (error) {
@@ -130,7 +131,7 @@ class Profile extends Component {
     }
   }
   updateNumber() {
-    let { user, actions } = this.props;
+    let {user, actions} = this.props;
     user = user?.user?.user;
 
     var number = 0;
@@ -147,16 +148,16 @@ class Profile extends Component {
       })
       .then(response => {
         if (response.data.status === true) {
-          this.setState({ modalOtp: true, modalPhone: false, otpValue: number });
+          this.setState({modalOtp: true, modalPhone: false, otpValue: number});
         }
       })
       .catch(error => {
         console.log('error', error);
-        this.setState({ loader: false, btnPressed: false });
+        this.setState({loader: false, btnPressed: false});
       });
   }
   verifiedSms() {
-    let { actions } = this.props;
+    let {actions} = this.props;
 
     camelapp
       .post('/update', {
@@ -168,7 +169,7 @@ class Profile extends Component {
 
         if (res?.data?.status == true) {
           actions.userData(res.data);
-          this.setState({ modalOtp: false, modalPhone: false });
+          this.setState({modalOtp: false, modalPhone: false});
           alert('Phone Updated Successfully');
         } else {
           alert('Phone Number Already Exist');
@@ -177,13 +178,12 @@ class Profile extends Component {
   }
   chatflag(value) {
     //console.log("value", value)
-    this.setState({ chatFlag: value });
+    this.setState({chatFlag: value});
   }
   onRegisterSwitchChanged(value) {
     //console.log("value", value)
-    this.setState({ registerSwitch: value });
+    this.setState({registerSwitch: value});
   }
-
   // onCategoryClick = async item => {
   //   if (item.category_id == '1') {
   //     this.props.navigation.navigate('CamelClubList');
@@ -238,9 +238,8 @@ class Profile extends Component {
       this.props.navigation.navigate(navigationKey);
     }
   };
-
   fetchUser() {
-    let { user, actions } = this.props;
+    let {user, actions} = this.props;
     user = user?.user?.user;
     console.log('================00USER00====================');
     console.log(user);
@@ -264,23 +263,20 @@ class Profile extends Component {
       //console.log("error at fetch user", error.response)
     }
   }
-
-
-  VideoPlay = (item) => {
-    console.log(item, "LOPLPOPLo");
+  VideoPlay = item => {
+    console.log(item, 'LOPLPOPLo');
     if (item?.source == 'UOmNlxYosf.mp4') {
-      this.setState({ pausedCheck: true })
+      this.setState({pausedCheck: true});
     }
-  }
+  };
   componentDidMount() {
     this.checkUserLogedIn();
   }
-
   onPostDelete(item) {
     console.log('DELETE POST');
     //console.log("item", item.id);
 
-    this.setState({ loader: true });
+    this.setState({loader: true});
 
     camelapp
       .post('delete/post', {
@@ -293,7 +289,7 @@ class Profile extends Component {
           this.fetchUser();
           this.checkUserLogedIn();
 
-          this.setState({ loader: false });
+          this.setState({loader: false});
         }
       });
 
@@ -307,17 +303,15 @@ class Profile extends Component {
     //   }
     // })
   }
-
   openFollowersModal() {
     //console.log("follower Modal is")
 
-    this.setState({ modal: true });
+    this.setState({modal: true});
   }
   openFollowingModal() {
-    this.setState({ modalFollowing: true });
+    this.setState({modalFollowing: true});
     //console.log("Follwing Modal is")
   }
-
   logOut() {
     console.log('====================================');
     console.log('LOGOUT');
@@ -327,10 +321,9 @@ class Profile extends Component {
 
     this.props.navigation.replace('Login');
   }
-
   ScrollToRefresh() {
     this.fetchUser();
-    this.setState({ refreshing: false });
+    this.setState({refreshing: false});
   }
   // componentDidMount = () => {
   //   this.focusListener = this.props.navigation.addListener('focus', () => {
@@ -338,17 +331,15 @@ class Profile extends Component {
   //   });
   // };
 
-
-
-
   render() {
+    const {key} = this.state;
     console.log('PROFILE SCREEN', this.state?.pausedCheck);
     const sharePosts = item => {
       console.log('working');
 
-      this.setState({ loading: true });
+      this.setState({loading: true});
 
-      let { user } = this.props;
+      let {user} = this.props;
       user = user?.user?.user;
       let post_id = item?.id;
       if (user != undefined) {
@@ -369,19 +360,19 @@ class Profile extends Component {
               tempItem['share_count'] = share_count;
               filterPosts[tempIndex] = tempItem;
 
-              this.setState({ loading: false, filterPosts: filterPosts });
+              this.setState({loading: false, filterPosts: filterPosts});
             }
           })
           .catch(error => {
             console.log('error', error);
-            this.setState({ loading: false });
+            this.setState({loading: false});
           });
       } else {
         this.props.navigation.navigate('Login');
       }
     };
     const onCommentsClick = item => {
-      let { user } = this.props;
+      let {user} = this.props;
       user = user?.user?.user;
       let post_id = item?.id;
       if (user != undefined) {
@@ -401,9 +392,9 @@ class Profile extends Component {
       }
     };
     const onLikesClick = item => {
-      this.setState({ loading: false });
-
-      let { user } = this.props;
+      const {key} = this.state;
+      this.setState({loading: false});
+      let {user} = this.props;
       user = user?.user?.user;
       let post_id = item?.id;
       if (user != undefined) {
@@ -417,34 +408,36 @@ class Profile extends Component {
             console.log('response.data', response.data);
             if (response?.data?.status == true) {
               let filterPosts = this.state.filterPosts;
-
               let tempIndex = filterPosts?.indexOf(item);
-
               let like_count = item?.like_count + 1;
               let tempItem = item;
               tempItem['like_count'] = like_count;
               filterPosts[tempIndex] = tempItem;
-
-              this.setState({ loading: false, filterPosts: filterPosts });
-              alert(ArabicText.Succesfully_liked);
+              this.setState({
+                loading: false,
+                filterPosts: filterPosts,
+                key: !key,
+              });
+              // alert(ArabicText.Succesfully_liked);
             }
             if (response?.data?.status == false) {
               let filterPosts = this.state.filterPosts;
-
               let tempIndex = filterPosts?.indexOf(item);
-
               let like_count = item?.like_count - 1;
               let tempItem = item;
               tempItem['like_count'] = like_count;
               filterPosts[tempIndex] = tempItem;
-
-              this.setState({ loading: false, filterPosts: filterPosts });
-              alert(ArabicText.Successfully_Unliked);
+              this.setState({
+                loading: false,
+                filterPosts: filterPosts,
+                key: !key,
+              });
+              // alert(ArabicText.Successfully_Unliked);
             }
           })
           .catch(error => {
             console.log('error', error);
-            this.setState({ loading: false });
+            this.setState({loading: false});
           });
       } else {
         this.props.navigation.navigate('Login');
@@ -578,7 +571,7 @@ class Profile extends Component {
 
     // ========NEW==========
     onDetailsClick = async item => {
-      const { user } = this.props;
+      const {user} = this.props;
       const post_id = item?.id;
       const categoryMap = {
         1: 'CamelClubDetailsComponent',
@@ -722,20 +715,20 @@ class Profile extends Component {
       // this.props.navigation.navigate("DetailsComponent", { itemFromDetails: item })
     };
 
-    const renderItem = ({ item }) => {
+    const renderItem = ({item}) => {
       let array = item?.img;
       let imagesArray = [];
       array.forEach(element => {
         if (element) {
-          imagesArray.push({ type: 'image', source: element });
+          imagesArray.push({type: 'image', source: element});
         }
       });
       if (item?.video == null) {
-        imagesArray.push({ type: 'video', source: null });
+        imagesArray.push({type: 'video', source: null});
       } else {
-        imagesArray.push({ type: 'video', source: item.video });
+        imagesArray.push({type: 'video', source: item.video});
       }
-      console.log(item, "itemmm");
+      console.log(item, 'itemmm');
       return (
         <Item
           item={item}
@@ -751,14 +744,15 @@ class Profile extends Component {
           category={item?.category_name}
           onPostDelete={() => this.onPostDelete(item)}
           onDetailsClick={() => onDetailsClick(item)}
-          onLikesClick={() => onLikesClick(item)}
+          onLikesClick={item => onLikesClick(item)}
           // onUserProfileClick={() => onUserProfileClick(item)}
           onCategoryClick={() => this.onCategoryClick(item)}
           onCommentsClick={() => onCommentsClick(item)}
           sharePost={() => sharePosts(item)}
-          onVideoPlay={(item) => this.VideoPlay(item)}
+          onVideoPlay={item => this.VideoPlay(item)}
           pausedCheck={this.state.pausedCheck}
-          pauseCheckHandler={(txt) => this.setState({ pausedCheck: txt })}
+          pauseCheckHandler={txt => this.setState({pausedCheck: txt})}
+          flagForLike={item?.flagForLike}
         />
       );
     };
@@ -792,7 +786,7 @@ class Profile extends Component {
               </View>
               {/* Edit & Cart Icons Profile */}
 
-              <View style={{ position: 'absolute', right: 15, bottom: 5 }}>
+              <View style={{position: 'absolute', right: 15, bottom: 5}}>
                 {/* Rating */}
                 <Rating
                   ratingCount={5}
@@ -801,7 +795,7 @@ class Profile extends Component {
                   readonly={true}
                   startingValue={this.state.rating}
                   ratingBackgroundColor={'#aaa'}
-                  style={{ paddingVertical: 10 }}
+                  style={{paddingVertical: 10}}
                   ratingColor={'crimson'}
                   tintColor="white"
                   type="custom"
@@ -829,7 +823,7 @@ class Profile extends Component {
                   {this.props?.user?.user?.user?.name}
                 </Text>
                 <View
-                  style={{ flexDirection: 'row-reverse', alignItems: 'center' }}>
+                  style={{flexDirection: 'row-reverse', alignItems: 'center'}}>
                   <AntDesign name="checkcircle" size={14} color="#e50000" />
                   <Text
                     style={{
@@ -844,19 +838,19 @@ class Profile extends Component {
                 {/* my contacts */}
                 <View style={styles.icons}>
                   <TouchableOpacity
-                    onPress={() => this.setState({ modal: true })}
+                    onPress={() => this.setState({modal: true})}
                     style={Styles.detailsIcons}>
                     <FontAwesome name="whatsapp" size={20} color="#CD853F" />
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    onPress={() => this.setState({ modalPhone: true })}
+                    onPress={() => this.setState({modalPhone: true})}
                     style={Styles.detailsIcons}>
                     <AntDesign name="mobile1" size={20} color="#CD853F" />
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    onPress={() => this.setState({ modalChat: true })}
+                    onPress={() => this.setState({modalChat: true})}
                     style={Styles.detailsIcons}>
                     <AntDesign name="message1" size={20} color="#CD853F" />
                   </TouchableOpacity>
@@ -876,7 +870,7 @@ class Profile extends Component {
                   <Text style={styles.textcolor}>{ArabicText.Followers}</Text>
                 </View>
 
-                <Text style={{ fontSize: 30, fontWeight: '400', color: '#fff' }}>
+                <Text style={{fontSize: 30, fontWeight: '400', color: '#fff'}}>
                   |
                 </Text>
 
@@ -887,7 +881,7 @@ class Profile extends Component {
                   <Text style={styles.textcolor}>{ArabicText.posts}</Text>
                 </View>
 
-                <Text style={{ fontSize: 30, fontWeight: '400', color: '#fff' }}>
+                <Text style={{fontSize: 30, fontWeight: '400', color: '#fff'}}>
                   |
                 </Text>
 
@@ -910,10 +904,10 @@ class Profile extends Component {
                 <View style={Styles.centeredView}>
                   <View style={Styles.modalView}>
                     <Pressable
-                      onPress={modalOffer => this.setState({ modal: false })}>
+                      onPress={modalOffer => this.setState({modal: false})}>
                       <Ionicons name="close" size={30} color="brown" />
                     </Pressable>
-                    <Text style={{ margin: 5, color: 'black' }}>
+                    <Text style={{margin: 5, color: 'black'}}>
                       Add Whatsapp number
                     </Text>
 
@@ -923,7 +917,7 @@ class Profile extends Component {
                       placeholder="Whats App Number"
                       keyboardType="numeric"
                       onChangeText={text =>
-                        this.setState({ whatsappNumber: text })
+                        this.setState({whatsappNumber: text})
                       }
                       placeholderTextColor="#b0b0b0"></TextInput>
                     <View
@@ -934,14 +928,14 @@ class Profile extends Component {
                         marginTop: 10,
                       }}>
                       <Text
-                        style={{ margin: 3, fontWeight: 'bold', color: 'black' }}>
+                        style={{margin: 3, fontWeight: 'bold', color: 'black'}}>
                         {this.state.registerSwitch == true
                           ? 'Active'
                           : 'In Active'}
                       </Text>
 
                       <Switch
-                        trackColor={{ false: '#767577', true: '#D2691Eff' }}
+                        trackColor={{false: '#767577', true: '#D2691Eff'}}
                         thumbColor={
                           this.state.registerSwitch == true
                             ? '#f5dd4b'
@@ -975,10 +969,10 @@ class Profile extends Component {
                 <View style={Styles.centeredView}>
                   <View style={Styles.modalView}>
                     <Pressable
-                      onPress={() => this.setState({ modalChat: false })}>
+                      onPress={() => this.setState({modalChat: false})}>
                       <Ionicons name="close" size={30} color="brown" />
                     </Pressable>
-                    <Text style={{ margin: 5, color: 'black' }}>
+                    <Text style={{margin: 5, color: 'black'}}>
                       Enable/dissable Chat
                     </Text>
 
@@ -990,12 +984,12 @@ class Profile extends Component {
                         marginTop: 10,
                       }}>
                       <Text
-                        style={{ margin: 3, fontWeight: 'bold', color: 'black' }}>
+                        style={{margin: 3, fontWeight: 'bold', color: 'black'}}>
                         {this.state.chatFlag == true ? 'Active' : 'In Active'}
                       </Text>
 
                       <Switch
-                        trackColor={{ false: '#767577', true: '#D2691Eff' }}
+                        trackColor={{false: '#767577', true: '#D2691Eff'}}
                         thumbColor={
                           this.state.chatFlag == true ? '#f5dd4b' : '#f4f3f4'
                         }
@@ -1026,11 +1020,11 @@ class Profile extends Component {
                   <View style={Styles.modalView}>
                     <Pressable
                       onPress={modalOffer =>
-                        this.setState({ modalPhone: false })
+                        this.setState({modalPhone: false})
                       }>
                       <Ionicons name="close" size={30} color="brown" />
                     </Pressable>
-                    <Text style={{ margin: 5, color: 'black' }}>
+                    <Text style={{margin: 5, color: 'black'}}>
                       Update Phone
                     </Text>
 
@@ -1039,7 +1033,7 @@ class Profile extends Component {
                       style={Styles.forminputsPrice}
                       placeholder="Phone Number"
                       keyboardType="numeric"
-                      onChangeText={text => this.setState({ phoneNumber: text })}
+                      onChangeText={text => this.setState({phoneNumber: text})}
                       placeholderTextColor="#b0b0b0"></TextInput>
 
                     <TouchableOpacity onPress={() => this.updateNumber()}>
@@ -1056,11 +1050,11 @@ class Profile extends Component {
               animationType="slide"
               visible={this.state.modalOtp}
               transparent={true}
-              onRequestClose={() => this.setState({ modalOtp: false })}>
+              onRequestClose={() => this.setState({modalOtp: false})}>
               <TouchableOpacity
                 activeOpacity={1}
-                style={{ height: height }}
-                onPress={() => this.setState({ modalOtp: false })}
+                style={{height: height}}
+                onPress={() => this.setState({modalOtp: false})}
               />
               <View
                 style={{
@@ -1082,7 +1076,7 @@ class Profile extends Component {
                     alignItems: 'center',
                   }}>
                   <Text
-                    style={{ color: '#8b4513', fontSize: 15, fontWeight: '600' }}>
+                    style={{color: '#8b4513', fontSize: 15, fontWeight: '600'}}>
                     Enter OTP Here
                   </Text>
                 </View>
@@ -1110,11 +1104,12 @@ class Profile extends Component {
                 size="large"
                 color="#D2691Eff"
                 animating={this.state.loader}
-                style={{ marginTop: 20 }}
+                style={{marginTop: 20}}
               />
             )}
             {this.state.loader == false && (
               <FlatList
+                key={key}
                 ListEmptyComponent={
                   <Text
                     style={{
@@ -1131,7 +1126,7 @@ class Profile extends Component {
                 data={this.state.posts}
                 renderItem={renderItem}
                 keyExtractor={item_2 => item_2.id}
-                contentContainerStyle={{ paddingBottom: 10 }}
+                contentContainerStyle={{paddingBottom: 10}}
                 refreshControl={
                   <RefreshControl
                     refreshing={this.state.refreshing}
@@ -1182,18 +1177,18 @@ const Item = ({
   onVideoPlay,
   sharePost,
   user_images,
-
+  flagForLike,
 }) => {
-  const [pausedCheck, setpausedCheck] = useState(true)
-  const [load, setLoad] = useState(false)
-  const [modal, setModal] = useState(false)
-  const [modalItem, setModalItem] = useState("")
-  const [modalItemType, setModalItemType] = useState("")
+  const [pausedCheck, setpausedCheck] = useState(true);
+  const [load, setLoad] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [modalItem, setModalItem] = useState('');
+  const [modalItemType, setModalItemType] = useState('');
 
   return (
-    <Card style={{ elevation: 5, marginTop: 10 }}>
+    <Card style={{elevation: 5, marginTop: 10}}>
       <View style={Styles.homesec}>
-        <View style={{ flexDirection: 'row', textAlign: 'right' }}>
+        <View style={{flexDirection: 'row', textAlign: 'right'}}>
           <View
             style={{
               backgroundColor: '#fff',
@@ -1204,7 +1199,7 @@ const Item = ({
             }}>
             <TouchableOpacity onPress={onCategoryClick} style={Styles.btnHome2}>
               <Text
-                style={{ color: '#D2691Eff', fontWeight: 'bold', fontSize: 15 }}>
+                style={{color: '#D2691Eff', fontWeight: 'bold', fontSize: 15}}>
                 {category}
               </Text>
             </TouchableOpacity>
@@ -1251,7 +1246,8 @@ const Item = ({
             }}>
             <Image
               source={{
-                uri: 'http://www.tasdeertech.com/images/profiles/' + user_images,
+                uri:
+                  'http://www.tasdeertech.com/images/profiles/' + user_images,
               }}
               style={{
                 width: 50,
@@ -1268,20 +1264,26 @@ const Item = ({
         layout={'default'}
         scrollEnabled={true}
         // onScroll={() => this.setState({ pauseVideo: true})}
-        renderItem={({ item, index }) => {
-          const mediaSource = item.type == 'image'
-            ? { uri: 'http://www.tasdeertech.com/images/posts/' + item.source }
-            : item?.type == 'video'
-              ? { uri: 'http://www.tasdeertech.com/videos/' + item.source }
+        renderItem={({item, index}) => {
+          const mediaSource =
+            item.type == 'image'
+              ? {uri: 'http://www.tasdeertech.com/images/posts/' + item.source}
+              : item?.type == 'video'
+              ? {uri: 'http://www.tasdeertech.com/videos/' + item.source}
               : null;
           return (
             <TouchableOpacity
-              onPress={() => { setModal(true), setModalItem(mediaSource), setModalItemType(item?.type) }}
+              onPress={() => {
+                setModal(true),
+                  setModalItem(mediaSource),
+                  setModalItemType(item?.type);
+              }}
               style={Styles.imageCarousal}>
               {item.type == 'image' && (
                 <Image
                   source={{
-                    uri: 'http://www.tasdeertech.com/images/posts/' + item.source,
+                    uri:
+                      'http://www.tasdeertech.com/images/posts/' + item.source,
                   }}
                   key={String(index)}
                   resizeMode={'cover'}
@@ -1289,15 +1291,18 @@ const Item = ({
                 />
               )}
               {item?.type == 'video' && (
-                <View style={{ flex: 1, backgroundColor: '#ededed' }}>
-                  {pausedCheck &&
+                <View style={{flex: 1, backgroundColor: '#ededed'}}>
+                  {pausedCheck && (
                     <Image
                       activeOpacity={0.4}
                       source={require('../../assets/camel3.png')}
                       resizeMode={'cover'}
-                      style={[Styles.image, { backgroundColor: 'rgba(0,0,0,0.5)', opacity: 0.3 }]}
+                      style={[
+                        Styles.image,
+                        {backgroundColor: 'rgba(0,0,0,0.5)', opacity: 0.3},
+                      ]}
                     />
-                  }
+                  )}
                   <TouchableOpacity
                     style={{
                       height: 70,
@@ -1309,18 +1314,21 @@ const Item = ({
                       bottom: height / 6,
                       left: width / 2.3,
                     }}
-                    onPress={
-                      () => {
-                        setpausedCheck(false),
-                          setModal(true), setModalItem(mediaSource), setModalItemType(item?.type)
-                      }
-                    }
-                  >
+                    onPress={() => {
+                      setpausedCheck(false),
+                        setModal(true),
+                        setModalItem(mediaSource),
+                        setModalItemType(item?.type);
+                    }}>
                     <Image
                       activeOpacity={0.4}
-                      source={pausedCheck ? require('../../assets/play.png') : require('../../assets/pause.png')}
+                      source={
+                        pausedCheck
+                          ? require('../../assets/play.png')
+                          : require('../../assets/pause.png')
+                      }
                       resizeMode={'cover'}
-                      style={{ width: 70, height: 70 }}
+                      style={{width: 70, height: 70}}
                     />
                   </TouchableOpacity>
                 </View>
@@ -1356,7 +1364,7 @@ const Item = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
             {' '}
             {views}
           </Text>
@@ -1371,7 +1379,7 @@ const Item = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
             {shares}
           </Text>
           <Ionicons name="share-social-sharp" size={20} color="#CD853F" />
@@ -1385,7 +1393,7 @@ const Item = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
             {comments}
           </Text>
           <Feather name="message-square" size={18} color="#CD853F" />
@@ -1398,26 +1406,30 @@ const Item = ({
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
             {likes}
           </Text>
-          <AntDesign name="hearto" size={18} color="#CD853F" />
+          {flagForLike == 'true' || flagForLike == true ? (
+            <AntDesign name="heart" size={18} color="#CD853F" />
+          ) : (
+            <AntDesign name="hearto" size={18} color="#CD853F" />
+          )}
         </TouchableOpacity>
       </View>
 
-      <View style={{ width: width, height: 50 }}>
+      <View style={{width: width, height: 50}}>
         <TouchableOpacity
-          style={{ position: 'absolute', left: 10, top: 5 }}
+          style={{position: 'absolute', left: 10, top: 5}}
           onPress={onDetailsClick}>
           <View style={Styles.btnHome}>
-            <Text style={{ color: '#fff', fontWeight: 'bold' }}>
+            <Text style={{color: '#fff', fontWeight: 'bold'}}>
               {ArabicText.Details}
             </Text>
           </View>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={{ position: 'absolute', left: 100, top: 12, zIndex: 999 }}
+          style={{position: 'absolute', left: 100, top: 12, zIndex: 999}}
           onPress={onPostDelete}>
           <AntDesign name="delete" size={19} color="#cd853f" />
         </TouchableOpacity>
@@ -1438,17 +1450,21 @@ const Item = ({
         visible={modal}
         transparent={true}
         animationType="fade"
-        onRequestClose={() => { setModal(false), setpausedCheck(true) }}>
+        onRequestClose={() => {
+          setModal(false), setpausedCheck(true);
+        }}>
         <View style={styles.modalContainer}>
           {/* Modal Close Button */}
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => { setModal(false), setpausedCheck(true) }}
+            onPress={() => {
+              setModal(false), setpausedCheck(true);
+            }}
             style={styles.modalCloseBTN}>
             <AntDesign name="closecircle" size={35} color="#fff" />
           </TouchableOpacity>
 
-          <View style={{ height: 300, backgroundColor: 'red' }}>
+          <View style={{height: 300, backgroundColor: 'red'}}>
             <View style={Styles.imageCarousal}>
               {modalItemType === 'image' && (
                 <Image
@@ -1458,7 +1474,7 @@ const Item = ({
                 />
               )}
               {modalItemType == 'video' && (
-                <View style={{ flex: 1, backgroundColor: '#ededed' }}>
+                <View style={{flex: 1, backgroundColor: '#ededed'}}>
                   <Video
                     onLoadStart={() => setLoad(true)}
                     onReadyForDisplay={() => setLoad(false)}
@@ -1467,10 +1483,13 @@ const Item = ({
                     repeat={true}
                     controls={false}
                     paused={pausedCheck}
-                    style={[Styles.image, {
-                      width: width,
-                      height: height / 2.5,
-                    }]}
+                    style={[
+                      Styles.image,
+                      {
+                        width: width,
+                        height: height / 2.5,
+                      },
+                    ]}
                   />
                   {/* } */}
                   <TouchableOpacity
@@ -1484,23 +1503,24 @@ const Item = ({
                       bottom: height / 6,
                       left: width / 2.3,
                     }}
-                    onPress={
-                      () => {
-                        setpausedCheck(true)
-                        load ? null :
-                          setpausedCheck(!pausedCheck)
-                      }
-                    }
-                  >
-                    {
-                      load ? <ActivityIndicator size="large" /> :
-                        <Image
-                          activeOpacity={0.4}
-                          source={pausedCheck ? require('../../assets/play.png') : require('../../assets/pause.png')}
-                          resizeMode={'cover'}
-                          style={{ width: 70, height: 70 }}
-                        />
-                    }
+                    onPress={() => {
+                      setpausedCheck(true);
+                      load ? null : setpausedCheck(!pausedCheck);
+                    }}>
+                    {load ? (
+                      <ActivityIndicator size="large" />
+                    ) : (
+                      <Image
+                        activeOpacity={0.4}
+                        source={
+                          pausedCheck
+                            ? require('../../assets/play.png')
+                            : require('../../assets/pause.png')
+                        }
+                        resizeMode={'cover'}
+                        style={{width: 70, height: 70}}
+                      />
+                    )}
                   </TouchableOpacity>
                 </View>
               )}
@@ -1510,7 +1530,7 @@ const Item = ({
           <View style={styles.modalMediaWrpr}>
             <TouchableOpacity
               activeOpacity={0.99}
-              onPress={() => { }}
+              onPress={() => {}}
               style={styles.userProfileContainer}>
               <Image
                 source={{
@@ -1521,8 +1541,10 @@ const Item = ({
               />
             </TouchableOpacity>
             <View style={styles.userInfoContainer}>
-              <Text style={[styles.userName, { color: '#fff' }]}>{user_name}</Text>
-              <Text style={[styles.userLocation, { color: '#fff' }]}>
+              <Text style={[styles.userName, {color: '#fff'}]}>
+                {user_name}
+              </Text>
+              <Text style={[styles.userLocation, {color: '#fff'}]}>
                 {user_location}
               </Text>
             </View>
@@ -1533,10 +1555,9 @@ const Item = ({
           </View>
         </View>
       </Modal>
-
     </Card>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -1557,7 +1578,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  textcolor: { color: '#fff', fontWeight: '600' },
+  textcolor: {color: '#fff', fontWeight: '600'},
 
   headerContainer: {
     backgroundColor: '#d2691e',
@@ -1605,7 +1626,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000db',
     justifyContent: 'center',
   },
-  modalCloseBTN: { top: 10, right: 15, position: 'absolute' },
+  modalCloseBTN: {top: 10, right: 15, position: 'absolute'},
   modalMediaWrpr: {
     width: width,
     height: 60,
@@ -1624,7 +1645,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 30,
   },
-  titleContainer: { position: 'absolute', right: 5, width: 220 },
+  titleContainer: {position: 'absolute', right: 5, width: 220},
   titleText: {
     color: '#fff',
     fontSize: 15,

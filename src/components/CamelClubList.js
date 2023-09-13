@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -13,9 +13,9 @@ import Post from './Post';
 import AddButton from './AddButton';
 import * as ArabicText from '../language/EnglishToArabic';
 import camelapp from '../api/camelapp';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import { bindActionCreators } from 'redux';
+import {bindActionCreators} from 'redux';
 import Loader from './PleaseWait';
 import Header from '../components/Header';
 
@@ -33,17 +33,17 @@ class CamelClubList extends Component {
       searchText: '',
       playVideo: false,
       refreshing: false,
-      searchedItem: "",
-      key: false
+      searchedItem: '',
+      key: false,
     };
 
     // this.viewPosts();
   }
 
   searchFunction(searchtext) {
-    const { key } = this.state
+    const {key} = this.state;
     if (searchtext != undefined && searchtext?.length != 0) {
-      this.setState({ searchedItem: searchtext })
+      this.setState({searchedItem: searchtext});
       let tempPost = this.state.posts.filter(item => {
         return (
           item.user_name.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
@@ -52,29 +52,28 @@ class CamelClubList extends Component {
           item.title.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
           item.location.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
           item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) >
-          -1 ||
+            -1 ||
           item.category_name.toLowerCase().indexOf(searchtext.toLowerCase()) >
-          -1 ||
+            -1 ||
           item.user_phone.toLowerCase().indexOf(searchtext.toLowerCase()) >
-          -1 ||
+            -1 ||
           item.description.toLowerCase().indexOf(searchtext.toLowerCase()) >
-          -1 ||
+            -1 ||
           item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) >
-          -1 ||
+            -1 ||
           item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) > -1
         );
       });
       console.log('tempPost--camelClub');
-
-      this.setState({ filterPosts: tempPost, key: !key });
+      this.setState({filterPosts: tempPost, key: !key});
     }
   }
 
   search(text) {
-    this.setState({ searchText: text });
+    this.setState({searchText: text});
   }
   async viewPosts() {
-    const { searchedItem } = this.state
+    const {searchedItem} = this.state;
     await camelapp
       .get('/postclub')
       .then(res => {
@@ -84,9 +83,9 @@ class CamelClubList extends Component {
           let array = item?.img;
           let imagesArray = [];
           array?.forEach(element => {
-            imagesArray?.push({ type: 'image', source: element });
+            imagesArray?.push({type: 'image', source: element});
           });
-          imagesArray?.push({ type: 'video', source: item?.video });
+          imagesArray?.push({type: 'video', source: item?.video});
           item['imagesArray'] = imagesArray;
 
           arrayPosts[index] = item;
@@ -98,7 +97,7 @@ class CamelClubList extends Component {
 
           loader: false,
         });
-        searchedItem && this.searchFunction(searchedItem)
+        searchedItem && this.searchFunction(searchedItem);
       })
       .catch(error => {
         this.setState({
@@ -112,7 +111,7 @@ class CamelClubList extends Component {
   }
 
   playVideo(item) {
-    let { filterPosts } = this.state;
+    let {filterPosts} = this.state;
 
     let index = filterPosts.indexOf(item);
 
@@ -120,21 +119,19 @@ class CamelClubList extends Component {
 
     filterPosts[index].flagForVideo = !filterPosts[index].flagForVideo;
 
-    this.setState({ filterPosts: filterPosts });
+    this.setState({filterPosts: filterPosts});
   }
 
   ScrollToRefresh() {
     this.viewPosts();
-    this.setState({ refreshing: false });
+    this.setState({refreshing: false});
   }
   componentDidMount = () => {
-    this.focusListener = this.props.navigation.addListener('focus',
-      () => {
-        // this.setState({ searchText: '', searchedItem: '' })
-        this.viewPosts()
-      }
-    );
-  }
+    this.focusListener = this.props.navigation.addListener('focus', () => {
+      // this.setState({ searchText: '', searchedItem: '' })
+      this.viewPosts();
+    });
+  };
   // componentWillUnmount() {
   //   console.log("componentWillUnmount");
   //   this.setState({ searchText: '', searchedItem: '' })
@@ -189,7 +186,9 @@ class CamelClubList extends Component {
   // };
 
   render() {
-    const renderItem = ({ item }) => {
+    console.log("hellocamelclubb");
+    const {posts, filterPosts, key, searchedItem} = this.state;
+    const renderItem = ({item}) => {
       return (
         <Post
           // onUserProfileClick={this.onUserProfileClick}
@@ -215,14 +214,13 @@ class CamelClubList extends Component {
           playVideo={true}
           pauseFlag={item?.flagForVideo}
           date={item?.date}
-          onCategoryClick={() => console.log("first")}
-
+          onCategoryClick={() => console.log('first')}
         />
       );
     };
 
     const onCommentsClick = item => {
-      let { user } = this.props;
+      let {user} = this.props;
       user = user.user.user;
       let post_id = item.id;
       if (user != undefined) {
@@ -246,9 +244,9 @@ class CamelClubList extends Component {
     const sharePosts = item => {
       console.log('working');
 
-      this.setState({ loading: true });
+      this.setState({loading: true});
 
-      let { user } = this.props;
+      let {user} = this.props;
       user = user.user.user;
       let post_id = item.id;
       if (user != undefined) {
@@ -263,18 +261,18 @@ class CamelClubList extends Component {
               let filterPosts = this.state.filterPosts;
 
               let tempIndex = filterPosts.indexOf(item);
-              this.viewPosts()
+              this.viewPosts();
               let share_count = item.share_count + 1;
               let tempItem = item;
               tempItem['share_count'] = share_count;
               filterPosts[tempIndex] = tempItem;
 
-              this.setState({ loading: false, filterPosts: filterPosts });
+              this.setState({loading: false, filterPosts: filterPosts});
             }
           })
           .catch(error => {
             console.log('error', error);
-            this.setState({ loading: false });
+            this.setState({loading: false});
           });
       } else {
         this.props.navigation.navigate('Login');
@@ -283,10 +281,8 @@ class CamelClubList extends Component {
 
     const onLikesClick = item => {
       console.log('item', searchedItem);
-
-      this.setState({ loading: false });
-
-      let { user } = this.props;
+      this.setState({loading: false});
+      let {user} = this.props;
       user = user.user.user;
       let post_id = item.id;
       if (user != undefined) {
@@ -300,36 +296,36 @@ class CamelClubList extends Component {
             console.log('response.data', response.data);
             if (response.data.status == true) {
               let filterPosts = this.state.filterPosts;
-
               let tempIndex = filterPosts.indexOf(item);
-
               let like_count = item.like_count + 1;
               let tempItem = item;
               tempItem['like_count'] = like_count;
               tempItem['flagForLike'] = true;
               filterPosts[tempIndex] = tempItem;
-
-              this.setState({ loading: false, filterPosts: filterPosts });
-              // alert(ArabicText.Succesfully_liked);
+              this.setState({
+                loading: false,
+                filterPosts: filterPosts,
+                key: !key,
+              });
             }
             if (response.data.status == false) {
               let filterPosts = this.state.filterPosts;
-
               let tempIndex = filterPosts.indexOf(item);
-
               let like_count = item.like_count - 1;
               let tempItem = item;
               tempItem['like_count'] = like_count;
               filterPosts[tempIndex] = tempItem;
-
-              this.setState({ loading: false, filterPosts: filterPosts });
-              // alert(ArabicText.Successfully_Unliked);
+              this.setState({
+                loading: false,
+                filterPosts: filterPosts,
+                key: !key,
+              });
             }
-            this.viewPosts()
+            // this.viewPosts();
           })
           .catch(error => {
             console.log('error', error);
-            this.setState({ loading: false });
+            this.setState({loading: false});
           });
       } else {
         this.props.navigation.navigate('Login');
@@ -337,7 +333,7 @@ class CamelClubList extends Component {
     };
 
     const onDetailsClick = item => {
-      let { user } = this.props;
+      let {user} = this.props;
       user = user.user.user;
       let post_id = item?.id;
       if (user != undefined) {
@@ -360,14 +356,13 @@ class CamelClubList extends Component {
     };
 
     const onAddButtonClick = () => {
-      let { user } = this.props;
+      let {user} = this.props;
       if (user.user.status == true) {
         this.props.navigation.navigate('CamelClub');
       } else {
         this.props.navigation.navigate('Login');
       }
     };
-    const { posts, filterPosts, key, searchedItem } = this.state
 
     return (
       <View style={styles.container}>
@@ -376,9 +371,8 @@ class CamelClubList extends Component {
           onChangeText={text => {
             if (text) {
               this.search(text);
-            }
-            else {
-              this.setState({ searchedItem: '', searchText: '' })
+            } else {
+              this.setState({searchedItem: '', searchText: ''});
             }
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}
@@ -391,7 +385,7 @@ class CamelClubList extends Component {
             size="large"
             color="#D2691Eff"
             animating={this.state.loader}
-            style={{ marginTop: 20 }}
+            style={{marginTop: 20}}
           />
         )}
 
@@ -413,11 +407,11 @@ class CamelClubList extends Component {
                   onRefresh={() => this.ScrollToRefresh()}
                 />
               }
-            // initialNumToRender={5}
-            // maxToRenderPerBatch={5}
+              // initialNumToRender={5}
+              // maxToRenderPerBatch={5}
             />
 
-            <View style={{ marginBottom: 70 }}></View>
+            <View style={{marginBottom: 70}}></View>
           </View>
         )}
       </View>

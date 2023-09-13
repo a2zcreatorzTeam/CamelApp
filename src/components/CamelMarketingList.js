@@ -30,11 +30,10 @@ class CamelMarketingList extends Component {
       filterPosts: [],
       searchText: '',
       refreshing: false,
+      key: false,
     };
-
     this.viewPosts();
   }
-
   searchFunction(searchtext) {
     console.log('searchtext', searchtext);
 
@@ -64,14 +63,12 @@ class CamelMarketingList extends Component {
       this.setState({filterPosts: tempPost});
     }
   }
-
   search(text) {
     //console.log("post[0]", this.state.posts[0])
 
     //console.log("text", text);
     this.setState({searchText: text});
   }
-
   async viewPosts() {
     try {
       return await camelapp.get('/get/marketing').then(res => {
@@ -107,7 +104,6 @@ class CamelMarketingList extends Component {
       console.log('Error Message--- view post', error);
     }
   }
-
   playVideo(item) {
     let {filterPosts} = this.state;
 
@@ -119,21 +115,18 @@ class CamelMarketingList extends Component {
 
     this.setState({filterPosts: filterPosts});
   }
-
   ScrollToRefresh() {
     this.viewPosts();
     this.setState({refreshing: false});
   }
-
   componentDidMount = () => {
     this.focusListener = this.props.navigation.addListener('focus', () => {
       this.viewPosts();
     });
   };
-
   render() {
+    const {key} = this.state;
     const renderItem = ({item}) => {
-   
       return (
         <Post
           item={item}
@@ -158,12 +151,10 @@ class CamelMarketingList extends Component {
           onTouchStart={() => this.playVideo(item)}
           playVideo={true}
           pauseFlag={item?.flagForVideo}
-          onCategoryClick={()=>console.log("first")}
-
+          onCategoryClick={() => console.log('first')}
         />
       );
     };
-
     const onCommentsClick = item => {
       let {user} = this.props;
       user = user.user.user;
@@ -185,7 +176,6 @@ class CamelMarketingList extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-
     const sharePosts = item => {
       console.log('working');
 
@@ -204,7 +194,7 @@ class CamelMarketingList extends Component {
             console.log('response.data', response.data);
             if (response.data) {
               let filterPosts = this.state.filterPosts;
-                this.viewPosts()
+              this.viewPosts();
               let tempIndex = filterPosts.indexOf(item);
 
               let share_count = item.share_count + 1;
@@ -223,10 +213,8 @@ class CamelMarketingList extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-
     const onLikesClick = item => {
       this.setState({loading: false});
-
       let {user} = this.props;
       user = user.user.user;
       let post_id = item.id;
@@ -241,35 +229,35 @@ class CamelMarketingList extends Component {
             console.log('response.data', response.data);
             if (response.data.status == true) {
               let filterPosts = this.state.filterPosts;
-
               let tempIndex = filterPosts.indexOf(item);
-
               let like_count = item.like_count + 1;
               let tempItem = item;
               tempItem['like_count'] = like_count;
               tempItem['flagForLike'] = true;
               filterPosts[tempIndex] = tempItem;
-
-              this.setState({loading: false, filterPosts: filterPosts});
+              this.setState({
+                loading: false,
+                filterPosts: filterPosts,
+                key: !key,
+              });
               // alert(ArabicText.Succesfully_liked);
             }
             if (response.data.status == false) {
               let filterPosts = this.state.filterPosts;
-
               let tempIndex = filterPosts.indexOf(item);
-
               let like_count = item.like_count - 1;
               let tempItem = item;
               tempItem['like_count'] = like_count;
               tempItem['flagForLike'] = false;
-
               filterPosts[tempIndex] = tempItem;
-
-              this.setState({loading: false, filterPosts: filterPosts});
+              this.setState({
+                loading: false,
+                filterPosts: filterPosts,
+                key: !key,
+              });
               // alert(ArabicText.Successfully_Unliked);
             }
-            this.viewPosts()
-
+            // this.viewPosts()
           })
           .catch(error => {
             console.log('error', error);
@@ -279,7 +267,6 @@ class CamelMarketingList extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-
     const onDetailsClick = item => {
       let {user} = this.props;
       user = user.user.user;
@@ -318,7 +305,6 @@ class CamelMarketingList extends Component {
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}
         />
-
         {this.state.loader && (
           <ActivityIndicator
             size="large"
@@ -327,12 +313,12 @@ class CamelMarketingList extends Component {
             style={{marginTop: 20}}
           />
         )}
-
         {this.state.loader == false && (
           <View>
             <AddButton onPress={() => onAddButtonClick()} />
             <Loader loading={this.state.loading} />
             <FlatList
+              key={key}
               data={this.state.filterPosts}
               renderItem={renderItem}
               keyExtractor={item => item.id}
@@ -345,7 +331,6 @@ class CamelMarketingList extends Component {
               initialNumToRender={5}
               maxToRenderPerBatch={5}
             />
-
             <View style={{marginBottom: 70}}></View>
           </View>
         )}

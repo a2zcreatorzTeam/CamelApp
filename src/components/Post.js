@@ -52,6 +52,7 @@ const Post = ({
     } else {
       navigation?.navigate('UserProfile', {
         user_id: item?.user_id,
+        userProfile: item,
       });
     }
   };
@@ -131,10 +132,9 @@ const Post = ({
     onDetailsClick(item);
   }, [onDetailsClick, item]);
 
-  // const handleLikesClick = useCallback(() => {
-  //   onLikesClick(item);
-  // }, [onLikesClick, item]);
-  console.log(flagForLike == 'true', 'flagForLikeflagForLike', flagForLike);
+  const handleLikesClick = useCallback(() => {
+    onLikesClick(item);
+  }, [onLikesClick, item]);
   // const handleUserProfileClick = useCallback(() => {
   //   onUserProfileClick && onUserProfileClick(item);
   // }, [onUserProfileClick, item]);
@@ -178,12 +178,19 @@ const Post = ({
             <Text style={styles.postDate}>{date ? date : createdDate}</Text>
             <Text style={styles.userLocation}>{user_location}</Text>
           </View>
-          <Image
+          <FastImage
+            style={{width: 55, height: 55, borderRadius: 30}}
+            source={{
+              uri: 'http://www.tasdeertech.com/images/profiles/' + user_images,
+            }}
+            resizeMode={FastImage?.resizeMode.cover}
+          />
+          {/* <Image
             source={{
               uri: 'http://www.tasdeertech.com/images/profiles/' + user_images,
             }}
             style={{width: 55, height: 55, borderRadius: 30}}
-          />
+          /> */}
         </TouchableOpacity>
       </View>
 
@@ -392,10 +399,15 @@ const Post = ({
           <View style={{height: 300}}>
             <View style={Styles.imageCarousal}>
               {modalItemType === 'image' && (
-                <Image
-                  source={modalItem}
-                  resizeMode="cover"
+                // <Image
+                //   source={modalItem}
+                //   resizeMode="cover"
+                //   style={Styles.image}
+                // />
+                <FastImage
                   style={Styles.image}
+                  source={modalItem}
+                  resizeMode={FastImage?.resizeMode.cover}
                 />
               )}
               {modalItemType == 'video' && (
@@ -539,7 +551,7 @@ const Post = ({
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => onLikesClick(item)}
+          onPress={() => handleLikesClick(item)}
           style={{
             flexDirection: 'row',
             alignItems: 'center',

@@ -24,9 +24,10 @@ import Loader from '../components/PleaseWait';
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
 import Ads from '../components/Ads';
-import * as ImageCropPicker from 'react-native-image-crop-picker';
+// import * as ImageCropPicker from 'react-native-image-crop-picker';
 import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
+import ImagePicker from 'react-native-image-crop-picker';
 
 class CamelClub extends Component {
   constructor(props) {
@@ -59,7 +60,7 @@ class CamelClub extends Component {
   }
 
   openCameraForCapture() {
-    ImageCropPicker.openCamera({
+    ImagePicker.openCamera({
       mediaType: 'photo',
       includeBase64: true,
     })
@@ -73,7 +74,7 @@ class CamelClub extends Component {
             cameraimage: prevstate.cameraimage.concat(tempImage),
           }));
           const newImageArray = this?.state?.cameraimage;
-          console.log(newImageArray, 'newImageArray');
+          console.log(newImageArray[0]?.data, 'newImageArray');
 
           for (var i = 0; i < newImageArray?.length; i++) {
             mixedTemp.push(newImageArray[i]);
@@ -106,7 +107,7 @@ class CamelClub extends Component {
   }
   openCamera = async () => {
     this.setState({video: {}});
-    ImageCropPicker.openPicker({
+    ImagePicker.openPicker({
       mediaType: 'video',
     }).then(async video => {
       if (video?.size > 10000000) {
@@ -144,7 +145,7 @@ class CamelClub extends Component {
   };
 
   openGallery() {
-    ImageCropPicker.openPicker({
+    ImagePicker.openPicker({
       mediaType: 'photo',
       multiple: true,
       includeBase64: true,
@@ -234,8 +235,9 @@ class CamelClub extends Component {
         })
         .then(response => {
           this.setState({loading: false});
-          alert(ArabicText.Post_added_successfully);
-          this.props.navigation.navigate('Home');
+          // alert(ArabicText.Post_added_successfully);
+          // this.props.navigation.navigate('Home');
+          this.props.navigation.goBack();
         })
         .catch(error => {
           console.log('error', error.response);

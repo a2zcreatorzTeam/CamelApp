@@ -55,26 +55,23 @@ class Home extends Component {
       key: false,
     };
     this.scrollRef = React.createRef();
+    this.flatlistRef = React.createRef();
     LogBox.ignoreLogs([
       'Got a component with the name',
       'Please report: Excessive number of pending callbacks: ',
       'Warning: Cannot update during an existing state transition',
       'VirtualizedLists should never be nested inside plain ScrollViews',
     ]);
-
     this.debouncedSearchHandler = debounce(this.searchHandler, 300);
   }
-
   componentDidMount() {
     this.viewPosts();
     this.checkUser();
   }
-
   ScrollToRefresh() {
     this.viewPosts();
     this.setState({refreshing: false});
   }
-
   // =============NEW Updated Search Handler==============
   searchHandler = value => {
     if (!value?.length) {
@@ -110,11 +107,9 @@ class Home extends Component {
     }
   };
   // =============NEW Search Handler==============
-
   search(text) {
     this.setState({searchText: text});
   }
-
   async viewPosts() {
     try {
       return await camelapp.get('/view/post').then(res => {
@@ -348,7 +343,6 @@ class Home extends Component {
 
     // this.props.navigation.navigate("DetailsComponent", { itemFromDetails: item })
   };
-
   sharePosts = async item => {
     this.setState({loading: true});
 
@@ -385,7 +379,6 @@ class Home extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-
   onCommentsClick = async item => {
     let {user} = this.props;
     user = user.user.user;
@@ -407,7 +400,6 @@ class Home extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-
   onLikesClick = async item => {
     const {key} = this.state;
     this.setState({loading: false});
@@ -460,7 +452,6 @@ class Home extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-
   onUserProfileClick = async item => {
     this.setState({loading: true});
     let {user} = this.props;
@@ -509,13 +500,11 @@ class Home extends Component {
         });
     }
   };
-
   componentDidMount = () => {
     this.viewPosts();
     // this.focusListener = this.props.navigation.addListener('focus', () => {
     // });
   };
-
   readMore = n => {
     this.setState({
       counta: this.state.counta + n,
@@ -531,7 +520,7 @@ class Home extends Component {
       playVideo,
       sharePosts,
     } = this;
-    const {key} = this.state;
+    const {key, filterPosts} = this.state;
     const renderItem = ({item}) => {
       return (
         <Post
@@ -662,7 +651,6 @@ class Home extends Component {
             />
           </>
         )}
-
         {this.state.loader == false && (
           <>
             <Header
@@ -904,11 +892,12 @@ class Home extends Component {
             <Loader loading={this.state.loading} />
 
             <FlatList
+              ref={this.flatlistRef}
               key={key}
               data={this?.state?.filterPosts?.slice(0, this.state.counta)}
               keyExtractor={item => item.id.toString()}
               renderItem={renderItem}
-              // onEndReachedThreshold={0.5}
+              onEndReachedThreshold={0.5}
               // initialNumToRender={1}
               // maxToRenderPerBatch={2}
               ListFooterComponent={() => {

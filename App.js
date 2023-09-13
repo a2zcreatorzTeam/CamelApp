@@ -9,6 +9,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as userActions from './src/redux/actions/user_actions';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(['Remote debugger']);
@@ -64,6 +65,7 @@ class App extends Component {
           backgroundColor="#d2691e"
           // backgroundColor={backgroundStyle.backgroundColor}
         />
+        <Toast />
         <Navigation />
       </SafeAreaProvider>
       // </View>

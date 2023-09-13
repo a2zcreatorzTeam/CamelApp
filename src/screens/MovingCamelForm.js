@@ -146,7 +146,7 @@ class SellingCamel extends React.Component {
             cameraimage: [],
             cameraimagesForPost: undefined,
           });
-          alert(ArabicText.Post_added_successfully + '');
+          // alert(ArabicText.Post_added_successfully + '');
 
           this.setState({
             title: '',
@@ -155,7 +155,9 @@ class SellingCamel extends React.Component {
             image: '',
             fileName: '',
           });
-          this.props.navigation.navigate('Home');
+          // this.props.navigation.navigate('Home');
+          this.props.navigation.goBack();
+
         })
         .catch(error => {
           console.log('error', error);

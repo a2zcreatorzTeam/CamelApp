@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -12,20 +12,21 @@ import {
   Modal,
   Platform,
 } from 'react-native';
-import { Card } from 'react-native-paper';
+import {Card} from 'react-native-paper';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { Styles } from '../styles/globlestyle';
+import {Styles} from '../styles/globlestyle';
 
 import camelapp from '../api/camelapp';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import { bindActionCreators } from 'redux';
+import {bindActionCreators} from 'redux';
 import * as ArabicText from '../language/EnglishToArabic';
+import Toast from 'react-native-toast-message';
 
 const width = Dimensions.get('screen').width;
 
@@ -43,22 +44,16 @@ class UserProfile extends Component {
       profImgWidth: 0,
       profImgHeight: 0,
       refreshing: false,
-      loading: false
+      loading: false,
     };
   }
-
   sendWhatsAppMessage() {
-    let { user } = this.props;
-
-    //console.log("user", user.user.user);
-
-    if (user.user.user != undefined) {
-      //console.log("user", this.state.user)
-
+    let {user} = this.props;
+    user = user?.user?.user ? user?.user?.user : user?.user;
+    if (user != undefined) {
       if (this.state.user.whatsapp_status == true) {
         let msg = 'Hello';
         let mobile = this.state.user.whatsapp_no;
-
         if (mobile.length != 0) {
           if (msg) {
             let url = 'whatsapp://send?text=' + msg + '&phone=' + mobile;
@@ -67,56 +62,80 @@ class UserProfile extends Component {
                 //console.log("WhatsApp Opened successfully " + data);
               })
               .catch(() => {
-                alert('Make sure WhatsApp installed on your device');
+                // alert('Make sure WhatsApp installed on your device');
+                Toast.show({
+                  type: 'error',
+                  text1: 'Make sure WhatsApp installed on your device',
+                });
               });
           } else {
-            alert('Please enter message to send');
+            // alert('Please enter message to send');
+            Toast.show({
+              type: 'error',
+              text1: 'Please enter message to send',
+            });
           }
         } else {
-          alert('This user has disabled chat');
+          // alert('This user has disabled chat');
+          Toast.show({
+            type: 'error',
+            text1: 'This is some something',
+          });
         }
       } else {
-        alert('This user has disabled chat');
+        // alert('This user has disabled chat');
+        Toast.show({
+          type: 'error',
+          text1: 'This user has disabled chat',
+        });
       }
     } else {
       this.props.navigation.navigate('Login');
     }
   }
   audioCall() {
-    let { user } = this.props;
-    if (user.user.user != undefined) {
-      if (user?.user?.user?.id != this.props.route.params.userProfile.user.id) {
-        console.log('callNumber ----> ', this.props.route.params.userProfile.user.phone);
-        let phoneNumber = this.props.route.params.userProfile.user?.phone;
-        let phone = this.props.route.params.userProfile.user?.phone;
-
+    let {user} = this.props;
+    user = user?.user?.user ? user?.user?.user : user?.user;
+    if (user != undefined) {
+      if (user?.id != this.props.route.params.userProfile.user_id) {
+        console.log('86', this.props.route.params.userProfile?.user);
+        let phone = this.props.route.params.userProfile?.user_phone;
+        console.log(this.props.route.params.userProfile, phone, 'phoneee');
         if (Platform.OS !== 'android') {
           phoneNumber = `telprompt:${phone}`;
-        }
-        else {
+        } else {
           phoneNumber = `tel:${phone}`;
         }
         Linking.canOpenURL(phoneNumber)
           .then(supported => {
             if (!supported) {
-              Alert.alert('Phone number is not available');
+              Toast.show({
+                type: 'error',
+                text1: 'Phone number is not available',
+              });
+              // Alert.alert('Phone number is not available');
             } else {
               return Linking.openURL(phoneNumber);
             }
           })
           .catch(err => console.log(err));
-      }
-      else {
-        alert('This is your post');
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: 'This is your post',
+        });
+        // alert('This is your post');
       }
     } else {
       this.props.navigation.navigate('Login');
     }
   }
   sendMessage() {
-    let { user } = this.props;
-    if (user.user.user != undefined) {
-      if (user?.user?.user?.id != this.props.route.params.userProfile.user.id) {
+    let {user} = this.props;
+    user = user?.user?.user ? user?.user?.user : user?.user;
+    if (user != undefined) {
+      if (user?.id != this.props.route.params.userProfile.user?.id) {
+        console.log('jkkj');
         if (
           this.props.route.params.userProfile.user?.chat_status == true ||
           this.props.route.params.userProfile.user?.chat_status == '1'
@@ -125,26 +144,35 @@ class UserProfile extends Component {
             messageData: this.state.user,
           });
         } else {
-          alert('This user has disabled chat');
+          Toast.show({
+            type: 'error',
+            text1: 'This user has disabled chat',
+          });
+          // alert('This user has disabled chat');
         }
       } else {
-        alert('This is your post');
+        Toast.show({
+          type: 'error',
+          text1: 'This is your post',
+        });
+        // alert('This is your post');
       }
     } else {
       this.props.navigation.navigate('Login');
     }
   }
   userProfile = async () => {
-    const item = this.props.route?.params
-    this.setState({ loading: true });
-    let { user } = this.props;
-    user = user?.user;
+    const item = this.props.route?.params;
+    this.setState({loading: true});
+    let {user} = this.props;
+    console.log(user, 'userererer');
+    user = user?.user?.user ? user?.user?.user : user?.user;
     await camelapp
       .post('/userprofile', {
         user_id: item?.user_id,
       })
       .then(response => {
-        const data = response.data
+        const data = response.data;
         if (data) {
           let tempObjOfUserProfile = data;
           let tempArrayOfUserPosts = [];
@@ -162,28 +190,23 @@ class UserProfile extends Component {
         if (user !== undefined) {
           this.checkFriendshipStatus();
         }
-        this.setState({ loading: false });
+        this.setState({loading: false});
       })
       .catch(error => {
         console.log('error', error);
-        this.setState({ loading: false });
+        this.setState({loading: false});
       });
-  }
-
+  };
   componentDidMount() {
-    console.log("logggguserprofill");
-    this.userProfile()
+    this?.userProfile();
   }
-
   followRequest(followRequest) {
     let follower_id = this.state.user.id;
-    let { user } = this.props;
-    user = user.user.user;
-
+    let {user} = this.props;
+    user = user.user.user ? user?.user?.user : user?.user;
     if (user != undefined) {
       console.log('user_id', user.id);
       console.log('follower_id', follower_id);
-
       camelapp
         .post('/follow', {
           user_id: user.id,
@@ -191,11 +214,19 @@ class UserProfile extends Component {
         })
         .then(response => {
           let res = response.data;
-          console.log('res', res);
           if (res.status == true) {
-            alert(ArabicText.Following + '');
+            console.log('res184', res);
+            Toast.show({
+              type: 'success',
+              text1: `${ArabicText.Following} + ''`,
+            });
+            // alert(ArabicText.Following + '');
           } else {
-            alert(ArabicText.Error + '');
+            Toast.show({
+              type: 'success',
+              text1: `${ArabicText.Error} + ''`,
+            });
+            // alert(ArabicText.Error + '');
           }
         });
     } else {
@@ -205,25 +236,22 @@ class UserProfile extends Component {
   // // check Friendship Status
   checkFriendshipStatus() {
     let user_id = this.props?.user?.user?.user?.id;
+    console.log(this.props?.user?.user?.user?.id);
     let friend_id = this.props.route?.params?.user_id;
-    console.log(user_id, 'user_id');
-    console.log(friend_id, '==friend_id');
-
     camelapp
       .get('/friendshipstatus/' + user_id + '/' + friend_id)
       .then(res => {
-        this.setState({ friendshipStatus: res?.data?.user_status });
+        this.setState({friendshipStatus: res?.data?.user_status});
         console.log(res?.data?.user_status, 'Friend Ship Status');
       })
       .catch(error => {
         console.log(error, '<<=====ERROR friendshipstatus');
       });
   }
-
   friendRequestHandler(status) {
     let friend_id = this.state.user.id;
-    let { user } = this.props;
-    user = user.user.user;
+    let {user} = this.props;
+    user = user.user.user ? user?.user?.user : user?.user;
 
     if (user != undefined) {
       camelapp
@@ -234,7 +262,11 @@ class UserProfile extends Component {
         })
         .then(res => {
           this.checkFriendshipStatus();
-          Alert.alert('Friend request has been sent.');
+          Toast.show({
+            type: 'success',
+            text1: 'Friend request has been sent.',
+          });
+          // Alert.alert('Friend request has been sent.');
           console.log(res.data, '<<<<<=======FRIEND Request ');
         })
         .catch(error => {
@@ -244,12 +276,10 @@ class UserProfile extends Component {
       this.props.navigation.navigate('Login');
     }
   }
-
   ScrollToRefresh() {
     this.state.postData;
-    this.setState({ refreshing: false });
+    this.setState({refreshing: false});
   }
-
   render() {
     const Item = ({
       userName,
@@ -261,7 +291,7 @@ class UserProfile extends Component {
       views,
       userImage,
       category,
-      date
+      date,
     }) => (
       <Card
         style={{
@@ -278,9 +308,9 @@ class UserProfile extends Component {
             height: 60,
             flexDirection: 'row',
           }}>
-          <TouchableOpacity style={{ marginLeft: 10 }}>
+          <TouchableOpacity style={{marginLeft: 10}}>
             <View style={Styles.btnHome2}>
-              <Text style={{ color: '#D2691Eff', fontWeight: 'bold' }}>
+              <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
                 {category}
               </Text>
             </View>
@@ -301,9 +331,9 @@ class UserProfile extends Component {
                 height: 50,
               }}>
               <Text
-                style={{ color: 'black', textAlign: 'right' }}
+                style={{color: 'black', textAlign: 'right'}}
                 numberOfLines={1}>
-                {userName + "hello"}
+                {userName + 'hello'}
               </Text>
               <Text
                 style={{
@@ -315,7 +345,7 @@ class UserProfile extends Component {
                 {date}
               </Text>
               <Text
-                style={{ color: 'black', textAlign: 'right' }}
+                style={{color: 'black', textAlign: 'right'}}
                 numberOfLines={1}>
                 {userCity}
               </Text>
@@ -338,7 +368,7 @@ class UserProfile extends Component {
         //  onPress={() => navigation.navigate({navigation})}
         >
           <Card.Cover
-            source={{ uri: 'http://www.tasdeertech.com/images/posts/' + image }}
+            source={{uri: 'http://www.tasdeertech.com/images/posts/' + image}}
             resizeMode="cover"
             style={Styles.image}
           />
@@ -359,40 +389,39 @@ class UserProfile extends Component {
             }}>
             {views}
           </Text>
-          <View style={{ right: 138, position: 'absolute', color: 'black' }}>
+          <View style={{right: 138, position: 'absolute', color: 'black'}}>
             <Ionicons name="ios-eye-sharp" size={18} color="#cd853f" />
           </View>
-          <Text style={{ right: 120, position: 'absolute', color: 'black' }}>
+          <Text style={{right: 120, position: 'absolute', color: 'black'}}>
             {shares}
           </Text>
-          <TouchableOpacity style={{ right: 98, position: 'absolute' }}>
+          <TouchableOpacity style={{right: 98, position: 'absolute'}}>
             <Ionicons name="share-social-sharp" size={18} color="#cd853f" />
           </TouchableOpacity>
-          <Text style={{ right: 77, position: 'absolute', color: 'black' }}>
+          <Text style={{right: 77, position: 'absolute', color: 'black'}}>
             {comments}
           </Text>
-          <TouchableOpacity style={{ right: 55, position: 'absolute' }}>
+          <TouchableOpacity style={{right: 55, position: 'absolute'}}>
             <Feather name="message-square" size={18} color="#cd853f" />
           </TouchableOpacity>
-          <Text style={{ right: 33, position: 'absolute', color: 'black' }}>
+          <Text style={{right: 33, position: 'absolute', color: 'black'}}>
             {likes}
           </Text>
-          <TouchableOpacity style={{ right: 10, position: 'absolute' }}>
+          <TouchableOpacity style={{right: 10, position: 'absolute'}}>
             <AntDesign name="hearto" size={18} color="#cd853f" />
           </TouchableOpacity>
-          <TouchableOpacity style={{ left: 5, position: 'absolute' }}>
+          <TouchableOpacity style={{left: 5, position: 'absolute'}}>
             <View style={Styles.btnHome}>
-              <Text style={{ color: '#fff', fontWeight: 'bold' }}>
+              <Text style={{color: '#fff', fontWeight: 'bold'}}>
                 {ArabicText.Details}
               </Text>
             </View>
           </TouchableOpacity>
-          <Text style={{ right: 120, position: 'absolute' }}>{ }</Text>
+          <Text style={{right: 120, position: 'absolute'}}>{}</Text>
         </View>
       </Card>
     );
-
-    const renderItem = ({ item }) => {
+    const renderItem = ({item}) => {
       return (
         <Item
           item={item}
@@ -409,10 +438,8 @@ class UserProfile extends Component {
         />
       );
     };
-
     const FriendshipStatusBTN = () => {
       const user = this.props.user.user.user;
-
       if (
         this.state.friendshipStatus === null ||
         this.state.friendshipStatus === 'C' ||
@@ -425,7 +452,7 @@ class UserProfile extends Component {
               name="user-plus"
               size={30}
               color="#D2691Eff"
-              style={{ margin: 5 }}
+              style={{margin: 5}}
             />
           </TouchableOpacity>
         );
@@ -437,7 +464,7 @@ class UserProfile extends Component {
               name="user-minus"
               size={30}
               color="#D2691Eff"
-              style={{ margin: 5 }}
+              style={{margin: 5}}
             />
           </TouchableOpacity>
         );
@@ -449,7 +476,7 @@ class UserProfile extends Component {
               name="user-check"
               size={30}
               color="#D2691Eff"
-              style={{ margin: 5 }}
+              style={{margin: 5}}
             />
           </TouchableOpacity>
         );
@@ -459,23 +486,24 @@ class UserProfile extends Component {
     return (
       <View style={styles.container}>
         <View style={Styles.headerProfile}>
-          <View style={{ position: 'absolute', top: 40, right: 20 }}>
+          {/* FOLLOW VIEW */}
+          <View style={{position: 'absolute', top: 40, right: 20}}>
             <TouchableOpacity onPress={() => this.followRequest()}>
               <Entypo
                 name="link"
                 size={30}
                 color="#D2691Eff"
-                style={{ margin: 5 }}
+                style={{margin: 5}}
               />
             </TouchableOpacity>
           </View>
 
-          <View style={{ position: 'absolute', top: 40, left: 20 }}>
+          <View style={{position: 'absolute', top: 40, left: 20}}>
             <FriendshipStatusBTN />
           </View>
 
           <View>
-            <TouchableOpacity onPress={() => this.setState({ modal: true })}>
+            <TouchableOpacity onPress={() => this.setState({modal: true})}>
               <Image
                 source={{
                   uri:
@@ -503,8 +531,8 @@ class UserProfile extends Component {
                 style={Styles.detailsIcons}>
                 <FontAwesome name="whatsapp" size={20} color="#CD853F" />
               </TouchableOpacity>
-              <TouchableOpacity style={Styles.detailsIcons}
-
+              <TouchableOpacity
+                style={Styles.detailsIcons}
                 onPress={() => this.audioCall()}>
                 <AntDesign name="mobile1" size={20} color="#CD853F" />
               </TouchableOpacity>
@@ -526,8 +554,8 @@ class UserProfile extends Component {
               position: 'absolute',
               alignItems: 'center',
             }}>
-            <Text style={{ color: '#fff' }}>{this.state.followers}</Text>
-            <Text style={{ color: '#fff' }}>{ArabicText.Followers}</Text>
+            <Text style={{color: '#fff'}}>{this.state.followers}</Text>
+            <Text style={{color: '#fff'}}>{ArabicText.Followers}</Text>
           </View>
 
           <Text
@@ -543,9 +571,9 @@ class UserProfile extends Component {
             |
           </Text>
 
-          <View style={{ alignItems: 'center' }}>
-            <Text style={{ color: '#fff' }}>{this.state.noOfPosts}</Text>
-            <Text style={{ color: '#fff' }}>{ArabicText.posts}</Text>
+          <View style={{alignItems: 'center'}}>
+            <Text style={{color: '#fff'}}>{this.state.noOfPosts}</Text>
+            <Text style={{color: '#fff'}}>{ArabicText.posts}</Text>
           </View>
 
           <Text
@@ -569,13 +597,25 @@ class UserProfile extends Component {
               position: 'absolute',
               alignItems: 'center',
             }}>
-            <Text style={{ color: '#fff' }}>{this.state.following}</Text>
-            <Text style={{ color: '#fff' }}>{ArabicText.Following}</Text>
+            <Text style={{color: '#fff'}}>{this.state.following}</Text>
+            <Text style={{color: '#fff'}}>{ArabicText.Following}</Text>
           </View>
         </View>
 
         <FlatList
-          ListEmptyComponent={<Text style={{ color: 'black', fontSize: 17, alignContent: 'center', textAlign: 'center', marginVertical: 30 }}> No Post Found</Text>}
+          ListEmptyComponent={
+            <Text
+              style={{
+                color: 'black',
+                fontSize: 17,
+                alignContent: 'center',
+                textAlign: 'center',
+                marginVertical: 30,
+              }}>
+              {' '}
+              No Post Found
+            </Text>
+          }
           data={this.state.postData}
           renderItem={renderItem}
           keyExtractor={item_2 => item_2.id}
@@ -588,7 +628,7 @@ class UserProfile extends Component {
           visible={this.state.modal}
           transparent={true}
           animationType={'fade'}
-          onRequestClose={() => this.setState({ modal: false })}>
+          onRequestClose={() => this.setState({modal: false})}>
           <View
             style={{
               height: '100%',
@@ -598,8 +638,8 @@ class UserProfile extends Component {
             }}>
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => this.setState({ modal: false })}
-              style={{ top: 10, right: 15, position: 'absolute' }}>
+              onPress={() => this.setState({modal: false})}
+              style={{top: 10, right: 15, position: 'absolute'}}>
               <AntDesign name="closecircle" size={35} color="#fff" />
             </TouchableOpacity>
 
@@ -616,7 +656,7 @@ class UserProfile extends Component {
                     'http://www.tasdeertech.com/public/images/profiles/' +
                     this?.state?.user?.image,
                 }}
-                style={{ width: width, aspectRatio: 1 }}
+                style={{width: width, aspectRatio: 1}}
               />
             </View>
           </View>

@@ -494,14 +494,15 @@ export const Styles = StyleSheet.create({
     borderRadius: 20,
     padding: 20,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    justifyContent:'center',
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
     // shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    // shadowRadius: 4,
+    // elevation: 5,
     width: width - 100,
   },
   textHeadingg: {

@@ -244,7 +244,8 @@ class MissingCamelForm extends Component {
             cameraimagesForPost: undefined,
           });
           alert(ArabicText.Post_added_successfully + '');
-          this.props.navigation.navigate('Home');
+          // this.props.navigation.navigate('Home');
+          this.props.navigation.goBack();
         })
         .catch(error => {
           console.log('error', error);

@@ -242,7 +242,8 @@ class CamelClub extends Component {
             image: [],
             fileName: '',
           });
-          this.props.navigation.navigate('Home');
+          // this.props.navigation.navigate('Home');
+          this.props.navigation.goBack();
         })
         .catch(error => {});
     } else {

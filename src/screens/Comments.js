@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, {Component, useState} from 'react';
 import {
   Text,
   View,
@@ -11,18 +11,18 @@ import {
   RefreshControl,
   ActivityIndicator,
   StyleSheet,
-  Dimensions
+  Dimensions,
 } from 'react-native';
-import { Styles } from '../styles/globlestyle';
+import {Styles} from '../styles/globlestyle';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import camelapp from '../api/camelapp';
 import Loader from '../components/PleaseWait';
-import { Card } from 'react-native-paper';
+import {Card} from 'react-native-paper';
 import * as ArabicText from '../language/EnglishToArabic';
 import Header from '../components/Header';
-const { width } = Dimensions.get('screen')
+const {width} = Dimensions.get('screen');
 class Comments extends Component {
   constructor(props) {
     super(props);
@@ -41,8 +41,7 @@ class Comments extends Component {
       searchText: '',
       searchedItem: '',
       dataNotFound: false,
-      filterPosts: []
-
+      filterPosts: [],
     };
 
     LogBox.ignoreLogs([
@@ -50,7 +49,7 @@ class Comments extends Component {
     ]);
   }
   componentDidMount() {
-    this.getCommentsOnPost()
+    this.getCommentsOnPost();
   }
   addReplyToComment = () => {
     if (this.state.newReply != '') {
@@ -80,7 +79,7 @@ class Comments extends Component {
     });
   };
   onLikesClick = item => {
-    this.setState({ loading: true });
+    this.setState({loading: true});
     let user = this.state.user;
     let post_id = this.props.route.params.post.id;
     if (user != undefined) {
@@ -90,41 +89,41 @@ class Comments extends Component {
           comment_id: item.id,
         })
         .then(response => {
-          this.getCommentsOnPost()
+          this.getCommentsOnPost();
           if (response.data.status == true) {
-            this.setState({ loading: false });
+            this.setState({loading: false});
             // alert(ArabicText.Succesfully_liked);
           }
           if (response.data.status == false) {
-            this.setState({ loading: false });
+            this.setState({loading: false});
             // alert(ArabicText.Successfully_Unliked);
           }
         })
         .catch(error => {
           console.log('error', error);
-          this.setState({ loading: false });
+          this.setState({loading: false});
         });
     } else {
       this.props.navigation.navigate('Login');
     }
   };
   getCommentsOnPost = async () => {
-    const { searchedItem } = this.state
+    const {searchedItem} = this.state;
     await camelapp
       .post('/get/comment', {
         post_id: this.props.route.params.post.id,
       })
       .then(res => {
-        this.setState({ commentsList: res.data, loader: false });
-        searchedItem && this.searchHandler(searchedItem)
+        this.setState({commentsList: res.data, loader: false});
+        searchedItem && this.searchHandler(searchedItem);
       });
   };
   onRefresh = () => {
-    this.getCommentsOnPost()
+    this.getCommentsOnPost();
   };
   addNewComment = async () => {
     if (this.state.newComment != '') {
-      this.setState({ loading: true });
+      this.setState({loading: true});
       camelapp
         .post('/add/comment', {
           user_id: this.state.user.id,
@@ -156,30 +155,26 @@ class Comments extends Component {
   };
   // =============NEW Updated Search Handler==============
   searchHandler = value => {
-    const { dataNotFound } = this.state
+    const {dataNotFound} = this.state;
     if (!value) {
-      this.setState({ filterPosts: this.state.commentsList, searchedItem: "" });
+      this.setState({filterPosts: this.state.commentsList, searchedItem: ''});
     } else {
-      this.setState({ searchedItem: value })
+      this.setState({searchedItem: value});
       // Data Filtration
       const filteredData = this.state?.commentsList?.filter(item => {
-        const {
-          comment
-        } = item;
-        return (
-          comment?.toLowerCase().includes(value.toLowerCase())
-        );
+        const {comment} = item;
+        return comment?.toLowerCase().includes(value.toLowerCase());
       });
       if (filteredData?.length > 0) {
-        this.setState({ filterPosts: filteredData, dataNotFound: !dataNotFound });
+        this.setState({filterPosts: filteredData, dataNotFound: !dataNotFound});
       } else {
-        this.setState({ filterPosts: [], dataNotFound: !dataNotFound });
+        this.setState({filterPosts: [], dataNotFound: !dataNotFound});
       }
     }
   };
 
   search(text) {
-    this.setState({ searchText: text });
+    this.setState({searchText: text});
   }
   render() {
     const Item = ({
@@ -192,7 +187,7 @@ class Comments extends Component {
       likes,
       time,
     }) => (
-      <Card style={{ margintop: 5, marginBottom: 5, height: 80 }}>
+      <Card style={{margintop: 5, marginBottom: 5, height: 80}}>
         <View>
           <View
             style={{
@@ -296,7 +291,7 @@ class Comments extends Component {
           </Text>
 
           <TouchableOpacity
-            style={{ left: 20, position: 'absolute', bottom: 15 }}
+            style={{left: 20, position: 'absolute', bottom: 15}}
             onPress={onLikesClick}>
             <AntDesign
               name={commentsCount > 0 ? 'heart' : 'hearto'}
@@ -308,7 +303,7 @@ class Comments extends Component {
         </Card.Actions>
       </Card>
     );
-    const renderItem = ({ item }) => {
+    const renderItem = ({item}) => {
       return (
         <Item
           item={item}
@@ -322,14 +317,21 @@ class Comments extends Component {
         />
       );
     };
-    const { dataNotFound, loader, searchText, commentsList, filterPosts, searchedItem } = this.state
+    const {
+      dataNotFound,
+      loader,
+      searchText,
+      commentsList,
+      filterPosts,
+      searchedItem,
+    } = this.state;
     return (
       <SafeAreaView style={Styles.containerComments}>
         {loader == true && (
           <>
             <Header
               onChangeText={text => {
-                if(text){
+                if (text) {
                   this.search(text);
                 }
               }}
@@ -344,37 +346,41 @@ class Comments extends Component {
           </>
         )}
 
-        {
-          loader == false && <Header
+        {loader == false && (
+          <Header
             onChangeText={text => {
               if (text) {
                 this.search(text);
-              }
-              else {
-                this.setState({ searchedItem: '' })
+              } else {
+                this.setState({searchedItem: ''});
               }
             }}
             onPressSearch={() => this?.searchHandler(this.state.searchText)}
           />
-        }
+        )}
 
-        {
-          this.state.commentsList?.length && loader == false ?
-            <FlatList
-              extraData={commentsList}
-              key={dataNotFound}
-              refreshControl={
-                <RefreshControl onRefresh={() => this.onRefresh()} refreshing={this?.state?.isRefreshing} />
-              }
-              data={searchedItem ? filterPosts : commentsList}
-              renderItem={(item) => renderItem(item)}
-              keyExtractor={item => item?.id}
-            />
-            : <View style={{ flex: 1, alignSelf: 'center', justifyContent: 'center' }}>
-              <Text style={{ color: 'black', alignSelf: 'center' }}>
-                No Comment Found
-              </Text>
-            </View>}
+        {this.state.commentsList?.length && loader == false ? (
+          <FlatList
+            extraData={commentsList}
+            key={dataNotFound}
+            refreshControl={
+              <RefreshControl
+                onRefresh={() => this.onRefresh()}
+                refreshing={this?.state?.isRefreshing}
+              />
+            }
+            data={searchedItem ? filterPosts : commentsList}
+            renderItem={item => renderItem(item)}
+            keyExtractor={item => item?.id}
+          />
+        ) : (
+          <View
+            style={{flex: 1, alignSelf: 'center', justifyContent: 'center'}}>
+            <Text style={{color: 'black', alignSelf: 'center'}}>
+              No Comment Found
+            </Text>
+          </View>
+        )}
 
         <Loader loading={this.state.loading} />
 
@@ -385,11 +391,11 @@ class Comments extends Component {
               marginBottom: 10,
               alignItems: 'center',
               justifyContent: 'space-evenly',
-              marginTop: 'auto'
+              marginTop: 'auto',
             }}>
             <TouchableOpacity
               style={{
-                transform: [{ rotate: '215deg' }],
+                transform: [{rotate: '215deg'}],
                 justifyContent: 'center',
                 alignItems: 'center',
                 marginTop: 10,
@@ -400,7 +406,7 @@ class Comments extends Component {
             </TouchableOpacity>
             <TextInput
               style={Styles.forminputs}
-              onChangeText={text => this.setState({ newComment: text })}
+              onChangeText={text => this.setState({newComment: text})}
               placeholder={ArabicText.comments}
               placeholderTextColor="#b0b0b0"
               value={this.state?.newComment}></TextInput>
@@ -415,14 +421,14 @@ class Comments extends Component {
               justifyContent: 'space-evenly',
             }}>
             <TouchableOpacity
-              style={{ transform: [{ rotate: '180deg' }] }}
+              style={{transform: [{rotate: '180deg'}]}}
               onPress={() => this.addReplyToComment()}>
               <Ionicons name="send" size={24} color="#D2691E" />
             </TouchableOpacity>
 
             <TextInput
               style={Styles.forminputs}
-              onChangeText={text => this.setState({ newReply: text })}
+              onChangeText={text => this.setState({newReply: text})}
               placeholder={ArabicText.Reply}
               placeholderTextColor="#b0b0b0"
               value={this?.state?.newReply}></TextInput>

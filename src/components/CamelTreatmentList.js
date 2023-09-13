@@ -28,6 +28,7 @@ class CamelTreatmentList extends Component {
       searchText: '',
       refreshing: false,
       key: false,
+      searchedItem: '',
     };
 
     this.viewPosts();
@@ -37,6 +38,7 @@ class CamelTreatmentList extends Component {
     // console.log('searchtext366', searchtext);
 
     if (searchtext != undefined && searchtext.length != 0) {
+      this.setState({searchedItem: searchtext});
       let tempPost = this.state.posts.filter(item => {
         // console.log(item, "itemmm");
         return (
@@ -125,7 +127,7 @@ class CamelTreatmentList extends Component {
     });
   };
   render() {
-    const {key} = this.state;
+    const {key, searchedItem, posts} = this.state;
     const renderItem = ({item}) => {
       return (
         <Post
@@ -271,7 +273,11 @@ class CamelTreatmentList extends Component {
               tempItem['like_count'] = like_count;
               tempItem['flagForLike'] = true;
               filterPosts[tempIndex] = tempItem;
-              this.setState({loading: false, filterPosts: filterPosts, key:!key});
+              this.setState({
+                loading: false,
+                filterPosts: filterPosts,
+                key: !key,
+              });
             }
             if (response.data.status == false) {
               let filterPosts = this.state.filterPosts;
@@ -281,7 +287,11 @@ class CamelTreatmentList extends Component {
               tempItem['like_count'] = like_count;
               tempItem['flagForLike'] = false;
               filterPosts[tempIndex] = tempItem;
-              this.setState({loading: false, filterPosts: filterPosts, key:!key});
+              this.setState({
+                loading: false,
+                filterPosts: filterPosts,
+                key: !key,
+              });
               // alert(ArabicText.Successfully_Unliked);
             }
             // this.viewPosts()
@@ -328,7 +338,11 @@ class CamelTreatmentList extends Component {
       <View style={styles.container}>
         <Header
           onChangeText={text => {
-            this.search(text);
+            if (text) {
+              this.search(text);
+            } else {
+              this.setState({searchedItem: ''});
+            }
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}
         />
@@ -348,7 +362,7 @@ class CamelTreatmentList extends Component {
             <Loader loading={this.state.loading} />
             <FlatList
               key={key}
-              data={this.state.filterPosts}
+              data={searchedItem ? filterPosts : posts}
               renderItem={renderItem}
               keyExtractor={item => item.id}
               initialNumToRender={5}

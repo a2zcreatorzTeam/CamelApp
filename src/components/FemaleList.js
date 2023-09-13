@@ -29,15 +29,15 @@ class CamelFemaleList extends Component {
       filterPosts: [],
       searchText: '',
       refreshing: false,
+      searchedItem: '',
     };
-
     this.viewPosts();
   }
 
   searchFunction(searchtext) {
     console.log('searchtext', searchtext);
-
     if (searchtext != undefined && searchtext.length != 0) {
+      this.setState({searchedItem: searchtext});
       let tempPost = this.state.posts.filter(item => {
         return (
           item.user_name.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
@@ -96,6 +96,7 @@ class CamelFemaleList extends Component {
     });
   };
   render() {
+    const {filterPosts, posts, searchedItem} = this.state;
     console.log('=====================this.state.femaleListtt===============');
     console.log(this.state.filterPosts);
     console.log('====================================');
@@ -114,7 +115,6 @@ class CamelFemaleList extends Component {
         />
       );
     };
-
     const onDetailsClick = item => {
       let {user} = this.props;
       user = user.user.user;
@@ -149,7 +149,11 @@ class CamelFemaleList extends Component {
       <View style={styles.container}>
         <Header
           onChangeText={text => {
-            this.search(text);
+            if (text) {
+              this.search(text);
+            } else {
+              this.setState({searchedItem: ''});
+            }
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}
         />
@@ -168,7 +172,7 @@ class CamelFemaleList extends Component {
 
             <FlatList
               contentContainerStyle={{paddingBottom: '20%'}}
-              data={this.state.filterPosts}
+              data={searchedItem ? filterPosts : posts}
               renderItem={renderItem}
               keyExtractor={item => item.id}
               initialNumToRender={5}

@@ -53,6 +53,7 @@ class Home extends Component {
       searchText: '',
       counta: 5,
       key: false,
+      searchedItem: '',
     };
     this.scrollRef = React.createRef();
     this.flatlistRef = React.createRef();
@@ -74,9 +75,11 @@ class Home extends Component {
   }
   // =============NEW Updated Search Handler==============
   searchHandler = value => {
+    console.log(value, 'blajkjkjk');
     if (!value?.length) {
       this.setState({filterPosts: this.state.posts});
     } else {
+      this.setState({searchedItem: value});
       // Data Filtration
       const filteredData = this.state.posts.filter(item => {
         const {
@@ -114,8 +117,7 @@ class Home extends Component {
     try {
       return await camelapp.get('/view/post').then(res => {
         var arrayPosts = res?.data?.Posts;
-
-        arrayPosts.map((item, index) => {
+        arrayPosts?.map((item, index) => {
           let array = item?.img;
           let imagesArray = [];
           array?.forEach(element => {
@@ -126,11 +128,9 @@ class Home extends Component {
 
           arrayPosts[index] = item;
         });
-
         this.setState({
           posts: arrayPosts,
-          filterPosts: arrayPosts,
-
+          // filterPosts: arrayPosts,
           loader: false,
         });
       });
@@ -138,7 +138,6 @@ class Home extends Component {
       this.setState({
         posts: [],
         filterPosts: [],
-
         loader: false,
       });
       console.log('Error Message--- view post', error);
@@ -520,7 +519,7 @@ class Home extends Component {
       playVideo,
       sharePosts,
     } = this;
-    const {key, filterPosts} = this.state;
+    const {key, filterPosts, searchedItem} = this.state;
     const renderItem = ({item}) => {
       return (
         <Post
@@ -656,9 +655,13 @@ class Home extends Component {
             <Header
               navRoute="Home"
               onChangeText={text => {
-                this.searchHandler(text);
+                if (text) {
+                  this.search(text);
+                } else {
+                  this.setState({searchedItem: ''});
+                }
               }}
-              // onPressSearch={() => this.searchFunction(this.state.searchText)}
+              onPressSearch={() => this.searchHandler(this.state.searchText)}
             />
             <View
               style={{
@@ -892,14 +895,18 @@ class Home extends Component {
             <Loader loading={this.state.loading} />
 
             <FlatList
-              ref={this.flatlistRef}
+              // ref={this.flatlistRef}
               key={key}
-              data={this?.state?.filterPosts?.slice(0, this.state.counta)}
+              data={
+                searchedItem
+                  ? filterPosts?.slice(0, this.state.counta)
+                  : this?.state?.posts?.slice(0, this.state.counta)
+              }
               keyExtractor={item => item.id.toString()}
               renderItem={renderItem}
               onEndReachedThreshold={0.5}
-              // initialNumToRender={1}
-              // maxToRenderPerBatch={2}
+              initialNumToRender={1}
+              maxToRenderPerBatch={2}
               ListFooterComponent={() => {
                 return (
                   <TouchableOpacity

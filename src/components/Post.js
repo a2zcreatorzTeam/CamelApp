@@ -50,7 +50,6 @@ const Post = ({
     if (item?.user_id === user?.id) {
       navigation?.navigate('Profile');
     } else {
-      // console.log('userProfillee');
       navigation?.navigate('UserProfile', {
         user_id: item?.user_id,
       });
@@ -134,7 +133,7 @@ const Post = ({
   const handleLikesClick = useCallback(() => {
     onLikesClick(item);
   }, [onLikesClick, item]);
-console.log(flagForLike,"flagForLikeflagForLike");
+  console.log(flagForLike, 'flagForLikeflagForLike');
   // const handleUserProfileClick = useCallback(() => {
   //   onUserProfileClick && onUserProfileClick(item);
   // }, [onUserProfileClick, item]);

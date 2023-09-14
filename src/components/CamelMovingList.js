@@ -88,6 +88,7 @@ class CamelMovingList extends Component {
       this.viewPosts();
     });
   };
+
   render() {
     const {key, filterPosts, searchedItem} = this.state;
     const renderItem = ({item}) => {

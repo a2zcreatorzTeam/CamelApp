@@ -43,9 +43,9 @@ class BeautyOfCompetition extends Component {
       particpateModal: false,
       generalRulesModal: false,
       refreshing: false,
+      loading:false
     };
   }
-
   selectedCompetition() {
     let {user} = this.props;
     user = user.user.user;
@@ -58,7 +58,6 @@ class BeautyOfCompetition extends Component {
       this.props.navigation.navigate('Login');
     }
   }
-
   async competitionDetails() {
     try {
       return await camelapp
@@ -76,7 +75,6 @@ class BeautyOfCompetition extends Component {
       //console.log("Error Message get competition List", error);
     }
   }
-
   componentDidMount() {
     this.competitionDetails();
 
@@ -113,12 +111,32 @@ class BeautyOfCompetition extends Component {
       today: Date.parse(date),
     });
   }
-
   ScrollToRefresh() {
     this.competitionDetails();
     this.setState({refreshing: false});
   }
-
+  postViewed = async item => {
+    this.setState({loading: false});
+    let {user} = this.props;
+    user = user?.user?.user;
+    let post_id = item?.id;
+    if (user != undefined) {
+      await camelapp
+        .post('/add/view', {
+          user_id: user?.id,
+          post_id: post_id,
+        })
+        .then(response => {
+          console.log('response.data', response.data);
+        })
+        .catch(error => {
+          console.log('error', error);
+          this.setState({loading: false});
+        });
+    } else {
+      this.props.navigation.navigate('Login');
+    }
+  };
   render() {
     const tagsStyles = {
       body: {
@@ -174,7 +192,6 @@ class BeautyOfCompetition extends Component {
         </View>
       </View>
     );
-
     const renderPostItem = ({item}) => {
       return (
         <PostItem
@@ -185,7 +202,6 @@ class BeautyOfCompetition extends Component {
         />
       );
     };
-
     const SponsorItem = ({name, image}) => (
       <View style={{alignItems: 'center', width: width - 50, padding: 10}}>
         <Image
@@ -205,7 +221,6 @@ class BeautyOfCompetition extends Component {
         </Text>
       </View>
     );
-
     const renderSponserItem = ({item}) => {
       return <SponsorItem item={item} name={item.name} image={item.image} />;
     };

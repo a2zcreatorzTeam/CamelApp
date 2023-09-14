@@ -105,6 +105,29 @@ class CamelFoodList extends Component {
       this.viewPosts();
     });
   };
+  postViewed = async item => {
+    this.setState({loading: false});
+    let {user} = this.props;
+    user = user?.user?.user;
+    let post_id = item?.id;
+    if (user != undefined) {
+      await camelapp
+        .post('/add/view', {
+          user_id: user?.id,
+          post_id: post_id,
+        })
+        .then(response => {
+          console.log('response.data', response.data);
+        })
+        .catch(error => {
+          console.log('error', error);
+          this.setState({loading: false});
+        });
+    } else {
+      this.props.navigation.navigate('Login');
+    }
+  };
+
   render() {
     const {key, searchedItem, posts, filterPosts} = this.state;
     const renderItem = ({item}) => {
@@ -129,10 +152,7 @@ class CamelFoodList extends Component {
           imagesArray={item?.imagesArray}
           date={item?.date}
           sharePost={() => sharePosts(item)}
-          onTouchStart={() => this.playVideo(item)}
-          playVideo={true}
-          pauseFlag={item?.flagForVideo}
-          onCategoryClick={() => console.log('first')}
+          postViewed={() => this.postViewed(item)}
         />
       );
     };

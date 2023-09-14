@@ -36,6 +36,7 @@ const Post = ({
   flagForVideo,
   pauseVideo,
   createdDate,
+  postViewed=()=>{},
 }) => {
   // console.log(item, "postItemmmmm");
   const navigation = useNavigation();
@@ -56,7 +57,6 @@ const Post = ({
       });
     }
   };
-
   // =====MEMO=====
   const memoizedItemProps = useMemo(() => {
     const {
@@ -119,7 +119,6 @@ const Post = ({
     category_name,
     lastBidPrice,
   } = memoizedItemProps;
-
   // =====Memoized Functions====
   const handleCommentsClick = useCallback(() => {
     onCommentsClick(item);
@@ -217,6 +216,7 @@ const Post = ({
             <TouchableWithoutFeedback
               key={index}
               onPress={() => {
+                postViewed()
                 setModal(true),
                   setModalItem(mediaSource),
                   setModalItemType(item?.type);

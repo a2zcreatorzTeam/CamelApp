@@ -143,6 +143,29 @@ class Home extends Component {
       console.log('Error Message--- view post', error);
     }
   }
+
+  postViewed = async item => {
+    this.setState({loading: false});
+    let {user} = this.props;
+    user = user?.user?.user;
+    let post_id = item?.id;
+    if (user != undefined) {
+      await camelapp
+        .post('/add/view', {
+          user_id: user?.id,
+          post_id: post_id,
+        })
+        .then(response => {
+          console.log('response.data', response.data);
+        })
+        .catch(error => {
+          console.log('error', error);
+          this.setState({loading: false});
+        });
+    } else {
+      this.props.navigation.navigate('Login');
+    }
+  };
   async checkUser() {
     const userPhone = await AsyncStorage.getItem('@UserPhone');
     const userPass = await AsyncStorage.getItem('@UserPassword');
@@ -450,6 +473,8 @@ class Home extends Component {
     } else {
       this.props.navigation.navigate('Login');
     }
+
+    this.flatListRef.current?.scrollToIndex({animated: false});
   };
   onUserProfileClick = async item => {
     this.setState({loading: true});
@@ -518,6 +543,7 @@ class Home extends Component {
       onLikesClick,
       playVideo,
       sharePosts,
+      postViewed,
     } = this;
     const {key, filterPosts, searchedItem} = this.state;
     const renderItem = ({item}) => {
@@ -533,6 +559,7 @@ class Home extends Component {
           sharePost={sharePosts}
           flagForVideo={false}
           createdDate={item?.created_at?.slice(0, 10)}
+          postViewed={() => postViewed(item)}
         />
       );
     };
@@ -893,9 +920,9 @@ class Home extends Component {
             </View>
             {/* POST FLATLIST */}
             <Loader loading={this.state.loading} />
-
             <FlatList
-              // ref={this.flatlistRef}
+              scrollsToTop={false}
+              // ref={(e)=>{this.flatlistRef, console.log(e, "refrencececce");}}
               key={key}
               data={
                 searchedItem

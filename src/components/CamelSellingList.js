@@ -143,6 +143,26 @@ class CamelSellingList extends Component {
       this.viewPosts();
     });
   };
+  postViewed = async item => {
+    let {user} = this.props;
+    user = user?.user?.user;
+    let post_id = item?.id;
+    if (user != undefined) {
+      await camelapp
+        .post('/add/view', {
+          user_id: user?.id,
+          post_id: post_id,
+        })
+        .then(response => {
+          console.log('response.data', response.data);
+        })
+        .catch(error => {
+          console.log('error', error);
+        });
+    } else {
+      this.props.navigation.navigate('Login');
+    }
+  };
   render() {
     const {filterPosts, searchedItem, key} = this.state;
     console.log('====================================');
@@ -170,6 +190,7 @@ class CamelSellingList extends Component {
           date={item?.date}
           sharePost={() => sharePosts(item)}
           onCategoryClick={() => console.log('first')}
+          postViewed={() => this.postViewed(item)}
         />
       );
     };

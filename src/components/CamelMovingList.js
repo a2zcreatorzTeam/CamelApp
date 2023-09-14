@@ -50,17 +50,16 @@ class CamelMovingList extends Component {
       this.setState({searchedItem: searchtext});
       let tempPost = this.state?.posts.filter(item => {
         return (
-          item?.id == this.searchtext ||
-          item?.title?.toLowerCase()?.indexOf(searchtext?.toLowerCase()) > -1 ||
+          item?.user_name?.toLowerCase().includes(searchtext.toLowerCase()) ||
+          item?.name?.toLowerCase().includes(searchtext.toLowerCase()) ||
+          item?.title?.toLowerCase().includes(searchtext.toLowerCase()) ||
           item?.user_location
             ?.toLowerCase()
-            .indexOf(searchtext?.toLowerCase()) > -1 ||
-          item?.price?.toLowerCase()?.indexOf(searchtext?.toLowerCase()) > -1 ||
-          item?.type?.toLowerCase()?.indexOf(searchtext?.toLowerCase()) > -1
+            ?.includes(searchtext.toLowerCase()) ||
+          item?.price?.toLowerCase()?.includes(searchtext.toLowerCase()) ||
+          item?.type?.toLowerCase()?.includes(searchtext.toLowerCase())
         );
       });
-      console.log('tempPost.length--camelmoving', tempPost.length);
-
       this.setState({filterPosts: tempPost, key: !key});
     }
   }
@@ -109,7 +108,6 @@ class CamelMovingList extends Component {
         />
       );
     };
-
     const onDetailsClick = item => {
       let {user} = this.props;
       user = user.user.user;

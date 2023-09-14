@@ -45,30 +45,24 @@ class CamelClubList extends Component {
     if (searchtext != undefined && searchtext?.length != 0) {
       this.setState({searchedItem: searchtext});
       let tempPost = this.state.posts.filter(item => {
+        console.log(item);
         return (
-          item.user_name.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item.user_phone.toLowerCase().indexOf(searchtext) > -1 ||
-          item.id == this.searchtext ||
-          item.title.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item.location.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.category_name.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.user_phone.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.description.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) > -1
+          item?.user_name?.toLowerCase().includes(searchtext.toLowerCase()) ||
+          item?.name?.toLowerCase().includes(searchtext.toLowerCase()) ||
+          item?.title?.toLowerCase().includes(searchtext.toLowerCase()) ||
+          item?.description?.toLowerCase().includes(searchtext.toLowerCase()) ||
+          item?.location?.toLowerCase()?.includes(searchtext.toLowerCase()) ||
+          item?.camel_type?.toLowerCase()?.includes(searchtext.toLowerCase()) ||
+          item?.category_name
+            ?.toLowerCase()
+            ?.includes(searchtext.toLowerCase()) ||
+          item?.user_phone?.includes(searchtext)
         );
       });
       console.log('tempPost--camelClub');
       this.setState({filterPosts: tempPost, key: !key});
     }
   }
-
   search(text) {
     this.setState({searchText: text});
   }
@@ -109,19 +103,13 @@ class CamelClubList extends Component {
         console.log('Error Message--- view post', error);
       });
   }
-
   playVideo(item) {
     let {filterPosts} = this.state;
-
     let index = filterPosts.indexOf(item);
-
     console.log('index', index);
-
     filterPosts[index].flagForVideo = !filterPosts[index].flagForVideo;
-
     this.setState({filterPosts: filterPosts});
   }
-
   ScrollToRefresh() {
     this.viewPosts();
     this.setState({refreshing: false});
@@ -184,9 +172,7 @@ class CamelClubList extends Component {
   //       });
   //   }
   // };
-
   render() {
-    console.log("hellocamelclubb");
     const {posts, filterPosts, key, searchedItem} = this.state;
     const renderItem = ({item}) => {
       return (
@@ -218,7 +204,6 @@ class CamelClubList extends Component {
         />
       );
     };
-
     const onCommentsClick = item => {
       let {user} = this.props;
       user = user.user.user;
@@ -240,7 +225,6 @@ class CamelClubList extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-
     const sharePosts = item => {
       console.log('working');
 
@@ -278,7 +262,6 @@ class CamelClubList extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-
     const onLikesClick = item => {
       console.log('item', searchedItem);
       this.setState({loading: false});
@@ -331,7 +314,6 @@ class CamelClubList extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-
     const onDetailsClick = item => {
       let {user} = this.props;
       user = user.user.user;
@@ -354,7 +336,6 @@ class CamelClubList extends Component {
         });
       }
     };
-
     const onAddButtonClick = () => {
       let {user} = this.props;
       if (user.user.status == true) {

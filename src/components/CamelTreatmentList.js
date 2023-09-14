@@ -42,23 +42,18 @@ class CamelTreatmentList extends Component {
       let tempPost = this.state.posts.filter(item => {
         // console.log(item, "itemmm");
         return (
-          item?.user_name.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item?.user_phone.toLowerCase().indexOf(searchtext) > -1 ||
-          item?.id == this.searchtext ||
-          item?.title.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item?.location.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item?.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item?.category_name.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item?.user_phone.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item?.description.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item?.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item?.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) > -1
+          item?.user_name?.toLowerCase().includes(searchtext.toLowerCase()) ||
+          item?.name?.toLowerCase().includes(searchtext.toLowerCase()) ||
+          item?.title?.toLowerCase().includes(searchtext.toLowerCase()) ||
+          item?.description?.toLowerCase().includes(searchtext.toLowerCase()) ||
+          item?.user_location
+            ?.toLowerCase()
+            ?.includes(searchtext.toLowerCase()) ||
+          item?.camel_type?.toLowerCase()?.includes(searchtext.toLowerCase()) ||
+          item?.category_name
+            ?.toLowerCase()
+            ?.includes(searchtext.toLowerCase()) ||
+          item?.user_phone?.includes(searchtext)
         );
       });
       // console.log('tempPost8989', tempPost);
@@ -127,7 +122,7 @@ class CamelTreatmentList extends Component {
     });
   };
   render() {
-    const {key, searchedItem, posts} = this.state;
+    const {key, searchedItem, posts, filterPosts} = this.state;
     const renderItem = ({item}) => {
       return (
         <Post

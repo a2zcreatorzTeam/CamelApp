@@ -41,6 +41,7 @@ class CamelFemaleList extends Component {
       let tempPost = this.state.posts.filter(item => {
         return (
           item.user_name.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
+          item.name.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
           item.user_phone.toLowerCase().indexOf(searchtext) > -1 ||
           item.id == this.searchtext ||
           item.title.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||

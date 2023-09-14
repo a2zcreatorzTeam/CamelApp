@@ -10,56 +10,44 @@ import {
 import Post from './Post';
 import camelapp from '../api/camelapp';
 import Header from '../components/Header';
-
 import AddButton from './AddButton';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
-
 import Loader from './PleaseWait';
-import * as ArabicText from '../language/EnglishToArabic';
 
 class CamelFoodList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: {},
+      posts: [],
       loader: true,
       loading: false,
       filterPosts: [],
       searchText: '',
       refreshing: false,
       key: false,
+      searchedItem: '',
     };
     this.viewPosts();
   }
   searchFunction(searchtext) {
-    console.log('searchtext', searchtext);
     if (searchtext != undefined && searchtext.length != 0) {
+      this.setState({searchedItem: searchtext});
       let tempPost = this.state.posts.filter(item => {
         return (
-          item.user_name.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item.user_phone.toLowerCase().indexOf(searchtext) > -1 ||
-          item.id == this.searchtext ||
-          item.title.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item.location.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
-          item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.category_name.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.user_phone.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.description.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) >
-            -1 ||
-          item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) > -1
+          item?.user_name?.toLowerCase().includes(searchtext.toLowerCase()) ||
+          item?.name?.toLowerCase().includes(searchtext.toLowerCase()) ||
+          item?.title?.toLowerCase().includes(searchtext.toLowerCase()) ||
+          item?.description?.toLowerCase().includes(searchtext.toLowerCase()) ||
+          item?.location?.toLowerCase()?.includes(searchtext.toLowerCase()) ||
+          item?.camel_type?.toLowerCase()?.includes(searchtext.toLowerCase()) ||
+          item?.category_name
+            ?.toLowerCase()
+            ?.includes(searchtext.toLowerCase()) ||
+          item?.user_phone?.includes(searchtext)
         );
       });
-      console.log('tempPost.length--camelFood', tempPost.length);
-
       this.setState({filterPosts: tempPost});
     }
   }
@@ -88,9 +76,7 @@ class CamelFoodList extends Component {
     try {
       return await camelapp.get('/get/camel_food').then(res => {
         var arrayPosts = res?.data?.Posts;
-
         arrayPosts.map((item, index) => {
-          console.log('index', index);
           let array = item?.img;
           let imagesArray = [];
           array?.forEach(element => {
@@ -98,14 +84,10 @@ class CamelFoodList extends Component {
           });
           imagesArray?.push({type: 'video', source: item?.video});
           item['imagesArray'] = imagesArray;
-
           arrayPosts[index] = item;
         });
-
         this.setState({
           posts: arrayPosts,
-          filterPosts: arrayPosts,
-
           loader: false,
         });
       });
@@ -113,7 +95,6 @@ class CamelFoodList extends Component {
       this.setState({
         posts: [],
         filterPosts: [],
-
         loader: false,
       });
       console.log('Error Message--- view post', error);
@@ -125,7 +106,7 @@ class CamelFoodList extends Component {
     });
   };
   render() {
-    const {key} = this.state;
+    const {key, searchedItem, posts, filterPosts} = this.state;
     const renderItem = ({item}) => {
       return (
         <Post
@@ -155,7 +136,6 @@ class CamelFoodList extends Component {
         />
       );
     };
-
     const onCommentsClick = item => {
       let {user} = this.props;
       user = user.user.user;
@@ -231,7 +211,6 @@ class CamelFoodList extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-
     const onDetailsClick = item => {
       let {user} = this.props;
       user = user.user.user;
@@ -254,12 +233,9 @@ class CamelFoodList extends Component {
         });
       }
     };
-
     const sharePosts = item => {
       console.log('working');
-
       this.setState({loading: true});
-
       let {user} = this.props;
       user = user.user.user;
       let post_id = item.id;
@@ -293,7 +269,6 @@ class CamelFoodList extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-
     const onAddButtonClick = () => {
       let {user} = this.props;
       if (user.user.status == true) {
@@ -302,16 +277,18 @@ class CamelFoodList extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-
     return (
       <View style={styles.container}>
         <Header
           onChangeText={text => {
-            this.search(text);
+            if (text) {
+              this.search(text);
+            } else {
+              this.setState({searchedItem: ''});
+            }
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}
         />
-
         {this.state.loader && (
           <ActivityIndicator
             size="large"
@@ -320,14 +297,13 @@ class CamelFoodList extends Component {
             style={{marginTop: 20}}
           />
         )}
-
         {this.state.loader == false && (
           <>
             <AddButton onPress={() => onAddButtonClick()} />
             <Loader loading={this.state.loading} />
             <FlatList
               key={key}
-              data={this.state.filterPosts}
+              data={searchedItem ? filterPosts : posts}
               renderItem={renderItem}
               keyExtractor={item => item.id}
               refreshControl={

@@ -26,13 +26,14 @@ class CamelEquipmentList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: {},
+      posts: [],
       loader: true,
       loading: false,
       searchText: '',
       refreshing: false,
       filterPosts: [],
       key: false,
+      searchedItem: '',
     };
     this.viewPosts();
   }
@@ -56,8 +57,6 @@ class CamelEquipmentList extends Component {
 
         this.setState({
           posts: arrayPosts,
-          filterPosts: arrayPosts,
-
           loader: false,
         });
       });
@@ -72,12 +71,12 @@ class CamelEquipmentList extends Component {
     }
   }
   searchFunction(searchtext) {
-    console.log('searchtext', searchtext);
-
     if (searchtext != undefined && searchtext.length != 0) {
+      this.setState({searchedItem: searchtext});
       let tempPost = this.state.posts.filter(item => {
         return (
           item.user_name.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
+          item.name.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
           item.user_phone.toLowerCase().indexOf(searchtext) > -1 ||
           item.id == this.searchtext ||
           item.title.toLowerCase().indexOf(searchtext.toLowerCase()) > -1 ||
@@ -128,7 +127,7 @@ class CamelEquipmentList extends Component {
   };
 
   render() {
-    const {key} = this.state;
+    const {key, searchedItem, posts, filterPosts} = this.state;
     const renderItem = ({item}) => {
       return (
         <Post
@@ -178,9 +177,7 @@ class CamelEquipmentList extends Component {
     };
     const sharePosts = item => {
       console.log('working');
-
       this.setState({loading: true});
-
       let {user} = this.props;
       user = user.user.user;
       let post_id = item.id;
@@ -301,7 +298,11 @@ class CamelEquipmentList extends Component {
       <View style={styles.container}>
         <Header
           onChangeText={text => {
-            this.search(text);
+            if (text) {
+              this.search(text);
+            } else {
+              this.setState({searchedItem: ''});
+            }
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}
         />
@@ -319,7 +320,7 @@ class CamelEquipmentList extends Component {
             <Loader loading={this.state.loading} />
             <FlatList
               key={key}
-              data={this.state.filterPosts}
+              data={searchedItem ? filterPosts : posts}
               renderItem={renderItem}
               keyExtractor={item => item.id}
               refreshControl={

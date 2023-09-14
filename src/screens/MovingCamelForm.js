@@ -28,6 +28,7 @@ const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
 import * as ImageCropPicker from 'react-native-image-crop-picker';
 import VideoModal from '../components/VideoModal';
+import HorizontalCarousel from '../components/HorizontalCarousel';
 
 class SellingCamel extends React.Component {
   constructor(props) {

@@ -300,7 +300,6 @@ class CamelFood extends React.Component {
           showsHorizontalScrollIndicator={false}
           style={{backgroundColor: 'white'}}>
           <Ads />
-
           <View style={Styles.container}>
             <Text style={Styles.headingPostText}>بيع المعدات</Text>
             <HorizontalCarousel

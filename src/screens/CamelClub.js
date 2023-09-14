@@ -251,7 +251,6 @@ class CamelClub extends Component {
   };
 
   render() {
-    console.log('Camel Club ===>>>');
     const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
     return (
       <View style={{backgroundColor: '#ffffff'}}>
@@ -259,7 +258,6 @@ class CamelClub extends Component {
         <ScrollView contentContainerStyle={{paddingBottom: 150}}>
           <View style={Styles.containerScroll}>
             <Text style={Styles.headingPostText}>{ArabicText.Camel_Club}</Text>
-
             <HorizontalCarousel
               CustomUrl
               imagesArray={this.state.mixed}

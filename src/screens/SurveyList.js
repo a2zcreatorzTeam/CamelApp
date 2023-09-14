@@ -16,6 +16,7 @@ import {bindActionCreators} from 'redux';
 import {Styles} from '../styles/globlestyle';
 import {Card} from 'react-native-paper';
 import {Dimensions} from 'react-native';
+import Header from '../components/Header';
 const width = Dimensions.get('screen').width;
 class SurveyList extends Component {
   constructor(props) {
@@ -24,8 +25,10 @@ class SurveyList extends Component {
       posts: [],
       loader: true,
       isRefreshing: false,
+      searchText: '',
+      searchedItem: '',
+      filterPosts: [],
     };
-
     this.viewPosts();
   }
 
@@ -73,22 +76,42 @@ class SurveyList extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-  componentDidMount() {
-      const { navigation } = this.props;
-      this.focusListener = navigation.addListener("focus", () => {
-        this.viewPosts()
+  searchHandler = value => {
+    if (!value?.length) {
+      this.setState({filterPosts: this.state.posts});
+    } else {
+      this.setState({searchedItem: value});
+      // Data Filtration
+      const filteredData = this.state.posts.filter(item => {
+        const {title} = item;
+        return title?.toLowerCase().includes(value.toLowerCase());
       });
+      if (filteredData.length > 0) {
+        this.setState({filterPosts: filteredData});
+      } else {
+        this.setState({filterPosts: []});
+      }
     }
-
-    componentWillUnmount() {
-      // Remove the event listener
-      this.focusListener();
-    }
-  ScrollToRefresh() {
-    this.viewPosts()
-    this.setState({ isRefreshing: false });
+  };
+  search(text) {
+    this.setState({searchText: text});
   }
+  ScrollToRefresh() {
+    this.viewPosts();
+    this.setState({isRefreshing: false});
+  }
+  componentDidMount() {
+    const {navigation} = this.props;
+    this.focusListener = navigation.addListener('focus', () => {
+      this.viewPosts();
+    });
+  }
+  componentWillUnmount() {
+    this.focusListener();
+  }
+  
   render() {
+    const {posts, filterPosts, searchedItem} = this.state;
     const renderItem = ({item}) => {
       return (
         <Item
@@ -104,6 +127,17 @@ class SurveyList extends Component {
 
     return (
       <View style={styles.container}>
+        <Header
+          onChangeText={text => {
+            if (text) {
+              this.search(text);
+            } else {
+              this.setState({searchedItem: ''});
+            }
+          }}
+          onPressSearch={() => this.searchHandler(this.state.searchText)}
+        />
+
         {this.state.loader && (
           <ActivityIndicator
             size="large"
@@ -118,11 +152,11 @@ class SurveyList extends Component {
             <FlatList
               refreshControl={
                 <RefreshControl
-                refreshing={this.state.isRefreshing}
+                  refreshing={this.state.isRefreshing}
                   onRefresh={() => this.ScrollToRefresh()}
                 />
               }
-              data={this.state.posts}
+              data={searchedItem ? filterPosts : posts}
               renderItem={renderItem}
               keyExtractor={item => item.id}
               // inverted={true}

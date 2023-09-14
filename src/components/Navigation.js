@@ -224,7 +224,8 @@ export default function Navigation() {
         <Stack.Screen
           name="SellingEqForm"
           component={SellingEqForm}
-          options={{header: () => <Header />}}
+          // options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="UserProfile"
@@ -235,22 +236,26 @@ export default function Navigation() {
         <Stack.Screen
           name="CamelFemale"
           component={CamelFemale}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
+          // options={{header: () => <Header />}}
         />
         <Stack.Screen
           name="CompetitionList"
           component={CompetitionList}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
+          // options={{header: () => <Header />}}
         />
         <Stack.Screen
           name="CamelFood"
           component={CamelFood}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
+          // options={{header: () => <Header />}}
         />
         <Stack.Screen
           name="SurveyList"
           component={SurveyList}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
+          // options={{header: () => <Header />}}
         />
         <Stack.Screen
           name="CamelClubList"
@@ -261,7 +266,8 @@ export default function Navigation() {
         <Stack.Screen
           name="TreatingCamel"
           component={TreatingCamels}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
+          // options={{header: () => <Header />}}
         />
         <Stack.Screen
           name="CreatePost"
@@ -271,7 +277,8 @@ export default function Navigation() {
         <Stack.Screen
           name="MissingCamelForm"
           component={MissingCamelForm}
-          options={{header: () => <Header />}}
+          // options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="BidTab"
@@ -291,12 +298,14 @@ export default function Navigation() {
         <Stack.Screen
           name="CamelClub"
           component={CamelClub}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
+          // options={{header: () => <Header />}}
         />
         <Stack.Screen
           name="MovingCamelForm"
           component={MovingCamelForm}
-          options={{header: () => <Header />}}
+          // options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="Comments"
@@ -370,7 +379,8 @@ export default function Navigation() {
         <Stack.Screen
           name="News"
           component={News}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
+          // options={{header: () => <Header />}}
         />
         <Stack.Screen
           name="Survey"
@@ -380,7 +390,8 @@ export default function Navigation() {
         <Stack.Screen
           name="LiveMarketingForm"
           component={LiveMarketingForm}
-          options={{header: () => <Header />}}
+          // options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="CamelMarketingList"
@@ -390,7 +401,8 @@ export default function Navigation() {
         <Stack.Screen
           name="SellingCamel"
           component={SellingCamel}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
+          // options={{header: () => <Header />}}
         />
         <Stack.Screen
           name="EditProfile"

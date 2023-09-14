@@ -36,7 +36,7 @@ const Post = ({
   flagForVideo,
   pauseVideo,
   createdDate,
-  postViewed=()=>{},
+  postViewed = () => {},
 }) => {
   // console.log(item, "postItemmmmm");
   const navigation = useNavigation();
@@ -46,6 +46,7 @@ const Post = ({
   const [load, setLoad] = useState(false);
   const [modalItem, setModalItem] = useState('');
   const [modalItemType, setModalItemType] = useState('');
+  const [isLiked, setIsLiked] = useState(flagForLike);
 
   const onUserProfileClick = async item => {
     if (item?.user_id === user?.id) {
@@ -216,7 +217,7 @@ const Post = ({
             <TouchableWithoutFeedback
               key={index}
               onPress={() => {
-                postViewed()
+                postViewed();
                 setModal(true),
                   setModalItem(mediaSource),
                   setModalItemType(item?.type);

@@ -114,26 +114,31 @@ class Home extends Component {
     this.setState({searchText: text});
   }
   async viewPosts() {
+    let {user} = this.props;
+    user = user.user.user;
     try {
-      return await camelapp.get('/view/post').then(res => {
-        var arrayPosts = res?.data?.Posts;
-        arrayPosts?.map((item, index) => {
-          let array = item?.img;
-          let imagesArray = [];
-          array?.forEach(element => {
-            imagesArray?.push({type: 'image', source: element});
-          });
-          imagesArray?.push({type: 'video', source: item?.video});
-          item['imagesArray'] = imagesArray;
+      return await camelapp
+        .post('/view/post', {
+          user_id: user?.id,
+        })
+        .then(res => {
+          var arrayPosts = res?.data?.Posts;
+          arrayPosts?.map((item, index) => {
+            let array = item?.img;
+            let imagesArray = [];
+            array?.forEach(element => {
+              imagesArray?.push({type: 'image', source: element});
+            });
+            imagesArray?.push({type: 'video', source: item?.video});
+            item['imagesArray'] = imagesArray;
 
-          arrayPosts[index] = item;
+            arrayPosts[index] = item;
+          });
+          this.setState({
+            posts: arrayPosts,
+            loader: false,
+          });
         });
-        this.setState({
-          posts: arrayPosts,
-          // filterPosts: arrayPosts,
-          loader: false,
-        });
-      });
     } catch (error) {
       this.setState({
         posts: [],
@@ -143,7 +148,7 @@ class Home extends Component {
       console.log('Error Message--- view post', error);
     }
   }
-
+ 
   postViewed = async item => {
     this.setState({loading: false});
     let {user} = this.props;
@@ -428,12 +433,13 @@ class Home extends Component {
     let {user} = this.props;
     user = user.user.user;
     let post_id = item.id;
+    console.log(user.id, post_id, 'abc');
     if (user != undefined) {
       await camelapp
         .post('/add/like', {
           user_id: user.id,
           post_id: post_id,
-          type: 'abc',
+          // type: 'abc',
         })
         .then(response => {
           console.log('response.data', response.data);
@@ -473,8 +479,6 @@ class Home extends Component {
     } else {
       this.props.navigation.navigate('Login');
     }
-
-    this.flatListRef.current?.scrollToIndex({animated: false});
   };
   onUserProfileClick = async item => {
     this.setState({loading: true});

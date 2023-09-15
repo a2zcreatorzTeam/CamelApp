@@ -121,31 +121,39 @@ const Home = props => {
         })
         .then(response => {
           console.log('response.data', response.data);
-          if (response.data.status == true) {
-            let filterPosts = this.state.filterPosts;
+          // if (response.data.status == true) {
+          //   let filterPosts = this.state.filterPosts;
 
-            let tempIndex = filterPosts.indexOf(item);
+          //   let tempIndex = filterPosts.indexOf(item);
 
-            let like_count = item.like_count + 1;
-            let tempItem = item;
-            tempItem['like_count'] = like_count;
-            filterPosts[tempIndex] = tempItem;
+          //   let like_count = item.like_count + 1;
+          //   let tempItem = item;
+          //   tempItem['like_count'] = like_count;
+          //   filterPosts[tempIndex] = tempItem;
 
-            this.setState({loading: false, filterPosts: filterPosts});
-            alert(ArabicText.Succesfully_liked);
+          //   this.setState({loading: false, filterPosts: filterPosts});
+          //   alert(ArabicText.Succesfully_liked);
+          // }
+          // if (response.data.status == false) {
+          //   let filterPosts = this.state.filterPosts;
+
+          //   let tempIndex = filterPosts.indexOf(item);
+
+          //   let like_count = item.like_count - 1;
+          //   let tempItem = item;
+          //   tempItem['like_count'] = like_count;
+          //   filterPosts[tempIndex] = tempItem;
+
+          //   this.setState({loading: false, filterPosts: filterPosts});
+          //   alert(ArabicText.Successfully_Unliked);
+          // }
+          if (response.data.message == 'Successfully liked') {
+            setIsLiked(true);
+            setLikeCount(response?.data?.total_likes);
           }
-          if (response.data.status == false) {
-            let filterPosts = this.state.filterPosts;
-
-            let tempIndex = filterPosts.indexOf(item);
-
-            let like_count = item.like_count - 1;
-            let tempItem = item;
-            tempItem['like_count'] = like_count;
-            filterPosts[tempIndex] = tempItem;
-
-            this.setState({loading: false, filterPosts: filterPosts});
-            alert(ArabicText.Successfully_Unliked);
+          if (response.data.message == 'Successfully Unliked') {
+            setIsLiked(false);
+            setLikeCount(response?.data?.total_likes);
           }
         })
         .catch(error => {
@@ -172,7 +180,9 @@ const Home = props => {
         onCommentsClick={() => onCommentsClick(item)}
         category="equipment"
         price={item.price}
-        onLikesClick={() => onLikesClick(item)}
+        onLikesClick={(item, setIsLiked, setLikeCount) =>
+          onLikesClick(item, setIsLiked, setLikeCount)
+        }
       />
     );
   };

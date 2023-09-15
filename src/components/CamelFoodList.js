@@ -73,24 +73,30 @@ class CamelFoodList extends Component {
     this.setState({refreshing: false});
   }
   async viewPosts() {
+    let {user} = this.props;
+    user = user.user.user;
     try {
-      return await camelapp.get('/get/camel_food').then(res => {
-        var arrayPosts = res?.data?.Posts;
-        arrayPosts.map((item, index) => {
-          let array = item?.img;
-          let imagesArray = [];
-          array?.forEach(element => {
-            imagesArray?.push({type: 'image', source: element});
+      return await camelapp
+        .post('/get/camel_food', {
+          user_id: user?.id,
+        })
+        .then(res => {
+          var arrayPosts = res?.data?.Posts;
+          arrayPosts.map((item, index) => {
+            let array = item?.img;
+            let imagesArray = [];
+            array?.forEach(element => {
+              imagesArray?.push({type: 'image', source: element});
+            });
+            imagesArray?.push({type: 'video', source: item?.video});
+            item['imagesArray'] = imagesArray;
+            arrayPosts[index] = item;
           });
-          imagesArray?.push({type: 'video', source: item?.video});
-          item['imagesArray'] = imagesArray;
-          arrayPosts[index] = item;
+          this.setState({
+            posts: arrayPosts,
+            loader: false,
+          });
         });
-        this.setState({
-          posts: arrayPosts,
-          loader: false,
-        });
-      });
     } catch (error) {
       this.setState({
         posts: [],
@@ -147,7 +153,9 @@ class CamelFoodList extends Component {
           category={item.category_name}
           price={item.price}
           title={item.title}
-          onLikesClick={() => onLikesClick(item)}
+          onLikesClick={(item, setIsLiked, setLikeCount) =>
+            onLikesClick(item, setIsLiked, setLikeCount)
+          }
           onDetailsClick={() => onDetailsClick(item)}
           imagesArray={item?.imagesArray}
           date={item?.date}
@@ -177,7 +185,7 @@ class CamelFoodList extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-    const onLikesClick = item => {
+    const onLikesClick = (item, setIsLiked, setLikeCount) => {
       this.setState({loading: false});
       let {user} = this.props;
       user = user.user.user;
@@ -191,37 +199,14 @@ class CamelFoodList extends Component {
           })
           .then(response => {
             console.log('response.data', response.data);
-            if (response.data.status == true) {
-              let filterPosts = this.state.filterPosts;
-              let tempIndex = filterPosts.indexOf(item);
-              let like_count = item.like_count + 1;
-              let tempItem = item;
-              tempItem['like_count'] = like_count;
-              tempItem['flagForLike'] = true;
-              filterPosts[tempIndex] = tempItem;
-              this.setState({
-                loading: false,
-                filterPosts: filterPosts,
-                key: !key,
-              });
-              // alert(ArabicText.Succesfully_liked);
+            if (response.data.message == 'Successfully liked') {
+              setIsLiked(true);
+              setLikeCount(response?.data?.total_likes);
             }
-            if (response.data.status == false) {
-              let filterPosts = this.state.filterPosts;
-              let tempIndex = filterPosts.indexOf(item);
-              let like_count = item.like_count - 1;
-              let tempItem = item;
-              tempItem['like_count'] = like_count;
-              tempItem['flagForLike'] = false;
-              filterPosts[tempIndex] = tempItem;
-              this.setState({
-                loading: false,
-                filterPosts: filterPosts,
-                key: !key,
-              });
-              // alert(ArabicText.Successfully_Unliked);
+            if (response.data.message == 'Successfully Unliked') {
+              setIsLiked(false);
+              setLikeCount(response?.data?.total_likes);
             }
-            // this.viewPosts();
           })
           .catch(error => {
             console.log('error', error);

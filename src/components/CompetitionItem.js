@@ -5,6 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Dimensions} from 'react-native';
 const width = Dimensions.get('screen').width;
 import * as ArabicText from '../language/EnglishToArabic';
+import FastImage from 'react-native-fast-image';
 const itemWidth = (width - 15) / 2;
 const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
   <View
@@ -25,13 +26,13 @@ const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
         alignItems: 'center',
         alignSelf: 'center',
       }}>
-      <Image
+      <FastImage
+        style={Styles.BeautyImages}
         source={{
           uri: 'https:www.tasdeertech.com/images/competition/' + image,
         }}
-        style={Styles.BeautyImages}
-        resizeMode="cover"></Image>
-
+        resizeMode={FastImage?.resizeMode.cover}
+      />
       <View style={{flexDirection: 'row', alignSelf: 'center'}}>
         <Text
           numberOfLines={2}

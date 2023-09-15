@@ -26,13 +26,9 @@ class Surveyform extends Component {
     super(props);
     this.state = {
       survey: props?.route?.params?.surveyId,
-      end_date_status:
-        this.props.route.params.surveyId?.survey_details[0]?.added_answer[0]
-          ?.survey_end_status,
-
-      arrayAnswers: props?.route?.params?.arrayAnswers,
-      status: props?.route?.params?.status,
-
+      end_date_status: this.props?.route?.params.surveyId?.status ? 1 : 0,
+      arrayAnswers: props?.route?.params?.arrayAnswers?.answers,
+      status: props?.route?.params?.status == 200 ? true : false,
       showPercents: false,
       selectedAnswer: {},
       checked: 'first',
@@ -48,66 +44,56 @@ class Surveyform extends Component {
     console.log('user', user);
     console.log('this.state.arrayForSubmit', this.state.arrayForSubmit);
 
-    if (user != undefined) {
-      if (this.state.arrayForSubmit.length != 0) {
-        camelapp
-          .post('/add/survey', {
-            user_id: user.id,
+    // if (user != undefined) {
+    //   if (this?.state?.arrayForSubmit?.length !== 0) {
+    //     camelapp
+    //       .post('/add/survey', {
+    //         user_id: user.id,
+    //         survey_answers: this.state.arrayForSubmit,
+    //       })
+    //       .then(res => {
+    //         // console.log('response', res.data);
 
-            survey_answers: this.state.arrayForSubmit,
-          })
-          .then(res => {
-            // console.log('response', res.data);
-
-            if (res?.data?.message === 'Already Submitted') {
-              alert('You have already submitted survey');
-            } else {
-              if (res.data) {
-                alert('تم إرسال الاستبيان بنجاح');
-                this.props.navigation.pop();
-                // this.props.navigation.navigate('SurveyList');
-              }
-            }
-          });
-      } else {
-        alert('يرجى تحديد الخيارات');
-      }
-    } else {
-      this.props.navigation.navigate('Login');
-    }
+    //         if (res?.data?.message === 'Already Submitted') {
+    //           alert('You have already submitted survey');
+    //         } else {
+    //           if (res.data) {
+    //             alert('تم إرسال الاستبيان بنجاح');
+    //             this.props.navigation.pop();
+    //             // this.props.navigation.navigate('SurveyList');
+    //           }
+    //         }
+    //       });
+    //   } else {
+    //     alert('يرجى تحديد الخيارات');
+    //   }
+    // } else {
+    //   this.props.navigation.navigate('Login');
+    // }
   };
 
   selectedAnswer(item, i, index) {
     let survey = this?.props?.route?.params?.surveyId;
-
-    for (
-      let j = 0;
-      j < survey.survey_details[index]['added_answer'].length;
-      j++
-    ) {
-      survey.survey_details[index]['added_answer'][j]['flag'] = false;
-      survey.survey_details[index]['added_answer'][j]['flagForCount'] = true;
+    console.log(survey, 'surveyyyyy');
+    for (let j = 0; j < survey?.survey_details[index]['answer'].length; j++) {
+      survey.survey_details[index]['answer'][j]['flag'] = false;
+      survey.survey_details[index]['answer'][j]['flagForCount'] = true;
     }
-    survey.survey_details[index]['added_answer'][i]['flag'] = true;
-    survey.survey_details[index]['added_answer'][i]['flagForCount'] = false;
-
+    survey.survey_details[index]['answer'][i]['flag'] = true;
+    survey.survey_details[index]['answer'][i]['flagForCount'] = false;
     this.setState({selectedAnswer: survey.survey_details[index]});
-
     let tempsubmitArray = this.state.arrayForSubmit;
-
     let tempObj = {
-      survey_detail_id: survey.survey_details[index].id,
-      answer: survey.survey_details[index]['added_answer'][i]['answer'],
-      survey_id: survey.survey_details[index].survey_id,
+      survey_detail_id: survey?.survey_details[index].id,
+      answer: survey?.survey_details[index]['answer'][i]['answer'],
+      survey_id: survey?.survey_details[index].survey_id,
     };
-
-    tempsubmitArray = tempsubmitArray.filter(
-      person => person.survey_detail_id != survey.survey_details[index].id,
+    tempsubmitArray = tempsubmitArray?.filter(
+      person =>
+        person?.survey_details?.survey_id != survey?.survey_details[index]?.id,
     );
+    console.log(tempsubmitArray, 'tempObj');
     tempsubmitArray.push(tempObj);
-
-    console.log('tempsubmitArray', tempsubmitArray);
-
     this.setState({arrayForSubmit: tempsubmitArray});
   }
   render() {
@@ -139,7 +125,7 @@ class Surveyform extends Component {
           <View style={{width: width, height: hight / 1.5}}>
             <FlatList
               horizontal={false}
-              key={item => item.survey_details.id}
+              key={item => item.survey_details}
               data={this.state.survey.survey_details}
               contentContainerStyle={{
                 width: '100%',
@@ -194,14 +180,13 @@ class Surveyform extends Component {
                   </View>
 
                   <View style={{width: '100%'}}>
-                    {item.added_answer.map((item, i) => {
-                      +console.log('item', item);
-
+                    {item?.answer?.map((val, i) => {
+                      console.log('item192', val);
                       return (
                         <TouchableOpacity
                           key={String(i)}
                           onPress={() => {
-                            this.selectedAnswer(item, i, index);
+                            this.selectedAnswer(val, i, index);
                             this.setState({showPercents: true});
                           }}
                           style={{
@@ -223,18 +208,18 @@ class Surveyform extends Component {
                               alignSelf: 'flex-end',
                               padding: 10,
                             }}>
-                            {item.answer}
+                            {val?.answer}
                           </Text>
-                          {item.flag === true && (
+                          {val?.flag === true && (
                             <Text
                               style={{
-                                color: item.flag === true ? '#fff' : '#d2691e',
+                                color: val.flag === true ? '#fff' : '#d2691e',
                                 fontSize: 16,
                                 marginRight: 10,
                                 marginLeft: 10,
                               }}>
                               {parseFloat(
-                                (item.answer_count + 1) /
+                                (val?.answer_count + 1) /
                                   (item.total_count + 1),
                               ).toFixed(2) *
                                 100 ==
@@ -242,14 +227,14 @@ class Surveyform extends Component {
                                 ? 0
                                 : parseFloat(
                                     (
-                                      (item.answer_count + 1) /
+                                      (val?.answer_count + 1) /
                                       (item.total_count + 1)
                                     ).toFixed(2),
                                   ) * 100}
                               %
                             </Text>
                           )}
-                          {item.flagForCount === true && (
+                          {val?.flagForCount === true && (
                             <Text
                               style={{
                                 color: item.flag === false ? '#d2691e' : '#fff',
@@ -259,7 +244,7 @@ class Surveyform extends Component {
                               }}>
                               {parseFloat(
                                 (
-                                  item.answer_count /
+                                  val?.answer_count /
                                   (item.total_count + 1)
                                 ).toFixed(2),
                               ) *
@@ -268,7 +253,7 @@ class Surveyform extends Component {
                                 ? 0
                                 : parseFloat(
                                     (
-                                      item.answer_count /
+                                      val?.answer_count /
                                       (item.total_count + 1)
                                     ).toFixed(2),
                                   ) * 100}
@@ -344,7 +329,7 @@ class Surveyform extends Component {
                   </View>
 
                   <View style={{width: '100%'}}>
-                    {item.added_answer.map((item, i) => {
+                    {item?.answer?.map((item, i) => {
                       var percentage =
                         parseFloat(
                           (item?.answer_count / item?.total_count).toFixed(2),

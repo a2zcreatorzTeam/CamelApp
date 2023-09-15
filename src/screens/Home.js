@@ -116,6 +116,7 @@ class Home extends Component {
   async viewPosts() {
     let {user} = this.props;
     user = user.user.user;
+    console.log(user, 'userererer');
     try {
       return await camelapp
         .post('/view/post', {
@@ -148,7 +149,6 @@ class Home extends Component {
       console.log('Error Message--- view post', error);
     }
   }
- 
   postViewed = async item => {
     this.setState({loading: false});
     let {user} = this.props;
@@ -427,13 +427,11 @@ class Home extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-  onLikesClick = async item => {
-    const {key} = this.state;
+  onLikesClick = async (item, setIsLiked, setLikeCount) => {
     this.setState({loading: false});
     let {user} = this.props;
     user = user.user.user;
     let post_id = item.id;
-    console.log(user.id, post_id, 'abc');
     if (user != undefined) {
       await camelapp
         .post('/add/like', {
@@ -442,34 +440,37 @@ class Home extends Component {
           // type: 'abc',
         })
         .then(response => {
-          console.log('response.data', response.data);
-          if (response.data.status == true) {
-            let filterPosts = this.state.filterPosts;
-            let tempIndex = filterPosts.indexOf(item);
-            let like_count = item?.like_count + 1;
-            let tempItem = item;
-            tempItem['like_count'] = like_count;
-            tempItem['flagForLike'] = true;
-            filterPosts[tempIndex] = tempItem;
-            this.setState({
-              loading: false,
-              filterPosts: filterPosts,
-              key: !key,
-            });
+          if (response.data.message == 'Successfully liked') {
+            setIsLiked(true);
+            setLikeCount(response?.data?.total_likes);
+            // let filterPosts = this.state.filterPosts;
+            // let tempIndex = filterPosts.indexOf(item);
+            // let like_count = item?.like_count + 1;
+            // let tempItem = item;
+            // tempItem['like_count'] = like_count;
+            // tempItem['flagForLike'] = true;
+            // filterPosts[tempIndex] = tempItem;
+            // this.setState({
+            //   loading: false,
+            //   filterPosts: filterPosts,
+            //   key: !key,
+            // });
           }
-          if (response.data.status == false) {
-            let filterPosts = this.state.filterPosts;
-            let tempIndex = filterPosts.indexOf(item);
-            let like_count = item.like_count - 1;
-            let tempItem = item;
-            tempItem['like_count'] = like_count;
-            tempItem['flagForLike'] = false;
-            filterPosts[tempIndex] = tempItem;
-            this.setState({
-              loading: false,
-              filterPosts: filterPosts,
-              key: !key,
-            });
+          if (response.data.message == 'Successfully Unliked') {
+            setIsLiked(false);
+            setLikeCount(response?.data?.total_likes);
+            // let filterPosts = this.state.filterPosts;
+            // let tempIndex = filterPosts.indexOf(item);
+            // let like_count = item.like_count - 1;
+            // let tempItem = item;
+            // tempItem['like_count'] = like_count;
+            // tempItem['flagForLike'] = false;
+            // filterPosts[tempIndex] = tempItem;
+            // this.setState({
+            //   loading: false,
+            //   filterPosts: filterPosts,
+            //   key: !key,
+            // });
           }
         })
         .catch(error => {
@@ -558,12 +559,14 @@ class Home extends Component {
           onCategoryClick={onCategoryClick}
           onCommentsClick={onCommentsClick}
           onDetailsClick={onDetailsClick}
-          onLikesClick={item => onLikesClick(item)}
+          onLikesClick={(item, setIsLiked, setLikeCount) =>
+            onLikesClick(item, setIsLiked, setLikeCount)
+          }
           onTouchStart={playVideo}
           sharePost={sharePosts}
           flagForVideo={false}
           createdDate={item?.created_at?.slice(0, 10)}
-          postViewed={() => postViewed(item)}
+          postViewed={item => postViewed(item)}
         />
       );
     };

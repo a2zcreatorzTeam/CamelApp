@@ -66,13 +66,17 @@ class CamelClubList extends Component {
   search(text) {
     this.setState({searchText: text});
   }
+
   async viewPosts() {
+    let {user} = this.props;
+    user = user.user.user;
     const {searchedItem} = this.state;
     await camelapp
-      .get('/postclub')
+      .post('/postclub', {
+        user_id: user?.id,
+      })
       .then(res => {
         var arrayPosts = res?.data?.Posts;
-
         arrayPosts.map((item, index) => {
           let array = item?.img;
           let imagesArray = [];
@@ -214,7 +218,9 @@ class CamelClubList extends Component {
           onCommentsClick={() => onCommentsClick(item)}
           category={item.category_name}
           price={item.price}
-          onLikesClick={() => onLikesClick(item)}
+          onLikesClick={(item, setIsLiked, setLikeCount) =>
+            onLikesClick(item, setIsLiked, setLikeCount)
+          }
           onDetailsClick={() => onDetailsClick(item)}
           imagesArray={item?.imagesArray}
           sharePost={() => sharePosts(item)}
@@ -281,7 +287,7 @@ class CamelClubList extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-    const onLikesClick = item => {
+    const onLikesClick = (item, setIsLiked, setLikeCount) => {
       console.log('item', searchedItem);
       this.setState({loading: false});
       let {user} = this.props;
@@ -296,33 +302,41 @@ class CamelClubList extends Component {
           })
           .then(response => {
             console.log('response.data', response.data);
-            if (response.data.status == true) {
-              let filterPosts = this.state.filterPosts;
-              let tempIndex = filterPosts.indexOf(item);
-              let like_count = item.like_count + 1;
-              let tempItem = item;
-              tempItem['like_count'] = like_count;
-              tempItem['flagForLike'] = true;
-              filterPosts[tempIndex] = tempItem;
-              this.setState({
-                loading: false,
-                filterPosts: filterPosts,
-                key: !key,
-              });
+            if (response.data.message == 'Successfully liked') {
+              setIsLiked(true);
+              setLikeCount(response?.data?.total_likes);
             }
-            if (response.data.status == false) {
-              let filterPosts = this.state.filterPosts;
-              let tempIndex = filterPosts.indexOf(item);
-              let like_count = item.like_count - 1;
-              let tempItem = item;
-              tempItem['like_count'] = like_count;
-              filterPosts[tempIndex] = tempItem;
-              this.setState({
-                loading: false,
-                filterPosts: filterPosts,
-                key: !key,
-              });
+            if (response.data.message == 'Successfully Unliked') {
+              setIsLiked(false);
+              setLikeCount(response?.data?.total_likes);
             }
+            // if (response.data.status == true) {
+            //   let filterPosts = this.state.filterPosts;
+            //   let tempIndex = filterPosts.indexOf(item);
+            //   let like_count = item.like_count + 1;
+            //   let tempItem = item;
+            //   tempItem['like_count'] = like_count;
+            //   tempItem['flagForLike'] = true;
+            //   filterPosts[tempIndex] = tempItem;
+            //   this.setState({
+            //     loading: false,
+            //     filterPosts: filterPosts,
+            //     key: !key,
+            //   });
+            // }
+            // if (response.data.status == false) {
+            //   let filterPosts = this.state.filterPosts;
+            //   let tempIndex = filterPosts.indexOf(item);
+            //   let like_count = item.like_count - 1;
+            //   let tempItem = item;
+            //   tempItem['like_count'] = like_count;
+            //   filterPosts[tempIndex] = tempItem;
+            //   this.setState({
+            //     loading: false,
+            //     filterPosts: filterPosts,
+            //     key: !key,
+            //   });
+            // }
             // this.viewPosts();
           })
           .catch(error => {

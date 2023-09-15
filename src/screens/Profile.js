@@ -88,7 +88,6 @@ class Profile extends Component {
       this.props.navigation.navigate('Login');
     }
   }
-
   saveChat() {
     let {user, actions} = this.props;
     user = user?.user?.user;
@@ -138,7 +137,7 @@ class Profile extends Component {
 
     do {
       number = Math.floor(Math?.random() * 10000) + 1;
-      console.log('number', number);
+      // console.log('number', number);
     } while (number < 1000 || number > 10000);
 
     camelapp
@@ -165,7 +164,7 @@ class Profile extends Component {
         phone: this.state.phoneNumber,
       })
       .then(res => {
-        console.log('res', res.data);
+        // console.log('res', res.data);
 
         if (res?.data?.status == true) {
           actions.userData(res.data);
@@ -241,9 +240,9 @@ class Profile extends Component {
   fetchUser() {
     let {user, actions} = this.props;
     user = user?.user?.user;
-    console.log('================00USER00====================');
-    console.log(user);
-    console.log('====================================');
+    // console.log('================00USER00====================');
+    // console.log(user);
+    // console.log('====================================');
     try {
       camelapp.get('/get/fetchUser/' + user.id).then(res => {
         // console.log('response at fetch', res.data);
@@ -264,7 +263,7 @@ class Profile extends Component {
     }
   }
   VideoPlay = item => {
-    console.log(item, 'LOPLPOPLo');
+    // console.log(item, 'LOPLPOPLo');
     if (item?.source == 'UOmNlxYosf.mp4') {
       this.setState({pausedCheck: true});
     }
@@ -273,7 +272,7 @@ class Profile extends Component {
     this.checkUserLogedIn();
   }
   onPostDelete(item) {
-    console.log('DELETE POST');
+    // console.log('DELETE POST');
     //console.log("item", item.id);
 
     this.setState({loader: true});
@@ -325,6 +324,29 @@ class Profile extends Component {
     this.fetchUser();
     this.setState({refreshing: false});
   }
+
+  postViewed = async item => {
+    this.setState({loading: false});
+    let {user} = this.props;
+    user = user?.user?.user;
+    let post_id = item?.id;
+    if (user != undefined) {
+      await camelapp
+        .post('/add/view', {
+          user_id: user?.id,
+          post_id: post_id,
+        })
+        .then(response => {
+          console.log('response.data', response.data);
+        })
+        .catch(error => {
+          console.log('error', error);
+          this.setState({loading: false});
+        });
+    } else {
+      this.props.navigation.navigate('Login');
+    }
+  };
   // componentDidMount = () => {
   //   this.focusListener = this.props.navigation.addListener('focus', () => {
   //     this.fetchUser();
@@ -333,9 +355,9 @@ class Profile extends Component {
 
   render() {
     const {key} = this.state;
-    console.log('PROFILE SCREEN', this.state?.pausedCheck);
+    // console.log('PROFILE SCREEN', this.state?.pausedCheck);
     const sharePosts = item => {
-      console.log('working');
+      // console.log('working');
 
       this.setState({loading: true});
 
@@ -349,7 +371,7 @@ class Profile extends Component {
             post_id: post_id,
           })
           .then(response => {
-            console.log('response.data', response.data);
+            // console.log('response.data', response.data);
             if (response.data) {
               let filterPosts = this.state.filterPosts;
 
@@ -391,12 +413,13 @@ class Profile extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-    const onLikesClick = item => {
+    const onLikesClick = (item, setIsLiked, setLikeCount) => {
       const {key} = this.state;
       this.setState({loading: false});
       let {user} = this.props;
       user = user?.user?.user;
-      let post_id = item?.id;
+      let post_id = item?.post?.id;
+      console.log(post_id, user.id);
       if (user != undefined) {
         camelapp
           .post('/add/like', {
@@ -405,34 +428,13 @@ class Profile extends Component {
             type: 'abc',
           })
           .then(response => {
-            console.log('response.data', response.data);
-            if (response?.data?.status == true) {
-              let filterPosts = this.state.filterPosts;
-              let tempIndex = filterPosts?.indexOf(item);
-              let like_count = item?.like_count + 1;
-              let tempItem = item;
-              tempItem['like_count'] = like_count;
-              filterPosts[tempIndex] = tempItem;
-              this.setState({
-                loading: false,
-                filterPosts: filterPosts,
-                key: !key,
-              });
-              // alert(ArabicText.Succesfully_liked);
+            if (response.data.message == 'Successfully liked') {
+              setIsLiked(true);
+              setLikeCount(response?.data?.total_likes);
             }
-            if (response?.data?.status == false) {
-              let filterPosts = this.state.filterPosts;
-              let tempIndex = filterPosts?.indexOf(item);
-              let like_count = item?.like_count - 1;
-              let tempItem = item;
-              tempItem['like_count'] = like_count;
-              filterPosts[tempIndex] = tempItem;
-              this.setState({
-                loading: false,
-                filterPosts: filterPosts,
-                key: !key,
-              });
-              // alert(ArabicText.Successfully_Unliked);
+            if (response.data.message == 'Successfully Unliked') {
+              setIsLiked(false);
+              setLikeCount(response?.data?.total_likes);
             }
           })
           .catch(error => {
@@ -600,7 +602,7 @@ class Profile extends Component {
             post_id: post_id,
           })
           .then(response => {
-            console.log('response.data', response.data);
+            // console.log('response.data', response.data);
             if (item.category_id == '1') {
               this.props.navigation.navigate('CamelClubDetailsComponent', {
                 itemFromDetails: item,
@@ -718,7 +720,7 @@ class Profile extends Component {
     const renderItem = ({item}) => {
       let array = item?.img;
       let imagesArray = [];
-      array.forEach(element => {
+      array?.forEach(element => {
         if (element) {
           imagesArray.push({type: 'image', source: element});
         }
@@ -728,7 +730,7 @@ class Profile extends Component {
       } else {
         imagesArray.push({type: 'video', source: item.video});
       }
-      console.log(item, 'itemmm');
+      // console.log(item, 'itemmm');
       return (
         <Item
           item={item}
@@ -744,7 +746,9 @@ class Profile extends Component {
           category={item?.category_name}
           onPostDelete={() => this.onPostDelete(item)}
           onDetailsClick={() => onDetailsClick(item)}
-          onLikesClick={item => onLikesClick(item)}
+          onLikesClick={(item, setIsLiked, setLikeCount) =>
+            onLikesClick(item, setIsLiked, setLikeCount)
+          }
           // onUserProfileClick={() => onUserProfileClick(item)}
           onCategoryClick={() => this.onCategoryClick(item)}
           onCommentsClick={() => onCommentsClick(item)}
@@ -753,6 +757,7 @@ class Profile extends Component {
           pausedCheck={this.state.pausedCheck}
           pauseCheckHandler={txt => this.setState({pausedCheck: txt})}
           flagForLike={item?.flagForLike}
+          postViewed={item => postViewed(item)}
         />
       );
     };
@@ -776,7 +781,10 @@ class Profile extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate('BidTab')}>
+                  onPress={() => {
+                    this.props.navigation.navigate('BidTab'),
+                      console.log('bidTabbbb');
+                  }}>
                   <Foundation
                     name="shopping-cart"
                     size={35}
@@ -1160,7 +1168,6 @@ const Item = ({
   user_name,
   user_location,
   image,
-  likes,
   comments,
   shares,
   views,
@@ -1170,7 +1177,7 @@ const Item = ({
   onDetailsClick,
   onCommentsClick,
   onCategoryClick,
-  onLikesClick,
+  onLikesClick = () => {},
   imagesArray,
   pauseCheckHandler,
   // pausedCheck,
@@ -1178,12 +1185,16 @@ const Item = ({
   sharePost,
   user_images,
   flagForLike,
+  likes,
+  item,
 }) => {
   const [pausedCheck, setpausedCheck] = useState(true);
   const [load, setLoad] = useState(false);
   const [modal, setModal] = useState(false);
   const [modalItem, setModalItem] = useState('');
   const [modalItemType, setModalItemType] = useState('');
+  const [isLiked, setIsLiked] = useState(flagForLike);
+  const [likeCount, setLikeCount] = useState(likes ? likes : 0);
 
   return (
     <Card style={{elevation: 5, marginTop: 10}}>
@@ -1400,16 +1411,16 @@ const Item = ({
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={onLikesClick}
+          onPress={() => onLikesClick(item, setIsLiked, setLikeCount)}
           style={{
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
           }}>
           <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
-            {likes}
+            {likeCount}
           </Text>
-          {flagForLike == 'true' || flagForLike == true ? (
+          {isLiked == 'true' || isLiked == true ? (
             <AntDesign name="heart" size={18} color="#CD853F" />
           ) : (
             <AntDesign name="hearto" size={18} color="#CD853F" />

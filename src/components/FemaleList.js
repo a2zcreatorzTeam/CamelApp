@@ -73,15 +73,21 @@ class CamelFemaleList extends Component {
   }
 
   async viewPosts() {
+    let {user} = this.props;
+    user = user.user.user;
     try {
-      return await camelapp.get('/get/camel_female').then(res => {
-        console.log('res', res.data.Posts);
-        this.setState({
-          posts: res.data.Posts,
-          loader: false,
-          filterPosts: res.data.Posts,
+      return await camelapp
+        .post('/get/camel_female', {
+          user_id: user?.id,
+        })
+        .then(res => {
+          console.log('res', res.data.Posts);
+          this.setState({
+            posts: res.data.Posts,
+            loader: false,
+            filterPosts: res.data.Posts,
+          });
         });
-      });
     } catch (error) {
       //console.log("Error Message camel Moving List", error.response);
     }

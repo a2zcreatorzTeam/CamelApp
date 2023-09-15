@@ -46,7 +46,8 @@ const Post = ({
   const [load, setLoad] = useState(false);
   const [modalItem, setModalItem] = useState('');
   const [modalItemType, setModalItemType] = useState('');
-  const [isLiked, setIsLiked] = useState(flagForLike);
+  const [isLiked, setIsLiked] = useState(item?.flagForLike);
+  const [likeCount, setLikeCount] = useState(item?.like_count);
 
   const onUserProfileClick = async item => {
     if (item?.user_id === user?.id) {
@@ -79,6 +80,7 @@ const Post = ({
       flagForVideo,
       lastBidPrice,
     } = item;
+    console.log(flagForLike,"flagForLike");
     // console.log(item, "itemmmmm");
     // console.log(item,"flagForLikeflagForLike");
     return {
@@ -133,7 +135,8 @@ const Post = ({
   }, [onDetailsClick, item]);
 
   const handleLikesClick = useCallback(() => {
-    onLikesClick(item);
+    // console.log(isLiked, 'likedddd');
+    onLikesClick(item, setIsLiked, setLikeCount);
   }, [onLikesClick, item]);
   // const handleUserProfileClick = useCallback(() => {
   //   onUserProfileClick && onUserProfileClick(item);
@@ -559,10 +562,10 @@ const Post = ({
             justifyContent: 'center',
           }}>
           <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
-            {like_count}
+            {likeCount}
           </Text>
 
-          {flagForLike == 'true' || flagForLike == true ? (
+          {(isLiked == 'true' || isLiked == true) ? (
             <AntDesign name="heart" size={18} color="#CD853F" />
           ) : (
             <AntDesign name="hearto" size={18} color="#CD853F" />

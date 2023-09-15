@@ -468,7 +468,7 @@ class CamelClubList extends Component {
                 marginTop: 20,
                 width: width,
                 paddingBottom: '8%',
-                alignItems:'flex-end'
+                alignItems: 'flex-end',
               }}
               initialNumToRender={5}
               maxToRenderPerBatch={5}

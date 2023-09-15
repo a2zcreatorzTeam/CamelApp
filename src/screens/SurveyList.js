@@ -36,8 +36,8 @@ class SurveyList extends Component {
     await camelapp
       .post('/get/survey')
       .then(response => {
-        // console.log('response-->', response.data.survey);
-        if (response.data.status === true) {
+        console.log('response-->', response.status);
+        if (response?.status == 200) {
           this.setState({
             posts: response.data.survey,
             loader: false,
@@ -49,20 +49,23 @@ class SurveyList extends Component {
       });
   }
   onItemClick = async item => {
-    this.viewPosts();
+    // this.viewPosts();
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     if (user != undefined) {
+      console.log(
+        item?.survey_details[0]?.survey_id,
+        'item?.survey_details',
+        user?.id,
+      );
       let tempString = item?.survey_details;
-      console.log('user?.id=', item?.survey_details[0]?.survey_id);
       await camelapp
         .post('/check/survey/by/user_id', {
           user_id: user?.id,
           survey_id: item?.survey_details[0]?.survey_id,
         })
         .then(response => {
-          // console.log('response', response.data);
-
+          console.log('response', response?.data);
           this.props.navigation.navigate('Survey', {
             surveyId: item,
             arrayAnswers: tempString,
@@ -109,18 +112,18 @@ class SurveyList extends Component {
   componentWillUnmount() {
     this.focusListener();
   }
-  
+
   render() {
     const {posts, filterPosts, searchedItem} = this.state;
     const renderItem = ({item}) => {
       return (
         <Item
           item={item}
-          question={item.title}
-          start_date={item.start_date}
+          question={item?.title}
+          start_date={item?.start_date}
           end_date={item.end_date}
           onItemClick={() => this.onItemClick(item)}
-          image={item.image}
+          image={item?.image}
         />
       );
     };

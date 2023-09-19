@@ -116,7 +116,6 @@ class Home extends Component {
   async viewPosts() {
     let {user} = this.props;
     user = user.user.user;
-    console.log(user, 'userererer');
     try {
       return await camelapp
         .post('/view/post', {

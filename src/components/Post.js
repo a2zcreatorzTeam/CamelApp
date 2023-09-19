@@ -38,7 +38,6 @@ const Post = ({
   createdDate,
   postViewed = () => {},
 }) => {
-  // console.log(item, "postItemmmmm");
   const navigation = useNavigation();
   const [modal, setModal] = useState(false);
   const [pausedCheck, setpausedCheck] = useState(true);

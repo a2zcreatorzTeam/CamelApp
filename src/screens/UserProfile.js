@@ -11,6 +11,7 @@ import {
   Alert,
   Modal,
   Platform,
+  RefreshControl,
 } from 'react-native';
 import {Card} from 'react-native-paper';
 import Feather from 'react-native-vector-icons/Feather';
@@ -30,6 +31,7 @@ import Toast from 'react-native-toast-message';
 import Carousel from 'react-native-snap-carousel';
 import Video from 'react-native-video';
 import {ActivityIndicator} from 'react-native';
+import Loader from '../components/PleaseWait';
 
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
@@ -49,7 +51,12 @@ class UserProfile extends Component {
       profImgHeight: 0,
       refreshing: false,
       loading: false,
+      refreshing: false,
     };
+  }
+  ScrollToRefresh() {
+    this.userProfile();
+    this.setState({refreshing: false});
   }
   sendWhatsAppMessage() {
     const {userProfile} = this.props.route?.params;
@@ -187,10 +194,19 @@ class UserProfile extends Component {
         if (data) {
           let tempObjOfUserProfile = data;
           let tempArrayOfUserPosts = [];
+          // console.log( tempObjOfUserProfile.posts," tempObjOfUserProfileposts");
           for (let i = 0; i < tempObjOfUserProfile.posts.length; i++) {
+            console.log(
+              tempObjOfUserProfile.posts[i].post,
+              'tempObjOfUserProfile.posts[i].post',
+            );
             tempArrayOfUserPosts.push(tempObjOfUserProfile.posts[i].post);
           }
-          console.log(tempObjOfUserProfile?.posts,"tempObjOfUserProfiletempObjOfUserProfile");
+          // console.log(
+          //   // tempObjOfUserProfile?.posts,
+          //   'tempObjOfUserProfiletempObjOfUserProfile',
+          //   tempArrayOfUserPosts,
+          // );
           this.setState({
             following: data?.following,
             followers: data?.follwers,
@@ -245,16 +261,16 @@ class UserProfile extends Component {
   // // check Friendship Status
   checkFriendshipStatus() {
     const user_friend = this.props.route?.params;
-    console.log(user_friend, 'user_frienduser_friend');
+    // console.log(user_friend, 'user_frienduser_friend');
     let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
-    console.log(user?.id, user_friend?.user_id);
+    // console.log(user?.id, user_friend?.user_id);
     camelapp
       .get('/friendshipstatus/' + user?.id + '/' + user_friend?.user_id)
       .then(res => {
-        console.log(res?.data?.status, 'responefriendship');
+        // console.log(res?.data?.status, 'responefriendship');
         this.setState({friendshipStatus: res?.data?.status});
-        console.log(res?.data?.status, 'Friend Ship Status');
+        // console.log(res?.data?.status, 'Friend Ship Status');
       })
       .catch(error => {
         console.log(error, '<<=====ERROR friendshipstatus');
@@ -265,7 +281,7 @@ class UserProfile extends Component {
     // let friend_id = this.state.user.id;
     let {user} = this.props;
     user = user.user.user ? user?.user?.user : user?.user;
-    console.log(friend_id, user?.id, 'userid256', status);
+    // console.log(friend_id, user?.id, 'userid256', status);
     if (user != undefined) {
       camelapp
         .post('/manage/friendrequest', {
@@ -274,7 +290,7 @@ class UserProfile extends Component {
           status: status,
         })
         .then(res => {
-          console.log(res?.data, 'responsee12');
+          // console.log(res?.data, 'responsee12');
           this.checkFriendshipStatus();
           Toast.show({
             type: 'success',
@@ -289,10 +305,6 @@ class UserProfile extends Component {
     } else {
       this.props.navigation.navigate('Login');
     }
-  }
-  ScrollToRefresh() {
-    this.state.postData;
-    this.setState({refreshing: false});
   }
   postViewed = async item => {
     this.setState({loading: false});
@@ -407,13 +419,10 @@ class UserProfile extends Component {
       });
       if (item?.video == null) {
         imagesArray.push({type: 'video', source: null});
-      } else {
-        imagesArray.push({type: 'video', source: item.video});
       }
-      // console.log(item, 'itemmm410');
       return (
         <Item
-          //       date={item?.date}
+          date={item?.date}
           //       postViewed={item => postViewed(item)}
           item={item}
           imagesArray={imagesArray}
@@ -436,7 +445,7 @@ class UserProfile extends Component {
           pausedCheck={this.state.pausedCheck}
           pauseCheckHandler={txt => this.setState({pausedCheck: txt})}
           flagForLike={item?.flagForLike}
-          postViewed={item => postViewed(item)}
+          postViewed={item => this.postViewed(item)}
           user_images={item.user.image}
           category={item.category.name}
         />
@@ -760,7 +769,7 @@ class UserProfile extends Component {
             <Text style={{color: '#fff'}}>{ArabicText.Following}</Text>
           </View>
         </View>
-
+        <Loader loading={this.state.loading} />
         <FlatList
           ListEmptyComponent={
             <Text
@@ -774,6 +783,12 @@ class UserProfile extends Component {
               {' '}
               No Post Found
             </Text>
+          }
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={() => this.ScrollToRefresh()}
+            />
           }
           data={this.state.postData}
           renderItem={renderItem}
@@ -915,6 +930,7 @@ const Item = ({
   item,
   postViewed = () => {},
 }) => {
+  // console.log(item, 'itemmmm918');
   const [pausedCheck, setpausedCheck] = useState(true);
   const [load, setLoad] = useState(false);
   const [modal, setModal] = useState(false);
@@ -1003,13 +1019,11 @@ const Item = ({
         scrollEnabled={true}
         // onScroll={() => this.setState({ pauseVideo: true})}
         renderItem={({item, index}) => {
-          const mediaSource =
-            item.type == 'image'
-              ? {uri: 'http://www.tasdeertech.com/images/posts/' + item.source}
-              : item?.type == 'video'
-              ? {uri: 'http://www.tasdeertech.com/videos/' + item.source}
-              : null;
-              console.log(item.type == 'image',"item.type == 'image'");
+          const mediaSource = item.image
+            ? {uri: 'http://www.tasdeertech.com/images/posts/' + item.source}
+            : item?.type == 'video'
+            ? {uri: 'http://www.tasdeertech.com/videos/' + item.source}
+            : null;
           return (
             <TouchableOpacity
               onPress={() => {

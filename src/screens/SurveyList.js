@@ -33,8 +33,12 @@ class SurveyList extends Component {
   }
 
   async viewPosts() {
+    let {user} = this.props;
+    user = user?.user?.user;
     await camelapp
-      .post('/get/survey')
+      .post('/get/survey', {
+        user_id: user?.id,
+      })
       .then(response => {
         console.log('response-->', response.status);
         if (response?.status == 200) {

@@ -110,10 +110,8 @@ class Surveyform extends Component {
   }
   render() {
     console.log(
-      this?.state?.end_date_status,
-      this?.state?.status,
-      this?.state?.end_date_status,
-      this?.state?.status,
+      this.props?.route?.params?.surveyId,
+      'props?.route?.params?.surveyId',
     );
     return (
       <View style={{flex: 1, alignItems: 'center'}}>
@@ -336,7 +334,6 @@ class Surveyform extends Component {
 
                   <View style={{width: '100%'}}>
                     {item?.answer?.map((val, i) => {
-                      console.log(val, 'valueeee');
                       var percentage =
                         parseFloat(
                           (val?.answer_count / item?.total_count).toFixed(2),
@@ -346,7 +343,9 @@ class Surveyform extends Component {
                         <View
                           style={{
                             backgroundColor:
-                              val?.flag === true ? '#d2691e' : '#fff',
+                              val?.flag === true || val?.flagForUser == true
+                                ? '#d2691e'
+                                : '#fff',
                             alignItems: 'center',
                             marginTop: 10,
                             width: width - 100,
@@ -357,7 +356,10 @@ class Surveyform extends Component {
                           }}>
                           <Text
                             style={{
-                              color: val?.flag === true ? '#fff' : 'black',
+                              color:
+                                val?.flag === true || val?.flagForUser == true
+                                  ? '#fff'
+                                  : 'black',
                               fontSize: 18,
                               marginRight: 10,
                               alignSelf: 'flex-end',
@@ -367,7 +369,10 @@ class Surveyform extends Component {
                           </Text>
                           <Text
                             style={{
-                              color: val.flag === true ? '#fff' : '#d2691e',
+                              color:
+                                val?.flag === true || val?.flagForUser == true
+                                  ? '#fff'
+                                  : '#d2691e',
                               fontSize: 16,
                               marginRight: 10,
                               marginLeft: 10,

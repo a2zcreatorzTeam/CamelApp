@@ -75,7 +75,6 @@ class Home extends Component {
   }
   // =============NEW Updated Search Handler==============
   searchHandler = value => {
-    console.log(value, 'blajkjkjk');
     if (!value?.length) {
       this.setState({filterPosts: this.state.posts});
     } else {
@@ -211,9 +210,7 @@ class Home extends Component {
     // this.setState({filterPosts: filterPosts});
   }
   onCategoryClick = async item => {
-    console.log('====================================');
-    console.log('onCategoryClick');
-    console.log('====================================');
+    console.log('itemmmm', item);
     if (item.category_id == '1') {
       this.props.navigation.navigate('CamelClubList');
     }
@@ -257,7 +254,6 @@ class Home extends Component {
           post_id: post_id,
         })
         .then(response => {
-          console.log('response.data', response.data);
           if (item.category_id == '1') {
             this.props.navigation.navigate('CamelClubDetailsComponent', {
               itemFromDetails: item,
@@ -382,7 +378,6 @@ class Home extends Component {
           post_id: post_id,
         })
         .then(response => {
-          console.log('response.data', response.data);
           if (response.data) {
             let filterPosts = this.state.filterPosts;
 
@@ -555,7 +550,7 @@ class Home extends Component {
         <Post
           item={item}
           onUserProfileClick={onUserProfileClick}
-          onCategoryClick={onCategoryClick}
+          onCategoryClick={() => onCategoryClick(item)}
           onCommentsClick={onCommentsClick}
           onDetailsClick={onDetailsClick}
           onLikesClick={(item, setIsLiked, setLikeCount) =>
@@ -565,7 +560,7 @@ class Home extends Component {
           sharePost={sharePosts}
           flagForVideo={false}
           createdDate={item?.created_at?.slice(0, 10)}
-          postViewed={item => postViewed(item)}
+          postViewed={() => postViewed(item)}
         />
       );
     };

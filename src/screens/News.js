@@ -69,7 +69,6 @@ class News extends Component {
   render() {
     const {posts, filterPosts, searchedItem} = this.state;
     console.log('=============NEWS POSTS=======================');
-    // console.log(this.state.posts);
     console.log('====================================');
     const onItemClick = item => {
       try {

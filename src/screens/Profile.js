@@ -240,9 +240,9 @@ class Profile extends Component {
   fetchUser() {
     let {user, actions} = this.props;
     user = user?.user?.user;
-    // console.log('================00USER00====================');
-    // console.log(user);
-    // console.log('====================================');
+    console.log('================00USER00====================');
+    console.log(user);
+    console.log('====================================');
     try {
       camelapp.get('/get/fetchUser/' + user.id).then(res => {
         // console.log('response at fetch', res.data);
@@ -254,7 +254,6 @@ class Profile extends Component {
             this?.props?.user?.user?.user?.chat_status == 0 ? false : true,
           registerSwitch:
             this.props.user?.user?.user?.whatsapp_status == 0 ? false : true,
-
           posts: res?.data?.posts,
         });
       });
@@ -330,6 +329,7 @@ class Profile extends Component {
     let {user} = this.props;
     user = user?.user?.user;
     let post_id = item?.id;
+    console.log(user, post_id);
     if (user != undefined) {
       await camelapp
         .post('/add/view', {
@@ -718,6 +718,7 @@ class Profile extends Component {
     };
 
     const renderItem = ({item}) => {
+      console.log(item?.images, 'itemmmm720');
       let array = item?.img;
       let imagesArray = [];
       array?.forEach(element => {
@@ -757,7 +758,7 @@ class Profile extends Component {
           pausedCheck={this.state.pausedCheck}
           pauseCheckHandler={txt => this.setState({pausedCheck: txt})}
           flagForLike={item?.flagForLike}
-          postViewed={item => postViewed(item)}
+          postViewed={() => this.postViewed(item)}
         />
       );
     };
@@ -1187,6 +1188,7 @@ const Item = ({
   flagForLike,
   likes,
   item,
+  postViewed = () => {},
 }) => {
   const [pausedCheck, setpausedCheck] = useState(true);
   const [load, setLoad] = useState(false);
@@ -1285,6 +1287,7 @@ const Item = ({
           return (
             <TouchableOpacity
               onPress={() => {
+                postViewed();
                 setModal(true),
                   setModalItem(mediaSource),
                   setModalItemType(item?.type);

@@ -181,6 +181,7 @@ class UserProfile extends Component {
   }
   userProfile = async () => {
     const item = this.props.route?.params;
+    // console.log(item, 'item');
     this.setState({loading: true});
     let {user} = this.props;
     // console.log(user, 'userererer');
@@ -191,28 +192,44 @@ class UserProfile extends Component {
       })
       .then(response => {
         const data = response.data;
+        // console.log(data, 'datattata');
         if (data) {
-          let tempObjOfUserProfile = data;
-          let tempArrayOfUserPosts = [];
-          // console.log( tempObjOfUserProfile.posts," tempObjOfUserProfileposts");
-          for (let i = 0; i < tempObjOfUserProfile.posts.length; i++) {
-            console.log(
-              tempObjOfUserProfile.posts[i].post,
-              'tempObjOfUserProfile.posts[i].post',
-            );
-            tempArrayOfUserPosts.push(tempObjOfUserProfile.posts[i].post);
-          }
-          // console.log(
-          //   // tempObjOfUserProfile?.posts,
-          //   'tempObjOfUserProfiletempObjOfUserProfile',
-          //   tempArrayOfUserPosts,
-          // );
-          this.setState({
-            following: data?.following,
-            followers: data?.follwers,
-            postData: tempArrayOfUserPosts,
-            user: data.user,
-            noOfPosts: data?.posts.length,
+          // console.log('datattattatta');
+          // let tempObjOfUserProfile = data;
+          // let tempArrayOfUserPosts = [];
+          // // console.log( tempObjOfUserProfile.posts," tempObjOfUserProfileposts");
+          // for (let i = 0; i < tempObjOfUserProfile.posts.length; i++) {
+          //   console.log(
+          //     tempObjOfUserProfile.posts[i].post,
+          //     'tempObjOfUserProfile.posts[i].post',
+          //   );
+          //   tempArrayOfUserPosts.push(tempObjOfUserProfile.posts[i].post);
+          // }
+          // // console.log(
+          // //   // tempObjOfUserProfile?.posts,
+          // //   'tempObjOfUserProfiletempObjOfUserProfile',
+          // //   tempArrayOfUserPosts,
+          // // );
+
+          var arrayPosts = response?.data?.posts;
+          arrayPosts?.map((item, index) => {
+            console.log(item?.video, "videooo");
+            let array = item?.img;
+            let imagesArray = [];
+            array?.forEach(element => {
+              imagesArray?.push({type: 'image', source: element});
+            });
+            imagesArray?.push({type: 'video', source: item?.video});
+            item['imagesArray'] = imagesArray;
+            arrayPosts[index] = item;
+            console.log('223', imagesArray);
+            this.setState({
+              following: data?.following,
+              followers: data?.follwers,
+              postData: arrayPosts,
+              user: data.user,
+              noOfPosts: data?.posts.length,
+            });
           });
         }
         if (user !== undefined) {
@@ -306,29 +323,34 @@ class UserProfile extends Component {
       this.props.navigation.navigate('Login');
     }
   }
+
   postViewed = async item => {
+    console.log("32888");
     this.setState({loading: false});
     let {user} = this.props;
     user = user?.user?.user;
     let post_id = item?.id;
-    if (user != undefined) {
-      await camelapp
-        .post('/add/view', {
-          user_id: user?.id,
-          post_id: post_id,
-        })
-        .then(response => {
-          // console.log('response.data', response.data);
-        })
-        .catch(error => {
-          console.log('error', error);
-          this.setState({loading: false});
-        });
-    } else {
-      this.props.navigation.navigate('Login');
-    }
+    console.log(user, post_id,"posytytytyty");
+    // if (user != undefined) {
+    //   await camelapp
+    //     .post('/add/view', {
+    //       user_id: user?.id,
+    //       post_id: post_id,
+    //     })
+    //     .then(response => {
+    //       console.log('response.data', response.data);
+    //     })
+    //     .catch(error => {
+    //       console.log('error', error);
+    //       this.setState({loading: false});
+    //     });
+    // } else {
+    //   this.props.navigation.navigate('Login');
+    // }
   };
   render() {
+    const {user} = this.state;
+    // console.log(user, 'usererer');
     const sharePosts = item => {
       const user = this.props.route?.params;
       this.setState({loading: true});
@@ -340,7 +362,6 @@ class UserProfile extends Component {
             post_id: post_id,
           })
           .then(response => {
-            // console.log('response.data', response.data);
             if (response.data) {
               let filterPosts = this.state.filterPosts;
               let tempIndex = filterPosts?.indexOf(item);
@@ -410,6 +431,7 @@ class UserProfile extends Component {
       }
     };
     const renderItem = ({item}) => {
+      // console.log(item, '41444');
       let array = item?.img;
       let imagesArray = [];
       array?.forEach(element => {
@@ -431,23 +453,23 @@ class UserProfile extends Component {
           comments={item?.comment_count}
           shares={item?.share_count}
           views={item?.view_count}
-          user_name={item?.user.name}
+          user_name={item?.user_name}
           user_location={item?.location}
           onDetailsClick={() => onDetailsClick(item)}
           onLikesClick={(item, setIsLiked, setLikeCount) =>
             onLikesClick(item, setIsLiked, setLikeCount)
           }
           // onUserProfileClick={() => onUserProfileClick(item)}
-          onCategoryClick={() => this.onCategoryClick(item)}
+          // onCategoryClick={() => this.onCategoryClick(item)}
           onCommentsClick={() => onCommentsClick(item)}
           sharePost={() => sharePosts(item)}
           onVideoPlay={item => this.VideoPlay(item)}
           pausedCheck={this.state.pausedCheck}
           pauseCheckHandler={txt => this.setState({pausedCheck: txt})}
           flagForLike={item?.flagForLike}
-          postViewed={item => this.postViewed(item)}
-          user_images={item.user.image}
-          category={item.category.name}
+          postViewed={() => this.postViewed(item)}
+          user_images={item?.user_images}
+          category={item?.category_name}
         />
       );
     };
@@ -792,7 +814,7 @@ class UserProfile extends Component {
           }
           data={this.state.postData}
           renderItem={renderItem}
-          keyExtractor={item_2 => item_2.id}
+          keyExtractor={item_2 => item_2?.id}
           initialNumToRender={5}
           maxToRenderPerBatch={5}
         />
@@ -1019,11 +1041,14 @@ const Item = ({
         scrollEnabled={true}
         // onScroll={() => this.setState({ pauseVideo: true})}
         renderItem={({item, index}) => {
-          const mediaSource = item.image
-            ? {uri: 'http://www.tasdeertech.com/images/posts/' + item.source}
-            : item?.type == 'video'
-            ? {uri: 'http://www.tasdeertech.com/videos/' + item.source}
-            : null;
+          // console.log('itemmmm', item?.type);
+          const mediaSource =
+            item?.type == 'image'
+              ? {uri: 'http://www.tasdeertech.com/images/posts/' + item.source}
+              : item?.type == 'video'
+              ? {uri: 'http://www.tasdeertech.com/videos/' + item.source}
+              : null;
+          // console.log(mediaSource, 'mediaSourcemediaSource');
           return (
             <TouchableOpacity
               onPress={() => {

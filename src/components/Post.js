@@ -79,7 +79,7 @@ const Post = ({
       flagForVideo,
       lastBidPrice,
     } = item;
-    console.log(flagForLike,"flagForLike");
+    // console.log(flagForLike,"flagForLike");
     // console.log(item, "itemmmmm");
     // console.log(item,"flagForLikeflagForLike");
     return {
@@ -134,7 +134,6 @@ const Post = ({
   }, [onDetailsClick, item]);
 
   const handleLikesClick = useCallback(() => {
-    // console.log(isLiked, 'likedddd');
     onLikesClick(item, setIsLiked, setLikeCount);
   }, [onLikesClick, item]);
   // const handleUserProfileClick = useCallback(() => {
@@ -142,7 +141,8 @@ const Post = ({
   // }, [onUserProfileClick, item]);
 
   const handleCategoryClick = useCallback(() => {
-    onCategoryClick(item);
+    console.log('handleCategoryClick');
+    onCategoryClick && onCategoryClick(item);
   }, [onCategoryClick, item]);
 
   // price={item?.price}
@@ -564,7 +564,7 @@ const Post = ({
             {likeCount}
           </Text>
 
-          {(isLiked == 'true' || isLiked == true) ? (
+          {isLiked == 'true' || isLiked == true ? (
             <AntDesign name="heart" size={18} color="#CD853F" />
           ) : (
             <AntDesign name="hearto" size={18} color="#CD853F" />

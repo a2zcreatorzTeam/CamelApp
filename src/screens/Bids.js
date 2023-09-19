@@ -36,6 +36,7 @@ class Bids extends Component {
           user_id: user.user.user.id,
         })
         .then(res => {
+          console.log(res, "responseeeeee39");
           this.setState({
             posts: res.data.bids,
           });
@@ -183,7 +184,6 @@ class Bids extends Component {
         </View>
       </View>
     );
-    console.log('Bidsssss186');
     const renderBidItem = item => {
       return (
         <BidsItem

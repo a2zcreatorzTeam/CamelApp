@@ -1,27 +1,33 @@
-import React, { Component } from "react";
-import { View, TextInput, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
-import { Styles } from '../styles/globlestyle'
+import React, {Component} from 'react';
+import {
+  View,
+  TextInput,
+  Text,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import {Styles} from '../styles/globlestyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as ArabicText from "../language/EnglishToArabic"
+import * as ArabicText from '../language/EnglishToArabic';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import camelapp from "../api/camelapp";
-import { connect } from 'react-redux';
+import camelapp from '../api/camelapp';
+import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
 
-import { bindActionCreators } from 'redux';
+import {bindActionCreators} from 'redux';
 class EditProfile extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
       user: {},
-      firstName: "",
-      lastName: "",
-      userName: "",
+      firstName: '',
+      lastName: '',
+      userName: '',
       phone: {},
       image: this.props.user.user.user.image,
-      location: "",
+      location: '',
       imageShow: undefined,
       imageFlage: true,
       flagforImagePicker: false,
@@ -29,34 +35,26 @@ class EditProfile extends Component {
       pickedImage: undefined,
       modalVisible: false,
       optVal: {},
-      btnLoader:false
-
-    }
+      btnLoader: false,
+    };
   }
 
   logOut() {
-
     try {
-
-
-      let { user, actions } = this.props;
+      let {user, actions} = this.props;
       actions.userData({});
-      AsyncStorage.removeItem("@UserPhone")
-      AsyncStorage.removeItem("@UserPassword")
+      AsyncStorage.removeItem('@UserPhone');
+      AsyncStorage.removeItem('@UserPassword');
       this.props.navigation.navigate('Home');
     } catch (error) {
-      console.log("error", error);
+      console.log('error', error);
     }
-
-
   }
   componentDidMount() {
-
-    let { user } = this.props;
+    let {user} = this.props;
     user = user.user.user;
 
-    this.setState({ user: user, userName: user.name, location: user.location })
-
+    this.setState({user: user, userName: user.name, location: user.location});
   }
 
   openGallery() {
@@ -65,109 +63,100 @@ class EditProfile extends Component {
       multiple: false,
       includeBase64: true,
       selectionLimit: 1,
-    }).then(async (images) => {
-
-
-
-
-
-      if (images.length = 1) {
-        this.setState({ imageShow: images.path, pickedImage: "data:image/png;base64," + images.data, image: undefined })
-
-      } else {
-        alert("Only 1 image allowed")
-      }
-      console.log("images", images)
-    }).catch((error) => {
-
-      console.log("error", error)
-    });
-
-
-
-  };
+    })
+      .then(async images => {
+        if ((images.length = 1)) {
+          this.setState({
+            imageShow: images.path,
+            pickedImage: 'data:image/png;base64,' + images.data,
+            image: undefined,
+          });
+        } else {
+          alert('Only 1 image allowed');
+        }
+        console.log('images', images);
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
+  }
 
   clearText = () => {
     this.otpInput.clear();
-  }
+  };
 
   setText = () => {
-    this.otpInput.setValue("1234");
-  }
+    this.otpInput.setValue('1234');
+  };
 
   updateProfile = async () => {
-this.setState({
-  btnLoader:true 
-  })
+    this.setState({
+      btnLoader: true,
+    });
 
-    let { actions } = this.props;
+    let {actions} = this.props;
     if (this.state.imageShow == undefined) {
-
+      console.log('99999');
       await camelapp
-        .post(
-          "/update",
-          {
-            user_id: this.props.user.user.user.id,
-            name: this.state.userName,
-            location: this.state.location,
-            // phone: this.state.phone,
-          }
-        )
-        .then((res) => {
+        .post('/update', {
+          user_id: this.props.user.user.user.id,
+          name: this.state.userName,
+          location: this.state.location,
+          // phone: this.state.phone,
+        })
+        .then(res => {
           if (res.data.status == true) {
             this.setState({
-              btnLoader:false 
-              })
-              alert("User Updated Successfully");
-            actions.userData(res.data);
-            this.props.navigation.navigate("Profile")
+              btnLoader: false,
+            });
+            // alert('User Updated Successfully');
+            actions.userData(res?.data);
+            this.props.navigation.replace('Profile');
           } else {
             this.setState({
-              btnLoader:false 
-              })
-            alert("User Update failed");
+              btnLoader: false,
+            });
+            alert('User Update failed');
           }
-
         });
     }
 
     if (this.state.image == undefined) {
-
-
-      console.log("user", this.props.user.user.user.id)
+      console.log('12666');
+      console.log('user', this.props.user.user.user.id);
       await camelapp
-        .post(
-          "/update",
-          {
-            user_id: this.props.user.user.user.id,
-            name: this.state.name,
-            location: this.state.location,
-            image: this.state.pickedImage
-          }
-        )
-        .then((res) => {
-          console.log("response", res.data)
+        .post('/update', {
+          user_id: this.props.user.user.user.id,
+          name: this.state.name,
+          location: this.state.location,
+          image: this.state.pickedImage,
+        })
+        .then(res => {
+          console.log('response', res.data);
           if (res.data.status == true) {
             actions.userData(res.data);
-            this.setState({ imageShow: undefined, pickedImage: undefined, image: this.props.user.user.user.image })
-
-            alert("User Updated Successfully");
+            this.setState({
+              imageShow: undefined,
+              pickedImage: undefined,
+              image: this.props.user.user.user.image,
+            });
+            alert('User Updated Successfully');
+            this.props.navigation.replace('Profile');
           } else {
             this.setState({
-              btnLoader:false 
-              })
-            alert("User Update failed");
+              btnLoader: false,
+            });
+            alert('User Update failed');
           }
-        }).catch((error) => {
+        })
+        .catch(error => {
           this.setState({
-            btnLoader:false 
-            })
-          console.log("error", error)
+            btnLoader: false,
+          });
+          console.log('error', error);
         });
     }
-
-
-  }
+  };
 
   render() {
     console.log(this.state.optVal);
@@ -177,39 +166,47 @@ this.setState({
       //   showsVerticalScrollIndicator={false}
       //   contentContainerStyle={{ paddingTop: 10, backgroundColor: "#fff" }}>
       <View style={Styles.container}>
-        {this.state.flagforImagePicker &&
-          <TouchableOpacity style={{ alignSelf: 'center', }} onPress={() => this.openGallery()}>
-
+        {this.state.flagforImagePicker && (
+          <TouchableOpacity
+            style={{alignSelf: 'center'}}
+            onPress={() => this.openGallery()}>
+            <Image
+              source={{
+                uri: this.state.image,
+              }}
+              style={{
+                width: 70,
+                height: 70,
+                borderRadius: 100,
+              }}></Image>
+          </TouchableOpacity>
+        )}
+        {this.state.imageFlage && (
+          <TouchableOpacity
+            style={{alignSelf: 'center'}}
+            onPress={() => this.openGallery()}>
             <Image
               source={{
                 uri:
-                  this.state.image
+                  this.state.image === undefined
+                    ? this.state.imageShow
+                    : 'http://www.tasdeertech.com/public/images/profiles/' +
+                      this.state.image,
               }}
               style={{
-                width: 70, height: 70, borderRadius: 100,
-              }}
-            ></Image>
+                width: 200,
+                height: 200,
+                borderRadius: 100,
+              }}></Image>
           </TouchableOpacity>
-        }
-        {this.state.imageFlage &&
-          <TouchableOpacity style={{ alignSelf: 'center', }} onPress={() => this.openGallery()}>
-            <Image
-              source={{
-                uri: this.state.image === undefined ? this.state.imageShow : 'http://www.tasdeertech.com/public/images/profiles/' + this.state.image
-              }}
-              style={{
-                width: 200, height: 200, borderRadius: 100
-              }}
-            ></Image>
-          </TouchableOpacity>
-        }
+        )}
         <Text style={Styles.text}>{ArabicText.Edit_profile}</Text>
 
         <View style={Styles.profileQuestioncard}>
           <TextInput
             style={Styles.inputs}
             value={this.state.userName}
-            onChangeText={(text) => this.setState({ userName: text })}
+            onChangeText={text => this.setState({userName: text})}
             placeholder={ArabicText.Name}
             placeholderTextColor="#b0b0b0"
           />
@@ -217,13 +214,11 @@ this.setState({
           <TextInput
             style={Styles.inputs}
             value={this.state.location}
-            onChangeText={(text) => this.setState({ location: text })}
+            onChangeText={text => this.setState({location: text})}
             placeholder={ArabicText.Location}
             placeholderTextColor="#b0b0b0"
           />
         </View>
-
-
 
         {/* <TouchableOpacity style={{ alignSelf: 'center', marginTop: 10 }} onPress={() => this.updateProfile()}>
             <View style={Styles.btn}><Text style={Styles.textbtn}>{ArabicText.Update_Profile}</Text></View>
@@ -247,28 +242,31 @@ this.setState({
         {/* Update Profile */}
         <TouchableOpacity
           onPress={this.updateProfile}
-          style={{ backgroundColor: "#8b4513", width: 200, height: 40, borderRadius: 7, justifyContent: "center", alignItems: "center", marginVertical: 20 }}>
-         {this.state.btnLoader ? (
-                  <ActivityIndicator
-                    size="large"
-                    color="white"
-                    animating={this.state.btnLoader}
-                  />
-                )
-              :
-
-          <Text style={{ color: "#fff", fontSize: 16 }}>Update Profile</Text>
-              }
-        
-        
-        
+          style={{
+            backgroundColor: '#8b4513',
+            width: 200,
+            height: 40,
+            borderRadius: 7,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginVertical: 20,
+          }}>
+          {this.state.btnLoader ? (
+            <ActivityIndicator
+              size="large"
+              color="white"
+              animating={this.state.btnLoader}
+            />
+          ) : (
+            <Text style={{color: '#fff', fontSize: 16}}>Update Profile</Text>
+          )}
         </TouchableOpacity>
 
         {/* logout button */}
-        <TouchableOpacity onPress={() => this.logOut()}
-          style={{ alignSelf: "center", marginBottom: 20, marginTop: 10 }}>
-          <AntDesign
-            name="poweroff" size={25} color="red" />
+        <TouchableOpacity
+          onPress={() => this.logOut()}
+          style={{alignSelf: 'center', marginBottom: 20, marginTop: 10}}>
+          <AntDesign name="poweroff" size={25} color="red" />
         </TouchableOpacity>
       </View>
 
@@ -310,21 +308,16 @@ this.setState({
       // </Modal>
 
       // </ScrollView>
-
     );
   }
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
 });
-const ActionCreators = Object.assign(
-  {},
-  userActions
-);
+const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);
-

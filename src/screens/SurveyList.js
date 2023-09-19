@@ -65,7 +65,7 @@ class SurveyList extends Component {
           survey_id: item?.survey_details[0]?.survey_id,
         })
         .then(response => {
-          console.log('response', response?.data);
+          console.log('response', response?.data.status);
           this.props.navigation.navigate('Survey', {
             surveyId: item,
             arrayAnswers: tempString,
@@ -167,7 +167,7 @@ class SurveyList extends Component {
                 marginTop: 20,
                 width: width,
                 alignSelf: 'center',
-                paddingBottom: '8%',
+                paddingBottom: '20%',
               }}
               initialNumToRender={5}
               maxToRenderPerBatch={5}

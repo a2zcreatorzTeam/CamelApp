@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {
   View,
   Text,
@@ -27,8 +27,12 @@ import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import * as ArabicText from '../language/EnglishToArabic';
 import Toast from 'react-native-toast-message';
+import Carousel from 'react-native-snap-carousel';
+import Video from 'react-native-video';
+import {ActivityIndicator} from 'react-native';
 
 const width = Dimensions.get('screen').width;
+const height = Dimensions.get('screen').height;
 
 class UserProfile extends Component {
   constructor(props) {
@@ -48,15 +52,22 @@ class UserProfile extends Component {
     };
   }
   sendWhatsAppMessage() {
+    const {userProfile} = this.props.route?.params;
     let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
+    // console.log(userProfile, 'friend_idfriend_id');
     if (user != undefined) {
-      if (this.state.user.whatsapp_status == true) {
+      if (
+        userProfile?.whatsapp_status == 1 ||
+        userProfile?.whatsapp_status == true
+      ) {
+        // console.log('hello', user);
         let msg = 'Hello';
-        let mobile = this.state.user.whatsapp_no;
+        let mobile = userProfile?.whatsapp_no;
         if (mobile.length != 0) {
           if (msg) {
             let url = 'whatsapp://send?text=' + msg + '&phone=' + mobile;
+            // console.log(url, 'urlllll');
             Linking.openURL(url)
               .then(data => {
                 //console.log("WhatsApp Opened successfully " + data);
@@ -98,9 +109,9 @@ class UserProfile extends Component {
     user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
       if (user?.id != this.props.route.params.userProfile.user_id) {
-        console.log('86', this.props.route.params.userProfile?.user);
+        // console.log('86', this.props.route.params.userProfile?.user);
         let phone = this.props.route.params.userProfile?.user_phone;
-        console.log(this.props.route.params.userProfile, phone, 'phoneee');
+        // console.log(this.props.route.params.userProfile, phone, 'phoneee');
         if (Platform.OS !== 'android') {
           phoneNumber = `telprompt:${phone}`;
         } else {
@@ -135,7 +146,7 @@ class UserProfile extends Component {
     user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
       if (user?.id != this.props.route.params.userProfile.user?.id) {
-        console.log('jkkj');
+        // console.log('jkkj');
         if (
           this.props.route.params.userProfile.user?.chat_status == true ||
           this.props.route.params.userProfile.user?.chat_status == '1'
@@ -165,7 +176,7 @@ class UserProfile extends Component {
     const item = this.props.route?.params;
     this.setState({loading: true});
     let {user} = this.props;
-    console.log(user, 'userererer');
+    // console.log(user, 'userererer');
     user = user?.user?.user ? user?.user?.user : user?.user;
     await camelapp
       .post('/userprofile', {
@@ -179,6 +190,7 @@ class UserProfile extends Component {
           for (let i = 0; i < tempObjOfUserProfile.posts.length; i++) {
             tempArrayOfUserPosts.push(tempObjOfUserProfile.posts[i].post);
           }
+          console.log(tempObjOfUserProfile?.posts,"tempObjOfUserProfiletempObjOfUserProfile");
           this.setState({
             following: data?.following,
             followers: data?.follwers,
@@ -201,33 +213,29 @@ class UserProfile extends Component {
     this?.userProfile();
   }
   followRequest(followRequest) {
-    let follower_id = this.state.user.id;
+    const follower_id = this.props.route?.params?.user_id;
     let {user} = this.props;
     user = user.user.user ? user?.user?.user : user?.user;
     if (user != undefined) {
-      console.log('user_id', user.id);
-      console.log('follower_id', follower_id);
       camelapp
         .post('/follow', {
-          user_id: user.id,
+          user_id: user?.id,
           follower_id: follower_id,
         })
         .then(response => {
-          console.log(response, 'followUnfollow');
-          let res = response.data;
-          if (res.status == true) {
-            console.log('res184', res);
+          let res = response?.data;
+          if (res?.status == true) {
             Toast.show({
               type: 'success',
-              text1: `${ArabicText.Following} + ''`,
+              text1: `${ArabicText?.Following} + ''`,
             });
-            // alert(ArabicText.Following + '');
+            alert(ArabicText.Following + '');
           } else {
             Toast.show({
               type: 'success',
               text1: `${ArabicText.Error} + ''`,
             });
-            // alert(ArabicText.Error + '');
+            alert(ArabicText.Error + '');
           }
         });
     } else {
@@ -236,24 +244,28 @@ class UserProfile extends Component {
   }
   // // check Friendship Status
   checkFriendshipStatus() {
-    let user_id = this.props?.user?.user?.user?.id;
-    console.log(this.props?.user?.user?.user?.id);
-    let friend_id = this.props.route?.params?.user_id;
+    const user_friend = this.props.route?.params;
+    console.log(user_friend, 'user_frienduser_friend');
+    let {user} = this.props;
+    user = user?.user?.user ? user?.user?.user : user?.user;
+    console.log(user?.id, user_friend?.user_id);
     camelapp
-      .get('/friendshipstatus/' + user_id + '/' + friend_id)
+      .get('/friendshipstatus/' + user?.id + '/' + user_friend?.user_id)
       .then(res => {
-        this.setState({friendshipStatus: res?.data?.user_status});
-        console.log(res?.data?.user_status, 'Friend Ship Status');
+        console.log(res?.data?.status, 'responefriendship');
+        this.setState({friendshipStatus: res?.data?.status});
+        console.log(res?.data?.status, 'Friend Ship Status');
       })
       .catch(error => {
         console.log(error, '<<=====ERROR friendshipstatus');
       });
   }
   friendRequestHandler(status) {
-    let friend_id = this.state.user.id;
+    const friend_id = this.props.route?.params?.user_id;
+    // let friend_id = this.state.user.id;
     let {user} = this.props;
     user = user.user.user ? user?.user?.user : user?.user;
-
+    console.log(friend_id, user?.id, 'userid256', status);
     if (user != undefined) {
       camelapp
         .post('/manage/friendrequest', {
@@ -262,13 +274,14 @@ class UserProfile extends Component {
           status: status,
         })
         .then(res => {
+          console.log(res?.data, 'responsee12');
           this.checkFriendshipStatus();
           Toast.show({
             type: 'success',
             text1: 'Friend request has been sent.',
           });
           // Alert.alert('Friend request has been sent.');
-          console.log(res.data, '<<<<<=======FRIEND Request ');
+          // console.log(res.data, '<<<<<=======FRIEND Request ');
         })
         .catch(error => {
           console.log(error, '<<<<====Add friend Request error');
@@ -293,7 +306,7 @@ class UserProfile extends Component {
           post_id: post_id,
         })
         .then(response => {
-          console.log('response.data', response.data);
+          // console.log('response.data', response.data);
         })
         .catch(error => {
           console.log('error', error);
@@ -304,171 +317,295 @@ class UserProfile extends Component {
     }
   };
   render() {
-    const Item = ({
-      userName,
-      userCity,
-      image,
-      likes,
-      comments,
-      shares,
-      views,
-      userImage,
-      category,
-      date,
-    }) => (
-      <Card
-        style={{
-          marginBottom: 5,
-          marginTop: 5,
-          elevation: 2,
-        }}>
-        <View
-          style={{
-            backgroundColor: '#fff',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: width,
-            height: 60,
-            flexDirection: 'row',
-          }}>
-          <TouchableOpacity style={{marginLeft: 10}}>
-            <View style={Styles.btnHome2}>
-              <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
-                {category}
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <View
-            style={{
-              alignItems: 'center',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginRight: 10,
-            }}>
-            <View
-              style={{
-                justifyContent: 'center',
-                marginHorizontal: 10,
-                width: 100,
-                height: 50,
-              }}>
-              <Text
-                style={{color: 'black', textAlign: 'right'}}
-                numberOfLines={1}>
-                {userName + 'hello'}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 9,
-                  paddingRight: 5,
-                  color: 'black',
-                  textAlign: 'right',
-                }}>
-                {date}
-              </Text>
-              <Text
-                style={{color: 'black', textAlign: 'right'}}
-                numberOfLines={1}>
-                {userCity}
-              </Text>
-            </View>
-
-            <Image
-              source={{
-                uri:
-                  'http://www.tasdeertech.com/public/images/profiles/' +
-                  userImage,
-              }}
-              style={{
-                width: 50,
-                height: 50,
-                borderRadius: 50 / 2,
-              }}></Image>
-          </View>
-        </View>
-        <TouchableOpacity
-        //  onPress={() => navigation.navigate({navigation})}
-        >
-          <Card.Cover
-            source={{uri: 'http://www.tasdeertech.com/images/posts/' + image}}
-            resizeMode="cover"
-            style={Styles.image}
-          />
-        </TouchableOpacity>
-
-        {/* Post social icons */}
-        <View
-          style={{
-            backgroundColor: '#fff',
-            height: 50,
-            width: width,
-            justifyContent: 'center',
-          }}>
-          <Text
-            style={{
-              right: 160,
-              position: 'absolute',
-            }}>
-            {views}
-          </Text>
-          <View style={{right: 138, position: 'absolute', color: 'black'}}>
-            <Ionicons name="ios-eye-sharp" size={18} color="#cd853f" />
-          </View>
-          <Text style={{right: 120, position: 'absolute', color: 'black'}}>
-            {shares}
-          </Text>
-          <TouchableOpacity style={{right: 98, position: 'absolute'}}>
-            <Ionicons name="share-social-sharp" size={18} color="#cd853f" />
-          </TouchableOpacity>
-          <Text style={{right: 77, position: 'absolute', color: 'black'}}>
-            {comments}
-          </Text>
-          <TouchableOpacity style={{right: 55, position: 'absolute'}}>
-            <Feather name="message-square" size={18} color="#cd853f" />
-          </TouchableOpacity>
-          <Text style={{right: 33, position: 'absolute', color: 'black'}}>
-            {likes}
-          </Text>
-          <TouchableOpacity style={{right: 10, position: 'absolute'}}>
-            <AntDesign name="hearto" size={18} color="#cd853f" />
-          </TouchableOpacity>
-          <TouchableOpacity style={{left: 5, position: 'absolute'}}>
-            <View style={Styles.btnHome}>
-              <Text style={{color: '#fff', fontWeight: 'bold'}}>
-                {ArabicText.Details}
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <Text style={{right: 120, position: 'absolute'}}>{}</Text>
-        </View>
-      </Card>
-    );
+    const sharePosts = item => {
+      const user = this.props.route?.params;
+      this.setState({loading: true});
+      let post_id = item?.id;
+      if (user != undefined) {
+        camelapp
+          .post('/add/sharess', {
+            user_id: user.user_id,
+            post_id: post_id,
+          })
+          .then(response => {
+            // console.log('response.data', response.data);
+            if (response.data) {
+              let filterPosts = this.state.filterPosts;
+              let tempIndex = filterPosts?.indexOf(item);
+              let share_count = item?.share_count + 1;
+              let tempItem = item;
+              tempItem['share_count'] = share_count;
+              filterPosts[tempIndex] = tempItem;
+              this.setState({loading: false, filterPosts: filterPosts});
+            }
+          })
+          .catch(error => {
+            console.log('error', error);
+            this.setState({loading: false});
+          });
+      } else {
+        this.props.navigation.navigate('Login');
+      }
+    };
+    const onCommentsClick = item => {
+      const user = this.props.route?.params;
+      let post_id = item?.id;
+      if (user != undefined) {
+        camelapp
+          .post('/get/comment', {
+            post_id: post_id,
+          })
+          .then(res => {
+            this.props.navigation.navigate('Comments', {
+              commentsForPost: res,
+              user: user,
+              post: item,
+            });
+          });
+      } else {
+        this.props.navigation.navigate('Login');
+      }
+    };
+    const onLikesClick = (item, setIsLiked, setLikeCount) => {
+      const user = this.props.route?.params;
+      this.setState({loading: false});
+      let post_id = item?.id;
+      // console.log(post_id, user.user_id, item);
+      if (user != undefined) {
+        camelapp
+          .post('/add/like', {
+            user_id: user?.user_id,
+            post_id: post_id,
+            type: 'abc',
+          })
+          .then(response => {
+            // console.log(response?.data?.message, 'responseeese380');
+            if (response.data.message == 'Successfully liked') {
+              setIsLiked(true);
+              setLikeCount(response?.data?.total_likes);
+            }
+            if (response.data.message == 'Successfully Unliked') {
+              setIsLiked(false);
+              setLikeCount(response?.data?.total_likes);
+            }
+          })
+          .catch(error => {
+            console.log('error', error);
+            this.setState({loading: false});
+          });
+      } else {
+        this.props.navigation.navigate('Login');
+      }
+    };
     const renderItem = ({item}) => {
+      let array = item?.img;
+      let imagesArray = [];
+      array?.forEach(element => {
+        if (element) {
+          imagesArray.push({type: 'image', source: element});
+        }
+      });
+      if (item?.video == null) {
+        imagesArray.push({type: 'video', source: null});
+      } else {
+        imagesArray.push({type: 'video', source: item.video});
+      }
+      // console.log(item, 'itemmm410');
       return (
         <Item
+          //       date={item?.date}
+          //       postViewed={item => postViewed(item)}
           item={item}
-          image={item.image}
-          likes={item.like_count}
-          comments={item.comment_count}
-          shares={item.share_count}
-          views={item.view_count}
-          userName={item.user.name}
-          userCity={item.location}
-          userImage={item.user.image}
-          category={item.category.name}
-          date={item?.date}
+          imagesArray={imagesArray}
+          likes={item?.like_count}
+          title={item?.title}
+          comments={item?.comment_count}
+          shares={item?.share_count}
+          views={item?.view_count}
+          user_name={item?.user.name}
+          user_location={item?.location}
+          onDetailsClick={() => onDetailsClick(item)}
+          onLikesClick={(item, setIsLiked, setLikeCount) =>
+            onLikesClick(item, setIsLiked, setLikeCount)
+          }
+          // onUserProfileClick={() => onUserProfileClick(item)}
+          onCategoryClick={() => this.onCategoryClick(item)}
+          onCommentsClick={() => onCommentsClick(item)}
+          sharePost={() => sharePosts(item)}
+          onVideoPlay={item => this.VideoPlay(item)}
+          pausedCheck={this.state.pausedCheck}
+          pauseCheckHandler={txt => this.setState({pausedCheck: txt})}
+          flagForLike={item?.flagForLike}
           postViewed={item => postViewed(item)}
+          user_images={item.user.image}
+          category={item.category.name}
         />
       );
     };
+    // const Item = ({
+    //   userName,
+    //   userCity,
+    //   image,
+    //   likes,
+    //   comments,
+    //   shares,
+    //   views,
+    //   userImage,
+    //   category,
+    //   date,
+    // }) => (
+    //   <Card
+    //     style={{
+    //       marginBottom: 5,
+    //       marginTop: 5,
+    //       elevation: 2,
+    //     }}>
+    //     <View
+    //       style={{
+    //         backgroundColor: '#fff',
+    //         alignItems: 'center',
+    //         justifyContent: 'space-between',
+    //         width: width,
+    //         height: 60,
+    //         flexDirection: 'row',
+    //       }}>
+    //       <TouchableOpacity style={{marginLeft: 10}}>
+    //         <View style={Styles.btnHome2}>
+    //           <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
+    //             {category}
+    //           </Text>
+    //         </View>
+    //       </TouchableOpacity>
+
+    //       <View
+    //         style={{
+    //           alignItems: 'center',
+    //           flexDirection: 'row',
+    //           justifyContent: 'space-between',
+    //           marginRight: 10,
+    //         }}>
+    //         <View
+    //           style={{
+    //             justifyContent: 'center',
+    //             marginHorizontal: 10,
+    //             width: 100,
+    //             height: 50,
+    //           }}>
+    //           <Text
+    //             style={{color: 'black', textAlign: 'right'}}
+    //             numberOfLines={1}>
+    //             {userName + 'hello'}
+    //           </Text>
+    //           <Text
+    //             style={{
+    //               fontSize: 9,
+    //               paddingRight: 5,
+    //               color: 'black',
+    //               textAlign: 'right',
+    //             }}>
+    //             {date}
+    //           </Text>
+    //           <Text
+    //             style={{color: 'black', textAlign: 'right'}}
+    //             numberOfLines={1}>
+    //             {userCity}
+    //           </Text>
+    //         </View>
+
+    //         <Image
+    //           source={{
+    //             uri:
+    //               'http://www.tasdeertech.com/public/images/profiles/' +
+    //               userImage,
+    //           }}
+    //           style={{
+    //             width: 50,
+    //             height: 50,
+    //             borderRadius: 50 / 2,
+    //           }}></Image>
+    //       </View>
+    //     </View>
+    //     <TouchableOpacity
+    //     //  onPress={() => navigation.navigate({navigation})}
+    //     >
+    //       <Card.Cover
+    //         source={{uri: 'http://www.tasdeertech.com/images/posts/' + image}}
+    //         resizeMode="cover"
+    //         style={Styles.image}
+    //       />
+    //     </TouchableOpacity>
+
+    //     {/* Post social icons */}
+    //     <View
+    //       style={{
+    //         backgroundColor: '#fff',
+    //         height: 50,
+    //         width: width,
+    //         justifyContent: 'center',
+    //       }}>
+    //       <Text
+    //         style={{
+    //           right: 160,
+    //           position: 'absolute',
+    //         }}>
+    //         {views}
+    //       </Text>
+    //       <View style={{right: 138, position: 'absolute', color: 'black'}}>
+    //         <Ionicons name="ios-eye-sharp" size={18} color="#cd853f" />
+    //       </View>
+    //       <Text style={{right: 120, position: 'absolute', color: 'black'}}>
+    //         {shares}
+    //       </Text>
+    //       <TouchableOpacity style={{right: 98, position: 'absolute'}}>
+    //         <Ionicons name="share-social-sharp" size={18} color="#cd853f" />
+    //       </TouchableOpacity>
+    //       <Text style={{right: 77, position: 'absolute', color: 'black'}}>
+    //         {comments}
+    //       </Text>
+    //       <TouchableOpacity style={{right: 55, position: 'absolute'}}>
+    //         <Feather name="message-square" size={18} color="#cd853f" />
+    //       </TouchableOpacity>
+    //       <Text style={{right: 33, position: 'absolute', color: 'black'}}>
+    //         {likes}
+    //       </Text>
+    //       <TouchableOpacity style={{right: 10, position: 'absolute'}}>
+    //         <AntDesign name="hearto" size={18} color="#cd853f" />
+    //       </TouchableOpacity>
+    //       <TouchableOpacity style={{left: 5, position: 'absolute'}}>
+    //         <View style={Styles.btnHome}>
+    //           <Text style={{color: '#fff', fontWeight: 'bold'}}>
+    //             {ArabicText.Details}
+    //           </Text>
+    //         </View>
+    //       </TouchableOpacity>
+    //       <Text style={{right: 120, position: 'absolute'}}>{}</Text>
+    //     </View>
+    //   </Card>
+    // );
+    // const renderItem = ({item}) => {
+    //   return (
+    //     <Item
+    //       item={item}
+    //       image={item.image}
+    //       likes={item.like_count}
+    //       comments={item.comment_count}
+    //       shares={item.share_count}
+    //       views={item.view_count}
+    //       userName={item.user.name}
+    //       userCity={item.location}
+    //       userImage={item.user.image}
+    //       category={item.category.name}
+    //       date={item?.date}
+    //       postViewed={item => postViewed(item)}
+    //     />
+    //   );
+    // };
     const FriendshipStatusBTN = () => {
       const user = this.props.user.user.user;
       if (
-        this.state.friendshipStatus === null ||
-        this.state.friendshipStatus === 'C' ||
-        user === undefined ||
-        this.state.friendshipStatus === 'R'
+        this.state.friendshipStatus == null ||
+        this.state.friendshipStatus == 'C' ||
+        this.state.friendshipStatus == 'R'
       ) {
         return (
           <TouchableOpacity onPress={() => this.friendRequestHandler('P')}>
@@ -480,8 +617,7 @@ class UserProfile extends Component {
             />
           </TouchableOpacity>
         );
-      }
-      if (this.state.friendshipStatus == 'P') {
+      } else if (this.state.friendshipStatus == 'P') {
         return (
           <TouchableOpacity onPress={() => this.friendRequestHandler('C')}>
             <FontAwesome5
@@ -492,8 +628,7 @@ class UserProfile extends Component {
             />
           </TouchableOpacity>
         );
-      }
-      if (this.state.friendshipStatus == 'A') {
+      } else if (this.state.friendshipStatus == 'A') {
         return (
           <TouchableOpacity onPress={() => this.friendRequestHandler('R')}>
             <FontAwesome5
@@ -721,4 +856,439 @@ const styles = StyleSheet.create({
     borderColor: '#D2691Eff',
     alignSelf: 'center',
   },
+  modalContainer: {
+    height: '100%',
+    width: width,
+    backgroundColor: '#000000db',
+    justifyContent: 'center',
+  },
+  modalCloseBTN: {top: 10, right: 15, position: 'absolute'},
+  modalMediaWrpr: {
+    width: width,
+    height: 60,
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    position: 'absolute',
+    bottom: 10,
+  },
+  userProfileContainer: {
+    flexDirection: 'row',
+    marginHorizontal: 10,
+  },
+  userProfileImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 30,
+  },
+  titleContainer: {position: 'absolute', right: 5, width: 220},
+  titleText: {
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: '600',
+  },
 });
+
+const Item = ({
+  title,
+  user_name,
+  user_location,
+  image,
+  comments,
+  shares,
+  views,
+  userImage,
+  category,
+  onPostDelete,
+  onDetailsClick,
+  onCommentsClick,
+  onCategoryClick,
+  onLikesClick = () => {},
+  imagesArray,
+  pauseCheckHandler,
+  // pausedCheck,
+  onVideoPlay,
+  sharePost,
+  user_images,
+  flagForLike,
+  likes,
+  item,
+  postViewed = () => {},
+}) => {
+  const [pausedCheck, setpausedCheck] = useState(true);
+  const [load, setLoad] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [modalItem, setModalItem] = useState('');
+  const [modalItemType, setModalItemType] = useState('');
+  const [isLiked, setIsLiked] = useState(flagForLike);
+  const [likeCount, setLikeCount] = useState(likes ? likes : 0);
+  // console.log(modalItem, 'modalItem', modalItemType);
+  return (
+    <Card style={{elevation: 5, marginTop: 10}}>
+      <View style={Styles.homesec}>
+        <View style={{flexDirection: 'row', textAlign: 'right'}}>
+          <View
+            style={{
+              backgroundColor: '#fff',
+              width: width / 3,
+              height: 60,
+              flexDirection: 'row',
+              marginTop: 5,
+            }}>
+            <TouchableOpacity onPress={onCategoryClick} style={Styles.btnHome2}>
+              <Text
+                style={{color: '#D2691Eff', fontWeight: 'bold', fontSize: 15}}>
+                {category}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              backgroundColor: '#fff',
+              width: width / 2,
+              height: 60,
+              // flexDirection: 'row',
+              marginTop: 10,
+              textAlign: 'right',
+            }}>
+            <View>
+              <Text
+                style={{
+                  fontSize: 15,
+                  paddingRight: 5,
+                  color: 'black',
+                  textAlign: 'right',
+                }}>
+                {user_name}
+              </Text>
+              <Text
+                numberOfLines={1}
+                style={{
+                  fontSize: 12,
+                  paddingRight: 5,
+                  color: 'black',
+                  textAlign: 'right',
+                }}>
+                {user_location}
+              </Text>
+            </View>
+          </View>
+          <View
+            style={{
+              backgroundColor: '#fff',
+              width: width / 5,
+              height: 60,
+              flexDirection: 'row',
+              marginTop: 5,
+            }}>
+            <Image
+              source={{
+                uri:
+                  'http://www.tasdeertech.com/images/profiles/' + user_images,
+              }}
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 50 / 2,
+              }}></Image>
+          </View>
+        </View>
+      </View>
+
+      <Carousel
+        // keyExtractor={this.state.mixed.fileName}
+        data={imagesArray}
+        layout={'default'}
+        scrollEnabled={true}
+        // onScroll={() => this.setState({ pauseVideo: true})}
+        renderItem={({item, index}) => {
+          const mediaSource =
+            item.type == 'image'
+              ? {uri: 'http://www.tasdeertech.com/images/posts/' + item.source}
+              : item?.type == 'video'
+              ? {uri: 'http://www.tasdeertech.com/videos/' + item.source}
+              : null;
+              console.log(item.type == 'image',"item.type == 'image'");
+          return (
+            <TouchableOpacity
+              onPress={() => {
+                postViewed();
+                setModal(true),
+                  setModalItem(mediaSource),
+                  setModalItemType(item?.type);
+              }}
+              style={Styles.imageCarousal}>
+              {item.type == 'image' && (
+                <Image
+                  source={{
+                    uri:
+                      'http://www.tasdeertech.com/images/posts/' + item.source,
+                  }}
+                  key={String(index)}
+                  resizeMode={'cover'}
+                  style={Styles.image}
+                />
+              )}
+              {item?.type == 'video' && (
+                <View style={{flex: 1, backgroundColor: '#ededed'}}>
+                  {pausedCheck && (
+                    <Image
+                      activeOpacity={0.4}
+                      source={require('../../assets/camel3.png')}
+                      resizeMode={'cover'}
+                      style={[
+                        Styles.image,
+                        {backgroundColor: 'rgba(0,0,0,0.5)', opacity: 0.3},
+                      ]}
+                    />
+                  )}
+                  <TouchableOpacity
+                    style={{
+                      height: 70,
+                      width: 70,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      position: 'absolute',
+                      elevation: 2,
+                      bottom: height / 6,
+                      left: width / 2.3,
+                    }}
+                    onPress={() => {
+                      setpausedCheck(false),
+                        setModal(true),
+                        setModalItem(mediaSource),
+                        setModalItemType(item?.type);
+                    }}>
+                    <Image
+                      activeOpacity={0.4}
+                      source={
+                        pausedCheck
+                          ? require('../../assets/play.png')
+                          : require('../../assets/pause.png')
+                      }
+                      resizeMode={'cover'}
+                      style={{width: 70, height: 70}}
+                    />
+                  </TouchableOpacity>
+                </View>
+              )}
+            </TouchableOpacity>
+          );
+        }}
+        sliderWidth={width}
+        itemWidth={width}
+      />
+
+      {/* Post icons */}
+      <View
+        style={{
+          width: '50%',
+          height: 30,
+          borderRadius: 15,
+          alignSelf: 'flex-end',
+          justifyContent: 'space-evenly',
+          alignItems: 'center',
+          position: 'absolute',
+          bottom: 57,
+          right: 7,
+          zIndex: 999,
+          flexDirection: 'row',
+          backgroundColor: '#fff',
+          elevation: 2,
+        }}>
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginRight: 5,
+          }}>
+          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
+            {' '}
+            {views}
+          </Text>
+          <Ionicons name="ios-eye-sharp" size={20} color="#CD853F" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={sharePost}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginRight: 5,
+          }}>
+          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
+            {shares}
+          </Text>
+          <Ionicons name="share-social-sharp" size={20} color="#CD853F" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={onCommentsClick}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginRight: 5,
+          }}>
+          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
+            {comments}
+          </Text>
+          <Feather name="message-square" size={18} color="#CD853F" />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => onLikesClick(item, setIsLiked, setLikeCount)}
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
+            {likeCount}
+          </Text>
+          {isLiked == 'true' || isLiked == true ? (
+            <AntDesign name="heart" size={18} color="#CD853F" />
+          ) : (
+            <AntDesign name="hearto" size={18} color="#CD853F" />
+          )}
+        </TouchableOpacity>
+      </View>
+
+      <View style={{width: width, height: 50}}>
+        <TouchableOpacity
+          style={{position: 'absolute', left: 10, top: 5}}
+          onPress={onDetailsClick}>
+          <View style={Styles.btnHome}>
+            <Text style={{color: '#fff', fontWeight: 'bold'}}>
+              {ArabicText.Details}
+            </Text>
+          </View>
+        </TouchableOpacity>
+
+        <Text
+          style={{
+            position: 'absolute',
+            right: 10,
+            top: 12,
+            color: '#000',
+            fontWeight: '600',
+          }}>
+          {title}
+        </Text>
+      </View>
+
+      <Modal
+        visible={modal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => {
+          setModal(false), setpausedCheck(true);
+        }}>
+        <View style={styles.modalContainer}>
+          {/* Modal Close Button */}
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => {
+              setModal(false), setpausedCheck(true);
+            }}
+            style={styles.modalCloseBTN}>
+            <AntDesign name="closecircle" size={35} color="#fff" />
+          </TouchableOpacity>
+
+          <View style={{height: 300, backgroundColor: 'red'}}>
+            <View style={Styles.imageCarousal}>
+              {modalItemType === 'image' && (
+                <Image
+                  source={modalItem}
+                  resizeMode="cover"
+                  style={Styles.image}
+                />
+              )}
+              {modalItemType == 'video' && (
+                <View style={{flex: 1, backgroundColor: '#ededed'}}>
+                  <Video
+                    onLoadStart={() => setLoad(true)}
+                    onReadyForDisplay={() => setLoad(false)}
+                    source={modalItem}
+                    resizeMode="contain"
+                    repeat={true}
+                    controls={false}
+                    paused={pausedCheck}
+                    style={[
+                      Styles.image,
+                      {
+                        width: width,
+                        height: height / 2.5,
+                      },
+                    ]}
+                  />
+                  {/* } */}
+                  <TouchableOpacity
+                    style={{
+                      height: 70,
+                      width: 70,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      position: 'absolute',
+                      elevation: 2,
+                      bottom: height / 6,
+                      left: width / 2.3,
+                    }}
+                    onPress={() => {
+                      setpausedCheck(true);
+                      load ? null : setpausedCheck(!pausedCheck);
+                    }}>
+                    {load ? (
+                      <ActivityIndicator size="large" />
+                    ) : (
+                      <Image
+                        activeOpacity={0.4}
+                        source={
+                          pausedCheck
+                            ? require('../../assets/play.png')
+                            : require('../../assets/pause.png')
+                        }
+                        resizeMode={'cover'}
+                        style={{width: 70, height: 70}}
+                      />
+                    )}
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
+          </View>
+
+          <View style={styles.modalMediaWrpr}>
+            <TouchableOpacity
+              activeOpacity={0.99}
+              onPress={() => {}}
+              style={styles.userProfileContainer}>
+              <Image
+                source={{
+                  uri:
+                    'http://www.tasdeertech.com/images/profiles/' + user_images,
+                }}
+                style={styles.userProfileImage}
+              />
+            </TouchableOpacity>
+            <View style={styles.userInfoContainer}>
+              <Text style={[styles.userName, {color: '#fff'}]}>
+                {user_name}
+              </Text>
+              <Text style={[styles.userLocation, {color: '#fff'}]}>
+                {user_location}
+              </Text>
+            </View>
+
+            <View style={styles.titleContainer}>
+              <Text style={styles.titleText}>{title}</Text>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </Card>
+  );
+};

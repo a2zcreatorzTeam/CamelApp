@@ -28,9 +28,9 @@ class Surveyform extends Component {
       survey: props?.route?.params?.surveyId,
       end_date_status: this.props?.route?.params.surveyId?.status ? 1 : 0,
       arrayAnswers: props?.route?.params?.arrayAnswers?.answers,
-      status: props?.route?.params?.status == 200 ? true : false,
+      status: props?.route?.params?.status,
       showPercents: false,
-      selectedAnswer: {},
+      selectedAnswer: [],
       checked: 'first',
       register: false,
       arrayForSubmit: [],
@@ -38,43 +38,51 @@ class Surveyform extends Component {
   }
 
   submitSurvey = item => {
+    console.log(this.state.survey.survey_details);
     let {user} = this.props;
     user = user?.user?.user;
+    // console.log('user', user);
+    // console.log('this.state.arrayForSubmit', this.state.arrayForSubmit);
+    const data = {
+      user_id: user?.id,
+      survey_answers: this?.state?.arrayForSubmit,
+    };
 
-    console.log('user', user);
-    console.log('this.state.arrayForSubmit', this.state.arrayForSubmit);
-
-    // if (user != undefined) {
-    //   if (this?.state?.arrayForSubmit?.length !== 0) {
-    //     camelapp
-    //       .post('/add/survey', {
-    //         user_id: user.id,
-    //         survey_answers: this.state.arrayForSubmit,
-    //       })
-    //       .then(res => {
-    //         // console.log('response', res.data);
-
-    //         if (res?.data?.message === 'Already Submitted') {
-    //           alert('You have already submitted survey');
-    //         } else {
-    //           if (res.data) {
-    //             alert('تم إرسال الاستبيان بنجاح');
-    //             this.props.navigation.pop();
-    //             // this.props.navigation.navigate('SurveyList');
-    //           }
-    //         }
-    //       });
-    //   } else {
-    //     alert('يرجى تحديد الخيارات');
-    //   }
-    // } else {
-    //   this.props.navigation.navigate('Login');
-    // }
+    if (user != undefined) {
+      if (this?.state?.arrayForSubmit?.length !== 0) {
+        camelapp
+          .post(
+            '/add/survey',
+            {data: data},
+            // user_id: user?.id,
+            // survey_answers: this.state.arrayForSubmit,
+          )
+          .then(res => {
+            console.log('response59', res?.data?.message);
+            if (res?.data?.message === 'Already Submitted') {
+              alert('You have already submitted survey');
+            } else {
+              if (res?.data) {
+                alert('تم إرسال الاستبيان بنجاح');
+                this.props.navigation.pop();
+                // this.props.navigation.navigate('SurveyList');
+              }
+            }
+          })
+          .catch(err => {
+            console.log(err, 'ererrererer');
+          });
+      } else {
+        alert('يرجى تحديد الخيارات');
+      }
+    } else {
+      this.props.navigation.navigate('Login');
+    }
   };
-
   selectedAnswer(item, i, index) {
+    let {user} = this.props;
+    user = user?.user?.user;
     let survey = this?.props?.route?.params?.surveyId;
-    console.log(survey, 'surveyyyyy');
     for (let j = 0; j < survey?.survey_details[index]['answer'].length; j++) {
       survey.survey_details[index]['answer'][j]['flag'] = false;
       survey.survey_details[index]['answer'][j]['flagForCount'] = true;
@@ -83,30 +91,30 @@ class Surveyform extends Component {
     survey.survey_details[index]['answer'][i]['flagForCount'] = false;
     this.setState({selectedAnswer: survey.survey_details[index]});
     let tempsubmitArray = this.state.arrayForSubmit;
+    console.log(tempsubmitArray, 'tempsubmitArraytempsubmitArray');
     let tempObj = {
-      survey_detail_id: survey?.survey_details[index].id,
+      survey_detail_id: survey?.survey_details[index]?.survey_detail_id,
       answer: survey?.survey_details[index]['answer'][i]['answer'],
       survey_id: survey?.survey_details[index].survey_id,
     };
-    tempsubmitArray = tempsubmitArray?.filter(
-      person =>
-        person?.survey_details?.survey_id != survey?.survey_details[index]?.id,
-    );
-    console.log(tempsubmitArray, 'tempObj');
+    if (tempsubmitArray?.length > 0) {
+      tempsubmitArray = tempsubmitArray?.filter(person => {
+        return (
+          person?.survey_detail_id !==
+          survey?.survey_details[index]?.survey_detail_id
+        );
+      });
+    }
     tempsubmitArray.push(tempObj);
     this.setState({arrayForSubmit: tempsubmitArray});
   }
   render() {
     console.log(
-      '=================survery======c=============',
-      this.state.status,
+      this?.state?.end_date_status,
+      this?.state?.status,
+      this?.state?.end_date_status,
+      this?.state?.status,
     );
-    var currentDate = new Date();
-
-    console.log('End date', this?.state?.end_date_status);
-
-    const {checked} = this.state;
-
     return (
       <View style={{flex: 1, alignItems: 'center'}}>
         <Text
@@ -121,12 +129,12 @@ class Surveyform extends Component {
           Take a Survey
         </Text>
 
-        {this.state.status == false && (
+        {!this.state.status && (
           <View style={{width: width, height: hight / 1.5}}>
             <FlatList
               horizontal={false}
-              key={item => item.survey_details}
-              data={this.state.survey.survey_details}
+              key={item => item?.survey_details?.answer}
+              data={this.state?.survey.survey_details}
               contentContainerStyle={{
                 width: '100%',
                 paddingBottom: '20%',
@@ -144,7 +152,6 @@ class Surveyform extends Component {
                     style={{
                       justifyContent: 'flex-end',
                       alignItems: 'center',
-                      // flexDirection: "row",
                       width: '100%',
                     }}>
                     <Text
@@ -156,7 +163,7 @@ class Surveyform extends Component {
                         marginBottom: 10,
                         marginRight: 20,
                       }}>
-                      {item.question}
+                      {item?.question}
                     </Text>
 
                     <View
@@ -181,7 +188,6 @@ class Surveyform extends Component {
 
                   <View style={{width: '100%'}}>
                     {item?.answer?.map((val, i) => {
-                      console.log('item192', val);
                       return (
                         <TouchableOpacity
                           key={String(i)}
@@ -191,7 +197,7 @@ class Surveyform extends Component {
                           }}
                           style={{
                             backgroundColor:
-                              item.flag === true ? '#d2691e' : '#fff',
+                              val.flag === true ? '#d2691e' : '#fff',
                             alignItems: 'center',
                             marginTop: 10,
                             width: width - 100,
@@ -202,7 +208,7 @@ class Surveyform extends Component {
                           }}>
                           <Text
                             style={{
-                              color: item.flag === true ? '#fff' : 'black',
+                              color: val.flag === true ? '#fff' : 'black',
                               fontSize: 18,
                               marginRight: 10,
                               alignSelf: 'flex-end',
@@ -210,7 +216,7 @@ class Surveyform extends Component {
                             }}>
                             {val?.answer}
                           </Text>
-                          {val?.flag === true && (
+                          {/* {val?.flag === true && (
                             <Text
                               style={{
                                 color: val.flag === true ? '#fff' : '#d2691e',
@@ -233,8 +239,8 @@ class Surveyform extends Component {
                                   ) * 100}
                               %
                             </Text>
-                          )}
-                          {val?.flagForCount === true && (
+                          )} */}
+                          {/* {val?.flagForCount === true && (
                             <Text
                               style={{
                                 color: item.flag === false ? '#d2691e' : '#fff',
@@ -253,13 +259,13 @@ class Surveyform extends Component {
                                 ? 0
                                 : parseFloat(
                                     (
-                                      val?.answer_count /
+                                      val?.answer[i]?.answer_count /
                                       (item.total_count + 1)
                                     ).toFixed(2),
                                   ) * 100}
                               %
                             </Text>
-                          )}
+                          )} */}
                         </TouchableOpacity>
                       );
                     })}
@@ -270,7 +276,7 @@ class Surveyform extends Component {
           </View>
         )}
 
-        {this.state.status == true && (
+        {this.state.status && (
           <View style={{width: width}}>
             <FlatList
               horizontal={false}
@@ -305,7 +311,7 @@ class Surveyform extends Component {
                         marginBottom: 10,
                         marginRight: 20,
                       }}>
-                      {item.question}
+                      {item?.question}
                     </Text>
 
                     <View
@@ -318,7 +324,7 @@ class Surveyform extends Component {
                         source={{
                           uri:
                             'http://www.tasdeertech.com/images/survey/' +
-                            item.image,
+                            item?.image,
                         }}
                         style={{
                           width: width - 100,
@@ -329,17 +335,18 @@ class Surveyform extends Component {
                   </View>
 
                   <View style={{width: '100%'}}>
-                    {item?.answer?.map((item, i) => {
+                    {item?.answer?.map((val, i) => {
+                      console.log(val, 'valueeee');
                       var percentage =
                         parseFloat(
-                          (item?.answer_count / item?.total_count).toFixed(2),
+                          (val?.answer_count / item?.total_count).toFixed(2),
                         ) * 100;
 
                       return (
                         <View
                           style={{
                             backgroundColor:
-                              item?.flag === true ? '#d2691e' : '#fff',
+                              val?.flag === true ? '#d2691e' : '#fff',
                             alignItems: 'center',
                             marginTop: 10,
                             width: width - 100,
@@ -350,17 +357,17 @@ class Surveyform extends Component {
                           }}>
                           <Text
                             style={{
-                              color: item.flag === true ? '#fff' : 'black',
+                              color: val?.flag === true ? '#fff' : 'black',
                               fontSize: 18,
                               marginRight: 10,
                               alignSelf: 'flex-end',
                               padding: 10,
                             }}>
-                            {item.answer}
+                            {val.answer}
                           </Text>
                           <Text
                             style={{
-                              color: item.flag === true ? '#fff' : '#d2691e',
+                              color: val.flag === true ? '#fff' : '#d2691e',
                               fontSize: 16,
                               marginRight: 10,
                               marginLeft: 10,
@@ -376,11 +383,10 @@ class Surveyform extends Component {
             />
           </View>
         )}
-        {/* this.state.status == false */}
 
-        {this?.state?.status == true ? null : this?.state?.end_date_status ==
-            1 && this?.state?.status == true ? null : this?.state
-            ?.end_date_status == 0 && this?.state?.status == false ? (
+        {this?.state?.status ? null : this?.state?.end_date_status == 1 &&
+          this?.state?.status == true ? null : this?.state?.end_date_status ==
+            0 && this?.state?.status == false ? (
           <TouchableOpacity
             style={[Styles.btn, {position: 'absolute', bottom: 10}]}
             onPress={() => this.submitSurvey()}>

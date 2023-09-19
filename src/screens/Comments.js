@@ -42,6 +42,9 @@ class Comments extends Component {
       searchedItem: '',
       dataNotFound: false,
       filterPosts: [],
+      user_id: this.props.route.params.user?.user_id
+        ? this.props.route.params.user?.user_id
+        : this.props.route.params.user?.id,
     };
 
     LogBox.ignoreLogs([
@@ -55,7 +58,7 @@ class Comments extends Component {
     if (this.state.newReply != '') {
       camelapp
         .post('/add/reply', {
-          user_id: this.state.user.id,
+          user_id: this.state.user_id,
           comment_id: this.state.commentId,
           reply: this.state.newReply,
         })
@@ -85,7 +88,7 @@ class Comments extends Component {
     if (user != undefined) {
       camelapp
         .post('/comment/like', {
-          user_id: user.id,
+          user_id: user_id,
           comment_id: item.id,
         })
         .then(response => {
@@ -126,7 +129,7 @@ class Comments extends Component {
       this.setState({loading: true});
       camelapp
         .post('/add/comment', {
-          user_id: this.state.user.id,
+          user_id: this.state.user_id,
           post_id: this.state.post.id,
           comment: this.state.newComment,
         })

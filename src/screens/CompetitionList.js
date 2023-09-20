@@ -396,14 +396,13 @@ class CamelClubList extends Component {
       try {
         await camelapp
           .post('get/competition_details', {
-            competition_id: item.id,
+            competition_id: item?.id,
           })
           .then(res => {
             if (res) {
-              // //console.log("response at competitionItem", res.data)
-              let temp = res.data;
+              let temp = res?.data;
               this.props.navigation.navigate('BeautyOfCompetition', {
-                competition_item: temp,
+                competition_item: [temp],
               });
             }
           });

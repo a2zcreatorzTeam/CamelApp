@@ -495,6 +495,7 @@ export const Styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     justifyContent:'center',
+    width: width - 100,
     // shadowColor: '#000',
     // shadowOffset: {
     //   width: 0,
@@ -503,7 +504,6 @@ export const Styles = StyleSheet.create({
     // shadowOpacity: 0.25,
     // shadowRadius: 4,
     // elevation: 5,
-    width: width - 100,
   },
   textHeadingg: {
     textAlign: 'right',

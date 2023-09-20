@@ -65,15 +65,21 @@ class CamelMovingList extends Component {
   }
 
   async viewPosts() {
+    const user = this.props?.user;
+    userData = user?.user?.user;
+    console.log(userData);
     try {
-      return await camelapp.get('/get/camelmove').then(res => {
-        console.log('RESPONSE API_____', res.data.Posts);
-        this.setState({
-          posts: res.data.Posts,
-          loader: false,
-          filterPosts: res.data.Posts,
+      return await camelapp
+        .post('/get/camelmove', {
+          user_id: userData?.id,
+        })
+        .then(res => {
+          this.setState({
+            posts: res.data.Posts,
+            loader: false,
+            filterPosts: res.data.Posts,
+          });
         });
-      });
     } catch (error) {
       //console.log("Error Message camel Moving List", error.response);
     }
@@ -88,6 +94,10 @@ class CamelMovingList extends Component {
       this.viewPosts();
     });
   };
+
+  componentWillUnmount() {
+    this.focusListener();
+  }
 
   render() {
     const {key, filterPosts, searchedItem} = this.state;

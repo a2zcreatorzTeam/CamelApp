@@ -175,6 +175,7 @@ class CamelSellingList extends Component {
     console.log('====================================');
     console.log('IS THIS IS CAMEL SELLEING POST SCREEN?');
     const renderItem = ({item}) => {
+      console.log(item, "itemmmm");
       return (
         <Post
           item={item}
@@ -292,6 +293,7 @@ class CamelSellingList extends Component {
       }
     };
     const onDetailsClick = item => {
+      console.log(item, 'itemmmmmm');
       let {user} = this.props;
       user = user.user.user;
       let post_id = item?.id;

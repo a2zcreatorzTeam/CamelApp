@@ -147,7 +147,6 @@ class SellingCamelForm extends React.Component {
         } else {
           alert('Only 4 images allowed');
         }
-        console.log('images', images);
       })
       .catch(error => {
         console.log('error', error);
@@ -218,6 +217,7 @@ class SellingCamelForm extends React.Component {
     if (combineImages == undefined || combineImages?.length == 0) {
       return alert('Can not post without image');
     }
+    console.log(combineImages, 'combineImagescombineImages');
     if (combineImages?.length > 4) {
       return alert('Upload upto 4 images');
     }
@@ -242,16 +242,18 @@ class SellingCamelForm extends React.Component {
       // console.log(
       //   'respnseee263',
       //   user_id,
-      //   this.state.title,
-      //   this.state.location,
-      //   this.state.description,
-      //   this.state.camel_type,
-      //   this.state.color,
-      //   this.state.price,
-      //   this.state.price_type,
-      //   this.state.selectedItem.name,
-      //   this.state.selectedItem?.id,
-      //   this.state.videoForPost,
+      //   // this.state.title,
+      //   // this.state.location,
+      //   // this.state.description,
+      //   // this.state.camel_type,
+      //   // this.state.color,
+      //   // this.state.price,
+      //   // this.state.price_type,
+      //   // this.state.selectedItem.name,
+      //   // this.state.selectedItem?.id,
+      //   // this.state.videoForPost,
+      //   combineImages,
+      //   "kkjkjkjkjk"
       // );
 
       this.setState({loading: true});
@@ -272,26 +274,25 @@ class SellingCamelForm extends React.Component {
         })
         .then(response => {
           console.log(response?.data, 'responseererererer275');
-          // this.setState({
-          //   loading: false,
-          //   video: undefined,
-          //   videoForPost: undefined,
-          //   imagesForPost: undefined,
-          //   image: undefined,
-          //   cameraimage: [],
-          //   cameraimagesForPost: undefined,
-          // });
-          // console.log('response', response.data);
-          // alert(ArabicText.Post_added_successfully);
+          this.setState({
+            loading: false,
+            video: undefined,
+            videoForPost: undefined,
+            imagesForPost: undefined,
+            image: undefined,
+            cameraimage: [],
+            cameraimagesForPost: undefined,
+          });
+          alert(ArabicText.Post_added_successfully);
 
-          // this.setState({
-          //   title: '',
-          //   description: '',
-          //   location: '',
-          //   image: '',
-          //   fileName: '',
-          // });
-          // this.props.navigation.navigate('Home');
+          this.setState({
+            title: '',
+            description: '',
+            location: '',
+            image: '',
+            fileName: '',
+          });
+          this.props.navigation.navigate('Home');
         })
         .catch(error => {
           console.log('error', error.response);

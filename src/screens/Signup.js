@@ -135,10 +135,9 @@ class SignUp extends Component {
 
 
     // check name
-    if (name.length >= 3) {
+    if (name.length >= 4) {
       this.setState({
         flagname: false,
-
       })
       flagname = false;
       console.log(" name done", flagname)

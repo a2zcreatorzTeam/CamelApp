@@ -30,20 +30,26 @@ const hight = Dimensions.get('screen').height;
 class BeautyOfCompetition extends Component {
   constructor(props) {
     super(props);
+    console.log(
+      props.route.params.competition_item[0]?.competition_posts,
+      'props.route.params.competition_item[0].competition_posts',
+    );
     this.state = {
-      posts: props.route.params.competition_item[0].competition_posts,
-      competition: props.route.params.competition_item[0].competition,
+      posts: props.route.params.competition_item[0]?.competition_posts,
+      competition: props.route.params.competition_item?.length
+        ? props.route.params.competition_item[0].competition
+        : [],
       competition_prize:
-        props.route.params.competition_item[0].competition_prize,
+        props.route.params.competition_item[0]?.competition_prize,
       competition_winner:
-        props.route.params.competition_item[0].competition_winner,
-      sponsors: props.route.params.competition_item[0].sponsors,
+        props.route.params.competition_item[0]?.competition_winner,
+      sponsors: props.route.params.competition_item[0]?.sponsors,
 
       modal: false,
       particpateModal: false,
       generalRulesModal: false,
       refreshing: false,
-      loading:false
+      loading: false,
     };
   }
   selectedCompetition() {
@@ -89,24 +95,25 @@ class BeautyOfCompetition extends Component {
 
     console.log('tempDate', Date.parse(tempDate));
     console.log(
-      'this.props.route.params.competition_item[0].competition',
-      this.props.route.params.competition_item[0].competition[0],
-    );
-    console.log(
       'this.props.route.params.competition_item[0].competition.end_date',
-      this.props.route.params.competition_item[0].competition[0].end_date,
+      this.props.route.params.competition_item[0],
     );
     console.log(
       'this.props.route.params.competition_item[0].competition.start_date',
-      this.props.route.params.competition_item[0].competition[0].start_date,
+      this.props.route.params.competition_item,
     );
 
     this.setState({
       start_date: Date.parse(
-        this.props.route.params.competition_item[0].competition[0].start_date,
+        this.props.route.params.competition_item?.length
+          ? this.props.route.params.competition_item[0].competition[0]
+              .start_date
+          : '',
       ),
       end_date: Date.parse(
-        this.props.route.params.competition_item[0].competition[0].end_date,
+        this.props.route.params.competition_item?.length
+          ? this.props.route.params.competition_item[0]?.competition[0].end_date
+          : '',
       ),
       today: Date.parse(date),
     });
@@ -196,9 +203,9 @@ class BeautyOfCompetition extends Component {
       return (
         <PostItem
           item={item}
-          image={item.img[0]}
-          commentCount={item.comment_count}
-          likeCount={item.like_count}
+          image={[item?.img]?.length ? item?.img[0] : ''}
+          commentCount={item?.comment_count}
+          likeCount={item?.like_count}
         />
       );
     };
@@ -222,6 +229,7 @@ class BeautyOfCompetition extends Component {
       </View>
     );
     const renderSponserItem = ({item}) => {
+      console.log(item, 'itemmmm');
       return <SponsorItem item={item} name={item.name} image={item.image} />;
     };
     return (
@@ -245,7 +253,7 @@ class BeautyOfCompetition extends Component {
                   <Text style={{margin: 5, color: 'black'}}>
                     {ArabicText.Reward}
                   </Text>
-                  {this.state?.competition_prize[0]?.image?.length && (
+                  {this.state?.competition_prize && (
                     <Image
                       style={{width: 250, height: 250}}
                       source={{
@@ -278,40 +286,52 @@ class BeautyOfCompetition extends Component {
             onRequestClose={() => {
               this.setState({particpateModal: false});
             }}>
-            <TouchableWithoutFeedback
-            // onPress={() => this.setState({ modal: false })}
-            >
-              <View style={Styles.centeredView}>
-                <ScrollView>
-                  <Pressable
-                    onPress={particpateModal =>
-                      this.setState({particpateModal: !particpateModal})
-                    }>
-                    <Ionicons name="close" size={30} color="brown" />
-                  </Pressable>
-                  <Text style={{margin: 5, color: 'black'}}>
-                    {ArabicText.How_to_Participate}
-                  </Text>
-                  <ScrollView style={{padding: 10}}>
-                    <HTML
-                      tagsStyles={tagsStyles}
-                      source={{
-                        html: `<p>${this.state.competition[0].procedure}</p>`,
-                      }}
-                      contentWidth={width}
-                    />
-                  </ScrollView>
-                  {/* <Text style={{ margin: 5 }}>{this.state.competition[0].procedure}</Text> */}
-
-                  <TouchableOpacity
-                    onPress={() => this.setState({particpateModal: false})}>
-                    <View style={Styles.btnform}>
-                      <Text style={Styles.textbtn}>{ArabicText.close}</Text>
+            <View style={Styles.centeredView}>
+              <View style={[Styles.modalView]}>
+                {this.state.competition?.length && (
+                  <ScrollView
+                    contentContainerStyle={{flexGrow: 1}}
+                    style={{
+                      width: '90%',
+                      height: '50%',
+                      flexGrow: 1,
+                    }}>
+                    <Pressable
+                      style={{position: 'absolute', top: 0}}
+                      onPress={particpateModal =>
+                        this.setState({particpateModal: !particpateModal})
+                      }>
+                      <Ionicons name="close" size={30} color="brown" />
+                    </Pressable>
+                    <Text style={{margin: 5, color: 'black'}}>
+                      {ArabicText.How_to_Participate}
+                    </Text>
+                    {console.log(
+                      this.state.competition,
+                      'this.state.competition[0]?.procedure',
+                    )}
+                    <View style={{padding: 10}}>
+                      <HTML
+                        tagsStyles={tagsStyles}
+                        source={{
+                          html: `<p>${this.state.competition[0]?.procedure}</p>`,
+                        }}
+                        contentWidth={width}
+                      />
                     </View>
-                  </TouchableOpacity>
-                </ScrollView>
+                    {/* </ScrollView> */}
+                    {/* <Text style={{ margin: 5 }}>{this.state.competition[0].procedure}</Text> */}
+
+                    <TouchableOpacity
+                      onPress={() => this.setState({particpateModal: false})}>
+                      <View style={Styles.btnform}>
+                        <Text style={Styles.textbtn}>{ArabicText.close}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </ScrollView>
+                )}
               </View>
-            </TouchableWithoutFeedback>
+            </View>
           </Modal>
 
           <Pressable onPress={() => this.setState({particpateModal: true})}>
@@ -327,45 +347,54 @@ class BeautyOfCompetition extends Component {
             onRequestClose={() => {
               this.setState({generalRulesModal: false});
             }}>
-            <TouchableWithoutFeedback
-            // onPress={() => this.setState({ modal: false })}
-            >
-              <View style={Styles.centeredView}>
-                <ScrollView>
-                  <Pressable
-                    onPress={generalRulesModal =>
-                      this.setState({generalRulesModal: !generalRulesModal})
-                    }>
-                    <Ionicons
-                      name="close"
-                      size={30}
-                      color="brown"
-                      // style={{ marginLeft: width - 140 }}
-                    />
-                  </Pressable>
-                  <Text style={{margin: 5, color: 'black'}}>
-                    {ArabicText.General_Rule}
-                  </Text>
-                  <ScrollView style={{padding: 10}}>
-                    <HTML
-                      tagsStyles={tagsStyles}
-                      source={{
-                        html: `<p>${this.state.competition[0].rules}</p>`,
+            <View style={Styles.centeredView}>
+              <View style={[Styles.modalView]}>
+                {this.state.competition?.length && (
+                  <ScrollView
+                    contentContainerStyle={{flexGrow: 1}}
+                    style={{width: '90%', height: '50%', flexGrow: 1}}>
+                    <Pressable
+                      style={{
+                        position: 'absolute',
+                        top: 0,
                       }}
-                      contentWidth={width}
-                    />
-                  </ScrollView>
-                  {/* <Text style={{ margin: 5 }}>{this.state.competition[0].rules}</Text> */}
+                      onPress={generalRulesModal =>
+                        this.setState({
+                          generalRulesModal: !generalRulesModal,
+                        })
+                      }>
+                      <Ionicons
+                        name="close"
+                        size={30}
+                        color="brown"
+                        // style={{ marginLeft: width - 140 }}
+                      />
+                    </Pressable>
+                    <Text style={{margin: 5, color: 'black'}}>
+                      {ArabicText.General_Rule}
+                    </Text>
 
-                  <TouchableOpacity
-                    onPress={() => this.setState({generalRulesModal: false})}>
-                    <View style={Styles.btnform}>
-                      <Text style={Styles.textbtn}>{ArabicText.close}</Text>
+                    <View style={{padding: 10}}>
+                      <HTML
+                        tagsStyles={tagsStyles}
+                        source={{
+                          html: `<p>${this.state.competition[0].rules}</p>`,
+                        }}
+                        contentWidth={width}
+                      />
                     </View>
-                  </TouchableOpacity>
-                </ScrollView>
+                    {/* <Text style={{ margin: 5 }}>{this.state.competition[0].rules}</Text> */}
+
+                    <TouchableOpacity
+                      onPress={() => this.setState({generalRulesModal: false})}>
+                      <View style={Styles.btnform}>
+                        <Text style={Styles.textbtn}>{ArabicText.close}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </ScrollView>
+                )}
               </View>
-            </TouchableWithoutFeedback>
+            </View>
           </Modal>
 
           <Pressable onPress={() => this.setState({generalRulesModal: true})}>
@@ -374,7 +403,7 @@ class BeautyOfCompetition extends Component {
 
           <Pressable
             onPress={() => {
-              if (this.state.posts.length > 0) {
+              if (this?.state?.posts?.length > 0) {
                 this.props.navigation.navigate('WinnerBeauty', {
                   competitionItem: this.state.competition_winner,
                 });
@@ -388,6 +417,7 @@ class BeautyOfCompetition extends Component {
 
         <View style={Styles.BeautyOfComp}>
           <FlatList
+            showsHorizontalScrollIndicator={false}
             data={this.state.sponsors}
             renderItem={renderSponserItem}
             horizontal={true}
@@ -408,21 +438,23 @@ class BeautyOfCompetition extends Component {
           )}
 
         <View style={{flex: 1}}>
-          <FlatList
-            style={{flex: 1, flexGrow: 1}}
-            contentContainerStyle={{flexGrow: 1}}
-            data={this.state.posts}
-            renderItem={renderPostItem}
-            numColumns={2}
-            // initialNumToRender={5}
-            // maxToRenderPerBatch={5}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={() => this.ScrollToRefresh()}
-              />
-            }
-          />
+          {this.state?.posts?.length && (
+            <FlatList
+              style={{flex: 1, flexGrow: 1}}
+              contentContainerStyle={{flexGrow: 1}}
+              data={this.state.posts}
+              renderItem={renderPostItem}
+              numColumns={2}
+              initialNumToRender={5}
+              maxToRenderPerBatch={5}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={() => this.ScrollToRefresh()}
+                />
+              }
+            />
+          )}
         </View>
       </View>
     );

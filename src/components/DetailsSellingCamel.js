@@ -66,6 +66,10 @@ class DetailsComponent extends Component {
     user = user.user.user;
 
     this.setState({user_ids: user?.id});
+    console.log(
+      this.props.route.params.itemFromDetails.price_type,
+      'jkjkjkjkjjjj',
+    );
     if (this.props.route.params.itemFromDetails.price_type == 'سوم') {
       this.setState({flagForBid: true});
     }
@@ -176,47 +180,59 @@ class DetailsComponent extends Component {
   }
 
   placeBid() {
+    console.log(
+      this.props.route.params.itemFromDetails.price,
+      'placebid',
+      'this.state.price',
+      this.state.price,
+    );
     let {user} = this.props;
     user = user.user.user;
-    if (
-      parseInt(this.state.price) >
-      parseInt(this.props.route.params.itemFromDetails.price)
-    ) {
-      if (user.id != this.props.route.params.itemFromDetails.user_id) {
-        camelapp
-          .post('/checkBid', {
-            user_id: user.id,
-            post_id: this.state.itemFromDetails.id,
-          })
-          .then(response => {
-            this.getLastPrice();
-            if (response.data.status == 'Not Exists') {
-              camelapp
-                .post('/add/bid', {
-                  user_id: user.id,
-                  post_id: this.state.itemFromDetails.id,
-                  price: parseInt(this.state.price),
-                })
-                .then(response => {
-                  if (response.data.status == true) {
-                    alert(response?.data?.message);
-                    this.setState({modalOffer: false});
-                  } else {
-                    alert('Error in adding bid!');
-                  }
-                });
-            } else {
-              alert('Bid already exists');
-            }
-          });
+    if (user != undefined) {
+      if (
+        parseInt(this.state.price) >
+        parseInt(this.props.route.params.itemFromDetails.price)
+      ) {
+        if (user.id != this.props.route.params.itemFromDetails.user_id) {
+          camelapp
+            .post('/checkBid', {
+              user_id: user.id,
+              post_id: this.state.itemFromDetails.id,
+            })
+            .then(response => {
+              console.log(response.data.status, 'response.data.status');
+              this.getLastPrice();
+              if (response.data.status == 'Not Exists') {
+                camelapp
+                  .post('/add/bid', {
+                    user_id: user.id,
+                    post_id: this.state.itemFromDetails?.id,
+                    price: parseInt(this.state?.price),
+                  })
+                  .then(response => {
+                    if (response.data.status == true) {
+                      alert(response?.data?.message);
+                      this.setState({modalOffer: false});
+                    } else {
+                      alert('Error in adding bid!');
+                    }
+                  });
+              } else {
+                alert('Bid already exists');
+                this.setState({modalOffer: false});
+              }
+            });
+        } else {
+          console.log('====================================');
+          console.log('You_can_not_Place_bid_on_your_price');
+          console.log('====================================');
+          alert(ArabicText.You_can_not_Place_bid_on_your_price + '');
+        }
       } else {
-        console.log('====================================');
-        console.log('You_can_not_Place_bid_on_your_price');
-        console.log('====================================');
-        alert(ArabicText.You_can_not_Place_bid_on_your_price + '');
+        alert(ArabicText.Offer_can_not_be_less_than_base_price + '');
       }
     } else {
-      alert(ArabicText.Offer_can_not_be_less_than_base_price + '');
+      this.props.navigation.navigate('Login');
     }
   }
 
@@ -245,11 +261,6 @@ class DetailsComponent extends Component {
   }
 
   render() {
-    console.log(
-      '===============PRICE=====================',
-      this?.state?.user_ids,
-      this?.state?.user?.id,
-    );
     const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
     return (
       <ScrollView style={{backgroundColor: '#fff', flex: 1}}>
@@ -491,7 +502,7 @@ class DetailsComponent extends Component {
             <TextInput
               value={this.state.itemFromDetails.price_type}
               style={Styles.forminputsDetails}
-              placeholder={this.state.itemFromDetails.location}
+              placeholder={this.state.itemFromDetails.price_type}
               editable={false}></TextInput>
 
             <Text style={Styles.textHeadingg}>{ArabicText.Description}</Text>

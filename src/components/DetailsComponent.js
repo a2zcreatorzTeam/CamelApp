@@ -149,6 +149,7 @@ class DetailsComponent extends Component {
     }
   }
   render() {
+    console.log("152---->deailComponent");
     const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>

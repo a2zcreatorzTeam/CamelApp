@@ -213,7 +213,6 @@ class UserProfile extends Component {
 
           var arrayPosts = response?.data?.posts;
           arrayPosts?.map((item, index) => {
-            console.log(item?.video, "videooo");
             let array = item?.img;
             let imagesArray = [];
             array?.forEach(element => {
@@ -222,7 +221,6 @@ class UserProfile extends Component {
             imagesArray?.push({type: 'video', source: item?.video});
             item['imagesArray'] = imagesArray;
             arrayPosts[index] = item;
-            console.log('223', imagesArray);
             this.setState({
               following: data?.following,
               followers: data?.follwers,
@@ -232,10 +230,10 @@ class UserProfile extends Component {
             });
           });
         }
+        this.setState({loading: false});
         if (user !== undefined) {
           this.checkFriendshipStatus();
         }
-        this.setState({loading: false});
       })
       .catch(error => {
         console.log('error', error);
@@ -325,28 +323,27 @@ class UserProfile extends Component {
   }
 
   postViewed = async item => {
-    console.log("32888");
     this.setState({loading: false});
     let {user} = this.props;
     user = user?.user?.user;
     let post_id = item?.id;
     console.log(user, post_id,"posytytytyty");
-    // if (user != undefined) {
-    //   await camelapp
-    //     .post('/add/view', {
-    //       user_id: user?.id,
-    //       post_id: post_id,
-    //     })
-    //     .then(response => {
-    //       console.log('response.data', response.data);
-    //     })
-    //     .catch(error => {
-    //       console.log('error', error);
-    //       this.setState({loading: false});
-    //     });
-    // } else {
-    //   this.props.navigation.navigate('Login');
-    // }
+    if (user != undefined) {
+      await camelapp
+        .post('/add/view', {
+          user_id: user?.id,
+          post_id: post_id,
+        })
+        .then(response => {
+          console.log('responsedata338', response.data);
+        })
+        .catch(error => {
+          console.log('error', error);
+          this.setState({loading: false});
+        });
+    } else {
+      this.props.navigation.navigate('Login');
+    }
   };
   render() {
     const {user} = this.state;

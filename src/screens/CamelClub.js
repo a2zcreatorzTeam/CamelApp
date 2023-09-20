@@ -238,7 +238,7 @@ class CamelClub extends Component {
               cameraimage: [],
               cameraimagesForPost: undefined,
             });
-            this.props.navigation.navigate('CamelClubList');
+            this.props.navigation.replace('CamelClubList');
           }
         })
         .catch(error => {

@@ -62,19 +62,16 @@ class UserProfile extends Component {
     const {userProfile} = this.props.route?.params;
     let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
-    // console.log(userProfile, 'friend_idfriend_id');
     if (user != undefined) {
       if (
         userProfile?.whatsapp_status == 1 ||
         userProfile?.whatsapp_status == true
       ) {
-        // console.log('hello', user);
         let msg = 'Hello';
         let mobile = userProfile?.whatsapp_no;
         if (mobile.length != 0) {
           if (msg) {
             let url = 'whatsapp://send?text=' + msg + '&phone=' + mobile;
-            // console.log(url, 'urlllll');
             Linking.openURL(url)
               .then(data => {
                 //console.log("WhatsApp Opened successfully " + data);
@@ -116,9 +113,7 @@ class UserProfile extends Component {
     user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
       if (user?.id != this.props.route.params.userProfile.user_id) {
-        // console.log('86', this.props.route.params.userProfile?.user);
         let phone = this.props.route.params.userProfile?.user_phone;
-        // console.log(this.props.route.params.userProfile, phone, 'phoneee');
         if (Platform.OS !== 'android') {
           phoneNumber = `telprompt:${phone}`;
         } else {
@@ -153,7 +148,6 @@ class UserProfile extends Component {
     user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
       if (user?.id != this.props.route.params.userProfile.user?.id) {
-        // console.log('jkkj');
         if (
           this.props.route.params.userProfile.user?.chat_status == true ||
           this.props.route.params.userProfile.user?.chat_status == '1'
@@ -181,10 +175,8 @@ class UserProfile extends Component {
   }
   userProfile = async () => {
     const item = this.props.route?.params;
-    // console.log(item, 'item');
     this.setState({loading: true});
     let {user} = this.props;
-    // console.log(user, 'userererer');
     user = user?.user?.user ? user?.user?.user : user?.user;
     await camelapp
       .post('/userprofile', {
@@ -192,25 +184,12 @@ class UserProfile extends Component {
       })
       .then(response => {
         const data = response.data;
-        // console.log(data, 'datattata');
         if (data) {
-          // console.log('datattattatta');
           // let tempObjOfUserProfile = data;
           // let tempArrayOfUserPosts = [];
-          // // console.log( tempObjOfUserProfile.posts," tempObjOfUserProfileposts");
           // for (let i = 0; i < tempObjOfUserProfile.posts.length; i++) {
-          //   console.log(
-          //     tempObjOfUserProfile.posts[i].post,
-          //     'tempObjOfUserProfile.posts[i].post',
-          //   );
           //   tempArrayOfUserPosts.push(tempObjOfUserProfile.posts[i].post);
           // }
-          // // console.log(
-          // //   // tempObjOfUserProfile?.posts,
-          // //   'tempObjOfUserProfiletempObjOfUserProfile',
-          // //   tempArrayOfUserPosts,
-          // // );
-
           var arrayPosts = response?.data?.posts;
           arrayPosts?.map((item, index) => {
             let array = item?.img;
@@ -276,16 +255,12 @@ class UserProfile extends Component {
   // // check Friendship Status
   checkFriendshipStatus() {
     const user_friend = this.props.route?.params;
-    // console.log(user_friend, 'user_frienduser_friend');
     let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
-    // console.log(user?.id, user_friend?.user_id);
     camelapp
       .get('/friendshipstatus/' + user?.id + '/' + user_friend?.user_id)
       .then(res => {
-        // console.log(res?.data?.status, 'responefriendship');
         this.setState({friendshipStatus: res?.data?.status});
-        // console.log(res?.data?.status, 'Friend Ship Status');
       })
       .catch(error => {
         console.log(error, '<<=====ERROR friendshipstatus');
@@ -296,7 +271,6 @@ class UserProfile extends Component {
     // let friend_id = this.state.user.id;
     let {user} = this.props;
     user = user.user.user ? user?.user?.user : user?.user;
-    // console.log(friend_id, user?.id, 'userid256', status);
     if (user != undefined) {
       camelapp
         .post('/manage/friendrequest', {
@@ -305,14 +279,12 @@ class UserProfile extends Component {
           status: status,
         })
         .then(res => {
-          // console.log(res?.data, 'responsee12');
           this.checkFriendshipStatus();
           Toast.show({
             type: 'success',
             text1: 'Friend request has been sent.',
           });
           // Alert.alert('Friend request has been sent.');
-          // console.log(res.data, '<<<<<=======FRIEND Request ');
         })
         .catch(error => {
           console.log(error, '<<<<====Add friend Request error');
@@ -327,7 +299,6 @@ class UserProfile extends Component {
     let {user} = this.props;
     user = user?.user?.user;
     let post_id = item?.id;
-    console.log(user, post_id,"posytytytyty");
     if (user != undefined) {
       await camelapp
         .post('/add/view', {
@@ -347,7 +318,6 @@ class UserProfile extends Component {
   };
   render() {
     const {user} = this.state;
-    // console.log(user, 'usererer');
     const sharePosts = item => {
       const user = this.props.route?.params;
       this.setState({loading: true});
@@ -428,7 +398,6 @@ class UserProfile extends Component {
       }
     };
     const renderItem = ({item}) => {
-      // console.log(item, '41444');
       let array = item?.img;
       let imagesArray = [];
       array?.forEach(element => {
@@ -436,13 +405,12 @@ class UserProfile extends Component {
           imagesArray.push({type: 'image', source: element});
         }
       });
-      if (item?.video == null) {
-        imagesArray.push({type: 'video', source: null});
+      if (item?.video !== null) {
+        imagesArray.push({type: 'video', source: item.video});
       }
       return (
         <Item
           date={item?.date}
-          //       postViewed={item => postViewed(item)}
           item={item}
           imagesArray={imagesArray}
           likes={item?.like_count}
@@ -456,8 +424,6 @@ class UserProfile extends Component {
           onLikesClick={(item, setIsLiked, setLikeCount) =>
             onLikesClick(item, setIsLiked, setLikeCount)
           }
-          // onUserProfileClick={() => onUserProfileClick(item)}
-          // onCategoryClick={() => this.onCategoryClick(item)}
           onCommentsClick={() => onCommentsClick(item)}
           sharePost={() => sharePosts(item)}
           onVideoPlay={item => this.VideoPlay(item)}
@@ -940,7 +906,6 @@ const Item = ({
   onLikesClick = () => {},
   imagesArray,
   pauseCheckHandler,
-  // pausedCheck,
   onVideoPlay,
   sharePost,
   user_images,
@@ -949,7 +914,6 @@ const Item = ({
   item,
   postViewed = () => {},
 }) => {
-  // console.log(item, 'itemmmm918');
   const [pausedCheck, setpausedCheck] = useState(true);
   const [load, setLoad] = useState(false);
   const [modal, setModal] = useState(false);
@@ -957,7 +921,6 @@ const Item = ({
   const [modalItemType, setModalItemType] = useState('');
   const [isLiked, setIsLiked] = useState(flagForLike);
   const [likeCount, setLikeCount] = useState(likes ? likes : 0);
-  // console.log(modalItem, 'modalItem', modalItemType);
   return (
     <Card style={{elevation: 5, marginTop: 10}}>
       <View style={Styles.homesec}>
@@ -970,7 +933,7 @@ const Item = ({
               flexDirection: 'row',
               marginTop: 5,
             }}>
-            <TouchableOpacity onPress={onCategoryClick} style={Styles.btnHome2}>
+            <TouchableOpacity activeOpacity={0.99} onPress={onCategoryClick} style={Styles.btnHome2}>
               <Text
                 style={{color: '#D2691Eff', fontWeight: 'bold', fontSize: 15}}>
                 {category}
@@ -1030,24 +993,20 @@ const Item = ({
           </View>
         </View>
       </View>
-
       <Carousel
-        // keyExtractor={this.state.mixed.fileName}
         data={imagesArray}
         layout={'default'}
         scrollEnabled={true}
-        // onScroll={() => this.setState({ pauseVideo: true})}
         renderItem={({item, index}) => {
-          // console.log('itemmmm', item?.type);
           const mediaSource =
             item?.type == 'image'
               ? {uri: 'http://www.tasdeertech.com/images/posts/' + item.source}
               : item?.type == 'video'
               ? {uri: 'http://www.tasdeertech.com/videos/' + item.source}
               : null;
-          // console.log(mediaSource, 'mediaSourcemediaSource');
           return (
             <TouchableOpacity
+            activeOpacity={0.7} 
               onPress={() => {
                 postViewed();
                 setModal(true),
@@ -1115,7 +1074,6 @@ const Item = ({
         sliderWidth={width}
         itemWidth={width}
       />
-
       {/* Post icons */}
       <View
         style={{

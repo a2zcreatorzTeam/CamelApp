@@ -205,7 +205,6 @@ const Post = ({
           backgroundColor: '#f3f3f3',
         }}>
         {imagesArray?.map((item, index) => {
-          // console.log(item, 'itemmm198');
           const isImage = item.type === 'image';
           const isVideo = item.type === 'video';
 
@@ -214,7 +213,6 @@ const Post = ({
             : isVideo
             ? {uri: 'http://www.tasdeertech.com/videos/' + item?.source}
             : null;
-          // console.log(mediaSource);
           return (
             <TouchableWithoutFeedback
               key={index}

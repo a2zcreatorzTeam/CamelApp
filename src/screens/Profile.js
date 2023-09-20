@@ -36,7 +36,6 @@ import Video from 'react-native-video';
 import Carousel from 'react-native-snap-carousel';
 import Loader from '../components/PleaseWait';
 import OTPTextInput from 'react-native-otp-textinput';
-import VideoPlayer from '../components/VideoPlayer';
 
 class Profile extends Component {
   constructor(props) {
@@ -69,7 +68,6 @@ class Profile extends Component {
     if (user?.user?.user) {
       const length = parseInt(user?.user?.posts?.length);
       let rating = 0;
-
       if (length > 30 && length < 100) {
         rating = 1;
       } else if (length >= 100 && length < 150) {
@@ -81,7 +79,6 @@ class Profile extends Component {
       } else if (length > 250) {
         rating = 5;
       }
-
       this.setState({rating: rating});
       this.fetchUser();
     } else {
@@ -238,6 +235,7 @@ class Profile extends Component {
     }
   };
   fetchUser() {
+    this.setState({loader: true});
     let {user, actions} = this.props;
     user = user?.user?.user;
     console.log('================00USER00====================');
@@ -247,22 +245,54 @@ class Profile extends Component {
       camelapp.get('/get/fetchUser/' + user.id).then(res => {
         // console.log('response at fetch', res.data);
         actions.userData(res?.data);
-        this.setState({
-          whatsappNumber: this.props?.user?.user?.user?.whatsapp_no,
-          phoneNumber: this.props.user?.user?.user?.phone,
-          chatFlag:
-            this?.props?.user?.user?.user?.chat_status == 0 ? false : true,
-          registerSwitch:
-            this.props.user?.user?.user?.whatsapp_status == 0 ? false : true,
-          posts: res?.data?.posts,
-        });
+        const data = res.data;
+        if (data) {
+          // console.log(data, 'dattaa251');
+          // let tempObjOfUserProfile = data;
+          // let tempArrayOfUserPosts = [];
+          // for (let i = 0; i < tempObjOfUserProfile.posts.length; i++) {
+          //   tempArrayOfUserPosts.push(tempObjOfUserProfile.posts[i].post);
+          // }
+          var arrayPosts = res?.data?.posts;
+          arrayPosts?.map((item, index) => {
+            let array = item?.img;
+            let imagesArray = [];
+            array?.forEach(element => {
+              imagesArray?.push({type: 'image', source: element});
+            });
+            imagesArray?.push({type: 'video', source: item?.video});
+            item['imagesArray'] = imagesArray;
+            arrayPosts[index] = item;
+          });
+          this.setState({
+            posts: arrayPosts,
+          });
+          this.setState({
+            loader: false,
+            whatsappNumber: this.props?.user?.user?.user?.whatsapp_no,
+            phoneNumber: this.props.user?.user?.user?.phone,
+            chatFlag:
+              this?.props?.user?.user?.user?.chat_status == 0 ? false : true,
+            registerSwitch:
+              this.props.user?.user?.user?.whatsapp_status == 0 ? false : true,
+          });
+        }
+
+        // this.setState({
+        //   whatsappNumber: this.props?.user?.user?.user?.whatsapp_no,
+        //   phoneNumber: this.props.user?.user?.user?.phone,
+        //   chatFlag:
+        //     this?.props?.user?.user?.user?.chat_status == 0 ? false : true,
+        //   registerSwitch:
+        //     this.props.user?.user?.user?.whatsapp_status == 0 ? false : true,
+        //   posts: res?.data?.posts,
+        // });
       });
     } catch (error) {
       //console.log("error at fetch user", error.response)
     }
   }
   VideoPlay = item => {
-    // console.log(item, 'LOPLPOPLo');
     if (item?.source == 'UOmNlxYosf.mp4') {
       this.setState({pausedCheck: true});
     }
@@ -270,27 +300,27 @@ class Profile extends Component {
   componentDidMount() {
     this.checkUserLogedIn();
   }
+  filterPostOnDelete = item => {
+    const {posts} = this.state;
+    const filteredPosts = posts?.filter(val => {
+      return val?.id !== item?.id;
+    });
+    this.setState({posts: filteredPosts});
+  };
   onPostDelete(item) {
-    // console.log('DELETE POST');
-    //console.log("item", item.id);
-
     this.setState({loader: true});
-
     camelapp
       .post('delete/post', {
         post_id: item.id,
       })
       .then(response => {
         if (response.data) {
-          //console.log("---- delete post", response.data)
-
-          this.fetchUser();
+          this.filterPostOnDelete(item);
+          // this.fetchUser();
           this.checkUserLogedIn();
-
           this.setState({loader: false});
         }
       });
-
     // deletePost(item.id).then((response) => {
     //   //console.log("response post deleted --- ", response)
     //   if (response.data.status != falase) {
@@ -347,15 +377,9 @@ class Profile extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-  // componentDidMount = () => {
-  //   this.focusListener = this.props.navigation.addListener('focus', () => {
-  //     this.fetchUser();
-  //   });
-  // };
 
   render() {
     const {key} = this.state;
-    // console.log('PROFILE SCREEN', this.state?.pausedCheck);
     const sharePosts = item => {
       // console.log('working');
 
@@ -418,12 +442,11 @@ class Profile extends Component {
       this.setState({loading: false});
       let {user} = this.props;
       user = user?.user?.user;
-      let post_id = item?.post?.id;
-      console.log(post_id, user.id);
+      let post_id = item?.id;
       if (user != undefined) {
         camelapp
           .post('/add/like', {
-            user_id: user.id,
+            user_id: user?.id,
             post_id: post_id,
             type: 'abc',
           })
@@ -445,133 +468,6 @@ class Profile extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-    // onDetailsClick = async item => {
-    //   let {user} = this.props;
-    //   user = user.user.user;
-    //   let post_id = item.id;
-    //   if (user != undefined) {
-    //     await camelapp
-    //       .post('/add/view', {
-    //         user_id: user.id,
-    //         post_id: post_id,
-    //       })
-    //       .then(response => {
-    //         console.log('response.data', response.data);
-    //         if (item.category_id == '1') {
-    //           this.props.navigation.navigate('CamelClubDetailsComponent', {
-    //             itemFromDetails: item,
-    //           });
-    //         }
-
-    //         if (item.category_id == '4') {
-    //           this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
-    //             itemFromDetails: item,
-    //           });
-    //         }
-    //         if (item.category_id == '3') {
-    //           this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
-    //             itemFromDetails: item,
-    //           });
-    //         }
-    //         if (item.category_id == '2') {
-    //           this.props.navigation.navigate('DetailsSellingCamel', {
-    //             itemFromDetails: item,
-    //           });
-    //         }
-    //         if (item.category_id == '6') {
-    //           this.props.navigation.navigate('DetailsComponentWithPrice', {
-    //             itemFromDetails: item,
-    //           });
-    //         }
-    //         if (item.category_id == '8') {
-    //           this.props.navigation.navigate('DetailsComponentWithPrice', {
-    //             itemFromDetails: item,
-    //           });
-    //         }
-    //         if (item.category_id == '5') {
-    //           this.props.navigation.navigate('DetailsMovingCamel', {
-    //             itemFromDetails: item,
-    //           });
-    //         }
-    //         if (item.category_id == '9') {
-    //           this.props.navigation.navigate('DetailsMarketingCamel', {
-    //             itemFromDetails: item,
-    //           });
-    //         }
-
-    //         if (item.category_id == '11') {
-    //           this.props.navigation.navigate('DetailsFemaleCamel', {
-    //             itemFromDetails: item,
-    //           });
-    //         }
-    //         if (item.category_id == '7') {
-    //           this.props.navigation.navigate('DetailsComponent', {
-    //             itemFromDetails: item,
-    //           });
-    //         }
-    //       })
-    //       .catch(error => {
-    //         console.log('error', error);
-    //       });
-    //   } else {
-    //     if (item.category_id == '1') {
-    //       this.props.navigation.navigate('CamelClubDetailsComponent', {
-    //         itemFromDetails: item,
-    //       });
-    //     }
-
-    //     if (item.category_id == '4') {
-    //       this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
-    //         itemFromDetails: item,
-    //       });
-    //     }
-    //     if (item.category_id == '3') {
-    //       this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
-    //         itemFromDetails: item,
-    //       });
-    //     }
-    //     if (item.category_id == '2') {
-    //       this.props.navigation.navigate('DetailsSellingCamel', {
-    //         itemFromDetails: item,
-    //       });
-    //     }
-    //     if (item.category_id == '6') {
-    //       this.props.navigation.navigate('DetailsComponentWithPrice', {
-    //         itemFromDetails: item,
-    //       });
-    //     }
-    //     if (item.category_id == '8') {
-    //       this.props.navigation.navigate('DetailsComponentWithPrice', {
-    //         itemFromDetails: item,
-    //       });
-    //     }
-    //     if (item.category_id == '5') {
-    //       this.props.navigation.navigate('DetailsMovingCamel', {
-    //         itemFromDetails: item,
-    //       });
-    //     }
-    //     if (item.category_id == '9') {
-    //       this.props.navigation.navigate('DetailsMarketingCamel', {
-    //         itemFromDetails: item,
-    //       });
-    //     }
-
-    //     if (item.category_id == '11') {
-    //       this.props.navigation.navigate('DetailsFemaleCamel', {
-    //         itemFromDetails: item,
-    //       });
-    //     }
-    //     if (item.category_id == '7') {
-    //       this.props.navigation.navigate('DetailsComponent', {
-    //         itemFromDetails: item,
-    //       });
-    //     }
-    //   }
-
-    //   // this.props.navigation.navigate("DetailsComponent", { itemFromDetails: item })
-    // };
-
-    // ========NEW==========
     onDetailsClick = async item => {
       const {user} = this.props;
       const post_id = item?.id;
@@ -716,9 +612,7 @@ class Profile extends Component {
 
       // this.props.navigation.navigate("DetailsComponent", { itemFromDetails: item })
     };
-
     const renderItem = ({item}) => {
-      console.log(item?.images, 'itemmmm720');
       let array = item?.img;
       let imagesArray = [];
       array?.forEach(element => {
@@ -726,9 +620,7 @@ class Profile extends Component {
           imagesArray.push({type: 'image', source: element});
         }
       });
-      if (item?.video == null) {
-        imagesArray.push({type: 'video', source: null});
-      } else {
+      if (item?.video) {
         imagesArray.push({type: 'video', source: item.video});
       }
       // console.log(item, 'itemmm');
@@ -762,13 +654,14 @@ class Profile extends Component {
         />
       );
     };
-
     return (
       <View style={Styles.containerProfile}>
         {this.props.user.user.user === undefined ? (
           this.props.navigation.navigate('Login')
         ) : (
           <View>
+            {/* {this.state.loader == false && ( */}
+            {/* <> */}
             <View style={Styles.headerProfile}>
               {/* Edit & Cart Icons Profile */}
               <View style={styles.head}>
@@ -832,7 +725,10 @@ class Profile extends Component {
                   {this.props?.user?.user?.user?.name}
                 </Text>
                 <View
-                  style={{flexDirection: 'row-reverse', alignItems: 'center'}}>
+                  style={{
+                    flexDirection: 'row-reverse',
+                    alignItems: 'center',
+                  }}>
                   <AntDesign name="checkcircle" size={14} color="#e50000" />
                   <Text
                     style={{
@@ -902,6 +798,8 @@ class Profile extends Component {
                 </TouchableOpacity>
               </View>
             </View>
+            {/* </> */}
+            {/* )} */}
 
             <Modal
               animationType="slide"
@@ -1116,36 +1014,37 @@ class Profile extends Component {
                 style={{marginTop: 20}}
               />
             )}
-            {this.state.loader == false && (
-              <FlatList
-                key={key}
-                ListEmptyComponent={
-                  <Text
-                    style={{
-                      color: 'black',
-                      fontSize: 17,
-                      alignContent: 'center',
-                      textAlign: 'center',
-                      marginVertical: 30,
-                    }}>
-                    {' '}
-                    No Post Found
-                  </Text>
-                }
-                data={this.state.posts}
-                renderItem={renderItem}
-                keyExtractor={item_2 => item_2.id}
-                contentContainerStyle={{paddingBottom: 10}}
-                refreshControl={
-                  <RefreshControl
-                    refreshing={this.state.refreshing}
-                    onRefresh={() => this.ScrollToRefresh()}
-                  />
-                }
-                initialNumToRender={5}
-                maxToRenderPerBatch={5}
-              />
-            )}
+
+            {/* {this.state.loader == false && ( */}
+            <FlatList
+              key={key}
+              ListEmptyComponent={
+                <Text
+                  style={{
+                    color: 'black',
+                    fontSize: 17,
+                    alignContent: 'center',
+                    textAlign: 'center',
+                    marginVertical: 30,
+                  }}>
+                  {' '}
+                  No Post Found
+                </Text>
+              }
+              data={this.state.posts}
+              renderItem={renderItem}
+              keyExtractor={item_2 => item_2.id}
+              contentContainerStyle={{paddingBottom: 10}}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={() => this.ScrollToRefresh()}
+                />
+              }
+              initialNumToRender={5}
+              maxToRenderPerBatch={5}
+            />
+            {/* )} */}
           </View>
         )}
       </View>

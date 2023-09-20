@@ -147,7 +147,7 @@ class CamelFood extends React.Component {
             image: '',
             fileName: '',
           });
-          this.props.navigation.navigate('Home');
+          this.props.navigation.replace('Home');
         })
         .catch(error => {
           //console.log("error", error.response)

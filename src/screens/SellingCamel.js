@@ -10,7 +10,6 @@ import {
   ScrollView,
   Modal,
   Switch,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -20,8 +19,6 @@ import camelapp from '../api/camelapp';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
-import Video from 'react-native-video';
-import Carousel from 'react-native-snap-carousel';
 import 'react-native-gesture-handler';
 import {Dimensions} from 'react-native';
 import Loader from '../components/PleaseWait';
@@ -214,7 +211,6 @@ class SellingCamelForm extends React.Component {
     if (!image1?.length && image2?.length) {
       combineImages = image2;
     }
-
     if (this.state.videoForPost === undefined) {
       return alert('Can not post without video');
     }
@@ -241,8 +237,23 @@ class SellingCamelForm extends React.Component {
       this.state.mixed.length != 0
     ) {
       let {user} = this.props;
-
       let user_id = user.user.user.id;
+      console.log(user?.user?.user, user_id);
+      // console.log(
+      //   'respnseee263',
+      //   user_id,
+      //   this.state.title,
+      //   this.state.location,
+      //   this.state.description,
+      //   this.state.camel_type,
+      //   this.state.color,
+      //   this.state.price,
+      //   this.state.price_type,
+      //   this.state.selectedItem.name,
+      //   this.state.selectedItem?.id,
+      //   this.state.videoForPost,
+      // );
+
       this.setState({loading: true});
       camelapp
         .post('/add/selling', {
@@ -257,29 +268,30 @@ class SellingCamelForm extends React.Component {
           price_type: this.state.price_type,
           commission: this.state.selectedItem.name,
           video: this.state.videoForPost,
-          buttonName: this.state.selectedItem,
+          register: this.state.register,
         })
         .then(response => {
-          this.setState({
-            loading: false,
-            video: undefined,
-            videoForPost: undefined,
-            imagesForPost: undefined,
-            image: undefined,
-            cameraimage: [],
-            cameraimagesForPost: undefined,
-          });
-          console.log('response', response.data);
-          alert(ArabicText.Post_added_successfully);
+          console.log(response?.data, 'responseererererer275');
+          // this.setState({
+          //   loading: false,
+          //   video: undefined,
+          //   videoForPost: undefined,
+          //   imagesForPost: undefined,
+          //   image: undefined,
+          //   cameraimage: [],
+          //   cameraimagesForPost: undefined,
+          // });
+          // console.log('response', response.data);
+          // alert(ArabicText.Post_added_successfully);
 
-          this.setState({
-            title: '',
-            description: '',
-            location: '',
-            image: '',
-            fileName: '',
-          });
-          this.props.navigation.navigate('Home');
+          // this.setState({
+          //   title: '',
+          //   description: '',
+          //   location: '',
+          //   image: '',
+          //   fileName: '',
+          // });
+          // this.props.navigation.navigate('Home');
         })
         .catch(error => {
           console.log('error', error.response);

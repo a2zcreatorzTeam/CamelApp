@@ -210,7 +210,6 @@ class Home extends Component {
     // this.setState({filterPosts: filterPosts});
   }
   onCategoryClick = async item => {
-    console.log('itemmmm', item);
     if (item.category_id == '1') {
       this.props.navigation.navigate('CamelClubList');
     }
@@ -357,6 +356,7 @@ class Home extends Component {
         });
       }
       if (item.category_id == '7') {
+        console.log("77777777777777777777777777777777777777777777777777777777777");
         this.props.navigation.navigate('DetailsComponent', {
           itemFromDetails: item,
         });

@@ -128,7 +128,7 @@ class CamelEquipmentList extends Component {
       this.viewPosts();
     });
   };
-  postViewed = async item => {
+  postViewed = async (item, viewCount, setViewCount) => {
     let {user} = this.props;
     user = user?.user?.user;
     let post_id = item?.id;
@@ -139,7 +139,10 @@ class CamelEquipmentList extends Component {
           post_id: post_id,
         })
         .then(response => {
-          console.log('response.data', response.data);
+          console.log(response?.data, "respo");
+          if (response?.data?.message !== 'Already Viewed') {
+            setViewCount(viewCount + 1);
+          }
         })
         .catch(error => {
           console.log('error', error);
@@ -176,7 +179,9 @@ class CamelEquipmentList extends Component {
           sharePost={() => sharePosts(item)}
           date={item?.date}
           onCategoryClick={() => console.log('first')}
-          postViewed={() => this.postViewed(item)}
+          postViewed={(viewCount, setViewCount) =>
+            this.postViewed(item, viewCount, setViewCount)
+          }
         />
       );
     };

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -10,20 +10,20 @@ import {
   Modal,
 } from 'react-native';
 
-import { Styles } from '../styles/globlestyle';
+import {Styles} from '../styles/globlestyle';
 
 import camelapp from '../api/camelapp';
 import * as ArabicText from '../language/EnglishToArabic';
-import { Dimensions } from 'react-native';
+import {Dimensions} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import OTPTextView from 'react-native-otp-textinput';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import { bindActionCreators } from 'redux';
+import {bindActionCreators} from 'redux';
 
 class SignUp extends Component {
   constructor(props) {
@@ -46,12 +46,10 @@ class SignUp extends Component {
       flag_confirm_password: false,
       hidePassword: true,
       hideConfirmPassword: true,
-
     };
   }
 
   // createAnAccount = async signUpUser => {
-
 
   //   if (
   //     this.state.name.length >= 3 &&
@@ -120,7 +118,6 @@ class SignUp extends Component {
   // };
 
   createAnAccount = async signUpUser => {
-
     let {
       name,
       phone,
@@ -130,68 +127,66 @@ class SignUp extends Component {
       flagphone,
       flagpassword,
       flag_confirm_password,
-
     } = this.state;
-
 
     // check name
     if (name.length >= 4) {
       this.setState({
         flagname: false,
-      })
+      });
       flagname = false;
-      console.log(" name done", flagname)
+      console.log(' name done', flagname);
     } else {
       this.setState({
         flagname: true,
-      })
-      flagname = true
-      console.log(" name  not done", flagname)
+      });
+      flagname = true;
+      console.log(' name  not done', flagname);
     }
 
     // check phone mumber
     if (phone.length >= 3) {
       this.setState({
         flagphone: false,
-      })
-      flagphone = false
-      console.log(" phone done", flagphone)
+      });
+      flagphone = false;
+      console.log(' phone done', flagphone);
     } else {
       this.setState({
         flagphone: true,
-      })
-      flagphone = true
-      console.log(" phone not done", flagphone)
+      });
+      flagphone = true;
+      console.log(' phone not done', flagphone);
     }
 
     // check password
-    if (password.length >= 3 && password.length != 0) {
+    if (password.length >= 4 && password.length != 0) {
       this.setState({
         flagpassword: false,
-      })
-      flagpassword = false
-      console.log(" paswword done", flagpassword)
+      });
+      flagpassword = false;
+      console.log(' paswword done', flagpassword);
     } else {
       this.setState({
         flagpassword: true,
-      })
-      flagpassword = true
-      console.log(" password not done", flagpassword)
+      });
+      flagpassword = true;
+      console.log(' password not done', flagpassword);
     }
 
     // check password
     if (password === confirm_password && confirm_password.length != 0) {
       this.setState({
         flag_confirm_password: false,
-      })
-      flag_confirm_password = false
-      console.log(" confirm paswword done", flag_confirm_password)
+      });
+      flag_confirm_password = false;
+      console.log(' confirm paswword done', flag_confirm_password);
     } else {
       this.setState({
         flag_confirm_password: true,
-      })
-      flag_confirm_password = true
-      console.log("  confirm paswword not done", flag_confirm_password)
+      });
+      flag_confirm_password = true;
+      console.log('  confirm paswword not done', flag_confirm_password);
     }
 
     if (
@@ -201,7 +196,7 @@ class SignUp extends Component {
       flag_confirm_password == false
     ) {
       console.log('state', this.state);
-      this.setState({ btnPressed: true, loader: true })
+      this.setState({btnPressed: true, loader: true});
       camelapp
         .get('checkemail?phone=' + this.state.phone)
         .then(response => {
@@ -213,9 +208,9 @@ class SignUp extends Component {
             number = Math.floor(Math.random() * 10000) + 1;
             console.log('number', number);
           } while (number < 1000 || number > 10000);
-          this.setState({ randomIndex: number });
+          this.setState({randomIndex: number});
           if (response.data.status === true) {
-            this.setState({ loader: false });
+            this.setState({loader: false});
             camelapp
               .post('sendsms', {
                 phone: this.state.phone,
@@ -233,31 +228,27 @@ class SignUp extends Component {
                     code: number,
                     sign_up: tempSignUpObj,
                   });
-                  this.setState({ loader: false, btnPressed: false });
+                  this.setState({loader: false, btnPressed: false});
                 }
               })
               .catch(error => {
                 console.log('error', error);
-                this.setState({ loader: false, btnPressed: false });
+                this.setState({loader: false, btnPressed: false});
               });
           } else {
-            alert(response?.data?.message)
-      this.setState({ btnPressed: false, loader: false })
-
+            alert(response?.data?.message);
+            this.setState({btnPressed: false, loader: false});
           }
         })
         .catch(error => {
           console.log('error', error);
-          this.setState({ loader: false, btnPressed: false });
+          this.setState({loader: false, btnPressed: false});
         });
-
     } else {
-
       // //console.log("error", this.state)
 
-      this.setState({ loader: false, btnPressed: false });
+      this.setState({loader: false, btnPressed: false});
       alert('Please Complete fields!');
-
     }
   };
 
@@ -271,11 +262,9 @@ class SignUp extends Component {
       flagphone,
       flagpassword,
       flag_confirm_password,
-
     } = this.state;
     return (
       <View style={Styles.container}>
-
         <Text style={Styles.text}>إنشاء حساب</Text>
         <Image
           source={require('../../assets/logo-camel.png')}
@@ -286,22 +275,22 @@ class SignUp extends Component {
             margin: 15,
           }}></Image>
 
-
-
         <View style={Styles.cardsignup}>
           <TextInput
             style={Styles.inputs}
             placeholder={ArabicText.Name}
             placeholderTextColor="#000000"
-            onChangeText={text => this.setState({ name: text })}></TextInput>
-          {flagname == true && <Text
-            style={{
-              color: "crimson",
-              fontSize: 12,
-              textAlign: "right",
-
-            }}
-          >يجب أن يحتوي الاسم على 3 أحرف على الأقل</Text>}
+            onChangeText={text => this.setState({name: text})}></TextInput>
+          {flagname == true && (
+            <Text
+              style={{
+                color: 'crimson',
+                fontSize: 12,
+                textAlign: 'right',
+              }}>
+              يجب أن يحتوي الاسم على 3 أحرف على الأقل
+            </Text>
+          )}
 
           <TextInput
             style={Styles.inputs}
@@ -309,70 +298,110 @@ class SignUp extends Component {
             keyboardType="numeric"
             maxLength={11}
             placeholderTextColor="#000000"
-            onChangeText={text => this.setState({ phone: text })}></TextInput>
-          {flagphone == true && <Text
-            style={{
-              color: "crimson",
-              fontSize: 12,
-              textAlign: "right",
-            }}>
-            يجب أن يحتوي رقم الهاتف على أرقام فقط</Text>}
+            onChangeText={text => this.setState({phone: text})}></TextInput>
+          {flagphone == true && (
+            <Text
+              style={{
+                color: 'crimson',
+                fontSize: 12,
+                textAlign: 'right',
+              }}>
+              يجب أن يحتوي رقم الهاتف على أرقام فقط
+            </Text>
+          )}
 
-          <View style={[Styles.inputs, { flexDirection: "row", alignItems: "center", justifyContent: "space-between" }]}>
-
-            {this.state.hidePassword === true ? <Ionicons name='eye' size={18} color="brown"
-              onPress={() => this.setState({ hidePassword: false })}
-            /> :
-              <Ionicons name='eye-off' size={18} color="brown"
-                onPress={() => this.setState({ hidePassword: true })}
-              />}
+          <View
+            style={[
+              Styles.inputs,
+              {
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              },
+            ]}>
+            {this.state.hidePassword === true ? (
+              <Ionicons
+                name="eye"
+                size={18}
+                color="brown"
+                onPress={() => this.setState({hidePassword: false})}
+              />
+            ) : (
+              <Ionicons
+                name="eye-off"
+                size={18}
+                color="brown"
+                onPress={() => this.setState({hidePassword: true})}
+              />
+            )}
 
             <TextInput
-              style={{ textAlign: "right", color: "black" }}
+              style={{textAlign: 'right', color: 'black'}}
               placeholderTextColor="#000000"
               placeholder={ArabicText.passwords}
-              onChangeText={text => this.setState({ password: text })}
-              secureTextEntry={this.state.hidePassword} />
+              onChangeText={text => this.setState({password: text})}
+              secureTextEntry={this.state.hidePassword}
+            />
           </View>
 
-          {flagpassword == true && <Text
-            style={{
-              color: "crimson",
-              fontSize: 12,
-              textAlign: "right",
-            }}
-          >يجب أن يحتوي الاسم على 4 أحرف على الأقل</Text>}
+          {flagpassword == true && (
+            <Text
+              style={{
+                color: 'crimson',
+                fontSize: 12,
+                textAlign: 'right',
+              }}>
+              يجب أن يحتوي الاسم على 4 أحرف على الأقل
+            </Text>
+          )}
 
-          <View style={[Styles.inputs, { flexDirection: "row", alignItems: "center", justifyContent: "space-between" }]}>
-
-            {this.state.hideConfirmPassword === true ? <Ionicons name='eye' size={18} color="brown"
-              onPress={() => this.setState({ hideConfirmPassword: false })}
-            /> :
-              <Ionicons name='eye-off' size={18} color="brown"
-                onPress={() => this.setState({ hideConfirmPassword: true })}
-              />}
+          <View
+            style={[
+              Styles.inputs,
+              {
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              },
+            ]}>
+            {this.state.hideConfirmPassword === true ? (
+              <Ionicons
+                name="eye"
+                size={18}
+                color="brown"
+                onPress={() => this.setState({hideConfirmPassword: false})}
+              />
+            ) : (
+              <Ionicons
+                name="eye-off"
+                size={18}
+                color="brown"
+                onPress={() => this.setState({hideConfirmPassword: true})}
+              />
+            )}
 
             <TextInput
-              style={{ textAlign: "right", color: "black" }}
+              style={{textAlign: 'right', color: 'black'}}
               placeholderTextColor="#000000"
               placeholder={ArabicText.confirm_password}
-              onChangeText={text => this.setState({ confirm_password: text })}
-              secureTextEntry={this.state.hideConfirmPassword} />
+              onChangeText={text => this.setState({confirm_password: text})}
+              secureTextEntry={this.state.hideConfirmPassword}
+            />
           </View>
 
-          {flag_confirm_password == true && <Text
-            style={{
-              color: "crimson",
-              fontSize: 12,
-              textAlign: "right",
-
-            }}
-          >يجب أن يحتوي الاسم على 4 أحرف على الأقل</Text>}
-
-
+          {flag_confirm_password == true && (
+            <Text
+              style={{
+                color: 'crimson',
+                fontSize: 12,
+                textAlign: 'right',
+              }}>
+              يجب أن يحتوي الاسم على 4 أحرف على الأقل
+            </Text>
+          )}
         </View>
 
-        <TouchableOpacity style={{ alignSelf: 'flex-end' }}>
+        <TouchableOpacity style={{alignSelf: 'flex-end'}}>
           <Text
             style={{
               color: '#d2691e',
@@ -388,41 +417,42 @@ class SignUp extends Component {
         <TouchableOpacity
           onPress={() => {
             if (this.state.btnPressed != true) {
-
               this.createAnAccount();
-
             } else {
-              console.log("Waiting For Response")
+              console.log('Waiting For Response');
             }
-
-
           }}
-          style={{ alignSelf: 'center', margin: 10 }}>
-          <View style={[Styles.btn, {
-            backgroundColor: this.state.loader == false ? '#8b4513' : "#cccbca",
-
-          }]}>
-            {this.state.loader &&
-              <ActivityIndicator size="large" color='#D2691Eff' animating={this.state.loader} />
-            }
-            {this.state.loader == false &&
-              <Text style={Styles.textbtn}
-              >{ArabicText.signUp}</Text>
-            }
-
+          style={{alignSelf: 'center', margin: 10}}>
+          <View
+            style={[
+              Styles.btn,
+              {
+                backgroundColor:
+                  this.state.loader == false ? '#8b4513' : '#cccbca',
+              },
+            ]}>
+            {this.state.loader && (
+              <ActivityIndicator
+                size="large"
+                color="#D2691Eff"
+                animating={this.state.loader}
+              />
+            )}
+            {this.state.loader == false && (
+              <Text style={Styles.textbtn}>{ArabicText.signUp}</Text>
+            )}
           </View>
         </TouchableOpacity>
-
 
         <Modal
           animationType="slide"
           transparent={true}
           visible={this.state.modalVisible}
           onRequestClose={() => {
-            this.setState({ modalVisible: false });
+            this.setState({modalVisible: false});
           }}>
           {this.state.otp === true && (
-            <View style={{ flex: 1 }}>
+            <View style={{flex: 1}}>
               <View
                 style={{
                   flex: 1,
@@ -443,13 +473,13 @@ class SignUp extends Component {
                   handleTextChange={e => {
                     if (parseInt(e) == this.state.randomIndex) {
                       // setTimeout(() => {
-                      this.setState({ otp: false, loader: true });
+                      this.setState({otp: false, loader: true});
 
                       setTimeout(() => {
-                        this.setState({ checked: true, loader: false });
+                        this.setState({checked: true, loader: false});
 
                         setTimeout(() => {
-                          this.setState({ checked: false, modalVisible: false });
+                          this.setState({checked: false, modalVisible: false});
                           this.props.navigation.navigate('Home');
                         }, 1000);
                       }, 1000);

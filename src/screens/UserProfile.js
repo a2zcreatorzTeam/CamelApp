@@ -294,7 +294,7 @@ class UserProfile extends Component {
     }
   }
 
-  postViewed = async item => {
+  postViewed = async (item, viewCount, setViewCount) => {
     this.setState({loading: false});
     let {user} = this.props;
     user = user?.user?.user;
@@ -306,7 +306,10 @@ class UserProfile extends Component {
           post_id: post_id,
         })
         .then(response => {
-          console.log('responsedata338', response.data);
+          console.log(response, "responsesese");
+          if (response?.data?.message !== 'Already Viewed') {
+            setViewCount(viewCount + 1);
+          }
         })
         .catch(error => {
           console.log('error', error);
@@ -430,7 +433,9 @@ class UserProfile extends Component {
           pausedCheck={this.state.pausedCheck}
           pauseCheckHandler={txt => this.setState({pausedCheck: txt})}
           flagForLike={item?.flagForLike}
-          postViewed={() => this.postViewed(item)}
+          postViewed={(viewCount, setViewCount) =>
+            this.postViewed(item, viewCount, setViewCount)
+          }
           user_images={item?.user_images}
           category={item?.category_name}
         />
@@ -921,6 +926,7 @@ const Item = ({
   const [modalItemType, setModalItemType] = useState('');
   const [isLiked, setIsLiked] = useState(flagForLike);
   const [likeCount, setLikeCount] = useState(likes ? likes : 0);
+  const [viewCount, setViewCount] = useState(item?.view_count);
   return (
     <Card style={{elevation: 5, marginTop: 10}}>
       <View style={Styles.homesec}>
@@ -933,7 +939,10 @@ const Item = ({
               flexDirection: 'row',
               marginTop: 5,
             }}>
-            <TouchableOpacity activeOpacity={0.99} onPress={onCategoryClick} style={Styles.btnHome2}>
+            <TouchableOpacity
+              activeOpacity={0.99}
+              onPress={onCategoryClick}
+              style={Styles.btnHome2}>
               <Text
                 style={{color: '#D2691Eff', fontWeight: 'bold', fontSize: 15}}>
                 {category}
@@ -1006,9 +1015,9 @@ const Item = ({
               : null;
           return (
             <TouchableOpacity
-            activeOpacity={0.7} 
+              activeOpacity={0.7}
               onPress={() => {
-                postViewed();
+                postViewed(viewCount, setViewCount);
                 setModal(true),
                   setModalItem(mediaSource),
                   setModalItemType(item?.type);
@@ -1100,7 +1109,7 @@ const Item = ({
           }}>
           <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
             {' '}
-            {views}
+            {viewCount}
           </Text>
           <Ionicons name="ios-eye-sharp" size={20} color="#CD853F" />
         </TouchableOpacity>

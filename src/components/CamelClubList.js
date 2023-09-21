@@ -118,7 +118,7 @@ class CamelClubList extends Component {
     this.viewPosts();
     this.setState({refreshing: false});
   }
-  postViewed = async item => {
+  postViewed = async (item, viewCount, setViewCount) => {
     this.setState({loading: false});
     let {user} = this.props;
     user = user?.user?.user;
@@ -130,7 +130,9 @@ class CamelClubList extends Component {
           post_id: post_id,
         })
         .then(response => {
-          console.log('response.data', response.data);
+          if (response?.data?.message !== 'Already Viewed') {
+            setViewCount(viewCount + 1);
+          }
         })
         .catch(error => {
           console.log('error', error);
@@ -225,7 +227,9 @@ class CamelClubList extends Component {
           imagesArray={item?.imagesArray}
           sharePost={() => sharePosts(item)}
           date={item?.date}
-          postViewed={() => this.postViewed(item)}
+          postViewed={(viewCount, setViewCount) =>
+            this.postViewed(item, viewCount, setViewCount)
+          }
         />
       );
     };

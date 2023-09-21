@@ -47,6 +47,7 @@ const Post = ({
   const [modalItemType, setModalItemType] = useState('');
   const [isLiked, setIsLiked] = useState(item?.flagForLike);
   const [likeCount, setLikeCount] = useState(item?.like_count);
+  const [viewCount, setViewCount] = useState(item?.view_count);
 
   const onUserProfileClick = async item => {
     if (item?.user_id === user?.id) {
@@ -213,14 +214,15 @@ const Post = ({
             : isVideo
             ? {uri: 'http://www.tasdeertech.com/videos/' + item?.source}
             : null;
-            console.log( 'http://www.tasdeertech.com/images/posts/' +
-            item?.source,);
+          console.log(
+            'http://www.tasdeertech.com/images/posts/' + item?.source,
+          );
           return (
             <TouchableWithoutFeedback
               key={index}
               onPress={() => {
                 console.log(item?.type);
-                postViewed();
+                postViewed(viewCount, setViewCount);
                 setModal(true),
                   setModalItem(mediaSource),
                   setModalItemType(item?.type);
@@ -520,8 +522,7 @@ const Post = ({
             marginRight: 5,
           }}>
           <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
-            {' '}
-            {view_count}
+            {viewCount}
           </Text>
           <Ionicons name="ios-eye-sharp" size={20} color="#CD853F" />
         </TouchableOpacity>

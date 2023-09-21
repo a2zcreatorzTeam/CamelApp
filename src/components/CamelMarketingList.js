@@ -155,7 +155,7 @@ class CamelMarketingList extends Component {
       this.viewPosts();
     });
   };
-  postViewed = async item => {
+  postViewed = async (item, viewCount, setViewCount) => {
     let {user} = this.props;
     user = user?.user?.user;
     let post_id = item?.id;
@@ -166,7 +166,9 @@ class CamelMarketingList extends Component {
           post_id: post_id,
         })
         .then(response => {
-          console.log('response.data', response.data);
+          if (response?.data?.message !== 'Already Viewed') {
+            setViewCount(viewCount + 1);
+          }
         })
         .catch(error => {
           console.log('error', error);
@@ -201,7 +203,9 @@ class CamelMarketingList extends Component {
           imagesArray={item?.imagesArray}
           createdDate={item?.created_at?.slice(0, 10)}
           sharePost={() => sharePosts(item)}
-          postViewed={() => this.postViewed(item)}
+          postViewed={(viewCount, setViewCount) =>
+            this.postViewed(item, viewCount, setViewCount)
+          }
         />
       );
     };

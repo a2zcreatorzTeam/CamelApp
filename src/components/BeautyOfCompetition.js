@@ -127,28 +127,7 @@ class BeautyOfCompetition extends Component {
     this.competitionDetails();
     this.setState({refreshing: false});
   }
-  postViewed = async item => {
-    this.setState({loading: false});
-    let {user} = this.props;
-    user = user?.user?.user;
-    let post_id = item?.id;
-    if (user != undefined) {
-      await camelapp
-        .post('/add/view', {
-          user_id: user?.id,
-          post_id: post_id,
-        })
-        .then(response => {
-          console.log('response.data', response.data);
-        })
-        .catch(error => {
-          console.log('error', error);
-          this.setState({loading: false});
-        });
-    } else {
-      this.props.navigation.navigate('Login');
-    }
-  };
+
   render() {
     const tagsStyles = {
       body: {

@@ -54,6 +54,7 @@ class Home extends Component {
       counta: 5,
       key: false,
       searchedItem: '',
+      viewed: false,
     };
     this.scrollRef = React.createRef();
     this.flatlistRef = React.createRef();
@@ -123,17 +124,16 @@ class Home extends Component {
         .then(res => {
           var arrayPosts = res?.data?.Posts;
           arrayPosts?.map((item, index) => {
-            console.log(item, 'kklkkllkl');
             let array = item?.img;
             let imagesArray = [];
             array?.forEach(element => {
-              console.log(element, 'emiallllekkl');
               imagesArray?.push({type: 'image', source: element});
             });
             imagesArray?.push({type: 'video', source: item?.video});
             item['imagesArray'] = imagesArray;
 
             arrayPosts[index] = item;
+            console.log(item?.view_count, 'countt');
           });
           this.setState({
             posts: arrayPosts,
@@ -149,7 +149,7 @@ class Home extends Component {
       console.log('Error Message--- view post', error);
     }
   }
-  postViewed = async item => {
+  postViewed = async (item, viewCount, setViewCount) => {
     this.setState({loading: false});
     let {user} = this.props;
     user = user?.user?.user;
@@ -161,7 +161,9 @@ class Home extends Component {
           post_id: post_id,
         })
         .then(response => {
-          console.log('response.data', response.data);
+          if (response?.data?.message !== 'Already Viewed') {
+            setViewCount(viewCount + 1);
+          }
         })
         .catch(error => {
           console.log('error', error);
@@ -213,7 +215,7 @@ class Home extends Component {
   }
   onCategoryClick = async item => {
     if (item.category_id == '1') {
-      console.log("111");
+      console.log('111');
       this.props.navigation.navigate('CamelClubList');
     }
     if (item.category_id == '4') {
@@ -229,24 +231,24 @@ class Home extends Component {
       this.props.navigation.navigate('CamelFoodList');
     }
     if (item.category_id == '8') {
-      console.log("888");
+      console.log('888');
       this.props.navigation.navigate('CamelEquipmentList');
     }
     if (item.category_id == '7') {
-      console.log("7777");
+      console.log('7777');
       this.props.navigation.navigate('CamelEquipmentList');
     }
     if (item.category_id == '5') {
-      console.log("55555555");
+      console.log('55555555');
       this.props.navigation.navigate('CamelMovingList');
     }
     if (item.category_id == '9') {
-      console.log("9999");
+      console.log('9999');
       this.props.navigation.navigate('CamelMarketingList');
     }
 
     if (item.category_id == '11') {
-      console.log("11111134");
+      console.log('11111134');
       this.props.navigation.navigate('FemaleList');
     }
   };
@@ -571,7 +573,9 @@ class Home extends Component {
           sharePost={sharePosts}
           flagForVideo={false}
           createdDate={item?.created_at?.slice(0, 10)}
-          postViewed={() => postViewed(item)}
+          postViewed={(viewCount, setViewCount) =>
+            postViewed(item, viewCount, setViewCount)
+          }
         />
       );
     };

@@ -354,7 +354,7 @@ class Profile extends Component {
     this.setState({refreshing: false});
   }
 
-  postViewed = async item => {
+  postViewed = async (item, viewCount, setViewCount) => {
     this.setState({loading: false});
     let {user} = this.props;
     user = user?.user?.user;
@@ -367,7 +367,9 @@ class Profile extends Component {
           post_id: post_id,
         })
         .then(response => {
-          console.log('response.data', response.data);
+          if (response?.data?.message !== 'Already Viewed') {
+            setViewCount(viewCount + 1);
+          }
         })
         .catch(error => {
           console.log('error', error);
@@ -650,7 +652,9 @@ class Profile extends Component {
           pausedCheck={this.state.pausedCheck}
           pauseCheckHandler={txt => this.setState({pausedCheck: txt})}
           flagForLike={item?.flagForLike}
-          postViewed={() => this.postViewed(item)}
+          postViewed={(viewCount, setViewCount) =>
+            this.postViewed(item, viewCount, setViewCount)
+          }
         />
       );
     };
@@ -1096,6 +1100,7 @@ const Item = ({
   const [modalItemType, setModalItemType] = useState('');
   const [isLiked, setIsLiked] = useState(flagForLike);
   const [likeCount, setLikeCount] = useState(likes ? likes : 0);
+  const [viewCount, setViewCount] = useState(item?.view_count);
 
   return (
     <Card style={{elevation: 5, marginTop: 10}}>
@@ -1186,7 +1191,7 @@ const Item = ({
           return (
             <TouchableOpacity
               onPress={() => {
-                postViewed();
+                postViewed(viewCount, setViewCount);
                 setModal(true),
                   setModalItem(mediaSource),
                   setModalItemType(item?.type);
@@ -1279,7 +1284,7 @@ const Item = ({
           }}>
           <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
             {' '}
-            {views}
+            {viewCount}
           </Text>
           <Ionicons name="ios-eye-sharp" size={20} color="#CD853F" />
         </TouchableOpacity>

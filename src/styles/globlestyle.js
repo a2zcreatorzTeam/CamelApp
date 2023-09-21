@@ -538,7 +538,6 @@ export const Styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
     alignItems: 'center',
-    // justifyContent: 'center',
     width: width,
     marginTop: Platform.OS === 'android' ? 15 : 0,
   },

@@ -37,9 +37,9 @@ class Bids extends Component {
           user_id: user.user.user.id,
         })
         .then(res => {
-          // console.log(res?.data?.bids, 'responseeesese41');
+          console.log(res?.data?.bids, 'responseeesese41');
           this.setState({
-            posts: res.data,
+            posts: res?.data?.bids,
           });
           //console.log("DATA POST", res.data.bids)
         });
@@ -114,6 +114,7 @@ class Bids extends Component {
     });
   }
   render() {
+    console.log(this.state.posts, "posts");
     const BidsItem = ({
       userName,
       userImage,
@@ -208,8 +209,8 @@ class Bids extends Component {
           contentContainerStyle={{flexGrow: 1, backgroundColor: 'red'}}
           data={this.state?.posts}
           renderItem={renderBidItem}
-          extraData={this.state}
-          refeshing={this.state.refreshing}
+          // extraData={this.state}
+          // refeshing={this.state.refreshing}
           initialNumToRender={5}
           maxToRenderPerBatch={5}
         />

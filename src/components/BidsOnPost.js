@@ -52,6 +52,7 @@ class Bids extends Component {
           //console.log("DATA POST", res.data.bids)
         });
     } catch (error) {
+      console.log('errrrr', error);
       this.setState({
         posts: [],
         loader: false,

@@ -24,6 +24,7 @@ const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 import * as ArabicText from '../language/EnglishToArabic';
 import VideoModal from './VideoModal';
+import HorizontalCarousel from './HorizontalCarousel';
 
 class CamelClubDetailsComponent extends Component {
   constructor(props) {

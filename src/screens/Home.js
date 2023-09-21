@@ -123,9 +123,11 @@ class Home extends Component {
         .then(res => {
           var arrayPosts = res?.data?.Posts;
           arrayPosts?.map((item, index) => {
+            console.log(item, 'kklkkllkl');
             let array = item?.img;
             let imagesArray = [];
             array?.forEach(element => {
+              console.log(element, 'emiallllekkl');
               imagesArray?.push({type: 'image', source: element});
             });
             imagesArray?.push({type: 'video', source: item?.video});
@@ -211,6 +213,7 @@ class Home extends Component {
   }
   onCategoryClick = async item => {
     if (item.category_id == '1') {
+      console.log("111");
       this.props.navigation.navigate('CamelClubList');
     }
     if (item.category_id == '4') {
@@ -226,19 +229,24 @@ class Home extends Component {
       this.props.navigation.navigate('CamelFoodList');
     }
     if (item.category_id == '8') {
+      console.log("888");
       this.props.navigation.navigate('CamelEquipmentList');
     }
     if (item.category_id == '7') {
+      console.log("7777");
       this.props.navigation.navigate('CamelEquipmentList');
     }
     if (item.category_id == '5') {
+      console.log("55555555");
       this.props.navigation.navigate('CamelMovingList');
     }
     if (item.category_id == '9') {
+      console.log("9999");
       this.props.navigation.navigate('CamelMarketingList');
     }
 
     if (item.category_id == '11') {
+      console.log("11111134");
       this.props.navigation.navigate('FemaleList');
     }
   };
@@ -274,11 +282,13 @@ class Home extends Component {
             });
           }
           if (item.category_id == '6') {
+            console.log('iddd66666');
             this.props.navigation.navigate('DetailsComponentWithPrice', {
               itemFromDetails: item,
             });
           }
           if (item.category_id == '8') {
+            console.log('iddd888888');
             this.props.navigation.navigate('DetailsComponentWithPrice', {
               itemFromDetails: item,
             });
@@ -330,11 +340,13 @@ class Home extends Component {
         });
       }
       if (item.category_id == '6') {
+        console.log('id6666');
         this.props.navigation.navigate('DetailsComponentWithPrice', {
           itemFromDetails: item,
         });
       }
       if (item.category_id == '8') {
+        console.log('id88888');
         this.props.navigation.navigate('DetailsComponentWithPrice', {
           itemFromDetails: item,
         });
@@ -356,7 +368,6 @@ class Home extends Component {
         });
       }
       if (item.category_id == '7') {
-        console.log("77777777777777777777777777777777777777777777777777777777777");
         this.props.navigation.navigate('DetailsComponent', {
           itemFromDetails: item,
         });

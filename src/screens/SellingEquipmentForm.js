@@ -73,6 +73,8 @@ class CamelFood extends React.Component {
     };
   }
   createPostCamelFood = async () => {
+    console.log(this.state.register_value, 'this.state.register_value');
+
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
     var combineImages;
@@ -114,6 +116,7 @@ class CamelFood extends React.Component {
 
       let {user} = this.props;
       let user_id = user.user.user.id;
+      console.log(this.state.register_value, 'this.state.register_value');
       camelapp
         .post('/add/equipment', {
           user_id: user_id,
@@ -126,8 +129,10 @@ class CamelFood extends React.Component {
           color: this.state.color,
           price: this.state.price,
           price_type: this.state.price_type,
+          // register: this.state.register_value,
         })
         .then(response => {
+          console.log(response?.data, 'response133');
           this.setState({
             loading: false,
             video: undefined,
@@ -138,7 +143,7 @@ class CamelFood extends React.Component {
             cameraimagesForPost: undefined,
           });
 
-          // alert(ArabicText.Post_added_successfully + '');
+          alert(ArabicText.Post_added_successfully + '');
           this.setState({
             title: '',
             description: '',
@@ -282,6 +287,7 @@ class CamelFood extends React.Component {
   }
 
   onRegisterSwitchChanged(value) {
+    console.log(value, 'valueeeee');
     this.setState({registerSwitch: value});
     if (value === false) {
       this.setState({register_value: 0});

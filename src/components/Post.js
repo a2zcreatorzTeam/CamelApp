@@ -213,10 +213,13 @@ const Post = ({
             : isVideo
             ? {uri: 'http://www.tasdeertech.com/videos/' + item?.source}
             : null;
+            console.log( 'http://www.tasdeertech.com/images/posts/' +
+            item?.source,);
           return (
             <TouchableWithoutFeedback
               key={index}
               onPress={() => {
+                console.log(item?.type);
                 postViewed();
                 setModal(true),
                   setModalItem(mediaSource),

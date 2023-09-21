@@ -114,6 +114,7 @@ class CamelFood extends React.Component {
 
       let {user} = this.props;
       let user_id = user.user.user.id;
+      console.log(this.state.register_value, 'this.state.register_value');
       camelapp
         .post('/add/food', {
           user_id: user_id,
@@ -126,8 +127,10 @@ class CamelFood extends React.Component {
           color: this.state.color,
           price: this.state.price,
           price_type: this.state.price_type,
+          // register: this.state.register_value,
         })
         .then(response => {
+          console.log(response, 'responseeee');
           this.setState({
             loading: false,
             video: undefined,
@@ -139,7 +142,6 @@ class CamelFood extends React.Component {
           });
 
           alert(ArabicText.Post_added_successfully + '');
-
           this.setState({
             title: '',
             description: '',
@@ -150,7 +152,10 @@ class CamelFood extends React.Component {
           this.props.navigation.replace('Home');
         })
         .catch(error => {
-          //console.log("error", error.response)
+          console.log('error', error.response);
+          this.setState({
+            loading: false,
+          });
         });
     } else {
       alert(ArabicText.Please_complete_the_fields + '');

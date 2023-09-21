@@ -407,7 +407,7 @@ class CamelClubList extends Component {
             }
           });
       } catch (error) {
-        //console.log("Error Message get competition List", error);
+        console.log("Error Message get competition List", error);
       }
     };
     const {posts, filterPosts, searchedItem, loader} = this.state;

@@ -147,7 +147,7 @@ class SellingCamel extends React.Component {
             cameraimage: [],
             cameraimagesForPost: undefined,
           });
-          // alert(ArabicText.Post_added_successfully + '');
+          alert(ArabicText.Post_added_successfully + '');
 
           this.setState({
             title: '',
@@ -303,7 +303,7 @@ class SellingCamel extends React.Component {
       });
   }
   onRegisterSwitchChanged(value) {
-    //console.log(" ----- value", value)
+    console.log(" ----- value", value)
 
     this.setState({registerSwitch: value});
     if (value === false) {

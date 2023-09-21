@@ -234,6 +234,7 @@ class MissingCamelForm extends Component {
           video: this.state.videoForPost,
         })
         .then(response => {
+          console.log(response, "resp[onse");
           this.setState({
             loading: false,
             video: undefined,

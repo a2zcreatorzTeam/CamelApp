@@ -82,20 +82,21 @@ class Comments extends Component {
     });
   };
   onLikesClick = item => {
+    console.log( item.id," item.id");
     this.setState({loading: true});
     let user = this.state.user;
     let post_id = this.props.route.params.post.id;
     if (user != undefined) {
       camelapp
         .post('/comment/like', {
-          user_id: user_id,
+          user_id: user?.id,
           comment_id: item.id,
         })
         .then(response => {
+          console.log(response?.data, 'responseee95');
           this.getCommentsOnPost();
           if (response.data.status == true) {
             this.setState({loading: false});
-            // alert(ArabicText.Succesfully_liked);
           }
           if (response.data.status == false) {
             this.setState({loading: false});
@@ -114,10 +115,10 @@ class Comments extends Component {
     const {searchedItem} = this.state;
     await camelapp
       .post('/get/comment', {
-        post_id: this.props.route.params.post.id,
+        post_id: this.props.route.params?.post?.id,
       })
       .then(res => {
-        this.setState({commentsList: res.data, loader: false});
+        this.setState({commentsList: res?.data, loader: false});
         searchedItem && this.searchHandler(searchedItem);
       });
   };

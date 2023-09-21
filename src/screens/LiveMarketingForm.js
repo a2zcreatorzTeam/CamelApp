@@ -235,7 +235,7 @@ class CamelClub extends Component {
         })
         .then(response => {
           this.setState({loading: false});
-          // alert(ArabicText.Post_added_successfully);
+          alert(ArabicText.Post_added_successfully);
           // this.props.navigation.navigate('Home');
           this.props.navigation.goBack();
         })

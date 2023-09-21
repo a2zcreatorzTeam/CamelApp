@@ -25,15 +25,17 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ArabicText from '../language/EnglishToArabic';
 import camelapp from '../api/camelapp';
+import {useState} from 'react';
+import PostItem from './CompetitionPostItem';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 class BeautyOfCompetition extends Component {
   constructor(props) {
     super(props);
-    console.log(
-      props.route.params.competition_item[0]?.competition_posts,
-      'props.route.params.competition_item[0].competition_posts',
-    );
+    // console.log(
+    //   props.route.params.competition_item[0]?.competition_posts,
+    //   'props.route.params.competition_item[0].competition_posts',
+    // );
     this.state = {
       posts: props.route.params.competition_item[0]?.competition_posts,
       competition: props.route.params.competition_item?.length
@@ -66,19 +68,22 @@ class BeautyOfCompetition extends Component {
   }
   async competitionDetails() {
     try {
+      let {user} = this.props;
+      user = user.user.user;
       return await camelapp
         .post('/get/competition_details', {
           competition_id:
             this.props.route.params.competition_item[0].competition[0].id,
+          user_id: user?.id,
         })
         .then(res => {
-          console.log('res', res.data[0]['posts']);
+          const arr = res?.data;
           this.setState({
-            posts: res.data[0]['posts'],
+            posts: res?.data?.competition_posts,
           });
         });
     } catch (error) {
-      //console.log("Error Message get competition List", error);
+      console.log('Error Message get competition List', error);
     }
   }
   componentDidMount() {
@@ -86,22 +91,22 @@ class BeautyOfCompetition extends Component {
 
     let date = new Date();
 
-    console.log('DAte', date.getDate());
-    console.log('month', date.getMonth());
-    console.log('year', date.getFullYear());
+    // console.log('DAte', date.getDate());
+    // console.log('month', date.getMonth());
+    // console.log('year', date.getFullYear());
 
     let tempDate =
       date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
 
-    console.log('tempDate', Date.parse(tempDate));
-    console.log(
-      'this.props.route.params.competition_item[0].competition.end_date',
-      this.props.route.params.competition_item[0],
-    );
-    console.log(
-      'this.props.route.params.competition_item[0].competition.start_date',
-      this.props.route.params.competition_item,
-    );
+    // console.log('tempDate', Date.parse(tempDate));
+    // console.log(
+    //   'this.props.route.params.competition_item[0].competition.end_date',
+    //   this.props.route.params.competition_item[0],
+    // );
+    // console.log(
+    //   'this.props.route.params.competition_item[0].competition.start_date',
+    //   this.props.route.params.competition_item,
+    // );
 
     this.setState({
       start_date: Date.parse(
@@ -153,52 +158,64 @@ class BeautyOfCompetition extends Component {
         width: '95%',
       },
     };
-    const PostItem = ({image, likeCount, commentCount}) => (
-      <View style={{margin: 10}}>
-        <View style={Styles.BeautyOpacity}>
-          <Image
-            source={{
-              uri: 'http://www.tasdeertech.com/images/posts/' + image,
-            }}
-            style={Styles.BeautyImages}
-            resizeMode="cover"></Image>
-        </View>
 
-        <View
-          style={{
-            backgroundColor: '#ffffff',
-            position: 'absolute',
-            alignItems: 'center',
-            bottom: 5,
-            width: 80,
-            padding: 10,
-            borderRadius: 15,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-          <View
-            // style={{ left: 10, position: 'absolute', bottom: 0 }}
-            style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={{marginRight: 5, color: 'black'}}>{commentCount}</Text>
-
-            <Feather name="message-square" size={16} color="#CD853F" />
-          </View>
-
-          <View
-            style={{flexDirection: 'row', alignItems: 'center'}}
-            // style={{ left: 40, position: 'absolute', bottom: 0 }}
-          >
-            <Text
-              style={{marginRight: 5, color: 'black'}}
-              // style={{ left: 60, position: 'absolute', bottom: 0 }}
-            >
-              {likeCount}
-            </Text>
-            <AntDesign name="hearto" size={16} color="#CD853F" />
-          </View>
-        </View>
-      </View>
-    );
+    // COMMENT
+    onCommentsClick = async item => {
+      let {user} = this.props;
+      user = user.user.user;
+      let post_id = item.id;
+      if (user != undefined) {
+        await camelapp
+          .post('/get/comment', {
+            post_id: post_id,
+            user_id: user.id,
+          })
+          .then(res => {
+            this.props.navigation.navigate('Comments', {
+              commentsForPost: res,
+              user: user,
+              post: item,
+            });
+            this.viewPosts();
+          });
+      } else {
+        this.props.navigation.navigate('Login');
+      }
+    };
+    // LIKE
+    onLikesClick = async (item, setIsLiked, setLikeCount) => {
+      this.setState({loading: false});
+      let {user} = this.props;
+      user = user.user.user;
+      let post_id = item.id;
+      // console.log(user.id, post_id, item?.competition_id);
+      if (user != undefined) {
+        await camelapp
+          .post('/add/like', {
+            user_id: user.id,
+            post_id: post_id,
+            competition_id:
+              this.props.route.params.competition_item[0].competition[0].id,
+          })
+          .then(response => {
+            console.log(response?.data, 'response123');
+            if (response.data.message == 'Successfully liked') {
+              setIsLiked(true);
+              setLikeCount(response?.data?.total_likes);
+            }
+            if (response.data.message == 'Successfully Unliked') {
+              setIsLiked(false);
+              setLikeCount(response?.data?.total_likes);
+            }
+          })
+          .catch(error => {
+            console.log('error', error);
+            this.setState({loading: false});
+          });
+      } else {
+        this.props.navigation.navigate('Login');
+      }
+    };
     const renderPostItem = ({item}) => {
       return (
         <PostItem
@@ -206,6 +223,12 @@ class BeautyOfCompetition extends Component {
           image={[item?.img]?.length ? item?.img[0] : ''}
           commentCount={item?.comment_count}
           likeCount={item?.like_count}
+          postLike={(item, setIsLiked, setLikeCount) =>
+            onLikesClick(item, setIsLiked, setLikeCount)
+          }
+          postComment={() => {
+            onCommentsClick(item);
+          }}
         />
       );
     };
@@ -229,7 +252,7 @@ class BeautyOfCompetition extends Component {
       </View>
     );
     const renderSponserItem = ({item}) => {
-      console.log(item, 'itemmmm');
+      // console.log(item, 'itemmmm');
       return <SponsorItem item={item} name={item.name} image={item.image} />;
     };
     return (
@@ -306,10 +329,10 @@ class BeautyOfCompetition extends Component {
                     <Text style={{margin: 5, color: 'black'}}>
                       {ArabicText.How_to_Participate}
                     </Text>
-                    {console.log(
+                    {/* {console.log(
                       this.state.competition,
                       'this.state.competition[0]?.procedure',
-                    )}
+                    )} */}
                     <View style={{padding: 10}}>
                       <HTML
                         tagsStyles={tagsStyles}

@@ -22,6 +22,7 @@ import Loader from '../components/PleaseWait';
 import {Card} from 'react-native-paper';
 import * as ArabicText from '../language/EnglishToArabic';
 import Header from '../components/Header';
+import Item from '../components/commentItem';
 const {width} = Dimensions.get('screen');
 class Comments extends Component {
   constructor(props) {
@@ -81,8 +82,8 @@ class Comments extends Component {
       flagForReplyComment: true,
     });
   };
-  onLikesClick = item => {
-    console.log( item.id," item.id");
+  onLikesClick = (item, setIsLiked, setLikeCount) => {
+    console.log(item.id, ' item.id');
     this.setState({loading: true});
     let user = this.state.user;
     let post_id = this.props.route.params.post.id;
@@ -93,12 +94,18 @@ class Comments extends Component {
           comment_id: item.id,
         })
         .then(response => {
-          console.log(response?.data, 'responseee95');
-          this.getCommentsOnPost();
-          if (response.data.status == true) {
+          console.log(response.data, 'responseee95');
+          // this.getCommentsOnPost();
+          if (response.data.message == 'Successfully liked') {
+            console.log('likeddd');
+            setIsLiked(true);
+            setLikeCount(response?.data?.total_likes);
             this.setState({loading: false});
           }
-          if (response.data.status == false) {
+          if (response.data.message == 'Successfully Unliked') {
+            console.log('Unlikeddd');
+            setIsLiked(false);
+            setLikeCount(response?.data?.total_likes);
             this.setState({loading: false});
             // alert(ArabicText.Successfully_Unliked);
           }
@@ -112,12 +119,22 @@ class Comments extends Component {
     }
   };
   getCommentsOnPost = async () => {
+    let {user} = this.props?.route.params;
+    // user = user.user.user;
+    console.log(user, 'userere');
     const {searchedItem} = this.state;
+    console.log(
+      this.props.route.params?.post?.id,
+      user?.id,
+      'this.props.route.params?.post?.id',
+    );
     await camelapp
       .post('/get/comment', {
         post_id: this.props.route.params?.post?.id,
+        user_id: user?.id,
       })
       .then(res => {
+        console.log(res?.data, 'responsee33434', searchedItem);
         this.setState({commentsList: res?.data, loader: false});
         searchedItem && this.searchHandler(searchedItem);
       });
@@ -181,132 +198,6 @@ class Comments extends Component {
     this.setState({searchText: text});
   }
   render() {
-    const Item = ({
-      userName,
-      comment,
-      userImage,
-      commentsCount,
-      onCommentsClick,
-      onLikesClick,
-      likes,
-      time,
-    }) => (
-      <Card style={{margintop: 5, marginBottom: 5, height: 80}}>
-        <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <View
-              style={{
-                alignItems: 'flex-end',
-                right: 100,
-                top: 10,
-                position: 'absolute',
-                marginBottom: 10,
-              }}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  paddingRight: 5,
-                  color: 'black',
-                  fontWeight: 'bold',
-                  textAlign: 'right',
-                }}>
-                {userName}
-              </Text>
-
-              <View
-                style={{
-                  marginVertical: 30,
-                  alignItems: 'center',
-                  // right: 130,
-                  // top: 10,
-                  // position: 'absolute',
-
-                  marginBottom: 10,
-                  flex: 1,
-                  justifyContent: 'flex-end',
-                }}>
-                <Text
-                  style={{
-                    fontSize: 10,
-                    paddingRight: 5,
-                    textAlign: 'right',
-                    color: 'black',
-                    fontWeight: 'bold',
-                  }}>
-                  {time}
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{
-                alignItems: 'center',
-                right: 130,
-                top: 10,
-                position: 'absolute',
-                marginBottom: 10,
-              }}></View>
-            <View
-              style={{
-                alignItems: 'center',
-                right: 60,
-                top: 35,
-                position: 'absolute',
-                marginBottom: 10,
-              }}>
-              <Text
-                style={{
-                  fontSize: 12,
-                  paddingRight: 5,
-                  color: 'black',
-                  textAlign: 'right',
-                }}>
-                {comment}
-              </Text>
-            </View>
-
-            <View style={Styles.user_HomeComment}>
-              <Image
-                source={{
-                  uri:
-                    'http://www.tasdeertech.com/images/profiles/' + userImage,
-                }}
-                style={{
-                  width: 35,
-                  height: 35,
-                  borderRadius: 50 / 4,
-                }}></Image>
-            </View>
-          </View>
-        </View>
-        <Card.Actions style={Styles.posticonCommentLikesSection}>
-          <Text
-            style={{
-              left: 35,
-              position: 'absolute',
-              bottom: 15,
-              color: 'black',
-            }}>
-            {commentsCount}
-          </Text>
-
-          <TouchableOpacity
-            style={{left: 20, position: 'absolute', bottom: 15}}
-            onPress={onLikesClick}>
-            <AntDesign
-              name={commentsCount > 0 ? 'heart' : 'hearto'}
-              size={14}
-              color={commentsCount > 0 ? 'red' : '#CD853F'}
-            />
-          </TouchableOpacity>
-          {/* </View> */}
-        </Card.Actions>
-      </Card>
-    );
     const renderItem = ({item}) => {
       return (
         <Item
@@ -315,9 +206,11 @@ class Comments extends Component {
           userImage={item.image}
           userName={item.name}
           time={item.created_at}
-          commentsCount={item.total_comments_like}
+          commentsCount={item.total_likes}
           onCommentsClick={() => this.onCommentsClick(item)}
-          onLikesClick={() => this.onLikesClick(item)}
+          onLikesClick={(setIsLiked, setLikeCount) =>
+            this.onLikesClick(item, setIsLiked, setLikeCount)
+          }
         />
       );
     };

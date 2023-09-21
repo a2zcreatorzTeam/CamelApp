@@ -25,7 +25,7 @@ class Bids extends Component {
       posts: [],
     };
 
-    this.viewPosts();
+    // this.viewPosts();
   }
 
   async viewPosts() {
@@ -37,7 +37,7 @@ class Bids extends Component {
           user_id: user.user.user.id,
         })
         .then(res => {
-          console.log(res?.data?.bids, 'responseeesese41');
+          // console.log(res?.data?.bids, 'responseeesese41');
           this.setState({
             posts: res.data,
           });
@@ -204,7 +204,9 @@ class Bids extends Component {
     return (
       <View style={Styles.containerBids}>
         <FlatList
-          data={this.state.posts}
+          style={{flex: 1}}
+          contentContainerStyle={{flexGrow: 1, backgroundColor: 'red'}}
+          data={this.state?.posts}
           renderItem={renderBidItem}
           extraData={this.state}
           refeshing={this.state.refreshing}

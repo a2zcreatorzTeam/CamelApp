@@ -143,23 +143,24 @@ class BeautyOfCompetition extends Component {
       let {user} = this.props;
       user = user.user.user;
       let post_id = item.id;
-      if (user != undefined) {
-        await camelapp
-          .post('/get/comment', {
-            post_id: post_id,
-            user_id: user.id,
-          })
-          .then(res => {
-            this.props.navigation.navigate('Comments', {
-              commentsForPost: res,
-              user: user,
-              post: item,
-            });
-            this.viewPosts();
-          });
-      } else {
-        this.props.navigation.navigate('Login');
-      }
+      // if (user != undefined) {
+      // await camelapp
+      //   .post('/get/comment', {
+      //     post_id: post_id,
+      //     user_id: user.id,
+      //   })
+      //   .then(res => {
+      //     console.log(res?.data, "response15333");
+      this.props.navigation.navigate('Comments', {
+        user: user,
+        post: item,
+      });
+      // this.viewPosts();
+      // });
+      // }
+      // else {
+      //   this.props.navigation.navigate('Login');
+      // }
     };
     // LIKE
     onLikesClick = async (item, setIsLiked, setLikeCount) => {

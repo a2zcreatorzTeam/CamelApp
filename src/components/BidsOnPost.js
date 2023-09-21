@@ -213,14 +213,14 @@ class Bids extends Component {
     return (
       <View style={Styles.containerBids}>
         {/* {this.state.loader == false && <Loader />} */}
-        <FlatList
+        {/* <FlatList
           data={this.state.posts}
           renderItem={renderBidItem}
           extraData={this.state}
           refeshing={this.state.refreshing}
           initialNumToRender={5}
           maxToRenderPerBatch={5}
-        />
+        /> */}
       </View>
     );
   }

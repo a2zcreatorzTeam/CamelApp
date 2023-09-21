@@ -34,9 +34,9 @@ class Bids extends Component {
 
   async viewPosts() {
     try {
-      this.setState({
-        loader: true,
-      });
+      // this.setState({
+      //   loader: true,
+      // });
       let {user} = this.props;
       //console.log('user', user.user.user.id);
       return await camelapp
@@ -45,10 +45,10 @@ class Bids extends Component {
         })
         .then(res => {
           console.log(res?.data, 'responseeeseses47');
-          this.setState({
-            posts: res.data.bids,
-            loader: false,
-          });
+          // this.setState({
+          //   posts: res.data.bids,
+          //   loader: false,
+          // });
           //console.log("DATA POST", res.data.bids)
         });
     } catch (error) {

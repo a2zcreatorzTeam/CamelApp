@@ -264,7 +264,7 @@ const Post = ({
                     {pausedCheck && (
                       <Image
                         activeOpacity={0.4}
-                        source={require('../../assets/camel3.png')}
+                        source={require('../../assets/camel.png')}
                         resizeMode={'cover'}
                         style={[
                           Styles.image,

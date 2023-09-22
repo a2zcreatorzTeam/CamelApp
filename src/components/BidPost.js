@@ -16,6 +16,7 @@ import {bindActionCreators} from 'redux';
 import camelapp from '../api/camelapp';
 
 import {Dimensions} from 'react-native';
+import {RefreshControl} from 'react-native';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 class Bids extends Component {
@@ -23,6 +24,8 @@ class Bids extends Component {
     super(props);
     this.state = {
       posts: [],
+      refreshing: false,
+      key: false,
     };
 
     // this.viewPosts();
@@ -31,75 +34,74 @@ class Bids extends Component {
   async viewPosts() {
     try {
       let {user} = this.props;
+      const {key} = this.state;
       //console.log('user', user.user.user.id);
       return await camelapp
         .post('/get/bids', {
           user_id: user.user.user.id,
         })
         .then(res => {
-          console.log(res?.data?.bids, 'responseeesese41');
           this.setState({
             posts: res?.data?.bids,
+            key: !key,
           });
-          //console.log("DATA POST", res.data.bids)
         });
-    } catch (error) {
-      //console.log("Error Message--- view post", error.response);
-    }
+    } catch (error) {}
   }
   componentDidMount() {
     this.viewPosts();
   }
+  ScrollToRefresh() {
+    this.viewPosts();
+    this.setState({refreshing: false});
+  }
 
   onViewPostClick(item) {
-    //console.log("item", item)
-    if (item.post.category_id == '1') {
-      this.props.navigation.navigate('CamelClubDetailsComponent', {
-        itemFromDetails: item.post,
-      });
-    }
-
-    if (item.post.category_id == '4') {
-      this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
-        itemFromDetails: item.post,
-      });
-    }
-    if (item.post.category_id == '3') {
-      this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
-        itemFromDetails: item.post,
-      });
-    }
-    if (item.post.category_id == '2') {
-      this.props.navigation.navigate('DetailsSellingCamel', {
-        itemFromDetails: item.post,
-      });
-    }
-    if (item.post.category_id == '6') {
-      this.props.navigation.navigate('DetailsComponentWithPrice', {
-        itemFromDetails: item.post,
-      });
-    }
-    if (item.post.category_id == '8') {
-      this.props.navigation.navigate('DetailsComponentWithPrice', {
-        itemFromDetails: item.post,
-      });
-    }
-    if (item.post.category_id == '5') {
-      this.props.navigation.navigate('DetailsMovingCamel', {
-        itemFromDetails: item.post,
-      });
-    }
-    if (item.post.category_id == '9') {
-      this.props.navigation.navigate('DetailsMarketingCamel', {
-        itemFromDetails: item.post,
-      });
-    }
-
-    if (item.post.category_id == '11') {
-      this.props.navigation.navigate('DetailsFemaleCamel', {
-        itemFromDetails: item.post,
-      });
-    }
+    // if (item.post.category_id == '1') {
+    //   this.props.navigation.navigate('CamelClubDetailsComponent', {
+    //     itemFromDetails: item.post,
+    //   });
+    // }
+    // if (item.post.category_id == '4') {
+    //   this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
+    //     itemFromDetails: item.post,
+    //   });
+    // }
+    // if (item.post.category_id == '3') {
+    //   this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
+    //     itemFromDetails: item.post,
+    //   });
+    // }
+    // if (item.post.category_id == '2') {
+    //   this.props.navigation.navigate('DetailsSellingCamel', {
+    //     itemFromDetails: item.post,
+    //   });
+    // }
+    // if (item.post.category_id == '6') {
+    //   this.props.navigation.navigate('DetailsComponentWithPrice', {
+    //     itemFromDetails: item.post,
+    //   });
+    // }
+    // if (item.post.category_id == '8') {
+    //   this.props.navigation.navigate('DetailsComponentWithPrice', {
+    //     itemFromDetails: item.post,
+    //   });
+    // }
+    // if (item.post.category_id == '5') {
+    //   this.props.navigation.navigate('DetailsMovingCamel', {
+    //     itemFromDetails: item.post,
+    //   });
+    // }
+    // if (item.post.category_id == '9') {
+    //   this.props.navigation.navigate('DetailsMarketingCamel', {
+    //     itemFromDetails: item.post,
+    //   });
+    // }
+    // if (item.post.category_id == '11') {
+    //   this.props.navigation.navigate('DetailsFemaleCamel', {
+    //     itemFromDetails: item.post,
+    //   });
+    // }
   }
 
   onWithdrawBid(item) {
@@ -114,7 +116,7 @@ class Bids extends Component {
     });
   }
   render() {
-    console.log(this.state.posts, "posts");
+    const {key} = this.state;
     const BidsItem = ({
       userName,
       userImage,
@@ -175,7 +177,7 @@ class Bids extends Component {
             style={Styles.bidsButtonAccept}
             onPress={onWithdrawBid}>
             <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
-              {ArabicText.WithDraw}
+              {ArabicText?.WithDraw}
             </Text>
           </TouchableOpacity>
 
@@ -183,7 +185,7 @@ class Bids extends Component {
             style={Styles.bidsButtonAccept}
             onPress={onViewPost}>
             <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
-              {ArabicText.View_Post}
+              {ArabicText?.View_Post}
             </Text>
           </TouchableOpacity>
         </View>
@@ -205,12 +207,17 @@ class Bids extends Component {
     return (
       <View style={Styles.containerBids}>
         <FlatList
+          key={key}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={() => this.ScrollToRefresh()}
+            />
+          }
           style={{flex: 1}}
-          contentContainerStyle={{flexGrow: 1, backgroundColor: 'red'}}
+          contentContainerStyle={{flexGrow: 1}}
           data={this.state?.posts}
           renderItem={renderBidItem}
-          // extraData={this.state}
-          // refeshing={this.state.refreshing}
           initialNumToRender={5}
           maxToRenderPerBatch={5}
         />

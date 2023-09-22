@@ -44,12 +44,10 @@ class Bids extends Component {
           user_id: user.user.user.id,
         })
         .then(res => {
-          console.log(res?.data, 'responseeeseses47');
           this.setState({
-            posts: res.data.bids,
-            loader: false,
+            // posts: res.data.bids,
+            // loader: false,
           });
-          console.log("DATA POST", res.data.bids)
         });
     } catch (error) {
       console.log('errrrr', error);
@@ -60,7 +58,6 @@ class Bids extends Component {
       //console.log("Error Message--- view post", error.response);
     }
   }
-
   onViewPostClick(item) {
     //console.log("item", item)
     if (item.post.category_id == '1') {
@@ -111,7 +108,6 @@ class Bids extends Component {
       });
     }
   }
-
   onWithdrawBid(item) {
     //console.log("bid item", item)
     withdrawBid(item.id).then(res => {
@@ -198,7 +194,6 @@ class Bids extends Component {
         </View>
       </View>
     );
-
     const renderBidItem = item => {
       return (
         <BidsItem

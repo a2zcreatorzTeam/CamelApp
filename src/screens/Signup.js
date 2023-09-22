@@ -318,7 +318,7 @@ class SignUp extends Component {
             style={Styles.inputs}
             placeholder={ArabicText.phone}
             keyboardType="numeric"
-            maxLength={11}
+            maxLength={10}
             placeholderTextColor="#000000"
             onChangeText={text => this.setState({phone: text})}></TextInput>
           {flagphone == true && (

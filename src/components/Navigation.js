@@ -121,7 +121,7 @@ export default function Navigation() {
         <Stack.Screen
           name="Login"
           component={Login}
-          options={{headerShown: false}}
+          options={{headerShown: false,gestureEnabled: false}}
         />
         <Stack.Screen
           name="CamelFoodList"

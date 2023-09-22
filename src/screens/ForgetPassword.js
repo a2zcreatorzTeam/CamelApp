@@ -39,10 +39,11 @@ class ForgetPassword extends Component {
     if (this.state.phone.length > 9) {
       this.setState({btnPressed: true, loader: true});
       camelapp.get('checkemail?phone=' + this.state.phone).then(response => {
-        console.log("response check phone", response.data)
+        console.log('response check phone', response.data);
         let number = 0;
         do {
           number = Math.floor(Math.random() * 10000) + 1;
+          alert(number);
           //console.log('number', number);
         } while (number < 1000 || number > 10000);
         if (response.data.status === false) {
@@ -53,9 +54,9 @@ class ForgetPassword extends Component {
               message: number,
             })
             .then(response => {
-              console.log(response, "response56");
+              console.log(response, 'response56');
               if (response.data.status === true) {
-                  alert("Opt sent to your Phone Number")
+                alert('Opt sent to your Phone Number');
                 this.props.navigation.navigate('OtpForgetPassword', {
                   code: number,
                   phone: this.state.phone,

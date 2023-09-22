@@ -412,17 +412,15 @@ class DetailsComponent extends Component {
       flagForBid: false,
       modalOffer: false,
       pauseVideo: true,
-      price: 0,
+      price: props?.route?.params?.itemFromDetails?.price,
     };
   }
 
   componentDidMount() {
-    console.log('47777');
     // if (this.props.route.params.itemFromDetails.price_type != 'FIX') {
     //   this.setState({flagForBid: true});
     // }
   }
-
   sendMessage() {
     let {user} = this.props;
     if (user.user.user != undefined) {
@@ -444,7 +442,6 @@ class DetailsComponent extends Component {
       this.props.navigation.navigate('Login');
     }
   }
-
   placeBid() {
     let {user} = this.props;
     user = user?.user?.user;
@@ -513,7 +510,6 @@ class DetailsComponent extends Component {
       alert(ArabicText.Offer_can_not_be_less_than_base_price + '');
     }
   }
-
   render() {
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
@@ -524,6 +520,7 @@ class DetailsComponent extends Component {
             justifyContent: 'flex-end',
             paddingHorizontal: 20,
             marginTop: 15,
+            backgroundColor:'red'
           }}>
           <View style={{alignItems: 'flex-end'}}>
             <Text

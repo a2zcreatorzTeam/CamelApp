@@ -20,7 +20,8 @@ import {Dimensions} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
-
+import Loader from '../components/PleaseWait';
+import {ActivityIndicator} from 'react-native';
 class Surveyform extends Component {
   constructor(props) {
     super(props);
@@ -38,38 +39,31 @@ class Surveyform extends Component {
   }
 
   submitSurvey = item => {
-    console.log(this.state.survey.survey_details);
     let {user} = this.props;
     user = user?.user?.user;
-    // console.log('user', user);
-    // console.log('this.state.arrayForSubmit', this.state.arrayForSubmit);
     const data = {
       user_id: user?.id,
       survey_answers: this?.state?.arrayForSubmit,
     };
-
     if (user != undefined) {
       if (this?.state?.arrayForSubmit?.length !== 0) {
+        this.setState({loader: true});
         camelapp
-          .post(
-            '/add/survey',
-            {data: data},
-            // user_id: user?.id,
-            // survey_answers: this.state.arrayForSubmit,
-          )
+          .post('/add/survey', {data: data})
           .then(res => {
-            console.log('response59', res?.data?.message);
             if (res?.data?.message === 'Already Submitted') {
               alert('You have already submitted survey');
+              this.setState({loader: false});
             } else {
               if (res?.data) {
                 alert('تم إرسال الاستبيان بنجاح');
                 this.props.navigation.pop();
-                // this.props.navigation.navigate('SurveyList');
+                this.setState({loader: false});
               }
             }
           })
           .catch(err => {
+            this.setState({loader: false});
             console.log(err, 'ererrererer');
           });
       } else {
@@ -395,7 +389,16 @@ class Surveyform extends Component {
           <TouchableOpacity
             style={[Styles.btn, {position: 'absolute', bottom: 10}]}
             onPress={() => this.submitSurvey()}>
-            <Text style={Styles.textbtn}>{ArabicText.submit_survey}</Text>
+            {this.state.loader == true ? (
+              <ActivityIndicator
+                size="large"
+                color="#D2691Eff"
+                animating={this.state.loader}
+                style={{}}
+              />
+            ) : (
+              <Text style={Styles.textbtn}>{ArabicText.submit_survey}</Text>
+            )}
           </TouchableOpacity>
         ) : null}
       </View>

@@ -46,18 +46,15 @@ class DetailsMarketingCamel extends Component {
       modalItem: '',
       loadVideo: false,
     };
-
     //console.log("itemFromDetails", this.state.itemFromDetails);
   }
   componentDidMount() {
     let array = this.state.itemFromDetails.img;
     let imagesArray = [];
-
     array.forEach(element => {
       imagesArray.push({type: 'image', source: element});
     });
     imagesArray.push({type: 'video', source: this.state.itemFromDetails.video});
-
     this.setState({imagesArray: imagesArray});
   }
   onCommentsClick = () => {
@@ -82,21 +79,11 @@ class DetailsMarketingCamel extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-
   sendWhatsAppMessage() {
     let {user} = this.props;
-
     console.log('user', user.user.user);
-
     if (user?.user?.user?.id != this.state?.itemFromDetails?.user_id) {
       if (user.user.user != undefined) {
-        console.log(
-          'this.state.itemFromDetails.user_whatsapp_status',
-          this.state.itemFromDetails.user_whatsapp_status,
-        );
-
-        //console.log("user", this.state.user)
-
         if (
           this.state.itemFromDetails.user_whatsapp_status == true ||
           this.state.itemFromDetails.user_whatsapp_status == '1'
@@ -130,7 +117,6 @@ class DetailsMarketingCamel extends Component {
       alert('This is your post');
     }
   }
-
   sendMessage() {
     let {user} = this.props;
     if (user.user.user != undefined) {
@@ -153,7 +139,8 @@ class DetailsMarketingCamel extends Component {
     }
   }
   render() {
-    const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
+    const {pausedCheck, loadVideo, videoModal, modalItem, itemFromDetails} =
+      this.state;
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
         <View
@@ -205,6 +192,8 @@ class DetailsMarketingCamel extends Component {
         </View>
         <View style={Styles.containerDetails}>
           <HorizontalCarousel
+            price={itemFromDetails?.price}
+            lastBidPrice={itemFromDetails?.lastBidPrice}
             imagesArray={this.state.imagesArray}
             onPress={mediaSource => {
               this.setState({

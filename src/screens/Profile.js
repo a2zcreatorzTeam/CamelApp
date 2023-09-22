@@ -66,20 +66,6 @@ class Profile extends Component {
   checkUserLogedIn() {
     const {user} = this.props;
     if (user?.user?.user) {
-      const length = parseInt(user?.user?.posts?.length);
-      let rating = 0;
-      if (length > 30 && length < 100) {
-        rating = 1;
-      } else if (length >= 100 && length < 150) {
-        rating = 2;
-      } else if (length >= 150 && length < 200) {
-        rating = 3;
-      } else if (length >= 200 && length < 250) {
-        rating = 4;
-      } else if (length > 250) {
-        rating = 5;
-      }
-      this.setState({rating: rating});
       this.fetchUser();
     } else {
       this.props.navigation.navigate('Login');
@@ -235,6 +221,7 @@ class Profile extends Component {
     }
   };
   fetchUser() {
+    const {key} = this.state;
     this.setState({loader: true});
     let {user, actions} = this.props;
     user = user?.user?.user;
@@ -267,6 +254,22 @@ class Profile extends Component {
           this.setState({
             posts: arrayPosts,
           });
+          // RATING
+          const length = parseInt(res?.data?.posts?.length);
+          let rating = 0;
+          if (length > 30 && length < 100) {
+            rating = 1;
+          } else if (length >= 100 && length < 150) {
+            rating = 2;
+          } else if (length >= 150 && length < 200) {
+            rating = 3;
+          } else if (length >= 200 && length < 250) {
+            rating = 4;
+          } else if (length > 250) {
+            console.log('250');
+            rating = 5;
+          }
+          this.setState({rating: rating});
           this.setState({
             loader: false,
             whatsappNumber: this.props?.user?.user?.user?.whatsapp_no,
@@ -275,6 +278,7 @@ class Profile extends Component {
               this?.props?.user?.user?.user?.chat_status == 0 ? false : true,
             registerSwitch:
               this.props.user?.user?.user?.whatsapp_status == 0 ? false : true,
+            key: !key,
           });
         }
 
@@ -297,9 +301,12 @@ class Profile extends Component {
       this.setState({pausedCheck: true});
     }
   };
-  componentDidMount() {
-    this.checkUserLogedIn();
-  }
+  componentDidMount() {}
+  componentDidMount = () => {
+    this.focusListener = this.props.navigation.addListener('focus', () => {
+      this.checkUserLogedIn();
+    });
+  };
   filterPostOnDelete = item => {
     const {posts} = this.state;
     const filteredPosts = posts?.filter(val => {
@@ -440,7 +447,6 @@ class Profile extends Component {
       }
     };
     const onLikesClick = (item, setIsLiked, setLikeCount) => {
-      const {key} = this.state;
       this.setState({loading: false});
       let {user} = this.props;
       user = user?.user?.user;

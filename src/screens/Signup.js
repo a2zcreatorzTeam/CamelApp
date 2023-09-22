@@ -143,9 +143,9 @@ class SignUp extends Component {
       flagname = true;
       console.log(' name  not done', flagname);
     }
-
+    // 9660503030001
     // check phone mumber
-    if (phone.length >= 3) {
+    if (phone.length >= 3 && /^(05)[0-9]{8}$/.test(phone)) {
       this.setState({
         flagphone: false,
       });
@@ -207,13 +207,16 @@ class SignUp extends Component {
           do {
             number = Math.floor(Math.random() * 10000) + 1;
             console.log('number', number);
+            alert(number);
           } while (number < 1000 || number > 10000);
           this.setState({randomIndex: number});
           if (response.data.status === true) {
             this.setState({loader: false});
+            console.log( '966' + this.state.phone,);
             camelapp
               .post('sendsms', {
-                phone: this.state.phone,
+                phone: '966' + this.state.phone,
+                // phone: this.state.phone,
                 message: number,
               })
               .then(response => {
@@ -293,10 +296,11 @@ class SignUp extends Component {
           )}
 
           <TextInput
+            // placeholder="05xxxxxxxx"
             style={Styles.inputs}
             placeholder={ArabicText.phone}
             keyboardType="numeric"
-            maxLength={11}
+            maxLength={10}
             placeholderTextColor="#000000"
             onChangeText={text => this.setState({phone: text})}></TextInput>
           {flagphone == true && (

@@ -306,7 +306,7 @@ class UserProfile extends Component {
           post_id: post_id,
         })
         .then(response => {
-          console.log(response, "responsesese");
+          console.log(response, 'responsesese');
           if (response?.data?.message !== 'Already Viewed') {
             setViewCount(viewCount + 1);
           }
@@ -351,7 +351,7 @@ class UserProfile extends Component {
       }
     };
     const onCommentsClick = item => {
-      const user = this.props.route?.params;
+      const user = this.props;
       let post_id = item?.id;
       if (user != undefined) {
         camelapp
@@ -370,10 +370,9 @@ class UserProfile extends Component {
       }
     };
     const onLikesClick = (item, setIsLiked, setLikeCount) => {
-      const user = this.props.route?.params;
+      const user = this.props;
       this.setState({loading: false});
       let post_id = item?.id;
-      // console.log(post_id, user.user_id, item);
       if (user != undefined) {
         camelapp
           .post('/add/like', {
@@ -382,7 +381,6 @@ class UserProfile extends Component {
             type: 'abc',
           })
           .then(response => {
-            // console.log(response?.data?.message, 'responseeese380');
             if (response.data.message == 'Successfully liked') {
               setIsLiked(true);
               setLikeCount(response?.data?.total_likes);

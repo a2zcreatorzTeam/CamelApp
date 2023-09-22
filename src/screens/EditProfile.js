@@ -15,7 +15,6 @@ import camelapp from '../api/camelapp';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
-
 import {bindActionCreators} from 'redux';
 class EditProfile extends Component {
   constructor(props) {
@@ -42,7 +41,7 @@ class EditProfile extends Component {
   logOut() {
     try {
       let {user, actions} = this.props;
-      actions.userData({});
+      actions.userActions({});
       AsyncStorage.removeItem('@UserPhone');
       AsyncStorage.removeItem('@UserPassword');
       this.props.navigation.navigate('Home');

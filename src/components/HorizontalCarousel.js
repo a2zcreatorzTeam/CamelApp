@@ -4,6 +4,7 @@ import Carousel from 'react-native-snap-carousel';
 import {StyleSheet} from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import {TouchableOpacity} from 'react-native';
+import FastImage from 'react-native-fast-image';
 const {width, height} = Dimensions.get('screen');
 const HorizontalCarousel = ({
   imagesArray,
@@ -11,6 +12,8 @@ const HorizontalCarousel = ({
   onPress = () => {},
   pauseVideo = () => {},
   CustomUrl,
+  price,
+  lastBidPrice,
 }) => {
   return (
     <Carousel
@@ -34,17 +37,36 @@ const HorizontalCarousel = ({
             : null;
         return (
           <View style={Styles.imageCarousal}>
+            {price?.length ? (
+              <View style={styles.priceContainer}>
+                <Text style={styles.priceTxt}> {ArabicText?.Price}</Text>
+                <Text numberOfLines={2} style={styles.bidPrice}>
+                  {lastBidPrice ? lastBidPrice : price}
+                </Text>
+              </View>
+            ) : null}
+
             {CustomUrl &&
               item.mime != undefined &&
               item.mime.includes('image') && (
-                <Image
+                <FastImage
+                  style={Styles.image}
                   source={{
                     uri: item?.path,
+                    headers: {Authorization: 'someAuthToken'},
+                    priority: FastImage.priority.normal,
                   }}
-                  key={String(index)}
-                  resizeMode={'cover'}
-                  style={Styles.image}
+                  resizeMode={FastImage?.resizeMode.cover}
                 />
+
+                // <Image
+                //   source={{
+                //     uri: item?.path,
+                //   }}
+                //   key={String(index)}
+                //   resizeMode={'cover'}
+                //   style={Styles.image}
+                // />
               )}
 
             {!CustomUrl && item?.type == 'image' && (

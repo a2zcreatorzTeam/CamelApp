@@ -114,6 +114,7 @@ class Home extends Component {
     this.setState({searchText: text});
   }
   async viewPosts() {
+    const {key} = this.state;
     let {user} = this.props;
     user = user.user.user;
     try {
@@ -138,6 +139,7 @@ class Home extends Component {
           this.setState({
             posts: arrayPosts,
             loader: false,
+            key: !key,
           });
         });
     } catch (error) {
@@ -215,7 +217,6 @@ class Home extends Component {
   }
   onCategoryClick = async item => {
     if (item.category_id == '1') {
-      console.log('111');
       this.props.navigation.navigate('CamelClubList');
     }
     if (item.category_id == '4') {
@@ -231,24 +232,19 @@ class Home extends Component {
       this.props.navigation.navigate('CamelFoodList');
     }
     if (item.category_id == '8') {
-      console.log('888');
       this.props.navigation.navigate('CamelEquipmentList');
     }
     if (item.category_id == '7') {
-      console.log('7777');
       this.props.navigation.navigate('CamelEquipmentList');
     }
     if (item.category_id == '5') {
-      console.log('55555555');
       this.props.navigation.navigate('CamelMovingList');
     }
     if (item.category_id == '9') {
-      console.log('9999');
       this.props.navigation.navigate('CamelMarketingList');
     }
 
     if (item.category_id == '11') {
-      console.log('11111134');
       this.props.navigation.navigate('FemaleList');
     }
   };
@@ -444,7 +440,6 @@ class Home extends Component {
         .post('/add/like', {
           user_id: user.id,
           post_id: post_id,
-          // type: 'abc',
         })
         .then(response => {
           if (response.data.message == 'Successfully liked') {

@@ -50,13 +50,16 @@ const Post = ({
   const [viewCount, setViewCount] = useState(item?.view_count);
 
   const onUserProfileClick = async item => {
-    if (item?.user_id === user?.id) {
-      navigation?.navigate('Profile');
+    if (user != undefined) {
+      if (item?.user_id === user?.id) {
+        navigation?.navigate('Profile');
+      } else {
+        navigation?.navigate('UserProfile', {
+          user_id: item?.user_id,
+          userProfile: item,
+        });
+      }
     } else {
-      navigation?.navigate('UserProfile', {
-        user_id: item?.user_id,
-        userProfile: item,
-      });
     }
   };
   // =====MEMO=====
@@ -122,6 +125,8 @@ const Post = ({
     category_name,
     lastBidPrice,
   } = memoizedItemProps;
+  console.log(price, 'klklklkl', item?.lastBidPrice);
+
   // =====Memoized Functions====
   const handleCommentsClick = useCallback(() => {
     onCommentsClick(item);
@@ -142,10 +147,9 @@ const Post = ({
   // }, [onUserProfileClick, item]);
 
   const handleCategoryClick = useCallback(() => {
-    console.log('handleCategoryClick');
     onCategoryClick && onCategoryClick(item);
   }, [onCategoryClick, item]);
-
+  console.log(lastBidPrice, 'lengthhh');
   // price={item?.price}
   // item={item}
   // title={item?.title}
@@ -188,12 +192,6 @@ const Post = ({
             }}
             resizeMode={FastImage?.resizeMode.cover}
           />
-          {/* <Image
-            source={{
-              uri: 'http://www.tasdeertech.com/images/profiles/' + user_images,
-            }}
-            style={{width: 55, height: 55, borderRadius: 30}}
-          /> */}
         </TouchableOpacity>
       </View>
 
@@ -214,30 +212,29 @@ const Post = ({
             : isVideo
             ? {uri: 'http://www.tasdeertech.com/videos/' + item?.source}
             : null;
-          console.log(
-            'http://www.tasdeertech.com/images/posts/' + item?.source,
-          );
           return (
             <TouchableWithoutFeedback
               key={index}
               onPress={() => {
-                console.log(item?.type);
                 postViewed(viewCount, setViewCount);
                 setModal(true),
                   setModalItem(mediaSource),
                   setModalItemType(item?.type);
               }}
-              style={{backgroundColor: 'yellow'}}>
+              style={{}}>
               <View
-                style={[Styles.imageCarousal, {backgroundColor: '#f3f3f3'}]}>
-                {price && (
+                style={[
+                  Styles.imageCarousal,
+                  {backgroundColor: '#f3f3f3', overflow: 'visible'},
+                ]}>
+                {price?.length ? (
                   <View style={styles.priceContainer}>
-                    <Text style={styles.priceTxt}> {ArabicText.Price}</Text>
+                    <Text style={styles.priceTxt}> {ArabicText?.Price}</Text>
                     <Text numberOfLines={2} style={styles.bidPrice}>
                       {lastBidPrice ? lastBidPrice : price}
                     </Text>
                   </View>
-                )}
+                ) : null}
 
                 {isImage && mediaSource && (
                   // <Image
@@ -669,7 +666,7 @@ const styles = StyleSheet.create({
   },
   priceContainer: {
     position: 'absolute',
-    left: 20,
+    left: -350,
     top: 20,
     paddingTop: 5,
     alignItems: 'center',

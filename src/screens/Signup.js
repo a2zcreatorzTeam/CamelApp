@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Modal,
+  Linking,
 } from 'react-native';
 
 import {Styles} from '../styles/globlestyle';
@@ -24,11 +25,13 @@ const hight = Dimensions.get('screen').height;
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
+import {Checkbox} from 'react-native-paper';
 
 class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isChecked: false,
       name: '',
       phone: '',
       btnPressed: false,
@@ -44,6 +47,8 @@ class SignUp extends Component {
       flagphone: false,
       flagpassword: false,
       flag_confirm_password: false,
+      flag_termsCondition: false,
+
       hidePassword: true,
       hideConfirmPassword: true,
     };
@@ -143,9 +148,9 @@ class SignUp extends Component {
       flagname = true;
       console.log(' name  not done', flagname);
     }
-    // 9660503030001
+
     // check phone mumber
-    if (phone.length >= 3 && /^(05)[0-9]{8}$/.test(phone)) {
+    if (phone.length >= 3) {
       this.setState({
         flagphone: false,
       });
@@ -160,7 +165,7 @@ class SignUp extends Component {
     }
 
     // check password
-    if (password.length >= 4 && password.length != 0) {
+    if (password.length >= 6 && password.length != 0) {
       this.setState({
         flagpassword: false,
       });
@@ -189,11 +194,26 @@ class SignUp extends Component {
       console.log('  confirm paswword not done', flag_confirm_password);
     }
 
+
+    //tersm cibdtiion 
+
+    if (this.state?.isChecked==true) {
+      this.setState({
+        flag_termsCondition: true,
+      });
+     
+    } else {
+      this.setState({
+        flag_termsCondition: false,
+      });
+  alert('الرجاء تحديد الشروط والأحكام')
+    }
     if (
       flagname == false &&
       flagphone == false &&
       flagpassword == false &&
-      flag_confirm_password == false
+      flag_confirm_password == false && 
+      this.state?.flag_termsCondition == true
     ) {
       console.log('state', this.state);
       this.setState({btnPressed: true, loader: true});
@@ -206,17 +226,15 @@ class SignUp extends Component {
 
           do {
             number = Math.floor(Math.random() * 10000) + 1;
-            console.log('number', number);
-            alert(number);
+            console.log(number)
           } while (number < 1000 || number > 10000);
+          alert(number)
           this.setState({randomIndex: number});
           if (response.data.status === true) {
             this.setState({loader: false});
-            console.log( '966' + this.state.phone,);
             camelapp
               .post('sendsms', {
-                phone: '966' + this.state.phone,
-                // phone: this.state.phone,
+                phone: this.state.phone,
                 message: number,
               })
               .then(response => {
@@ -251,7 +269,7 @@ class SignUp extends Component {
       // //console.log("error", this.state)
 
       this.setState({loader: false, btnPressed: false});
-      alert('Please Complete fields!');
+      alert('من فضلك أكمل الحقول');
     }
   };
 
@@ -265,6 +283,7 @@ class SignUp extends Component {
       flagphone,
       flagpassword,
       flag_confirm_password,
+      flag_termsCondition
     } = this.state;
     return (
       <View style={Styles.container}>
@@ -296,11 +315,10 @@ class SignUp extends Component {
           )}
 
           <TextInput
-            // placeholder="05xxxxxxxx"
             style={Styles.inputs}
             placeholder={ArabicText.phone}
             keyboardType="numeric"
-            maxLength={10}
+            maxLength={11}
             placeholderTextColor="#000000"
             onChangeText={text => this.setState({phone: text})}></TextInput>
           {flagphone == true && (
@@ -355,7 +373,7 @@ class SignUp extends Component {
                 fontSize: 12,
                 textAlign: 'right',
               }}>
-              يجب أن يحتوي الاسم على 4 أحرف على الأقل
+              يجب أن يحتوي الاسم على 6 أحرف على الأقل
             </Text>
           )}
 
@@ -400,7 +418,7 @@ class SignUp extends Component {
                 fontSize: 12,
                 textAlign: 'right',
               }}>
-              يجب أن يحتوي الاسم على 4 أحرف على الأقل
+              يجب أن يحتوي الاسم على 6 أحرف على الأقل
             </Text>
           )}
         </View>
@@ -447,7 +465,34 @@ class SignUp extends Component {
             )}
           </View>
         </TouchableOpacity>
-
+        <View
+          style={{
+            flexDirection: 'row',
+            alignSelf: 'center',
+            alignItems: 'center',
+          }}>
+          
+          <Text style={{color: 'black', fontSize: 14}}>
+          أوافق على الشروط والأحكام
+          </Text>
+          <Checkbox
+            color="#D2691Eff"
+            onPress={() => this.setState({isChecked: !this.state?.isChecked})}
+            status={this.state?.isChecked ? 'checked' : 'unchecked'}
+          />
+        </View>
+        <TouchableOpacity
+          style={{marginBottom: 10}}
+          onPress={() => Linking.openURL('https://www.google.com')}>
+          <Text
+            style={{
+              textDecorationLine: 'underline',
+              color: '#D2691Eff',
+              fontSize: 14,
+            }}>
+           تعرف على المزيد حول الشروط والأحكام
+          </Text>
+        </TouchableOpacity>
         <Modal
           animationType="slide"
           transparent={true}
@@ -616,3 +661,4 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 });
+

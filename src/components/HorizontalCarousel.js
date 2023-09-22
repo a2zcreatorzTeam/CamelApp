@@ -33,7 +33,6 @@ const HorizontalCarousel = ({
             : item.type == 'video'
             ? {uri: 'http://www.tasdeertech.com/videos/' + item?.source}
             : null;
-        console.log(mediaSource, ',mediuisi');
         return (
           <View style={[Styles.imageCarousal, {position: 'relative'}]}>
             {CustomUrl &&
@@ -71,12 +70,12 @@ const HorizontalCarousel = ({
               // />
               <FastImage
                 style={Styles.image}
-                source={{
+                source={item?.source?{
                   uri:
                     'http://www.tasdeertech.com/images/posts/' + item?.source,
                   headers: {Authorization: 'someAuthToken'},
                   priority: FastImage.priority.normal,
-                }}
+                } : require('../../assets/dummyImage.jpeg')}
                 resizeMode={FastImage?.resizeMode.cover}
               />
             )}

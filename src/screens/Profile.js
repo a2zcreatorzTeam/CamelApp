@@ -303,6 +303,7 @@ class Profile extends Component {
   };
   componentDidMount() {}
   componentDidMount = () => {
+    this.setState({rating: 0, posts: []});
     this.focusListener = this.props.navigation.addListener('focus', () => {
       this.checkUserLogedIn();
     });
@@ -741,15 +742,15 @@ class Profile extends Component {
                     flexDirection: 'row-reverse',
                     alignItems: 'center',
                   }}>
-                  <AntDesign name="checkcircle" size={14} color="#e50000" />
+                  <AntDesign name="checkcircle" size={14} color={this.state?.rating  <=1 ? 'blue' : this.state?.rating  <=3 ? 'yellow' : '#e50000'}/>
                   <Text
                     style={{
-                      color: '#e50000',
-                      fontSize: 10,
+                      color: this.state?.rating  <=1 ? 'blue' : this.state?.rating  <=3 ? 'yellow' : '#e50000',
+                      fontSize: 12,
                       textAlign: 'right',
                       marginRight: 4,
                     }}>
-                    Premium Account
+                   {this.state?.rating  <=1 ? 'Normal' : this.state?.rating  <=3 ? 'Special' : 'Famous' }
                   </Text>
                 </View>
                 {/* my contacts */}

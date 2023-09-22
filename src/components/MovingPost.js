@@ -20,11 +20,11 @@ const MovingPost = ({
   <Card>
     <View style={Styles.container}>
       <View style={Styles.newsbox1}>
-        <Image
+      <Image
           resizeMode="cover"
-          source={{
+          source={image ?{
             uri: `http://www.tasdeertech.com/images/posts/${image}`,
-          }}
+          }: require('../../assets/dummyImage.jpeg')}
           style={{
             height: height / 6,
             width: width / 3,

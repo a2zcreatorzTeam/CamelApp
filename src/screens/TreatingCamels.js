@@ -282,7 +282,11 @@ class TreatingCamels extends Component {
             علاج الحلال
           </Text>
           <HorizontalCarousel
-            CustomUrl
+            price={
+              this.state.itemFromDetails?.price
+                ? this.state.itemFromDetails?.price
+                : ''
+            }
             imagesArray={this.state.mixed}
             onPress={mediaSource => {
               this.setState({

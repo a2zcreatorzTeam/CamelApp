@@ -413,6 +413,12 @@ class DetailsComponent extends Component {
       modalOffer: false,
       pauseVideo: true,
       price: props?.route?.params?.itemFromDetails?.price,
+
+      pausedCheck: true,
+      videoModal: false,
+      modalItem: '',
+      loadVideo: false,
+      imagesArray: [],
     };
   }
 
@@ -420,6 +426,19 @@ class DetailsComponent extends Component {
     // if (this.props.route.params.itemFromDetails.price_type != 'FIX') {
     //   this.setState({flagForBid: true});
     // }
+    let array = this.state.itemFromDetails.img;
+    console.log(
+      this.state.itemFromDetails.img,
+      'this.state.itemFromDetails.imgthis.state.itemFromDetails.img',
+    );
+    let imagesArray = [];
+
+    array.forEach(element => {
+      imagesArray.push({type: 'image', source: element});
+    });
+    imagesArray.push({type: 'video', source: this.state.itemFromDetails.video});
+
+    this.setState({imagesArray: imagesArray});
   }
   sendMessage() {
     let {user} = this.props;
@@ -445,9 +464,6 @@ class DetailsComponent extends Component {
   placeBid() {
     let {user} = this.props;
     user = user?.user?.user;
-    console.log(user?.id, 'usererer');
-    //console.log("user_id", user_id)
-    //console.log("post _data", parseInt(this.props.route.params.itemFromDetails.id))
     if (
       parseInt(this.state.price) >
       parseInt(this.props?.route?.params?.itemFromDetails?.price)
@@ -494,6 +510,7 @@ class DetailsComponent extends Component {
                   if (response.data.status == true) {
                     alert(response?.data?.message);
                     this.setState({modalOffer: false});
+                    this.props.navigation.pop();
                   } else {
                     alert('Error in adding bid!');
                   }
@@ -511,6 +528,7 @@ class DetailsComponent extends Component {
     }
   }
   render() {
+    const {videoModal, modalItem, pausedCheck, loadVideo} = this.state;
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
         <View
@@ -520,8 +538,8 @@ class DetailsComponent extends Component {
             justifyContent: 'flex-end',
             paddingHorizontal: 20,
             marginTop: 15,
-            backgroundColor:'red'
           }}>
+          {/* PROFILE VIEW */}
           <View style={{alignItems: 'flex-end'}}>
             <Text
               style={{
@@ -561,14 +579,74 @@ class DetailsComponent extends Component {
             />
           </View>
         </View>
-        <View style={Styles.containerDetails}>
-          <Image
+        <View
+          style={{
+            marginTop: '20%',
+            marginHorizontal: 20,
+            position: 'absolute',
+            zIndex: 1111,
+            alignSelf: 'flex-start',
+            alignItems: 'flex-start',
+            justifyContent: 'flex-start',
+            height: hight / 2.5,
+            width: '100%',
+          }}>
+          <View
+            style={{
+              paddingTop: 0,
+              alignItems: 'center',
+              alignContent: 'center',
+              width: 60,
+              backgroundColor: '#D2691Eff',
+              height: hight * 0.065,
+              borderBottomRightRadius: 50,
+              borderBottomLeftRadius: 50,
+            }}>
+            <Text
+              style={{
+                color: 'white',
+                fontWeight: '800',
+                fontSize: 14,
+              }}>
+              {' '}
+              {ArabicText?.Price}
+            </Text>
+            <Text
+              numberOfLines={2}
+              style={{
+                textAlign: 'center',
+                color: 'white',
+                fontWeight: '500',
+                fontSize: 13,
+              }}>
+              {this?.state?.itemFromDetails?.price}
+            </Text>
+          </View>
+        </View>
+
+        <View style={[Styles.containerDetails]}>
+          <HorizontalCarousel
+            price={this.state.itemFromDetails?.price}
+            imagesArray={this.state.imagesArray}
+            onPress={mediaSource => {
+              this.setState({
+                pausedCheck: false,
+                videoModal: true,
+                modalItem: mediaSource,
+              });
+            }}
+            pausedCheck={pausedCheck}
+            pauseVideo={() => {
+              this.setState({pausedCheck: true});
+            }}
+          />
+          {/* <Image
             source={{
               uri:
                 'http://www.tasdeertech.com/images/posts/' +
                 this.state.itemFromDetails.img[0],
             }}
-            style={Styles.image}></Image>
+            style={Styles.image}></Image> */}
           <View style={{textAlign: 'right'}}>
             <Text style={Styles.textHeadingg}>{ArabicText.Title}</Text>
             <TextInput
@@ -708,6 +786,26 @@ class DetailsComponent extends Component {
             </TouchableOpacity>
           </View>
         </View>
+
+        {/* VIDEO MODAL */}
+        <VideoModal
+          onLoadStart={() => {
+            this.setState({loadVideo: true});
+          }}
+          onReadyForDisplay={() => {
+            this.setState({loadVideo: false});
+          }}
+          onPress={() => {
+            !loadVideo && this.setState({pausedCheck: !pausedCheck});
+          }}
+          closeModal={() => {
+            this.setState({videoModal: false, pausedCheck: true});
+          }}
+          pausedCheck={pausedCheck}
+          loadVideo={loadVideo}
+          videoModal={videoModal}
+          modalItem={modalItem}
+        />
       </ScrollView>
       //     );
     );

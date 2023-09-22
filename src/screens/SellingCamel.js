@@ -349,7 +349,11 @@ class SellingCamelForm extends React.Component {
               بيع الحلال
             </Text>
             <HorizontalCarousel
-              CustomUrl
+             price={
+              this.state.itemFromDetails?.price
+                ? this.state.itemFromDetails?.price
+                : ''
+            }
               imagesArray={this.state.mixed?.length ? this.state.mixed : []}
               onPress={mediaSource => {
                 this.setState({

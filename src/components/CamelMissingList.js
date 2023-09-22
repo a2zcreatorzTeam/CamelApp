@@ -166,7 +166,9 @@ class CamelFoodList extends Component {
           onLikesClick={(item, setIsLiked, setLikeCount) =>
             onLikesClick(item, setIsLiked, setLikeCount)
           }
-          onDetailsClick={() => onDetailsClick(item)}
+          onDetailsClick={(viewCount, setViewCount) => {
+            onDetailsClick(item, viewCount, setViewCount);
+          }}
           imagesArray={item?.imagesArray}
           date={item?.date}
           sharePost={() => sharePosts(item)}
@@ -268,26 +270,30 @@ class CamelFoodList extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-    const onDetailsClick = item => {
+    const onDetailsClick = (item, viewCount, setViewCount) => {
       let {user} = this.props;
       user = user.user.user;
       let post_id = item?.id;
       if (user != undefined) {
-        camelapp
-          .post('/add/view', {
-            post_id: post_id,
-            user_id: user?.id,
-          })
-          .then(res => {
-            //console.log("response", res.data);
-            this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
-              itemFromDetails: item,
-            });
-          });
-      } else {
         this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
           itemFromDetails: item,
         });
+        this.postViewed(item, viewCount, setViewCount);
+        //   camelapp
+        //     .post('/add/view', {
+        //       post_id: post_id,
+        //       user_id: user?.id,
+        //     })
+        //     .then(res => {
+        //       //console.log("response", res.data);
+        //       this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
+        //         itemFromDetails: item,
+        //       });
+        //     });
+        // } else {
+        //   this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
+        //     itemFromDetails: item,
+        //   });
       }
     };
     const onAddButtonClick = () => {

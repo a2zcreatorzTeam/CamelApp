@@ -360,6 +360,11 @@ class SellingCamel extends React.Component {
               نقل الابل
             </Text>
             <HorizontalCarousel
+             price={
+              this.state.itemFromDetails?.price
+                ? this.state.itemFromDetails?.price
+                : ''
+            }
               CustomUrl
               imagesArray={this.state.mixed}
               onPress={mediaSource => {

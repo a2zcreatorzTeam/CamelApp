@@ -266,6 +266,11 @@ class MissingCamelForm extends Component {
             {ArabicText.Missing_Camel}
           </Text>
           <HorizontalCarousel
+           price={
+            this.state.itemFromDetails?.price
+              ? this.state.itemFromDetails?.price
+              : ''
+          }
             CustomUrl
             imagesArray={this.state.mixed}
             onPress={mediaSource => {

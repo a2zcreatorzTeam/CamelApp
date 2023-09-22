@@ -309,6 +309,11 @@ class CamelFood extends React.Component {
           <View style={Styles.container}>
             <Text style={Styles.headingPostText}>بيع المعدات</Text>
             <HorizontalCarousel
+              price={
+                this.state.itemFromDetails?.price
+                  ? this.state.itemFromDetails?.price
+                  : ''
+              }
               CustomUrl
               imagesArray={this.state.mixed}
               onPress={mediaSource => {

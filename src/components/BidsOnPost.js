@@ -45,11 +45,11 @@ class Bids extends Component {
         })
         .then(res => {
           console.log(res?.data, 'responseeeseses47');
-          // this.setState({
-          //   posts: res.data.bids,
-          //   loader: false,
-          // });
-          //console.log("DATA POST", res.data.bids)
+          this.setState({
+            posts: res.data.bids,
+            loader: false,
+          });
+          console.log("DATA POST", res.data.bids)
         });
     } catch (error) {
       console.log('errrrr', error);

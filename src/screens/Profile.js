@@ -476,7 +476,7 @@ class Profile extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-    onDetailsClick = async item => {
+    onDetailsClick = async (item, viewCount, setViewCount) => {
       const {user} = this.props;
       const post_id = item?.id;
       const categoryMap = {
@@ -646,7 +646,9 @@ class Profile extends Component {
           user_images={item?.user_images}
           category={item?.category_name}
           onPostDelete={() => this.onPostDelete(item)}
-          onDetailsClick={() => onDetailsClick(item)}
+          onDetailsClick={(viewCount, setViewCount) => {
+            onDetailsClick(item, viewCount, setViewCount);
+          }}
           onLikesClick={(item, setIsLiked, setLikeCount) =>
             onLikesClick(item, setIsLiked, setLikeCount)
           }

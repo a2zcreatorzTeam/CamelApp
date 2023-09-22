@@ -41,7 +41,7 @@ class EditProfile extends Component {
   logOut() {
     try {
       let {user, actions} = this.props;
-      actions.userActions({});
+      actions.userActions?.userLogout({});
       AsyncStorage.removeItem('@UserPhone');
       AsyncStorage.removeItem('@UserPassword');
       this.props.navigation.navigate('Home');

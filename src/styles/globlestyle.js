@@ -23,6 +23,7 @@ export const Styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor:'#D3D3D3'
   },
   containerBidsItem: {
     flex: 1,

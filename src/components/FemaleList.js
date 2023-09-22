@@ -118,30 +118,37 @@ class CamelFemaleList extends Component {
           type={item.camel_type}
           image={item.img[0]}
           detailBUTTON={ArabicText.PLACEHOLDER_DETAIL}
-          OnDetailsClick={() => onDetailsClick(item)}
+          onDetailsClick={(viewCount, setViewCount) => {
+            onDetailsClick(item, viewCount, setViewCount);
+          }}
         />
       );
     };
-    const onDetailsClick = item => {
+    const onDetailsClick = (item, viewCount, setViewCount) => {
       let {user} = this.props;
       user = user.user.user;
       let post_id = item?.id;
       if (user != undefined) {
-        camelapp
-          .post('/add/view', {
-            post_id: post_id,
-            user_id: user?.id,
-          })
-          .then(res => {
-            //console.log("response", res.data);
-            this.props.navigation.navigate('DetailsFemaleCamel', {
-              itemFromDetails: item,
-            });
-          });
-      } else {
         this.props.navigation.navigate('DetailsFemaleCamel', {
           itemFromDetails: item,
         });
+        this.postViewed(item, viewCount, setViewCount);
+
+        //   camelapp
+        //     .post('/add/view', {
+        //       post_id: post_id,
+        //       user_id: user?.id,
+        //     })
+        //     .then(res => {
+        //       //console.log("response", res.data);
+        //       this.props.navigation.navigate('DetailsFemaleCamel', {
+        //         itemFromDetails: item,
+        //       });
+        //     });
+        // } else {
+        //   this.props.navigation.navigate('DetailsFemaleCamel', {
+        //     itemFromDetails: item,
+        //   });
       }
     };
     const onAddButtonClick = () => {

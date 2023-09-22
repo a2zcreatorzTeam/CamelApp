@@ -256,6 +256,11 @@ class CamelClub extends Component {
         <View style={Styles.containerScroll}>
           <Text style={Styles.headingPostText}>عروض الاء سواق</Text>
           <HorizontalCarousel
+           price={
+            this.state.itemFromDetails?.price
+              ? this.state.itemFromDetails?.price
+              : ''
+          }
             CustomUrl
             imagesArray={this.state.mixed}
             onPress={mediaSource => {

@@ -27,7 +27,7 @@ import FastImage from 'react-native-fast-image';
 const Post = ({
   item,
   onCommentsClick,
-  onDetailsClick,
+  onDetailsClick = () => {},
   onLikesClick,
   // onUserProfileClick,
   onCategoryClick,
@@ -125,7 +125,6 @@ const Post = ({
     category_name,
     lastBidPrice,
   } = memoizedItemProps;
-  console.log(price, 'klklklkl', item?.lastBidPrice);
 
   // =====Memoized Functions====
   const handleCommentsClick = useCallback(() => {
@@ -136,7 +135,7 @@ const Post = ({
   }, [sharePost, item]);
 
   const handleDetailsClick = useCallback(() => {
-    onDetailsClick(item);
+    onDetailsClick(viewCount, setViewCount);
   }, [onDetailsClick, item]);
 
   const handleLikesClick = useCallback(() => {
@@ -149,7 +148,6 @@ const Post = ({
   const handleCategoryClick = useCallback(() => {
     onCategoryClick && onCategoryClick(item);
   }, [onCategoryClick, item]);
-  console.log(lastBidPrice, 'lengthhh');
   // price={item?.price}
   // item={item}
   // title={item?.title}

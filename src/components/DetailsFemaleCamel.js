@@ -202,6 +202,11 @@ class DetailsComponent extends Component {
         </View>
         <View style={Styles.containerDetails}>
           <HorizontalCarousel
+            price={
+              this.state.itemFromDetails?.price
+                ? this.state.itemFromDetails?.price
+                : ''
+            }
             imagesArray={this.state.imagesArray}
             onPress={mediaSource => {
               this.setState({

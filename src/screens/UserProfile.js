@@ -421,7 +421,9 @@ class UserProfile extends Component {
           views={item?.view_count}
           user_name={item?.user_name}
           user_location={item?.location}
-          onDetailsClick={() => onDetailsClick(item)}
+          onDetailsClick={(viewCount, setViewCount) => {
+            onDetailsClick(item, viewCount, setViewCount);
+          }}
           onLikesClick={(item, setIsLiked, setLikeCount) =>
             onLikesClick(item, setIsLiked, setLikeCount)
           }

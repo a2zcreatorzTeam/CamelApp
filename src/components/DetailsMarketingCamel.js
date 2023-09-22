@@ -141,6 +141,7 @@ class DetailsMarketingCamel extends Component {
   render() {
     const {pausedCheck, loadVideo, videoModal, modalItem, itemFromDetails} =
       this.state;
+    console.log('detailmarketing');
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
         <View
@@ -188,6 +189,50 @@ class DetailsMarketingCamel extends Component {
                 borderRadius: 50,
               }}
             />
+          </View>
+          <View
+            style={{
+              marginTop: '18%',
+              marginHorizontal: 20,
+              position: 'absolute',
+              zIndex: 1111,
+              alignSelf: 'flex-start',
+              alignItems: 'flex-start',
+              justifyContent: 'flex-start',
+              height: hight / 2.5,
+              width: '100%',
+            }}>
+            <View
+              style={{
+                paddingTop: 0,
+                alignItems: 'center',
+                alignContent: 'center',
+                width: 60,
+                backgroundColor: '#D2691Eff',
+                height: hight * 0.065,
+                borderBottomRightRadius: 50,
+                borderBottomLeftRadius: 50,
+              }}>
+              <Text
+                style={{
+                  color: 'white',
+                  fontWeight: '800',
+                  fontSize: 14,
+                }}>
+                {' '}
+                {ArabicText?.Price}
+              </Text>
+              <Text
+                numberOfLines={2}
+                style={{
+                  textAlign: 'center',
+                  color: 'white',
+                  fontWeight: '500',
+                  fontSize: 13,
+                }}>
+                {this?.state?.itemFromDetails?.price}
+              </Text>
+            </View>
           </View>
         </View>
         <View style={Styles.containerDetails}>

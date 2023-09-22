@@ -44,18 +44,15 @@ class DetailsComponent extends Component {
       modalItem: '',
       loadVideo: false,
     };
-    console.log('itemFromDetails', this.state.itemFromDetails);
   }
 
   componentDidMount() {
     let array = this.state.itemFromDetails.img;
     let imagesArray = [];
-
     array.forEach(element => {
       imagesArray.push({type: 'image', source: element});
     });
     imagesArray.push({type: 'video', source: this.state.itemFromDetails.video});
-
     this.setState({imagesArray: imagesArray});
   }
   onCommentsClick = () => {
@@ -80,7 +77,6 @@ class DetailsComponent extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-
   sendWhatsAppMessage() {
     let {user} = this.props;
 
@@ -128,7 +124,6 @@ class DetailsComponent extends Component {
       alert('This is your post');
     }
   }
-
   sendMessage() {
     let {user} = this.props;
 
@@ -149,7 +144,6 @@ class DetailsComponent extends Component {
     }
   }
   render() {
-    console.log("152---->deailComponent");
     const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
@@ -201,8 +195,8 @@ class DetailsComponent extends Component {
           </View>
         </View>
         <View style={Styles.containerDetails}>
+          {/* HORIZONTAL Carousel */}
           <HorizontalCarousel
-            CustomUrl
             imagesArray={this.state.imagesArray}
             onPress={mediaSource => {
               this.setState({

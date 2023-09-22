@@ -1,11 +1,12 @@
 import React from 'react';
-import {View, Image, Dimensions} from 'react-native';
+import {View, Image, Dimensions, Text} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import {StyleSheet} from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import {TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 const {width, height} = Dimensions.get('screen');
+import * as ArabicText from '../language/EnglishToArabic';
 const HorizontalCarousel = ({
   imagesArray,
   pausedCheck,
@@ -15,6 +16,7 @@ const HorizontalCarousel = ({
   price,
   lastBidPrice,
 }) => {
+  console.log(price?.length, 'priceeeee');
   return (
     <Carousel
       data={imagesArray}
@@ -22,30 +24,18 @@ const HorizontalCarousel = ({
       scrollEnabled={true}
       onScroll={() => pauseVideo()}
       renderItem={({item, index}) => {
-        console.log(
-          CustomUrl
-            ? item?.path
-            : 'http://www.tasdeertech.com/images/posts/' + item.source,
-        );
+        console.log(item);
         const mediaSource =
           item.type == 'image'
             ? {
                 uri: 'http://www.tasdeertech.com/images/posts/' + item.source,
               }
             : item.type == 'video'
-            ? {uri: 'http://www.tasdeertech.com/videos/' + item.source}
+            ? {uri: 'http://www.tasdeertech.com/videos/' + item?.source}
             : null;
+        console.log(mediaSource, ',mediuisi');
         return (
-          <View style={Styles.imageCarousal}>
-            {price?.length ? (
-              <View style={styles.priceContainer}>
-                <Text style={styles.priceTxt}> {ArabicText?.Price}</Text>
-                <Text numberOfLines={2} style={styles.bidPrice}>
-                  {lastBidPrice ? lastBidPrice : price}
-                </Text>
-              </View>
-            ) : null}
-
+          <View style={[Styles.imageCarousal, {position: 'relative'}]}>
             {CustomUrl &&
               item.mime != undefined &&
               item.mime.includes('image') && (
@@ -68,16 +58,26 @@ const HorizontalCarousel = ({
                 //   style={Styles.image}
                 // />
               )}
-
+          
             {!CustomUrl && item?.type == 'image' && (
-              <Image
+              // <Image
+              //   source={{
+              //     uri:
+              //       'http://www.tasdeertech.com/images/posts/' + item?.source,
+              //   }}
+              //   key={String(index)}
+              //   resizeMode={'cover'}
+              //   style={Styles.image}
+              // />
+              <FastImage
+                style={Styles.image}
                 source={{
                   uri:
                     'http://www.tasdeertech.com/images/posts/' + item?.source,
+                  headers: {Authorization: 'someAuthToken'},
+                  priority: FastImage.priority.normal,
                 }}
-                key={String(index)}
-                resizeMode={'cover'}
-                style={Styles.image}
+                resizeMode={FastImage?.resizeMode.cover}
               />
             )}
             {(CustomUrl
@@ -148,6 +148,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
+  },
+  priceContainer: {
+    position: 'absolute',
+    left: 20,
+    top: 20,
+    paddingTop: 5,
+    alignItems: 'center',
+    alignContent: 'center',
+    width: 60,
+    backgroundColor: '#D2691Eff',
+    height: height * 0.065,
+    borderBottomRightRadius: 50,
+    borderBottomLeftRadius: 50,
+  },
+  priceTxt: {
+    color: 'white',
+    fontWeight: '800',
+    fontSize: 14,
+  },
+  bidPrice: {
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: '500',
+    fontSize: 13,
   },
 });
 

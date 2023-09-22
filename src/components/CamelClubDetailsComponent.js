@@ -209,8 +209,12 @@ class CamelClubDetailsComponent extends Component {
         </View>
 
         <View style={Styles.containerDetails}>
-        <HorizontalCarousel
-            CustomUrl
+          <HorizontalCarousel
+            price={
+              this.state.itemFromDetails?.price
+                ? this.state.itemFromDetails?.price
+                : ''
+            }
             imagesArray={this.state.imagesArray}
             onPress={mediaSource => {
               this.setState({
@@ -336,8 +340,8 @@ class CamelClubDetailsComponent extends Component {
             </TouchableOpacity>
           </View>
         </View>
-         {/* VIDEO MODAL */}
-         <VideoModal
+        {/* VIDEO MODAL */}
+        <VideoModal
           onLoadStart={() => {
             this.setState({loadVideo: true});
           }}

@@ -281,7 +281,11 @@ class MissingCamelForm extends Component {
             {ArabicText.Camel_Female}
           </Text>
           <HorizontalCarousel
-            CustomUrl
+            price={
+              this.state.itemFromDetails?.price
+                ? this.state.itemFromDetails?.price
+                : ''
+            }
             imagesArray={this.state.mixed}
             onPress={mediaSource => {
               this.setState({

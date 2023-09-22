@@ -18,14 +18,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Styles} from '../styles/globlestyle';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Video from 'react-native-video';
-import Carousel from 'react-native-snap-carousel';
 import camelapp from '../api/camelapp';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
-const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 import * as ArabicText from '../language/EnglishToArabic';
 import HorizontalCarousel from './HorizontalCarousel';
@@ -58,34 +54,33 @@ class DetailsComponent extends Component {
       modalItem: '',
       loadVideo: false,
     };
-    this.getLastPrice();
   }
 
   componentDidMount() {
     let {user} = this.props;
     user = user.user.user;
-
     this.setState({user_ids: user?.id});
-    console.log(
-      this.props.route.params.itemFromDetails.price_type,
-      'jkjkjkjkjjjj',
-    );
+    console.log(this.state.itemFromDetails.img, 'jkjkjkjkjjjj');
     if (this.props.route.params.itemFromDetails.price_type == 'سوم') {
       this.setState({flagForBid: true});
     }
+    console.log(this.state.itemFromDetails, ' this.state.itemFromDetails');
     let array = this.state.itemFromDetails.img;
     let imagesArray = [];
 
     array.forEach(element => {
       imagesArray.push({type: 'image', source: element});
     });
-    imagesArray.push({type: 'video', source: this.state.itemFromDetails.video});
-
+    imagesArray.push({
+      type: 'video',
+      source: this.state?.itemFromDetails?.video,
+    });
+    console.log(imagesArray, 'imagesArray');
     this.setState({imagesArray: imagesArray});
 
-    this.focusListener = this.props.navigation.addListener('focus', () => {
-      this.getLastPrice();
-    });
+    // this.focusListener = this.props.navigation.addListener('focus', () => {
+    //   // this.getLastPrice();
+    // });
   }
   onCommentsClick = () => {
     let item = this.state.itemFromDetails;
@@ -201,7 +196,7 @@ class DetailsComponent extends Component {
             })
             .then(response => {
               console.log(response.data.status, 'response.data.status');
-              this.getLastPrice();
+              // this.getLastPrice();
               if (response.data.status == 'Not Exists') {
                 camelapp
                   .post('/add/bid', {
@@ -213,6 +208,7 @@ class DetailsComponent extends Component {
                     if (response.data.status == true) {
                       alert(response?.data?.message);
                       this.setState({modalOffer: false});
+                      this.props.navigation.pop();
                     } else {
                       alert('Error in adding bid!');
                     }
@@ -236,34 +232,36 @@ class DetailsComponent extends Component {
     }
   }
 
-  getLastPrice() {
-    let item = this.state.itemFromDetails;
-    let post_id = item?.id;
-    camelapp
-      .get(`/getLastBidPrice/${post_id}`, {
-        post_id: post_id,
-      })
-      .then(res => {
-        // console.log(res?.data);
-        if (res?.data?.is_data_found == '0' || res?.data?.is_data_found == 0) {
-          this.setState({higherAmount: 0});
-        } else if (
-          res?.data?.is_data_found == '1' ||
-          res?.data?.is_data_found == 1
-        ) {
-          console.log(
-            '================PRICE====================',
-            res?.data?.data?.price,
-          );
-          this.setState({higherAmount: res?.data?.data?.price});
-        }
-      });
-  }
+  // getLastPrice() {
+  //   let item = this.state.itemFromDetails;
+  //   let post_id = item?.id;
+  //   camelapp
+  //     .get(`/getLastBidPrice/${post_id}`, {
+  //       post_id: post_id,
+  //     })
+  //     .then(res => {
+  //       // console.log(res?.data);
+  //       if (res?.data?.is_data_found == '0' || res?.data?.is_data_found == 0) {
+  //         this.setState({higherAmount: 0});
+  //       } else if (
+  //         res?.data?.is_data_found == '1' ||
+  //         res?.data?.is_data_found == 1
+  //       ) {
+  //         console.log(
+  //           '================PRICE====================',
+  //           res?.data?.data?.price,
+  //         );
+  //         this.setState({higherAmount: res?.data?.data?.price});
+  //       }
+  //     });
+  // }
 
   render() {
-    const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
+    const {pausedCheck, loadVideo, videoModal, modalItem, imagesArray} =
+      this.state;
+    console.log(imagesArray, 'imgaearrayyyyy');
     return (
-      <ScrollView style={{backgroundColor: '#fff', flex: 1}}>
+      <ScrollView style={{backgroundColor: '#fff'}}>
         <View
           style={{
             flexDirection: 'row',
@@ -286,52 +284,10 @@ class DetailsComponent extends Component {
               {this.state.itemFromDetails.user_location}
             </Text>
           </View>
-          {this?.state?.higherAmount == 0 ? (
-            <View
-              style={{
-                marginTop: '24%',
-                marginHorizontal: 20,
-                position: 'absolute',
-                zIndex: 1111,
-                alignSelf: 'flex-start',
-                alignItems: 'flex-start',
-                justifyContent: 'flex-start',
-                height: hight / 2.5,
-                width: '100%',
-              }}>
-              <View
-                style={{
-                  paddingTop: 5,
-                  alignItems: 'center',
-                  alignContent: 'center',
-                  width: 60,
-                  backgroundColor: '#D2691Eff',
-                  height: hight * 0.065,
-                  borderBottomRightRadius: 50,
-                  borderBottomLeftRadius: 50,
-                }}>
-                <Text
-                  style={{
-                    color: 'white',
-                    fontWeight: '800',
-                    fontSize: 14,
-                  }}>
-                  {' '}
-                  {ArabicText.Price}
-                </Text>
-                <Text
-                  numberOfLines={2}
-                  style={{
-                    textAlign: 'center',
-                    color: 'white',
-                    fontWeight: '500',
-                    fontSize: 13,
-                  }}>
-                  {this?.state?.itemFromDetails?.price}
-                </Text>
-              </View>
-            </View>
-          ) : (
+          {/* {this?.state?.higherAmount == 0 ? ( */}
+          {/* PRICE SECTION */}
+
+          {/* ) : (
             <View
               style={{
                 marginTop: '25%',
@@ -376,7 +332,7 @@ class DetailsComponent extends Component {
                 </Text>
               </View>
             </View>
-          )}
+          )} */}
           <View
             style={{
               height: 63,
@@ -402,6 +358,50 @@ class DetailsComponent extends Component {
           </View>
         </View>
         <View style={Styles.containerDetails}>
+          <View
+            style={{
+              // marginTop: '18%',
+              marginHorizontal: 20,
+              position: 'absolute',
+              zIndex: 1111,
+              alignSelf: 'flex-start',
+              alignItems: 'flex-start',
+              justifyContent: 'flex-start',
+              height: hight / 2.5,
+              width: '100%',
+            }}>
+            <View
+              style={{
+                paddingTop: 0,
+                alignItems: 'center',
+                alignContent: 'center',
+                width: 60,
+                backgroundColor: '#D2691Eff',
+                height: hight * 0.065,
+                borderBottomRightRadius: 50,
+                borderBottomLeftRadius: 50,
+              }}>
+              <Text
+                style={{
+                  color: 'white',
+                  fontWeight: '800',
+                  fontSize: 14,
+                }}>
+                {' '}
+                {ArabicText?.Price}
+              </Text>
+              <Text
+                numberOfLines={2}
+                style={{
+                  textAlign: 'center',
+                  color: 'white',
+                  fontWeight: '500',
+                  fontSize: 13,
+                }}>
+                {this?.state?.itemFromDetails?.price}
+              </Text>
+            </View>
+          </View>
           {/* <Carousel
             // keyExtractor={this.state.mixed.fileName}
             data={this.state.imagesArray}
@@ -447,7 +447,8 @@ class DetailsComponent extends Component {
           /> */}
 
           <HorizontalCarousel
-            imagesArray={this.state.imagesArray}
+            price={this?.state?.itemFromDetails?.price}
+            imagesArray={imagesArray}
             onPress={mediaSource => {
               this.setState({
                 pausedCheck: false,

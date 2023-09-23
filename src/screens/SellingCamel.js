@@ -292,7 +292,7 @@ class SellingCamelForm extends React.Component {
             image: '',
             fileName: '',
           });
-          this.props.navigation.navigate('Home');
+          this.props.navigation.replace('CamelSellingList');
         })
         .catch(error => {
           console.log('error', error.response);
@@ -349,11 +349,12 @@ class SellingCamelForm extends React.Component {
               بيع الحلال
             </Text>
             <HorizontalCarousel
-             price={
-              this.state.itemFromDetails?.price
-                ? this.state.itemFromDetails?.price
-                : ''
-            }
+              CustomUrl
+              price={
+                this.state.itemFromDetails?.price
+                  ? this.state.itemFromDetails?.price
+                  : ''
+              }
               imagesArray={this.state.mixed?.length ? this.state.mixed : []}
               onPress={mediaSource => {
                 this.setState({

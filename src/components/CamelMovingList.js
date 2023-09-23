@@ -65,9 +65,9 @@ class CamelMovingList extends Component {
   }
 
   async viewPosts() {
+    const {key} = this.state;
     const user = this.props?.user;
     userData = user?.user?.user;
-    console.log(userData);
     try {
       return await camelapp
         .post('/get/camelmove', {
@@ -78,6 +78,7 @@ class CamelMovingList extends Component {
             posts: res.data.Posts,
             loader: false,
             filterPosts: res.data.Posts,
+            key: !key,
           });
         });
     } catch (error) {
@@ -94,15 +95,12 @@ class CamelMovingList extends Component {
       this.viewPosts();
     });
   };
-
   componentWillUnmount() {
     this.focusListener();
   }
-
   render() {
     const {key, filterPosts, searchedItem} = this.state;
     const renderItem = ({item}) => {
-      console.log('item Camel Moving ==>', item);
 
       return (
         <Post

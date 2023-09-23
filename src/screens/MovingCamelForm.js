@@ -128,15 +128,14 @@ class SellingCamel extends React.Component {
           images: combineImages,
           video: this.state.videoForPost,
           register: this.state.register,
-          pay: this.state.pay,
           car_model: this.state.car_name,
           car_type: this.state.car_type,
           price: this.state.price,
           to_location: this.state.to_location,
+          account_activity: this.state.pay,
         })
         .then(response => {
-          console.log('response', response);
-
+          console.log(response?.data?.status, 'statusss');
           // alert("Post Added Successfully");
           this.setState({
             loading: false,
@@ -148,7 +147,6 @@ class SellingCamel extends React.Component {
             cameraimagesForPost: undefined,
           });
           alert(ArabicText.Post_added_successfully + '');
-
           this.setState({
             title: '',
             description: '',
@@ -157,11 +155,11 @@ class SellingCamel extends React.Component {
             fileName: '',
           });
           // this.props.navigation.navigate('Home');
-          this.props.navigation.goBack();
-
+          this.props.navigation.replace('CamelMovingList');
         })
         .catch(error => {
-          console.log('error', error);
+          // alert(error, 'errorrrrrrrrr');
+          console.log('error162', error?.response, 'errorRespos');
           this.setState({loading: false});
         });
     } else {
@@ -303,7 +301,7 @@ class SellingCamel extends React.Component {
       });
   }
   onRegisterSwitchChanged(value) {
-    console.log(" ----- value", value)
+    console.log(' ----- value', value);
 
     this.setState({registerSwitch: value});
     if (value === false) {
@@ -350,7 +348,6 @@ class SellingCamel extends React.Component {
   render() {
     const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
 
-    console.log('item camel moving form');
     return (
       <SafeAreaView style={Styles.container}>
         <Ads />
@@ -360,11 +357,11 @@ class SellingCamel extends React.Component {
               نقل الابل
             </Text>
             <HorizontalCarousel
-             price={
-              this.state.itemFromDetails?.price
-                ? this.state.itemFromDetails?.price
-                : ''
-            }
+              price={
+                this.state.itemFromDetails?.price
+                  ? this.state.itemFromDetails?.price
+                  : ''
+              }
               CustomUrl
               imagesArray={this.state.mixed}
               onPress={mediaSource => {

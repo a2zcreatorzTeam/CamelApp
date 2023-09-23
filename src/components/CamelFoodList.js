@@ -73,6 +73,7 @@ class CamelFoodList extends Component {
     this.setState({refreshing: false});
   }
   async viewPosts() {
+    const {key} = this.state;
     let {user} = this.props;
     user = user.user.user;
     try {
@@ -95,6 +96,7 @@ class CamelFoodList extends Component {
           this.setState({
             posts: arrayPosts,
             loader: false,
+            key: !key,
           });
         });
     } catch (error) {

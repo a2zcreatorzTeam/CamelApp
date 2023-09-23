@@ -70,7 +70,7 @@ class CamelClubList extends Component {
   async viewPosts() {
     let {user} = this.props;
     user = user.user.user;
-    const {searchedItem} = this.state;
+    const {searchedItem, key} = this.state;
     await camelapp
       .post('/postclub', {
         user_id: user?.id,
@@ -85,15 +85,13 @@ class CamelClubList extends Component {
           });
           imagesArray?.push({type: 'video', source: item?.video});
           item['imagesArray'] = imagesArray;
-
           arrayPosts[index] = item;
         });
-
         this.setState({
           posts: arrayPosts,
           filterPosts: arrayPosts,
-
           loader: false,
+          key: !key,
         });
         searchedItem && this.searchFunction(searchedItem);
       })
@@ -101,7 +99,6 @@ class CamelClubList extends Component {
         this.setState({
           posts: [],
           filterPosts: [],
-
           loader: false,
         });
         console.log('Error Message--- view post', error);

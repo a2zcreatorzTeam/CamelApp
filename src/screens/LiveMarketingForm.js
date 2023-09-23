@@ -237,7 +237,7 @@ class CamelClub extends Component {
           this.setState({loading: false});
           alert(ArabicText.Post_added_successfully);
           // this.props.navigation.navigate('Home');
-          this.props.navigation.goBack();
+          this.props.navigation.replace('CamelMarketingList');
         })
         .catch(error => {
           console.log('error', error.response);
@@ -256,11 +256,11 @@ class CamelClub extends Component {
         <View style={Styles.containerScroll}>
           <Text style={Styles.headingPostText}>عروض الاء سواق</Text>
           <HorizontalCarousel
-           price={
-            this.state.itemFromDetails?.price
-              ? this.state.itemFromDetails?.price
-              : ''
-          }
+            price={
+              this.state.itemFromDetails?.price
+                ? this.state.itemFromDetails?.price
+                : ''
+            }
             CustomUrl
             imagesArray={this.state.mixed}
             onPress={mediaSource => {

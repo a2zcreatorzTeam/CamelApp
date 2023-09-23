@@ -60,16 +60,14 @@ class CamelSellingList extends Component {
   async viewPosts() {
     let {user} = this.props;
     user = user.user.user;
-    const {searchedItem} = this.state;
+    const {searchedItem, key} = this.state;
     try {
       return await camelapp
         .post('/get/camel_selling', {
           user_id: user?.id,
         })
         .then(res => {
-          // console.log(res, 'RESPONSE CAMEL SELLINg');
           var arrayPosts = res?.data?.Posts;
-
           arrayPosts.map((item, index) => {
             console.log('indexex', index);
             let array = item?.img;
@@ -79,14 +77,12 @@ class CamelSellingList extends Component {
             });
             imagesArray?.push({type: 'video', source: item?.video});
             item['imagesArray'] = imagesArray;
-
             arrayPosts[index] = item;
           });
-
           this.setState({
             posts: arrayPosts,
-            // filterPosts: arrayPosts,
             loader: false,
+            key: !key,
           });
           searchedItem && this.searchFunction(searchedItem);
         });

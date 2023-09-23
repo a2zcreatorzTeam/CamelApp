@@ -39,6 +39,7 @@ class CamelEquipmentList extends Component {
   }
 
   async viewPosts() {
+    const {key}= this.state
     let {user} = this.props;
     user = user.user.user;
     try {
@@ -61,13 +62,13 @@ class CamelEquipmentList extends Component {
           this.setState({
             posts: arrayPosts,
             loader: false,
+            key:!key
           });
         });
     } catch (error) {
       this.setState({
         posts: [],
         filterPosts: [],
-
         loader: false,
       });
       console.log('Error Message--- view post', error);

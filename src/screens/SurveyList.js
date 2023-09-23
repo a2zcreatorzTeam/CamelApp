@@ -28,6 +28,7 @@ class SurveyList extends Component {
       searchText: '',
       searchedItem: '',
       filterPosts: [],
+      key: false,
     };
     this.viewPosts();
   }
@@ -35,6 +36,7 @@ class SurveyList extends Component {
   async viewPosts() {
     let {user} = this.props;
     user = user?.user?.user;
+    const {key} = this.state;
     await camelapp
       .post('/get/survey', {
         user_id: user?.id,
@@ -45,6 +47,7 @@ class SurveyList extends Component {
           this.setState({
             posts: response.data.survey,
             loader: false,
+            key: !key,
           });
         }
       })
@@ -118,7 +121,7 @@ class SurveyList extends Component {
   }
 
   render() {
-    const {posts, filterPosts, searchedItem} = this.state;
+    const {posts, filterPosts, searchedItem, key} = this.state;
     const renderItem = ({item}) => {
       return (
         <Item
@@ -157,6 +160,7 @@ class SurveyList extends Component {
         {this.state.loader == false && (
           <View>
             <FlatList
+              key={key}
               refreshControl={
                 <RefreshControl
                   refreshing={this.state.isRefreshing}

@@ -52,6 +52,7 @@ class BeautyOfCompetition extends Component {
       generalRulesModal: false,
       refreshing: false,
       loading: false,
+      key: false,
     };
   }
   selectedCompetition() {
@@ -67,6 +68,7 @@ class BeautyOfCompetition extends Component {
     }
   }
   async competitionDetails() {
+    const {key} = this.state;
     try {
       let {user} = this.props;
       user = user.user.user;
@@ -80,6 +82,7 @@ class BeautyOfCompetition extends Component {
           const arr = res?.data;
           this.setState({
             posts: res?.data?.competition_posts,
+            key: !key,
           });
         });
     } catch (error) {
@@ -129,6 +132,7 @@ class BeautyOfCompetition extends Component {
   }
 
   render() {
+    const {key} = this.state;
     const tagsStyles = {
       body: {
         color: 'black',
@@ -137,7 +141,6 @@ class BeautyOfCompetition extends Component {
         width: '95%',
       },
     };
-
     // COMMENT
     onCommentsClick = async item => {
       let {user} = this.props;
@@ -443,6 +446,7 @@ class BeautyOfCompetition extends Component {
         <View style={{flex: 1}}>
           {this.state?.posts?.length && (
             <FlatList
+              key={key}
               style={{flex: 1, flexGrow: 1}}
               contentContainerStyle={{flexGrow: 1}}
               data={this.state.posts}

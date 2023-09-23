@@ -306,17 +306,20 @@ class CamelClubList extends Component {
       searchText: '',
       searchedItem: '',
       filterPosts: [],
+      key: false,
     };
     this.viewPosts();
   }
 
   async viewPosts() {
+    const {key} = this.state;
     try {
       return await camelapp.get('/get/competition').then(res => {
         //console.log("res", res.data.status)
         this.setState({
           posts: res.data.status,
           loader: false,
+          key: !key,
         });
       });
     } catch (error) {
@@ -407,10 +410,10 @@ class CamelClubList extends Component {
             }
           });
       } catch (error) {
-        console.log("Error Message get competition List", error);
+        console.log('Error Message get competition List', error);
       }
     };
-    const {posts, filterPosts, searchedItem, loader} = this.state;
+    const {posts, filterPosts, searchedItem, loader, key} = this.state;
     const renderItem = ({item}) => {
       return (
         <Item
@@ -450,6 +453,7 @@ class CamelClubList extends Component {
         {this.state.loader == false && (
           <View>
             <FlatList
+              key={key}
               columnWrapperStyle={{
                 justifyContent: 'space-between',
               }}

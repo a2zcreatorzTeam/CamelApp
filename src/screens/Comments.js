@@ -122,20 +122,18 @@ class Comments extends Component {
     let {user} = this.props?.route.params;
     // user = user.user.user;
     console.log(user, 'userere');
-    const {searchedItem} = this.state;
-    console.log(
-      this.props.route.params?.post?.id,
-      user?.id,
-      'this.props.route.params?.post?.id',
-    );
+    const {searchedItem, dataNotFound} = this.state;
     await camelapp
       .post('/get/comment', {
         post_id: this.props.route.params?.post?.id,
         user_id: user?.id,
       })
       .then(res => {
-        console.log(res?.data, 'responsee33434', searchedItem);
-        this.setState({commentsList: res?.data, loader: false});
+        this.setState({
+          commentsList: res?.data,
+          loader: false,
+          dataNotFound: !dataNotFound,
+        });
         searchedItem && this.searchHandler(searchedItem);
       });
   };

@@ -20,15 +20,18 @@ class News extends Component {
       searchText: '',
       searchedItem: '',
       filterPosts: [],
+      key: false,
     };
     this.viewPosts();
   }
   async viewPosts() {
+    const {key} = this.state;
     try {
       return await camelapp.get('/get/news').then(res => {
         this.setState({
           posts: res.data.news,
           loader: false,
+          key: !key,
         });
       });
     } catch (error) {
@@ -67,7 +70,7 @@ class News extends Component {
     this.setState({searchText: text});
   }
   render() {
-    const {posts, filterPosts, searchedItem} = this.state;
+    const {posts, filterPosts, searchedItem, key} = this.state;
     console.log('=============NEWS POSTS=======================');
     console.log('====================================');
     const onItemClick = item => {
@@ -113,6 +116,7 @@ class News extends Component {
           <View>
             <Ads />
             <FlatList
+              key={key}
               // inverted
               data={searchedItem ? filterPosts : posts}
               renderItem={renderItem}

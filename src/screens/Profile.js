@@ -392,9 +392,7 @@ class Profile extends Component {
     const {key} = this.state;
     const sharePosts = item => {
       // console.log('working');
-
       this.setState({loading: true});
-
       let {user} = this.props;
       user = user?.user?.user;
       let post_id = item?.id;
@@ -415,7 +413,6 @@ class Profile extends Component {
               let tempItem = item;
               tempItem['share_count'] = share_count;
               filterPosts[tempIndex] = tempItem;
-
               this.setState({loading: false, filterPosts: filterPosts});
             }
           })

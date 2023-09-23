@@ -79,6 +79,7 @@ class CamelFoodList extends Component {
     this.setState({refreshing: false});
   }
   async viewPosts() {
+    const {key} = this.state;
     let {user} = this.props;
     user = user?.user?.user;
     try {
@@ -88,7 +89,6 @@ class CamelFoodList extends Component {
         })
         .then(res => {
           var arrayPosts = res?.data?.Posts;
-
           arrayPosts.map((item, index) => {
             console.log('index', index);
             let array = item?.img;
@@ -98,14 +98,12 @@ class CamelFoodList extends Component {
             });
             imagesArray?.push({type: 'video', source: item?.video});
             item['imagesArray'] = imagesArray;
-
             arrayPosts[index] = item;
           });
-
           this.setState({
             posts: arrayPosts,
-            // filterPosts: arrayPosts,
             loader: false,
+            key: !key,
           });
         });
     } catch (error) {

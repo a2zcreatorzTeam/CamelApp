@@ -73,6 +73,7 @@ class CamelFemaleList extends Component {
   }
 
   async viewPosts() {
+    const {key} = this.state;
     let {user} = this.props;
     user = user.user.user;
     try {
@@ -86,6 +87,7 @@ class CamelFemaleList extends Component {
             posts: res.data.Posts,
             loader: false,
             filterPosts: res.data.Posts,
+            key: !key,
           });
         });
     } catch (error) {
@@ -103,7 +105,7 @@ class CamelFemaleList extends Component {
     });
   };
   render() {
-    const {filterPosts, posts, searchedItem} = this.state;
+    const {filterPosts, posts, searchedItem, key} = this.state;
     console.log('=====================this.state.femaleListtt===============');
     console.log(this.state.filterPosts);
     console.log('====================================');
@@ -185,6 +187,7 @@ class CamelFemaleList extends Component {
             <AddButton onPress={() => onAddButtonClick()} />
 
             <FlatList
+              key={key}
               contentContainerStyle={{paddingBottom: '20%'}}
               data={searchedItem ? filterPosts : posts}
               renderItem={renderItem}

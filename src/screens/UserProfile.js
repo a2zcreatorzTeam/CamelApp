@@ -51,7 +51,7 @@ class UserProfile extends Component {
       profImgHeight: 0,
       refreshing: false,
       loading: false,
-      refreshing: false,
+      key: key,
     };
   }
   ScrollToRefresh() {
@@ -174,6 +174,7 @@ class UserProfile extends Component {
     }
   }
   userProfile = async () => {
+    const {key} = this.state;
     const item = this.props.route?.params;
     this.setState({loading: true});
     let {user} = this.props;
@@ -206,6 +207,7 @@ class UserProfile extends Component {
               postData: arrayPosts,
               user: data.user,
               noOfPosts: data?.posts.length,
+              key: !key,
             });
           });
         }
@@ -293,7 +295,6 @@ class UserProfile extends Component {
       this.props.navigation.navigate('Login');
     }
   }
-
   postViewed = async (item, viewCount, setViewCount) => {
     this.setState({loading: false});
     let {user} = this.props;
@@ -320,7 +321,7 @@ class UserProfile extends Component {
     }
   };
   render() {
-    const {user} = this.state;
+    const {user, key} = this.state;
     const sharePosts = item => {
       const user = this.props.route?.params;
       this.setState({loading: true});
@@ -761,6 +762,7 @@ class UserProfile extends Component {
         </View>
         <Loader loading={this.state.loading} />
         <FlatList
+          key={key}
           ListEmptyComponent={
             <Text
               style={{

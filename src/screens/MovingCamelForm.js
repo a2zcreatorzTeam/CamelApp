@@ -29,6 +29,7 @@ const height = Dimensions.get('screen').height;
 import * as ImageCropPicker from 'react-native-image-crop-picker';
 import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
+import BackBtnHeader from '../components/headerWithBackBtn';
 
 class SellingCamel extends React.Component {
   constructor(props) {
@@ -350,6 +351,7 @@ class SellingCamel extends React.Component {
 
     return (
       <SafeAreaView style={Styles.container}>
+        <BackBtnHeader />
         <Ads />
         <ScrollView style={{backgroundColor: 'red'}}>
           <View style={Styles.container}>

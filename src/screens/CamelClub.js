@@ -22,6 +22,7 @@ import Loader from '../components/PleaseWait';
 import Ads from '../components/Ads';
 import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
+import BackBtnHeader from '../components/headerWithBackBtn';
 class CamelClub extends Component {
   constructor(props) {
     super(props);
@@ -51,7 +52,6 @@ class CamelClub extends Component {
       loadVideo: false,
     };
   }
-
   selectOneFile = async () => {
     this.setState({video: {}});
     ImageCropPicker.openPicker({
@@ -95,7 +95,6 @@ class CamelClub extends Component {
       }
     });
   };
-
   openGallery() {
     ImageCropPicker.openPicker({
       mediaType: 'photo',
@@ -138,7 +137,6 @@ class CamelClub extends Component {
         console.log('error', error);
       });
   }
-
   openCamera() {
     ImageCropPicker.openCamera({
       mediaType: 'photo',
@@ -254,6 +252,7 @@ class CamelClub extends Component {
     const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
     return (
       <View style={{backgroundColor: '#ffffff'}}>
+        <BackBtnHeader />
         <Ads />
         <ScrollView contentContainerStyle={{paddingBottom: 150}}>
           <View style={Styles.containerScroll}>

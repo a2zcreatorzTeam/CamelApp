@@ -28,6 +28,7 @@ import Ads from '../components/Ads';
 import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import ImagePicker from 'react-native-image-crop-picker';
+import BackBtnHeader from '../components/headerWithBackBtn';
 
 class CamelClub extends Component {
   constructor(props) {
@@ -252,6 +253,7 @@ class CamelClub extends Component {
     const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
     return (
       <ScrollView style={{backgroundColor: '#ffffff'}}>
+        <BackBtnHeader />
         <Ads />
         <View style={Styles.containerScroll}>
           <Text style={Styles.headingPostText}>عروض الاء سواق</Text>

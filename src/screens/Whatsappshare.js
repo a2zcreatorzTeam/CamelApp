@@ -12,6 +12,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import {useNavigation} from '@react-navigation/native';
 import * as ArabicText from '../language/EnglishToArabic';
+import BackBtnHeader from '../components/headerWithBackBtn';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 

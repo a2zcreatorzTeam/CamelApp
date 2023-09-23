@@ -30,6 +30,7 @@ import Ads from '../components/Ads';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import VideoModal from '../components/VideoModal';
+import BackBtnHeader from '../components/headerWithBackBtn';
 
 class CamelFood extends React.Component {
   constructor(props) {
@@ -305,16 +306,17 @@ class CamelFood extends React.Component {
         <ScrollView
           showsHorizontalScrollIndicator={false}
           style={{backgroundColor: 'white'}}>
+          <BackBtnHeader />
           <Ads />
 
           <View style={Styles.container}>
             <Text style={Styles.headingPostText}>بيع الأعلاف</Text>
             <HorizontalCarousel
-             price={
-              this.state.itemFromDetails?.price
-                ? this.state.itemFromDetails?.price
-                : ''
-            }
+              price={
+                this.state.itemFromDetails?.price
+                  ? this.state.itemFromDetails?.price
+                  : ''
+              }
               CustomUrl
               imagesArray={this.state.mixed}
               onPress={mediaSource => {

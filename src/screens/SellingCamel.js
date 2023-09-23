@@ -30,6 +30,7 @@ const hight = Dimensions.get('screen').height;
 import RNFS from 'react-native-fs';
 import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
+import BackBtnHeader from '../components/headerWithBackBtn';
 
 class SellingCamelForm extends React.Component {
   constructor(props) {
@@ -343,6 +344,7 @@ class SellingCamelForm extends React.Component {
         <ScrollView
           showsHorizontalScrollIndicator={false}
           style={{backgroundColor: 'white'}}>
+          <BackBtnHeader />
           <Ads />
           <View style={Styles.containerSellingCamel}>
             <Text style={[Styles.headingPostText, {marginTop: 30}]}>

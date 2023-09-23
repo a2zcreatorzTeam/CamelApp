@@ -25,6 +25,7 @@ import Ads from '../components/Ads';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
 import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
+import BackBtnHeader from '../components/headerWithBackBtn';
 
 const width = Dimensions.get('screen').width;
 
@@ -260,6 +261,7 @@ class MissingCamelForm extends Component {
     const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
     return (
       <ScrollView style={{backgroundColor: '#ffffff'}}>
+        <BackBtnHeader />
         <Ads />
         <View style={Styles.containerScroll}>
           <Text style={[Styles.headingPostText, {marginTop: 30}]}>

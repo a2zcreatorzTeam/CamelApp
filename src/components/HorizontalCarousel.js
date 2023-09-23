@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {View, Image, Dimensions, Text} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import {StyleSheet} from 'react-native';
@@ -6,7 +6,9 @@ import {Styles} from '../styles/globlestyle';
 import {TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 const {width, height} = Dimensions.get('screen');
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ArabicText from '../language/EnglishToArabic';
+import {ImageBackground} from 'react-native';
 const HorizontalCarousel = ({
   imagesArray,
   pausedCheck,
@@ -15,16 +17,17 @@ const HorizontalCarousel = ({
   CustomUrl,
   price,
   lastBidPrice,
+  removeItem = () => {},
 }) => {
-  console.log(price?.length, 'priceeeee');
+  const ref = useRef(null);
   return (
     <Carousel
+      ref={ref}
       data={imagesArray}
       layout={'default'}
       scrollEnabled={true}
       onScroll={() => pauseVideo()}
       renderItem={({item, index}) => {
-        console.log(item);
         const mediaSource =
           item.type == 'image'
             ? {
@@ -34,19 +37,41 @@ const HorizontalCarousel = ({
             ? {uri: 'http://www.tasdeertech.com/videos/' + item?.source}
             : null;
         return (
-          <View style={[Styles.imageCarousal, {position: 'relative'}]}>
+          <View
+            style={[
+              Styles.imageCarousal,
+              {position: 'relative', overflow: 'visible'},
+            ]}>
             {CustomUrl &&
               item.mime != undefined &&
               item.mime.includes('image') && (
-                <FastImage
-                  style={Styles.image}
-                  source={{
-                    uri: item?.path,
-                    headers: {Authorization: 'someAuthToken'},
-                    priority: FastImage.priority.normal,
-                  }}
-                  resizeMode={FastImage?.resizeMode.cover}
-                />
+                <ImageBackground
+                  source={{uri: item?.path}}
+                  resizeMode="cover"
+                  style={Styles.image}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      removeItem(index);
+                      setTimeout(() => ref.current.snapToNext(), 250);
+                    }}
+                    style={{
+                      width: 20,
+                      height: 30,
+                      margin: 10,
+                      alignSelf: 'flex-end',
+                    }}>
+                    <Ionicons name={'close'} size={24} color="red" />
+                  </TouchableOpacity>
+                </ImageBackground>
+                // <FastImage
+                //   style={Styles.image}
+                //   source={{
+                //     uri: item?.path,
+                //     headers: {Authorization: 'someAuthToken'},
+                //     priority: FastImage.priority.normal,
+                //   }}
+                //   resizeMode={FastImage?.resizeMode.cover}
+                // />
 
                 // <Image
                 //   source={{
@@ -57,7 +82,7 @@ const HorizontalCarousel = ({
                 //   style={Styles.image}
                 // />
               )}
-          
+
             {!CustomUrl && item?.type == 'image' && (
               // <Image
               //   source={{
@@ -70,12 +95,17 @@ const HorizontalCarousel = ({
               // />
               <FastImage
                 style={Styles.image}
-                source={item?.source?{
-                  uri:
-                    'http://www.tasdeertech.com/images/posts/' + item?.source,
-                  headers: {Authorization: 'someAuthToken'},
-                  priority: FastImage.priority.normal,
-                } : require('../../assets/dummyImage.jpeg')}
+                source={
+                  item?.source
+                    ? {
+                        uri:
+                          'http://www.tasdeertech.com/images/posts/' +
+                          item?.source,
+                        headers: {Authorization: 'someAuthToken'},
+                        priority: FastImage.priority.normal,
+                      }
+                    : require('../../assets/dummyImage.jpeg')
+                }
                 resizeMode={FastImage?.resizeMode.cover}
               />
             )}

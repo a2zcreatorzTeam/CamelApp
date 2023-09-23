@@ -52,6 +52,8 @@ class CamelClub extends Component {
       loadVideo: false,
     };
   }
+
+  // VIDEO PICKER
   selectOneFile = async () => {
     this.setState({video: {}});
     ImageCropPicker.openPicker({
@@ -63,7 +65,6 @@ class CamelClub extends Component {
         } else {
           RNFS.readFile(video.path, 'base64')
             .then(res => {
-              console.log('res', res);
               this.setState({videoForPost: 'data:video/mp4;base64,' + res});
               let tempMixed = this.state.mixed;
               let mixed = this.state.mixed;
@@ -95,6 +96,7 @@ class CamelClub extends Component {
       }
     });
   };
+  // PICK FROM GALLERY
   openGallery() {
     ImageCropPicker.openPicker({
       mediaType: 'photo',
@@ -110,24 +112,25 @@ class CamelClub extends Component {
           for (let i = 0; i < tempImage.length; i++) {
             bse64images.push('data:image/png;base64,' + images[i].data);
             mixedTemp.push(tempImage[i]);
-            console.log('tempImage[i]', tempImage[i]);
           }
           this.setState({imagesForPost: bse64images, image: tempImage});
 
-          if (this.state.video != undefined) {
-            let video = this.state.video;
-            mixedTemp.push(video);
-          }
-          if (this.state.cameraimage != undefined) {
-            let cameraimage = this.state.cameraimage;
-            for (var i = 0; i < cameraimage?.length; i++) {
-              mixedTemp.push(cameraimage[i]);
-            }
-          }
-          this.setState({mixed: mixedTemp});
-          console.log('====================================');
-          console.log(this?.state?.mixed);
-          console.log('====================================');
+          // if (this.state.video != undefined) {
+          //   let video = this.state.video;
+          //   mixedTemp.push(video);
+          // }
+          // if (this.state.cameraimage != undefined) {
+          //   let cameraimage = this.state.cameraimage;
+          //   for (var i = 0; i < cameraimage?.length; i++) {
+          //     mixedTemp.push(cameraimage[i]);
+          //   }
+          // }
+          this.setState(previousState => {
+            return {mixed: [...previousState?.mixed, ...mixedTemp]};
+          });
+          // console.log('====================================');
+          // console.log(this?.state?.mixed);
+          // console.log('====================================');
         } else {
           alert('Only 4 images allowed');
         }
@@ -137,6 +140,7 @@ class CamelClub extends Component {
         console.log('error', error);
       });
   }
+  // CAPTURE FROM CAMERA
   openCamera() {
     ImageCropPicker.openCamera({
       mediaType: 'photo',
@@ -144,35 +148,36 @@ class CamelClub extends Component {
     })
       .then(async images => {
         if (images) {
-          let tempImage = images;
-          let bse64images = [];
           let mixedTemp = [];
-
-          this.setState(prevstate => ({
-            cameraimage: prevstate.cameraimage.concat(tempImage),
-          }));
-          const newImageArray = this?.state?.cameraimage;
-
-          for (var i = 0; i < newImageArray?.length; i++) {
-            mixedTemp.push(newImageArray[i]);
-            bse64images.push('data:image/png;base64,' + newImageArray[i]?.data);
-            // mixedTemp.push(tempImage);
-            this.setState({
-              cameraimagesForPost: bse64images,
-            });
-          }
-
-          if (this.state.image != undefined) {
-            let image = this.state.image;
-            for (var i = 0; i < image?.length; i++) {
-              mixedTemp.push(image[i]);
-            }
-          }
-          if (this.state.video != undefined) {
-            let video = this.state.video;
-            mixedTemp.push(video);
-          }
-          this.setState({mixed: mixedTemp});
+          mixedTemp.push(images);
+          this.setState({
+            imagesForPost: 'data:image/png;base64,' + images?.data,
+          });
+          this.setState(previousState => {
+            return {mixed: [...previousState?.mixed, ...mixedTemp]};
+          });
+          // console.log(images?.data, 'mixedTemppppp');
+          // this.setState(prevstate => ({
+          //   cameraimage: prevstate.cameraimage.concat(tempImage),
+          // }));
+          // const newImageArray = this?.state?.cameraimage;
+          // for (var i = 0; i < newImageArray?.length; i++) {
+          //   mixedTemp.push(newImageArray[i]);
+          //   bse64images.push('data:image/png;base64,' + newImageArray[i]?.data);
+          //   // mixedTemp.push(tempImage);
+          // }
+          // this.setState({imagesForPost: bse64images, image: tempImage});
+          // if (this.state.image != undefined) {
+          //   let image = this.state.image;
+          //   for (var i = 0; i < image?.length; i++) {
+          //     mixedTemp.push(image[i]);
+          //   }
+          // }
+          // if (this.state.video != undefined) {
+          //   let video = this.state.video;
+          //   mixedTemp.push(video);
+          // }
+          // console.log(this.state.mixed, 'mixedddd186');
         }
         // else {
         //   alert(" IF Only 4 images allowed")
@@ -248,8 +253,18 @@ class CamelClub extends Component {
     }
   };
 
+  // REMOVE ITEM
+  removeItem = i => {
+    const {mixed} = this.state;
+    const filteredList = mixed?.filter((item, index) => {
+      console.log(index, i);
+      return index !== i;
+    });
+    this.setState({mixed: filteredList});
+  };
+
   render() {
-    const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
+    const {pausedCheck, loadVideo, videoModal, modalItem, mixed} = this.state;
     return (
       <View style={{backgroundColor: '#ffffff'}}>
         <BackBtnHeader />
@@ -257,26 +272,30 @@ class CamelClub extends Component {
         <ScrollView contentContainerStyle={{paddingBottom: 150}}>
           <View style={Styles.containerScroll}>
             <Text style={Styles.headingPostText}>{ArabicText.Camel_Club}</Text>
-            <HorizontalCarousel
-              CustomUrl
-              price={
-                this.state.itemFromDetails?.price
-                  ? this.state.itemFromDetails?.price
-                  : ''
-              }
-              imagesArray={this.state.mixed}
-              onPress={mediaSource => {
-                this.setState({
-                  pausedCheck: false,
-                  videoModal: true,
-                  modalItem: mediaSource,
-                });
-              }}
-              pausedCheck={pausedCheck}
-              pauseVideo={() => {
-                this.setState({pausedCheck: true});
-              }}
-            />
+            {/* IMAGES CAROUSAL */}
+            {mixed?.length ? (
+              <HorizontalCarousel
+                removeItem={index => this.removeItem(index)}
+                CustomUrl
+                price={
+                  this.state.itemFromDetails?.price
+                    ? this.state.itemFromDetails?.price
+                    : ''
+                }
+                imagesArray={this.state.mixed}
+                onPress={mediaSource => {
+                  this.setState({
+                    pausedCheck: false,
+                    videoModal: true,
+                    modalItem: mediaSource,
+                  });
+                }}
+                pausedCheck={pausedCheck}
+                pauseVideo={() => {
+                  this.setState({pausedCheck: true});
+                }}
+              />
+            ) : null}
 
             <View style={{flexDirection: 'row', marginTop: 10}}>
               {/* VIDEO PICKER */}
@@ -313,6 +332,8 @@ class CamelClub extends Component {
                 }}
                 style={Styles.image}></Image>
             )}
+
+            {/* TEXT INPUTS */}
             <TextInput
               style={Styles.forminputs}
               placeholder={ArabicText.Title}
@@ -353,6 +374,7 @@ class CamelClub extends Component {
                 }
               }}></TextInput>
             <Loader loading={this.state.loading} />
+            {/* CREATE POST */}
             <TouchableOpacity onPress={() => this.createPostCamelClub()}>
               <View style={Styles.btnform}>
                 <Text style={Styles.textbtn}>{ArabicText.add}</Text>

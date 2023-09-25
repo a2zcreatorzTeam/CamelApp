@@ -50,7 +50,7 @@ class Profile extends Component {
       whatsappNumber: '',
       phoneNumber: '',
       otpValue: '',
-      registerSwitch: true,
+      registerSwitch: false,
       chatFlag: true,
       modalChat: false,
       loading: false,
@@ -747,7 +747,7 @@ class Profile extends Component {
                       this.state?.rating <= 1
                         ? 'blue'
                         : this.state?.rating <= 3
-                        ? 'yellow'
+                        ? 'orange'
                         : '#e50000'
                     }
                   />
@@ -757,7 +757,7 @@ class Profile extends Component {
                         this.state?.rating <= 1
                           ? 'blue'
                           : this.state?.rating <= 3
-                          ? 'yellow'
+                          ? 'orange'
                           : '#e50000',
                       fontSize: 12,
                       textAlign: 'right',

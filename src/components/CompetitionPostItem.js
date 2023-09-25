@@ -1,8 +1,11 @@
 import React, {memo, useState} from 'react';
-import {Image, Text, View, TouchableOpacity} from 'react-native';
+import {Image, Text, View, TouchableOpacity, Dimensions} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Styles} from '../styles/globlestyle';
+const {width} = Dimensions.get('screen');
+const itemWidth = (width - 15) / 2;
+
 const PostItem = ({
   item,
   image,
@@ -13,7 +16,13 @@ const PostItem = ({
   const [isLiked, setIsLiked] = useState();
   const [likeCount, setLikeCount] = useState(item?.like_count);
   return (
-    <View style={{margin: 10}}>
+    <View
+      style={{
+        margin: 10,
+        width: width / 2 - 20,
+        alignSelf: 'center',
+        justifyContent: 'space-evenly',
+      }}>
       <View style={Styles.BeautyOpacity}>
         <Image
           source={{

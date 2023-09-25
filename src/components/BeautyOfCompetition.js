@@ -447,8 +447,15 @@ class BeautyOfCompetition extends Component {
           {this.state?.posts?.length && (
             <FlatList
               key={key}
-              style={{flex: 1, flexGrow: 1}}
-              contentContainerStyle={{flexGrow: 1}}
+              style={{flex: 1, flexGrow:1}}
+              contentContainerStyle={{
+                flexGrow: 1,
+                alignItems: 'flex-end',
+                width: width,
+              }}
+              columnWrapperStyle={{
+                justifyContent: 'space-between',
+              }}
               data={this.state.posts}
               renderItem={renderPostItem}
               numColumns={2}

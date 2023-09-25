@@ -194,25 +194,23 @@ class SignUp extends Component {
       console.log('  confirm paswword not done', flag_confirm_password);
     }
 
+    //tersm cibdtiion
 
-    //tersm cibdtiion 
-
-    if (this.state?.isChecked==true) {
+    if (this.state?.isChecked == true) {
       this.setState({
         flag_termsCondition: true,
       });
-     
     } else {
       this.setState({
         flag_termsCondition: false,
       });
-  alert('الرجاء تحديد الشروط والأحكام')
+      alert('الرجاء تحديد الشروط والأحكام');
     }
     if (
       flagname == false &&
       flagphone == false &&
       flagpassword == false &&
-      flag_confirm_password == false && 
+      flag_confirm_password == false &&
       this.state?.flag_termsCondition == true
     ) {
       console.log('state', this.state);
@@ -226,9 +224,9 @@ class SignUp extends Component {
 
           do {
             number = Math.floor(Math.random() * 10000) + 1;
-            console.log(number)
+            console.log(number);
           } while (number < 1000 || number > 10000);
-          alert(number)
+          alert(number);
           this.setState({randomIndex: number});
           if (response.data.status === true) {
             this.setState({loader: false});
@@ -283,7 +281,7 @@ class SignUp extends Component {
       flagphone,
       flagpassword,
       flag_confirm_password,
-      flag_termsCondition
+      flag_termsCondition,
     } = this.state;
     return (
       <View style={Styles.container}>
@@ -471,9 +469,8 @@ class SignUp extends Component {
             alignSelf: 'center',
             alignItems: 'center',
           }}>
-          
           <Text style={{color: 'black', fontSize: 14}}>
-          أوافق على الشروط والأحكام
+            أوافق على الشروط والأحكام
           </Text>
           <Checkbox
             color="#D2691Eff"
@@ -490,7 +487,7 @@ class SignUp extends Component {
               color: '#D2691Eff',
               fontSize: 14,
             }}>
-           تعرف على المزيد حول الشروط والأحكام
+            تعرف على المزيد حول الشروط والأحكام
           </Text>
         </TouchableOpacity>
         <Modal
@@ -661,4 +658,3 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 });
-

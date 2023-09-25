@@ -9,11 +9,45 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as userActions from './src/redux/actions/user_actions';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import Toast from 'react-native-toast-message';
+import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
+
 
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(['Remote debugger']);
-
+const toastConfig = {
+  success: props => (
+    <BaseToast
+      {...props}
+      text1NumberOfLines={5}
+      style={{
+        borderLeftColor:'green',
+        maxHeight: 120,
+        height: '100%',
+        paddingVertical: 20,
+      }}
+      text1Style={{
+        fontSize: 14,
+        color: 'black',
+      }}
+    />
+  ),
+  error: props => (
+    <ErrorToast
+      {...props}
+      text1NumberOfLines={5}
+      style={{
+        borderLeftColor: 'red',
+        maxHeight: 120,
+        height: '100%',
+        paddingVertical: 20,
+      }}
+      text1Style={{
+        fontSize: 14,
+        color: 'black',
+      }}
+    />
+  ),
+};
 class App extends Component {
   async checkUser() {
     const userPhone = await AsyncStorage.getItem('@UserPhone');
@@ -65,7 +99,7 @@ class App extends Component {
           backgroundColor="#d2691e"
           // backgroundColor={backgroundStyle.backgroundColor}
         />
-        <Toast />
+        <Toast config={toastConfig}/>
         <Navigation />
       </SafeAreaProvider>
       // </View>

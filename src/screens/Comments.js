@@ -197,13 +197,15 @@ class Comments extends Component {
   }
   render() {
     const renderItem = ({item}) => {
+      console.log(item,"HJHJ")
       return (
         <Item
           item={item}
+          date={item?.created_at?.slice(0,9)}
           comment={item.comment}
           userImage={item.image}
           userName={item.name}
-          time={item.created_at}
+          time={item?.created_at}
           commentsCount={item.total_likes}
           onCommentsClick={() => this.onCommentsClick(item)}
           onLikesClick={(setIsLiked, setLikeCount) =>

@@ -50,7 +50,7 @@ class Profile extends Component {
       whatsappNumber: '',
       phoneNumber: '',
       otpValue: '',
-      registerSwitch: true,
+      registerSwitch: false,
       chatFlag: true,
       modalChat: false,
       loading: false,
@@ -226,9 +226,7 @@ class Profile extends Component {
     this.setState({loader: true});
     let {user, actions} = this.props;
     user = user?.user?.user;
-    console.log('================00USER00====================');
-    console.log(user);
-    console.log('====================================');
+
     try {
       camelapp.get('/get/fetchUser/' + user.id).then(res => {
         actions.userData(res?.data);
@@ -585,6 +583,7 @@ class Profile extends Component {
       if (item?.video) {
         imagesArray.push({type: 'video', source: item.video});
       }
+      console.log(item, 'itemcdmm');
       return (
         <Item
           item={item}
@@ -616,6 +615,7 @@ class Profile extends Component {
           postViewed={(viewCount, setViewCount) =>
             this.postViewed(item, viewCount, setViewCount)
           }
+          date={item?.created_at?.slice(0,10)}
         />
       );
     };
@@ -702,7 +702,7 @@ class Profile extends Component {
                       this.state?.rating <= 1
                         ? 'blue'
                         : this.state?.rating <= 3
-                        ? 'yellow'
+                        ? 'orange'
                         : '#e50000'
                     }
                   />
@@ -712,7 +712,7 @@ class Profile extends Component {
                         this.state?.rating <= 1
                           ? 'blue'
                           : this.state?.rating <= 3
-                          ? 'yellow'
+                          ? 'orange'
                           : '#e50000',
                       fontSize: 12,
                       textAlign: 'right',
@@ -1072,6 +1072,7 @@ const Item = ({
   flagForLike,
   likes,
   item,
+  date,
   postViewed = () => {},
 }) => {
   const [pausedCheck, setpausedCheck] = useState(true);
@@ -1122,7 +1123,7 @@ const Item = ({
                 }}>
                 {user_name}
               </Text>
-              <Text
+             {user_location && <Text
                 numberOfLines={1}
                 style={{
                   fontSize: 12,
@@ -1131,7 +1132,17 @@ const Item = ({
                   textAlign: 'right',
                 }}>
                 {user_location}
-              </Text>
+              </Text>}
+            { date && <Text
+                numberOfLines={1}
+                style={{
+                  fontSize: 12,
+                  paddingRight: 5,
+                  color: 'black',
+                  textAlign: 'right',
+                }}>
+                {date}
+              </Text>}
             </View>
           </View>
           <View

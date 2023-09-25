@@ -61,6 +61,7 @@ class UserProfile extends Component {
   sendWhatsAppMessage() {
     const {userProfile} = this.props.route?.params;
     let {user} = this.props;
+    console.log(userProfile?.whatsapp_status);
     user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
       if (
@@ -77,32 +78,32 @@ class UserProfile extends Component {
                 //console.log("WhatsApp Opened successfully " + data);
               })
               .catch(() => {
-                // alert('Make sure WhatsApp installed on your device');
-                Toast.show({
-                  type: 'error',
-                  text1: 'Make sure WhatsApp installed on your device',
-                });
+                alert('Make sure WhatsApp installed on your device');
+                // Toast.show({
+                //   type: 'error',
+                //   text1: 'Make sure WhatsApp installed on your device',
+                // });
               });
           } else {
-            // alert('Please enter message to send');
-            Toast.show({
-              type: 'error',
-              text1: 'Please enter message to send',
-            });
+            alert('Please enter message to send');
+            // Toast.show({
+            //   type: 'error',
+            //   text1: 'Please enter message to send',
+            // });
           }
         } else {
-          // alert('This user has disabled chat');
-          Toast.show({
-            type: 'error',
-            text1: 'This is some something',
-          });
+          alert('This user has disabled chat');
+          // Toast.show({
+          //   type: 'error',
+          //   text1: 'This is some something',
+          // });
         }
       } else {
-        // alert('This user has disabled chat');
-        Toast.show({
-          type: 'error',
-          text1: 'This user has disabled chat',
-        });
+        alert('This user has disabled chat');
+        // Toast.show({
+        //   type: 'error',
+        //   text1: 'This user has disabled chat',
+        // });
       }
     } else {
       this.props.navigation.navigate('Login');
@@ -122,11 +123,11 @@ class UserProfile extends Component {
         Linking.canOpenURL(phoneNumber)
           .then(supported => {
             if (!supported) {
-              Toast.show({
-                type: 'error',
-                text1: 'Phone number is not available',
-              });
-              // Alert.alert('Phone number is not available');
+              // Toast.show({
+              //   type: 'error',
+              //   text1: 'Phone number is not available',
+              // });
+              Alert.alert('Phone number is not available');
             } else {
               return Linking.openURL(phoneNumber);
             }
@@ -645,6 +646,7 @@ class UserProfile extends Component {
         );
       }
     };
+    const {userProfile} = this.props.route?.params;
 
     return (
       <View style={styles.container}>
@@ -689,11 +691,14 @@ class UserProfile extends Component {
               {this.state.user.name}
             </Text>
             <View style={styles.icons}>
-              <TouchableOpacity
-                onPress={() => this.sendWhatsAppMessage()}
-                style={Styles.detailsIcons}>
-                <FontAwesome name="whatsapp" size={20} color="#CD853F" />
-              </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => this.sendWhatsAppMessage()}
+                  style={Styles.detailsIcons}>
+                  <FontAwesome name="whatsapp" size={20} color="#CD853F" />
+                </TouchableOpacity>
+         
+
               <TouchableOpacity
                 style={Styles.detailsIcons}
                 onPress={() => this.audioCall()}>

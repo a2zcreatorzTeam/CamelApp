@@ -54,7 +54,7 @@ const HorizontalCarousel = ({
                   style={Styles.image}>
                   {/* <TouchableOpacity
                     onPress={() => {
-                      // removeItem(index, 'image', item?.path);
+                      removeItem(index, 'image', item?.path);
                       imagesArray?.length > 2 &&
                         index == imagesArray?.length - 1 &&
                         setTimeout(() => ref.current.snapToPrev(), 250);

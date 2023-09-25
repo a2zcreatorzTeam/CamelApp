@@ -21,7 +21,6 @@ const VideoModal = ({
   pausedCheck,
   videoModal,
 }) => {
-  console.log(modalItem,"modalitem");
   return (
     <Modal
       visible={videoModal}

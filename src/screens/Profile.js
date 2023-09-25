@@ -36,6 +36,7 @@ import Video from 'react-native-video';
 import Carousel from 'react-native-snap-carousel';
 import Loader from '../components/PleaseWait';
 import OTPTextInput from 'react-native-otp-textinput';
+import BackBtnHeader from '../components/headerWithBackBtn';
 
 class Profile extends Component {
   constructor(props) {
@@ -301,7 +302,6 @@ class Profile extends Component {
       this.setState({pausedCheck: true});
     }
   };
-  componentDidMount() {}
   componentDidMount = () => {
     this.setState({rating: 0, posts: []});
     this.focusListener = this.props.navigation.addListener('focus', () => {
@@ -666,6 +666,7 @@ class Profile extends Component {
     };
     return (
       <View style={Styles.containerProfile}>
+        <BackBtnHeader />
         {this.props.user.user.user === undefined ? (
           this.props.navigation.navigate('Login')
         ) : (
@@ -739,15 +740,34 @@ class Profile extends Component {
                     flexDirection: 'row-reverse',
                     alignItems: 'center',
                   }}>
-                  <AntDesign name="checkcircle" size={14} color={this.state?.rating  <=1 ? 'blue' : this.state?.rating  <=3 ? 'yellow' : '#e50000'}/>
+                  <AntDesign
+                    name="checkcircle"
+                    size={14}
+                    color={
+                      this.state?.rating <= 1
+                        ? 'blue'
+                        : this.state?.rating <= 3
+                        ? 'yellow'
+                        : '#e50000'
+                    }
+                  />
                   <Text
                     style={{
-                      color: this.state?.rating  <=1 ? 'blue' : this.state?.rating  <=3 ? 'yellow' : '#e50000',
+                      color:
+                        this.state?.rating <= 1
+                          ? 'blue'
+                          : this.state?.rating <= 3
+                          ? 'yellow'
+                          : '#e50000',
                       fontSize: 12,
                       textAlign: 'right',
                       marginRight: 4,
                     }}>
-                   {this.state?.rating  <=1 ? 'Normal' : this.state?.rating  <=3 ? 'Special' : 'Famous' }
+                    {this.state?.rating <= 1
+                      ? 'Normal'
+                      : this.state?.rating <= 3
+                      ? 'Special'
+                      : 'Famous'}
                   </Text>
                 </View>
                 {/* my contacts */}

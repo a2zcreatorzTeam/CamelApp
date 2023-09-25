@@ -66,7 +66,6 @@ class CamelClubList extends Component {
   search(text) {
     this.setState({searchText: text});
   }
-
   async viewPosts() {
     let {user} = this.props;
     user = user.user.user;

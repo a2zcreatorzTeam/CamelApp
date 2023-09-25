@@ -532,7 +532,7 @@ export const Styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: width,
-    marginTop: Platform.OS === 'android' ? 15 : 0,
+    marginTop: Platform.OS === 'android' ? 20 : 0,
   },
   containerBids: {
     flex: 1,
@@ -1204,7 +1204,7 @@ export const Styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    top: Platform.OS === 'android' ? 0 : 0,
+    // top: Platform.OS === 'android' ? 0 : 0,
   },
   cameraview: {
     width: 50,

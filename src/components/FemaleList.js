@@ -64,14 +64,12 @@ class CamelFemaleList extends Component {
       this.setState({filterPosts: tempPost});
     }
   }
-
   search(text) {
     //console.log("post[0]", this.state.posts[0])
 
     //console.log("text", text);
     this.setState({searchText: text});
   }
-
   async viewPosts() {
     const {key} = this.state;
     let {user} = this.props;
@@ -94,7 +92,6 @@ class CamelFemaleList extends Component {
       //console.log("Error Message camel Moving List", error.response);
     }
   }
-
   ScrollToRefresh() {
     this.viewPosts();
     this.setState({refreshing: false});
@@ -104,6 +101,7 @@ class CamelFemaleList extends Component {
       this.viewPosts();
     });
   };
+
   render() {
     const {filterPosts, posts, searchedItem, key} = this.state;
     console.log('=====================this.state.femaleListtt===============');
@@ -121,20 +119,22 @@ class CamelFemaleList extends Component {
           image={item.img[0]}
           detailBUTTON={ArabicText.PLACEHOLDER_DETAIL}
           onDetailsClick={(viewCount, setViewCount) => {
+            console.log('workingggg');
             onDetailsClick(item, viewCount, setViewCount);
           }}
         />
       );
     };
     const onDetailsClick = (item, viewCount, setViewCount) => {
+      console.log('detaillssss');
       let {user} = this.props;
       user = user.user.user;
       let post_id = item?.id;
+      console.log(user, 'usererer');
       if (user != undefined) {
         this.props.navigation.navigate('DetailsFemaleCamel', {
           itemFromDetails: item,
         });
-        this.postViewed(item, viewCount, setViewCount);
 
         //   camelapp
         //     .post('/add/view', {
@@ -168,7 +168,7 @@ class CamelFemaleList extends Component {
             if (text) {
               this.search(text);
             } else {
-              this.setState({searchedItem: ''});
+              this.setState({searchedItem: '', searchText:""});
             }
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}

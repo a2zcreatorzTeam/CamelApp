@@ -39,7 +39,7 @@ class CamelEquipmentList extends Component {
   }
 
   async viewPosts() {
-    const {key}= this.state
+    const {key} = this.state;
     let {user} = this.props;
     user = user.user.user;
     try {
@@ -62,7 +62,7 @@ class CamelEquipmentList extends Component {
           this.setState({
             posts: arrayPosts,
             loader: false,
-            key:!key
+            key: !key,
           });
         });
     } catch (error) {
@@ -317,7 +317,7 @@ class CamelEquipmentList extends Component {
             if (text) {
               this.search(text);
             } else {
-              this.setState({searchedItem: ''});
+              this.setState({searchedItem: '', searchText: ''});
             }
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}

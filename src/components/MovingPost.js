@@ -5,66 +5,78 @@ import {Styles} from '../styles/globlestyle';
 import {Card} from 'react-native-paper';
 import {Dimensions} from 'react-native';
 import * as ArabicText from '../language/EnglishToArabic';
+import { useState } from 'react';
 
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
 const MovingPost = ({
+  item,
   title,
   type,
   location,
   color,
   price,
   image,
-  OnDetailsClick,
-}) => (
-  <Card>
-    <View style={Styles.container}>
-      <View style={Styles.newsbox1}>
-      <Image
-          resizeMode="cover"
-          source={image ?{
-            uri: `http://www.tasdeertech.com/images/posts/${image}`,
-          }: require('../../assets/dummyImage.jpeg')}
-          style={{
-            height: height / 6,
-            width: width / 3,
-            right: 10,
-            position: 'absolute',
-          }}></Image>
-        <View
-          style={{
-            top: 5,
-            bottom: 35,
-            right: width / 3,
-            position: 'absolute',
-            padding: 20,
-          }}>
-          <Text style={styles.text}>
-            {ArabicText.Title}: {title}{' '}
-          </Text>
-          <Text style={styles.text}>
-            {ArabicText.Type}: {type}
-          </Text>
-          <Text style={styles.text}>
-            {ArabicText.Location}:{location}
-          </Text>
-          <Text style={styles.text}>
-            {' '}
-            {ArabicText.Price}:{price}
-          </Text>
-        </View>
-
-        <TouchableOpacity
-          style={{left: 10, position: 'absolute', bottom: 5}}
-          onPress={OnDetailsClick}>
-          <View style={Styles.btnHome}>
-            <Text style={Styles.textbtn}>{ArabicText.Details}</Text>
+  onDetailsClick=()=>{},
+}) => {
+  const [viewCount, setViewCount] = useState(item?.view_count);
+  return (
+    <Card>
+      <View style={Styles.container}>
+        <View style={Styles.newsbox1}>
+          <Image
+            resizeMode="cover"
+            source={
+              image
+                ? {
+                    uri: `http://www.tasdeertech.com/images/posts/${image}`,
+                  }
+                : require('../../assets/dummyImage.jpeg')
+            }
+            style={{
+              height: height / 6,
+              width: width / 3,
+              right: 10,
+              position: 'absolute',
+            }}></Image>
+          <View
+            style={{
+              top: 5,
+              bottom: 35,
+              right: width / 3,
+              position: 'absolute',
+              padding: 20,
+            }}>
+            <Text style={styles.text}>
+              {ArabicText.Title}: {title}{' '}
+            </Text>
+            <Text style={styles.text}>
+              {ArabicText.Type}: {type}
+            </Text>
+            <Text style={styles.text}>
+              {ArabicText.Location}:{location}
+            </Text>
+            <Text style={styles.text}>
+              {' '}
+              {ArabicText.Price}:{price}
+            </Text>
           </View>
-        </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{left: 10, position: 'absolute', bottom: 5}}
+            onPress={() => {
+              console.log("gghghgh");
+              onDetailsClick(viewCount, setViewCount);
+            }}>
+            <View style={Styles.btnHome}>
+              <Text style={Styles.textbtn}>{ArabicText.Details}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
-  </Card>
-);
+    </Card>
+  );
+};
 export default MovingPost;
 
 const styles = StyleSheet.create({

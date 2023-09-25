@@ -348,7 +348,7 @@ class CamelTreatmentList extends Component {
             if (text) {
               this.search(text);
             } else {
-              this.setState({searchedItem: ''});
+              this.setState({searchedItem: '', searchText:""});
             }
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}

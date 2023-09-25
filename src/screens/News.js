@@ -101,7 +101,7 @@ class News extends Component {
             if (text) {
               this.search(text);
             } else {
-              this.setState({searchedItem: ''});
+              this.setState({searchedItem: '', searchText:""});
             }
           }}
           onPressSearch={() => this.searchHandler(this.state.searchText)}

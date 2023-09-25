@@ -51,7 +51,7 @@ class UserProfile extends Component {
       profImgHeight: 0,
       refreshing: false,
       loading: false,
-      key: key,
+      key: false,
     };
   }
   ScrollToRefresh() {
@@ -194,21 +194,25 @@ class UserProfile extends Component {
           var arrayPosts = response?.data?.posts;
           arrayPosts?.map((item, index) => {
             let array = item?.img;
+            console.log('arrayPosts', arrayPosts?.length);
             let imagesArray = [];
             array?.forEach(element => {
               imagesArray?.push({type: 'image', source: element});
             });
             imagesArray?.push({type: 'video', source: item?.video});
+            console.log('206666', imagesArray);
             item['imagesArray'] = imagesArray;
             arrayPosts[index] = item;
-            this.setState({
-              following: data?.following,
-              followers: data?.follwers,
-              postData: arrayPosts,
-              user: data.user,
-              noOfPosts: data?.posts.length,
-              key: !key,
-            });
+          });
+          this.setState({
+            postData: arrayPosts,
+          });
+          this.setState({
+            following: data?.following,
+            followers: data?.follwers,
+            user: data.user,
+            noOfPosts: data?.posts.length,
+            key: !key,
           });
         }
         this.setState({loading: false});

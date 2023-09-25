@@ -226,9 +226,7 @@ class Profile extends Component {
     this.setState({loader: true});
     let {user, actions} = this.props;
     user = user?.user?.user;
-    console.log('================00USER00====================');
-    console.log(user);
-    console.log('====================================');
+
     try {
       camelapp.get('/get/fetchUser/' + user.id).then(res => {
         // console.log('response at fetch', res.data);
@@ -629,7 +627,7 @@ class Profile extends Component {
       if (item?.video) {
         imagesArray.push({type: 'video', source: item.video});
       }
-      // console.log(item, 'itemmm');
+      console.log(item, 'itemcdmm');
       return (
         <Item
           item={item}
@@ -661,6 +659,7 @@ class Profile extends Component {
           postViewed={(viewCount, setViewCount) =>
             this.postViewed(item, viewCount, setViewCount)
           }
+          date={item?.created_at?.slice(0,10)}
         />
       );
     };
@@ -1117,6 +1116,7 @@ const Item = ({
   flagForLike,
   likes,
   item,
+  date,
   postViewed = () => {},
 }) => {
   const [pausedCheck, setpausedCheck] = useState(true);
@@ -1167,7 +1167,7 @@ const Item = ({
                 }}>
                 {user_name}
               </Text>
-              <Text
+             {user_location && <Text
                 numberOfLines={1}
                 style={{
                   fontSize: 12,
@@ -1176,7 +1176,17 @@ const Item = ({
                   textAlign: 'right',
                 }}>
                 {user_location}
-              </Text>
+              </Text>}
+            { date && <Text
+                numberOfLines={1}
+                style={{
+                  fontSize: 12,
+                  paddingRight: 5,
+                  color: 'black',
+                  textAlign: 'right',
+                }}>
+                {date}
+              </Text>}
             </View>
           </View>
           <View

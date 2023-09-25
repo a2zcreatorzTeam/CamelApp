@@ -43,7 +43,7 @@ class CamelClub extends Component {
       imageFlage: false,
       video: undefined,
       videoForPost: undefined,
-      imagesForPost: undefined,
+      imagesForPost: [],
       pauseVideo: true,
       mixedMedia: [],
       mixed: [],
@@ -52,51 +52,43 @@ class CamelClub extends Component {
       loading: false,
       cameraimage: [],
 
-      cameraimagesForPost: undefined,
+      cameraimagesForPost: [],
       videoModal: false,
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
     };
   }
-
+  // CAPTURE IMAGE
   openCameraForCapture() {
+    const {cameraimagesForPost, mixed} = this.state;
     ImagePicker.openCamera({
       mediaType: 'photo',
       includeBase64: true,
     })
       .then(async images => {
         if (images) {
-          let tempImage = images;
-          let bse64images = [];
           let mixedTemp = [];
-
-          this.setState(prevstate => ({
-            cameraimage: prevstate.cameraimage.concat(tempImage),
-          }));
-          const newImageArray = this?.state?.cameraimage;
-          console.log(newImageArray[0]?.data, 'newImageArray');
-
-          for (var i = 0; i < newImageArray?.length; i++) {
-            mixedTemp.push(newImageArray[i]);
-            bse64images.push('data:image/png;base64,' + newImageArray[i]?.data);
-            // mixedTemp.push(tempImage);
+          mixedTemp.push(images);
+          if (cameraimagesForPost?.length > 0) {
+            this.setState(previousState => {
+              return {
+                cameraimagesForPost: [
+                  ...previousState?.cameraimagesForPost,
+                  'data:image/png;base64,' + images?.data,
+                ],
+              };
+            });
+          } else {
             this.setState({
-              cameraimagesForPost: bse64images,
+              cameraimagesForPost: ['data:image/png;base64,' + images?.data],
             });
           }
-
-          if (this.state.image != undefined) {
-            let image = this.state.image;
-            for (var i = 0; i < image?.length; i++) {
-              mixedTemp.push(image[i]);
-            }
-          }
-          if (this.state.video != undefined) {
-            let video = this.state.video;
-            mixedTemp.push(video);
-          }
-          this.setState({mixed: mixedTemp});
+          this.setState(previousState => {
+            return {
+              mixed: [...previousState?.mixed, ...mixedTemp],
+            };
+          });
         }
         // else {
         //   alert(" IF Only 4 images allowed")
@@ -106,7 +98,8 @@ class CamelClub extends Component {
         console.log('error', error);
       });
   }
-  openCamera = async () => {
+  // Video PICKER
+  videoPicker = async () => {
     this.setState({video: {}});
     ImagePicker.openPicker({
       mediaType: 'video',
@@ -144,7 +137,7 @@ class CamelClub extends Component {
       }
     });
   };
-
+  // SELECT FROM GALLERY
   openGallery() {
     ImagePicker.openPicker({
       mediaType: 'photo',
@@ -162,18 +155,9 @@ class CamelClub extends Component {
             mixedTemp.push(tempImage[i]);
           }
           this.setState({imagesForPost: bse64images, image: tempImage});
-
-          if (this.state.video != undefined) {
-            let video = this.state.video;
-            mixedTemp.push(video);
-          }
-          if (this.state.cameraimage != undefined) {
-            let cameraimage = this.state.cameraimage;
-            for (var i = 0; i < cameraimage?.length; i++) {
-              mixedTemp.push(cameraimage[i]);
-            }
-          }
-          this.setState({mixed: mixedTemp});
+          this.setState(previousState => {
+            return {mixed: [...previousState?.mixed, ...mixedTemp]};
+          });
         } else {
           alert('Only 4 images allowed');
         }
@@ -183,20 +167,20 @@ class CamelClub extends Component {
         console.log('error', error);
       });
   }
-
   createPostCamelClub = async () => {
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
-    var combineImages;
-    if (image1?.length && image2?.length) {
-      combineImages = image1.concat(image2);
-    }
-    if (image1?.length && !image2?.length) {
-      combineImages = image1;
-    }
-    if (!image1?.length && image2?.length) {
-      combineImages = image2;
-    }
+    var combineImages = [...image1, ...image2];
+    // var combineImages;
+    // if (image1?.length && image2?.length) {
+    //   combineImages = image1.concat(image2);
+    // }
+    // if (image1?.length && !image2?.length) {
+    //   combineImages = image1;
+    // }
+    // if (!image1?.length && image2?.length) {
+    //   combineImages = image2;
+    // }
 
     if (this.state.videoForPost === undefined) {
       return alert('Can not post without video');
@@ -247,6 +231,14 @@ class CamelClub extends Component {
       alert(ArabicText.Please_complete_the_fields + '');
     }
   };
+  // REMOVE ITEM
+  removeItem = i => {
+    const {mixed} = this.state;
+    const filteredList = mixed?.filter((item, index) => {
+      return index !== i;
+    });
+    this.setState({mixed: filteredList});
+  };
 
   render() {
     console.log('liveMarketingForm');
@@ -258,6 +250,7 @@ class CamelClub extends Component {
         <View style={Styles.containerScroll}>
           <Text style={Styles.headingPostText}>عروض الاء سواق</Text>
           <HorizontalCarousel
+            removeItem={index => this.removeItem(index)}
             price={
               this.state.itemFromDetails?.price
                 ? this.state.itemFromDetails?.price
@@ -318,7 +311,7 @@ class CamelClub extends Component {
 
           <View style={{flexDirection: 'row', marginTop: 10}}>
             <View style={Styles.cameraview}>
-              <TouchableOpacity onPress={() => this.openCamera()}>
+              <TouchableOpacity onPress={() => this.videoPicker()}>
                 <Ionicons
                   name="md-camera-outline"
                   size={30}

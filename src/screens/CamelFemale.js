@@ -6,12 +6,8 @@ import {
   Image,
   TextInput,
   ScrollView,
-  Dimensions,
-  StyleSheet,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
-import Video from 'react-native-video';
-import Carousel from 'react-native-snap-carousel';
 import 'react-native-gesture-handler';
 import * as ArabicText from '../language/EnglishToArabic';
 import RNFS from 'react-native-fs';
@@ -26,9 +22,6 @@ import * as ImageCropPicker from 'react-native-image-crop-picker';
 import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
-const width = Dimensions.get('screen').width;
-const height = Dimensions.get('screen').height;
-var utf8 = require('utf8');
 
 class MissingCamelForm extends Component {
   constructor(props) {
@@ -44,7 +37,7 @@ class MissingCamelForm extends Component {
       imageFlage: false,
       video: undefined,
       videoForPost: undefined,
-      imagesForPost: undefined,
+      imagesForPost: [],
       pauseVideo: true,
       mixedMedia: [],
       mixed: [],
@@ -53,14 +46,14 @@ class MissingCamelForm extends Component {
       loading: false,
       cameraimage: [],
 
-      cameraimagesForPost: undefined,
+      cameraimagesForPost: [],
       videoModal: false,
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
     };
   }
-
+  // SELECT VIDEO
   openCamera = async () => {
     this.setState({video: {}});
     ImageCropPicker.openPicker({
@@ -99,42 +92,36 @@ class MissingCamelForm extends Component {
       }
     });
   };
+  // CAPTURE IMAGE
   openCameraForCapture() {
+    const {cameraimagesForPost, mixed} = this.state;
     ImageCropPicker.openCamera({
       mediaType: 'photo',
       includeBase64: true,
     })
       .then(async images => {
         if (images) {
-          let tempImage = images;
-          let bse64images = [];
           let mixedTemp = [];
-
-          this.setState(prevstate => ({
-            cameraimage: prevstate.cameraimage.concat(tempImage),
-          }));
-          const newImageArray = this?.state?.cameraimage;
-
-          for (var i = 0; i < newImageArray?.length; i++) {
-            mixedTemp.push(newImageArray[i]);
-            bse64images.push('data:image/png;base64,' + newImageArray[i]?.data);
-            // mixedTemp.push(tempImage);
+          mixedTemp.push(images);
+          if (cameraimagesForPost?.length > 0) {
+            this.setState(previousState => {
+              return {
+                cameraimagesForPost: [
+                  ...previousState?.cameraimagesForPost,
+                  'data:image/png;base64,' + images?.data,
+                ],
+              };
+            });
+          } else {
             this.setState({
-              cameraimagesForPost: bse64images,
+              cameraimagesForPost: ['data:image/png;base64,' + images?.data],
             });
           }
-
-          if (this.state.image != undefined) {
-            let image = this.state.image;
-            for (var i = 0; i < image?.length; i++) {
-              mixedTemp.push(image[i]);
-            }
-          }
-          if (this.state.video != undefined) {
-            let video = this.state.video;
-            mixedTemp.push(video);
-          }
-          this.setState({mixed: mixedTemp});
+          this.setState(previousState => {
+            return {
+              mixed: [...previousState?.mixed, ...mixedTemp],
+            };
+          });
         }
         // else {
         //   alert(" IF Only 4 images allowed")
@@ -144,7 +131,7 @@ class MissingCamelForm extends Component {
         console.log('error', error);
       });
   }
-
+  // SELECT FROM GALLERY
   openGallery() {
     ImageCropPicker.openPicker({
       mediaType: 'photo',
@@ -162,18 +149,9 @@ class MissingCamelForm extends Component {
             mixedTemp.push(tempImage[i]);
           }
           this.setState({imagesForPost: bse64images, image: tempImage});
-
-          if (this.state.video != undefined) {
-            let video = this.state.video;
-            mixedTemp.push(video);
-          }
-          if (this.state.cameraimage != undefined) {
-            let cameraimage = this.state.cameraimage;
-            for (var i = 0; i < cameraimage?.length; i++) {
-              mixedTemp.push(cameraimage[i]);
-            }
-          }
-          this.setState({mixed: mixedTemp});
+          this.setState(previousState => {
+            return {mixed: [...previousState?.mixed, ...mixedTemp]};
+          });
         } else {
           alert('Only 4 images allowed');
         }
@@ -183,20 +161,22 @@ class MissingCamelForm extends Component {
         console.log('error', error);
       });
   }
-
+  // POST
   createPostMissingCamelForm = async () => {
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
-    var combineImages;
-    if (image1?.length && image2?.length) {
-      combineImages = image1.concat(image2);
-    }
-    if (image1?.length && !image2?.length) {
-      combineImages = image1;
-    }
-    if (!image1?.length && image2?.length) {
-      combineImages = image2;
-    }
+    var combineImages = [...image1, ...image2];
+
+    // var combineImages;
+    // if (image1?.length && image2?.length) {
+    //   combineImages = image1.concat(image2);
+    // }
+    // if (image1?.length && !image2?.length) {
+    //   combineImages = image1;
+    // }
+    // if (!image1?.length && image2?.length) {
+    //   combineImages = image2;
+    // }
 
     if (this.state.videoForPost === undefined) {
       return alert('Can not post without video');
@@ -254,7 +234,7 @@ class MissingCamelForm extends Component {
               image: [],
               fileName: '',
             });
-            this.props.navigation.navigate('Home');
+            this.props.navigation.navigate('FemaleList');
           })
           .catch(error => {
             console.log('error', error.response);
@@ -268,7 +248,14 @@ class MissingCamelForm extends Component {
       alert(ArabicText.Please_complete_the_fields + '');
     }
   };
-
+  // REMOVE ITEM
+  removeItem = i => {
+    const {mixed} = this.state;
+    const filteredList = mixed?.filter((item, index) => {
+      return index !== i;
+    });
+    this.setState({mixed: filteredList});
+  };
   render() {
     console.log('====================================');
     console.log('CAMEL FEMALE');
@@ -283,6 +270,8 @@ class MissingCamelForm extends Component {
             {ArabicText.Camel_Female}
           </Text>
           <HorizontalCarousel
+            CustomUrl
+            removeItem={index => this.removeItem(index)}
             price={
               this.state.itemFromDetails?.price
                 ? this.state.itemFromDetails?.price
@@ -301,44 +290,6 @@ class MissingCamelForm extends Component {
               this.setState({pausedCheck: true});
             }}
           />
-          {/* <Carousel
-            keyExtractor={this.state.mixed.fileName}
-            data={this.state.mixed}
-            layout={'default'}
-            scrollEnabled={true}
-            onScroll={() => this.setState({pauseVideo: true})}
-            renderItem={({item, index}) => {
-              return (
-                <View style={Styles.imageCarousal}>
-                  {item.mime != undefined && item.mime.includes('image') && (
-                    <Image
-                      source={{uri: item.path}}
-                      key={String(index)}
-                      resizeMode={'cover'}
-                      style={{width: '100%', height: '100%'}}
-                    />
-                  )}
-                  {item.mime != undefined && item.mime.includes('video') && (
-                    <Video
-                      onTouchStart={() => {
-                        this.setState({pauseVideo: !this.state.pauseVideo});
-                      }}
-                      source={{uri: item.path}}
-                      key={String(index)}
-                      resizeMode="stretch"
-                      repeat
-                      controls={false}
-                      paused={this.state.pauseVideo}
-                      style={Styles.video}
-                    />
-                  )}
-                </View>
-              );
-            }}
-            sliderWidth={width}
-            itemWidth={width}
-          /> */}
-
           {this.state.imageFlage && (
             <Image
               source={{
@@ -357,11 +308,6 @@ class MissingCamelForm extends Component {
                   size={30}
                   color="#D2691Eff"
                 />
-              </TouchableOpacity>
-            </View>
-            <View style={Styles.cameraview}>
-              <TouchableOpacity onPress={() => this.openCameraForCapture()}>
-                <Ionicons name="md-camera-sharp" size={30} color="#D2691Eff" />
               </TouchableOpacity>
             </View>
             <View style={Styles.cameraview}>
@@ -480,13 +426,4 @@ const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(MissingCamelForm);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

@@ -42,11 +42,11 @@ class TreatingCamels extends Component {
       imageFlage: false,
       video: undefined,
       videoForPost: undefined,
-      imagesForPost: undefined,
+      imagesForPost: [],
       image: undefined,
       cameraimage: [],
 
-      cameraimagesForPost: undefined,
+      cameraimagesForPost: [],
       pauseVideo: true,
       mixedMedia: [],
       mixed: [],
@@ -59,8 +59,8 @@ class TreatingCamels extends Component {
       loadVideo: false,
     };
   }
-
-  openCamera = async () => {
+  //VIDEO PICKER
+  videoPicker = async () => {
     this.setState({video: {}});
     ImageCropPicker.openPicker({
       mediaType: 'video',
@@ -98,7 +98,7 @@ class TreatingCamels extends Component {
       }
     });
   };
-
+  // SELECT FROM GALLERY
   openGallery() {
     ImageCropPicker.openPicker({
       mediaType: 'photo',
@@ -116,18 +116,19 @@ class TreatingCamels extends Component {
             mixedTemp.push(tempImage[i]);
           }
           this.setState({imagesForPost: bse64images, image: tempImage});
-
-          if (this.state.video != undefined) {
-            let video = this.state.video;
-            mixedTemp.push(video);
-          }
-          if (this.state.cameraimage != undefined) {
-            let cameraimage = this.state.cameraimage;
-            for (var i = 0; i < cameraimage?.length; i++) {
-              mixedTemp.push(cameraimage[i]);
-            }
-          }
-          this.setState({mixed: mixedTemp});
+          // if (this.state.video != undefined) {
+          //   let video = this.state.video;
+          //   mixedTemp.push(video);
+          // }
+          // if (this.state.cameraimage != undefined) {
+          //   let cameraimage = this.state.cameraimage;
+          //   for (var i = 0; i < cameraimage?.length; i++) {
+          //     mixedTemp.push(cameraimage[i]);
+          //   }
+          // }
+          this.setState(previousState => {
+            return {mixed: [...previousState?.mixed, ...mixedTemp]};
+          });
         } else {
           alert('Only 4 images allowed');
         }
@@ -137,66 +138,57 @@ class TreatingCamels extends Component {
         console.log('error', error);
       });
   }
-
+  // CAPTURE IMAGE FROM CAMERA
   openCameraForCapture() {
+    const {cameraimagesForPost, mixed} = this.state;
     ImageCropPicker.openCamera({
       mediaType: 'photo',
       includeBase64: true,
     })
       .then(async images => {
         if (images) {
-          let tempImage = images;
-          let bse64images = [];
           let mixedTemp = [];
-
-          this.setState(prevstate => ({
-            cameraimage: prevstate.cameraimage.concat(tempImage),
-          }));
-          const newImageArray = this?.state?.cameraimage;
-
-          for (var i = 0; i < newImageArray?.length; i++) {
-            mixedTemp.push(newImageArray[i]);
-            bse64images.push('data:image/png;base64,' + newImageArray[i]?.data);
-            // mixedTemp.push(tempImage);
+          mixedTemp.push(images);
+          if (cameraimagesForPost?.length > 0) {
+            this.setState(previousState => {
+              return {
+                cameraimagesForPost: [
+                  ...previousState?.cameraimagesForPost,
+                  'data:image/png;base64,' + images?.data,
+                ],
+              };
+            });
+          } else {
             this.setState({
-              cameraimagesForPost: bse64images,
+              cameraimagesForPost: ['data:image/png;base64,' + images?.data],
             });
           }
-
-          if (this.state.image != undefined) {
-            let image = this.state.image;
-            for (var i = 0; i < image?.length; i++) {
-              mixedTemp.push(image[i]);
-            }
-          }
-          if (this.state.video != undefined) {
-            let video = this.state.video;
-            mixedTemp.push(video);
-          }
-          this.setState({mixed: mixedTemp});
+          this.setState(previousState => {
+            return {
+              mixed: [...previousState?.mixed, ...mixedTemp],
+            };
+          });
         }
-        // else {
-        //   alert(" IF Only 4 images allowed")
-        // }
       })
       .catch(error => {
         console.log('error', error);
       });
   }
-
   createPostTreatingCamels = async () => {
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
-    var combineImages;
-    if (image1?.length && image2?.length) {
-      combineImages = image1.concat(image2);
-    }
-    if (image1?.length && !image2?.length) {
-      combineImages = image1;
-    }
-    if (!image1?.length && image2?.length) {
-      combineImages = image2;
-    }
+    var combineImages = [...image1, ...image2];
+
+    // var combineImages;
+    // if (image1?.length && image2?.length) {
+    //   combineImages = image1.concat(image2);
+    // }
+    // if (image1?.length && !image2?.length) {
+    //   combineImages = image1;
+    // }
+    // if (!image1?.length && image2?.length) {
+    //   combineImages = image2;
+    // }
 
     if (this.state.videoForPost === undefined) {
       return alert('Can not post without video');
@@ -261,14 +253,19 @@ class TreatingCamels extends Component {
       // alert("Please complete the fields")
     }
   };
-
   componentDidMount() {
     console.log('component 257 trating camel');
   }
-
+  // REMOVE ITEM
+  removeItem = i => {
+    const {mixed} = this.state;
+    const filteredList = mixed?.filter((item, index) => {
+      return index !== i;
+    });
+    this.setState({mixed: filteredList});
+  };
   render() {
     const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
-
     return (
       <ScrollView style={{backgroundColor: '#ffffff'}}>
         <BackBtnHeader />
@@ -284,6 +281,7 @@ class TreatingCamels extends Component {
             علاج الحلال
           </Text>
           <HorizontalCarousel
+            removeItem={index => this.removeItem(index)}
             CustomUrl
             price={
               this.state.itemFromDetails?.price
@@ -351,7 +349,7 @@ class TreatingCamels extends Component {
 
           <View style={{flexDirection: 'row', marginTop: 10}}>
             <View style={Styles.cameraview}>
-              <TouchableOpacity onPress={() => this.openCamera()}>
+              <TouchableOpacity onPress={() => this.videoPicker()}>
                 <Ionicons
                   name="md-camera-outline"
                   size={30}

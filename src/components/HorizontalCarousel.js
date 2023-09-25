@@ -7,7 +7,6 @@ import {TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 const {width, height} = Dimensions.get('screen');
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import * as ArabicText from '../language/EnglishToArabic';
 import {ImageBackground} from 'react-native';
 const HorizontalCarousel = ({
   imagesArray,
@@ -40,7 +39,11 @@ const HorizontalCarousel = ({
           <View
             style={[
               Styles.imageCarousal,
-              {position: 'relative', overflow: 'visible'},
+              {
+                position: 'relative',
+                overflow: 'visible',
+                backgroundColor: '#D3D3D3',
+              },
             ]}>
             {CustomUrl &&
               item.mime != undefined &&
@@ -49,10 +52,12 @@ const HorizontalCarousel = ({
                   source={{uri: item?.path}}
                   resizeMode="cover"
                   style={Styles.image}>
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     onPress={() => {
-                      removeItem(index);
-                      setTimeout(() => ref.current.snapToNext(), 250);
+                      // removeItem(index, 'image', item?.path);
+                      imagesArray?.length > 2 &&
+                        index == imagesArray?.length - 1 &&
+                        setTimeout(() => ref.current.snapToPrev(), 250);
                     }}
                     style={{
                       width: 20,
@@ -61,7 +66,7 @@ const HorizontalCarousel = ({
                       alignSelf: 'flex-end',
                     }}>
                     <Ionicons name={'close'} size={24} color="red" />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </ImageBackground>
                 // <FastImage
                 //   style={Styles.image}
@@ -119,15 +124,38 @@ const HorizontalCarousel = ({
                   width: width,
                 }}>
                 {pausedCheck && (
-                  <Image
-                    activeOpacity={0.4}
+                  <ImageBackground
+                    imageStyle={{opacity: 0.3}}
                     source={require('../../assets/camel.png')}
-                    resizeMode={'cover'}
-                    style={[
-                      Styles.image,
-                      {backgroundColor: 'rgba(0,0,0,0.5)', opacity: 0.3},
-                    ]}
-                  />
+                    resizeMode="cover"
+                    style={Styles.image}>
+                    {/* {CustomUrl && (
+                      <TouchableOpacity
+                        onPress={() => {
+                          removeItem(index, 'video');
+                          imagesArray?.length > 2 &&
+                            index == imagesArray?.length - 1 &&
+                            setTimeout(() => ref.current.snapToPrev(), 250);
+                        }}
+                        style={{
+                          width: 20,
+                          height: 30,
+                          margin: 10,
+                          alignSelf: 'flex-end',
+                        }}>
+                        <Ionicons name={'close'} size={24} color="red" />
+                      </TouchableOpacity>
+                    )} */}
+                  </ImageBackground>
+                  // <Image
+                  //   activeOpacity={0.4}
+                  //   source={require('../../assets/camel.png')}
+                  //   resizeMode={'cover'}
+                  //   style={[
+                  //     Styles.image,
+                  //     {backgroundColor: 'rgba(0,0,0,0.5)', opacity: 0.3},
+                  //   ]}
+                  // />
                 )}
                 <TouchableOpacity
                   style={{

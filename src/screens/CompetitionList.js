@@ -295,6 +295,7 @@ import {Card} from 'react-native-paper';
 import {Dimensions} from 'react-native';
 import Header from '../components/Header';
 import Item from '../components/CompetitionItem';
+import EmptyComponent from '../components/EmptyComponent';
 const width = Dimensions.get('screen').width;
 class CamelClubList extends Component {
   constructor(props) {
@@ -310,7 +311,6 @@ class CamelClubList extends Component {
     };
     this.viewPosts();
   }
-
   async viewPosts() {
     const {key} = this.state;
     try {
@@ -326,7 +326,6 @@ class CamelClubList extends Component {
       //console.log("Error Message get competition List", error);
     }
   }
-
   onItemClick = async item => {
     this.viewPosts();
     let {user} = this.props;
@@ -393,7 +392,6 @@ class CamelClubList extends Component {
   componentWillUnmount() {
     this.focusListener();
   }
-
   render() {
     const onItemClick = async item => {
       try {
@@ -435,7 +433,7 @@ class CamelClubList extends Component {
             if (text) {
               this.search(text);
             } else {
-              this.setState({searchedItem: '', searchText:""});
+              this.setState({searchedItem: '', searchText: ''});
             }
           }}
           onPressSearch={() => this.searchHandler(this.state.searchText)}
@@ -453,6 +451,7 @@ class CamelClubList extends Component {
         {this.state.loader == false && (
           <View>
             <FlatList
+              ListEmptyComponent={() => <EmptyComponent />}
               key={key}
               columnWrapperStyle={{
                 justifyContent: 'space-between',

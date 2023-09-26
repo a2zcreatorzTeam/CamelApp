@@ -34,16 +34,13 @@ class Bids extends Component {
 
   async viewPosts() {
     try {
-      // this.setState({
-      //   loader: true,
-      // });
       let {user} = this.props;
-      //console.log('user', user.user.user.id);
       return await camelapp
-        .post('/get_postbids', {
+        .post('/get/bids', {
           user_id: user.user.user.id,
         })
         .then(res => {
+          console.log(res?.data, "responsee477");
           this.setState({
             // posts: res.data.bids,
             // loader: false,

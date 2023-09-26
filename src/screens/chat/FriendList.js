@@ -14,35 +14,45 @@ import {connect} from 'react-redux';
 import * as userActions from '../../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import {useIsFocused} from '@react-navigation/native';
-
+import {RefreshControl} from 'react-native';
+import EmptyComponent from '../../components/EmptyComponent';
 const {width} = Dimensions.get('screen');
 
 const FriendList = prop => {
   const [friendRequest, setFriendRequest] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [key, setKey] = useState(false);
 
   const getFriendreq = async () => {
     try {
       const fetchData = await camelapp.get(
         '/getfriendrequest/' + prop?.user?.user?.user?.id,
       );
-      setFriendRequest(fetchData.data);
-      console.log(fetchData.data, '<<<=====getfriendrequest');
+      fetchData?.data?.friendRequest?.length &&
+        setFriendRequest(fetchData?.data?.FriendRequest);
+      setKey(!key);
     } catch (error) {
+      setFriendRequest([]);
       console.log(error, '=====ERROR getfriendrequest===');
     }
   };
-
   const friendRequestHandler = async (prop, status) => {
     try {
       const fetchData = await camelapp.post('/manage/friendrequest', {
-        user_id: prop.user_id,
-        friend_id: prop.friend_id,
+        user_id: prop?.user_id,
+        friend_id: prop?.friend_id,
         status: status,
       });
+      console.log(prop?.user_id, prop?.friend_id, status, 'statusstatus');
       getFriendreq();
     } catch (error) {
       console.log(error, '=====ERROR friendrequest===');
     }
+  };
+  const ScrollToRefresh = () => {
+    setRefreshing(true);
+    getFriendreq();
+    setRefreshing(false);
   };
 
   const isFocused = useIsFocused();
@@ -53,8 +63,19 @@ const FriendList = prop => {
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <FlatList
+        ListEmptyComponent={() => <EmptyComponent />}
+        key={key}
+        style={{flex: 1}}
+        contentContainerStyle={{flexGrow: 1}}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => ScrollToRefresh()}
+          />
+        }
         data={friendRequest}
         renderItem={({item}) => {
+          console.log(item, 'itemmmmm');
           return (
             <TouchableWithoutFeedback
             // onPress={() => prop.navigation.navigate("GroupChat", { group_id: item?.id })}
@@ -77,7 +98,6 @@ const FriendList = prop => {
                   ]}>
                   <Text style={{color: '#000', fontSize: 11}}>Reject</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity
                   onPress={() => friendRequestHandler(item, 'B')}
                   style={[
@@ -92,7 +112,7 @@ const FriendList = prop => {
 
                 <View style={{justifyContent: 'flex-end'}}>
                   <Text style={styles.groupName} numberOfLines={2}>
-                    {item?.name}
+                    {item?.friend_name}
                   </Text>
                 </View>
 
@@ -101,7 +121,7 @@ const FriendList = prop => {
                     source={{
                       uri:
                         'http://www.tasdeertech.com/public/images/profiles/' +
-                        item?.image,
+                        item?.friend_image,
                     }}
                     style={styles.groupImageStyle}
                   />

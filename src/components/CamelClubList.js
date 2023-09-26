@@ -18,6 +18,7 @@ import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import Loader from './PleaseWait';
 import Header from '../components/Header';
+import EmptyComponent from './EmptyComponent';
 
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
@@ -414,6 +415,7 @@ class CamelClubList extends Component {
             <Loader loading={this.state.loading} />
 
             <FlatList
+              ListEmptyComponent={() => <EmptyComponent />}
               extraData={posts}
               key={key}
               data={searchedItem ? filterPosts : posts}

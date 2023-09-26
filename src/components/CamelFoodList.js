@@ -15,6 +15,7 @@ import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import Loader from './PleaseWait';
+import EmptyComponent from './EmptyComponent';
 
 class CamelFoodList extends Component {
   constructor(props) {
@@ -302,7 +303,7 @@ class CamelFoodList extends Component {
             if (text) {
               this.search(text);
             } else {
-              this.setState({searchedItem: '', searchText:""});
+              this.setState({searchedItem: '', searchText: ''});
             }
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}
@@ -320,6 +321,7 @@ class CamelFoodList extends Component {
             <AddButton onPress={() => onAddButtonClick()} />
             <Loader loading={this.state.loading} />
             <FlatList
+              ListEmptyComponent={() => <EmptyComponent />}
               key={key}
               data={searchedItem ? filterPosts : posts}
               renderItem={renderItem}

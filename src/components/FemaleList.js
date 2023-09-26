@@ -9,17 +9,16 @@ import {
 } from 'react-native';
 import Post from './MovingPost';
 import camelapp from '../api/camelapp';
-
 import AddButton from './AddButton';
 import * as ArabicText from '../language/EnglishToArabic';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import Loader from './PleaseWait';
 import Header from '../components/Header';
+import EmptyComponent from './EmptyComponent';
+
 class CamelFemaleList extends Component {
   constructor(props) {
     super(props);
@@ -168,7 +167,7 @@ class CamelFemaleList extends Component {
             if (text) {
               this.search(text);
             } else {
-              this.setState({searchedItem: '', searchText:""});
+              this.setState({searchedItem: '', searchText: ''});
             }
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}
@@ -187,6 +186,7 @@ class CamelFemaleList extends Component {
             <AddButton onPress={() => onAddButtonClick()} />
 
             <FlatList
+              ListEmptyComponent={() => <EmptyComponent />}
               key={key}
               contentContainerStyle={{paddingBottom: '20%'}}
               data={searchedItem ? filterPosts : posts}

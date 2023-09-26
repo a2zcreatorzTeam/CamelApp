@@ -121,7 +121,7 @@ export default function Navigation() {
         <Stack.Screen
           name="Login"
           component={Login}
-          options={{headerShown: false,gestureEnabled: false}}
+          options={{headerShown: false, gestureEnabled: false}}
         />
         <Stack.Screen
           name="CamelFoodList"
@@ -349,7 +349,7 @@ export default function Navigation() {
         <Stack.Screen
           name="BeautyOfCompetition"
           component={BeautyOfCompetition}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="WinnerBeauty"
@@ -364,17 +364,19 @@ export default function Navigation() {
         <Stack.Screen
           name="Sponcers"
           component={Sponcers}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="Bank"
           component={Bank}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
+          // options={{header: () => <Header />}}
         />
         <Stack.Screen
           name="PrivacyPolicy"
           component={PrivacyPolicy}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
+          // options={{header: () => <Header />}}
         />
         <Stack.Screen
           name="News"

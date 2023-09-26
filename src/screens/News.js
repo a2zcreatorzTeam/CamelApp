@@ -10,6 +10,8 @@ import camelapp from '../api/camelapp';
 import Ads from '../components/Ads';
 import NewsPost from '../components/NewsPost';
 import Header from '../components/Header';
+import EmptyComponent from '../components/EmptyComponent';
+
 class News extends Component {
   constructor(props) {
     super(props);
@@ -71,8 +73,6 @@ class News extends Component {
   }
   render() {
     const {posts, filterPosts, searchedItem, key} = this.state;
-    console.log('=============NEWS POSTS=======================');
-    console.log('====================================');
     const onItemClick = item => {
       try {
         this.props.navigation.navigate('ViewNews', {newsItem: item});
@@ -101,7 +101,7 @@ class News extends Component {
             if (text) {
               this.search(text);
             } else {
-              this.setState({searchedItem: '', searchText:""});
+              this.setState({searchedItem: '', searchText: ''});
             }
           }}
           onPressSearch={() => this.searchHandler(this.state.searchText)}
@@ -116,6 +116,7 @@ class News extends Component {
           <View>
             <Ads />
             <FlatList
+              ListEmptyComponent={() => <EmptyComponent />}
               key={key}
               // inverted
               data={searchedItem ? filterPosts : posts}

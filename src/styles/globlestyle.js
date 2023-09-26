@@ -23,7 +23,7 @@ export const Styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'#D3D3D3'
+    backgroundColor: '#D3D3D3',
   },
   containerBidsItem: {
     flex: 1,
@@ -345,12 +345,8 @@ export const Styles = StyleSheet.create({
   },
   OpacityAddnewFirstBlock: {
     backgroundColor: '#FFFFFF',
-
+    margin: 10,
     marginTop: 0,
-    marginBottom: 10,
-    marginRight: 10,
-    marginLeft: 10,
-
     padding: 30,
     borderRadius: 10,
   },
@@ -365,7 +361,6 @@ export const Styles = StyleSheet.create({
     marginRight: 10,
     padding: 8,
     paddingHorizontal: 20,
-    // paddingRight: 5,
     borderRadius: 10,
   },
   imageAdnew: {
@@ -430,7 +425,7 @@ export const Styles = StyleSheet.create({
   cardaddew: {
     backgroundColor: '#7E7E7E',
     width: width,
-    height: hight / 1.5,
+    // height: hight / 1.5,
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
@@ -494,7 +489,7 @@ export const Styles = StyleSheet.create({
     borderRadius: 20,
     padding: 20,
     alignItems: 'center',
-    justifyContent:'center',
+    justifyContent: 'center',
     width: width - 100,
     // shadowColor: '#000',
     // shadowOffset: {

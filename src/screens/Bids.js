@@ -14,10 +14,9 @@ import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import camelapp from '../api/camelapp';
-
+import EmptyComponent from '../components/EmptyComponent';
 import {Dimensions} from 'react-native';
 const width = Dimensions.get('screen').width;
-const hight = Dimensions.get('screen').height;
 class Bids extends Component {
   constructor(props) {
     super(props);
@@ -36,7 +35,7 @@ class Bids extends Component {
           user_id: user.user.user.id,
         })
         .then(res => {
-          console.log(res, "responseeeeee39");
+          console.log(res, 'responseeeeee39');
           this.setState({
             posts: res.data.bids,
           });
@@ -200,6 +199,7 @@ class Bids extends Component {
       <View style={Styles.containerBids}>
         <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>My Bids</Text>
         <FlatList
+          ListEmptyComponent={() => <EmptyComponent />}
           data={this.state.posts}
           renderItem={renderBidItem}
           extraData={this.state}

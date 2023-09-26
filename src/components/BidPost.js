@@ -14,6 +14,7 @@ import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import camelapp from '../api/camelapp';
+import EmptyComponent from './EmptyComponent';
 
 import {Dimensions} from 'react-native';
 import {RefreshControl} from 'react-native';
@@ -207,6 +208,7 @@ class Bids extends Component {
     return (
       <View style={Styles.containerBids}>
         <FlatList
+          ListEmptyComponent={() => <EmptyComponent />}
           key={key}
           refreshControl={
             <RefreshControl

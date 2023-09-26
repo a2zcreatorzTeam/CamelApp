@@ -5,7 +5,8 @@ import {Styles} from '../styles/globlestyle';
 import {Card} from 'react-native-paper';
 import {Dimensions} from 'react-native';
 import * as ArabicText from '../language/EnglishToArabic';
-import { useState } from 'react';
+import {useState} from 'react';
+import FastImage from 'react-native-fast-image';
 
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
@@ -17,14 +18,30 @@ const MovingPost = ({
   color,
   price,
   image,
-  onDetailsClick=()=>{},
+  onDetailsClick = () => {},
 }) => {
   const [viewCount, setViewCount] = useState(item?.view_count);
   return (
     <Card>
       <View style={Styles.container}>
         <View style={Styles.newsbox1}>
-          <Image
+          <FastImage
+            style={{
+              height: height / 6,
+              width: width / 3,
+              right: 10,
+              position: 'absolute',
+            }}
+            source={
+              image
+                ? {
+                    uri: `http://www.tasdeertech.com/images/posts/${image}`,
+                  }
+                : require('../../assets/dummyImage.jpeg')
+            }
+            resizeMode={FastImage?.resizeMode.cover}
+          />
+          {/* <Image
             resizeMode="cover"
             source={
               image
@@ -38,7 +55,7 @@ const MovingPost = ({
               width: width / 3,
               right: 10,
               position: 'absolute',
-            }}></Image>
+            }}></Image> */}
           <View
             style={{
               top: 5,
@@ -65,7 +82,7 @@ const MovingPost = ({
           <TouchableOpacity
             style={{left: 10, position: 'absolute', bottom: 5}}
             onPress={() => {
-              console.log("gghghgh");
+              console.log('gghghgh');
               onDetailsClick(viewCount, setViewCount);
             }}>
             <View style={Styles.btnHome}>

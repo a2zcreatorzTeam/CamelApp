@@ -16,6 +16,7 @@ import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import Loader from './PleaseWait';
 import Header from '../components/Header';
+import EmptyComponent from './EmptyComponent';
 
 class CamelTreatmentList extends Component {
   constructor(props) {
@@ -30,10 +31,8 @@ class CamelTreatmentList extends Component {
       key: false,
       searchedItem: '',
     };
-
     this.viewPosts();
   }
-
   searchFunction(searchtext) {
     // console.log('searchtext366', searchtext);
 
@@ -61,14 +60,12 @@ class CamelTreatmentList extends Component {
       this.setState({filterPosts: tempPost});
     }
   }
-
   search(text) {
     //console.log("post[0]", this.state.posts[0])
 
     //console.log("text", text);
     this.setState({searchText: text});
   }
-
   playVideo(item) {
     // let {filterPosts} = this.state;
     // let index = filterPosts.indexOf(item);
@@ -76,12 +73,10 @@ class CamelTreatmentList extends Component {
     // filterPosts[index].flagForVideo = !filterPosts[index].flagForVideo;
     // this.setState({filterPosts: filterPosts});
   }
-
   ScrollToRefresh() {
     this.viewPosts();
     this.setState({refreshing: false});
   }
-
   async viewPosts() {
     const {key} = this.state;
     let {user} = this.props;
@@ -348,7 +343,7 @@ class CamelTreatmentList extends Component {
             if (text) {
               this.search(text);
             } else {
-              this.setState({searchedItem: '', searchText:""});
+              this.setState({searchedItem: '', searchText: ''});
             }
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}
@@ -368,6 +363,7 @@ class CamelTreatmentList extends Component {
             <AddButton onPress={() => onAddButtonClick()} />
             <Loader loading={this.state.loading} />
             <FlatList
+              ListEmptyComponent={() => <EmptyComponent />}
               key={key}
               data={searchedItem ? filterPosts : posts}
               renderItem={renderItem}

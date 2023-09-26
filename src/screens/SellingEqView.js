@@ -16,6 +16,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {Card} from 'react-native-paper';
 import {DataContext, likePost} from '../context/DataContext';
 import * as ArabicText from '../language/EnglishToArabic';
+import EmptyComponent from '../components/EmptyComponent';
 
 const Item = ({
   userName,
@@ -191,6 +192,7 @@ const Home = props => {
       {context => (
         <SafeAreaView>
           <FlatList
+            ListEmptyComponent={() => <EmptyComponent />}
             data={context.data.camelEquipmentList}
             renderItem={renderItem}
             keyExtractor={item => item.id}

@@ -135,7 +135,6 @@ class Home extends Component {
             item['imagesArray'] = imagesArray;
 
             arrayPosts[index] = item;
-            console.log(item?.view_count, 'countt');
           });
           this.setState({
             posts: arrayPosts,

@@ -12,13 +12,11 @@ import camelapp from '../api/camelapp';
 import Loader from './PleaseWait';
 
 import AddButton from './AddButton';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import Header from '../components/Header';
-
-import * as ArabicText from '../language/EnglishToArabic';
+import EmptyComponent from './EmptyComponent';
 
 class CamelMarketingList extends Component {
   constructor(props) {
@@ -342,7 +340,7 @@ class CamelMarketingList extends Component {
             if (text) {
               this.search(text);
             } else {
-              this.setState({searchedItem: '', searchText:""});
+              this.setState({searchedItem: '', searchText: ''});
             }
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}
@@ -360,6 +358,7 @@ class CamelMarketingList extends Component {
             <AddButton onPress={() => onAddButtonClick()} />
             <Loader loading={this.state.loading} />
             <FlatList
+              ListEmptyComponent={() => <EmptyComponent />}
               key={key}
               data={searchedItem ? filterPosts : posts}
               renderItem={renderItem}

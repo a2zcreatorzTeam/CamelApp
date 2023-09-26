@@ -5,17 +5,17 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 
 const BackBtnHeader = props => {
-  let {navRoute, onChangeText, onPressSearch} = props;
+  let {style} = props;
   const navigation = useNavigation(0);
   const goBack = () => {
     navigation.goBack();
   };
 
   return (
-    <View style={Styles.header}>
+    <View style={[Styles.header, style]}>
       <CircularBTN
         iconName="md-arrow-redo"
-        onPress={navRoute === 'Home' ? whatsApp : goBack}
+        onPress={goBack}
       />
     </View>
   );

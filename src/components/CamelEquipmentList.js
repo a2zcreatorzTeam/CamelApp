@@ -10,10 +10,8 @@ import {
 import Post from './Post';
 import camelapp from '../api/camelapp';
 import Header from '../components/Header';
-
+import EmptyComponent from './EmptyComponent';
 import AddButton from './AddButton';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as ArabicText from '../language/EnglishToArabic';
 import Loader from './PleaseWait';
 
 import {connect} from 'react-redux';
@@ -335,6 +333,7 @@ class CamelEquipmentList extends Component {
             <AddButton onPress={() => onAddButtonClick()} />
             <Loader loading={this.state.loading} />
             <FlatList
+              ListEmptyComponent={() => <EmptyComponent />}
               key={key}
               data={searchedItem ? filterPosts : posts}
               renderItem={renderItem}

@@ -18,6 +18,8 @@ import {Card} from 'react-native-paper';
 import {Dimensions} from 'react-native';
 import Header from '../components/Header';
 const width = Dimensions.get('screen').width;
+import EmptyComponent from '../components/EmptyComponent';
+
 class SurveyList extends Component {
   constructor(props) {
     super(props);
@@ -160,6 +162,8 @@ class SurveyList extends Component {
         {this.state.loader == false && (
           <View>
             <FlatList
+              style={{flex: 1}}
+              ListEmptyComponent={() => <EmptyComponent />}
               key={key}
               refreshControl={
                 <RefreshControl
@@ -170,9 +174,9 @@ class SurveyList extends Component {
               data={searchedItem ? filterPosts : posts}
               renderItem={renderItem}
               keyExtractor={item => item.id}
-              // inverted={true}
               contentContainerStyle={{
                 marginTop: 20,
+                flexGrow: 1,
                 width: width,
                 alignSelf: 'center',
                 paddingBottom: '20%',

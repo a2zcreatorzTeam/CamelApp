@@ -15,6 +15,7 @@ import AddButton from './AddButton';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
+import EmptyComponent from './EmptyComponent';
 
 class CamelSellingList extends Component {
   constructor(props) {
@@ -56,7 +57,6 @@ class CamelSellingList extends Component {
       //console.log("error at fetch user", error.response)
     }
   }
-
   async viewPosts() {
     let {user} = this.props;
     user = user.user.user;
@@ -340,7 +340,7 @@ class CamelSellingList extends Component {
             if (text) {
               this.search(text);
             } else {
-              this.setState({searchedItem: '', searchText:""});
+              this.setState({searchedItem: '', searchText: ''});
             }
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}
@@ -360,6 +360,7 @@ class CamelSellingList extends Component {
             <AddButton onPress={() => onAddButtonClick()} />
             <Loader loading={this.state.loading} />
             <FlatList
+              ListEmptyComponent={() => <EmptyComponent />}
               key={key}
               data={searchedItem ? filterPosts : this.state.posts}
               renderItem={renderItem}

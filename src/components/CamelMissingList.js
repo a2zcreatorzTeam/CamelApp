@@ -15,6 +15,8 @@ import Header from '../components/Header';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
+import EmptyComponent from './EmptyComponent';
+
 class CamelFoodList extends Component {
   constructor(props) {
     super(props);
@@ -309,7 +311,7 @@ class CamelFoodList extends Component {
             if (text) {
               this.search(text);
             } else {
-              this.setState({searchedItem: '', searchText:""});
+              this.setState({searchedItem: '', searchText: ''});
             }
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}

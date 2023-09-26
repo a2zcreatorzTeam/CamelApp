@@ -9,11 +9,9 @@ import {
 } from 'react-native';
 import Post from './MovingPost';
 import camelapp from '../api/camelapp';
-
+import EmptyComponent from './EmptyComponent';
 import AddButton from './AddButton';
 import * as ArabicText from '../language/EnglishToArabic';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
@@ -101,7 +99,6 @@ class CamelMovingList extends Component {
   render() {
     const {key, filterPosts, searchedItem} = this.state;
     const renderItem = ({item}) => {
-
       return (
         <Post
           date={item?.date}
@@ -160,7 +157,7 @@ class CamelMovingList extends Component {
             if (text) {
               this.search(text);
             } else {
-              this.setState({searchedItem: '', searchText:""});
+              this.setState({searchedItem: '', searchText: ''});
             }
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}
@@ -179,6 +176,7 @@ class CamelMovingList extends Component {
           <View>
             <AddButton onPress={() => onAddButtonClick()} />
             <FlatList
+              ListEmptyComponent={() => <EmptyComponent />}
               key={key}
               contentContainerStyle={{paddingBottom: '20%'}}
               data={searchedItem ? filterPosts : this.state?.posts}

@@ -12,6 +12,7 @@ import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import {Dimensions} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import EmptyComponent from '../components/EmptyComponent';
 
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
@@ -103,7 +104,6 @@ class CamelClubList extends Component {
     await camelapp
       .get('/notification/' + user)
       .then(res => {
-      
         this.setState({
           posts: res?.data?.notification,
           loader: false,
@@ -144,15 +144,7 @@ class CamelClubList extends Component {
 
         {this.state.loader == false && (
           <FlatList
-            ListEmptyComponent={() => {
-              return (
-                <View style={{alignSelf: 'center', marginVertical: 150}}>
-                  <Text style={{color: 'black', alignSelf: 'center'}}>
-                    No Notification Found
-                  </Text>
-                </View>
-              );
-            }}
+            ListEmptyComponent={() => <EmptyComponent />}
             data={this.state.posts}
             contentContainerStyle={{paddingBottom: '10%'}}
             renderItem={renderItem}

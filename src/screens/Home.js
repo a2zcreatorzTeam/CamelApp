@@ -594,64 +594,7 @@ class Home extends Component {
     const onGroupSurvey = () => {
       this.props.navigation.navigate('SurveyList');
     };
-    const ddd = [
-      {
-        id: 1,
-        name: 'S',
-      },
-      {
-        id: 21,
-        name: 'AS',
-      },
-      {
-        id: 31,
-        name: 'DS',
-      },
-      {
-        id: 41,
-        name: 'FS',
-      },
-      {
-        id: 51,
-        name: 'BS',
-      },
-      {
-        id: 61,
-        name: 'WS',
-      },
-      {
-        id: 71,
-        name: 'MS',
-      },
-      {
-        id: 1,
-        name: 'S',
-      },
-      {
-        id: 21,
-        name: 'AS',
-      },
-      {
-        id: 31,
-        name: 'DS',
-      },
-      {
-        id: 41,
-        name: 'FS',
-      },
-      {
-        id: 51,
-        name: 'BS',
-      },
-      {
-        id: 61,
-        name: 'WS',
-      },
-      {
-        id: 71,
-        name: 'MS',
-      },
-    ];
+
 
     return (
       <View style={styles.container}>

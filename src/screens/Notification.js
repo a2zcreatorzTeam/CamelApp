@@ -13,6 +13,7 @@ import {bindActionCreators} from 'redux';
 import {Dimensions} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import EmptyComponent from '../components/EmptyComponent';
+import Header from '../components/Header';
 
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
@@ -83,9 +84,12 @@ class CamelClubList extends Component {
     this.state = {
       posts: [],
       loader: true,
+      searchedItem: '',
+      searchText: '',
+      filterPosts: [],
+      key: false,
     };
   }
-
   componentDidMount() {
     this.checkUserLogedIn();
   }
@@ -101,12 +105,14 @@ class CamelClubList extends Component {
   async viewPosts() {
     let {user} = this.props;
     user = user.user.user.id;
+    const {key} = this.state;
     await camelapp
       .get('/notification/' + user)
       .then(res => {
         this.setState({
           posts: res?.data?.notification,
           loader: false,
+          key: !key,
         });
       })
       .catch(error => {
@@ -116,8 +122,31 @@ class CamelClubList extends Component {
         });
       });
   }
+  searchHandler = value => {
+    const {key} = this.state;
+    if (!value?.length) {
+      this.setState({filterPosts: this.state.posts});
+    } else {
+      this.setState({searchedItem: value});
+      // Data Filtration
+      const filteredData = this.state.posts.filter(item => {
+        const {description} = item;
+        return description?.toLowerCase().includes(value.toLowerCase());
+      });
+      if (filteredData.length > 0) {
+        this.setState({filterPosts: filteredData, key: !key});
+      } else {
+        this.setState({filterPosts: [], key: !key});
+      }
+    }
+  };
+  // =============NEW Search Handler==============
+  search(text) {
+    this.setState({searchText: text});
+  }
 
   render() {
+    const {filterPosts, key, searchedItem, posts} = this.state;
     const renderItem = ({item}) => {
       let d = new Date(item.created_at);
       //console.log("d", d.toLocaleString())
@@ -133,6 +162,16 @@ class CamelClubList extends Component {
 
     return (
       <View style={styles.container}>
+        <Header
+          onChangeText={text => {
+            if (text) {
+              this.search(text);
+            } else {
+              this.setState({searchedItem: '', searchText: ''});
+            }
+          }}
+          onPressSearch={() => this.searchFunction(this.state.searchText)}
+        />
         {this.state.loader && (
           <ActivityIndicator
             size="large"
@@ -144,8 +183,9 @@ class CamelClubList extends Component {
 
         {this.state.loader == false && (
           <FlatList
+            key={key}
             ListEmptyComponent={() => <EmptyComponent />}
-            data={this.state.posts}
+            data={searchedItem ? filterPosts : posts}
             contentContainerStyle={{paddingBottom: '10%'}}
             renderItem={renderItem}
             keyExtractor={item => item.id}

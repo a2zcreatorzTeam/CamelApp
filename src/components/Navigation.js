@@ -328,7 +328,7 @@ export default function Navigation() {
         <Stack.Screen
           name="Notification"
           component={Notification}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="Whatsapp"

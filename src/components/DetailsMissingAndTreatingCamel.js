@@ -27,6 +27,7 @@ const hight = Dimensions.get('screen').height;
 import * as ArabicText from '../language/EnglishToArabic';
 import HorizontalCarousel from './HorizontalCarousel';
 import VideoModal from './VideoModal';
+import BackBtnHeader from './headerWithBackBtn';
 
 class DetailsComponent extends Component {
   constructor(props) {
@@ -87,7 +88,6 @@ class DetailsComponent extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-
   sendWhatsAppMessage() {
     let {user} = this.props;
 
@@ -135,7 +135,6 @@ class DetailsComponent extends Component {
       alert('This is your post');
     }
   }
-
   sendMessage() {
     let {user} = this.props;
     if (user.user.user != undefined) {
@@ -162,6 +161,7 @@ class DetailsComponent extends Component {
     console.log('DetailsMissingAndTreatingCamel');
     return (
       <ScrollView>
+        <BackBtnHeader />
         <View
           style={{
             flexDirection: 'row',

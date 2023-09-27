@@ -62,11 +62,6 @@ class SurveyList extends Component {
     let {user} = this.props;
     user = user?.user?.user;
     if (user != undefined) {
-      console.log(
-        item?.survey_details[0]?.survey_id,
-        'item?.survey_details',
-        user?.id,
-      );
       let tempString = item?.survey_details;
       await camelapp
         .post('/check/survey/by/user_id', {
@@ -207,7 +202,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     height: '100%',
-    backgroundColor: 'white',
+    backgroundColor: 'white'
   },
 });
 

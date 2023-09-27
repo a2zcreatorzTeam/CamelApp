@@ -27,6 +27,7 @@ const hight = Dimensions.get('screen').height;
 import * as ArabicText from '../language/EnglishToArabic';
 import HorizontalCarousel from './HorizontalCarousel';
 import VideoModal from './VideoModal';
+import BackBtnHeader from './headerWithBackBtn';
 class DetailsMarketingCamel extends Component {
   constructor(props) {
     super(props);
@@ -144,6 +145,7 @@ class DetailsMarketingCamel extends Component {
     console.log('detailmarketing');
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
+        <BackBtnHeader />
         <View
           style={{
             flexDirection: 'row',

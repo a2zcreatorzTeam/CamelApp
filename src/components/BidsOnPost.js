@@ -25,6 +25,7 @@ class Bids extends Component {
     this.state = {
       loader: false,
       posts: [],
+      key: false,
     };
   }
 
@@ -34,16 +35,15 @@ class Bids extends Component {
 
   async viewPosts() {
     try {
+      const {key} = this.state;
       let {user} = this.props;
       return await camelapp
-        .post('/get/bids', {
-          user_id: user.user.user.id,
-        })
+        .get(`/get/bids/${user?.user?.user?.id}`)
         .then(res => {
-          console.log(res?.data, "responsee477");
+          console.log(res?.data, 'responseee41111');
           this.setState({
-            // posts: res.data.bids,
-            // loader: false,
+            posts: res?.data,
+            key: !key,
           });
         });
     } catch (error) {
@@ -62,7 +62,6 @@ class Bids extends Component {
         itemFromDetails: item.post,
       });
     }
-
     if (item.post.category_id == '4') {
       this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
         itemFromDetails: item.post,
@@ -106,8 +105,8 @@ class Bids extends Component {
     }
   }
   onWithdrawBid(item) {
-    //console.log("bid item", item)
-    withdrawBid(item.id).then(res => {
+    console.log('bid item', item?.bid_id);
+    withdrawBid(item?.bid_id).then(res => {
       if (res?.status == 'Successfully Delete') {
         alert('Bid successfully withdrawn!');
       } else {
@@ -191,29 +190,29 @@ class Bids extends Component {
         </View>
       </View>
     );
-    const renderBidItem = item => {
+    const renderBidItem = ({item}) => {
       return (
         <BidsItem
           item={item}
-          userName={item.item.user.name}
-          userImage={item.item.user.image}
-          bidPrice={item.item.price}
-          onViewPost={() => this.onViewPostClick(item.item)}
-          onWithdrawBid={() => this.onWithdrawBid(item.item)}
+          userName={item?.user_name}
+          userImage={item?.user_image}
+          bidPrice={item?.price}
+          onViewPost={() => this.onViewPostClick(item)}
+          onWithdrawBid={() => this.onWithdrawBid(item)}
         />
       );
     };
     return (
       <View style={Styles.containerBids}>
         {/* {this.state.loader == false && <Loader />} */}
-        {/* <FlatList
+        <FlatList
           data={this.state.posts}
           renderItem={renderBidItem}
           extraData={this.state}
           refeshing={this.state.refreshing}
           initialNumToRender={5}
           maxToRenderPerBatch={5}
-        /> */}
+        />
       </View>
     );
   }

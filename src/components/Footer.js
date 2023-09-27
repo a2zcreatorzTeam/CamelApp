@@ -17,9 +17,10 @@ import ChatTopTab from '../screens/chat/ChatTopTab';
 
 const Tab = createBottomTabNavigator();
 
-const App = () => {
+const BottomTab = () => {
   return (
     <Tab.Navigator
+      initialRouteName="Home"
       screenOptions={{backgroundColor: '#f8f8ff', unmountOnBlur: true}}>
       <Tab.Screen
         name={ArabicText.home}
@@ -91,4 +92,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default BottomTab;

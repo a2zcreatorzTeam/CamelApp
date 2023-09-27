@@ -595,7 +595,6 @@ class Home extends Component {
       this.props.navigation.navigate('SurveyList');
     };
 
-
     return (
       <View style={styles.container}>
         {this.state.loader == true && (
@@ -907,18 +906,14 @@ class Home extends Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

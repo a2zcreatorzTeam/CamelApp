@@ -141,18 +141,18 @@ export default function Navigation() {
         <Stack.Screen
           name="CamelClubDetailsComponent"
           component={CamelClubDetailsComponent}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="DetailsSellingCamel"
           component={DetailsSellingCamel}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
 
         <Stack.Screen
           name="DetailsMissingAndTreatingCamel"
           component={DetailsMissingAndTreatingCamel}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="CamelSellingList"
@@ -183,7 +183,7 @@ export default function Navigation() {
         <Stack.Screen
           name="DetailsComponent"
           component={DetailsComponent}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="CamelEquipmentList"
@@ -193,22 +193,22 @@ export default function Navigation() {
         <Stack.Screen
           name="DetailsFemaleCamel"
           component={DetailsFemaleCamel}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="DetailsMovingCamel"
           component={DetailsMovingCamel}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="DetailsMarketingCamel"
           component={DetailsMarketingCamel}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="DetailsComponentWithPrice"
           component={DetailsComponentWithPrice}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="MessageViewScreen"
@@ -288,7 +288,7 @@ export default function Navigation() {
         <Stack.Screen
           name="ViewNews"
           component={ViewNews}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="MarketingForm"
@@ -322,7 +322,7 @@ export default function Navigation() {
         />
         <Stack.Screen
           name="Profile"
-          component={Profile}
+          component={Footer}
           options={{headerShown: false}}
         />
         <Stack.Screen
@@ -387,7 +387,7 @@ export default function Navigation() {
         <Stack.Screen
           name="Survey"
           component={Survey}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="LiveMarketingForm"
@@ -423,7 +423,6 @@ export default function Navigation() {
           component={ChatScreen}
           options={{header: () => <Header />}}
         />
-
         <Stack.Screen
           name="ChatLogin"
           component={ChatLogin}

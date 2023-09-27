@@ -206,7 +206,9 @@ class SignUp extends Component {
       });
       alert('الرجاء تحديد الشروط والأحكام');
     }
-    if (
+
+
+   if (
       flagname == false &&
       flagphone == false &&
       flagpassword == false &&

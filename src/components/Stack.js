@@ -4,6 +4,7 @@ import Header from './Header';
 import Home from '../screens/Home';
 import News from '../screens/News';
 import UserProfile from '../screens/UserProfile';
+import Profile from '../screens/Profile';
 
 const NewStack = createNativeStackNavigator();
 export default function NewSatck() {
@@ -15,7 +16,6 @@ export default function NewSatck() {
         // options={{ header: () => <Header navRoute={"Home"} /> }}
         options={{headerShown: false}}
       />
-
       <NewStack.Screen
         name="NewsList"
         component={NewsList}
@@ -28,12 +28,17 @@ export default function NewSatck() {
         options={{headerShown: false}}
         // options={{header: () => <Header />}}
       />
-
       <NewStack.Screen
+        name="Profile"
+        component={Profile}
+        options={{headerShown: false}}
+      />
+
+      {/* <NewStack.Screen
         name="UserProfile"
         component={UserProfile}
         options={{header: () => <Header />}}
-      />
+      /> */}
     </NewStack.Navigator>
   );
 }

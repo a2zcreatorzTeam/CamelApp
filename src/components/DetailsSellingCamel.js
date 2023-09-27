@@ -26,6 +26,7 @@ const hight = Dimensions.get('screen').height;
 import * as ArabicText from '../language/EnglishToArabic';
 import HorizontalCarousel from './HorizontalCarousel';
 import VideoModal from './VideoModal';
+import BackBtnHeader from './headerWithBackBtn';
 class DetailsComponent extends Component {
   constructor(props) {
     super(props);
@@ -259,9 +260,9 @@ class DetailsComponent extends Component {
   render() {
     const {pausedCheck, loadVideo, videoModal, modalItem, imagesArray} =
       this.state;
-    console.log(imagesArray, 'imgaearrayyyyy');
     return (
       <ScrollView style={{backgroundColor: '#fff'}}>
+        <BackBtnHeader />
         <View
           style={{
             flexDirection: 'row',

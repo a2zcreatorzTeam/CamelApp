@@ -32,6 +32,7 @@ import Carousel from 'react-native-snap-carousel';
 import Video from 'react-native-video';
 import {ActivityIndicator} from 'react-native';
 import Loader from '../components/PleaseWait';
+import Header from '../components/Header';
 
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
@@ -52,6 +53,9 @@ class UserProfile extends Component {
       refreshing: false,
       loading: false,
       key: false,
+      searchText: '',
+      searchedItem: '',
+      filterPosts: [],
     };
   }
   ScrollToRefresh() {
@@ -325,8 +329,45 @@ class UserProfile extends Component {
       this.props.navigation.navigate('Login');
     }
   };
+  //  SEARCH
+  searchHandler = value => {
+    const {key, postData} = this.state;
+    if (!value) {
+      this.setState({filterPosts: this.state.commentsList, searchedItem: ''});
+    } else {
+      this.setState({searchedItem: value});
+      // Data Filtration
+      const filteredData = postData?.filter(item => {
+        const {
+          title,
+          description,
+          user_location,
+          user_phone,
+          camel_type,
+          category_name,
+        } = item;
+        return (
+          title?.toLowerCase().includes(value.toLowerCase()) ||
+          description?.toLowerCase().includes(value.toLowerCase()) ||
+          user_location?.toLowerCase()?.includes(value.toLowerCase()) ||
+          camel_type?.toLowerCase()?.includes(value.toLowerCase()) ||
+          category_name?.toLowerCase()?.includes(value.toLowerCase()) ||
+          user_phone?.includes(value)
+        );
+      });
+      console.log(filteredData, 'foilteredDdataa');
+      if (filteredData?.length > 0) {
+        this.setState({filterPosts: filteredData, key: !key});
+      } else {
+        this.setState({filterPosts: [], key: !key});
+      }
+    }
+  };
+  search(text) {
+    this.setState({searchText: text});
+  }
   render() {
-    const {user, key} = this.state;
+    const {filterPosts, postData, searchedItem, key, searchText} = this.state;
     const sharePosts = item => {
       const user = this.props.route?.params;
       this.setState({loading: true});
@@ -607,6 +648,7 @@ class UserProfile extends Component {
     // };
     const FriendshipStatusBTN = () => {
       const user = this.props.user.user.user;
+      console.log(user?.id, this.state.user, "userererer");
       if (
         this.state.friendshipStatus == null ||
         this.state.friendshipStatus == 'C' ||
@@ -646,10 +688,19 @@ class UserProfile extends Component {
         );
       }
     };
-    const {userProfile} = this.props.route?.params;
 
     return (
       <View style={styles.container}>
+        <Header
+          onChangeText={text => {
+            if (text) {
+              this.search(text);
+            } else {
+              this.setState({searchedItem: '', searchText: ''});
+            }
+          }}
+          onPressSearch={() => this.searchHandler(searchText)}
+        />
         <View style={Styles.headerProfile}>
           {/* FOLLOW VIEW */}
           <View style={{position: 'absolute', top: 40, right: 20}}>
@@ -691,13 +742,11 @@ class UserProfile extends Component {
               {this.state.user.name}
             </Text>
             <View style={styles.icons}>
-
-                <TouchableOpacity
-                  onPress={() => this.sendWhatsAppMessage()}
-                  style={Styles.detailsIcons}>
-                  <FontAwesome name="whatsapp" size={20} color="#CD853F" />
-                </TouchableOpacity>
-         
+              <TouchableOpacity
+                onPress={() => this.sendWhatsAppMessage()}
+                style={Styles.detailsIcons}>
+                <FontAwesome name="whatsapp" size={20} color="#CD853F" />
+              </TouchableOpacity>
 
               <TouchableOpacity
                 style={Styles.detailsIcons}
@@ -770,6 +819,7 @@ class UserProfile extends Component {
           </View>
         </View>
         <Loader loading={this.state.loading} />
+
         <FlatList
           key={key}
           ListEmptyComponent={
@@ -791,7 +841,7 @@ class UserProfile extends Component {
               onRefresh={() => this.ScrollToRefresh()}
             />
           }
-          data={this.state.postData}
+          data={searchedItem ? filterPosts : postData}
           renderItem={renderItem}
           keyExtractor={item_2 => item_2?.id}
           initialNumToRender={5}

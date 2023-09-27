@@ -83,7 +83,6 @@ class Comments extends Component {
     });
   };
   onLikesClick = (item, setIsLiked, setLikeCount) => {
-    console.log(item.id, ' item.id');
     this.setState({loading: true});
     let user = this.state.user;
     let post_id = this.props.route.params.post.id;
@@ -94,16 +93,13 @@ class Comments extends Component {
           comment_id: item.id,
         })
         .then(response => {
-          console.log(response.data, 'responseee95');
           // this.getCommentsOnPost();
           if (response.data.message == 'Successfully liked') {
-            console.log('likeddd');
             setIsLiked(true);
             setLikeCount(response?.data?.total_likes);
             this.setState({loading: false});
           }
           if (response.data.message == 'Successfully Unliked') {
-            console.log('Unlikeddd');
             setIsLiked(false);
             setLikeCount(response?.data?.total_likes);
             this.setState({loading: false});
@@ -120,8 +116,6 @@ class Comments extends Component {
   };
   getCommentsOnPost = async () => {
     let {user} = this.props?.route.params;
-    // user = user.user.user;
-    console.log(user, 'userere');
     const {searchedItem, dataNotFound} = this.state;
     await camelapp
       .post('/get/comment', {
@@ -141,6 +135,7 @@ class Comments extends Component {
     this.getCommentsOnPost();
   };
   addNewComment = async () => {
+    console.log(this.state.newComment, 'this.state.newComment');
     if (this.state.newComment != '') {
       this.setState({loading: true});
       camelapp
@@ -197,11 +192,11 @@ class Comments extends Component {
   }
   render() {
     const renderItem = ({item}) => {
-      console.log(item,"HJHJ")
+      console.log(item, 'item.comment');
       return (
         <Item
           item={item}
-          date={item?.created_at?.slice(0,9)}
+          date={item?.created_at?.slice(0, 9)}
           comment={item.comment}
           userImage={item.image}
           userName={item.name}
@@ -221,6 +216,7 @@ class Comments extends Component {
       commentsList,
       filterPosts,
       searchedItem,
+      newComment
     } = this.state;
     return (
       <SafeAreaView style={Styles.containerComments}>
@@ -249,7 +245,7 @@ class Comments extends Component {
               if (text) {
                 this.search(text);
               } else {
-                this.setState({searchedItem: '', searchText:""});
+                this.setState({searchedItem: '', searchText: ''});
               }
             }}
             onPressSearch={() => this?.searchHandler(this.state.searchText)}
@@ -303,7 +299,10 @@ class Comments extends Component {
             </TouchableOpacity>
             <TextInput
               style={Styles.forminputs}
-              onChangeText={text => this.setState({newComment: text})}
+              onChangeText={text => {
+                this.setState({newComment: text}),
+                  console.log(text?.length, 'textttttttt', newComment?.length);
+              }}
               placeholder={ArabicText.comments}
               placeholderTextColor="#b0b0b0"
               value={this.state?.newComment}></TextInput>

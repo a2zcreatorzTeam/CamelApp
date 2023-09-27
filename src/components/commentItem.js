@@ -14,10 +14,8 @@ const Item = ({
   time,
   date,
 }) => {
-  console.log(item?.id);
   const [isLiked, setIsLiked] = useState();
   const [likeCount, setLikeCount] = useState(commentsCount);
-  console.log(isLiked, item?.flagForLike);
   return (
     <>
       <View
@@ -75,8 +73,9 @@ const Item = ({
           <View
             style={{
               flexDirection: 'row',
+              // width: '100%',
             }}>
-            <View style={{flexDirection: 'column', right: 20}}>
+            <View style={{width: '90%'}}>
               <Text
                 style={{
                   fontSize: 16,
@@ -94,19 +93,17 @@ const Item = ({
                   color: 'black',
                   fontWeight: '400',
                   textAlign: 'right',
-                  // marginVertical:5
                 }}>
                 {date}
               </Text>
-              <Text
-                // numberOfLines={10}
+              <Text 
                 ellipsizeMode="tail"
                 style={{
-                  marginHorizontal: 20,
-                  width: 300,
                   fontSize: 12,
                   color: 'black',
                   textAlign: 'right',
+                  // width: '90%',
+                  // marginLeft: 10,
                 }}>
                 {comment}
               </Text>

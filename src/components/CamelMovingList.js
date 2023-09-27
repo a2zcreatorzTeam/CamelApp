@@ -15,7 +15,6 @@ import * as ArabicText from '../language/EnglishToArabic';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
-
 import Header from './Header';
 
 class CamelMovingList extends Component {
@@ -41,7 +40,6 @@ class CamelMovingList extends Component {
     //console.log("text", text);
     this.setState({searchText: text});
   }
-
   searchFunction(searchtext) {
     const {key} = this.state;
     if (searchtext != undefined && searchtext.length != 0) {
@@ -61,7 +59,6 @@ class CamelMovingList extends Component {
       this.setState({filterPosts: tempPost, key: !key});
     }
   }
-
   async viewPosts() {
     const {key} = this.state;
     const user = this.props?.user;
@@ -83,7 +80,6 @@ class CamelMovingList extends Component {
       //console.log("Error Message camel Moving List", error.response);
     }
   }
-
   ScrollToRefresh() {
     this.viewPosts();
     this.setState({refreshing: false});
@@ -124,7 +120,6 @@ class CamelMovingList extends Component {
         this.props.navigation.navigate('DetailsMovingCamel', {
           itemFromDetails: item,
         });
-        this.postViewed(item, viewCount, setViewCount);
         //   camelapp
         //     .post('/add/view', {
         //       post_id: post_id,
@@ -154,6 +149,7 @@ class CamelMovingList extends Component {
       <View style={styles.container}>
         <Header
           onChangeText={text => {
+            console.log(text, 'texttttt');
             if (text) {
               this.search(text);
             } else {

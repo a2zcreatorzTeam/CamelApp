@@ -28,10 +28,7 @@ class Bids extends Component {
       refreshing: false,
       key: false,
     };
-
-    // this.viewPosts();
   }
-
   async viewPosts() {
     try {
       let {user} = this.props;
@@ -56,55 +53,53 @@ class Bids extends Component {
     this.viewPosts();
     this.setState({refreshing: false});
   }
-
   onViewPostClick(item) {
-    // if (item.post.category_id == '1') {
-    //   this.props.navigation.navigate('CamelClubDetailsComponent', {
-    //     itemFromDetails: item.post,
-    //   });
-    // }
-    // if (item.post.category_id == '4') {
-    //   this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
-    //     itemFromDetails: item.post,
-    //   });
-    // }
-    // if (item.post.category_id == '3') {
-    //   this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
-    //     itemFromDetails: item.post,
-    //   });
-    // }
-    // if (item.post.category_id == '2') {
-    //   this.props.navigation.navigate('DetailsSellingCamel', {
-    //     itemFromDetails: item.post,
-    //   });
-    // }
-    // if (item.post.category_id == '6') {
-    //   this.props.navigation.navigate('DetailsComponentWithPrice', {
-    //     itemFromDetails: item.post,
-    //   });
-    // }
-    // if (item.post.category_id == '8') {
-    //   this.props.navigation.navigate('DetailsComponentWithPrice', {
-    //     itemFromDetails: item.post,
-    //   });
-    // }
-    // if (item.post.category_id == '5') {
-    //   this.props.navigation.navigate('DetailsMovingCamel', {
-    //     itemFromDetails: item.post,
-    //   });
-    // }
-    // if (item.post.category_id == '9') {
-    //   this.props.navigation.navigate('DetailsMarketingCamel', {
-    //     itemFromDetails: item.post,
-    //   });
-    // }
-    // if (item.post.category_id == '11') {
-    //   this.props.navigation.navigate('DetailsFemaleCamel', {
-    //     itemFromDetails: item.post,
-    //   });
-    // }
+    if (item.post.category_id == '1') {
+      this.props.navigation.navigate('CamelClubDetailsComponent', {
+        itemFromDetails: item.post,
+      });
+    }
+    if (item.post.category_id == '4') {
+      this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
+        itemFromDetails: item.post,
+      });
+    }
+    if (item.post.category_id == '3') {
+      this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
+        itemFromDetails: item.post,
+      });
+    }
+    if (item.post.category_id == '2') {
+      this.props.navigation.navigate('DetailsSellingCamel', {
+        itemFromDetails: item.post,
+      });
+    }
+    if (item.post.category_id == '6') {
+      this.props.navigation.navigate('DetailsComponentWithPrice', {
+        itemFromDetails: item.post,
+      });
+    }
+    if (item.post.category_id == '8') {
+      this.props.navigation.navigate('DetailsComponentWithPrice', {
+        itemFromDetails: item.post,
+      });
+    }
+    if (item.post.category_id == '5') {
+      this.props.navigation.navigate('DetailsMovingCamel', {
+        itemFromDetails: item.post,
+      });
+    }
+    if (item.post.category_id == '9') {
+      this.props.navigation.navigate('DetailsMarketingCamel', {
+        itemFromDetails: item.post,
+      });
+    }
+    if (item.post.category_id == '11') {
+      this.props.navigation.navigate('DetailsFemaleCamel', {
+        itemFromDetails: item.post,
+      });
+    }
   }
-
   onWithdrawBid(item) {
     //console.log("bid item", item)
     withdrawBid(item.id).then(res => {

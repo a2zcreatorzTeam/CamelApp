@@ -27,15 +27,12 @@ import * as ArabicText from '../language/EnglishToArabic';
 import camelapp from '../api/camelapp';
 import {useState} from 'react';
 import PostItem from './CompetitionPostItem';
+import BackBtnHeader from './headerWithBackBtn';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 class BeautyOfCompetition extends Component {
   constructor(props) {
     super(props);
-    // console.log(
-    //   props.route.params.competition_item[0]?.competition_posts,
-    //   'props.route.params.competition_item[0].competition_posts',
-    // );
     this.state = {
       posts: props.route.params.competition_item[0]?.competition_posts,
       competition: props.route.params.competition_item?.length
@@ -240,6 +237,7 @@ class BeautyOfCompetition extends Component {
     };
     return (
       <View style={Styles.containerBeauty}>
+        <BackBtnHeader />
         <View style={{flexDirection: 'row', marginTop: 20, gap: 5}}>
           <Modal
             animationType="slide"
@@ -447,7 +445,7 @@ class BeautyOfCompetition extends Component {
           {this.state?.posts?.length && (
             <FlatList
               key={key}
-              style={{flex: 1, flexGrow:1}}
+              style={{flex: 1, flexGrow: 1}}
               contentContainerStyle={{
                 flexGrow: 1,
                 alignItems: 'flex-end',

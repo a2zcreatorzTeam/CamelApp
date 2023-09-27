@@ -25,6 +25,7 @@ const hight = Dimensions.get('screen').height;
 import * as ArabicText from '../language/EnglishToArabic';
 import VideoModal from './VideoModal';
 import HorizontalCarousel from './HorizontalCarousel';
+import BackBtnHeader from './headerWithBackBtn';
 
 class CamelClubDetailsComponent extends Component {
   constructor(props) {
@@ -67,7 +68,6 @@ class CamelClubDetailsComponent extends Component {
   }
   onCommentsClick = () => {
     let item = this.state.itemFromDetails;
-
     let {user} = this.props;
     user = user.user.user;
     let post_id = item.id;
@@ -160,6 +160,7 @@ class CamelClubDetailsComponent extends Component {
     const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
+        <BackBtnHeader />
         <View
           style={{
             flexDirection: 'row',

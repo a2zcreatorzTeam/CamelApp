@@ -60,9 +60,6 @@ class App extends Component {
         })
         .then(res => {
           let response = res?.data;
-          console.log('===============home=================');
-          console.log(res?.data);
-          console.log('====================================');
           if (response.status == true) {
             let {actions} = this.props;
             actions.userData(response);

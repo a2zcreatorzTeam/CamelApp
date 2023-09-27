@@ -23,6 +23,7 @@ import {bindActionCreators} from 'redux';
 const width = Dimensions.get('screen').width;
 import * as ArabicText from '../language/EnglishToArabic';
 import VideoModal from './VideoModal';
+import BackBtnHeader from './headerWithBackBtn';
 class DetailsComponent extends Component {
   constructor(props) {
     super(props);
@@ -147,6 +148,7 @@ class DetailsComponent extends Component {
     const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
+        <BackBtnHeader />
         <View
           style={{
             flexDirection: 'row',

@@ -24,6 +24,7 @@ import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import camelapp from '../api/camelapp';
 import moment from 'moment';
+import BackBtnHeader from '../components/headerWithBackBtn';
 
 class ViewNews extends Component {
   constructor(props) {
@@ -157,7 +158,6 @@ class ViewNews extends Component {
           });
       }
     };
-
     const dislikeCommentHandler = item => {
       console.log('commentList', this.state.commentList);
 
@@ -197,7 +197,6 @@ class ViewNews extends Component {
           });
       }
     };
-
     const Item = ({
       item,
       name,
@@ -318,7 +317,6 @@ class ViewNews extends Component {
         </View>
       </Card>
     );
-
     const renderItem = ({item}) => {
       console.log(item, 'RENDER ITEM PROP');
       return (
@@ -333,11 +331,9 @@ class ViewNews extends Component {
         />
       );
     };
-
     const source = {
       html: `<p>${this.state.newsItem.description}</p>`,
     };
-
     const tagsStyles = {
       body: {
         color: 'black',
@@ -349,6 +345,7 @@ class ViewNews extends Component {
 
     return (
       <View style={Styles.container}>
+        <BackBtnHeader />
         <ScrollView style={{alignSelf: 'center'}}>
           <View
             style={{

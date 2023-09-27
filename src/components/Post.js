@@ -8,7 +8,6 @@ import {
   Dimensions,
   Modal,
   TouchableWithoutFeedback,
-  FlatList,
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
@@ -16,7 +15,6 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Video from 'react-native-video';
-import Carousel from 'react-native-snap-carousel';
 import * as ArabicText from '../language/EnglishToArabic';
 const {width, height} = Dimensions.get('screen');
 import {useSelector} from 'react-redux';
@@ -50,9 +48,10 @@ const Post = ({
   const [viewCount, setViewCount] = useState(item?.view_count);
 
   const onUserProfileClick = async item => {
+    console.log(item?.user_id, 'itemmm544', item, item?.user_id == user?.id);
     if (user != undefined) {
-      if (item?.user_id === user?.id) {
-        navigation?.navigate('Profile');
+      if (item?.user_id == user?.id) {
+        navigation?.navigate('Profile', {screen: ArabicText?.profilee});
       } else {
         navigation?.navigate('UserProfile', {
           user_id: item?.user_id,

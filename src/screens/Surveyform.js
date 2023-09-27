@@ -22,6 +22,7 @@ const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 import Loader from '../components/PleaseWait';
 import {ActivityIndicator} from 'react-native';
+import BackBtnHeader from '../components/headerWithBackBtn';
 class Surveyform extends Component {
   constructor(props) {
     super(props);
@@ -108,7 +109,8 @@ class Surveyform extends Component {
       'props?.route?.params?.surveyId',
     );
     return (
-      <View style={{flex: 1, alignItems: 'center'}}>
+      <View style={{flex: 1, alignItems: 'center', width:'100%'}}>
+        <BackBtnHeader style={{marginBottom:15}}/>
         <Text
           style={{
             fontSize: 30,
@@ -116,7 +118,7 @@ class Surveyform extends Component {
             color: '#d2691e',
             fontFamily: 'centaur',
             marginBottom: 5,
-            marginRight: 50,
+            textAlign:'center'
           }}>
           Take a Survey
         </Text>
@@ -149,11 +151,12 @@ class Surveyform extends Component {
                     <Text
                       style={{
                         fontSize: 16,
-                        textAlign: 'right',
+                        textAlign: 'center',
                         fontWeight: 'bold',
                         color: 'black',
                         marginBottom: 10,
-                        marginRight: 20,
+                        backgroundColor:'red'
+                        // marginRight: 20,
                       }}>
                       {item?.question}
                     </Text>
@@ -301,7 +304,7 @@ class Surveyform extends Component {
                         fontWeight: 'bold',
                         color: 'black',
                         marginBottom: 10,
-                        marginRight: 20,
+                        // marginRight: 20,
                       }}>
                       {item?.question}
                     </Text>

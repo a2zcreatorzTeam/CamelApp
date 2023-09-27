@@ -24,6 +24,7 @@ const height = Dimensions.get('screen').height;
 import * as ArabicText from '../language/EnglishToArabic';
 import VideoModal from './VideoModal';
 import HorizontalCarousel from './HorizontalCarousel';
+import BackBtnHeader from './headerWithBackBtn';
 
 class DetailsComponent extends Component {
   constructor(props) {
@@ -154,6 +155,7 @@ class DetailsComponent extends Component {
 
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
+        <BackBtnHeader />
         <View
           style={{
             flexDirection: 'row',

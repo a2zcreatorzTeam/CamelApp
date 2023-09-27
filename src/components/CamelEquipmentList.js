@@ -18,6 +18,7 @@ import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import {Dimensions} from 'react-native';
+import BackBtnHeader from './headerWithBackBtn';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 class CamelEquipmentList extends Component {

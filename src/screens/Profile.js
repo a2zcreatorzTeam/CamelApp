@@ -37,6 +37,7 @@ import Carousel from 'react-native-snap-carousel';
 import Loader from '../components/PleaseWait';
 import OTPTextInput from 'react-native-otp-textinput';
 import BackBtnHeader from '../components/headerWithBackBtn';
+import Header from '../components/Header';
 
 class Profile extends Component {
   constructor(props) {
@@ -60,6 +61,10 @@ class Profile extends Component {
       posts: [],
       pausedCheck: false,
       key: false,
+
+      searchText: '',
+      searchedItem: '',
+      filterPosts: [],
     };
   }
 
@@ -92,10 +97,8 @@ class Profile extends Component {
   saveWhatsApp() {
     let {user, actions} = this.props;
     user = user?.user?.user;
-
     //console.log("this.state.registerSwitch", this.state.registerSwitch)
-
-    if (this.state.whatsappNumber.length == 11) {
+    if (this.state.whatsappNumber.length == 10) {
       try {
         camelapp
           .post('/add/whatsapp/' + user.id, {
@@ -103,6 +106,7 @@ class Profile extends Component {
             whatsapp_status: this.state.registerSwitch,
           })
           .then(res => {
+            console.log(res?.data, 'res[ponseee');
             this.setState({modal: false});
             //console.log("response at fetch", res.data);
           });
@@ -226,6 +230,7 @@ class Profile extends Component {
     this.setState({loader: true});
     let {user, actions} = this.props;
     user = user?.user?.user;
+    console.log(user, 'userererererere6767');
 
     try {
       camelapp.get('/get/fetchUser/' + user.id).then(res => {
@@ -384,10 +389,48 @@ class Profile extends Component {
     }
   };
 
+  // =============NEW Updated Search Handler==============
+  searchHandler = value => {
+    const {key, posts} = this.state;
+    if (!value) {
+      this.setState({filterPosts: this.state.commentsList, searchedItem: ''});
+    } else {
+      this.setState({searchedItem: value});
+      // Data Filtration
+      const filteredData = posts?.filter(item => {
+        const {
+          title,
+          description,
+          user_location,
+          user_phone,
+          camel_type,
+          category_name,
+        } = item;
+        return (
+          title?.toLowerCase().includes(value.toLowerCase()) ||
+          description?.toLowerCase().includes(value.toLowerCase()) ||
+          user_location?.toLowerCase()?.includes(value.toLowerCase()) ||
+          camel_type?.toLowerCase()?.includes(value.toLowerCase()) ||
+          category_name?.toLowerCase()?.includes(value.toLowerCase()) ||
+          user_phone?.includes(value)
+        );
+      });
+      console.log(filteredData, 'foilteredDdataa');
+      if (filteredData?.length > 0) {
+        this.setState({filterPosts: filteredData, key: !key});
+      } else {
+        this.setState({filterPosts: [], key: !key});
+      }
+    }
+  };
+  search(text) {
+    this.setState({searchText: text});
+  }
+
   render() {
-    const {key} = this.state;
+    console.log('myyyyProfileeeeee');
+    const {key, filterPosts, posts, searchedItem, searchText} = this.state;
     const sharePosts = item => {
-      // console.log('working');
       this.setState({loading: true});
       let {user} = this.props;
       user = user?.user?.user;
@@ -399,12 +442,9 @@ class Profile extends Component {
             post_id: post_id,
           })
           .then(response => {
-            // console.log('response.data', response.data);
             if (response.data) {
               let filterPosts = this.state.filterPosts;
-
               let tempIndex = filterPosts?.indexOf(item);
-
               let share_count = item?.share_count + 1;
               let tempItem = item;
               tempItem['share_count'] = share_count;
@@ -583,7 +623,6 @@ class Profile extends Component {
       if (item?.video) {
         imagesArray.push({type: 'video', source: item.video});
       }
-      console.log(item, 'itemcdmm');
       return (
         <Item
           item={item}
@@ -615,422 +654,454 @@ class Profile extends Component {
           postViewed={(viewCount, setViewCount) =>
             this.postViewed(item, viewCount, setViewCount)
           }
-          date={item?.created_at?.slice(0,10)}
+          date={item?.created_at?.slice(0, 10)}
         />
       );
     };
     return (
       <View style={Styles.containerProfile}>
-        <BackBtnHeader />
         {this.props.user.user.user === undefined ? (
           this.props.navigation.navigate('Login')
         ) : (
-          <View>
-            {/* {this.state.loader == false && ( */}
-            {/* <> */}
-            <View style={Styles.headerProfile}>
-              {/* Edit & Cart Icons Profile */}
-              <View style={styles.head}>
-                <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate('EditProfile')}>
-                  <MaterialCommunityIcons
-                    name="pencil"
-                    size={35}
-                    color="#D2691Eff"
+          <>
+            <Header
+              onChangeText={text => {
+                if (text) {
+                  this.search(text);
+                } else {
+                  this.setState({searchedItem: '', searchText: ''});
+                }
+              }}
+              onPressSearch={() => this.searchHandler(searchText)}
+            />
+            <View>
+              {/* {this.state.loader == false && ( */}
+              {/* <> */}
+              <View style={Styles.headerProfile}>
+                {/* Edit & Cart Icons Profile */}
+                <View style={styles.head}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.props.navigation.navigate('EditProfile')
+                    }>
+                    <MaterialCommunityIcons
+                      name="pencil"
+                      size={35}
+                      color="#D2691Eff"
+                    />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.props.navigation.navigate('BidTab'),
+                        console.log('bidTabbbb');
+                    }}>
+                    <Foundation
+                      name="shopping-cart"
+                      size={35}
+                      color="#D2691Eff"
+                    />
+                  </TouchableOpacity>
+                </View>
+                {/* Edit & Cart Icons Profile */}
+
+                <View style={{position: 'absolute', right: 15, bottom: 5}}>
+                  {/* Rating */}
+                  <Rating
+                    ratingCount={5}
+                    jumpValue={4}
+                    imageSize={16}
+                    readonly={true}
+                    startingValue={this.state.rating}
+                    ratingBackgroundColor={'#aaa'}
+                    style={{paddingVertical: 10}}
+                    ratingColor={'crimson'}
+                    tintColor="white"
+                    type="custom"
                   />
-                </TouchableOpacity>
+                  {/* Rating */}
+                </View>
 
-                <TouchableOpacity
-                  onPress={() => {
-                    this.props.navigation.navigate('BidTab'),
-                      console.log('bidTabbbb');
-                  }}>
-                  <Foundation
-                    name="shopping-cart"
-                    size={35}
-                    color="#D2691Eff"
-                  />
-                </TouchableOpacity>
-              </View>
-              {/* Edit & Cart Icons Profile */}
-
-              <View style={{position: 'absolute', right: 15, bottom: 5}}>
-                {/* Rating */}
-                <Rating
-                  ratingCount={5}
-                  jumpValue={4}
-                  imageSize={16}
-                  readonly={true}
-                  startingValue={this.state.rating}
-                  ratingBackgroundColor={'#aaa'}
-                  style={{paddingVertical: 10}}
-                  ratingColor={'crimson'}
-                  tintColor="white"
-                  type="custom"
-                />
-                {/* Rating */}
-              </View>
-
-              <View
-                style={{
-                  width: 140,
-                  padding: 5,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Image
-                  source={{
-                    uri:
-                      // this.props.user.user.user  === undefined ? this.props.navigation.navigate('Login')  :
-                      'http://www.tasdeertech.com/public/images/profiles/' +
-                      this.props?.user?.user?.user.image,
-                    // "http://www.tasdeertech.com/public/images/profiles/" + this.props.user.user.user.image === undefined ? this.props.navigation.navigate('Login') : this.props.user.user.user.image
-                  }}
-                  style={styles.img}></Image>
-                <Text style={styles.name}>
-                  {this.props?.user?.user?.user?.name}
-                </Text>
                 <View
                   style={{
-                    flexDirection: 'row-reverse',
+                    width: 140,
+                    padding: 5,
                     alignItems: 'center',
+                    justifyContent: 'center',
                   }}>
-                  <AntDesign
-                    name="checkcircle"
-                    size={14}
-                    color={
-                      this.state?.rating <= 1
-                        ? 'blue'
-                        : this.state?.rating <= 3
-                        ? 'orange'
-                        : '#e50000'
-                    }
-                  />
-                  <Text
+                  <Image
+                    source={{
+                      uri:
+                        // this.props.user.user.user  === undefined ? this.props.navigation.navigate('Login')  :
+                        'http://www.tasdeertech.com/public/images/profiles/' +
+                        this.props?.user?.user?.user.image,
+                      // "http://www.tasdeertech.com/public/images/profiles/" + this.props.user.user.user.image === undefined ? this.props.navigation.navigate('Login') : this.props.user.user.user.image
+                    }}
+                    style={styles.img}></Image>
+                  <Text style={styles.name}>
+                    {this.props?.user?.user?.user?.name}
+                  </Text>
+                  <View
                     style={{
-                      color:
+                      flexDirection: 'row-reverse',
+                      alignItems: 'center',
+                    }}>
+                    <AntDesign
+                      name="checkcircle"
+                      size={14}
+                      color={
                         this.state?.rating <= 1
                           ? 'blue'
                           : this.state?.rating <= 3
                           ? 'orange'
-                          : '#e50000',
-                      fontSize: 12,
-                      textAlign: 'right',
-                      marginRight: 4,
-                    }}>
-                    {this.state?.rating <= 1
-                      ? 'Normal'
-                      : this.state?.rating <= 3
-                      ? 'Special'
-                      : 'Famous'}
-                  </Text>
-                </View>
-                {/* my contacts */}
-                <View style={styles.icons}>
-                  <TouchableOpacity
-                    onPress={() => this.setState({modal: true})}
-                    style={Styles.detailsIcons}>
-                    <FontAwesome name="whatsapp" size={20} color="#CD853F" />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    onPress={() => this.setState({modalPhone: true})}
-                    style={Styles.detailsIcons}>
-                    <AntDesign name="mobile1" size={20} color="#CD853F" />
-                  </TouchableOpacity>
-
-                  <TouchableOpacity
-                    onPress={() => this.setState({modalChat: true})}
-                    style={Styles.detailsIcons}>
-                    <AntDesign name="message1" size={20} color="#CD853F" />
-                  </TouchableOpacity>
-                </View>
-                {/* my contacts */}
-              </View>
-            </View>
-
-            <View style={styles.headerContainer}>
-              <View style={styles.row}>
-                <View
-                  // onPress={() => this.openFollowingModal()}
-                  style={styles.video}>
-                  <Text style={styles.textcolor}>
-                    {this.props?.user?.user?.follwers}
-                  </Text>
-                  <Text style={styles.textcolor}>{ArabicText.Followers}</Text>
-                </View>
-
-                <Text style={{fontSize: 30, fontWeight: '400', color: '#fff'}}>
-                  |
-                </Text>
-
-                <View style={styles.video}>
-                  <Text style={styles.textcolor}>
-                    {this.props?.user?.user?.posts?.length}
-                  </Text>
-                  <Text style={styles.textcolor}>{ArabicText.posts}</Text>
-                </View>
-
-                <Text style={{fontSize: 30, fontWeight: '400', color: '#fff'}}>
-                  |
-                </Text>
-
-                <TouchableOpacity style={styles.video}>
-                  <Text style={styles.textcolor}>
-                    {this.props?.user?.user?.following}
-                  </Text>
-                  <Text style={styles.textcolor}>{ArabicText?.Following}</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            {/* </> */}
-            {/* )} */}
-
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={this.state.modal}>
-              <TouchableWithoutFeedback
-              // onPress={() => this.setState({ modalOffer: false })}
-              >
-                <View style={Styles.centeredView}>
-                  <View style={Styles.modalView}>
-                    <Pressable
-                      onPress={modalOffer => this.setState({modal: false})}>
-                      <Ionicons name="close" size={30} color="brown" />
-                    </Pressable>
-                    <Text style={{margin: 5, color: 'black'}}>
-                      Add Whatsapp number
-                    </Text>
-
-                    <TextInput
-                      value={this.state.whatsappNumber}
-                      style={Styles.forminputsPrice}
-                      placeholder="Whats App Number"
-                      keyboardType="numeric"
-                      onChangeText={text =>
-                        this.setState({whatsappNumber: text})
+                          : '#e50000'
                       }
-                      placeholderTextColor="#b0b0b0"></TextInput>
-                    <View
+                    />
+                    <Text
                       style={{
-                        flexDirection: 'row',
-                        alignSelf: 'flex-end',
-                        alignItems: 'center',
-                        marginTop: 10,
+                        color:
+                          this.state?.rating <= 1
+                            ? 'blue'
+                            : this.state?.rating <= 3
+                            ? 'orange'
+                            : '#e50000',
+                        fontSize: 12,
+                        textAlign: 'right',
+                        marginRight: 4,
                       }}>
-                      <Text
-                        style={{margin: 3, fontWeight: 'bold', color: 'black'}}>
-                        {this.state.registerSwitch == true
-                          ? 'Active'
-                          : 'In Active'}
+                      {this.state?.rating <= 1
+                        ? 'Normal'
+                        : this.state?.rating <= 3
+                        ? 'Special'
+                        : 'Famous'}
+                    </Text>
+                  </View>
+                  {/* my contacts */}
+                  <View style={styles.icons}>
+                    <TouchableOpacity
+                      onPress={() => this.setState({modal: true})}
+                      style={Styles.detailsIcons}>
+                      <FontAwesome name="whatsapp" size={20} color="#CD853F" />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      onPress={() => this.setState({modalPhone: true})}
+                      style={Styles.detailsIcons}>
+                      <AntDesign name="mobile1" size={20} color="#CD853F" />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      onPress={() => this.setState({modalChat: true})}
+                      style={Styles.detailsIcons}>
+                      <AntDesign name="message1" size={20} color="#CD853F" />
+                    </TouchableOpacity>
+                  </View>
+                  {/* my contacts */}
+                </View>
+              </View>
+
+              <View style={styles.headerContainer}>
+                <View style={styles.row}>
+                  <View
+                    // onPress={() => this.openFollowingModal()}
+                    style={styles.video}>
+                    <Text style={styles.textcolor}>
+                      {this.props?.user?.user?.follwers}
+                    </Text>
+                    <Text style={styles.textcolor}>{ArabicText.Followers}</Text>
+                  </View>
+
+                  <Text
+                    style={{fontSize: 30, fontWeight: '400', color: '#fff'}}>
+                    |
+                  </Text>
+
+                  <View style={styles.video}>
+                    <Text style={styles.textcolor}>
+                      {this.props?.user?.user?.posts?.length}
+                    </Text>
+                    <Text style={styles.textcolor}>{ArabicText.posts}</Text>
+                  </View>
+
+                  <Text
+                    style={{fontSize: 30, fontWeight: '400', color: '#fff'}}>
+                    |
+                  </Text>
+
+                  <TouchableOpacity style={styles.video}>
+                    <Text style={styles.textcolor}>
+                      {this.props?.user?.user?.following}
+                    </Text>
+                    <Text style={styles.textcolor}>
+                      {ArabicText?.Following}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              {/* </> */}
+              {/* )} */}
+
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.modal}>
+                <TouchableWithoutFeedback
+                // onPress={() => this.setState({ modalOffer: false })}
+                >
+                  <View style={Styles.centeredView}>
+                    <View style={Styles.modalView}>
+                      <Pressable
+                        onPress={modalOffer => this.setState({modal: false})}>
+                        <Ionicons name="close" size={30} color="brown" />
+                      </Pressable>
+                      <Text style={{margin: 5, color: 'black'}}>
+                        Add Whatsapp number
                       </Text>
 
-                      <Switch
-                        trackColor={{false: '#767577', true: '#D2691Eff'}}
-                        thumbColor={
-                          this.state.registerSwitch == true
-                            ? '#f5dd4b'
-                            : '#f4f3f4'
+                      <TextInput
+                        maxLength={10}
+                        value={this.state.whatsappNumber}
+                        style={Styles.forminputsPrice}
+                        placeholder="Whats App Number"
+                        keyboardType="numeric"
+                        onChangeText={text =>
+                          this.setState({whatsappNumber: text})
                         }
-                        ios_backgroundColor="#3e3e3e"
-                        onValueChange={value =>
-                          this.onRegisterSwitchChanged(value)
-                        }
-                        value={this.state.registerSwitch}
-                      />
-                    </View>
+                        placeholderTextColor="#b0b0b0"></TextInput>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignSelf: 'flex-end',
+                          alignItems: 'center',
+                          marginTop: 10,
+                        }}>
+                        <Text
+                          style={{
+                            margin: 3,
+                            fontWeight: 'bold',
+                            color: 'black',
+                          }}>
+                          {this.state.registerSwitch == true
+                            ? 'Active'
+                            : 'In Active'}
+                        </Text>
 
-                    <TouchableOpacity onPress={() => this.saveWhatsApp()}>
-                      <View style={Styles.btnform}>
-                        <Text style={Styles.textbtn}>{ArabicText?.add}</Text>
+                        <Switch
+                          trackColor={{false: '#767577', true: '#D2691Eff'}}
+                          thumbColor={
+                            this.state.registerSwitch == true
+                              ? '#f5dd4b'
+                              : '#f4f3f4'
+                          }
+                          ios_backgroundColor="#3e3e3e"
+                          onValueChange={value =>
+                            this.onRegisterSwitchChanged(value)
+                          }
+                          value={this.state.registerSwitch}
+                        />
                       </View>
-                    </TouchableOpacity>
+
+                      <TouchableOpacity onPress={() => this.saveWhatsApp()}>
+                        <View style={Styles.btnform}>
+                          <Text style={Styles.textbtn}>{ArabicText?.add}</Text>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                </View>
-              </TouchableWithoutFeedback>
-            </Modal>
+                </TouchableWithoutFeedback>
+              </Modal>
 
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={this.state.modalChat}>
-              <TouchableWithoutFeedback
-              // onPress={() => this.setState({ modalOffer: false })}
-              >
-                <View style={Styles.centeredView}>
-                  <View style={Styles.modalView}>
-                    <Pressable
-                      onPress={() => this.setState({modalChat: false})}>
-                      <Ionicons name="close" size={30} color="brown" />
-                    </Pressable>
-                    <Text style={{margin: 5, color: 'black'}}>
-                      Enable/dissable Chat
-                    </Text>
-
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        marginTop: 10,
-                      }}>
-                      <Text
-                        style={{margin: 3, fontWeight: 'bold', color: 'black'}}>
-                        {this.state.chatFlag == true ? 'Active' : 'In Active'}
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.modalChat}>
+                <TouchableWithoutFeedback
+                // onPress={() => this.setState({ modalOffer: false })}
+                >
+                  <View style={Styles.centeredView}>
+                    <View style={Styles.modalView}>
+                      <Pressable
+                        onPress={() => this.setState({modalChat: false})}>
+                        <Ionicons name="close" size={30} color="brown" />
+                      </Pressable>
+                      <Text style={{margin: 5, color: 'black'}}>
+                        Enable/dissable Chat
                       </Text>
 
-                      <Switch
-                        trackColor={{false: '#767577', true: '#D2691Eff'}}
-                        thumbColor={
-                          this.state.chatFlag == true ? '#f5dd4b' : '#f4f3f4'
-                        }
-                        ios_backgroundColor="#3e3e3e"
-                        onValueChange={value => this.chatflag(value)}
-                        value={this.state.chatFlag}
-                      />
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          marginTop: 10,
+                        }}>
+                        <Text
+                          style={{
+                            margin: 3,
+                            fontWeight: 'bold',
+                            color: 'black',
+                          }}>
+                          {this.state.chatFlag == true ? 'Active' : 'In Active'}
+                        </Text>
+
+                        <Switch
+                          trackColor={{false: '#767577', true: '#D2691Eff'}}
+                          thumbColor={
+                            this.state.chatFlag == true ? '#f5dd4b' : '#f4f3f4'
+                          }
+                          ios_backgroundColor="#3e3e3e"
+                          onValueChange={value => this.chatflag(value)}
+                          value={this.state.chatFlag}
+                        />
+                      </View>
+
+                      <TouchableOpacity onPress={() => this.saveChat()}>
+                        <View style={Styles.btnform}>
+                          <Text style={Styles.textbtn}>{ArabicText?.add}</Text>
+                        </View>
+                      </TouchableOpacity>
                     </View>
-
-                    <TouchableOpacity onPress={() => this.saveChat()}>
-                      <View style={Styles.btnform}>
-                        <Text style={Styles.textbtn}>{ArabicText?.add}</Text>
-                      </View>
-                    </TouchableOpacity>
                   </View>
-                </View>
-              </TouchableWithoutFeedback>
-            </Modal>
+                </TouchableWithoutFeedback>
+              </Modal>
 
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={this.state.modalPhone}>
-              <TouchableWithoutFeedback
-              // onPress={() => this.setState({ modalOffer: false })}
-              >
-                <View style={Styles.centeredView}>
-                  <View style={Styles.modalView}>
-                    <Pressable
-                      onPress={modalOffer =>
-                        this.setState({modalPhone: false})
-                      }>
-                      <Ionicons name="close" size={30} color="brown" />
-                    </Pressable>
-                    <Text style={{margin: 5, color: 'black'}}>
-                      Update Phone
-                    </Text>
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.modalPhone}>
+                <TouchableWithoutFeedback
+                // onPress={() => this.setState({ modalOffer: false })}
+                >
+                  <View style={Styles.centeredView}>
+                    <View style={Styles.modalView}>
+                      <Pressable
+                        onPress={modalOffer =>
+                          this.setState({modalPhone: false})
+                        }>
+                        <Ionicons name="close" size={30} color="brown" />
+                      </Pressable>
+                      <Text style={{margin: 5, color: 'black'}}>
+                        Update Phone
+                      </Text>
 
-                    <TextInput
-                      value={this.state.phoneNumber}
-                      style={Styles.forminputsPrice}
-                      placeholder="Phone Number"
-                      keyboardType="numeric"
-                      onChangeText={text => this.setState({phoneNumber: text})}
-                      placeholderTextColor="#b0b0b0"></TextInput>
+                      <TextInput
+                        value={this.state.phoneNumber}
+                        style={Styles.forminputsPrice}
+                        placeholder="Phone Number"
+                        keyboardType="numeric"
+                        onChangeText={text =>
+                          this.setState({phoneNumber: text})
+                        }
+                        placeholderTextColor="#b0b0b0"></TextInput>
 
-                    <TouchableOpacity onPress={() => this.updateNumber()}>
-                      <View style={Styles.btnform}>
-                        <Text style={Styles.textbtn}>{ArabicText.add}</Text>
-                      </View>
-                    </TouchableOpacity>
+                      <TouchableOpacity onPress={() => this.updateNumber()}>
+                        <View style={Styles.btnform}>
+                          <Text style={Styles.textbtn}>{ArabicText.add}</Text>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                </View>
-              </TouchableWithoutFeedback>
-            </Modal>
+                </TouchableWithoutFeedback>
+              </Modal>
 
-            <Modal
-              animationType="slide"
-              visible={this.state.modalOtp}
-              transparent={true}
-              onRequestClose={() => this.setState({modalOtp: false})}>
-              <TouchableOpacity
-                activeOpacity={1}
-                style={{height: height}}
-                onPress={() => this.setState({modalOtp: false})}
-              />
-              <View
-                style={{
-                  height: '20%',
-                  width: width,
-                  marginTop: 'auto',
-                  backgroundColor: '#ffffff',
-                  borderTopEndRadius: 20,
-                  borderTopStartRadius: 20,
-                  position: 'absolute',
-                  bottom: 0,
-                }}>
+              <Modal
+                animationType="slide"
+                visible={this.state.modalOtp}
+                transparent={true}
+                onRequestClose={() => this.setState({modalOtp: false})}>
+                <TouchableOpacity
+                  activeOpacity={1}
+                  style={{height: height}}
+                  onPress={() => this.setState({modalOtp: false})}
+                />
                 <View
                   style={{
-                    height: 30,
-                    borderTopEndRadius: 25,
-                    borderTopStartRadius: 25,
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    height: '20%',
+                    width: width,
+                    marginTop: 'auto',
+                    backgroundColor: '#ffffff',
+                    borderTopEndRadius: 20,
+                    borderTopStartRadius: 20,
+                    position: 'absolute',
+                    bottom: 0,
                   }}>
-                  <Text
-                    style={{color: '#8b4513', fontSize: 15, fontWeight: '600'}}>
-                    Enter OTP Here
-                  </Text>
+                  <View
+                    style={{
+                      height: 30,
+                      borderTopEndRadius: 25,
+                      borderTopStartRadius: 25,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        color: '#8b4513',
+                        fontSize: 15,
+                        fontWeight: '600',
+                      }}>
+                      Enter OTP Here
+                    </Text>
+                  </View>
+
+                  <OTPTextInput
+                    tintColor="#8b4513"
+                    ref={e => (this.otpInput = e)}
+                    containerStyle={{
+                      width: '90%',
+                      alignSelf: 'center',
+                      bottom: 10,
+                    }}
+                    handleTextChange={e => {
+                      if (e === this.state.otpValue.toString()) {
+                        this.verifiedSms();
+                      }
+                    }}
+                  />
                 </View>
+              </Modal>
 
-                <OTPTextInput
-                  tintColor="#8b4513"
-                  ref={e => (this.otpInput = e)}
-                  containerStyle={{
-                    width: '90%',
-                    alignSelf: 'center',
-                    bottom: 10,
-                  }}
-                  handleTextChange={e => {
-                    if (e === this.state.otpValue.toString()) {
-                      this.verifiedSms();
-                    }
-                  }}
+              <Loader loading={this.state.loading} />
+              {this.state.loader && (
+                <ActivityIndicator
+                  size="large"
+                  color="#D2691Eff"
+                  animating={this.state.loader}
+                  style={{marginTop: 20}}
                 />
-              </View>
-            </Modal>
+              )}
 
-            <Loader loading={this.state.loading} />
-            {this.state.loader && (
-              <ActivityIndicator
-                size="large"
-                color="#D2691Eff"
-                animating={this.state.loader}
-                style={{marginTop: 20}}
+              {/* {this.state.loader == false && ( */}
+              <FlatList
+                key={key}
+                ListEmptyComponent={
+                  <Text
+                    style={{
+                      color: 'black',
+                      fontSize: 17,
+                      alignContent: 'center',
+                      textAlign: 'center',
+                      marginVertical: 30,
+                    }}>
+                    {' '}
+                    No Post Found
+                  </Text>
+                }
+                data={searchedItem ? filterPosts : posts}
+                renderItem={renderItem}
+                keyExtractor={item_2 => item_2.id}
+                contentContainerStyle={{paddingBottom: 10}}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={this.state.refreshing}
+                    onRefresh={() => this.ScrollToRefresh()}
+                  />
+                }
+                initialNumToRender={5}
+                maxToRenderPerBatch={5}
               />
-            )}
-
-            {/* {this.state.loader == false && ( */}
-            <FlatList
-              key={key}
-              ListEmptyComponent={
-                <Text
-                  style={{
-                    color: 'black',
-                    fontSize: 17,
-                    alignContent: 'center',
-                    textAlign: 'center',
-                    marginVertical: 30,
-                  }}>
-                  {' '}
-                  No Post Found
-                </Text>
-              }
-              data={this.state.posts}
-              renderItem={renderItem}
-              keyExtractor={item_2 => item_2.id}
-              contentContainerStyle={{paddingBottom: 10}}
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.state.refreshing}
-                  onRefresh={() => this.ScrollToRefresh()}
-                />
-              }
-              initialNumToRender={5}
-              maxToRenderPerBatch={5}
-            />
-            {/* )} */}
-          </View>
+              {/* )} */}
+            </View>
+          </>
         )}
       </View>
     );
@@ -1123,26 +1194,30 @@ const Item = ({
                 }}>
                 {user_name}
               </Text>
-             {user_location && <Text
-                numberOfLines={1}
-                style={{
-                  fontSize: 12,
-                  paddingRight: 5,
-                  color: 'black',
-                  textAlign: 'right',
-                }}>
-                {user_location}
-              </Text>}
-            { date && <Text
-                numberOfLines={1}
-                style={{
-                  fontSize: 12,
-                  paddingRight: 5,
-                  color: 'black',
-                  textAlign: 'right',
-                }}>
-                {date}
-              </Text>}
+              {user_location && (
+                <Text
+                  numberOfLines={1}
+                  style={{
+                    fontSize: 12,
+                    paddingRight: 5,
+                    color: 'black',
+                    textAlign: 'right',
+                  }}>
+                  {user_location}
+                </Text>
+              )}
+              {date && (
+                <Text
+                  numberOfLines={1}
+                  style={{
+                    fontSize: 12,
+                    paddingRight: 5,
+                    color: 'black',
+                    textAlign: 'right',
+                  }}>
+                  {date}
+                </Text>
+              )}
             </View>
           </View>
           <View

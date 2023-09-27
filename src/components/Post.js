@@ -225,12 +225,12 @@ const Post = ({
                   {backgroundColor: '#f3f3f3', overflow: 'visible'},
                 ]}>
                 {price?.length ? (
-                  <View style={styles.priceContainer}>
+                  <TouchableOpacity style={styles.priceContainer}>
                     <Text style={styles.priceTxt}> {ArabicText?.Price}</Text>
                     <Text numberOfLines={2} style={styles.bidPrice}>
                       {lastBidPrice ? lastBidPrice : price}
                     </Text>
-                  </View>
+                  </TouchableOpacity>
                 ) : null}
 
                 {isImage && mediaSource && (

@@ -533,7 +533,9 @@ class DetailsComponent extends Component {
                     value={this.state.price}
                     style={Styles.forminputsPrice}
                     placeholder={ArabicText.offer_Up_placeholder}
-                    onChangeText={text => this.setState({price: text})}
+                    onChangeText={text =>
+                      this.setState({price: text.replace(/[^0-9]/g, '')})
+                    }
                     placeholderTextColor="#b0b0b0"></TextInput>
                   <TouchableOpacity onPress={() => this.placeBid()}>
                     <View style={Styles.btnform}>

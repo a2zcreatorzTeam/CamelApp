@@ -471,7 +471,7 @@ class CamelFood extends React.Component {
                     placeholderTextColor="#b0b0b0"
                     keyboardType="numeric"
                     onChangeText={text =>
-                      this.setState({price: text})
+                      this.setState({price: text.replace(/[^0-9]/g, '')})
                     }></TextInput>
                   <TouchableOpacity
                     onPress={() => {
@@ -509,7 +509,7 @@ class CamelFood extends React.Component {
                     placeholderTextColor="#b0b0b0"
                     placeholder={ArabicText.Price}
                     onChangeText={text =>
-                      this.setState({price: text})
+                      this.setState({price: text.replace(/[^0-9]/g, '')})
                     }></TextInput>
                   <TouchableOpacity
                     onPress={() => this.setState({modalOffer: false})}>

@@ -54,6 +54,7 @@ class Bids extends Component {
     this.setState({refreshing: false});
   }
   onViewPostClick(item) {
+    console.log(item.post.category_id);
     if (item.post.category_id == '1') {
       this.props.navigation.navigate('CamelClubDetailsComponent', {
         itemFromDetails: item.post,
@@ -189,6 +190,7 @@ class Bids extends Component {
     );
 
     const renderBidItem = item => {
+      console.log(item?.item?.post, "itemmmm");
       return (
         <BidsItem
           item={item}

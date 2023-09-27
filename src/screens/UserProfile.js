@@ -648,11 +648,12 @@ class UserProfile extends Component {
     // };
     const FriendshipStatusBTN = () => {
       const user = this.props.user.user.user;
-      console.log(user?.id, this.state.user, "userererer");
+      console.log(user?.id, this.state.user, 'userererer');
       if (
         this.state.friendshipStatus == null ||
         this.state.friendshipStatus == 'C' ||
-        this.state.friendshipStatus == 'R'
+        this.state.friendshipStatus == 'R' ||
+        this.state.friendshipStatus == 'AR'
       ) {
         return (
           <TouchableOpacity onPress={() => this.friendRequestHandler('P')}>

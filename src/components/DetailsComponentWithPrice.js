@@ -715,7 +715,9 @@ class DetailsComponent extends Component {
                   value={this.state.price}
                   style={Styles.forminputsPrice}
                   placeholder="0.0"
-                  onChangeText={text => this.setState({price: text})}
+                  onChangeText={text =>
+                    this.setState({price: text.replace(/[^0-9]/g, '')})
+                  }
                   placeholderTextColor="#b0b0b0"></TextInput>
 
                 <TouchableOpacity

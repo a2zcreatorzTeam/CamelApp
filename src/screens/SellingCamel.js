@@ -755,7 +755,9 @@ class SellingCamelForm extends React.Component {
                 placeholder={ArabicText.Price}
                 placeholderTextColor="#b0b0b0"
                 keyboardType="numeric"
-                onChangeText={text => this.setState({price: text})}></TextInput>
+                onChangeText={text =>
+                  this.setState({price: text.replace(/[^0-9]/g, '')})
+                }></TextInput>
 
               <TouchableOpacity
                 onPress={() => {
@@ -795,7 +797,9 @@ class SellingCamelForm extends React.Component {
                 placeholder={ArabicText.Price}
                 placeholderTextColor="#b0b0b0"
                 keyboardType="numeric"
-                onChangeText={text => this.setState({price: text})}></TextInput>
+                onChangeText={text =>
+                  this.setState({price: text.replace(/[^0-9]/g, '')})
+                }></TextInput>
 
               <TouchableOpacity
                 onPress={() => {

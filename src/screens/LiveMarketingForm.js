@@ -371,8 +371,9 @@ class CamelClub extends Component {
             value={this.state.price}
             keyboardType="numeric"
             onChangeText={text => {
+              console.log();
               if (text.length <= 24) {
-                this.setState({price: text});
+                this.setState({price: text.replace(/[^0-9]/g, '')});
               } else {
                 alert(ArabicText.limitCharacters);
               }

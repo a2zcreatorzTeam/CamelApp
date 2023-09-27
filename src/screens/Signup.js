@@ -10,17 +10,13 @@ import {
   Modal,
   Linking,
 } from 'react-native';
-
 import {Styles} from '../styles/globlestyle';
-
 import camelapp from '../api/camelapp';
 import * as ArabicText from '../language/EnglishToArabic';
 import {Dimensions} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import OTPTextView from 'react-native-otp-textinput';
-import {SafeAreaView} from 'react-native-safe-area-context';
 const width = Dimensions.get('screen').width;
-const hight = Dimensions.get('screen').height;
 
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
@@ -207,8 +203,7 @@ class SignUp extends Component {
       alert('الرجاء تحديد الشروط والأحكام');
     }
 
-
-   if (
+    if (
       flagname == false &&
       flagphone == false &&
       flagpassword == false &&

@@ -16,10 +16,11 @@ const NewsPost = ({
   userName,
   userProfile,
   date,
+  rating_count,
 }) => (
   <View style={Styles.containerNews}>
     <TouchableOpacity onPress={onItemClick}>
-      <View style={[Styles.newsbox1, { flex:1, flexDirection:'column'}]}>
+      <View style={[Styles.newsbox1, {flex: 1, flexDirection: 'column'}]}>
         <View
           style={{
             flexDirection: 'row',
@@ -27,11 +28,12 @@ const NewsPost = ({
             marginRight: 30,
             flex: 0.5,
           }}>
-            <View style={{flexDirection:'column'}}>
-
-          <Text style={{color: 'black', fontWeight: 'bold',fontSize:14}}>{userName}</Text>
-          <Text style={{color: 'grey', fontSize:10}}>{date}</Text>
-            </View>
+          <View style={{flexDirection: 'column'}}>
+            <Text style={{color: 'black', fontWeight: 'bold', fontSize: 14}}>
+              {userName}
+            </Text>
+            <Text style={{color: 'grey', fontSize: 10}}>{date}</Text>
+          </View>
 
           <Image
             source={{
@@ -89,7 +91,7 @@ const NewsPost = ({
             <Rating
               showReadOnlyText={true}
               ratingCount={5}
-              startingValue={rating}
+              startingValue={rating / rating_count}
               readonly={true}
               //onFinishRating={(rating) => { //console.log('Star Rating' + JSON.stringify(rating)); }}
               imageSize={20}

@@ -326,34 +326,6 @@ class CamelClubList extends Component {
       //console.log("Error Message get competition List", error);
     }
   }
-  onItemClick = async item => {
-    this.viewPosts();
-    let {user} = this.props;
-    user = user.user.user;
-    if (user != undefined) {
-      let tempString = item?.survey_details;
-      console.log('user?.id=', item?.survey_details[0]?.survey_id);
-      await camelapp
-        .post('/check/survey/by/user_id', {
-          user_id: user?.id,
-          survey_id: item?.survey_details[0]?.survey_id,
-        })
-        .then(response => {
-          // console.log('response', response.data);
-
-          this.props.navigation.navigate('Survey', {
-            surveyId: item,
-            arrayAnswers: tempString,
-            status: response?.data?.status,
-          });
-        })
-        .catch(error => {
-          //console.log("Error Message camel club List----", error);
-        });
-    } else {
-      this.props.navigation.navigate('Login');
-    }
-  };
   searchHandler = value => {
     if (!value?.length) {
       this.setState({filterPosts: this.state.posts});
@@ -394,12 +366,14 @@ class CamelClubList extends Component {
   }
   render() {
     const onItemClick = async item => {
+      console.log(item?.id, "itemmmid");
       try {
         await camelapp
           .post('get/competition_details', {
             competition_id: item?.id,
           })
           .then(res => {
+            console.log(res?.data, "responseeeeee");
             if (res) {
               let temp = res?.data;
               this.props.navigation.navigate('BeautyOfCompetition', {
@@ -408,7 +382,7 @@ class CamelClubList extends Component {
             }
           });
       } catch (error) {
-        console.log('Error Message get competition List', error);
+        console.log('Error Message get competition List', error?.response);
       }
     };
     const {posts, filterPosts, searchedItem, loader, key} = this.state;

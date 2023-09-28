@@ -6,12 +6,9 @@ import {
   Image,
   TextInput,
   ScrollView,
-  Dimensions,
   StyleSheet,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
-import Video from 'react-native-video';
-import Carousel from 'react-native-snap-carousel';
 import 'react-native-gesture-handler';
 import * as ArabicText from '../language/EnglishToArabic';
 import RNFS from 'react-native-fs';
@@ -21,14 +18,12 @@ import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Loader from '../components/PleaseWait';
-const width = Dimensions.get('screen').width;
-const height = Dimensions.get('screen').height;
 import Ads from '../components/Ads';
-// import * as ImageCropPicker from 'react-native-image-crop-picker';
 import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import ImagePicker from 'react-native-image-crop-picker';
 import BackBtnHeader from '../components/headerWithBackBtn';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 class CamelClub extends Component {
   constructor(props) {
@@ -271,52 +266,11 @@ class CamelClub extends Component {
               this.setState({pausedCheck: true});
             }}
           />
-          {/* <Carousel
-            keyExtractor={this.state.mixed.fileName}
-            data={this.state.mixed}
-            layout={'default'}
-            scrollEnabled={true}
-            onScroll={() => this.setState({pauseVideo: true})}
-            renderItem={({item, index}) => {
-              return (
-                <View style={Styles.imageCarousal}>
-                  {item.mime != undefined && item.mime.includes('image') && (
-                    <Image
-                      source={{uri: item.path}}
-                      key={String(index)}
-                      resizeMode={'cover'}
-                      style={{width: '100%', height: '100%'}}
-                    />
-                  )}
-                  {item.mime != undefined && item.mime.includes('video') && (
-                    <Video
-                      onTouchStart={() => {
-                        this.setState({pauseVideo: !this.state.pauseVideo});
-                      }}
-                      source={{uri: item.path}}
-                      key={String(index)}
-                      resizeMode="stretch"
-                      repeat
-                      controls={false}
-                      paused={this.state.pauseVideo}
-                      style={Styles.video}
-                    />
-                  )}
-                </View>
-              );
-            }}
-            sliderWidth={width}
-            itemWidth={width}
-          /> */}
 
           <View style={{flexDirection: 'row', marginTop: 10}}>
             <View style={Styles.cameraview}>
               <TouchableOpacity onPress={() => this.videoPicker()}>
-                <Ionicons
-                  name="md-camera-outline"
-                  size={30}
-                  color="#D2691Eff"
-                />
+                <FontAwesome name="video-camera" size={30} color="#D2691Eff" />
               </TouchableOpacity>
             </View>
             <View style={Styles.cameraview}>

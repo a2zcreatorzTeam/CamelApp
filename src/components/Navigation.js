@@ -339,12 +339,12 @@ export default function Navigation() {
         <Stack.Screen
           name="BeautyCompetition"
           component={BeautyCompetition}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="BeautyCompetitionForm"
           component={BeautyCompetitionForm}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="BeautyOfCompetition"

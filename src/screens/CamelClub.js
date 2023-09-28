@@ -24,6 +24,7 @@ import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import {Image as ImageCompressor} from 'react-native-compressor';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 class CamelClub extends Component {
   constructor(props) {
@@ -283,7 +284,7 @@ class CamelClub extends Component {
   render() {
     const {pausedCheck, loadVideo, videoModal, modalItem, mixed} = this.state;
     return (
-      <View style={{backgroundColor: '#ffffff'}}>
+      <View style={{backgroundColor: '#ffffff',}}>
         <BackBtnHeader />
         <Ads />
         <ScrollView contentContainerStyle={{paddingBottom: 200}}>
@@ -319,11 +320,7 @@ class CamelClub extends Component {
               {/* VIDEO PICKER */}
               <View style={Styles.cameraview}>
                 <TouchableOpacity onPress={() => this.selectOneFile()}>
-                  <Ionicons
-                    name="md-camera-outline"
-                    size={30}
-                    color="#D2691Eff"
-                  />
+                <FontAwesome name="video-camera" size={30} color="#D2691Eff" />
                 </TouchableOpacity>
               </View>
               {/* Click pic from camera */}

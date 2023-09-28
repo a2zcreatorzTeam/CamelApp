@@ -11,6 +11,9 @@ import Ads from '../components/Ads';
 import NewsPost from '../components/NewsPost';
 import Header from '../components/Header';
 import EmptyComponent from '../components/EmptyComponent';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import * as userActions from '../redux/actions/user_actions';
 
 class News extends Component {
   constructor(props) {
@@ -24,18 +27,23 @@ class News extends Component {
       filterPosts: [],
       key: false,
     };
-    this.viewPosts();
   }
   async viewPosts() {
+    let {user} = this.props;
+    user = user?.user?.user;
     const {key} = this.state;
     try {
-      return await camelapp.get('/get/news').then(res => {
-        this.setState({
-          posts: res.data.news,
-          loader: false,
-          key: !key,
+      return await camelapp
+        .post('/get/news', {
+          user_id: user?.id,
+        })
+        .then(res => {
+          this.setState({
+            posts: res.data.news,
+            loader: false,
+            key: !key,
+          });
         });
-      });
     } catch (error) {
       //console.log("Error Message News List", error);
     }
@@ -71,6 +79,15 @@ class News extends Component {
   search(text) {
     this.setState({searchText: text});
   }
+  componentDidMount = () => {
+    this.viewPosts();
+    this.focusListener = this.props.navigation.addListener('focus', () => {
+      this.viewPosts();
+    });
+  };
+  componentWillUnmount() {
+    this.focusListener();
+  }
   render() {
     const {posts, filterPosts, searchedItem, key} = this.state;
     const onItemClick = item => {
@@ -89,7 +106,8 @@ class News extends Component {
           userName={item?.user?.name}
           userProfile={item?.user?.image}
           image={item?.image}
-          rating={item?.rating_count}
+          rating_count={item?.rating_count}
+          rating={item?.rating}
           onItemClick={() => onItemClick(item)}
         />
       );
@@ -118,7 +136,6 @@ class News extends Component {
             <FlatList
               ListEmptyComponent={() => <EmptyComponent />}
               key={key}
-              // inverted
               data={searchedItem ? filterPosts : posts}
               renderItem={renderItem}
               keyExtractor={item => item.id}
@@ -137,7 +154,17 @@ class News extends Component {
     );
   }
 }
-export default News;
+
+const mapStateToProps = state => ({
+  user: state.user,
+});
+
+const ActionCreators = Object.assign({}, userActions);
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(ActionCreators, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(News);
 
 const styles = StyleSheet.create({
   container: {

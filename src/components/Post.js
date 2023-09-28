@@ -209,6 +209,7 @@ const Post = ({
             : isVideo
             ? {uri: 'http://www.tasdeertech.com/videos/' + item?.source}
             : null;
+          console.log(mediaSource, 'mediasoyrccce');
           return (
             <TouchableWithoutFeedback
               key={index}
@@ -399,15 +400,10 @@ const Post = ({
           <View style={{height: 300}}>
             <View style={Styles.imageCarousal}>
               {modalItemType === 'image' && (
-                // <Image
-                //   source={modalItem}
-                //   resizeMode="cover"
-                //   style={Styles.image}
-                // />
                 <FastImage
                   style={Styles.image}
                   source={modalItem}
-                  resizeMode={FastImage?.resizeMode.cover}
+                  resizeMode={FastImage?.resizeMode.contain}
                 />
               )}
               {modalItemType == 'video' && (

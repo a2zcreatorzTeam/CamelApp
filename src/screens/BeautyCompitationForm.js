@@ -3,15 +3,11 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Image,
   TextInput,
   ScrollView,
-  Dimensions,
   StyleSheet,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
-import Video from 'react-native-video';
-import Carousel from 'react-native-snap-carousel';
 import 'react-native-gesture-handler';
 import * as ArabicText from '../language/EnglishToArabic';
 import RNFS from 'react-native-fs';
@@ -20,13 +16,13 @@ import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import * as ImageCropPicker from 'react-native-image-crop-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import BackBtnHeader from '../components/headerWithBackBtn';
 
-const width = Dimensions.get('screen').width;
-
-class CamelClub extends Component {
+class participateInCompetition extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,12 +33,12 @@ class CamelClub extends Component {
       image: undefined,
       cameraimage: [],
 
-      cameraimagesForPost: undefined,
-      imageArray: '',
+      cameraimagesForPost: [],
+      imageArray: [],
       imageFlage: false,
       video: undefined,
       videoForPost: undefined,
-      imagesForPost: undefined,
+      imagesForPost: [],
       pauseVideo: true,
       mixedMedia: [],
       mixed: [],
@@ -56,10 +52,9 @@ class CamelClub extends Component {
       loadVideo: false,
     };
   }
-
-  openCamera = async () => {
+  videoPicker = async () => {
     this.setState({video: {}});
-    ImageCropPicker.openPicker({
+    ImagePicker.openPicker({
       mediaType: 'video',
     }).then(async video => {
       if (video?.size > 10000000) {
@@ -96,42 +91,34 @@ class CamelClub extends Component {
     });
   };
   openCameraForCapture() {
-    ImageCropPicker.openCamera({
+    const {cameraimagesForPost, mixed} = this.state;
+    ImagePicker.openCamera({
       mediaType: 'photo',
       includeBase64: true,
     })
       .then(async images => {
         if (images) {
-          let tempImage = images;
-          let bse64images = [];
           let mixedTemp = [];
-
-          this.setState(prevstate => ({
-            cameraimage: prevstate.cameraimage.concat(tempImage),
-          }));
-          const newImageArray = this?.state?.cameraimage;
-          console.log(newImageArray, 'newImageArray');
-
-          for (var i = 0; i < newImageArray?.length; i++) {
-            mixedTemp.push(newImageArray[i]);
-            bse64images.push('data:image/png;base64,' + newImageArray[i]?.data);
-            // mixedTemp.push(tempImage);
+          mixedTemp.push(images);
+          if (cameraimagesForPost?.length > 0) {
+            this.setState(previousState => {
+              return {
+                cameraimagesForPost: [
+                  ...previousState?.cameraimagesForPost,
+                  'data:image/png;base64,' + images?.data,
+                ],
+              };
+            });
+          } else {
             this.setState({
-              cameraimagesForPost: bse64images,
+              cameraimagesForPost: ['data:image/png;base64,' + images?.data],
             });
           }
-
-          if (this.state.image != undefined) {
-            let image = this.state.image;
-            for (var i = 0; i < image?.length; i++) {
-              mixedTemp.push(image[i]);
-            }
-          }
-          if (this.state.video != undefined) {
-            let video = this.state.video;
-            mixedTemp.push(video);
-          }
-          this.setState({mixed: mixedTemp});
+          this.setState(previousState => {
+            return {
+              mixed: [...previousState?.mixed, ...mixedTemp],
+            };
+          });
         }
         // else {
         //   alert(" IF Only 4 images allowed")
@@ -142,7 +129,7 @@ class CamelClub extends Component {
       });
   }
   openGallery() {
-    ImageCropPicker.openPicker({
+    ImagePicker.openPicker({
       mediaType: 'photo',
       multiple: true,
       includeBase64: true,
@@ -158,48 +145,45 @@ class CamelClub extends Component {
             mixedTemp.push(tempImage[i]);
           }
           this.setState({imagesForPost: bse64images, image: tempImage});
-
-          if (this.state.video != undefined) {
-            let video = this.state.video;
-            mixedTemp.push(video);
-          }
-          if (this.state.cameraimage != undefined) {
-            let cameraimage = this.state.cameraimage;
-            for (var i = 0; i < cameraimage?.length; i++) {
-              mixedTemp.push(cameraimage[i]);
-            }
-          }
-          this.setState({mixed: mixedTemp});
+          this.setState(previousState => {
+            return {mixed: [...previousState?.mixed, ...mixedTemp]};
+          });
         } else {
           alert('Only 4 images allowed');
         }
-        console.log('images', images);
+        // console.log('images', images);
       })
       .catch(error => {
         console.log('error', error);
       });
   }
   createPostCamelClub = async () => {
+    // var image1 = this.state.imagesForPost;
+    // var image2 = this.state.cameraimagesForPost;
+    // var combineImages;
+    // if (image1?.length && image2?.length) {
+    //   combineImages = image1.concat(image2);
+    // }
+    // if (image1?.length && !image2?.length) {
+    //   combineImages = image1;
+    // }
+    // if (!image1?.length && image2?.length) {
+    //   combineImages = image2;
+    // }
+    console.log(
+      this.state.title,
+      this.state.description,
+      this.state.location,
+      this.state.age,
+      this.state.mixed,
+    );
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
-    var combineImages;
-    if (image1?.length && image2?.length) {
-      combineImages = image1.concat(image2);
-    }
-    if (image1?.length && !image2?.length) {
-      combineImages = image1;
-    }
-    if (!image1?.length && image2?.length) {
-      combineImages = image2;
-    }
+    var combineImages = [...image1, ...image2];
 
     if (this.state.videoForPost === undefined) {
       return alert('Can not post without video');
     }
-    console.log(
-      '==================this.state.imagesForPost==================',
-      combineImages?.length,
-    );
     if (combineImages == undefined || combineImages?.length == 0) {
       return alert('Can not post without image');
     }
@@ -213,6 +197,7 @@ class CamelClub extends Component {
       this.state.age != '' &&
       this.state.mixed != []
     ) {
+      console.log('1933333333333333');
       let {user} = this.props;
 
       let user_id = user.user.user.id;
@@ -231,7 +216,7 @@ class CamelClub extends Component {
           video: this.state.videoForPost,
         })
         .then(response => {
-          console.log('response', response.data);
+          console.log('response215', response.data?.status);
 
           alert(ArabicText.Post_added_successfully + '');
 
@@ -245,7 +230,9 @@ class CamelClub extends Component {
           // this.props.navigation.navigate('Home');
           this.props.navigation.goBack();
         })
-        .catch(error => {});
+        .catch(error => {
+          console.log(error, "errror234");
+        });
     } else {
       alert(ArabicText.Please_complete_the_fields + '');
       // alert("Please complete the fields")
@@ -253,12 +240,11 @@ class CamelClub extends Component {
   };
 
   render() {
-    console.log('beautytytyty254');
     const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
     return (
       <ScrollView style={{backgroundColor: '#FFFFFF'}}>
+        <BackBtnHeader />
         <View style={Styles.containerScroll}>
-          <Text style={Styles.headingPostText}>{ArabicText.Camel_Club}</Text>
           <HorizontalCarousel
             CustomUrl
             imagesArray={this.state.mixed?.length ? this.state.mixed : []}
@@ -274,6 +260,7 @@ class CamelClub extends Component {
               this.setState({pausedCheck: true});
             }}
           />
+
           {/* 
           <Carousel
             keyExtractor={this.state.mixed.fileName}
@@ -313,12 +300,8 @@ class CamelClub extends Component {
 
           <View style={{flexDirection: 'row', marginTop: 10}}>
             <View style={Styles.cameraview}>
-              <TouchableOpacity onPress={() => this.openCamera()}>
-                <Ionicons
-                  name="md-camera-outline"
-                  size={30}
-                  color="#D2691Eff"
-                />
+              <TouchableOpacity onPress={() => this.videoPicker()}>
+                <FontAwesome name="video-camera" size={30} color="#D2691Eff" />
               </TouchableOpacity>
             </View>
             <View style={Styles.cameraview}>
@@ -361,12 +344,12 @@ class CamelClub extends Component {
 
           <TextInput
             style={Styles.forminputs}
-            placeholder={ArabicText.Type}
+            placeholder={ArabicText.age}
             placeholderTextColor="#b0b0b0"
             keyboardType="default"
             value={this.state.age}
             onChangeText={text => {
-              if (text.length <= 24) {
+              if (text.length <= 3) {
                 this.setState({age: text});
               } else {
                 alert(ArabicText.limitCharacters);
@@ -425,7 +408,10 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CamelClub);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(participateInCompetition);
 
 const styles = StyleSheet.create({
   container: {

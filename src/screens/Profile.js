@@ -38,6 +38,7 @@ import Loader from '../components/PleaseWait';
 import OTPTextInput from 'react-native-otp-textinput';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Header from '../components/Header';
+import FastImage from 'react-native-fast-image';
 
 class Profile extends Component {
   constructor(props) {
@@ -1265,14 +1266,15 @@ const Item = ({
               }}
               style={Styles.imageCarousal}>
               {item.type == 'image' && (
-                <Image
+                <FastImage
+                  style={Styles.image}
                   source={{
                     uri:
-                      'http://www.tasdeertech.com/images/posts/' + item.source,
+                      'http://www.tasdeertech.com/images/posts/' + item?.source,
+                    headers: {Authorization: 'someAuthToken'},
+                    priority: FastImage.priority.normal,
                   }}
-                  key={String(index)}
-                  resizeMode={'cover'}
-                  style={Styles.image}
+                  resizeMode={FastImage?.resizeMode.cover}
                 />
               )}
               {item?.type == 'video' && (
@@ -1454,10 +1456,10 @@ const Item = ({
           <View style={{height: 300, backgroundColor: 'red'}}>
             <View style={Styles.imageCarousal}>
               {modalItemType === 'image' && (
-                <Image
-                  source={modalItem}
-                  resizeMode="cover"
+                <FastImage
                   style={Styles.image}
+                  source={modalItem}
+                  resizeMode={FastImage?.resizeMode.contain}
                 />
               )}
               {modalItemType == 'video' && (

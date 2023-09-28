@@ -53,6 +53,10 @@ class BeautyOfCompetition extends Component {
     };
   }
   selectedCompetition() {
+    console.log(
+      this.state.competition,
+      'this.state.competitionthis.state.competition',
+    );
     let {user} = this.props;
     user = user.user.user;
 
@@ -236,7 +240,7 @@ class BeautyOfCompetition extends Component {
       return <SponsorItem item={item} name={item.name} image={item.image} />;
     };
     return (
-      <View style={Styles.containerBeauty}>
+      <View style={[Styles.containerBeauty, {position: 'relative'}]}>
         <BackBtnHeader />
         <View style={{flexDirection: 'row', marginTop: 20, gap: 5}}>
           <Modal
@@ -468,6 +472,29 @@ class BeautyOfCompetition extends Component {
             />
           )}
         </View>
+
+        {/* <TouchableWithoutFeedback
+       onPress={() => this.selectedCompetition()}
+          style={{
+            width: 300,
+            height: 100,
+            marginRight: 20,
+            backgroundColor: 'red',
+          }}>
+          <View
+            style={{
+              width: 60,
+              height: 60,
+              position: 'absolute',
+              bottom: 10,
+              alignSelf: 'flex-end',
+              right: 20,
+              backgroundColor: 'white',
+              borderRadius: 30,
+            }}>
+            <AntDesign name="pluscircle" size={60} color="#D2691Eff" />
+          </View>
+        </TouchableWithoutFeedback> */}
       </View>
     );
   }
@@ -486,10 +513,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(BeautyOfCompetition);
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

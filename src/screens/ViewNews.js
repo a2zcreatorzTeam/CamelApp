@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {
   View,
   TextInput,
@@ -25,13 +25,14 @@ import {bindActionCreators} from 'redux';
 import camelapp from '../api/camelapp';
 import moment from 'moment';
 import BackBtnHeader from '../components/headerWithBackBtn';
+import Loader from '../components/PleaseWait';
 
 class ViewNews extends Component {
   constructor(props) {
     super(props);
     this.state = {
       newsItem: props.route.params.newsItem,
-      rating: props.route.params.newsItem.rating_count,
+      rating: 0,
       image: '',
       name: '',
       commentList: props.route.params.newsItem.comments,
@@ -41,29 +42,43 @@ class ViewNews extends Component {
       userID: [],
       filterNews: [],
       like_count: [],
+      loading: false,
     };
   }
 
+  // getComments=()=>{
+
+  // }
+  // componentDidMount(){
+  //   this.getComments()
+  // }
+
   rating = rating => {
+    this.setState({loading: true});
     let {user} = this.props;
     user = user.user.user;
+    console.log(this.state.news_id, 'ratinggggg');
+    if (user != undefined) {
+      camelapp
+        .post('/add/rating', {
+          user_id: user?.id,
+          rating: rating,
+          news_id: this.state.news_id,
+        })
+        .then(response => {
+          if (response) {
+            alert(response?.data?.message);
+          }
 
-    //console.log("rating", rating)
-    camelapp
-      .post('/add/rating', {
-        user_id: user.id,
-        rating: rating,
-        news_id: this.state.news_id,
-      })
-      .then(response => {
-        if (response.data.status == true) {
-          alert('Rating added Successfully');
-        } else {
-          alert('You have already added the rating');
-        }
-      });
+          // if (response.data.status == true) {
+          //   alert('Rating added Successfully');
+          // } else {
+          //   alert('You have already added the rating');
+          // }
+        });
+    }
+    this.setState({loading: false});
   };
-
   newComment() {
     let {user} = this.props;
     user = user.user.user;
@@ -90,235 +105,95 @@ class ViewNews extends Component {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }
   render() {
-    const likeCommentHandler = item => {
-      console.log('commentList', this.state.commentList);
-
-      console.log('item', item);
-
-      var commentList = this.state.commentList;
-      var indexOfItem = commentList.indexOf(item);
-
-      console.log('indexOfItem', indexOfItem);
-      console.log('commentList[indexOfItem]', commentList[indexOfItem]);
-
-      if (item?.user?.name !== undefined) {
-        camelapp
+    let {user} = this.props;
+    user = user?.user?.user;
+    const {newsItem} = this.state;
+    console.log(user, newsItem?.flagForRating);
+    const likeCommentHandler = async (item, setIsLiked, setLikeCount) => {
+      this.setState({loading: false});
+      let {user} = this.props;
+      user = user.user.user;
+      if (user != undefined) {
+        await camelapp
           .post('/news-comment-like', {
             news_comment_id: item?.id,
-            user_id: item?.user_id,
+            user_id: user?.id,
           })
-          .then(res => {
-            const likeStatus =
-              res?.data?.message == 'Successfully liked' ? true : false;
-
-            // {"message": "Successfully Unliked", "status": true}
-            if (likeStatus == true) {
-              commentList[indexOfItem].comment_like_count =
-                commentList[indexOfItem]?.comment_like_count + 1;
-              commentList[indexOfItem].flagForLike = true;
-
-              this.setState({
-                like: item.id,
-                userID: item.user_id,
-                commentList: commentList,
-              });
-
-              alert(res?.data?.message);
-            } else {
-              commentList[indexOfItem].comment_like_count =
-                commentList[indexOfItem]?.comment_like_count - 1;
-              commentList[indexOfItem].flagForLike = false;
-
-              this.setState({
-                like: item.id,
-                userID: item.user_id,
-                commentList: commentList,
-              });
-
-              alert(res?.data?.message);
+          .then(response => {
+            if (response.data.message == 'Successfully liked') {
+              setIsLiked(true);
+              setLikeCount(response?.data?.total_likes);
             }
-            // if (likeStatus === true) {
-
-            //     alert("liked")
-
-            // }
-
-            // if (likeStatus === false) {
-
-            //     commentList[indexOfItem].comment_like_count = commentList[indexOfItem]?.comment_like_count - 1;
-            //     commentList[indexOfItem].flagForLike = false;
-            //     this.setState({ like: item.id, userID: item.user_id, commentList: commentList })
-
-            //     this.setState({ userID: item.id })
-
-            // }
-          })
-          .catch(err => {
-            console.log(err, '====ERR');
-          });
-      }
-    };
-    const dislikeCommentHandler = item => {
-      console.log('commentList', this.state.commentList);
-
-      console.log('item', item);
-
-      var commentList = this.state.commentList;
-      var indexOfItem = commentList.indexOf(item);
-
-      console.log('indexOfItem', indexOfItem);
-      console.log('commentList[indexOfItem]', commentList[indexOfItem]);
-
-      if (item?.user?.name !== undefined) {
-        camelapp
-          .post('/news-comment-like', {
-            news_comment_id: item?.id,
-            user_id: item?.user_id,
-          })
-          .then(res => {
-            const likeStatus = res?.data?.status;
-            console.log(res.data, '=====');
-
-            if (likeStatus === false) {
-              commentList[indexOfItem].comment_like_count =
-                commentList[indexOfItem]?.comment_like_count - 1;
-
-              this.setState({
-                like: item.id,
-                userID: item.user_id,
-                commentList: commentList,
-              });
-
-              this.setState({userID: item.id});
+            if (response.data.message == 'Successfully Unliked') {
+              setIsLiked(false);
+              setLikeCount(response?.data?.total_likes);
             }
           })
-          .catch(err => {
-            console.log(err, '====ERR');
+          .catch(error => {
+            console.log('error', error);
+            this.setState({loading: false});
           });
+      } else {
+        this.props.navigation.navigate('Login');
       }
+      // if (item?.user?.name !== undefined) {
+      //   camelapp
+      //     .post('/news-comment-like', {
+      //       news_comment_id: item?.id,
+      //       user_id: item?.user_id,
+      //     })
+      //     .then(res => {
+      //       const likeStatus =
+      //         res?.data?.message == 'Successfully liked' ? true : false;
+
+      //       // {"message": "Successfully Unliked", "status": true}
+      //       if (likeStatus == true) {
+      //         commentList[indexOfItem].comment_like_count =
+      //           commentList[indexOfItem]?.comment_like_count + 1;
+      //         commentList[indexOfItem].flagForLike = true;
+
+      //         this.setState({
+      //           like: item.id,
+      //           userID: item.user_id,
+      //           commentList: commentList,
+      //         });
+
+      //         alert(res?.data?.message);
+      //       } else {
+      //         commentList[indexOfItem].comment_like_count =
+      //           commentList[indexOfItem]?.comment_like_count - 1;
+      //         commentList[indexOfItem].flagForLike = false;
+
+      //         this.setState({
+      //           like: item.id,
+      //           userID: item.user_id,
+      //           commentList: commentList,
+      //         });
+
+      //         alert(res?.data?.message);
+      //       }
+      //       // if (likeStatus === true) {
+
+      //       //     alert("liked")
+
+      //       // }
+
+      //       // if (likeStatus === false) {
+
+      //       //     commentList[indexOfItem].comment_like_count = commentList[indexOfItem]?.comment_like_count - 1;
+      //       //     commentList[indexOfItem].flagForLike = false;
+      //       //     this.setState({ like: item.id, userID: item.user_id, commentList: commentList })
+
+      //       //     this.setState({ userID: item.id })
+
+      //       // }
+      //     })
+      //     .catch(err => {
+      //       console.log(err, '====ERR');
+      //     });
+      // }
     };
-    const Item = ({
-      item,
-      name,
-      image,
-      comments,
-      date,
-      likeCommentHandler,
-      commentsCount,
-    }) => (
-      <Card
-        style={{
-          margintop: 5,
-          marginBottom: 5,
-          height: 70,
-          backgroundColor: '#f3f3f3',
-        }}>
-        {console.log('dsssxdsds', item?.flagForLike)}
-        <View>
-          {/* LIKE COMMENT>>>>>>> */}
-          <View
-            style={{
-              position: 'absolute',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              top: 5,
-              left: 8,
-            }}>
-            <TouchableOpacity
-              onPress={() => likeCommentHandler(item)}
-              style={{}}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <AntDesign
-                  name={item?.flagForLike === true ? 'heart' : 'hearto'}
-                  size={16}
-                  color="#CD853F"
-                />
-                <Text
-                  style={{
-                    fontSize: 16,
-                    paddingLeft: 5,
-                    fontWeight: 'bold',
-                    textAlign: 'right',
-                    color: 'black',
-                  }}>
-                  {commentsCount}
-                </Text>
-              </View>
-            </TouchableOpacity>
-
-            {/* <Text style={{ color: 'black', fontSize: 15, right: -7 }}>
-                            12   {likes}
-                        </Text> */}
-          </View>
-          {/* <<<<<<<LIKE COMMENT */}
-
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-            }}>
-            <View
-              style={{
-                alignItems: 'center',
-                right: 60,
-                top: 10,
-                position: 'absolute',
-                marginBottom: 10,
-              }}>
-              <Text
-                style={{
-                  fontSize: 16,
-                  paddingRight: 5,
-                  fontWeight: 'bold',
-                  textAlign: 'right',
-                  color: 'black',
-                }}>
-                {name}
-              </Text>
-              <Text style={{fontSize: 10, textAlign: 'right', color: 'grey'}}>
-                {moment(date).format('YYYY-MM-DD')}
-              </Text>
-            </View>
-
-            <View
-              style={{
-                alignItems: 'center',
-                right: 60,
-                top: 40,
-                position: 'absolute',
-                marginBottom: 10,
-              }}>
-              <Text
-                numberOfLines={4}
-                style={{
-                  flex: 1,
-                  fontSize: 14,
-                  paddingRight: 5,
-                  textAlign: 'right',
-                  color: 'black',
-                }}>
-                {comments}
-              </Text>
-            </View>
-            <View style={Styles.user_HomeComment}>
-              <Image
-                source={{
-                  uri: 'http://www.tasdeertech.com/images/profiles/' + image,
-                }}
-                style={{
-                  width: 35,
-                  height: 35,
-                  borderRadius: 30,
-                }}></Image>
-            </View>
-          </View>
-        </View>
-      </Card>
-    );
     const renderItem = ({item}) => {
-      console.log(item, 'RENDER ITEM PROP');
       return (
         <Item
           item={item}
@@ -326,8 +201,10 @@ class ViewNews extends Component {
           name={item?.user.name}
           comments={item?.comment}
           date={item?.created_at}
-          likeCommentHandler={likeCommentHandler}
-          commentsCount={item?.comment_like_count}
+          likeCommentHandler={(item, setIsLiked, setLikeCount) => {
+            likeCommentHandler(item, setIsLiked, setLikeCount);
+          }}
+          likesCount={item?.comment_like_count}
         />
       );
     };
@@ -342,9 +219,9 @@ class ViewNews extends Component {
         width: '95%',
       },
     };
-
     return (
       <View style={Styles.container}>
+        <Loader loading={this.state.loading} />
         <BackBtnHeader />
         <ScrollView style={{alignSelf: 'center'}}>
           <View
@@ -356,17 +233,17 @@ class ViewNews extends Component {
             }}>
             <View>
               <Text style={{color: 'black', fontWeight: 'bold', fontSize: 17}}>
-                {this.state.newsItem.user?.name}
+                {newsItem.user?.name}
               </Text>
               <Text style={{color: 'grey', fontSize: 10}}>
-                {this.state.newsItem?.date}
+                {newsItem?.date}
               </Text>
             </View>
             <Image
               source={{
                 uri:
                   'http://www.tasdeertech.com/public/images/profiles/' +
-                  this.state.newsItem?.user?.image,
+                  newsItem?.user?.image,
               }}
               style={{
                 width: 80,
@@ -383,13 +260,13 @@ class ViewNews extends Component {
               color: 'black',
               fontSize: 24,
             }}>
-            {this.state.newsItem.title}
+            {newsItem.title}
           </Text>
           <Image
             source={{
               uri:
                 'http://www.tasdeertech.com/public/images/news/' +
-                this.state.newsItem.image,
+                newsItem.image,
             }}
             style={Styles.image}
             resizeMode="cover"></Image>
@@ -406,16 +283,19 @@ class ViewNews extends Component {
               alignItems: 'flex-end',
               justifyContent: 'center',
             }}>
-            <Rating
-              onFinishRating={rating => this.rating(rating)}
-              ratingCount={5}
-              startingValue={this.state.rating}
-              imageSize={20}
-              style={{paddingVertical: 10}}
-              ratingColor={'crimson'}
-              type="custom"
-              ratingBackgroundColor={'black'}
-            />
+            {user != undefined && newsItem?.flagForRating == false && (
+              <Rating
+                onFinishRating={rating => this.rating(rating)}
+                ratingCount={5}
+                startingValue={this.state.rating}
+                imageSize={20}
+                style={{paddingVertical: 10}}
+                ratingColor={'crimson'}
+                type="custom"
+                ratingBackgroundColor={'black'}
+              />
+            )}
+
             {/* tintColor="white" */}
           </View>
           <View
@@ -429,11 +309,12 @@ class ViewNews extends Component {
             <Text style={{color: 'black'}}>{ArabicText.comments}</Text>
           </View>
           <FlatList
+            style={{flex: 1}}
             inverted
             data={this.state.commentList}
             renderItem={renderItem}
-            initialNumToRender={5}
-            maxToRenderPerBatch={5}
+            // initialNumToRender={5}
+            // maxToRenderPerBatch={5}
           />
         </ScrollView>
 
@@ -466,3 +347,127 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewNews);
+
+const Item = ({
+  item,
+  name,
+  image,
+  comments,
+  date,
+  likeCommentHandler = () => {},
+  likesCount,
+}) => {
+  const [isLiked, setIsLiked] = useState(item?.flagForLike);
+  const [likeCount, setLikeCount] = useState(likesCount);
+  return (
+    <Card
+      style={{
+        margintop: 5,
+        marginBottom: 5,
+        height: 70,
+        backgroundColor: '#f3f3f3',
+      }}>
+      <View>
+        {/* LIKE COMMENT>>>>>>> */}
+        <View
+          style={{
+            position: 'absolute',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            top: 5,
+            left: 8,
+          }}>
+          <TouchableOpacity
+            onPress={() => likeCommentHandler(item, setIsLiked, setLikeCount)}
+            style={{}}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <AntDesign
+                name={isLiked == true ? 'heart' : 'hearto'}
+                size={16}
+                color="#CD853F"
+              />
+              <Text
+                style={{
+                  fontSize: 16,
+                  paddingLeft: 5,
+                  fontWeight: 'bold',
+                  textAlign: 'right',
+                  color: 'black',
+                }}>
+                {likeCount}
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          {/* <Text style={{ color: 'black', fontSize: 15, right: -7 }}>
+                        12   {likes}
+                    </Text> */}
+        </View>
+        {/* <<<<<<<LIKE COMMENT */}
+
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+          }}>
+          <View
+            style={{
+              alignItems: 'center',
+              right: 60,
+              top: 10,
+              position: 'absolute',
+              marginBottom: 10,
+            }}>
+            <Text
+              style={{
+                fontSize: 16,
+                paddingRight: 5,
+                fontWeight: 'bold',
+                textAlign: 'right',
+                color: 'black',
+              }}>
+              {name}
+            </Text>
+            <Text style={{fontSize: 10, textAlign: 'right', color: 'grey'}}>
+              {moment(date).format('YYYY-MM-DD')}
+            </Text>
+          </View>
+
+          <View
+            style={{
+              alignItems: 'center',
+              right: 60,
+              top: 40,
+              position: 'absolute',
+              marginBottom: 10,
+            }}>
+            <Text
+              numberOfLines={4}
+              style={{
+                flex: 1,
+                fontSize: 14,
+                paddingRight: 5,
+                textAlign: 'right',
+                color: 'black',
+              }}>
+              {comments}
+            </Text>
+          </View>
+          <View style={Styles.user_HomeComment}>
+            <Image
+              source={{
+                uri: 'http://www.tasdeertech.com/images/profiles/' + image,
+              }}
+              style={{
+                width: 35,
+                height: 35,
+                borderRadius: 30,
+              }}></Image>
+          </View>
+        </View>
+      </View>
+    </Card>
+  );
+};

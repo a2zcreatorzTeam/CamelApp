@@ -33,6 +33,7 @@ import Video from 'react-native-video';
 import {ActivityIndicator} from 'react-native';
 import Loader from '../components/PleaseWait';
 import Header from '../components/Header';
+import FastImage from 'react-native-fast-image';
 
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
@@ -181,6 +182,7 @@ class UserProfile extends Component {
   userProfile = async () => {
     const {key} = this.state;
     const item = this.props.route?.params;
+    console.log(item?.user_id);
     this.setState({loading: true});
     let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
@@ -648,12 +650,11 @@ class UserProfile extends Component {
     // };
     const FriendshipStatusBTN = () => {
       const user = this.props.user.user.user;
-      console.log(user?.id, this.state.user, 'userererer');
+      console.log(this.state.friendshipStatus, 'userererer');
       if (
-        this.state.friendshipStatus == null ||
-        this.state.friendshipStatus == 'C' ||
-        this.state.friendshipStatus == 'R' ||
-        this.state.friendshipStatus == 'AR'
+        this.state.friendshipStatus == null
+        // this.state.friendshipStatus == 'C' ||
+        // this.state.friendshipStatus == 'R'
       ) {
         return (
           <TouchableOpacity onPress={() => this.friendRequestHandler('P')}>
@@ -669,7 +670,7 @@ class UserProfile extends Component {
         return (
           <TouchableOpacity onPress={() => this.friendRequestHandler('C')}>
             <FontAwesome5
-              name="user-minus"
+              name="user-times"
               size={30}
               color="#D2691Eff"
               style={{margin: 5}}
@@ -680,12 +681,40 @@ class UserProfile extends Component {
         return (
           <TouchableOpacity onPress={() => this.friendRequestHandler('R')}>
             <FontAwesome5
-              name="user-check"
+              name="user-friends"
               size={30}
               color="#D2691Eff"
               style={{margin: 5}}
             />
           </TouchableOpacity>
+        );
+      } else if (this.state.friendshipStatus == 'AR') {
+        return (
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <TouchableOpacity onPress={() => this.friendRequestHandler('R')}>
+              <FontAwesome5
+                name="user-times"
+                size={30}
+                color="#D2691Eff"
+                style={{margin: 5}}
+              />
+            </TouchableOpacity>
+            <View
+              style={{width: 2, height: 20, backgroundColor: '#D3D3D3'}}></View>
+            <TouchableOpacity onPress={() => this.friendRequestHandler('A')}>
+              <FontAwesome5
+                name="user-check"
+                size={30}
+                color="#D2691Eff"
+                style={{margin: 5}}
+              />
+            </TouchableOpacity>
+          </View>
         );
       }
     };
@@ -1086,14 +1115,15 @@ const Item = ({
               }}
               style={Styles.imageCarousal}>
               {item.type == 'image' && (
-                <Image
+                <FastImage
+                  style={Styles.image}
                   source={{
                     uri:
-                      'http://www.tasdeertech.com/images/posts/' + item.source,
+                      'http://www.tasdeertech.com/images/posts/' + item?.source,
+                    headers: {Authorization: 'someAuthToken'},
+                    priority: FastImage.priority.normal,
                   }}
-                  key={String(index)}
-                  resizeMode={'cover'}
-                  style={Styles.image}
+                  resizeMode={FastImage?.resizeMode.cover}
                 />
               )}
               {item?.type == 'video' && (
@@ -1266,11 +1296,16 @@ const Item = ({
           <View style={{height: 300, backgroundColor: 'red'}}>
             <View style={Styles.imageCarousal}>
               {modalItemType === 'image' && (
-                <Image
-                  source={modalItem}
-                  resizeMode="cover"
+                <FastImage
                   style={Styles.image}
+                  source={modalItem}
+                  resizeMode={FastImage?.resizeMode.contain}
                 />
+                // <Image
+                //   source={modalItem}
+                //   resizeMode="contain"
+                //   style={Styles.image}
+                // />
               )}
               {modalItemType == 'video' && (
                 <View style={{flex: 1, backgroundColor: '#ededed'}}>

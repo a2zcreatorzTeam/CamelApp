@@ -519,9 +519,15 @@ class Home extends Component {
     // });
   };
   readMore = n => {
-    this.setState({
-      counta: this.state.counta + n,
-    });
+    const {posts}= this.state
+    if(posts?.length){
+      this.setState({
+        counta: this.state.counta + n,
+      });
+    }
+    else{
+      this.viewPosts()
+    }
   };
   render() {
     const {

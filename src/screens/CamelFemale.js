@@ -22,6 +22,7 @@ import * as ImageCropPicker from 'react-native-image-crop-picker';
 import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 class MissingCamelForm extends Component {
   constructor(props) {
@@ -303,11 +304,7 @@ class MissingCamelForm extends Component {
           <View style={{flexDirection: 'row', marginTop: 10}}>
             <View style={Styles.cameraview}>
               <TouchableOpacity onPress={() => this.openCamera()}>
-                <Ionicons
-                  name="md-camera-outline"
-                  size={30}
-                  color="#D2691Eff"
-                />
+              <FontAwesome name="video-camera" size={30} color="#D2691Eff" />
               </TouchableOpacity>
             </View>
             <View style={Styles.cameraview}>

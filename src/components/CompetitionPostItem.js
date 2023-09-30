@@ -4,7 +4,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Styles} from '../styles/globlestyle';
 const {width} = Dimensions.get('screen');
-const itemWidth = (width - 15) / 2;
+import FastImage from 'react-native-fast-image';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const PostItem = ({
   item,
@@ -12,11 +13,15 @@ const PostItem = ({
   commentCount,
   postLike = () => {},
   postComment = () => {},
+  onClickItem = () => {},
 }) => {
+  console.log(image, 'imageee');
   const [isLiked, setIsLiked] = useState();
   const [likeCount, setLikeCount] = useState(item?.like_count);
+  const [viewCount, setViewCount] = useState(item?.view_count);
   return (
-    <View
+    <TouchableOpacity
+      onPress={() => onClickItem(viewCount, setViewCount)}
       style={{
         margin: 10,
         width: width / 2 - 20,
@@ -24,12 +29,13 @@ const PostItem = ({
         justifyContent: 'space-evenly',
       }}>
       <View style={Styles.BeautyOpacity}>
-        <Image
+        <FastImage
+          style={Styles.BeautyImages}
           source={{
             uri: 'http://www.tasdeertech.com/images/posts/' + image,
           }}
-          style={Styles.BeautyImages}
-          resizeMode="cover"></Image>
+          resizeMode={FastImage?.resizeMode.cover}
+        />
       </View>
       <View
         style={{
@@ -37,12 +43,24 @@ const PostItem = ({
           position: 'absolute',
           alignItems: 'center',
           bottom: 5,
-          width: 100,
+          width: 140,
           padding: 10,
           borderRadius: 15,
           flexDirection: 'row',
           justifyContent: 'space-between',
         }}>
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginRight: 5,
+          }}>
+          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
+            {viewCount}
+          </Text>
+          <Ionicons name="ios-eye-sharp" size={20} color="#CD853F" />
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             postComment();
@@ -66,7 +84,7 @@ const PostItem = ({
           )}
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

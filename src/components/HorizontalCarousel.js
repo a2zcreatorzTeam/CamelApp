@@ -46,8 +46,8 @@ const HorizontalCarousel = ({
               },
             ]}>
             {CustomUrl &&
-              item.mime != undefined &&
-              item.mime.includes('image') && (
+              item?.mime != undefined &&
+              item?.mime.includes('image') && (
                 <ImageBackground
                   source={{uri: item?.path}}
                   resizeMode="cover"
@@ -111,7 +111,7 @@ const HorizontalCarousel = ({
                       }
                     : require('../../assets/dummyImage.jpeg')
                 }
-                resizeMode={FastImage?.resizeMode.cover}
+                resizeMode={FastImage?.resizeMode.contain}
               />
             )}
             {(CustomUrl

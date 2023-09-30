@@ -163,9 +163,7 @@ const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(News);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

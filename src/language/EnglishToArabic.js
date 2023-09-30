@@ -1,5 +1,6 @@
 export const LOGIN = "LOGIN";
 export const limitCharacters = "24 characters";
+export const ageLimit = "3 characters";
 export const description = "300 characters";
 export const Selling_camel = "بيع الجمل";
 export const Camel_Food = "طعام الإبل";

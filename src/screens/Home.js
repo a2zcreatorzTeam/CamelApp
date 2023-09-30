@@ -865,7 +865,6 @@ class Home extends Component {
             <Loader loading={this.state.loading} />
             <FlatList
               scrollsToTop={false}
-              // ref={(e)=>{this.flatlistRef, console.log(e, "refrencececce");}}
               key={key}
               data={
                 searchedItem

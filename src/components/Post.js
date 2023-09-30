@@ -235,12 +235,6 @@ const Post = ({
                 ) : null}
 
                 {isImage && mediaSource && (
-                  // <Image
-                  //   source={mediaSource}
-                  //   key={String(index)}
-                  //   resizeMode="cover"
-                  //   style={Styles.image}
-                  // />
                   <FastImage
                     style={Styles.image}
                     source={{
@@ -386,6 +380,7 @@ const Post = ({
         onRequestClose={() => {
           setModal(false), setpausedCheck(true);
         }}>
+          {console.log(modalItem,"modalItem")}
         <View style={styles.modalContainer}>
           {/* Modal Close Button */}
           <TouchableOpacity

@@ -373,7 +373,7 @@ class CamelClubList extends Component {
             competition_id: item?.id,
           })
           .then(res => {
-            console.log(res?.data, "responseeeeee");
+            // console.log(res?.data, "responseeeeee");
             if (res) {
               let temp = res?.data;
               this.props.navigation.navigate('BeautyOfCompetition', {

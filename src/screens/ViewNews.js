@@ -12,12 +12,10 @@ import {Styles} from '../styles/globlestyle';
 import {Card} from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {DataContext, addRating} from '../context/DataContext';
 import HTML from 'react-native-render-html';
 import {Dimensions, LogBox} from 'react-native';
 import * as ArabicText from '../language/EnglishToArabic';
 const width = Dimensions.get('screen').width;
-const hight = Dimensions.get('screen').height;
 import {Rating} from 'react-native-ratings';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
@@ -35,7 +33,7 @@ class ViewNews extends Component {
       rating: 0,
       image: '',
       name: '',
-      commentList: props.route.params.newsItem.comments,
+      commentList: [],
       news_id: props.route.params.newsItem.id,
       newComment: '',
       like: [],
@@ -46,18 +44,29 @@ class ViewNews extends Component {
     };
   }
 
-  // getComments=()=>{
-
-  // }
-  // componentDidMount(){
-  //   this.getComments()
-  // }
-
+  getComments = async () => {
+    let {newsItem} = this.props?.route.params;
+    let {user} = this.props;
+    user = user?.user?.user;
+    await camelapp
+      .post('/get/news_comments_like', {
+        news_id: newsItem?.id,
+        user_id: user?.id,
+      })
+      .then(res => {
+        this.setState({
+          commentList: res?.data,
+          loader: false,
+        });
+      })
+      .catch(err => {
+        console.log(err, 'errorrrrr711');
+      });
+  };
   rating = rating => {
     this.setState({loading: true});
     let {user} = this.props;
     user = user.user.user;
-    console.log(this.state.news_id, 'ratinggggg');
     if (user != undefined) {
       camelapp
         .post('/add/rating', {
@@ -69,7 +78,6 @@ class ViewNews extends Component {
           if (response) {
             alert(response?.data?.message);
           }
-
           // if (response.data.status == true) {
           //   alert('Rating added Successfully');
           // } else {
@@ -102,13 +110,12 @@ class ViewNews extends Component {
     }
   }
   componentDidMount() {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+    this.getComments();
   }
   render() {
     let {user} = this.props;
     user = user?.user?.user;
     const {newsItem} = this.state;
-    console.log(user, newsItem?.flagForRating);
     const likeCommentHandler = async (item, setIsLiked, setLikeCount) => {
       this.setState({loading: false});
       let {user} = this.props;
@@ -116,7 +123,7 @@ class ViewNews extends Component {
       if (user != undefined) {
         await camelapp
           .post('/news-comment-like', {
-            news_comment_id: item?.id,
+            news_comment_id: item?.news_comments_id,
             user_id: user?.id,
           })
           .then(response => {
@@ -197,11 +204,11 @@ class ViewNews extends Component {
       return (
         <Item
           item={item}
-          image={item?.user.image}
-          name={item?.user.name}
+          image={item?.user_image}
+          name={item?.user_name}
           comments={item?.comment}
           date={item?.created_at}
-          likeCommentHandler={(item, setIsLiked, setLikeCount) => {
+          likeCommentHandler={(setIsLiked, setLikeCount) => {
             likeCommentHandler(item, setIsLiked, setLikeCount);
           }}
           likesCount={item?.comment_like_count}
@@ -310,7 +317,7 @@ class ViewNews extends Component {
           </View>
           <FlatList
             style={{flex: 1}}
-            inverted
+            // inverted
             data={this.state.commentList}
             renderItem={renderItem}
             // initialNumToRender={5}
@@ -345,9 +352,7 @@ const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(ViewNews);
-
 const Item = ({
   item,
   name,
@@ -379,8 +384,8 @@ const Item = ({
             left: 8,
           }}>
           <TouchableOpacity
-            onPress={() => likeCommentHandler(item, setIsLiked, setLikeCount)}
-            style={{}}>
+            onPress={() => likeCommentHandler(setIsLiked, setLikeCount)}
+            style={{width: 40}}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <AntDesign
                 name={isLiked == true ? 'heart' : 'hearto'}
@@ -404,7 +409,6 @@ const Item = ({
                         12   {likes}
                     </Text> */}
         </View>
-        {/* <<<<<<<LIKE COMMENT */}
 
         <View
           style={{

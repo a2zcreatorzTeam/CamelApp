@@ -20,16 +20,13 @@ import {Styles} from '../styles/globlestyle';
 import HTML from 'react-native-render-html';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import Feather from 'react-native-vector-icons/Feather';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ArabicText from '../language/EnglishToArabic';
 import camelapp from '../api/camelapp';
-import {useState} from 'react';
 import PostItem from './CompetitionPostItem';
 import BackBtnHeader from './headerWithBackBtn';
+import moment from 'moment';
 const width = Dimensions.get('screen').width;
-const hight = Dimensions.get('screen').height;
 class BeautyOfCompetition extends Component {
   constructor(props) {
     super(props);
@@ -53,10 +50,6 @@ class BeautyOfCompetition extends Component {
     };
   }
   selectedCompetition() {
-    console.log(
-      this.state.competition,
-      'this.state.competitionthis.state.competition',
-    );
     let {user} = this.props;
     user = user.user.user;
 
@@ -80,7 +73,20 @@ class BeautyOfCompetition extends Component {
           user_id: user?.id,
         })
         .then(res => {
-          const arr = res?.data;
+          const arrayPosts = res?.data?.competition_posts;
+          arrayPosts?.map((item, index) => {
+            console.log(item, 'itemmmm');
+            let array = item?.img;
+            let imagesArray = [];
+            array?.forEach(element => {
+              imagesArray?.push({type: 'image', source: element});
+            });
+            imagesArray?.push({type: 'video', source: item?.video});
+            item['imagesArray'] = imagesArray;
+            arrayPosts[index] = item;
+          });
+          console.log(arrayPosts, 'arrayposttss');
+
           this.setState({
             posts: res?.data?.competition_posts,
             key: !key,
@@ -133,6 +139,9 @@ class BeautyOfCompetition extends Component {
   }
 
   render() {
+    const todaysData = new Date();
+    const NewDate = moment(todaysData).format('YYYY-MM-DD');
+
     const {key} = this.state;
     const tagsStyles = {
       body: {
@@ -200,11 +209,48 @@ class BeautyOfCompetition extends Component {
         this.props.navigation.navigate('Login');
       }
     };
+
+    postViewed = async (item, viewCount, setViewCount) => {
+      this.setState({loading: false});
+      let {user} = this.props;
+      user = user?.user?.user;
+      let post_id = item?.post_id;
+      console.log(item, 'iemmm2055');
+      if (user != undefined) {
+        await camelapp
+          .post('/add/view', {
+            user_id: user?.id,
+            post_id: post_id,
+          })
+          .then(response => {
+            if (response?.data?.message !== 'Already Viewed') {
+              setViewCount(viewCount + 1);
+            }
+          })
+          .catch(error => {
+            console.log('error', error);
+            this.setState({loading: false});
+          });
+      } else {
+        this.props.navigation.navigate('Login');
+      }
+    };
+    onClickItem = async (item, viewCount, setViewCount) => {
+      this.props.navigation.navigate('CompetitionDetail', {
+        itemFromDetails: item,
+      });
+      postViewed(item, viewCount, setViewCount);
+    };
     const renderPostItem = ({item}) => {
+      console.log(item?.img[0], 'item?.imgitem?.img');
       return (
         <PostItem
+          viewCount={item?.view_count}
+          onClickItem={(viewCount, setViewCount) =>
+            onClickItem(item, viewCount, setViewCount)
+          }
           item={item}
-          image={[item?.img]?.length ? item?.img[0] : ''}
+          image={item?.img?.length ? item?.img[0] : ''}
           commentCount={item?.comment_count}
           likeCount={item?.like_count}
           postLike={(item, setIsLiked, setLikeCount) =>
@@ -239,6 +285,7 @@ class BeautyOfCompetition extends Component {
       // console.log(item, 'itemmmm');
       return <SponsorItem item={item} name={item.name} image={item.image} />;
     };
+    const {competition} = this.state;
     return (
       <View style={[Styles.containerBeauty, {position: 'relative'}]}>
         <BackBtnHeader />
@@ -434,8 +481,8 @@ class BeautyOfCompetition extends Component {
           />
         </View>
 
-        {this.state.today >= this.state.start_date &&
-          this.state.today <= this.state.end_date && (
+        {NewDate >= competition[0]?.start_date &&
+          NewDate <= competition[0]?.end_date && (
             <TouchableOpacity
               style={{justifyContent: 'center', alignItems: 'center'}}
               onPress={() => this.selectedCompetition()}>

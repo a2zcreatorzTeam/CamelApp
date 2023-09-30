@@ -71,7 +71,7 @@ import FriendList from '../screens/chat/FriendList';
 import GroupChat from '../screens/chat/GroupChat';
 import CreateGroup from '../screens/chat/CreateGroup';
 import UserProfile from '../screens/UserProfile';
-
+import detailCompetition from './detailCompetition';
 const Stack = createNativeStackNavigator();
 export default function Navigation() {
   return (
@@ -427,6 +427,11 @@ export default function Navigation() {
           name="ChatLogin"
           component={ChatLogin}
           options={{header: () => <Header />}}
+        />
+        <Stack.Screen
+          name="CompetitionDetail"
+          component={detailCompetition}
+          options={{headerShown: false}}
         />
 
         <Stack.Screen name="ChatTopTab" component={ChatTopTab} />

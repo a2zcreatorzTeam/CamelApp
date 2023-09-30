@@ -170,13 +170,6 @@ class participateInCompetition extends Component {
     // if (!image1?.length && image2?.length) {
     //   combineImages = image2;
     // }
-    console.log(
-      this.state.title,
-      this.state.description,
-      this.state.location,
-      this.state.age,
-      this.state.mixed,
-    );
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
@@ -197,13 +190,9 @@ class participateInCompetition extends Component {
       this.state.age != '' &&
       this.state.mixed != []
     ) {
-      console.log('1933333333333333');
       let {user} = this.props;
-
       let user_id = user.user.user.id;
-
       let competition_id = this.props.route.params.competitionItem;
-
       camelapp
         .post('/add/competition', {
           user_id: user_id,
@@ -227,15 +216,13 @@ class participateInCompetition extends Component {
             image: [],
             fileName: '',
           });
-          // this.props.navigation.navigate('Home');
           this.props.navigation.goBack();
         })
         .catch(error => {
-          console.log(error, "errror234");
+          console.log(error?.response, 'errror234');
         });
     } else {
       alert(ArabicText.Please_complete_the_fields + '');
-      // alert("Please complete the fields")
     }
   };
 
@@ -346,13 +333,13 @@ class participateInCompetition extends Component {
             style={Styles.forminputs}
             placeholder={ArabicText.age}
             placeholderTextColor="#b0b0b0"
-            keyboardType="default"
+            keyboardType="numeric"
             value={this.state.age}
             onChangeText={text => {
               if (text.length <= 3) {
                 this.setState({age: text});
               } else {
-                alert(ArabicText.limitCharacters);
+                alert(ArabicText.ageLimit);
               }
             }}></TextInput>
           <TextInput

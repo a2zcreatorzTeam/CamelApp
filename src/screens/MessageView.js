@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component, useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -11,16 +11,12 @@ import {
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import {Card} from 'react-native-paper';
-import Footer from '../components/Footer.js';
 import Feather from 'react-native-vector-icons/Feather';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import * as ArabicText from '../language/EnglishToArabic';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 import camelapp from '../api/camelapp';
-import {connect} from 'react-redux';
+import {connect, useSelector} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import {DataContext, getChatMessages} from '../context/DataContext';
@@ -189,13 +185,13 @@ const MessageView = ({route}) => {
   const [inputValue, setInputValue] = useState('');
   const [dataSource, setDataSource] = useState([]);
   const reciever_id = route.params.messageData.id;
+  const user_id = useSelector(state => state?.user?.user?.user?.id);
   handlePress = useCallback(
     function () {
-        console.log(inputValue, reciever_id, "rereree");
-
+      console.log(inputValue, reciever_id, 'rereree');
       setIsLoading(true);
       firebaseService
-        .createMessage({inputValue, reciever_id})
+        .createMessage({message: inputValue, uid: reciever_id})
         .then(function () {
           setIsLoading(false);
           setInputValue('');
@@ -203,6 +199,39 @@ const MessageView = ({route}) => {
     },
     [inputValue],
   );
+
+  const listenForMessages = (roomId, callback) => {
+    const messageRef = firebase.database().ref(`/chatRooms/${roomId}/messages`);
+    messageRef.on('child_added', snapshot => {
+      const messageData = snapshot.val();
+      callback(messageData);
+    });
+  };
+
+  //   useEffect(
+  //     function () {
+  //       return firebaseService.messageRef
+  //         .orderBy('created_at', 'desc')
+  //         .onSnapshot(function (snapshot) {
+  //           console.log(snapshot?.docs, 'snapshotsnapshot');
+  //           //   dispatchMessages({type: 'add', payload: snapshot.docs});
+  //         });
+  //     },
+  //     [false],
+
+  useEffect(() => {
+    firebaseService
+      .checkOrCreateChatRoom(user_id, reciever_id)
+      .then(function () {
+        console.log('checkOrCreateChatRoom');
+      });
+    //     listenForMessages(roomId, message => {
+    //       // Update the chat interface with the new message
+    //       //   updateChatInterface(message);
+    //     });
+    //   }, [roomId]
+  });
+  //   );
 
   _renderItem = ({item, index}) => {
     let {user} = this.props;
@@ -248,7 +277,7 @@ const MessageView = ({route}) => {
               marginTop: 40,
               transform: [{rotate: '225deg'}],
             }}
-            onPress={() =>handlePress()}
+            onPress={() => handlePress()}
           />
         </TouchableOpacity>
         <TextInput

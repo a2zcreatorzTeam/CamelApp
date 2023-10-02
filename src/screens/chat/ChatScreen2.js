@@ -2,6 +2,8 @@ import {StyleSheet, Text, View, TextInput} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {TouchableOpacity} from 'react-native';
+import {firebaseService} from '../../services';
+import {useCallback} from 'react';
 
 const ChatScreen2 = () => {
   const textID = Date.now();
@@ -9,6 +11,7 @@ const ChatScreen2 = () => {
   const [messageText, setMessageText] = useState('');
   const [person1Text, setPerson1Text] = useState([]);
   const [person2Text, setPerson2Text] = useState('Hello');
+  const [isLoading, setIsLoading] = useState(false);
 
   const chatMessage = e => {
     setMessageText(e);
@@ -16,14 +19,22 @@ const ChatScreen2 = () => {
 
   const chatData = [];
 
-
-  const sendhandler = (e) => {
+  const sendhandler = e => {
     // setPerson1Text({textID, messageText});
     chatData.push({textID, messageText});
     setMessageText('');
   };
-
-  // //console.log(chatData, '<<<<<====chatData');
+  const handlePress = useCallback(
+    function () {
+      setIsLoading(true);
+      firebaseService.createMessage({message, uid}).then(function () {
+        setIsLoading(false);
+        setMessage('');
+      });
+    },
+    [message],
+  );
+  console.log(chatData, '<<<<<====chatData');
   return (
     <View
       style={{flex: 1, justifyContent: 'flex-end', backgroundColor: '#fff'}}>
@@ -60,7 +71,7 @@ const ChatScreen2 = () => {
         {messageText.length > 0 ? (
           <TouchableOpacity
             style={{marginHorizontal: 10}}
-            onPress={sendhandler}>
+            onPress={() => handlePress()}>
             <MaterialCommunityIcons name="send" size={25} color="#000" />
           </TouchableOpacity>
         ) : null}

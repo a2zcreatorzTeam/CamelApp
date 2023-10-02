@@ -10,8 +10,8 @@ import {connect} from 'react-redux';
 import * as userActions from './src/redux/actions/user_actions';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
-
-
+import firebase from 'firebase/app';
+import firebaseConfig from './src/components/firebase';
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(['Remote debugger']);
 const toastConfig = {
@@ -20,7 +20,7 @@ const toastConfig = {
       {...props}
       text1NumberOfLines={5}
       style={{
-        borderLeftColor:'green',
+        borderLeftColor: 'green',
         maxHeight: 120,
         height: '100%',
         paddingVertical: 20,
@@ -82,12 +82,17 @@ class App extends Component {
   componentDidMount() {
     SplashScreen.hide();
     this.checkUser();
+    console.log(firebase, "firebaseees");
+    if (!firebase?.apps?.length) {
+      firebase?.initializeApp(firebaseConfig);
+    }
   }
   render() {
     const backgroundStyle = {
       backgroundColor: Colors.darker,
       flex: 1,
     };
+
     return (
       // <View style={[backgroundStyle, {backgroundColor: '#fff'}]}>
       <SafeAreaProvider>
@@ -96,7 +101,7 @@ class App extends Component {
           backgroundColor="#d2691e"
           // backgroundColor={backgroundStyle.backgroundColor}
         />
-        <Toast config={toastConfig}/>
+        <Toast config={toastConfig} />
         <Navigation />
       </SafeAreaProvider>
       // </View>

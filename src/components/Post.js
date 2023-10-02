@@ -214,6 +214,7 @@ const Post = ({
             <TouchableWithoutFeedback
               key={index}
               onPress={() => {
+                console.log('videoo2177');
                 postViewed(viewCount, setViewCount);
                 setModal(true),
                   setModalItem(mediaSource),
@@ -380,7 +381,7 @@ const Post = ({
         onRequestClose={() => {
           setModal(false), setpausedCheck(true);
         }}>
-          {console.log(modalItem,"modalItem")}
+        {console.log(modalItem, 'modalItem')}
         <View style={styles.modalContainer}>
           {/* Modal Close Button */}
           <TouchableOpacity
@@ -404,8 +405,13 @@ const Post = ({
               {modalItemType == 'video' && (
                 <View style={{flex: 1, backgroundColor: '#ededed'}}>
                   <Video
-                    onLoadStart={() => setLoad(true)}
-                    onReadyForDisplay={() => setLoad(false)}
+                    onError={error => console.error('Video error:', error)}
+                    onLoadStart={() => {
+                      setLoad(true);
+                    }}
+                    onReadyForDisplay={() => {
+                      setLoad(false);
+                    }}
                     source={modalItem}
                     resizeMode="contain"
                     repeat={true}

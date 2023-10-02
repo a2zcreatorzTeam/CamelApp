@@ -24,6 +24,7 @@ const width = Dimensions.get('screen').width;
 import * as ArabicText from '../language/EnglishToArabic';
 import VideoModal from './VideoModal';
 import BackBtnHeader from './headerWithBackBtn';
+import HorizontalCarousel from './HorizontalCarousel';
 class DetailsComponent extends Component {
   constructor(props) {
     super(props);

@@ -179,8 +179,9 @@ class BeautyOfCompetition extends Component {
     onLikesClick = async (item, setIsLiked, setLikeCount) => {
       this.setState({loading: false});
       let {user} = this.props;
+      console.log(item, "itemmmmm");
       user = user.user.user;
-      let post_id = item.id;
+      let post_id = item.post_id;
       // console.log(user.id, post_id, item?.competition_id);
       if (user != undefined) {
         await camelapp

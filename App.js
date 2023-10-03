@@ -83,12 +83,12 @@ class App extends Component {
   componentDidMount() {
     SplashScreen.hide();
     this.checkUser();
-    // let app;
-    // if (firebase.apps.length === 0) {
-    //   app = firebase.initializeApp(firebaseConfig);
-    // } else {
-    //   app = firebase.app();
-    // }
+    let app;
+    if (firebase.apps.length === 0) {
+      app = firebase.initializeApp(firebaseConfig);
+    } else {
+      app = firebase.app();
+    }
   }
   render() {
     const backgroundStyle = {

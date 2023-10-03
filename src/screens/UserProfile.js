@@ -650,7 +650,6 @@ class UserProfile extends Component {
     // };
     const FriendshipStatusBTN = () => {
       const user = this.props.user.user.user;
-      console.log(this.state.friendshipStatus, 'userererer');
       if (
         this.state.friendshipStatus == null
         // this.state.friendshipStatus == 'C' ||

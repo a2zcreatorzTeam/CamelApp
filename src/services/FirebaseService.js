@@ -3,14 +3,12 @@ import firestore from '@react-native-firebase/firestore';
 import database from '@react-native-firebase/database';
 // import {COLLECTIONS} from '../constants';
 import {COLLECTIONS} from '../constants/index';
+import {getDatabase, ref, set} from 'firebase/database';
 
 export default class FirebaseService {
   firestore = firestore();
 
   messageRef = this.firestore.collection(COLLECTIONS.MESSAGES);
-  database = database();
-  chatRoomsRef = this.database.ref('chatRooms');
-
   // async fetchMessages() {
   //   const messages = await this.messageRef
   //     .orderBy('created_at', 'desc')
@@ -22,30 +20,36 @@ export default class FirebaseService {
 
   // Check for an existing chat room or create a new one
   async checkOrCreateChatRoom(user1Id, user2Id) {
-    console.log(user1Id, user2Id, 'iddd');
+    // const db = getDatabase();
+    // // database = database();
+    // chatRoomsRef = db.ref(database);
+    console.log(user1Id, user2Id, 'iddd282777');
     // Query the chat rooms to find a matching room
-    this.chatRoomsRef.once('value', snapshot => {
-      let existingRoomId = null;
-      // Loop through chat rooms
-      snapshot.forEach(roomSnapshot => {
-        const roomData = roomSnapshot.val();
-        const roomUsers = roomData.users;
-        // Check if the room has the same users
-        if (roomUsers.includes(user1Id) && roomUsers.includes(user2Id)) {
-          existingRoomId = roomSnapshot.key;
-          return true; // Stop iterating once a match is found
-        }
-      });
-      if (existingRoomId) {
-        console.log('433333');
-        // An existing chat room was found, use it
-        enterExistingChatRoom(existingRoomId);
-      } else {
-        console.log('ccreate');
-        // No existing chat room, create a new one
-        this.createChatRoom(user1Id, user2Id);
-      }
-    });
+    // chatRoomsRef.once('value', snapshot => {
+    //   console.log('2999');
+    //   let existingRoomId = null;
+    //   // Loop through chat rooms
+    //   snapshot.forEach(roomSnapshot => {
+    //     const roomData = roomSnapshot.val();
+    //     const roomUsers = roomData.users;
+    //     console.log('344');
+    //     // Check if the room has the same users
+    //     if (roomUsers.includes(user1Id) && roomUsers.includes(user2Id)) {
+    //       existingRoomId = roomSnapshot.key;
+    //       return true; // Stop iterating once a match is found
+    //     }
+    //   });
+    //   console.log('4111');
+    //   if (existingRoomId) {
+    //     console.log('433333');
+    //     // An existing chat room was found, use it
+    //     enterExistingChatRoom(existingRoomId);
+    //   } else {
+    //     console.log('ccreate');
+    //     // No existing chat room, create a new one
+    //     this.createChatRoom(user1Id, user2Id);
+    //   }
+    // });
     // this.chatRoomsRef
     //   .orderByChild('users')
     //   .equalTo([user1Id, user2Id])
@@ -76,13 +80,13 @@ export default class FirebaseService {
 
   // Create a chat room for two users
   createChatRoom = (user1Id, user2Id) => {
-    console.log("7999");
+    console.log('7999');
     const roomId = generateChatRoomId(user1Id, user2Id);
-    console.log(roomId, "roomIddddd");
+    console.log(roomId, 'roomIddddd');
     const chatRoomRef = database().ref(`/chatRooms/${roomId}`);
     // Add the users to the chat room
     chatRoomRef.child('users').set([user1Id, user2Id]);
-    console.log("successs");
+    console.log('successs');
   };
 
   // async createMessage({message, uid}) {

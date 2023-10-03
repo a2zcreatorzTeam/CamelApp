@@ -117,7 +117,6 @@ class Home extends Component {
     const {key} = this.state;
     let {user} = this.props;
     user = user.user.user;
-    console.log(user, 'usererer');
     try {
       return await camelapp
         .post('/view/post', {
@@ -253,7 +252,6 @@ class Home extends Component {
     user = user.user.user;
     let post_id = item.id;
     if (user != undefined) {
-      console.log('usererer');
       if (item.category_id == '1') {
         this.props.navigation.navigate('CamelClubDetailsComponent', {
           itemFromDetails: item,

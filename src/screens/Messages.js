@@ -37,9 +37,6 @@ class Messages extends Component {
     camelapp
       .get('/get/userDropdown/' + user_id)
       .then(res => {
-        console.log('=================Get users===================');
-        console.log(res);
-        console.log('====================================');
         this.setState({getMessagesList: res.data});
       })
       .catch(error => {
@@ -61,7 +58,6 @@ class Messages extends Component {
   checkUserLogedIn() {
     let {user} = this.props;
 
-    console.log('user', user);
 
     if (user.user.user != undefined) {
       this.getUserDropList(user.user.user.id);

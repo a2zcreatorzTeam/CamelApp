@@ -209,7 +209,6 @@ const Post = ({
             : isVideo
             ? {uri: 'http://www.tasdeertech.com/videos/' + item?.source}
             : null;
-          console.log(mediaSource, 'mediasoyrccce');
           return (
             <TouchableWithoutFeedback
               key={index}
@@ -381,7 +380,6 @@ const Post = ({
         onRequestClose={() => {
           setModal(false), setpausedCheck(true);
         }}>
-        {console.log(modalItem, 'modalItem')}
         <View style={styles.modalContainer}>
           {/* Modal Close Button */}
           <TouchableOpacity

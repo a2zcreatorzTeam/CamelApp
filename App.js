@@ -1,3 +1,4 @@
+import firebase from '@react-native-firebase/app';
 import React, {Component} from 'react';
 import Navigation from './src/components/Navigation';
 import SplashScreen from 'react-native-splash-screen';
@@ -10,8 +11,6 @@ import {connect} from 'react-redux';
 import * as userActions from './src/redux/actions/user_actions';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
-import firebase from 'firebase/app';
-import firebaseConfig from './src/components/firebase';
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(['Remote debugger']);
 const toastConfig = {
@@ -48,6 +47,14 @@ const toastConfig = {
     />
   ),
 };
+const firebaseConfig = {
+  apiKey: 'AIzaSyAguTlA_7WF9OnOR1PUDYAdYb-o3DoHOnU',
+  authDomain: 'camelapplication-6fcab.firebaseapp.com',
+  projectId: 'camelapplication-6fcab',
+  storageBucket: 'camelapplication-6fcab.appspot.com',
+  messagingSenderId: '641063387947',
+  appId: '1:641063387947:web:88d1a1585dd866a7c1bb6e',
+};
 class App extends Component {
   async checkUser() {
     const userPhone = await AsyncStorage.getItem('@UserPhone');
@@ -82,9 +89,8 @@ class App extends Component {
   componentDidMount() {
     SplashScreen.hide();
     this.checkUser();
-    console.log(firebase, "firebaseees");
-    if (!firebase?.apps?.length) {
-      firebase?.initializeApp(firebaseConfig);
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
     }
   }
   render() {

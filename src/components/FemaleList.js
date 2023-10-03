@@ -125,11 +125,9 @@ class CamelFemaleList extends Component {
       );
     };
     const onDetailsClick = (item, viewCount, setViewCount) => {
-      console.log('detaillssss');
       let {user} = this.props;
       user = user.user.user;
       let post_id = item?.id;
-      console.log(user, 'usererer');
       if (user != undefined) {
         this.props.navigation.navigate('DetailsFemaleCamel', {
           itemFromDetails: item,

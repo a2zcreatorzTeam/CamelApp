@@ -515,7 +515,6 @@ class Profile extends Component {
       const {user} = this.props;
       const post_id = item?.id;
       if (user != undefined) {
-        console.log('usererer');
         if (item.category_id == '1') {
           this.props.navigation.navigate('CamelClubDetailsComponent', {
             itemFromDetails: item,

@@ -22,6 +22,8 @@ import {bindActionCreators} from 'redux';
 import EmptyComponent from '../components/EmptyComponent';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
+import firestore from '@react-native-firebase/firestore';
+import {RefreshControl} from 'react-native';
 
 class Messages extends Component {
   constructor(props) {
@@ -33,15 +35,78 @@ class Messages extends Component {
     };
   }
 
+  getUsersDetails = async data => {
+    try {
+      return await camelapp
+        .post('getMultipleUsersDetails', {
+          users: data,
+        })
+        .then(res => {
+          console.log('responsee', res);
+        });
+    } catch (error) {
+      // console.log('Error Message--- view post', error?.response);
+    }
+  };
   getUserDropList(user_id) {
-    camelapp
-      .get('/get/userDropdown/' + user_id)
-      .then(res => {
-        this.setState({getMessagesList: res.data});
-      })
-      .catch(error => {
-        console.log('get/userDropdown====>> ', error);
-      });
+    const currentUser = user_id; // Replace with the logged-in user's ID
+    const chatRoomsRef = firestore()
+      .collection('chats')
+      .where(`members.${currentUser}`, '==', true);
+    // const unsubscribe = chatRoomsRef.onSnapshot(querySnapshot => {
+    //   const usersSet = new Set();
+    //   querySnapshot.forEach(doc => {
+    //     const chatRoomData = doc.data();
+    //     Object.keys(chatRoomData.members).forEach(userId => {
+    //       console.log(userId, 'iddd');
+    //       if (userId != user_id) {
+    //         usersSet.add(userId);
+    //       }
+    //     });
+    //   });
+    //   const usersArray = Array.from(usersSet);
+    //   this.setState({getUserDropList: usersArray});
+    // });
+    // return () => {
+    //   unsubscribe();
+    // };
+    const unsubscribe = chatRoomsRef.onSnapshot(async querySnapshot => {
+      const usersData = [];
+      for (const doc of querySnapshot.docs) {
+        const chatRoomData = doc.data();
+        const otherUserId = Object.keys(chatRoomData.members).find(
+          userId => userId !== currentUser,
+        );
+
+        // Query the messages subcollection to get the last message
+        const lastMessageQuery = await firestore()
+          .collection('chats')
+          .doc(doc.id)
+          .collection('messages')
+          .orderBy('timestamp', 'desc')
+          .limit(1)
+          .get();
+
+        const lastMessageDoc = lastMessageQuery.docs[0];
+        const lastMessageData = lastMessageDoc ? lastMessageDoc.data() : null;
+        // Fetch user details for the other user
+        if (lastMessageData && user_id) {
+          const userWithLastMessage = {
+            id: otherUserId,
+            message: lastMessageData.text,
+            timestamp: lastMessageData.timestamp,
+          };
+          usersData.push(userWithLastMessage);
+        }
+      }
+      usersData.sort((a, b) => b.timestamp - a.timestamp);
+      this.getUsersDetails(usersData);
+      this.setState({getUserDropList: usersData});
+    });
+    return () => {
+      // Unsubscribe the listener when the component unmounts
+      unsubscribe();
+    };
   }
 
   getMessagesList(user_id) {
@@ -58,7 +123,6 @@ class Messages extends Component {
   checkUserLogedIn() {
     let {user} = this.props;
 
-
     if (user.user.user != undefined) {
       this.getUserDropList(user.user.user.id);
       this.getMessagesList(user.user.user.id);
@@ -70,11 +134,6 @@ class Messages extends Component {
 
   componentDidMount() {
     this.checkUserLogedIn();
-    // this.interval =
-    //   setInterval(() => {
-    //     this.checkUserLogedIn();
-    //     console.log("TEST")
-    //   }, 5000)
   }
   componentWillUnmount() {
     clearInterval(this.interval);
@@ -93,6 +152,10 @@ class Messages extends Component {
 
     this.props.navigation.navigate('MessageNew', {messageData: item});
   };
+  ScrollToRefresh() {
+    this.viewPosts();
+    this.setState({refreshing: false});
+  }
 
   render() {
     const ListItem = ({userName, userImage, onUserMessageClick}) => (
@@ -198,7 +261,6 @@ class Messages extends Component {
       </Card>
     );
     const renderItem = ({item}) => {
-      //console.log(item.image)
       return (
         <Item
           item={item}
@@ -219,72 +281,81 @@ class Messages extends Component {
       );
     };
     return (
-      <SafeAreaView style={{flex: 1}}>
-        <View style={{backgroundColor: '#fff', width: width, height: hight}}>
-          <FlatList
-            ListEmptyComponent={() => <EmptyComponent />}
-            data={this.state.getMessagesList}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-          />
-          {this.state.modal && (
-            <Modal transparent={true} visible={this.state.modal}>
+      // <SafeAreaView style={{flex: 1}}>
+      <View
+        style={{flex: 1, backgroundColor: '#fff', width: width, height: hight}}>
+        <FlatList
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={() => this.ScrollToRefresh()}
+            />
+          }
+          contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}
+          style={{flex: 1}}
+          ListEmptyComponent={() => <EmptyComponent />}
+          data={this.state.getMessagesList}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+        />
+        {this.state.modal && (
+          <Modal transparent={true} visible={this.state.modal}>
+            <View
+              style={{
+                backgroundColor: '#ffffff',
+                flex: 1,
+                width: width,
+                height: hight,
+                alignItems: 'center',
+              }}>
+              <Pressable
+                style={{
+                  marginTop: 10,
+                  alignSelf: 'flex-end',
+                  marginBottom: 10,
+                }}
+                onPress={modal => this.setState({modal: !modal})}>
+                <Ionicons name="close" size={30} color="brown" />
+              </Pressable>
               <View
                 style={{
-                  backgroundColor: '#ffffff',
-                  flex: 1,
-                  width: width,
-                  height: hight,
-                  alignItems: 'center',
-                }}>
-                <Pressable
-                  style={{
-                    marginTop: 10,
-                    alignSelf: 'flex-end',
-                    marginBottom: 10,
-                  }}
-                  onPress={modal => this.setState({modal: !modal})}>
-                  <Ionicons name="close" size={30} color="brown" />
-                </Pressable>
-                <View
-                  style={{
-                    backgroundColor: '#FFFFFF',
+                  backgroundColor: '#FFFFFF',
 
-                    borderRadius: 10,
-                    flex: 1,
-                  }}>
-                  <View
-                  //  style={{ top: 1, justifyContent: 'center', alignItems: 'center', }}
-                  >
-                    <Searchbar
-                      placeholder="Search"
-                      // onChangeText={(text) => searchFilterFunction(text)}
-                      // onClear={(text) => searchFilterFunction('')}
-                      // value={search}
-                      style={{
-                        width: width - 45,
-                        height: 60,
-                        alignSelf: 'center',
-                        borderRadius: 10,
-                        marginBottom: 10,
-                      }}
-                    />
-                  </View>
-                  <FlatList
-                    data={this.state.getUserDropList}
-                    renderItem={renderLisTItem}
-                    keyExtractor={item => item.id}
+                  borderRadius: 10,
+                  flex: 1,
+                }}>
+                <View
+                //  style={{ top: 1, justifyContent: 'center', alignItems: 'center', }}
+                >
+                  <Searchbar
+                    placeholder="Search"
+                    // onChangeText={(text) => searchFilterFunction(text)}
+                    // onClear={(text) => searchFilterFunction('')}
+                    // value={search}
                     style={{
                       width: width - 45,
+                      height: 60,
                       alignSelf: 'center',
+                      borderRadius: 10,
+                      marginBottom: 10,
                     }}
                   />
                 </View>
+                <FlatList
+                  data={this.state.getUserDropList}
+                  renderItem={renderLisTItem}
+                  keyExtractor={item => item.id}
+                  style={{
+                    width: width - 45,
+                    alignSelf: 'center',
+                  }}
+                />
               </View>
-            </Modal>
-          )}
+            </View>
+          </Modal>
+        )}
 
-          {/* 
+        {/* 
           <TouchableOpacity style={[Styles.floatIcon, {
             position: 'absolute',
             left: 10,
@@ -292,8 +363,8 @@ class Messages extends Component {
           }]} onPress={() => this.modalOpen()}>
             <MaterialCommunityIcons name="plus" size={30} color="#D2691E" style={{ padding: 5 }} />
           </TouchableOpacity> */}
-        </View>
-      </SafeAreaView>
+      </View>
+      // </SafeAreaView>
     );
   }
 }

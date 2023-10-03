@@ -1,5 +1,6 @@
-import FirebaseService from './FirebaseService';
+// import FirebaseService from './FirebaseService';
+import {checkOrCreateChatRoom, sendMessage} from './FirebaseService';
 
-const firebaseService = new FirebaseService();
+// const firebaseService = new FirebaseService();
 
-export {firebaseService};
+export {checkOrCreateChatRoom, sendMessage};

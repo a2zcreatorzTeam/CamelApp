@@ -49,7 +49,6 @@ class Login extends Component {
   saveData() {
     let phone = this.state.contactNumber;
     let password = this.state.password;
-
     AsyncStorage.setItem('@UserPhone', phone);
     AsyncStorage.setItem('@UserPassword', password);
   }
@@ -95,7 +94,6 @@ class Login extends Component {
       do {
         number = Math.floor(Math.random() * 10000) + 1;
         //console.log('number', number);
-
       } while (number < 1000 || number > 10000);
       this.setState({randomIndex: number});
       if (this.state.contactNumber.length >= 10 && this.state.password != '') {
@@ -151,7 +149,7 @@ class Login extends Component {
           <Text style={Styles.text}>{ArabicText.login}</Text>
           <View style={Styles.card}>
             <TextInput
-            // placeholder="05xxxxxxxx"
+              // placeholder="05xxxxxxxx"
 
               style={Styles.inputs}
               keyboardType="numeric"
@@ -159,7 +157,7 @@ class Login extends Component {
               maxLength={11}
               placeholderTextColor="#000000"
               onChangeText={text =>
-                this.setState({contactNumber: text})
+                this.setState({contactNumber: text.replace(/[^0-9]/g, '')})
               }></TextInput>
 
             <Text style={{color: 'red', marginRight: 200}}>

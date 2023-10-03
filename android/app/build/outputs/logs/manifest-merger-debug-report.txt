@@ -1,10 +1,10 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:1:1-37:12
-INJECTED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:1:1-37:12
-INJECTED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:1:1-37:12
-INJECTED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:1:1-37:12
-MERGED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:1:1-37:12
+ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:1:1-48:12
+INJECTED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:1:1-48:12
+INJECTED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:1:1-48:12
+INJECTED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:1:1-48:12
+MERGED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:1:1-48:12
 MERGED from [com.facebook.flipper:flipper:0.125.0] /Users/a2zcreatorz/.gradle/caches/transforms-3/436f54e1c9e400a7ad96009301b788b4/transformed/jetified-flipper-0.125.0/AndroidManifest.xml:8:1-18:12
 MERGED from [com.facebook.flipper:flipper-network-plugin:0.125.0] /Users/a2zcreatorz/.gradle/caches/transforms-3/ca748eaaed426328fdc083a44e56427a/transformed/jetified-flipper-network-plugin-0.125.0/AndroidManifest.xml:8:1-15:12
 MERGED from [com.facebook.flipper:flipper-fresco-plugin:0.125.0] /Users/a2zcreatorz/.gradle/caches/transforms-3/08bdc26c0508c55af7b99b6aff687a88/transformed/jetified-flipper-fresco-plugin-0.125.0/AndroidManifest.xml:8:1-15:12
@@ -140,13 +140,13 @@ INJECTED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/Camel
 		INJECTED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/debug/AndroidManifest.xml
 	android:versionName
 		INJECTED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:1:1-37:12
+		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:1:1-48:12
 		INJECTED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/debug/AndroidManifest.xml
 	xmlns:tools
 		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/debug/AndroidManifest.xml:3:5-51
 	android:versionCode
 		INJECTED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:1:1-37:12
+		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:1:1-48:12
 		INJECTED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/debug/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:1:11-69
@@ -203,9 +203,9 @@ ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp
 	android:name
 		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:10:17-61
 application
-ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:12:3-36:17
-MERGED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:12:3-36:17
-MERGED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:12:3-36:17
+ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:12:3-47:17
+MERGED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:12:3-47:17
+MERGED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:12:3-47:17
 MERGED from [:react-native-firebase_app] /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/node_modules/@react-native-firebase/app/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-30:19
 MERGED from [:react-native-firebase_app] /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/node_modules/@react-native-firebase/app/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-30:19
 MERGED from [com.google.firebase:firebase-storage:20.2.1] /Users/a2zcreatorz/.gradle/caches/transforms-3/af3368a1c9eff1c8b7512782c9a1202b/transformed/jetified-firebase-storage-20.2.1/AndroidManifest.xml:28:5-36:19
@@ -297,7 +297,7 @@ MERGED from [com.google.maps.android:android-maps-utils:0.5] /Users/a2zcreatorz/
 		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:13:5-36
 		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:13:5-36
 activity#com.alsyahd.MainActivity
-ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:21:5-35:16
+ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:21:5-46:16
 	android:label
 		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:23:7-39
 	android:launchMode
@@ -310,26 +310,32 @@ ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp
 		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:24:7-116
 	android:name
 		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:22:7-35
-intent-filter#action:name:android.intent.action.MAIN+action:name:android.intent.action.VIEW+category:name:android.intent.category.LAUNCHER+data:host:*+data:scheme:https
-ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:29:7-34:23
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:36:5-39:21
 action#android.intent.action.MAIN
-ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:30:9-61
+ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:37:7-59
 	android:name
-		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:30:17-58
+		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:37:15-56
 category#android.intent.category.LAUNCHER
-ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:31:9-69
+ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:38:6-66
 	android:name
-		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:31:19-66
+		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:38:16-63
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+data:host:*+data:scheme:https
+ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:40:5-44:21
 action#android.intent.action.VIEW
-ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:32:10-62
+ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:41:7-58
 	android:name
-		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:32:18-59
+		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:41:15-56
+category#android.intent.category.BROWSABLE
+ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:42:7-68
+	android:name
+		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:42:17-65
 data
-ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:33:11-59
+ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:43:7-55
 	android:host
-		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:33:40-56
+		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:43:36-52
 	android:scheme
-		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:33:17-39
+		ADDED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml:43:13-35
 uses-sdk
 INJECTED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/src/main/AndroidManifest.xml
@@ -756,10 +762,6 @@ category#android.intent.category.DEFAULT
 ADDED from [com.google.firebase:firebase-auth:22.1.2] /Users/a2zcreatorz/.gradle/caches/transforms-3/af4bc780b808a6dc7a01a58401526f2f/transformed/jetified-firebase-auth-22.1.2/AndroidManifest.xml:38:17-76
 	android:name
 		ADDED from [com.google.firebase:firebase-auth:22.1.2] /Users/a2zcreatorz/.gradle/caches/transforms-3/af4bc780b808a6dc7a01a58401526f2f/transformed/jetified-firebase-auth-22.1.2/AndroidManifest.xml:38:27-73
-category#android.intent.category.BROWSABLE
-ADDED from [com.google.firebase:firebase-auth:22.1.2] /Users/a2zcreatorz/.gradle/caches/transforms-3/af4bc780b808a6dc7a01a58401526f2f/transformed/jetified-firebase-auth-22.1.2/AndroidManifest.xml:39:17-78
-	android:name
-		ADDED from [com.google.firebase:firebase-auth:22.1.2] /Users/a2zcreatorz/.gradle/caches/transforms-3/af4bc780b808a6dc7a01a58401526f2f/transformed/jetified-firebase-auth-22.1.2/AndroidManifest.xml:39:27-75
 activity#com.google.firebase.auth.internal.RecaptchaActivity
 ADDED from [com.google.firebase:firebase-auth:22.1.2] /Users/a2zcreatorz/.gradle/caches/transforms-3/af4bc780b808a6dc7a01a58401526f2f/transformed/jetified-firebase-auth-22.1.2/AndroidManifest.xml:47:9-64:20
 	android:excludeFromRecents

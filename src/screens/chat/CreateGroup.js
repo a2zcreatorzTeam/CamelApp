@@ -165,6 +165,9 @@ const CreateGroup = props => {
   //     }
 
   const createGroup = async () => {
+    let {userID, refreshGrouplist} = props.route.params;
+    let tempArrayForUserDetails = [];
+    tempArrayForUserDetails.push({id:userID, message:""})
         if (groupName === "") {
           return alert("Please Enter Group Name")
       }
@@ -173,21 +176,24 @@ const CreateGroup = props => {
     } 
     let tempArray = [];
 
+
         newParticipant?.forEach(e => {
  
             tempArray.push(e?.firend_id)
+            tempArrayForUserDetails.push({id:e?.firend_id,message:''})
         });
         if(tempArray?.length){
 
         
-    let {userID, refreshGrouplist} = props.route.params;
     try {
       const collectionRef = firestore().collection('groupChat'); // Replace with your actual collection name
       const documentData = {
         lastUpdated: Date.now(),
         users: userID,
         members:tempArray,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         messages: [],
+        groupUserDetails:tempArrayForUserDetails,
         groupName: groupName, //TODO admin can set group name
         // groupAdmins: [auth?.currentUser?.email] //TODO can change group admins later
       }; // Replace with your actual document data

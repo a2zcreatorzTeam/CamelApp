@@ -39,12 +39,10 @@ class ForgetPassword extends Component {
     if (this.state.phone.length > 9) {
       this.setState({btnPressed: true, loader: true});
       camelapp.get('checkemail?phone=' + this.state.phone).then(response => {
-        console.log('response check phone', response.data);
         let number = 0;
         do {
           number = Math.floor(Math.random() * 10000) + 1;
           alert(number);
-          //console.log('number', number);
         } while (number < 1000 || number > 10000);
         if (response.data.status === false) {
           this.setState({otp: true, loader: false});
@@ -54,7 +52,6 @@ class ForgetPassword extends Component {
               message: number,
             })
             .then(response => {
-              console.log(response, 'response56');
               if (response.data.status === true) {
                 alert('Opt sent to your Phone Number');
                 this.props.navigation.navigate('OtpForgetPassword', {
@@ -66,9 +63,13 @@ class ForgetPassword extends Component {
             .catch(error => {
               //console.log("error", error)
             });
+        } else {
+          this.setState({loader: false});
+          alert('Please enter valid phone');
         }
       });
     } else {
+      this.setState({loader: false});
       alert('Please enter valid phone');
     }
   }
@@ -108,15 +109,17 @@ class ForgetPassword extends Component {
               style={Styles.inputs}
               placeholder={ArabicText.Enter_Phone_Number}
               keyboardType="numeric"
-              maxLength={11}
-              onChangeText={text => this.setState({phone: text})}></TextInput>
+              maxLength={10}
+              onChangeText={text =>
+                this.setState({phone: text.replace(/[^0-9]/g, '')})
+              }></TextInput>
 
             <TouchableOpacity
               onPress={() => {
-                if (this.state.btnPressed != true) {
+                if (this.state.loader == false) {
                   this.sendOTP();
                 } else {
-                  //console.log("Waiting For Response")
+                  console.log('Waiting For Response');
                 }
               }}>
               <View

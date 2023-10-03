@@ -27,14 +27,6 @@ import {checkOrCreateChatRoom, sendMessage} from '../services';
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
-import BackBtnHeader from '../components/headerWithBackBtn';
-import Entypo from 'react-native-vector-icons/Entypo';
-import * as ImageCropPicker from 'react-native-image-crop-picker';
-import GetLocation from 'react-native-get-location';
-import {Modal} from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Linking} from 'react-native';
-
 // class MessageView extends Component {
 //   constructor(props) {
 //     super(props);
@@ -192,38 +184,28 @@ const MessageView = ({route}) => {
   const [inputValue, setInputValue] = useState('');
   const [dataSource, setDataSource] = useState([]);
   const [key, setKey] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [confirmModal, setConfirmModal] = useState(false);
-  const [loader, setLoader] = useState(false);
-
-  const [lat, setlat] = useState(null);
-  const [long, setlong] = useState(null);
-  const [image, setImage] = useState(null);
-  const [mimeVedio, setMimeVideo] = useState(null);
-  const [video, setVideo] = useState(null);
 
   const reciever_id = route.params.messageData.id;
+  const reciever_Data = route.params.messageData;
   const user_id = useSelector(state => state?.user?.user?.user?.id);
   const user = useSelector(state => state?.user);
   const chatRoomId =
     user_id < reciever_id
       ? `${user_id}_${reciever_id}`
       : `${reciever_id}_${user_id}`;
+
   handlePress = () => {
-    sendMessage(user_id, inputValue, chatRoomId, lat, long, image).then(
-      success => {
-        success && setInputValue(''),
-          setModalVisible(false),
-          setConfirmModal(false);
-      },
-    );
+    sendMessage(user_id, inputValue, chatRoomId).then(success => {
+      success && setInputValue('');
+      console.log('response', success);
+    });
   };
-  const proceed = async (lat, long) => {
-    const url = `https://www.google.com/maps/search/?api=1&query=${lat},${long}`;
-    const supported = await Linking.canOpenURL(url);
-    if (supported) {
-      await Linking.openURL(url);
-    }
+  const listenForMessages = (roomId, callback) => {
+    const messageRef = firebase.database().ref(`/chatRooms/${roomId}/messages`);
+    messageRef.on('child_added', snapshot => {
+      const messageData = snapshot.val();
+      callback(messageData);
+    });
   };
   useEffect(() => {
     checkOrCreateChatRoom(chatRoomId, user_id, reciever_id);
@@ -237,7 +219,8 @@ const MessageView = ({route}) => {
         querySnapshot.forEach(doc => {
           newMessages.push(doc.data());
         });
-        setDataSource(newMessages?.reverse());
+        setDataSource(newMessages);
+        setKey(!key);
       });
 
     return () => {
@@ -250,77 +233,19 @@ const MessageView = ({route}) => {
     const formattedDateTime = moment.unix(item?.timestamp).format('HH:mm:ss');
     let sender_id = user.user.user.id;
     return item?.sender == sender_id ? (
-      <>
-        {item?.latitude && item?.longitude ? (
-          <>
-            <TouchableOpacity
-              style={styles.rightChatImageContainer}
-              onPress={() => proceed(item?.latitude, item?.longitude)}>
-              <Image
-                source={require('../../assets/maps.jpg')}
-                style={styles.chatImage}
-              />
-            </TouchableOpacity>
-          </>
-        ) : item?.imageUrl ? (
-          <TouchableOpacity
-            style={styles.rightChatImageContainer}
-            // onPress={() => proceed(item?.latitude, item?.longitude)}
-          >
-            <Image
-              source={{
-                uri: item?.imageUrl?.pickedImage,
-              }}
-              style={styles.chatImage}
-            />
-          </TouchableOpacity>
-        ) : (
-          <>
-            <Card style={Styles.text_send}>
-              <Text style={{color: '#fff', textAlign: 'right', fontSize: 14}}>
-                {item.text}
-              </Text>
-              <Text style={{color: 'black', fontSize: 10}}>
-                {formattedDateTime}
-              </Text>
-            </Card>
-          </>
-        )}
-      </>
+      <Card style={Styles.text_send}>
+        <Text style={{color: '#fff', textAlign: 'right', fontSize: 14}}>
+          {item.text}
+        </Text>
+        <Text style={{color: 'black', fontSize: 10}}>{formattedDateTime}</Text>
+      </Card>
     ) : (
-      <>
-        {item?.latitude && item?.longitude ? (
-          <>
-            <TouchableOpacity
-              style={[styles.rightChatImageContainer, {left:0}]}
-              onPress={() => proceed(item?.latitude, item?.longitude)}>
-              <Image
-                source={require('../../assets/maps.jpg')}
-                style={styles.chatImage}
-              />
-            </TouchableOpacity>
-          </>
-        ) : item?.imageUrl ? (
-          <TouchableOpacity
-            style={styles.rightChatImageContainer}
-            // onPress={() => proceed(item?.latitude, item?.longitude)}
-          >
-            <Image
-              source={{
-                uri: item?.imageUrl?.pickedImage,
-              }}
-              style={styles.chatImage}
-            />
-          </TouchableOpacity>
-        ) : (
-          <Card style={Styles.text_send_right}>
-            <Text style={{color: '#d2691e', fontSize: 14}}>{item.text}</Text>
-            <Text style={{color: 'gray', textAlign: 'right', fontSize: 10}}>
-              {formattedDateTime}
-            </Text>
-          </Card>
-        )}
-      </>
+      <Card style={Styles.text_send_right}>
+        <Text style={{color: '#d2691e', fontSize: 14}}>{item.text}</Text>
+        <Text style={{color: 'gray', textAlign: 'right', fontSize: 10}}>
+          {formattedDateTime}
+        </Text>
+      </Card>
     );
   };
 
@@ -329,9 +254,8 @@ const MessageView = ({route}) => {
       <View
       style={{flex: 1, width: width, height: hight}}>
       <FlatList
-        contentContainerStyle={{paddingTop: 10}}
-        inverted
         initialNumToRender={dataSource?.length}
+        key={key}
         data={dataSource}
         renderItem={this._renderItem}
         keyExtractor={(item, index) => index.toString()}

@@ -26,7 +26,6 @@ const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 import firestore from '@react-native-firebase/firestore';
 import {RefreshControl} from 'react-native';
-
 class Messages extends Component {
   constructor(props) {
     super(props);
@@ -38,7 +37,6 @@ class Messages extends Component {
       loader: false,
     };
   }
-
   getUsersDetails = async data => {
     try {
       return await camelapp.post('getMultipleUsersDetails', data).then(res => {
@@ -88,7 +86,6 @@ class Messages extends Component {
           .orderBy('timestamp', 'desc')
           .limit(1)
           .get();
-
         const lastMessageDoc = lastMessageQuery.docs[0];
         const lastMessageData = lastMessageDoc ? lastMessageDoc.data() : null;
         console.log(lastMessageData, 'lastMessageDatalastMessageData');
@@ -153,7 +150,6 @@ class Messages extends Component {
   };
   navigateToMessagesNew = item => {
     this.setState({modal: false});
-
     this.props.navigation.navigate('MessageNew', {messageData: item});
   };
   ScrollToRefresh() {
@@ -186,7 +182,6 @@ class Messages extends Component {
             }}>
             {userName}
           </Text>
-
           <View
             style={{
               width: 60,
@@ -238,7 +233,6 @@ class Messages extends Component {
             }}>
             {userName}
           </Text>
-
           <View
             style={{
               borderRadius: 30,
@@ -330,7 +324,6 @@ class Messages extends Component {
               <View
                 style={{
                   backgroundColor: '#FFFFFF',
-
                   borderRadius: 10,
                   flex: 1,
                 }}>
@@ -364,7 +357,6 @@ class Messages extends Component {
             </View>
           </Modal>
         )}
-
         {/* 
           <TouchableOpacity style={[Styles.floatIcon, {
             position: 'absolute',
@@ -378,16 +370,13 @@ class Messages extends Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 const styles = StyleSheet.create({
   activityIndicator: {
     position: 'absolute',

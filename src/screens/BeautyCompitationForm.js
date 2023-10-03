@@ -21,7 +21,7 @@ import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import BackBtnHeader from '../components/headerWithBackBtn';
-
+import Loader from '../components/PleaseWait';
 class participateInCompetition extends Component {
   constructor(props) {
     super(props);
@@ -50,6 +50,7 @@ class participateInCompetition extends Component {
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
+      loading: false,
     };
   }
   videoPicker = async () => {
@@ -158,18 +159,6 @@ class participateInCompetition extends Component {
       });
   }
   createPostCamelClub = async () => {
-    // var image1 = this.state.imagesForPost;
-    // var image2 = this.state.cameraimagesForPost;
-    // var combineImages;
-    // if (image1?.length && image2?.length) {
-    //   combineImages = image1.concat(image2);
-    // }
-    // if (image1?.length && !image2?.length) {
-    //   combineImages = image1;
-    // }
-    // if (!image1?.length && image2?.length) {
-    //   combineImages = image2;
-    // }
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
@@ -190,6 +179,7 @@ class participateInCompetition extends Component {
       this.state.age != '' &&
       this.state.mixed != []
     ) {
+      this.setState({loading: true});
       let {user} = this.props;
       let user_id = user.user.user.id;
       let competition_id = this.props.route.params.competitionItem;
@@ -205,20 +195,19 @@ class participateInCompetition extends Component {
           video: this.state.videoForPost,
         })
         .then(response => {
-          console.log('response215', response.data?.status);
-
           alert(ArabicText.Post_added_successfully + '');
-
           this.setState({
             title: '',
             description: '',
             location: '',
             image: [],
             fileName: '',
+            loading: false,
           });
           this.props.navigation.goBack();
         })
         .catch(error => {
+          this.setState({loading: false});
           console.log(error?.response, 'errror234');
         });
     } else {
@@ -247,44 +236,6 @@ class participateInCompetition extends Component {
               this.setState({pausedCheck: true});
             }}
           />
-
-          {/* 
-          <Carousel
-            keyExtractor={this.state.mixed.fileName}
-            data={this.state.mixed}
-            layout={"default"}
-            scrollEnabled={true}
-            onScroll={() => this.setState({ pauseVideo: true})}
-            renderItem={({ item, index }) => {
-              return (
-                <View style={Styles.imageCarousal}>
-                  {
-
-                    item.mime != undefined && item.mime.includes("image") && <Image source={{ uri: item.path }}
-                      key={String(index)}
-                      resizeMode={"cover"}
-                      style={{ width: "100%", height: "100%" }}
-                    />
-                  }
-                  {item.mime != undefined && item.mime.includes("video") &&
-                    <Video
-                      onTouchStart={() => {
-                        this.setState({ pauseVideo: !this.state.pauseVideo })
-                      }}
-                      source={{ uri: item.path }}   // Can be a URL or a local file.
-                      key={String(index)}
-                      resizeMode='stretch'
-                      repeat
-                      controls={false}
-                      paused={this.state.pauseVideo}
-                      style={Styles.video} />}
-                </View>
-              );
-            }}
-            sliderWidth={width}
-            itemWidth={width}
-          /> */}
-
           <View style={{flexDirection: 'row', marginTop: 10}}>
             <View style={Styles.cameraview}>
               <TouchableOpacity onPress={() => this.videoPicker()}>
@@ -315,6 +266,7 @@ class participateInCompetition extends Component {
                 alert(ArabicText.limitCharacters);
               }
             }}></TextInput>
+          <Loader loading={this.state.loading} />
 
           <TextInput
             style={Styles.forminputs}

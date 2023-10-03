@@ -146,7 +146,7 @@ class SignUp extends Component {
     }
 
     // check phone mumber
-    if (phone.length >= 3) {
+    if (phone.length == 10) {
       this.setState({
         flagphone: false,
       });
@@ -216,9 +216,7 @@ class SignUp extends Component {
         .get('checkemail?phone=' + this.state.phone)
         .then(response => {
           console.log('response check phone', response.data);
-
           let number = 0;
-
           do {
             number = Math.floor(Math.random() * 10000) + 1;
             console.log(number);
@@ -315,7 +313,9 @@ class SignUp extends Component {
             keyboardType="numeric"
             maxLength={10}
             placeholderTextColor="#000000"
-            onChangeText={text => this.setState({phone: text})}></TextInput>
+            onChangeText={text =>
+              this.setState({phone: text.replace(/[^0-9]/g, '')})
+            }></TextInput>
           {flagphone == true && (
             <Text
               style={{

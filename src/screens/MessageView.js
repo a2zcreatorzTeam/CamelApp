@@ -20,9 +20,11 @@ import {connect, useSelector} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import {DataContext, getChatMessages} from '../context/DataContext';
-import {firebaseService} from '../services';
 import {useCallback} from 'react';
-
+import {checkOrCreateChatRoom, sendMessage} from '../services';
+import firebase from '@react-native-firebase/app';
+import firestore from '@react-native-firebase/firestore';
+import moment from 'moment';
 // class MessageView extends Component {
 //   constructor(props) {
 //     super(props);
@@ -177,29 +179,25 @@ import {useCallback} from 'react';
 // export default connect(mapStateToProps, mapDispatchToProps)(MessageView);
 
 const MessageView = ({route}) => {
-  // dataSource: [],
-  //       isLoading: true,
-  //       inputValue: '',
-  //       reciever_id: props.route.params.messageData.id,
-  const [isLoading, setIsLoading] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [dataSource, setDataSource] = useState([]);
-  const reciever_id = route.params.messageData.id;
-  const user_id = useSelector(state => state?.user?.user?.user?.id);
-  handlePress =
-    useCallback();
-    // function () {
-    //   console.log(inputValue, reciever_id, 'rereree');
-    //   setIsLoading(true);
-    //   firebaseService
-    //     .createMessage({message: inputValue, uid: reciever_id})
-    //     .then(function () {
-    //       setIsLoading(false);
-    //       setInputValue('');
-    //     });
-    // },
-    // [inputValue],
+  const [key, setKey] = useState(false);
 
+  const reciever_id = route.params.messageData.id;
+  const reciever_Data = route.params.messageData;
+  const user_id = useSelector(state => state?.user?.user?.user?.id);
+  const user = useSelector(state => state?.user);
+  const chatRoomId =
+    user_id < reciever_id
+      ? `${user_id}_${reciever_id}`
+      : `${reciever_id}_${user_id}`;
+
+  handlePress = () => {
+    sendMessage(user_id, inputValue, chatRoomId).then(success => {
+      success && setInputValue('');
+      console.log('response', success);
+    });
+  };
   const listenForMessages = (roomId, callback) => {
     const messageRef = firebase.database().ref(`/chatRooms/${roomId}/messages`);
     messageRef.on('child_added', snapshot => {
@@ -220,34 +218,44 @@ const MessageView = ({route}) => {
   //     [false],
 
   useEffect(() => {
-    // firebaseService
-    //   .checkOrCreateChatRoom(user_id, reciever_id)
-    //   .then(function () {
-    //     console.log('checkOrCreateChatRoom');
-    //   });
-    //     listenForMessages(roomId, message => {
-    //       // Update the chat interface with the new message
-    //       //   updateChatInterface(message);
-    //     });
-    //   }, [roomId]
-  });
-  //   );
+    checkOrCreateChatRoom(chatRoomId, user_id, reciever_id);
+    const unsubscribe = firestore()
+      .collection('chats')
+      .doc(chatRoomId)
+      .collection('messages')
+      .orderBy('timestamp', 'asc') // You can order messages by timestamp or other criteria
+      .onSnapshot(querySnapshot => {
+        const newMessages = [];
+        querySnapshot.forEach(doc => {
+          newMessages.push(doc.data());
+        });
+        setDataSource(newMessages);
+        setKey(!key);
+      });
+
+    return () => {
+      // Unsubscribe the listener when the component unmounts
+      unsubscribe();
+    };
+  }, []);
 
   _renderItem = ({item, index}) => {
-    let {user} = this.props;
+    console.log('itemm', item);
+    const formattedDateTime = moment.unix(item?.timestamp).format('HH:mm:ss');
+
     let sender_id = user.user.user.id;
-    return item.sender_id == sender_id ? (
+    return item?.sender == sender_id ? (
       <Card style={Styles.text_send}>
         <Text style={{color: '#fff', textAlign: 'right', fontSize: 14}}>
-          {item.message}
+          {item.text}
         </Text>
-        <Text style={{color: 'black', fontSize: 10}}>{item.created_at}</Text>
+        <Text style={{color: 'black', fontSize: 10}}>{formattedDateTime}</Text>
       </Card>
     ) : (
       <Card style={Styles.text_send_right}>
-        <Text style={{color: '#d2691e', fontSize: 14}}>{item.message}</Text>
+        <Text style={{color: '#d2691e', fontSize: 14}}>{item.text}</Text>
         <Text style={{color: 'gray', textAlign: 'right', fontSize: 10}}>
-          {item.created_at}
+          {formattedDateTime}
         </Text>
       </Card>
     );
@@ -258,6 +266,8 @@ const MessageView = ({route}) => {
       //style={Styles.containerMessageView}
       style={{flex: 1, width: width, height: hight}}>
       <FlatList
+        initialNumToRender={dataSource?.length}
+        key={key}
         data={dataSource}
         renderItem={this._renderItem}
         keyExtractor={(item, index) => index.toString()}

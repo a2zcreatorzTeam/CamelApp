@@ -25,7 +25,6 @@ import {checkOrCreateChatRoom, sendMessage} from '../services';
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
-import BackBtnHeader from '../components/headerWithBackBtn';
 // class MessageView extends Component {
 //   constructor(props) {
 //     super(props);
@@ -218,7 +217,8 @@ const MessageView = ({route}) => {
         querySnapshot.forEach(doc => {
           newMessages.push(doc.data());
         });
-        setDataSource(newMessages?.reverse());
+        setDataSource(newMessages);
+        setKey(!key);
       });
 
     return () => {
@@ -228,7 +228,9 @@ const MessageView = ({route}) => {
   }, []);
 
   _renderItem = ({item, index}) => {
+    console.log('itemm', item);
     const formattedDateTime = moment.unix(item?.timestamp).format('HH:mm:ss');
+
     let sender_id = user.user.user.id;
     return item?.sender == sender_id ? (
       <Card style={Styles.text_send}>
@@ -250,9 +252,8 @@ const MessageView = ({route}) => {
   RenderList = () => {
     return (
       <FlatList
-      contentContainerStyle={{marginTop:10}}
-        inverted
         initialNumToRender={dataSource?.length}
+        key={key}
         data={dataSource}
         renderItem={this._renderItem}
         keyExtractor={(item, index) => index.toString()}

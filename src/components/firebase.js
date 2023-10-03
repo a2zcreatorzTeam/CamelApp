@@ -2,19 +2,13 @@
 // import {initializeApp} from 'firebase/app';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-import firebase from 'firebase/app';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyAguTlA_7WF9OnOR1PUDYAdYb-o3DoHOnU',
-  authDomain: 'camelapplication-6fcab.firebaseapp.com',
-  projectId: 'camelapplication-6fcab',
-  storageBucket: 'camelapplication-6fcab.appspot.com',
-  messagingSenderId: '641063387947',
-  appId: '1:641063387947:web:88d1a1585dd866a7c1bb6e',
+  apiKey: 'AIzaSyATO6VEMOukTusN9R5w4SdLVpZvUSpCeyU',
+  projectId: 'camelapplication-f93a0',
+  messagingSenderId: '1093363753866',
+  appId: '1:1093363753866:android:0da83e8422a946853c5e73',
 };
 export default firebaseConfig;
 // firebase.initializeApp(firebaseConfig);
-
-// Initialize Firebase
-// const app = initializeApp(firebaseConfig);

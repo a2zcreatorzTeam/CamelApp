@@ -6,9 +6,6 @@
 # Node artifact files
 node_modules/
 dist/
-android/
-.android
-.android/
 ios/
 .ios
 .ios/

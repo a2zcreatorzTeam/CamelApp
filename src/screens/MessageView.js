@@ -186,19 +186,19 @@ const MessageView = ({route}) => {
   const [dataSource, setDataSource] = useState([]);
   const reciever_id = route.params.messageData.id;
   const user_id = useSelector(state => state?.user?.user?.user?.id);
-  handlePress = useCallback(
-    function () {
-      console.log(inputValue, reciever_id, 'rereree');
-      setIsLoading(true);
-      firebaseService
-        .createMessage({message: inputValue, uid: reciever_id})
-        .then(function () {
-          setIsLoading(false);
-          setInputValue('');
-        });
-    },
-    [inputValue],
-  );
+  handlePress =
+    useCallback();
+    // function () {
+    //   console.log(inputValue, reciever_id, 'rereree');
+    //   setIsLoading(true);
+    //   firebaseService
+    //     .createMessage({message: inputValue, uid: reciever_id})
+    //     .then(function () {
+    //       setIsLoading(false);
+    //       setInputValue('');
+    //     });
+    // },
+    // [inputValue],
 
   const listenForMessages = (roomId, callback) => {
     const messageRef = firebase.database().ref(`/chatRooms/${roomId}/messages`);
@@ -220,11 +220,11 @@ const MessageView = ({route}) => {
   //     [false],
 
   useEffect(() => {
-    firebaseService
-      .checkOrCreateChatRoom(user_id, reciever_id)
-      .then(function () {
-        console.log('checkOrCreateChatRoom');
-      });
+    // firebaseService
+    //   .checkOrCreateChatRoom(user_id, reciever_id)
+    //   .then(function () {
+    //     console.log('checkOrCreateChatRoom');
+    //   });
     //     listenForMessages(roomId, message => {
     //       // Update the chat interface with the new message
     //       //   updateChatInterface(message);

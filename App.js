@@ -11,6 +11,7 @@ import {connect} from 'react-redux';
 import * as userActions from './src/redux/actions/user_actions';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
+import firebaseConfig from './src/components/firebase';
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(['Remote debugger']);
 const toastConfig = {
@@ -47,14 +48,7 @@ const toastConfig = {
     />
   ),
 };
-const firebaseConfig = {
-  apiKey: 'AIzaSyAguTlA_7WF9OnOR1PUDYAdYb-o3DoHOnU',
-  authDomain: 'camelapplication-6fcab.firebaseapp.com',
-  projectId: 'camelapplication-6fcab',
-  storageBucket: 'camelapplication-6fcab.appspot.com',
-  messagingSenderId: '641063387947',
-  appId: '1:641063387947:web:88d1a1585dd866a7c1bb6e',
-};
+
 class App extends Component {
   async checkUser() {
     const userPhone = await AsyncStorage.getItem('@UserPhone');
@@ -89,9 +83,12 @@ class App extends Component {
   componentDidMount() {
     SplashScreen.hide();
     this.checkUser();
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
+    // let app;
+    // if (firebase.apps.length === 0) {
+    //   app = firebase.initializeApp(firebaseConfig);
+    // } else {
+    //   app = firebase.app();
+    // }
   }
   render() {
     const backgroundStyle = {

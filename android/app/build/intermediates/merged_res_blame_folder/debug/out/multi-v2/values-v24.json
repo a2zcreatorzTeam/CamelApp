@@ -4,7 +4,7 @@
             "outputFile": "com.alsyahd.app-mergeDebugResources-41:/values-v24/values-v24.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\joti.kumari\\.gradle\\caches\\transforms-3\\83445e1e40ac16980ab69ece4da013c8\\transformed\\appcompat-1.4.1\\res\\values-v24\\values-v24.xml",
+                    "source": "/Users/a2zcreatorz/.gradle/caches/transforms-3/83445e1e40ac16980ab69ece4da013c8/transformed/appcompat-1.4.1/res/values-v24/values-v24.xml",
                     "from": {
                         "startLines": "2,3",
                         "startColumns": "4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\joti.kumari\\.gradle\\caches\\transforms-3\\49dc70b3c7046909091a5579c2f1ea43\\transformed\\media-1.2.1\\res\\values-v24\\values-v24.xml",
+                    "source": "/Users/a2zcreatorz/.gradle/caches/transforms-3/49dc70b3c7046909091a5579c2f1ea43/transformed/media-1.2.1/res/values-v24/values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

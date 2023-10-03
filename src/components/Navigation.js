@@ -440,7 +440,10 @@ export default function Navigation() {
 
         <Stack.Screen name="FriendList" component={FriendList} />
 
-        <Stack.Screen name="GroupChat" component={GroupChat} />
+        <Stack.Screen name="GroupChat" component={GroupChat} 
+          options={{headerShown: false}}
+        
+        />
 
         <Stack.Screen name="CreateGroup" component={CreateGroup} />
       </Stack.Navigator>

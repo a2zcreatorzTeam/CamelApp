@@ -17,18 +17,18 @@ local.properties
 
 # Node artifact files
 
-android/
-.android/
-android
+# android/
+# .android/
+# android
 # node.js
 #
 npm-debug.log
 yarn-error.log
 
 
-android/
-.android/
-android
+# android/
+# .android/
+# android
 node_modules/
 dist/
 ios/

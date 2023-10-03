@@ -25,18 +25,18 @@ const Groups = prop => {
 
   // console.log("****");
 
-  const getGrouplist = async () => {
-    // let { id } = prop.user.user.user;
-    try {
-      const fetchData = await camelapp.get(
-        '/getgrouplist/' + prop.user.user.user.id,
-      );
-      setGroupList(fetchData?.data);
-      console.log('fetchData group list', fetchData.data);
-    } catch (error) {
-      console.log(error, '=====ERROR OF Group LIST API===');
-    }
-  };
+  // const getGrouplist = async () => {
+  //   // let { id } = prop.user.user.user;
+  //   try {
+  //     const fetchData = await camelapp.get(
+  //       '/getgrouplist/' + prop.user.user.user.id,
+  //     );
+  //     setGroupList(fetchData?.data);
+  //     console.log('fetchData group list', fetchData.data);
+  //   } catch (error) {
+  //     console.log(error, '=====ERROR OF Group LIST API===');
+  //   }
+  // };
 
   // Function to get the document ID for a specific user ID
   const getDocumentIdForUserId = async () => {
@@ -44,53 +44,46 @@ const Groups = prop => {
 
     console.log(userId, 'userIduserIduserId');
     try {
-      let data =null
+      let data = null;
       //where('users','==',userId)
-      const querySnapshot1 = await firestore().collection('groupChat').where('users','==',userId).get();
+      const querySnapshot1 = await firestore()
+        .collection('groupChat')
+        .where('users', '==', userId)
+        .get();
       const querySnapshot2 = await firestore()
         .collection('groupChat')
-        .where('members', 'array-contains', 189)
+        .where('members', 'array-contains', userId)
         .get();
-        if(querySnapshot1?.docs?.length){
-           data = querySnapshot1.docs.map(doc => ({
-            id: doc.id,
-            data: doc.data(),
-          }));
-          console.log("first",querySnapshot1?.docs)
-      setGroupList(data);
+      if (querySnapshot1?.docs?.length) {
+        data = querySnapshot1.docs.map(doc => ({
+          id: doc.id,
+          data: doc.data(),
+        }));
+        console.log('first', querySnapshot1?.docs);
+        setGroupList(data);
+      }
+      if (querySnapshot2?.docs?.length) {
+        data = querySnapshot2.docs.map(doc => ({
+          id: doc.id,
+          data: doc.data(),
+        }));
+        console.log('second', querySnapshot2?.docs);
+        setGroupList(data);
+      }
+      var temData = [];
+      if (querySnapshot2?.docs?.length && querySnapshot1?.docs?.length) {
+        var temData = querySnapshot1.docs.map(doc => ({
+          id: doc.id,
+          data: doc.data(),
+        }));
+        data = querySnapshot2.docs.map(doc => ({
+          id: doc.id,
+          data: doc.data(),
+        }));
+        const newData = temData.concat(data);
 
-        } 
-        if(querySnapshot2?.docs?.length){
-           data = querySnapshot2.docs.map(doc => ({
-            id: doc.id,
-            data: doc.data(),
-          }));
-          console.log("second",querySnapshot2?.docs)
-      setGroupList(data);
-
-
-        } 
-        var temData = []
-        if(querySnapshot2?.docs?.length && querySnapshot1?.docs?.length){
-         var temData =  querySnapshot1.docs.map(doc => ({
-            id: doc.id,
-            data: doc.data(),
-          }));
-          data = querySnapshot2.docs.map(doc => ({
-           id: doc.id,
-           data: doc.data(),
-         }));
-         temData.concat(data)
-         console.log("third",temData)
-      setGroupList(temData);
-
-
-       } 
-
-      console.log(
-        'Query Snapshot:23ssjjj',
-        data,
-      );
+        setGroupList(newData);
+      }
 
       // if (!querySnapshot.empty) {
       //   // Assuming there is only one matching document
@@ -112,7 +105,7 @@ const Groups = prop => {
     // getGrouplist();
     getDocumentIdForUserId();
   }, [isFocused]);
-
+console.log(groupList,"groupListgroupList")
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       {/* Create Group Button*/}
@@ -122,7 +115,7 @@ const Groups = prop => {
         onPress={() =>
           prop.navigation.navigate('CreateGroup', {
             userID: prop.user.user.user.id,
-            refreshGrouplist: getGrouplist,
+            // refreshGrouplist: getGrouplist,
           })
         }>
         <Ionicons name="add" size={30} color="#fff" />
@@ -131,11 +124,12 @@ const Groups = prop => {
       <FlatList
         data={groupList}
         renderItem={({item}) => {
+          console.log(item,'kssskkkkj')
           return (
             // item?.status == 1 && (
             <TouchableWithoutFeedback
               onPress={() =>
-                prop.navigation.navigate('GroupChat', {group_id: item?.id})
+                prop.navigation.navigate('GroupChat', {group_id: item?.id, groupName:item?.data?.groupName, groupUserData:item?.data?.groupUserDetails})
               }>
               <View style={styles.groupContainer}>
                 <View style={{width: '80%'}}>

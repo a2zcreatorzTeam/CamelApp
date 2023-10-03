@@ -119,25 +119,19 @@ export default class App extends Component {
   }
   submitOTP(signUpUser) {
     this.setState({loader: true});
-
     let number =
       this.state.one + this.state.two + this.state.three + this.state.four;
-
     //console.log("number", number);
-
     //console.log("previous number", this.state.number)
-   
+  
       if (this.state.password.length > 5) {
         if (this.state.password === this.state.confirm_password) {
-         
             camelapp
               .post('password/reset', {
                 phone: this.state.phone,
                 password: this.state.password,
               })
               .then(response => {
-       
-
                 if (response.data.status === true) {
                     alert(response?.data?.message)
                     setTimeout(() => {

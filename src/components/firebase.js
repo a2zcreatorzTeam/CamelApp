@@ -11,7 +11,7 @@ const firebaseConfig = {
   messagingSenderId: '1093363753866',
   appId: '1:1093363753866:android:0da83e8422a946853c5e73',
   databaseURL: "https://camelapplication-f93a0-default-rtdb.firebaseio.com",
-  storageBucket:"camelapplication-f93a0.appspot.com"
+  storageBucket:"camelapplication-f93a0/storage/camelapplication-f93a0.appspot.com/files"
 };
 export default firebaseConfig;
 

@@ -12,6 +12,7 @@ import * as userActions from './src/redux/actions/user_actions';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
 import firebaseConfig from './src/components/firebase';
+import {getStorage} from 'firebase/storage';
 
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(['Remote debugger']);
@@ -87,6 +88,7 @@ class App extends Component {
     let app;
     if (firebase.apps.length === 0) {
       app = firebase.initializeApp(firebaseConfig);
+      const storage = getStorage(app);
     } else {
       app = firebase.app();
     }

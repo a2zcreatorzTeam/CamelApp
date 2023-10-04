@@ -234,7 +234,7 @@ const MessageView = ({route}) => {
   //   );
 
   _renderItem = ({item, index}) => {
-    let {user} = this.props;
+    const formattedDateTime = moment.unix(item?.timestamp).format('HH:mm:ss');
     let sender_id = user.user.user.id;
     return item.sender_id == sender_id ? (
       <Card style={Styles.text_send}>
@@ -255,7 +255,6 @@ const MessageView = ({route}) => {
 
   return (
     <View
-      //style={Styles.containerMessageView}
       style={{flex: 1, width: width, height: hight}}>
       <FlatList
         data={dataSource}

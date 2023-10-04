@@ -297,7 +297,7 @@ class UserProfile extends Component {
             type: 'success',
             text1: 'Friend request has been sent.',
           });
-          // Alert.alert('Friend request has been sent.');
+          Alert.alert('Friend request has been sent.');
         })
         .catch(error => {
           console.log(error, '<<<<====Add friend Request error');

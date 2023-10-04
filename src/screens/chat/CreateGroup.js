@@ -89,7 +89,8 @@ const CreateGroup = props => {
   const getFriendlist = async () => {
     try {
       // userID user id statc
-      const fetchfriendlist = await camelapp.get('/friendlist/' + 188);
+      console.log(userID,"GJGJG")
+      const fetchfriendlist = await camelapp.get('/friendlist/' + userID);
       console.log(fetchfriendlist?.data, 'fetchfriendlist');
       setFriendList(fetchfriendlist?.data);
     } catch (error) {
@@ -173,8 +174,8 @@ const CreateGroup = props => {
     let tempArray = [];
 
         newParticipant?.forEach(e => {
-           
-            tempArray.push(e)
+ 
+            tempArray.push(e?.firend_id)
         });
         if(tempArray?.length){
 

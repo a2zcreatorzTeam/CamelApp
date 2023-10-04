@@ -544,9 +544,9 @@ const GroupChat = props => {
                     //   }}
                     // />
                   )}
-                  {item?.location !== null && (
+                  {/* {item?.location == null && (
                     <>
-                      {/* <Text
+           <Text
                         style={{
                           color: '#d2691e',
                           fontSize: 13,
@@ -554,7 +554,7 @@ const GroupChat = props => {
                           marginBottom: 7,
                         }}>
                         {item?.sender}
-                      </Text> */}
+                      </Text> 
                       <TouchableOpacity
                         style={styles.chatImageContainer}
                         onPress={() => proceed(item?.location)}>
@@ -564,7 +564,7 @@ const GroupChat = props => {
                         />
                       </TouchableOpacity>
                     </>
-                  )}
+                  )} */}
                 </View>
               )}
             </View>

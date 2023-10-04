@@ -38,15 +38,12 @@ class Messages extends Component {
 
   getUsersDetails = async data => {
     try {
-      return await camelapp
-        .post('getMultipleUsersDetails', {
-          users: data,
-        })
-        .then(res => {
-          console.log('responsee', res);
-        });
+      return await camelapp.post('getMultipleUsersDetails', data).then(res => {
+        this.setState({userList: res?.data});
+        console.log(res?.data, 'data44');
+      });
     } catch (error) {
-      console.log('Error Message--- view post', error);
+      console.log('Error Message--- view post', error?.response);
     }
   };
   getUserDropList(user_id) {
@@ -71,14 +68,15 @@ class Messages extends Component {
     // return () => {
     //   unsubscribe();
     // };
+    console.log('unsubbbb');
     const unsubscribe = chatRoomsRef.onSnapshot(async querySnapshot => {
       const usersData = [];
       for (const doc of querySnapshot.docs) {
         const chatRoomData = doc.data();
+        console.log(chatRoomData, 'chatRoomDattaa');
         const otherUserId = Object.keys(chatRoomData.members).find(
-          userId => userId !== currentUser,
+          userId => userId != currentUser,
         );
-
         // Query the messages subcollection to get the last message
         const lastMessageQuery = await firestore()
           .collection('chats')
@@ -102,6 +100,7 @@ class Messages extends Component {
       }
       usersData.sort((a, b) => b.timestamp - a.timestamp);
       this.getUsersDetails(usersData);
+      console.log(usersData, 'userData');
       this.setState({getUserDropList: usersData});
     });
     return () => {
@@ -154,7 +153,7 @@ class Messages extends Component {
     this.props.navigation.navigate('MessageNew', {messageData: item});
   };
   ScrollToRefresh() {
-    this.viewPosts();
+    this.checkUserLogedIn();
     this.setState({refreshing: false});
   }
 
@@ -283,22 +282,22 @@ class Messages extends Component {
       );
     };
     return (
-      // <SafeAreaView style={{flex: 1}}>
       <View
         style={{flex: 1, backgroundColor: '#fff', width: width, height: hight}}>
         <FlatList
+          initialNumToRender={userList?.length}
           refreshControl={
             <RefreshControl
               refreshing={this.state.refreshing}
               onRefresh={() => this.ScrollToRefresh()}
             />
           }
-          contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}
+          contentContainerStyle={{flexGrow: 1}}
           style={{flex: 1}}
           ListEmptyComponent={() => <EmptyComponent />}
-          data={this.state.getMessagesList}
+          data={userList}
           renderItem={renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.id.toString()}
         />
         {this.state.modal && (
           <Modal transparent={true} visible={this.state.modal}>

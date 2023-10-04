@@ -25,6 +25,7 @@ import {checkOrCreateChatRoom, sendMessage} from '../services';
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
+import BackBtnHeader from '../components/headerWithBackBtn';
 // class MessageView extends Component {
 //   constructor(props) {
 //     super(props);
@@ -217,8 +218,7 @@ const MessageView = ({route}) => {
         querySnapshot.forEach(doc => {
           newMessages.push(doc.data());
         });
-        setDataSource(newMessages);
-        setKey(!key);
+        setDataSource(newMessages?.reverse());
       });
 
     return () => {
@@ -252,8 +252,9 @@ const MessageView = ({route}) => {
       <View
       style={{flex: 1, width: width, height: hight}}>
       <FlatList
+      contentContainerStyle={{marginTop:10}}
+        inverted
         initialNumToRender={dataSource?.length}
-        key={key}
         data={dataSource}
         renderItem={this._renderItem}
         keyExtractor={(item, index) => index.toString()}

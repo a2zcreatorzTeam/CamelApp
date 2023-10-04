@@ -12,6 +12,7 @@ import * as userActions from './src/redux/actions/user_actions';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
 import firebaseConfig from './src/components/firebase';
+
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(['Remote debugger']);
 const toastConfig = {

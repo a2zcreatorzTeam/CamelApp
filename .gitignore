@@ -25,6 +25,10 @@ android
 npm-debug.log
 yarn-error.log
 
+
+android/
+.android/
+android
 node_modules/
 dist/
 ios/

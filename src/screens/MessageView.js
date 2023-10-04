@@ -25,6 +25,7 @@ import {checkOrCreateChatRoom, sendMessage} from '../services';
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
+import BackBtnHeader from '../components/headerWithBackBtn';
 // class MessageView extends Component {
 //   constructor(props) {
 //     super(props);
@@ -191,7 +192,6 @@ const MessageView = ({route}) => {
     user_id < reciever_id
       ? `${user_id}_${reciever_id}`
       : `${reciever_id}_${user_id}`;
-
   handlePress = () => {
     sendMessage(user_id, inputValue, chatRoomId).then(success => {
       success && setInputValue('');
@@ -206,17 +206,6 @@ const MessageView = ({route}) => {
     });
   };
 
-  //   useEffect(
-  //     function () {
-  //       return firebaseService.messageRef
-  //         .orderBy('created_at', 'desc')
-  //         .onSnapshot(function (snapshot) {
-  //           console.log(snapshot?.docs, 'snapshotsnapshot');
-  //           //   dispatchMessages({type: 'add', payload: snapshot.docs});
-  //         });
-  //     },
-  //     [false],
-
   useEffect(() => {
     checkOrCreateChatRoom(chatRoomId, user_id, reciever_id);
     const unsubscribe = firestore()
@@ -229,8 +218,7 @@ const MessageView = ({route}) => {
         querySnapshot.forEach(doc => {
           newMessages.push(doc.data());
         });
-        setDataSource(newMessages);
-        setKey(!key);
+        setDataSource(newMessages?.reverse());
       });
 
     return () => {
@@ -259,16 +247,23 @@ const MessageView = ({route}) => {
     );
   };
 
-  return (
-    <View style={{flex: 1, width: width, height: hight}}>
+  RenderList = () => {
+    return (
       <FlatList
+      contentContainerStyle={{marginTop:10}}
+        inverted
         initialNumToRender={dataSource?.length}
-        key={key}
         data={dataSource}
         renderItem={this._renderItem}
         keyExtractor={(item, index) => index.toString()}
       />
+    );
+  };
 
+  return (
+    <View style={{flex: 1, width: width, height: hight}}>
+      <BackBtnHeader />
+      <RenderList />
       <View style={Styles.msgbar}>
         <TouchableOpacity
           style={{left: 5, position: 'absolute', bottom: 0, marginRight: 10}}>

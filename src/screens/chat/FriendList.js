@@ -28,7 +28,7 @@ const FriendList = prop => {
       const fetchData = await camelapp.get(
         '/getfriendrequest/' + prop?.user?.user?.user?.id,
       );
-      fetchData?.data?.friendRequest?.length &&
+      fetchData?.data?.FriendRequest?.length &&
         setFriendRequest(fetchData?.data?.FriendRequest);
       setKey(!key);
     } catch (error) {

@@ -38,38 +38,79 @@ const Groups = prop => {
     }
   };
 
-// Function to get the document ID for a specific user ID
-const getDocumentIdForUserId = async () => {
-  const userId = prop?.user?.user?.user?.id
-  console.log(userId,"userIduserIduserId")
-  try {
-    //where('users','==',userId)
-    const querySnapshot = await firestore().collection('groupChat').where('members', 'array-contains', { friend_id: 189 }).get();
-const data = querySnapshot.docs.map(doc => ({ id: doc.id, data: doc.data() }))
+  // Function to get the document ID for a specific user ID
+  const getDocumentIdForUserId = async () => {
+    const userId = prop?.user?.user?.user?.id;
 
-setGroupList(data);
-    console.log('Query Snapshot:23', querySnapshot.docs.map(doc => ({ id: doc.id, data: doc.data() })));
+    console.log(userId, 'userIduserIduserId');
+    try {
+      let data =null
+      //where('users','==',userId)
+      const querySnapshot1 = await firestore().collection('groupChat').where('users','==',userId).get();
+      const querySnapshot2 = await firestore()
+        .collection('groupChat')
+        .where('members', 'array-contains', 189)
+        .get();
+        if(querySnapshot1?.docs?.length){
+           data = querySnapshot1.docs.map(doc => ({
+            id: doc.id,
+            data: doc.data(),
+          }));
+          console.log("first",querySnapshot1?.docs)
+      setGroupList(data);
 
-    if (!querySnapshot.empty) {
-      // Assuming there is only one matching document
-      const documentId = querySnapshot.docs[0].id;
-      console.log('Document ID:', documentId);
-      return documentId;
-    } else {
-      console.error('User not found in the collection');
+        } 
+        if(querySnapshot2?.docs?.length){
+           data = querySnapshot2.docs.map(doc => ({
+            id: doc.id,
+            data: doc.data(),
+          }));
+          console.log("second",querySnapshot2?.docs)
+      setGroupList(data);
+
+
+        } 
+        var temData = []
+        if(querySnapshot2?.docs?.length && querySnapshot1?.docs?.length){
+         var temData =  querySnapshot1.docs.map(doc => ({
+            id: doc.id,
+            data: doc.data(),
+          }));
+          data = querySnapshot2.docs.map(doc => ({
+           id: doc.id,
+           data: doc.data(),
+         }));
+         temData.concat(data)
+         console.log("third",temData)
+      setGroupList(temData);
+
+
+       } 
+
+      console.log(
+        'Query Snapshot:23ssjjj',
+        data,
+      );
+
+      // if (!querySnapshot.empty) {
+      //   // Assuming there is only one matching document
+      //   const documentId = querySnapshot.docs[0].id;
+      //   console.log('Document ID:', documentId);
+      //   return documentId;
+      // } else {
+      //   console.error('User not found in the collection');
+      //   return null;
+      // }
+    } catch (error) {
+      console.error('Error getting document ID:', error);
       return null;
     }
-  } catch (error) {
-  console.error('Error getting document ID:', error);
-  return null;
-}
-};
-
+  };
 
   const isFocused = useIsFocused();
   useEffect(() => {
     // getGrouplist();
-    getDocumentIdForUserId()
+    getDocumentIdForUserId();
   }, [isFocused]);
 
   return (
@@ -90,27 +131,26 @@ setGroupList(data);
       <FlatList
         data={groupList}
         renderItem={({item}) => {
-      
           return (
             // item?.status == 1 && (
-              <TouchableWithoutFeedback
-                onPress={() =>
-                  prop.navigation.navigate('GroupChat', {group_id: item?.id})
-                }>
-                <View style={styles.groupContainer}>
-                  <View style={{width: '80%'}}>
-                    <Text style={styles.groupName}>{item?.data?.groupName}</Text>
-                    {/* <Text style={styles.userName} >الفو توشوب <Text style={styles.lastMessage}>
+            <TouchableWithoutFeedback
+              onPress={() =>
+                prop.navigation.navigate('GroupChat', {group_id: item?.id})
+              }>
+              <View style={styles.groupContainer}>
+                <View style={{width: '80%'}}>
+                  <Text style={styles.groupName}>{item?.data?.groupName}</Text>
+                  {/* <Text style={styles.userName} >الفو توشوب <Text style={styles.lastMessage}>
                                         اربك تكست هو اول موقع يسمح لزواره الكرام بتحويل الكتابة العربي
                                     </Text></Text> */}
-                  </View>
+                </View>
 
-                  {/* <View style={styles.groupImageContainer}>
+                {/* <View style={styles.groupImageContainer}>
                                     <Image source={require("../../../assets/splashimg.png")}
                                         style={styles.groupImageStyle} />
                                 </View> */}
-                </View>
-              </TouchableWithoutFeedback>
+              </View>
+            </TouchableWithoutFeedback>
             // )
           );
         }}

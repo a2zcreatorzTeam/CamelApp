@@ -213,7 +213,7 @@ export default function Navigation() {
         <Stack.Screen
           name="MessageViewScreen"
           component={MessageView}
-          options={{header: () => <Header />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="MessageNew"

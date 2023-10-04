@@ -2,12 +2,29 @@
 # You should customize this list as applicable to your project.
 # Learn more about .gitignore:
 #     https://www.atlassian.com/git/tutorials/saving-changes/gitignore
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+local.properties
+*.iml
+*.hprof
+.cxx/
+*.keystore
+!debug.keystore
+
 
 # Node artifact files
 
 android/
 .android/
 android
+# node.js
+#
+npm-debug.log
+yarn-error.log
+
 node_modules/
 dist/
 ios/

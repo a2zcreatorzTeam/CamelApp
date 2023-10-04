@@ -29,6 +29,8 @@ import GetLocation from 'react-native-get-location';
 const {width, height} = Dimensions.get('window');
 import Video from 'react-native-video';
 import VideoModal from '../../components/VideoModal';
+import firestore from '@react-native-firebase/firestore';
+
 const GroupChat = props => {
   const flatListRef = useRef();
   const [inputValue, setInputValue] = useState('');
@@ -147,7 +149,51 @@ const GroupChat = props => {
       await Linking.openURL(url);
     }
   };
+
   const postGroupChat = async () => {
+    const groupDocumentId = props?.route?.params?.group_id;
+    try {
+      if (groupDocumentId) {
+        // Add the message to a subcollection within the group document
+        await firestore()
+          .collection('groupChat') // Replace with your actual collection name
+          .doc(groupDocumentId)
+          .collection('messages')
+          .add({
+            senderId: user?.user?.user?.id, // Replace with the actual sender user ID
+            message: inputValue,
+          });
+        getDocumentIdForUserId();
+
+        console.log('Message sent successfully');
+        setInputValue('');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+  };
+
+  const getDocumentIdForUserId = async () => {
+    const groupDocumentId = props?.route?.params?.group_id;
+    console.log(groupDocumentId);
+    const querySnapshot = await firestore()
+      .collection('groupChat')
+      .doc(groupDocumentId)
+      .collection('messages')
+      .get();
+
+    // Extract the messages from the query snapshot
+    const messages = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    console.log('Messages for Group:', messages);
+    setGroupChat(messages);
+    return messages;
+  };
+
+  const postGroupChatssss = async () => {
     const locations = `${lat},${long}`;
 
     try {
@@ -174,6 +220,7 @@ const GroupChat = props => {
         console.log('====================================');
         console.log(paramsData);
         console.log('====================================');
+
         await camelapp.post('/sendmsg', paramsData).then(res => {
           setLoader(false);
           setInputValue('');
@@ -192,16 +239,16 @@ const GroupChat = props => {
   };
 
   const getGroupChat = async () => {
-    try {
-      console.log('group_id', group_id);
-      const fetchConversation = await camelapp.get(
-        '/getgroupconversation/' + group_id,
-      );
-      setGroupChat({chatData: fetchConversation.data});
-      console.log(fetchConversation.data, '========GET chat DATA');
-    } catch (error) {
-      console.log(error, '<<<<getGroupChat ERROR');
-    }
+    // try {
+    //   console.log('group_id', group_id);
+    //   const fetchConversation = await camelapp.get(
+    //     '/getgroupconversation/' + group_id,
+    //   );
+    //   setGroupChat({chatData: fetchConversation.data});
+    //   console.log(fetchConversation.data, '========GET chat DATA');
+    // } catch (error) {
+    //   console.log(error, '<<<<getGroupChat ERROR');
+    // }
   };
   const selectOneFile = async () => {
     ImageCropPicker.openPicker({
@@ -265,18 +312,20 @@ const GroupChat = props => {
     // setGroupChat( tempArray)
   };
   useEffect(() => {
+    getDocumentIdForUserId();
     requestLocationPermission();
     setTimeout(() => {
-      getGroupChat();
+      // getGroupChat();
     }, 500);
   }, []);
   useEffect(() => {
     const focusListner = navigation.addListener('focus', async () => {
       // toTop()
-      getGroupChat();
+      // getGroupChat();
     });
     return focusListner;
   }, []);
+  console.log(user?.user?.user, 'inputValue');
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <FlatList
@@ -284,12 +333,12 @@ const GroupChat = props => {
 
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingBottom: 55}}
-        data={groupChat.chatData}
+        data={groupChat}
         renderItem={({item, index}) => {
           return (
             <View>
               {/* Right side messages */}
-              {item.sender_id === user.user.user.id ? (
+              {item?.senderId === user?.user?.user?.id ? (
                 <View>
                   <Card style={Styles.text_send}>
                     <Text
@@ -355,7 +404,7 @@ const GroupChat = props => {
                     // </View>
                   )}
 
-                  {item?.location !== null && (
+                  {item?.location && (
                     <>
                       {/* <Text
                         style={{
@@ -583,7 +632,7 @@ const GroupChat = props => {
           <View style={{width: '90%', right: 8, position: 'absolute'}}>
             <TextInput
               style={{width: '100%', textAlign: 'right', color: '#000'}}
-              placeholder={ArabicText.Message}
+              placeholder={ArabicText?.Message}
               placeholderTextColor="#b0b0b0"
               onChangeText={text => setInputValue(text)}
               value={inputValue}

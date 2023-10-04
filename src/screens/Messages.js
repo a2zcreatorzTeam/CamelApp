@@ -40,7 +40,6 @@ class Messages extends Component {
     try {
       return await camelapp.post('getMultipleUsersDetails', data).then(res => {
         this.setState({userList: res?.data});
-        console.log(res?.data, 'data44');
       });
     } catch (error) {
       console.log('Error Message--- view post', error?.response);
@@ -88,12 +87,17 @@ class Messages extends Component {
 
         const lastMessageDoc = lastMessageQuery.docs[0];
         const lastMessageData = lastMessageDoc ? lastMessageDoc.data() : null;
+        console.log(lastMessageData, 'lastMessageDatalastMessageData');
         // Fetch user details for the other user
         if (lastMessageData && user_id) {
           const userWithLastMessage = {
             id: otherUserId,
-            message: lastMessageData.text,
+            message: lastMessageData?.text ? lastMessageData?.text : '',
             timestamp: lastMessageData.timestamp,
+            location:
+              lastMessageData?.latitude && lastMessageData?.longitude
+                ? true
+                : false,
           };
           usersData.push(userWithLastMessage);
         }

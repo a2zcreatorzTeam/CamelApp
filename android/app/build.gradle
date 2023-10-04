@@ -259,6 +259,8 @@ dependencies {
     // implementation "com.google.firebase:firebase-core:16.0.9"
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation("com.google.firebase:firebase-storage")
+    // implementation 'com.google.firebase:firebase-storage:14.12.0' // Check the latest version
+
 
     implementation project(':react-native-splash-screen')
     implementation fileTree(dir: "libs", include: ["*.jar"])

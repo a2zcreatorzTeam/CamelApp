@@ -27,6 +27,7 @@ import {checkOrCreateChatRoom, sendMessage} from '../services';
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
+import BackBtnHeader from '../components/headerWithBackBtn';
 // class MessageView extends Component {
 //   constructor(props) {
 //     super(props);
@@ -193,7 +194,6 @@ const MessageView = ({route}) => {
     user_id < reciever_id
       ? `${user_id}_${reciever_id}`
       : `${reciever_id}_${user_id}`;
-
   handlePress = () => {
     sendMessage(user_id, inputValue, chatRoomId).then(success => {
       success && setInputValue('');
@@ -219,8 +219,7 @@ const MessageView = ({route}) => {
         querySnapshot.forEach(doc => {
           newMessages.push(doc.data());
         });
-        setDataSource(newMessages);
-        setKey(!key);
+        setDataSource(newMessages?.reverse());
       });
 
     return () => {
@@ -251,195 +250,22 @@ const MessageView = ({route}) => {
 
   RenderList = () => {
     return (
-      <View
-      style={{flex: 1, width: width, height: hight}}>
       <FlatList
+      contentContainerStyle={{marginTop:10}}
+        inverted
         initialNumToRender={dataSource?.length}
-        key={key}
         data={dataSource}
         renderItem={this._renderItem}
         keyExtractor={(item, index) => index.toString()}
       />
-      </View>
     );
   };
 
-  const requestLocationPermission = async () => {
-    try {
-      await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: `Alsyahd Mobile App`,
-          message: 'Alsyahd needs location access to get your current location',
-
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        },
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('You can use the location');
-        alert('You can use the location');
-      } else {
-        console.log('location permission denied');
-        alert('Location permission denied');
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const getLocation = () => {
-    GetLocation.getCurrentPosition({
-      enableHighAccuracy: true,
-      timeout: 15000,
-    })
-      .then(location => {
-        setlat(location?.latitude);
-        setlong(location?.longitude);
-        setImage('');
-        setVideo('');
-        handlePress();
-      })
-      .catch(error => {
-        const {code, message} = error;
-        console.warn(code, message);
-      });
-  };
-  const openGallery = () => {
-    ImageCropPicker.openPicker({
-      mediaType: 'photo',
-      multiple: false,
-      includeBase64: true,
-      selectionLimit: 1,
-    })
-      .then(async images => {
-        if (images) {
-          setImage({
-            // image: undefined,
-            pickedImage: 'data:image/png;base64,' + images?.data,
-            imageShow: images?.path,
-            mediaType: images?.mime,
-          });
-          setlat('');
-          setlong('');
-          setVideo('');
-          setConfirmModal(true);
-          setModalVisible(false);
-          console.log('imagesa', 'data:image/png;base64' + images?.data);
-        } else {
-        }
-      })
-      .catch(error => {
-        console.log('error', error);
-      });
-    // setModalVisible(false)
-  };
-  const selectOneFile = async () => {
-    ImageCropPicker.openPicker({
-      mediaType: 'video',
-    }).then(async video => {
-      setMimeVideo(video?.mime);
-      if (video) {
-        if (video?.size > 10000000) {
-          alert('Video must be less then 10 MB');
-        } else {
-          RNFS.readFile(video.path, 'base64')
-            .then(res => {
-              console.log('res====>', res);
-              setVideo(res);
-              setlat('');
-              setlong('');
-              setImage('');
-              setConfirmModal(true);
-
-              // this.setState({ videoForPost: "data:video/mp4;base64," + res });
-              // let tempMixed = this.state.mixed;
-              // let mixed = this.state.mixed;
-              // let videoFlag = false;
-              // if (tempMixed.length > 0) {
-              //   tempMixed.map((item, index) => {
-              //     if (item?.mime != undefined) {
-
-              //       if (item?.mime.includes("video") === true) {
-              //         mixed[index] = video
-              //         videoFlag = true;
-              //       }
-              //     }
-              //   })
-              //   if (videoFlag === false) {
-              //     mixed.push(video);
-              //   }
-              //   this.setState({ mixed: mixed, video: video });
-              // } else {
-              //   tempMixed.push(video);
-              //   this.setState({ mixed: tempMixed, video: video });
-              // }
-            })
-            .catch(err => {
-              console.log(err.message, err.code);
-            });
-        }
-      } else {
-        alert('Please select the video.');
-      }
-    });
-  };
   return (
     <View style={{flex: 1, width: width, height: hight}}>
       <BackBtnHeader />
       <RenderList />
-      <View style={styles.inputContainer}>
-        <View
-          style={{
-            width: '10%',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <TouchableOpacity onPress={() => handlePress()}>
-            {loader ? (
-              <ActivityIndicator size={20} color={'orange'} />
-            ) : (
-              <Feather
-                name="send"
-                size={30}
-                color="#D2691E"
-                style={{
-                  transform: [{rotate: '225deg'}],
-                }}
-              />
-            )}
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.inputWrapper}>
-          {/* {image ? (
-            <Image
-              source={{uri: image?.imageShow}}
-              style={{width: 30, height: 30, right: -40}}
-            />
-          ) : null}
-          {video ? (
-            <Image
-              source={require('../../assets/videoImage.png')}
-              style={{width: 30, height: 30, right: -40}}
-            />
-          ) : null}
-          {lat ? (
-            <Image
-              source={require('../../assets/maps.jpg')}
-              style={{width: 30, height: 30, right: -40}}
-            />
-          ) : null} */}
-          <View style={{width: '90%', right: 8, position: 'absolute'}}>
-            <TextInput
-              style={{width: '100%', textAlign: 'right', color: '#000'}}
-              placeholder={ArabicText?.Message}
-              placeholderTextColor="#b0b0b0"
-              onChangeText={text => setInputValue(text)}
-              value={inputValue}
-            />
-          </View>
-        </View>
+      <View style={Styles.msgbar}>
         <TouchableOpacity
           onPress={() => setModalVisible(true)}
           style={{width: '10%'}}>

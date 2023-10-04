@@ -247,7 +247,6 @@ const MessageView = ({route}) => {
   }, []);
 
   _renderItem = ({item, index}) => {
-    console.log(item?.imageUrl, 'item?.longitude, item');
     const formattedDateTime = moment.unix(item?.timestamp).format('HH:mm:ss');
     let sender_id = user.user.user.id;
     return item?.sender == sender_id ? (

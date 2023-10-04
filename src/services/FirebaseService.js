@@ -1,10 +1,6 @@
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
-import database from '@react-native-firebase/database';
-// import {COLLECTIONS} from '../constants';
-import {COLLECTIONS} from '../constants/index';
-import {getDatabase, ref, set} from 'firebase/database';
-import firebaseConfig from '../components/firebase';
+// import storage from '@react-native-firebase/storage';
 
 const checkOrCreateChatRoom = (chatRoomId, user1, user2) => {
   const chatRoomRef = firestore().collection('chats').doc(chatRoomId);
@@ -32,25 +28,66 @@ const checkOrCreateChatRoom = (chatRoomId, user1, user2) => {
   });
 };
 
-const sendMessage = (user_id, inputValue, chatRoomId) => {
-  console.log(
-    user_id,
-    new Date(),
-    chatRoomId,
-    'user_id, inputValue, chatRoomId',
-  );
+const sendMessage = async (
+  user_id,
+  inputValue,
+  chatRoomId,
+  lat,
+  long,
+  image,
+  video,
+) => {
+  let imageUrl;
+  let videoUrl;
+  // if (image) {
+  //   const imageFileName = `${Date.now()}.png`; // You can generate a unique filename
+  //   const imageRef = storage().ref(`chat_images/${imageFileName}`);
+  //   await imageRef.putFile(image);
+  //   imageUrl = await imageRef.getDownloadURL();
+  // }
+  if (video) {
+    const videoFileName = `${Date.now()}.mp4`; // You can generate a unique filename
+    const videoRef = firebase.storage().ref(`chat_videos/${videoFileName}`);
+    await videoRef.putFile(video);
+    videoUrl = await videoRef.getDownloadURL();
+  }
+  console.log(imageUrl, 'umageurlll');
+
   const newMessage = {
     sender: user_id,
     text: inputValue,
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     date: new Date(),
   };
-
+  const locationObj = {
+    sender: user_id,
+    latitude: lat,
+    longitude: long,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    date: new Date(),
+  };
+  const ImageObj = {
+    sender: user_id,
+    imageUrl: image, // Add the image URL
+    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    date: new Date(),
+  };
+  const videoObj = {
+    sender: user_id,
+    videoUrl: videoUrl, // Add the image URL
+    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    date: new Date(),
+  };
+  console.log(
+    image,
+    lat && long ? locationObj : newMessage,
+    'lat && long ? locationObj : newMessage',
+  );
   const messagesRef = firebase
     .firestore()
     .collection(`chats/${chatRoomId}/messages`);
   return messagesRef
-    .add(newMessage)
+    .add(lat && long ? locationObj : image ? ImageObj : newMessage)
     .then(() => {
       console.log('Message sent successfully');
       return true;

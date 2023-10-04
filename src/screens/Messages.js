@@ -34,14 +34,13 @@ class Messages extends Component {
       getMessagesList: [],
       getUserDropList: [],
       userList: [],
-      loader: false,
     };
   }
   getUsersDetails = async data => {
     try {
       return await camelapp.post('getMultipleUsersDetails', data).then(res => {
         this.setState({userList: res?.data});
-        this.setState({loader: false});
+        console.log(res?.data, 'data44');
       });
     } catch (error) {
       this.setState({loader: false});
@@ -70,6 +69,7 @@ class Messages extends Component {
     // return () => {
     //   unsubscribe();
     // };
+    console.log('unsubbbb');
     const unsubscribe = chatRoomsRef.onSnapshot(async querySnapshot => {
       const usersData = [];
       for (const doc of querySnapshot.docs) {

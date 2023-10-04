@@ -1,0 +1,7 @@
+#Tue Oct 03 13:39:03 PKT 2023
+base.0=/Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/build/intermediates/dex/debugAndroidTest/mergeProjectDexDebugAndroidTest/0/classes.dex
+base.1=/Users/a2zcreatorz/Desktop/ReactNativeProjects/SeemaProjects/CamelApp/android/app/build/intermediates/dex/debugAndroidTest/mergeProjectDexDebugAndroidTest/1/classes.dex
+path.0=0/classes.dex
+path.1=1/classes.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex

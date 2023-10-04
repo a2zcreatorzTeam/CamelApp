@@ -260,8 +260,7 @@ const MessageView = ({route}) => {
   };
 
   return (
-    <View
-      style={{flex: 1, width: width, height: hight}}>
+    <View style={{flex: 1, width: width, height: hight}}>
       <FlatList
         initialNumToRender={dataSource?.length}
         key={key}

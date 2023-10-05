@@ -213,7 +213,6 @@ const Post = ({
             <TouchableWithoutFeedback
               key={index}
               onPress={() => {
-                console.log('videoo2177');
                 postViewed(viewCount, setViewCount);
                 setModal(true),
                   setModalItem(mediaSource),
@@ -300,78 +299,6 @@ const Post = ({
           );
         })}
       </ScrollView>
-
-      {/* <Carousel
-        data={imagesArray}
-        layout={'default'}
-        scrollEnabled={true}
-        renderItem={({item, index}) => {
-          const isImage = item.type === 'image';
-          const isVideo = item.type === 'video';
-
-          const mediaSource = isImage
-            ? {uri: 'http://www.tasdeertech.com/images/posts/' + item.source}
-            : isVideo
-            ? {uri: 'http://www.tasdeertech.com/videos/' + item.source}
-            : null;
-
-          return (
-            <TouchableWithoutFeedback onPress={() => setModal(true)}>
-              <View
-                style={[Styles.imageCarousal, {backgroundColor: '#f3f3f3'}]}>
-                {price && (
-                  <View style={styles.priceWrpr}>
-                    <View style={styles.priceContainer}>
-                      <Text style={styles.priceTxt}> {ArabicText.Price}</Text>
-                      <Text numberOfLines={2} style={styles.bidPrice}>
-                        {lastBidPrice ? lastBidPrice : price}
-                      </Text>
-                    </View>
-                  </View>
-                )}
-
-                {isImage && (
-                  <Image
-                    source={mediaSource}
-                    key={String(index)}
-                    resizeMode="cover"
-                    style={Styles.image}
-                  />
-                )}
-
-                {isVideo && (
-                  <>
-                    <Video
-                      onTouchStart={onTouchStart}
-                      source={mediaSource}
-                      key={String(index)}
-                      resizeMode="stretch"
-                      controls={false}
-                      paused={flagForVideo}
-                      style={Styles.image}
-                    />
-
-                    <TouchableOpacity
-                      style={styles.mediaControllerBTNs}
-                      onPress={onTouchStart}>
-                      <Text style={styles.mediaControllerTxt}>
-                        {flagForVideo ? 'Pause' : 'Play'}
-                      </Text>
-                    </TouchableOpacity>
-                  </>
-                )}
-
-                {!isImage && !isVideo && (
-                  <Text style={{color: '#000'}}>Media not available</Text>
-                )}
-              </View>
-            </TouchableWithoutFeedback>
-          );
-        }}
-        sliderWidth={width}
-        itemWidth={width}
-      /> */}
-
       {/*MODAL WiTH CAROUSEL*/}
       <Modal
         visible={modal}
@@ -588,7 +515,6 @@ const styles = StyleSheet.create({
   main: {
     width: width,
     height: height / 2,
-    // elevation: 5,
     marginTop: 15,
     backgroundColor: '#fff',
   },

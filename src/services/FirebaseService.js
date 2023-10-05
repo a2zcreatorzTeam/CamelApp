@@ -39,19 +39,21 @@ const sendMessage = async (
 ) => {
   let imageUrl;
   let videoUrl;
-  // if (image) {
-  //   const imageFileName = `${Date.now()}.png`; // You can generate a unique filename
-  //   const imageRef = storage().ref(`chat_images/${imageFileName}`);
-  //   await imageRef.putFile(image);
-  //   imageUrl = await imageRef.getDownloadURL();
-  // }
+  console.log(image, 'image42');
+  if (image) {
+    const imageFileName = `${Date.now()}.png`; // You can generate a unique filename
+    const imageRef = storage().ref(`chat_images/${imageFileName}`);
+    console.log(image?.imageShow);
+    await imageRef.putFile(image?.imageShow);
+    imageUrl = await imageRef.getDownloadURL();
+  }
   if (video) {
     const videoFileName = `${Date.now()}.mp4`; // You can generate a unique filename
     const videoRef = firebase.storage().ref(`chat_videos/${videoFileName}`);
     await videoRef.putFile(video);
     videoUrl = await videoRef.getDownloadURL();
   }
-  console.log(imageUrl, 'umageurlll');
+  console.log(videoUrl, 'umageurlll');
 
   const newMessage = {
     sender: user_id,
@@ -68,7 +70,7 @@ const sendMessage = async (
   };
   const ImageObj = {
     sender: user_id,
-    imageUrl: image, // Add the image URL
+    imageUrl: imageUrl, // Add the image URL
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     date: new Date(),
   };
@@ -78,18 +80,20 @@ const sendMessage = async (
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     date: new Date(),
   };
-  console.log(
-    image,
-    lat && long ? locationObj : newMessage,
-    'lat && long ? locationObj : newMessage',
-  );
   const messagesRef = firebase
     .firestore()
     .collection(`chats/${chatRoomId}/messages`);
   return messagesRef
-    .add(lat && long ? locationObj : image ? ImageObj : newMessage)
+    .add(
+      lat && long
+        ? locationObj
+        : image
+        ? ImageObj
+        : video
+        ? videoObj
+        : newMessage,
+    )
     .then(() => {
-      console.log('Message sent successfully');
       return true;
     })
     .catch(error => {

@@ -293,10 +293,10 @@ class UserProfile extends Component {
         })
         .then(res => {
           this.checkFriendshipStatus();
-          Toast.show({
-            type: 'success',
-            text1: 'Friend request has been sent.',
-          });
+          // Toast.show({
+          //   type: 'success',
+          //   text1: 'Friend request has been sent.',
+          // });
           // Alert.alert('Friend request has been sent.');
         })
         .catch(error => {
@@ -649,6 +649,10 @@ class UserProfile extends Component {
     //   );
     // };
     const FriendshipStatusBTN = () => {
+      console.log(
+        this.state.friendshipStatus,
+        'friendshipStatusfriendshipStatus',
+      );
       const user = this.props.user.user.user;
       if (
         this.state.friendshipStatus == null

@@ -602,7 +602,7 @@ const MessageView = ({route}) => {
               }}>
               <TouchableOpacity
                 onPress={() => {
-                  handlePress(), console.log('sendddd');
+                  handlePress()
                 }}>
                 {loader ? (
                   <ActivityIndicator size={20} color={'orange'} />
@@ -621,49 +621,6 @@ const MessageView = ({route}) => {
           </View>
         </View>
       </Modal>
-
-      {/* <View style={Styles.msgbar}>
-        <TouchableOpacity
-          style={{left: 5, position: 'absolute', bottom: 0, marginRight: 10}}>
-          <Feather
-            name="send"
-            size={30}
-            color="#D2691E"
-            style={{
-              left: 5,
-              position: 'absolute',
-              bottom: 7,
-              marginTop: 40,
-              transform: [{rotate: '225deg'}],
-            }}
-            onPress={() => handlePress()}
-          />
-        </TouchableOpacity>
-        <TextInput
-          style={Styles.msginput}
-          placeholder={ArabicText.message}
-          placeholderTextColor="#b0b0b0"
-          onChangeText={text => setInputValue(text)}
-          value={inputValue}></TextInput>
-
-        <View style={styles.inputWrapper}>
-          <TouchableOpacity
-            onPress={() => setModalVisible(true)}
-            style={{position: 'absolute', bottom: 3, left: 4}}>
-            <Entypo
-              name="attachment"
-              size={18}
-              color="#bbb"
-              style={{
-                left: 5,
-                position: 'absolute',
-                bottom: 8,
-                marginTop: 40,
-              }}
-            />
-          </TouchableOpacity>
-        </View>
-      </View> */}
     </View>
   );
 };

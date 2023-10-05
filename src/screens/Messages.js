@@ -10,6 +10,8 @@ import {
   Modal,
   Button,
   Pressable,
+  StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import {Card, Searchbar} from 'react-native-paper';
@@ -33,6 +35,7 @@ class Messages extends Component {
       getMessagesList: [],
       getUserDropList: [],
       userList: [],
+      loader: false,
     };
   }
 
@@ -40,8 +43,10 @@ class Messages extends Component {
     try {
       return await camelapp.post('getMultipleUsersDetails', data).then(res => {
         this.setState({userList: res?.data});
+        this.setState({loader: false});
       });
     } catch (error) {
+      this.setState({loader: false});
       console.log('Error Message--- view post', error?.response);
     }
   };
@@ -67,7 +72,6 @@ class Messages extends Component {
     // return () => {
     //   unsubscribe();
     // };
-    console.log('unsubbbb');
     const unsubscribe = chatRoomsRef.onSnapshot(async querySnapshot => {
       const usersData = [];
       for (const doc of querySnapshot.docs) {
@@ -112,7 +116,6 @@ class Messages extends Component {
       unsubscribe();
     };
   }
-
   getMessagesList(user_id) {
     camelapp
       .get('/getmsg/' + user_id)
@@ -126,31 +129,28 @@ class Messages extends Component {
   }
   checkUserLogedIn() {
     let {user} = this.props;
-
     if (user.user.user != undefined) {
+      this.setState({loader: true});
       this.getUserDropList(user.user.user.id);
-      this.getMessagesList(user.user.user.id);
+      // this.getMessagesList(user.user.user.id);
     } else {
+      this.setState({loader: false});
       clearInterval(this.interval);
       this.props.navigation.navigate('Login');
     }
   }
-
   componentDidMount() {
     this.checkUserLogedIn();
   }
   componentWillUnmount() {
     clearInterval(this.interval);
   }
-
   modalOpen = () => {
     this.setState({modal: true});
   };
-
   navigateToMessages = item => {
     this.props.navigation.navigate('MessageViewScreen', {messageData: item});
   };
-
   navigateToMessagesNew = item => {
     this.setState({modal: false});
 
@@ -160,7 +160,6 @@ class Messages extends Component {
     this.checkUserLogedIn();
     this.setState({refreshing: false});
   }
-
   render() {
     const {userList} = this.state;
     const ListItem = ({userName, userImage, onUserMessageClick}) => (
@@ -288,6 +287,12 @@ class Messages extends Component {
     return (
       <View
         style={{flex: 1, backgroundColor: '#fff', width: width, height: hight}}>
+        <ActivityIndicator
+          size="large"
+          color="#D2691Eff"
+          animating={this.state.loader}
+          style={styles.activityIndicator}
+        />
         <FlatList
           initialNumToRender={userList?.length}
           refreshControl={
@@ -383,4 +388,13 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
 
+const styles = StyleSheet.create({
+  activityIndicator: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+  },
+});
 export default connect(mapStateToProps, mapDispatchToProps)(Messages);

@@ -9,11 +9,13 @@ import {
   Linking,
   ActivityIndicator,
   PermissionsAndroid,
+  ImageBackground,
+  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState, useRef} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import storage from '@react-native-firebase/storage';
 import RNFS from 'react-native-fs';
 import {Styles} from '../../styles/globlestyle';
 import {Card} from 'react-native-paper';
@@ -35,9 +37,11 @@ import VideoModal from '../../components/VideoModal';
 import firestore from '@react-native-firebase/firestore';
 import firebase from '@react-native-firebase/app';
 import moment from 'moment';
+import FastImage from 'react-native-fast-image';
 
 const GroupChat = props => {
   const flatListRef = useRef();
+  const storageRef = storage().ref();
   const [inputValue, setInputValue] = useState('');
   const [groupChat, setGroupChat] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -46,6 +50,8 @@ const GroupChat = props => {
   const [image, setImage] = useState(null);
   const [mimeVedio, setMimeVideo] = useState(null);
   const [video, setVideo] = useState(null);
+  const [videoName, setVideoName] = useState(null);
+
   const [flagvideo, setFlagVedio] = useState([]);
   const [indexx, setIndexx] = useState();
   const [loader, setLoader] = useState(false);
@@ -56,6 +62,13 @@ const GroupChat = props => {
   const [loadVideo, setLoadVideo] = useState(false);
   const [modal, setModal] = useState(false);
   const [Infomodal, setInfoModal] = useState(false);
+  const [groupInfoDetails, setgroupInfoDetails] = useState(null);
+  const [modalItemType, setModalItemType] = useState(false);
+  const [load, setLoad] = useState(false);
+
+  const [modalItemForModal, setModalItemForModal] = useState('');
+  const [modalItemsData, setModalItemsData] = useState('');
+  const [mediaSendLoader, setmediaSendLoader] = useState(false);
 
   const navigation = useNavigation();
   // const [sendMessage, setSendMessage] = useState([]);
@@ -125,7 +138,7 @@ const GroupChat = props => {
           .collection('messages')
           .add({
             senderId: user?.user?.user?.id, // Replace with the actual sender user ID
-            message: inputValue,
+
             location: locations,
             timestamp: firebase?.firestore?.FieldValue.serverTimestamp(),
           });
@@ -143,7 +156,7 @@ const GroupChat = props => {
     ImageCropPicker.openPicker({
       mediaType: 'photo',
       multiple: false,
-      includeBase64: true,
+      includeBase64: false,
       selectionLimit: 1,
     })
       .then(async images => {
@@ -153,11 +166,11 @@ const GroupChat = props => {
             pickedImage: images?.data,
             imageShow: images?.path,
             mediaType: images?.mime,
+            imageName: images?.modificationDate,
           });
           setModal(true);
         } else {
         }
-        console.log('imagesa', image);
       })
       .catch(error => {
         console.log('error', error);
@@ -190,21 +203,89 @@ const GroupChat = props => {
   };
 
   const postGroupMedia = async () => {
+    setLoader(true);
+
+    var localVideoUri = video;
+    var localImageoUri = image?.imageShow;
+
+    const groupDocumentId = props?.route?.params?.group_id;
+    if (localVideoUri) {
+      try {
+        // Upload the video to Firebase Storage
+        const response = await fetch(localVideoUri);
+        const blob = await response.blob();
+        const storageRef = storage().ref(`Group_videos/${videoName}`);
+        await storageRef.put(blob);
+
+        // Get the download URL of the uploaded video
+        const downloadURL = await storageRef.getDownloadURL();
+
+        // Store video metadata in Firestore
+
+        await firestore()
+          .collection('groupChat') // Replace with your actual collection name
+          .doc(groupDocumentId)
+          .collection('messages')
+          .add({
+            senderId: user?.user?.user?.id,
+            videoName: videoName,
+            downloadURL,
+            timestamp: firebase?.firestore?.FieldValue.serverTimestamp(),
+          });
+        setLoader(false);
+        setModalVisible(false);
+
+        console.log('Video uploaded and metadata stored successfully.');
+        setModal(false);
+        setVideo('');
+        setImage('');
+      } catch (error) {
+        setLoader(false);
+        alert('Something went wrong');
+
+        console.error('Error uploading video:', error);
+      }
+    } else {
+      try {
+        // Upload the video to Firebase Storage
+        const response = await fetch(localImageoUri);
+        const blob = await response.blob();
+        const storageRef = storage().ref(`Group_Images/${image?.imageName}`);
+        await storageRef.put(blob);
+
+        // Get the download URL of the uploaded video
+        const downloadURL = await storageRef.getDownloadURL();
+
+        // Store video metadata in Firestore
+
+        await firestore()
+          .collection('groupChat') // Replace with your actual collection name
+          .doc(groupDocumentId)
+          .collection('messages')
+          .add({
+            senderId: user?.user?.user?.id,
+            imageName: image?.imageName,
+            downloadURL,
+            timestamp: firebase?.firestore?.FieldValue.serverTimestamp(),
+          });
+        setLoader(false);
+        setModal(false);
+        setImage('');
+        setVideo('');
+        setModalVisible(false);
+
+        console.log('Video uploaded and metadata stored successfully.');
+      } catch (error) {
+        setLoader(false);
+        alert('Something went wrong');
+        console.error('Error uploading image:', error);
+      }
+    }
+  };
+
+  const postGroupMediassssss = async () => {
     const groupDocumentId = props?.route?.params?.group_id;
     try {
-      var paramsDataForImage = {
-        senderId: user?.user?.user?.id, // Replace with the actual sender user ID
-        message: inputValue,
-        image: image,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      };
-      var paramsDataForVideo = {
-        senderId: user?.user?.user?.id, // Replace with the actual sender user ID
-        // message: inputValue,
-        video: video,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      };
-
       if (groupDocumentId) {
         // Add the message to a subcollection within the group document
         await firestore()
@@ -227,8 +308,13 @@ const GroupChat = props => {
     }
   };
   const postGroupChat = async () => {
+    if (!inputValue) {
+      setLoader(false);
+      alert('Please Enter Message');
+    }
     const groupDocumentId = props?.route?.params?.group_id;
     try {
+      setLoader(true);
       if (groupDocumentId) {
         // Add the message to a subcollection within the group document
         await firestore()
@@ -242,9 +328,13 @@ const GroupChat = props => {
           });
 
         console.log('Message sent successfully');
+        setLoader(false);
+
         setInputValue('');
       }
     } catch (error) {
+      setLoader(false);
+
       console.error('Error sending message:', error);
     }
   };
@@ -311,15 +401,15 @@ const GroupChat = props => {
       mediaType: 'video',
     }).then(async video => {
       setMimeVideo(video?.mime);
-      console.log('HGHJDGFHDGFJHD', video, 'VIDEO');
+      setVideo(video.path);
+
+      setVideoName(video?.modificationDate);
       if (video) {
         if (video?.size > 10000000) {
           alert('Video must be less then 10 MB');
         } else {
           RNFS.readFile(video.path, 'base64')
             .then(res => {
-              console.log('res====>', res);
-              setVideo(video.path);
               setModal(true);
               setImage(null);
               // this.setState({ videoForPost: "data:video/mp4;base64," + res });
@@ -387,7 +477,7 @@ const GroupChat = props => {
         // console.log('mergedArraymergedArrayssssss', mergedArray);
 
         // setGroupChat(newMessages);
-        setGroupChat(mergedArray);
+        setGroupChat(mergedArray?.reverse());
       });
     } catch (error) {
       console.log('Error Message', error?.response);
@@ -396,20 +486,20 @@ const GroupChat = props => {
 
   getUsersDetailInfo = async () => {
     const data = props?.route?.params?.groupUserData;
+
     try {
       return await camelapp.post('getMultipleUsersDetails', data).then(res => {
-        console.log(res, 'RESPONSE1234');
+        setgroupInfoDetails(res?.data);
       });
     } catch (error) {
       console.log('Error Message', error?.response);
     }
   };
 
-
   useEffect(() => {
-   
-  }, [])
-  
+    getUsersDetailInfo();
+  }, []);
+
   useEffect(() => {
     const groupDocumentId = props?.route?.params?.group_id;
     console.log(groupDocumentId);
@@ -436,7 +526,7 @@ const GroupChat = props => {
 
         getUsersDetails(arrayOfUniqueUserIds, newMessages);
 
-        setGroupChat(newMessages);
+        // setGroupChat(newMessages?.reverse());
         //     console.log("nnnnnnnsnnn",nnnnn,"newMessagesnewMessages")
       });
 
@@ -454,7 +544,6 @@ const GroupChat = props => {
   //   });
   //   return focusListner;
   // }, []);
-  console.log(user?.user?.user, 'inputValue');
   const {groupName} = props.route.params;
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
@@ -500,30 +589,44 @@ const GroupChat = props => {
       </View>
       <FlatList
         // ref={flatListRef}
-
+        inverted
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingBottom: 55}}
+        contentContainerStyle={{paddingTop: width * 0.2}}
         data={groupChat}
         renderItem={({item, index}) => {
+          console.log(item, 'HjjjHHHJJJJHHH');
           return (
             <View>
               {/* Right side messages */}
               {item?.senderId === user?.user?.user?.id ? (
                 <View>
-                  <Card style={Styles.text_send}>
+                  {
+                    item?.message ? 
+                    <Card style={Styles.text_send}>
                     <Text
                       style={{color: '#fff', textAlign: 'left', fontSize: 14}}>
                       {item?.message}
                     </Text>
                     <Text
-                      style={{color: '#eee', fontSize: 10, textAlign: 'right'}}>
+                      style={{color: '#eee', fontSize: 10, textAlign: 'left'}}>
                       {moment(item.timestamp?.toDate())?.format('h:mm a')}
                     </Text>
                   </Card>
+                  : null
+                  }
+                  
 
                   {/* CHAT IMAGE */}
-                  {item?.image ? (
-                    <View style={styles.rightChatImageContainer}>
+                  {item?.imageName ? (
+                    <TouchableOpacity
+                      onPress={() => {
+                        console.log('newnew', item?.downloadURL);
+
+                        setModalItemForModal(true),
+                          setModalItemsData({uri: item?.downloadURL}),
+                          setModalItemType('image');
+                      }}
+                      style={styles.rightChatImageContainer}>
                       {/* <Text
                         style={{
                           color: '#fff',
@@ -538,9 +641,7 @@ const GroupChat = props => {
 
                       <Image
                         resizeMode="cover"
-                        source={{
-                          uri: `data:${item?.image?.mediaType};base64,${item?.image?.pickedImage}`,
-                        }}
+                        source={{uri: item?.downloadURL}}
                         style={styles.chatImage}
                       />
 
@@ -551,40 +652,58 @@ const GroupChat = props => {
                           bottom: 10,
                           color: '#eee',
                           fontSize: 10,
-                          textAlign: 'right',
+                          textAlign: 'left',
                         }}>
                         {moment(item.timestamp?.toDate())?.format('h:mm a')}
                       </Text>
+                    </TouchableOpacity>
+                  ) : null}
+                  {item?.videoName ? (
+                    <View>
+                      <TouchableOpacity
+                        style={[styles.rightChatImageContainer]}
+                        onPress={() => {
+                          console.log('newnew', item?.downloadURL);
+                          setModalItemForModal(true),
+                            setModalItemsData({uri: item?.downloadURL}),
+                            setModalItemType('video');
+                        }}>
+                        <ImageBackground
+                          imageStyle={{
+                            borderRadius: 25,
+                          }}
+                          source={require('../../../assets/camel.png')}
+                          style={[
+                            styles.chatImage,
+                            {
+                              height: 180,
+                              backgroundColor: 'rgba(0,0,0,0.5)',
+                              opacity: 0.6,
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                            },
+                          ]}>
+                          <Image
+                            tintColor="#fff"
+                            source={require('../../../assets/play.png')}
+                            resizeMode={'cover'}
+                            style={{width: 70, height: 70}}
+                          />
+                        </ImageBackground>
+                        <Text
+                          style={{
+                            marginHorizontal: 20,
+                            position: 'absolute',
+                            bottom: 10,
+                            color: '#eee',
+                            fontSize: 10,
+                            textAlign: 'left',
+                          }}>
+                          {moment(item.timestamp?.toDate())?.format('h:mm a')}
+                        </Text>
+                      </TouchableOpacity>
                     </View>
                   ) : null}
-
-                  {/* {item?.file_type == 'video' && (
-                    // <View style={styles.rightChatImageContainer}>
-                    // <Video
-                    //   onTouchStart={() => onTouchStart(index, item)}
-                    //   paused={index == indexx ? flagvideo : item?.flagForVideo}
-                    //   // onTouchStart={onTouchStart}
-                    //   source={{
-                    //     uri: `http://www.tasdeertech.com${item.file_url}`,
-                    //   }} // Can be a URL or a local file.
-                    //   resizeMode="stretch"
-                    //   // repeat
-                    //   controls={false}
-                    //   style={{
-                    //     backgroundColor: 'grey',
-                    //     width: 200,
-                    //     height: 150,
-                    //     margin: 10,
-                    //     padding: 10,
-                    //     overflow: 'hidden',
-                    //     borderTopStartRadius: 25,
-                    //     borderBottomEndRadius: 25,
-                    //     borderBottomStartRadius: 25,
-                    //     left: width - 220,
-                    //   }}
-                    // />
-                    // </View>
-                  )} */}
 
                   {item?.location && (
                     <>
@@ -604,6 +723,17 @@ const GroupChat = props => {
                           source={require('../../../assets/maps.jpg')}
                           style={styles.chatImage}
                         />
+                        <Text
+                          style={{
+                            marginHorizontal: 20,
+                            position: 'absolute',
+                            bottom: 10,
+                            color: '#eee',
+                            fontSize: 10,
+                            textAlign: 'left',
+                          }}>
+                          {moment(item.timestamp?.toDate())?.format('h:mm a')}
+                        </Text>
                       </TouchableOpacity>
                     </>
                   )}
@@ -639,9 +769,120 @@ const GroupChat = props => {
                       {moment(item.timestamp?.toDate())?.format('h:mm a')}
                     </Text>
                   </Card>
+                  {item?.imageName ? (
+                    <View style={styles.rightChatImageContainer}>
+                      {/* <Text
+                        style={{
+                          color: '#fff',
+                          fontSize: 13,
+                          fontWeight: '700',
+                          // marginBottom: 7,
+                        }}>
+                        {item?.sender}
+                      </Text> */}
+
+                      {/* <Image source={{uri:"file:///data/user/0/com.alsyahd/cache/rn_image_picker_lib_temp_3c073ac1-2850-41ed-815a-70389f526201.jpg"}} style={styles.chatImage} /> */}
+
+                      <Image
+                        resizeMode="cover"
+                        source={{uri: item?.downloadURL}}
+                        style={styles.chatImage}
+                      />
+
+                      <Text
+                        style={{
+                          marginHorizontal: 20,
+                          position: 'absolute',
+                          bottom: 10,
+                          color: '#eee',
+                          fontSize: 10,
+                          textAlign: 'left',
+                        }}>
+                        {moment(item.timestamp?.toDate())?.format('h:mm a')}
+                      </Text>
+                    </View>
+                  ) : null}
+                  {item?.videoName ? (
+                    <View>
+                      <TouchableOpacity
+                        style={[styles.rightChatImageContainer]}
+                        onPress={() => {
+                          setModal(true),
+                            setModalItem({uri: item?.videoUrl}),
+                            setModalItemType('video');
+                        }}>
+                        <ImageBackground
+                          imageStyle={{
+                            borderRadius: 25,
+                          }}
+                          source={require('../../../assets/camel.png')}
+                          style={[
+                            styles.chatImage,
+                            {
+                              height: 180,
+                              backgroundColor: 'rgba(0,0,0,0.5)',
+                              opacity: 0.6,
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                            },
+                          ]}>
+                          <Image
+                            tintColor="#fff"
+                            source={require('../../../assets/play.png')}
+                            resizeMode={'cover'}
+                            style={{width: 70, height: 70}}
+                          />
+                        </ImageBackground>
+                        <Text
+                          style={{
+                            marginHorizontal: 20,
+                            position: 'absolute',
+                            bottom: 10,
+                            color: '#eee',
+                            fontSize: 10,
+                            textAlign: 'left',
+                          }}>
+                          {moment(item.timestamp?.toDate())?.format('h:mm a')}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  ) : null}
+
+                  {item?.location && (
+                    <>
+                      {/* <Text
+                        style={{
+                          color: '#d2691e',
+                          fontSize: 13,
+                          fontWeight: '700',
+                          marginBottom: 7,
+                        }}>
+                        {item?.sender}
+                      </Text> */}
+                      <TouchableOpacity
+                        style={styles.rightChatImageContainer}
+                        onPress={() => proceed(item?.location)}>
+                        <Image
+                          source={require('../../../assets/maps.jpg')}
+                          style={styles.chatImage}
+                        />
+                        <Text
+                          style={{
+                            marginHorizontal: 20,
+                            position: 'absolute',
+                            bottom: 10,
+                            color: '#eee',
+                            fontSize: 10,
+                            textAlign: 'left',
+                          }}>
+                          {moment(item.timestamp?.toDate())?.format('h:mm a')}
+                        </Text>
+                      </TouchableOpacity>
+                    </>
+                  )}
 
                   {/* CHAT IMAGE */}
-                  {item?.image ? (
+                  {/* {item?.image ? (
                     <View style={styles.chatImageContainer}>
                       <Text
                         style={{
@@ -660,10 +901,10 @@ const GroupChat = props => {
                         style={styles.chatImage}
                       />
                     </View>
-                  ) : null}
+                  ) : null} */}
 
                   {/* CHAT VIDEO */}
-                  {item?.file_type == 'video' && (
+                  {/* {item?.file_type == 'video' && (
                     <View
                       style={{
                         flex: 1,
@@ -734,7 +975,7 @@ const GroupChat = props => {
                     //     left: width - 220,
                     //   }}
                     // />
-                  )}
+                  )} */}
                   {/* {item?.location == null && (
                     <>
            <Text
@@ -802,24 +1043,7 @@ const GroupChat = props => {
               }}
             />
           </TouchableOpacity>
-          {image ? (
-            <Image
-              source={{uri: image?.imageShow}}
-              style={{width: 30, height: 30, right: -40}}
-            />
-          ) : null}
-          {video ? (
-            <Image
-              source={require('../../../assets/videoImage.png')}
-              style={{width: 30, height: 30, right: -40}}
-            />
-          ) : null}
-          {lat ? (
-            <Image
-              source={require('../../../assets/maps.jpg')}
-              style={{width: 30, height: 30, right: -40}}
-            />
-          ) : null}
+
           <View style={{width: '90%', right: 8, position: 'absolute'}}>
             <TextInput
               style={{width: '100%', textAlign: 'right', color: '#000'}}
@@ -838,86 +1062,88 @@ const GroupChat = props => {
         onRequestClose={() => {
           setModal(false);
         }}>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => {
-            setModal(false);
-            setImage(null);
-            setModalVisible(false);
-          }}
-          style={{
-            marginVertical: 20,
-            zIndex: 1111,
-            marginHorizontal: 20,
-          }}>
-          <AntDesign name="closecircle" size={35} color="orange" />
-        </TouchableOpacity>
         <View
           style={{
-            alignContent: 'center',
-            justifyContent: 'center',
             flex: 1,
-            backgroundColor: 'lightgrey',
+            backgroundColor: '#3c3937',
           }}>
-          {image ? (
-            <Image
-              resizeMode="contain"
-              source={{uri: image?.imageShow}}
-              style={{width: width, height: height * 0.7}}
-            />
-          ) : null}
-
-          {video ? (
-            <Image
-              source={require('../../../assets/videoImage.png')}
-              style={{width: width, height: height * 0.7}}
-            />
-          ) : null}
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => {
+              setModal(false);
+              setImage(null);
+              setModalVisible(false);
+            }}
+            style={{
+              marginTop: 20,
+              zIndex: 1111,
+              marginHorizontal: 20,
+              marginLeft: 'auto',
+            }}>
+            <AntDesign name="closecircle" size={35} color="#D2691E" />
+          </TouchableOpacity>
           <View
             style={{
-              position: 'absolute',
-              bottom: 0,
-              justifyContent: 'space-around',
-              alignItems: 'center',
-              flexDirection: 'row',
-              marginHorizontal: 20,
-              marginVertical: 10,
+              alignContent: 'center',
+
+              justifyContent: 'center',
+              flex: 1,
+              backgroundColor: '#3c3937',
             }}>
+            {image ? (
+              <Image
+                resizeMode="contain"
+                source={{uri: image?.imageShow}}
+                style={{
+                  width: width,
+                  height: height * 0.6,
+                  marginBottom: '20%',
+                }}
+              />
+            ) : null}
+
+            {video ? (
+              <Image
+                resizeMode="contain"
+                source={require('../../../assets/videoImage.png')}
+                style={{width: width, height: height * 0.7}}
+              />
+            ) : null}
             <View
               style={{
-                justifyContent: 'center',
+                position: 'absolute',
+                bottom: 0,
+                justifyContent: 'space-around',
                 alignItems: 'center',
+                flexDirection: 'row',
+                marginHorizontal: 20,
+                marginVertical: 10,
               }}>
-              <TouchableOpacity onPress={postGroupMedia}>
-                {loader ? (
-                  <ActivityIndicator size={20} color={'orange'} />
-                ) : (
-                  <Feather
-                    name="send"
-                    size={30}
-                    color="#D2691E"
-                    style={{
-                      transform: [{rotate: '225deg'}],
-                    }}
-                  />
-                )}
-              </TouchableOpacity>
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: '#D2691E',
+                  padding: 10,
+                  borderRadius: 100,
+                  marginBottom: 20,
+                }}>
+                <TouchableOpacity onPress={postGroupMedia}>
+                  {loader ? (
+                    <ActivityIndicator size={20} color={'white'} />
+                  ) : (
+                    <Feather
+                      name="send"
+                      size={28}
+                      color="white"
+                      style={{
+                        transform: [{rotate: '225deg'}],
+                      }}
+                    />
+                  )}
+                </TouchableOpacity>
+              </View>
             </View>
-            <TextInput
-              style={{
-                backgroundColor: '#b0b0b0',
-                borderRadius: 25,
-                paddingHorizontal: 10,
-                width: '90%',
-                textAlign: 'right',
-                color: '#000',
-              }}
-              // placeholder={ArabicText?.Message}
-              placeholder="Type message"
-              placeholderTextColor="black"
-              onChangeText={text => setInputValue(text)}
-              value={inputValue}
-            />
           </View>
         </View>
       </Modal>
@@ -928,26 +1154,8 @@ const GroupChat = props => {
         selectOneFile={selectOneFile}
         getLocation={getLocation}
       />
-      {/* VIDEO MODAL */}
-      {/* <VideoModal
-        onLoadStart={() => {
-          setLoadVideo(true);
-        }}
-        onReadyForDisplay={() => {
-          setLoadVideo(false);
-        }}
-        onPress={() => {
-          !loadVideo && setPausedCheck(!pausedCheck);
-        }}
-        closeModal={() => {
-          setVideoModal(false);
-          setPausedCheck(true);
-        }}
-        pausedCheck={pausedCheck}
-        loadVideo={loadVideo}
-        videoModal={videoModal}
-        modalItem={modalItem}
-      /> */}
+
+      {/* group info */}
       <Modal
         visible={Infomodal}
         transparent={true}
@@ -965,21 +1173,171 @@ const GroupChat = props => {
             marginHorizontal: 20,
             position: 'relative',
             top: height / 4,
-            height: 90,
+            height: undefined,
+            padding: 10,
           }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => {
+                setInfoModal(false);
+              }}
+              style={{
+                marginVertical: 20,
+                zIndex: 1111,
+              }}>
+              <AntDesign name="closecircle" size={25} color="black" />
+            </TouchableOpacity>
+            <Text
+              style={{
+                paddingHorizontal: 10,
+                color: 'black',
+
+                fontSize: 18,
+                fontWeight: '700',
+              }}>
+              مشارك في المجموعة
+            </Text>
+          </View>
+          {groupInfoDetails?.length &&
+            groupInfoDetails?.map(item => {
+              return (
+                <ScrollView>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      paddingVertical: 5,
+                    }}>
+                    <Image
+                      source={{
+                        uri:
+                          'http://www.tasdeertech.com/images/profiles/' +
+                          item?.user_image,
+                      }}
+                      style={{
+                        width: 50,
+                        height: 50,
+                        borderRadius: 100,
+                        backgroundColor: 'grey',
+                      }}
+                    />
+                    <Text
+                      style={{
+                        paddingHorizontal: 10,
+                        color: 'black',
+                        fontSize: 18,
+                        fontWeight: '700',
+                      }}>
+                      {item?.user_name}
+                    </Text>
+                  </View>
+                </ScrollView>
+              );
+            })}
+        </View>
+      </Modal>
+
+      {/* //modal view  */}
+      <Modal
+        visible={modalItemForModal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => {
+          setModalItemForModal(false), setPausedCheck(true);
+        }}>
+        <View
+          style={{
+            height: '100%',
+            width: width,
+            backgroundColor: '#000000db',
+            justifyContent: 'center',
+          }}>
+          {/* Modal Close Button */}
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => {
-              setInfoModal(false);
+              setModalItemForModal(false), setPausedCheck(true);
             }}
             style={{
-              marginVertical: 20,
-              zIndex: 1111,
-              marginHorizontal: 20,
+              top: 10,
+              right: 15,
+              position: 'absolute',
             }}>
-            <AntDesign name="closecircle" size={25} color="black" />
+            <AntDesign name="closecircle" size={35} color="#fff" />
           </TouchableOpacity>
-          <Text>hdghjdgfjhdgfdd</Text>
+          <View style={{height: 300}}>
+            <View style={Styles.imageCarousal}>
+              {modalItemType === 'image' && (
+                <FastImage
+                  style={Styles.image}
+                  source={modalItemsData}
+                  resizeMode={FastImage?.resizeMode.contain}
+                />
+              )}
+              {modalItemType == 'video' && (
+                <View style={{flex: 1, backgroundColor: '#EDEDED'}}>
+                  <Video
+                    onError={error => console.error('Video error:', error)}
+                    onLoadStart={() => {
+                      setLoad(true);
+                    }}
+                    onReadyForDisplay={() => {
+                      setLoad(false);
+                    }}
+                    source={modalItemsData}
+                    resizeMode="contain"
+                    repeat={true}
+                    controls={false}
+                    paused={pausedCheck}
+                    style={[
+                      Styles.image,
+                      {
+                        width: width,
+                        height: height / 2.5,
+                      },
+                    ]}
+                  />
+                  {/* } */}
+                  <TouchableOpacity
+                    style={{
+                      height: 70,
+                      width: 70,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      position: 'absolute',
+                      elevation: 2,
+                      bottom: height / 6,
+                      left: width / 2.3,
+                    }}
+                    onPress={() => {
+                      setPausedCheck(true);
+                      load ? null : setPausedCheck(!pausedCheck);
+                    }}>
+                    {load ? (
+                      <ActivityIndicator size="large" />
+                    ) : (
+                      <Image
+                        activeOpacity={0.4}
+                        source={
+                          pausedCheck
+                            ? require('../../../assets/play.png')
+                            : require('../../../assets/pause.png')
+                        }
+                        resizeMode={'cover'}
+                        style={{width: 70, height: 70}}
+                      />
+                    )}
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
+          </View>
         </View>
       </Modal>
     </View>
@@ -1067,8 +1425,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   chatImageContainer: {
-    width: 200,
-    height: 150,
+    width: 250,
+    height: 180,
     backgroundColor: '#bbb',
     margin: 10,
     padding: 10,
@@ -1078,8 +1436,8 @@ const styles = StyleSheet.create({
     borderBottomStartRadius: 25,
   },
   rightChatImageContainer: {
-    width: width * 0.8,
-    height: height * 0.4,
+    width: width * 0.6,
+    height: height * 0.25,
     backgroundColor: '#D2691E',
     margin: 10,
     padding: 10,
@@ -1087,12 +1445,13 @@ const styles = StyleSheet.create({
     borderTopStartRadius: 25,
     borderBottomEndRadius: 25,
     borderBottomStartRadius: 25,
-    position: 'relative',
-    left: width / 7,
+
+    // left: width / 3,
+    marginLeft: 'auto',
   },
   chatImage: {
     width: '100%',
-    height: '80%',
+    height: '90%',
     borderRadius: 20,
     alignSelf: 'center',
     marginBottom: 70,

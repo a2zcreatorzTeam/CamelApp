@@ -105,7 +105,7 @@ const Groups = prop => {
     // getGrouplist();
     getDocumentIdForUserId();
   }, [isFocused]);
-console.log(groupList,"groupListgroupList")
+  console.log(groupList, 'groupListgroupList');
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       {/* Create Group Button*/}
@@ -123,17 +123,51 @@ console.log(groupList,"groupListgroupList")
 
       <FlatList
         data={groupList}
+        contentContainerStyle={{
+          alignContent: 'center',
+          alignSelf: 'center',
+          flex: 1,
+        }}
+        ListEmptyComponent={() => {
+          return (
+            <Text style={{color: 'black', fontSize: 15}}>No data found </Text>
+          );
+        }}
         renderItem={({item}) => {
-          console.log(item,'kssskkkkj')
+          console.log(item?.data?.downloadURL, 'IYRREEEEM');
           return (
             // item?.status == 1 && (
             <TouchableWithoutFeedback
               onPress={() =>
-                prop.navigation.navigate('GroupChat', {group_id: item?.id, groupName:item?.data?.groupName, groupUserData:item?.data?.groupUserDetails})
+                prop.navigation.navigate('GroupChat', {
+                  group_id: item?.id,
+                  groupName: item?.data?.groupName,
+                  groupUserData: item?.data?.groupUserDetails,
+                })
               }>
-              <View style={styles.groupContainer}>
-                <View style={{width: '80%'}}>
+              <View style={[styles.groupContainer]}>
+                <View
+                  style={{
+                    width: '80%',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                  }}>
                   <Text style={styles.groupName}>{item?.data?.groupName}</Text>
+                  <Image
+                    source={
+                      item?.data?.downloadURL
+                        ? {uri: item?.data?.downloadURL}
+                        : require('../../../assets/image.png')
+                    }
+                    style={{
+                      width: 60,
+                      height: 60,
+                      borderRadius: 100,
+                      marginLeft: 20,
+                    }}
+                  />
+
                   {/* <Text style={styles.userName} >الفو توشوب <Text style={styles.lastMessage}>
                                         اربك تكست هو اول موقع يسمح لزواره الكرام بتحويل الكتابة العربي
                                     </Text></Text> */}
@@ -181,7 +215,7 @@ const styles = StyleSheet.create({
   groupContainer: {
     backgroundColor: '#fff',
     width: width,
-    height: 70,
+    height: 80,
     borderBottomColor: '#D2691E',
     borderBottomWidth: 1,
     flexDirection: 'row',

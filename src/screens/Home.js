@@ -146,7 +146,7 @@ class Home extends Component {
         filterPosts: [],
         loader: false,
       });
-      console.log('Error Message--- view post', error);
+      console.log('Error Message--- view post', error?.response);
     }
   }
   postViewed = async (item, viewCount, setViewCount) => {

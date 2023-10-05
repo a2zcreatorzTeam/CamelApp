@@ -132,7 +132,6 @@ class Home extends Component {
             });
             imagesArray?.push({type: 'video', source: item?.video});
             item['imagesArray'] = imagesArray;
-
             arrayPosts[index] = item;
           });
           this.setState({
@@ -177,7 +176,6 @@ class Home extends Component {
   async checkUser() {
     const userPhone = await AsyncStorage.getItem('@UserPhone');
     const userPass = await AsyncStorage.getItem('@UserPassword');
-
     try {
       camelapp
         .post('/login', {
@@ -186,14 +184,12 @@ class Home extends Component {
         })
         .then(res => {
           let response = res.data;
-
           if (response.status == true) {
             let {actions} = this.props;
             actions.userData(response);
           } else {
             let {user, actions} = this.props;
             actions.userData({});
-
             AsyncStorage.removeItem('@UserPhone');
             AsyncStorage.removeItem('@UserPassword');
           }

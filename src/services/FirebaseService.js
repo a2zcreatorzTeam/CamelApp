@@ -1,6 +1,6 @@
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
-// import storage from '@react-native-firebase/storage';
+import storage from '@react-native-firebase/storage';
 
 const checkOrCreateChatRoom = (chatRoomId, user1, user2) => {
   const chatRoomRef = firestore().collection('chats').doc(chatRoomId);

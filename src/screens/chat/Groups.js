@@ -25,53 +25,87 @@ const Groups = prop => {
 
   // console.log("****");
 
-  const getGrouplist = async () => {
-    // let { id } = prop.user.user.user;
+  // const getGrouplist = async () => {
+  //   // let { id } = prop.user.user.user;
+  //   try {
+  //     const fetchData = await camelapp.get(
+  //       '/getgrouplist/' + prop.user.user.user.id,
+  //     );
+  //     setGroupList(fetchData?.data);
+  //     console.log('fetchData group list', fetchData.data);
+  //   } catch (error) {
+  //     console.log(error, '=====ERROR OF Group LIST API===');
+  //   }
+  // };
+
+  // Function to get the document ID for a specific user ID
+  const getDocumentIdForUserId = async () => {
+    const userId = prop?.user?.user?.user?.id;
+
+    console.log(userId, 'userIduserIduserId');
     try {
-      const fetchData = await camelapp.get(
-        '/getgrouplist/' + prop.user.user.user.id,
-      );
-      setGroupList(fetchData?.data);
-      console.log('fetchData group list', fetchData.data);
+      let data = null;
+      //where('users','==',userId)
+      const querySnapshot1 = await firestore()
+        .collection('groupChat')
+        .where('users', '==', userId)
+        .get();
+      const querySnapshot2 = await firestore()
+        .collection('groupChat')
+        .where('members', 'array-contains', userId)
+        .get();
+      if (querySnapshot1?.docs?.length) {
+        data = querySnapshot1.docs.map(doc => ({
+          id: doc.id,
+          data: doc.data(),
+        }));
+        console.log('first', querySnapshot1?.docs);
+        setGroupList(data);
+      }
+      if (querySnapshot2?.docs?.length) {
+        data = querySnapshot2.docs.map(doc => ({
+          id: doc.id,
+          data: doc.data(),
+        }));
+        console.log('second', querySnapshot2?.docs);
+        setGroupList(data);
+      }
+      var temData = [];
+      if (querySnapshot2?.docs?.length && querySnapshot1?.docs?.length) {
+        var temData = querySnapshot1.docs.map(doc => ({
+          id: doc.id,
+          data: doc.data(),
+        }));
+        data = querySnapshot2.docs.map(doc => ({
+          id: doc.id,
+          data: doc.data(),
+        }));
+        const newData = temData.concat(data);
+
+        setGroupList(newData);
+      }
+
+      // if (!querySnapshot.empty) {
+      //   // Assuming there is only one matching document
+      //   const documentId = querySnapshot.docs[0].id;
+      //   console.log('Document ID:', documentId);
+      //   return documentId;
+      // } else {
+      //   console.error('User not found in the collection');
+      //   return null;
+      // }
     } catch (error) {
-      console.log(error, '=====ERROR OF Group LIST API===');
-    }
-  };
-
-// Function to get the document ID for a specific user ID
-const getDocumentIdForUserId = async () => {
-  const userId = prop?.user?.user?.user?.id
-  console.log(userId,"userIduserIduserId")
-  try {
-    //where('users','==',userId)
-    const querySnapshot = await firestore().collection('groupChat').where('members', 'array-contains', { friend_id: 189 }).get();
-const data = querySnapshot.docs.map(doc => ({ id: doc.id, data: doc.data() }))
-
-setGroupList(data);
-    console.log('Query Snapshot:23', querySnapshot.docs.map(doc => ({ id: doc.id, data: doc.data() })));
-
-    if (!querySnapshot.empty) {
-      // Assuming there is only one matching document
-      const documentId = querySnapshot.docs[0].id;
-      console.log('Document ID:', documentId);
-      return documentId;
-    } else {
-      console.error('User not found in the collection');
+      console.error('Error getting document ID:', error);
       return null;
     }
-  } catch (error) {
-  console.error('Error getting document ID:', error);
-  return null;
-}
-};
-
+  };
 
   const isFocused = useIsFocused();
   useEffect(() => {
     // getGrouplist();
-    getDocumentIdForUserId()
+    getDocumentIdForUserId();
   }, [isFocused]);
-
+console.log(groupList,"groupListgroupList")
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       {/* Create Group Button*/}
@@ -81,7 +115,7 @@ setGroupList(data);
         onPress={() =>
           prop.navigation.navigate('CreateGroup', {
             userID: prop.user.user.user.id,
-            refreshGrouplist: getGrouplist,
+            // refreshGrouplist: getGrouplist,
           })
         }>
         <Ionicons name="add" size={30} color="#fff" />
@@ -90,27 +124,27 @@ setGroupList(data);
       <FlatList
         data={groupList}
         renderItem={({item}) => {
-      
+          console.log(item,'kssskkkkj')
           return (
             // item?.status == 1 && (
-              <TouchableWithoutFeedback
-                onPress={() =>
-                  prop.navigation.navigate('GroupChat', {group_id: item?.id})
-                }>
-                <View style={styles.groupContainer}>
-                  <View style={{width: '80%'}}>
-                    <Text style={styles.groupName}>{item?.data?.groupName}</Text>
-                    {/* <Text style={styles.userName} >الفو توشوب <Text style={styles.lastMessage}>
+            <TouchableWithoutFeedback
+              onPress={() =>
+                prop.navigation.navigate('GroupChat', {group_id: item?.id, groupName:item?.data?.groupName, groupUserData:item?.data?.groupUserDetails})
+              }>
+              <View style={styles.groupContainer}>
+                <View style={{width: '80%'}}>
+                  <Text style={styles.groupName}>{item?.data?.groupName}</Text>
+                  {/* <Text style={styles.userName} >الفو توشوب <Text style={styles.lastMessage}>
                                         اربك تكست هو اول موقع يسمح لزواره الكرام بتحويل الكتابة العربي
                                     </Text></Text> */}
-                  </View>
+                </View>
 
-                  {/* <View style={styles.groupImageContainer}>
+                {/* <View style={styles.groupImageContainer}>
                                     <Image source={require("../../../assets/splashimg.png")}
                                         style={styles.groupImageStyle} />
                                 </View> */}
-                </View>
-              </TouchableWithoutFeedback>
+              </View>
+            </TouchableWithoutFeedback>
             // )
           );
         }}

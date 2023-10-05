@@ -6,10 +6,8 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
-  SafeAreaView,
   Dimensions,
   StyleSheet,
-  PermissionsAndroid,
   ImageBackground,
   ActivityIndicator,
 } from 'react-native';

@@ -26,7 +26,6 @@ const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 import firestore from '@react-native-firebase/firestore';
 import {RefreshControl} from 'react-native';
-
 class Messages extends Component {
   constructor(props) {
     super(props);
@@ -112,7 +111,6 @@ class Messages extends Component {
     if (user.user.user != undefined) {
       this.setState({loader: true});
       this.getUserDropList(user.user.user.id);
-      // this.getMessagesList(user.user.user.id);
     } else {
       this.setState({loader: false});
       clearInterval(this.interval);
@@ -133,7 +131,6 @@ class Messages extends Component {
   };
   navigateToMessagesNew = item => {
     this.setState({modal: false});
-
     this.props.navigation.navigate('MessageNew', {messageData: item});
   };
   ScrollToRefresh() {
@@ -166,7 +163,6 @@ class Messages extends Component {
             }}>
             {userName}
           </Text>
-
           <View
             style={{
               width: 60,
@@ -218,7 +214,6 @@ class Messages extends Component {
             }}>
             {userName}
           </Text>
-
           <View
             style={{
               borderRadius: 30,
@@ -313,18 +308,12 @@ class Messages extends Component {
               <View
                 style={{
                   backgroundColor: '#FFFFFF',
-
                   borderRadius: 10,
                   flex: 1,
                 }}>
-                <View
-                //  style={{ top: 1, justifyContent: 'center', alignItems: 'center', }}
-                >
+                <View>
                   <Searchbar
                     placeholder="Search"
-                    // onChangeText={(text) => searchFilterFunction(text)}
-                    // onClear={(text) => searchFilterFunction('')}
-                    // value={search}
                     style={{
                       width: width - 45,
                       height: 60,
@@ -347,17 +336,7 @@ class Messages extends Component {
             </View>
           </Modal>
         )}
-
-        {/* 
-          <TouchableOpacity style={[Styles.floatIcon, {
-            position: 'absolute',
-            left: 10,
-            bottom: 150,
-          }]} onPress={() => this.modalOpen()}>
-            <MaterialCommunityIcons name="plus" size={30} color="#D2691E" style={{ padding: 5 }} />
-          </TouchableOpacity> */}
       </View>
-      // </SafeAreaView>
     );
   }
 }

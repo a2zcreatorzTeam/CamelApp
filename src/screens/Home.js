@@ -604,7 +604,7 @@ class Home extends Component {
               onChangeText={text => {
                 this.search(text);
               }}
-              onPressSearch={() => this.searchFunction(this.state.searchText)}
+              onPressSearch={() => this.searchHandler(this.state.searchText)}
             />
             <ActivityIndicator
               size="large"
@@ -625,7 +625,7 @@ class Home extends Component {
                   this.setState({searchedItem: ''});
                 }
               }}
-              onPressSearch={() => this.searchHandler(this.state.searchText)}
+              onPressSearch={() => this.searchHandler(this.state?.searchText)}
             />
             <View
               style={{

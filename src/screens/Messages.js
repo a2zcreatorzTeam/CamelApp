@@ -38,7 +38,6 @@ class Messages extends Component {
       loader: false,
     };
   }
-
   getUsersDetails = async data => {
     try {
       return await camelapp.post('getMultipleUsersDetails', data).then(res => {
@@ -55,23 +54,6 @@ class Messages extends Component {
     const chatRoomsRef = firestore()
       .collection('chats')
       .where(`members.${currentUser}`, '==', true);
-    // const unsubscribe = chatRoomsRef.onSnapshot(querySnapshot => {
-    //   const usersSet = new Set();
-    //   querySnapshot.forEach(doc => {
-    //     const chatRoomData = doc.data();
-    //     Object.keys(chatRoomData.members).forEach(userId => {
-    //       console.log(userId, 'iddd');
-    //       if (userId != user_id) {
-    //         usersSet.add(userId);
-    //       }
-    //     });
-    //   });
-    //   const usersArray = Array.from(usersSet);
-    //   this.setState({getUserDropList: usersArray});
-    // });
-    // return () => {
-    //   unsubscribe();
-    // };
     const unsubscribe = chatRoomsRef.onSnapshot(async querySnapshot => {
       const usersData = [];
       for (const doc of querySnapshot.docs) {
@@ -88,7 +70,6 @@ class Messages extends Component {
           .orderBy('timestamp', 'desc')
           .limit(1)
           .get();
-
         const lastMessageDoc = lastMessageQuery.docs[0];
         const lastMessageData = lastMessageDoc ? lastMessageDoc.data() : null;
         console.log(lastMessageData, 'lastMessageDatalastMessageData');
@@ -108,7 +89,6 @@ class Messages extends Component {
       }
       usersData.sort((a, b) => b.timestamp - a.timestamp);
       this.getUsersDetails(usersData);
-      console.log(usersData, 'userData');
       this.setState({getUserDropList: usersData});
     });
     return () => {
@@ -293,21 +273,24 @@ class Messages extends Component {
           animating={this.state.loader}
           style={styles.activityIndicator}
         />
-        <FlatList
-          initialNumToRender={userList?.length}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={() => this.ScrollToRefresh()}
-            />
-          }
-          contentContainerStyle={{flexGrow: 1}}
-          style={{flex: 1}}
-          ListEmptyComponent={() => <EmptyComponent />}
-          data={userList}
-          renderItem={renderItem}
-          keyExtractor={item => item.id.toString()}
-        />
+        {this.state.loader == false && (
+          <FlatList
+            initialNumToRender={userList?.length}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={() => this.ScrollToRefresh()}
+              />
+            }
+            contentContainerStyle={{flexGrow: 1}}
+            style={{flex: 1}}
+            ListEmptyComponent={() => <EmptyComponent />}
+            data={userList}
+            renderItem={renderItem}
+            keyExtractor={item => item.id.toString()}
+          />
+        )}
+
         {this.state.modal && (
           <Modal transparent={true} visible={this.state.modal}>
             <View
@@ -378,16 +361,13 @@ class Messages extends Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 const styles = StyleSheet.create({
   activityIndicator: {
     position: 'absolute',

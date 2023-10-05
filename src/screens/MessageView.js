@@ -10,6 +10,8 @@ import {
   Dimensions,
   StyleSheet,
   PermissionsAndroid,
+  ImageBackground,
+  ActivityIndicator,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import {Card} from 'react-native-paper';
@@ -17,14 +19,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import * as ArabicText from '../language/EnglishToArabic';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
-import camelapp from '../api/camelapp';
 import {connect, useSelector} from 'react-redux';
-import * as userActions from '../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
-import {DataContext, getChatMessages} from '../context/DataContext';
-import {useCallback} from 'react';
 import {checkOrCreateChatRoom, sendMessage} from '../services';
-import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
 import BackBtnHeader from '../components/headerWithBackBtn';
@@ -34,160 +30,8 @@ import GetLocation from 'react-native-get-location';
 import {Modal} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Linking} from 'react-native';
-
-// class MessageView extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       dataSource: [],
-//       isLoading: true,
-//       inputValue: '',
-//       reciever_id: props.route.params.messageData.id,
-//     };
-//   }
-
-//   componentDidMount() {
-//     console.log('chattt');
-//     // this.interval =
-//     //     setInterval(() => {
-
-//     //         this.getChatMessages();
-
-//     //     }, 5000)
-//     //console.log("props.route.params.messageData.sender_id", this.props.route.params.messageData.id);
-//     this.getChatMessages();
-//   }
-//   componentWillUnmount() {
-//     clearInterval(this.interval);
-//   }
-
-//   getChatMessages = async () => {
-//     let {user} = this.props;
-
-//     //console.log("user", user.user.user);
-
-//     let sender_id = user.user.user.id;
-
-//     let reciever_id = this.props.route.params.messageData.id;
-
-//     await camelapp
-//       .get('/getmsgchat/' + sender_id + '/' + reciever_id)
-//       .then(response => {
-//         //console.log("response getChatMessages", response.data);
-
-//         this.setState({dataSource: response.data});
-//       });
-//   };
-
-//   _renderItem = ({item, index}) => {
-//     let {user} = this.props;
-
-//     let sender_id = user.user.user.id;
-
-//     //console.log("item", item)
-//     return item.sender_id == sender_id ? (
-//       <Card style={Styles.text_send}>
-//         <Text style={{color: '#fff', textAlign: 'right', fontSize: 14}}>
-//           {item.message}
-//         </Text>
-//         <Text style={{color: 'black', fontSize: 10}}>{item.created_at}</Text>
-//       </Card>
-//     ) : (
-//       <Card style={Styles.text_send_right}>
-//         <Text style={{color: '#d2691e', fontSize: 14}}>{item.message}</Text>
-//         <Text style={{color: 'gray', textAlign: 'right', fontSize: 10}}>
-//           {item.created_at}
-//         </Text>
-//       </Card>
-//     );
-//   };
-
-//   sendMessage = () => {
-//     let {user} = this.props;
-
-//     //console.log("user", user.user.user);
-
-//     let sender_id = user.user.user.id;
-
-//     let reciever_id = this.props.route.params.messageData.id;
-
-//     if (this.state.inputValue != '') {
-//       camelapp
-//         .post('/sendmsg', {
-//           sender_id: sender_id,
-//           reciever_id: reciever_id,
-//           message: this.state.inputValue,
-//         })
-//         .then(response => {
-//           //console.log('send message response', response);
-
-//           this.setState({inputValue: ''});
-//           this.getChatMessages();
-//         });
-//     }
-//   };
-//   handlePress = useCallback(
-//     function () {
-//       setIsLoading(true);
-//       firebaseService.createMessage({message, uid}).then(function () {
-//         setIsLoading(false);
-//         setMessage('');
-//       });
-//     },
-//     [message],
-//   );
-
-//   render() {
-//     return (
-//       <View
-//         //style={Styles.containerMessageView}
-//         style={{flex: 1, width: width, height: hight}}>
-//         <FlatList
-//           data={this.state.dataSource}
-//           renderItem={this._renderItem}
-//           keyExtractor={(item, index) => index.toString()}
-//         />
-
-//         <View style={Styles.msgbar}>
-//           <TouchableOpacity
-//             style={{left: 5, position: 'absolute', bottom: 0, marginRight: 10}}>
-//             <Feather
-//               name="send"
-//               size={30}
-//               color="#D2691E"
-//               style={{
-//                 left: 5,
-//                 position: 'absolute',
-//                 bottom: 7,
-//                 marginTop: 40,
-//                 transform: [{rotate: '225deg'}],
-//               }}
-//               onPress={() => this.sendMessage()}
-//             />
-//           </TouchableOpacity>
-//           <TextInput
-//             style={Styles.msginput}
-//             placeholder={ArabicText.message}
-//             placeholderTextColor="#b0b0b0"
-//             onChangeText={text => this.setState({inputValue: text})}
-//             value={this.state.inputValue}></TextInput>
-//         </View>
-//       </View>
-//     );
-//   }
-// }
-
-// const mapStateToProps = state => ({
-//   user: state.user,
-// });
-
-// const ActionCreators = Object.assign({}, userActions);
-// const mapDispatchToProps = dispatch => ({
-//   actions: bindActionCreators(ActionCreators, dispatch),
-// });
-
-// export default connect(mapStateToProps, mapDispatchToProps)(MessageView);
-
+import Video from 'react-native-video';
+import FastImage from 'react-native-fast-image';
 const MessageView = ({route}) => {
   const [inputValue, setInputValue] = useState('');
   const [dataSource, setDataSource] = useState([]);
@@ -199,10 +43,16 @@ const MessageView = ({route}) => {
   const [lat, setlat] = useState(null);
   const [long, setlong] = useState(null);
   const [image, setImage] = useState(null);
-  const [mimeVedio, setMimeVideo] = useState(null);
   const [video, setVideo] = useState(null);
 
+  const [modal, setModal] = useState(false);
+  const [pausedCheck, setpausedCheck] = useState(true);
+  const [load, setLoad] = useState(false);
+  const [modalItem, setModalItem] = useState('');
+  const [modalItemType, setModalItemType] = useState('');
+
   const reciever_id = route.params.messageData.id;
+  const reciever_data = route.params.messageData;
   const user_id = useSelector(state => state?.user?.user?.user?.id);
   const user = useSelector(state => state?.user);
   const chatRoomId =
@@ -210,13 +60,21 @@ const MessageView = ({route}) => {
       ? `${user_id}_${reciever_id}`
       : `${reciever_id}_${user_id}`;
   handlePress = () => {
-    sendMessage(user_id, inputValue, chatRoomId, lat, long, image).then(
+    sendMessage(user_id, inputValue, chatRoomId, lat, long, image, video).then(
       success => {
-        success && setInputValue(''),
-          setModalVisible(false),
-          setConfirmModal(false);
+        success && setModalVisible(false),
+          setConfirmModal(false),
+          setImage(''),
+          setVideo(''),
+          setlat(''),
+          setlong('');
+        setLoader(false);
+        !success && setLoader(false);
       },
     );
+    setInputValue('');
+    console.log(!image, 'jkjkj', !video);
+    !image && !video && setLoader(false);
   };
   const proceed = async (lat, long) => {
     const url = `https://www.google.com/maps/search/?api=1&query=${lat},${long}`;
@@ -224,6 +82,268 @@ const MessageView = ({route}) => {
     if (supported) {
       await Linking.openURL(url);
     }
+  };
+  _renderItem = ({item, index}) => {
+    const formattedDateTime = moment.unix(item?.timestamp).format('h:mm:a');
+    let sender_id = user.user.user.id;
+    return item?.sender == sender_id ? (
+      <View style={{width: '100%'}}>
+        {item?.latitude && item?.longitude ? (
+          <>
+            <TouchableOpacity
+              style={[styles.rightChatImageContainer]}
+              onPress={() => proceed(item?.latitude, item?.longitude)}>
+              <Image
+                source={require('../../assets/maps.jpg')}
+                style={styles.chatImage}
+              />
+              <Text style={styles.formattedDateText}>{formattedDateTime}</Text>
+            </TouchableOpacity>
+          </>
+        ) : item?.imageUrl ? (
+          <TouchableOpacity
+            style={[styles.rightChatImageContainer]}
+            onPress={() => {
+              setModal(true),
+                setModalItem({uri: item?.imageUrl}),
+                setModalItemType('image');
+            }}>
+            <Image
+              source={{
+                uri: item?.imageUrl,
+              }}
+              style={styles.chatImage}
+            />
+            <Text style={styles.formattedDateText}>{formattedDateTime}</Text>
+          </TouchableOpacity>
+        ) : item?.videoUrl ? (
+          <>
+            <TouchableOpacity
+              style={[styles.rightChatImageContainer]}
+              onPress={() => {
+                setModal(true),
+                  setModalItem({uri: item?.videoUrl}),
+                  setModalItemType('video');
+              }}>
+              <ImageBackground
+                imageStyle={{
+                  borderRadius: 25,
+                }}
+                source={require('../../assets/camel.png')}
+                style={[
+                  styles.chatImage,
+                  {
+                    height: '90%',
+                    opacity: 0.6,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginBottom: 0,
+                  },
+                ]}>
+                <Image
+                  tintColor="#fff"
+                  source={require('../../assets/play.png')}
+                  resizeMode={'cover'}
+                  style={{width: 70, height: 70}}
+                />
+              </ImageBackground>
+              <Text style={styles.formattedDateText}>{formattedDateTime}</Text>
+            </TouchableOpacity>
+          </>
+        ) : (
+          <>
+            <Card style={Styles.text_send}>
+              <Text style={{color: '#fff', textAlign: 'right', fontSize: 14}}>
+                {item.text}
+              </Text>
+              <Text style={{color: 'white', fontSize: 10}}>
+                {formattedDateTime}
+              </Text>
+            </Card>
+          </>
+        )}
+      </View>
+    ) : (
+      <>
+        {item?.latitude && item?.longitude ? (
+          <>
+            <TouchableOpacity
+              style={[
+                styles.rightChatImageContainer,
+                styles.containerHeight,
+                {left: 0},
+              ]}
+              onPress={() => proceed(item?.latitude, item?.longitude)}>
+              <Image
+                source={require('../../assets/maps.jpg')}
+                style={styles.chatImage}
+              />
+              <Text
+                style={[
+                  styles.formattedDateText,
+                  {textAlign: 'right', marginRight: 20},
+                ]}>
+                {formattedDateTime}
+              </Text>
+            </TouchableOpacity>
+          </>
+        ) : item?.imageUrl ? (
+          <TouchableOpacity
+            style={[
+              styles.rightChatImageContainer,
+              styles.containerHeight,
+              {left: 0},
+            ]}
+            // onPress={() => proceed(item?.latitude, item?.longitude)}
+          >
+            <Image
+              source={{
+                uri: item?.imageUrl?.pickedImage,
+              }}
+              style={styles.chatImage}
+            />
+            <Text
+              style={[
+                styles.formattedDateText,
+                {textAlign: 'right', marginRight: 20},
+              ]}>
+              {formattedDateTime}
+            </Text>
+          </TouchableOpacity>
+        ) : item?.videoUrl ? (
+          <>
+            <TouchableOpacity
+              style={[
+                styles.rightChatImageContainer,
+                styles.containerHeight,
+                {left: 0},
+              ]}
+              // onPress={() => proceed(item?.latitude, item?.longitude)}
+            >
+              <ImageBackground
+                imageStyle={{
+                  borderRadius: 25,
+                }}
+                source={require('../../assets/camel.png')}
+                style={[
+                  styles.chatImage,
+                  {
+                    height: '90%',
+                    opacity: 0.6,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginBottom: 0,
+                  },
+                ]}>
+                <Image
+                  tintColor="#fff"
+                  source={require('../../assets/play.png')}
+                  resizeMode={'cover'}
+                  style={{width: 70, height: 70}}
+                />
+              </ImageBackground>
+              <Text
+                style={[
+                  styles.formattedDateText,
+                  {textAlign: 'right', marginRight: 20},
+                ]}>
+                {formattedDateTime}
+              </Text>
+            </TouchableOpacity>
+          </>
+        ) : (
+          <Card style={Styles.text_send_right}>
+            <Text style={{color: '#fff', textAlign: 'right', fontSize: 14}}>
+              {item.text}
+            </Text>
+            <Text style={{color: 'white', fontSize: 10}}>
+              {formattedDateTime}
+            </Text>
+          </Card>
+        )}
+      </>
+    );
+  };
+  RenderList = () => {
+    return (
+      <FlatList
+        style={{marginTop: 10, backgroundColor: '#fff'}}
+        contentContainerStyle={{paddingTop: 10, overflow: 'hidden'}}
+        inverted
+        initialNumToRender={dataSource?.length}
+        data={dataSource}
+        renderItem={_renderItem}
+        keyExtractor={(item, index) => index.toString()}
+      />
+    );
+  };
+  const getLocation = () => {
+    GetLocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 15000,
+    })
+      .then(location => {
+        setlat(location?.latitude);
+        setlong(location?.longitude);
+        setImage('');
+        setVideo('');
+        setModalVisible(false);
+        handlePress();
+      })
+      .catch(error => {
+        const {code, message} = error;
+        console.warn(code, message);
+      });
+  };
+  const openGallery = () => {
+    ImageCropPicker.openPicker({
+      mediaType: 'photo',
+      multiple: false,
+      selectionLimit: 1,
+    })
+      .then(async images => {
+        console.log('imagesss', images);
+        if (images) {
+          setImage({
+            imageShow: images?.path,
+            mediaType: images?.mime,
+          });
+          setlat('');
+          setlong('');
+          setVideo('');
+          setConfirmModal(true);
+          setModalVisible(false);
+        } else {
+          console.log('noImagesssss');
+        }
+      })
+      .catch(error => {
+        alert(error, 'errroooooooeee');
+        console.log('error', error);
+      });
+    // setModalVisible(false)
+  };
+  const selectOneFile = async () => {
+    ImageCropPicker.openPicker({
+      mediaType: 'video',
+    }).then(async video => {
+      console.log('video4100', video);
+      if (video) {
+        if (video?.size > 10000000) {
+          alert('Video must be less then 10 MB');
+        } else {
+          console.log(video?.path, 'videoooooo');
+          setVideo(video?.path);
+          setlat('');
+          setlong('');
+          setImage('');
+          setConfirmModal(true);
+          setModalVisible(false);
+        }
+      } else {
+        alert('Please select the video.');
+      }
+    });
   };
   useEffect(() => {
     checkOrCreateChatRoom(chatRoomId, user_id, reciever_id);
@@ -245,222 +365,9 @@ const MessageView = ({route}) => {
       unsubscribe();
     };
   }, []);
-
-  _renderItem = ({item, index}) => {
-    console.log(item?.imageUrl, 'item?.longitude, item');
-    const formattedDateTime = moment.unix(item?.timestamp).format('HH:mm:ss');
-    let sender_id = user.user.user.id;
-    return item?.sender == sender_id ? (
-      <>
-        {item?.latitude && item?.longitude ? (
-          <>
-            <TouchableOpacity
-              style={styles.rightChatImageContainer}
-              onPress={() => proceed(item?.latitude, item?.longitude)}>
-              <Image
-                source={require('../../assets/maps.jpg')}
-                style={styles.chatImage}
-              />
-            </TouchableOpacity>
-          </>
-        ) : item?.imageUrl ? (
-          <TouchableOpacity
-            style={styles.rightChatImageContainer}
-            // onPress={() => proceed(item?.latitude, item?.longitude)}
-          >
-            <Image
-              source={{
-                uri: item?.imageUrl?.pickedImage,
-              }}
-              style={styles.chatImage}
-            />
-          </TouchableOpacity>
-        ) : (
-          <>
-            <Card style={Styles.text_send}>
-              <Text style={{color: '#fff', textAlign: 'right', fontSize: 14}}>
-                {item.text}
-              </Text>
-              <Text style={{color: 'black', fontSize: 10}}>
-                {formattedDateTime}
-              </Text>
-            </Card>
-          </>
-        )}
-      </>
-    ) : (
-      <>
-        {item?.latitude && item?.longitude ? (
-          <>
-            <TouchableOpacity
-              style={[styles.rightChatImageContainer, {left:0}]}
-              onPress={() => proceed(item?.latitude, item?.longitude)}>
-              <Image
-                source={require('../../assets/maps.jpg')}
-                style={styles.chatImage}
-              />
-            </TouchableOpacity>
-          </>
-        ) : item?.imageUrl ? (
-          <TouchableOpacity
-            style={styles.rightChatImageContainer}
-            // onPress={() => proceed(item?.latitude, item?.longitude)}
-          >
-            <Image
-              source={{
-                uri: item?.imageUrl?.pickedImage,
-              }}
-              style={styles.chatImage}
-            />
-          </TouchableOpacity>
-        ) : (
-          <Card style={Styles.text_send_right}>
-            <Text style={{color: '#d2691e', fontSize: 14}}>{item.text}</Text>
-            <Text style={{color: 'gray', textAlign: 'right', fontSize: 10}}>
-              {formattedDateTime}
-            </Text>
-          </Card>
-        )}
-      </>
-    );
-  };
-
-  RenderList = () => {
-    return (
-      <FlatList
-        contentContainerStyle={{paddingTop: 10}}
-        inverted
-        initialNumToRender={dataSource?.length}
-        data={dataSource}
-        renderItem={this._renderItem}
-        keyExtractor={(item, index) => index.toString()}
-      />
-    );
-  };
-
-  const requestLocationPermission = async () => {
-    try {
-      await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: `Alsyahd Mobile App`,
-          message: 'Alsyahd needs location access to get your current location',
-
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        },
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('You can use the location');
-        alert('You can use the location');
-      } else {
-        console.log('location permission denied');
-        alert('Location permission denied');
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const getLocation = () => {
-    GetLocation.getCurrentPosition({
-      enableHighAccuracy: true,
-      timeout: 15000,
-    })
-      .then(location => {
-        setlat(location?.latitude);
-        setlong(location?.longitude);
-        setImage('');
-        setVideo('');
-        handlePress();
-      })
-      .catch(error => {
-        const {code, message} = error;
-        console.warn(code, message);
-      });
-  };
-  const openGallery = () => {
-    ImageCropPicker.openPicker({
-      mediaType: 'photo',
-      multiple: false,
-      includeBase64: true,
-      selectionLimit: 1,
-    })
-      .then(async images => {
-        if (images) {
-          setImage({
-            // image: undefined,
-            pickedImage: 'data:image/png;base64,' + images?.data,
-            imageShow: images?.path,
-            mediaType: images?.mime,
-          });
-          setlat('');
-          setlong('');
-          setVideo('');
-          setConfirmModal(true);
-          setModalVisible(false);
-          console.log('imagesa', 'data:image/png;base64' + images?.data);
-        } else {
-        }
-      })
-      .catch(error => {
-        console.log('error', error);
-      });
-    // setModalVisible(false)
-  };
-  const selectOneFile = async () => {
-    ImageCropPicker.openPicker({
-      mediaType: 'video',
-    }).then(async video => {
-      setMimeVideo(video?.mime);
-      if (video) {
-        if (video?.size > 10000000) {
-          alert('Video must be less then 10 MB');
-        } else {
-          RNFS.readFile(video.path, 'base64')
-            .then(res => {
-              console.log('res====>', res);
-              setVideo(res);
-              setlat('');
-              setlong('');
-              setImage('');
-              setConfirmModal(true);
-
-              // this.setState({ videoForPost: "data:video/mp4;base64," + res });
-              // let tempMixed = this.state.mixed;
-              // let mixed = this.state.mixed;
-              // let videoFlag = false;
-              // if (tempMixed.length > 0) {
-              //   tempMixed.map((item, index) => {
-              //     if (item?.mime != undefined) {
-
-              //       if (item?.mime.includes("video") === true) {
-              //         mixed[index] = video
-              //         videoFlag = true;
-              //       }
-              //     }
-              //   })
-              //   if (videoFlag === false) {
-              //     mixed.push(video);
-              //   }
-              //   this.setState({ mixed: mixed, video: video });
-              // } else {
-              //   tempMixed.push(video);
-              //   this.setState({ mixed: tempMixed, video: video });
-              // }
-            })
-            .catch(err => {
-              console.log(err.message, err.code);
-            });
-        }
-      } else {
-        alert('Please select the video.');
-      }
-    });
-  };
   return (
     <View style={{flex: 1, width: width, height: hight}}>
-      <BackBtnHeader />
+      <BackBtnHeader reciever_data={reciever_data} />
       <RenderList />
       <View style={styles.inputContainer}>
         <View
@@ -469,7 +376,11 @@ const MessageView = ({route}) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <TouchableOpacity onPress={() => handlePress()}>
+          <TouchableOpacity
+            activeOpacity={0.99}
+            onPress={() => {
+              inputValue?.length && handlePress();
+            }}>
             {loader ? (
               <ActivityIndicator size={20} color={'orange'} />
             ) : (
@@ -484,56 +395,37 @@ const MessageView = ({route}) => {
             )}
           </TouchableOpacity>
         </View>
-
-        <View style={styles.inputWrapper}>
-          {/* {image ? (
-            <Image
-              source={{uri: image?.imageShow}}
-              style={{width: 30, height: 30, right: -40}}
-            />
-          ) : null}
-          {video ? (
-            <Image
-              source={require('../../assets/videoImage.png')}
-              style={{width: 30, height: 30, right: -40}}
-            />
-          ) : null}
-          {lat ? (
-            <Image
-              source={require('../../assets/maps.jpg')}
-              style={{width: 30, height: 30, right: -40}}
-            />
-          ) : null} */}
-          <View style={{width: '90%', right: 8, position: 'absolute'}}>
-            <TextInput
-              style={{width: '100%', textAlign: 'right', color: '#000'}}
-              placeholder={ArabicText?.Message}
-              placeholderTextColor="#b0b0b0"
-              onChangeText={text => setInputValue(text)}
-              value={inputValue}
-            />
-          </View>
-        </View>
-        <TouchableOpacity
-          onPress={() => setModalVisible(true)}
-          style={{width: '10%'}}>
-          <Entypo
-            name="attachment"
-            size={18}
-            color="#bbb"
+        <View
+          style={{
+            width: '80%',
+            backgroundColor: '#fff',
+            height: '75%',
+            borderRadius: 25,
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexDirection: 'row',
+            paddingHorizontal: 10,
+          }}>
+          <TouchableOpacity
+            onPress={() => setModalVisible(true)}
+            style={{width: '15%'}}>
+            <Entypo name="attachment" size={18} color="#bbb" style={{}} />
+          </TouchableOpacity>
+          <TextInput
             style={{
-              alignSelf: 'flex-end',
-              marginLeft: 'auto',
-
-              // left: 5,
-              // position: 'absolute',
-              // bottom: 8,
-              // marginTop: 40,
-              // left:'70%'
+              width: '85%',
+              textAlign: 'right',
+              color: '#000',
+              marginRight: 10,
             }}
+            placeholder={ArabicText?.Message}
+            placeholderTextColor="#b0b0b0"
+            onChangeText={text => setInputValue(text)}
+            value={inputValue}
           />
-        </TouchableOpacity>
+        </View>
       </View>
+      {/* attachment modal */}
       <PickerModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
@@ -541,7 +433,7 @@ const MessageView = ({route}) => {
         selectOneFile={selectOneFile}
         getLocation={getLocation}
       />
-
+      {/* media send confirmtion modal */}
       <Modal
         visible={confirmModal}
         transparent={false}
@@ -551,72 +443,173 @@ const MessageView = ({route}) => {
           setImage(null);
           setVideo(null);
         }}>
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => {
-            setConfirmModal(false);
-            setImage(null);
-            setVideo(null);
-            setModalVisible(false);
-          }}
-          style={{
-            marginVertical: 20,
-            zIndex: 1111,
-            marginHorizontal: 20,
-          }}>
-          <AntDesign name="closecircle" size={35} color="orange" />
-        </TouchableOpacity>
         <View
           style={{
-            alignContent: 'center',
-            justifyContent: 'center',
             flex: 1,
+            backgroundColor: '#3C3937',
           }}>
-          {image ? (
-            <Image
-              resizeMode="contain"
-              source={{uri: image?.imageShow}}
-              style={{width: width, height: hight * 0.4}}
-            />
-          ) : null}
-          {video ? (
-            <Image
-              source={require('../../assets/videoImage.png')}
-              style={{width: width, height: hight * 0.7}}
-            />
-          ) : null}
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => {
+              setConfirmModal(false);
+              setImage(null);
+              setVideo(null);
+              setModalVisible(false);
+            }}
+            style={{
+              marginVertical: 20,
+              zIndex: 1111,
+              marginHorizontal: 20,
+              marginLeft: 'auto',
+            }}>
+            <AntDesign name="closecircle" size={35} color="#D2691E" />
+          </TouchableOpacity>
           <View
             style={{
-              position: 'absolute',
-              bottom: 0,
-              justifyContent: 'space-around',
-              alignItems: 'center',
-              flexDirection: 'row',
-              marginHorizontal: 20,
-              marginVertical: 10,
+              alignContent: 'center',
+              backgroundColor: '#3C3937',
+              flex: 1,
+              justifyContent: 'center',
             }}>
+            {image ? (
+              <Image
+                resizeMode="contain"
+                source={{uri: image?.imageShow}}
+                style={{width: width, height: hight * 0.6, marginBottom: '20%'}}
+              />
+            ) : null}
+            {video ? (
+              <Image
+                resizeMode="contain"
+                source={require('../../assets/videoImage.png')}
+                style={{width: width, height: hight * 0.7}}
+              />
+            ) : null}
             <View
               style={{
-                justifyContent: 'center',
+                position: 'absolute',
+                bottom: 0,
+                justifyContent: 'space-around',
                 alignItems: 'center',
+                flexDirection: 'row',
+                marginHorizontal: 20,
+                marginVertical: 10,
               }}>
-              <TouchableOpacity
-                onPress={() => {
-                  handlePress()
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: '#D2691E',
+                  padding: 10,
+                  borderRadius: 100,
+                  marginBottom: 20,
                 }}>
-                {loader ? (
-                  <ActivityIndicator size={20} color={'orange'} />
-                ) : (
-                  <View
+                <TouchableOpacity
+                  onPress={() => {
+                    setLoader(true), handlePress();
+                  }}>
+                  {loader ? (
+                    <ActivityIndicator size={20} color={'white'} />
+                  ) : (
+                    <Feather
+                      name="send"
+                      size={28}
+                      color="white"
+                      style={{
+                        transform: [{rotate: '225deg'}],
+                      }}
+                    />
+                  )}
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      {/* IMAGE_ VIDEO MODAL  */}
+      <Modal
+        visible={modal}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => {
+          setModal(false), setpausedCheck(true);
+        }}>
+        <View style={styles.modalContainer}>
+          {/* Modal Close Button */}
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => {
+              setModal(false), setpausedCheck(true);
+            }}
+            style={styles.modalCloseBTN}>
+            <AntDesign name="closecircle" size={35} color="#fff" />
+          </TouchableOpacity>
+
+          <View style={{height: 300}}>
+            <View style={Styles.imageCarousal}>
+              {modalItemType === 'image' && (
+                <FastImage
+                  style={Styles.image}
+                  source={modalItem}
+                  resizeMode={FastImage?.resizeMode.contain}
+                />
+              )}
+              {modalItemType == 'video' && (
+                <View style={{flex: 1, backgroundColor: '#ededed'}}>
+                  <Video
+                    onError={error => console.error('Video error:', error)}
+                    onLoadStart={() => {
+                      setLoad(true);
+                    }}
+                    onReadyForDisplay={() => {
+                      setLoad(false);
+                    }}
+                    source={modalItem}
+                    resizeMode="contain"
+                    repeat={true}
+                    controls={false}
+                    paused={pausedCheck}
+                    style={[
+                      Styles.image,
+                      {
+                        width: width,
+                        height: hight / 2.5,
+                      },
+                    ]}
+                  />
+                  {/* } */}
+                  <TouchableOpacity
                     style={{
-                      backgroundColor: '#D2691E',
-                      padding: 8,
-                      borderRadius: 20,
+                      height: 70,
+                      width: 70,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      position: 'absolute',
+                      elevation: 2,
+                      bottom: hight / 6,
+                      left: width / 2.3,
+                    }}
+                    onPress={() => {
+                      setpausedCheck(true);
+                      load ? null : setpausedCheck(!pausedCheck);
                     }}>
-                    <Text>Send</Text>
-                  </View>
-                )}
-              </TouchableOpacity>
+                    {load ? (
+                      <ActivityIndicator size="large" />
+                    ) : (
+                      <Image
+                        activeOpacity={0.4}
+                        source={
+                          pausedCheck
+                            ? require('../../assets/play.png')
+                            : require('../../assets/pause.png')
+                        }
+                        resizeMode={'cover'}
+                        style={{width: 70, height: 70}}
+                      />
+                    )}
+                  </TouchableOpacity>
+                </View>
+              )}
             </View>
           </View>
         </View>
@@ -724,13 +717,38 @@ const styles = StyleSheet.create({
     borderBottomEndRadius: 25,
     borderBottomStartRadius: 25,
     left: width - 220,
+
+    width: 250,
+    left: width - 270,
+    height: 185,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   chatImage: {
     width: '100%',
-    height: '90%',
+    height: '85%',
     borderRadius: 20,
     alignSelf: 'center',
-    marginBottom: 70,
+    marginBottom: 5,
+    marginTop: 10,
+  },
+  modalContainer: {
+    height: '100%',
+    width: width,
+    backgroundColor: '#000000db',
+    justifyContent: 'center',
+  },
+  modalCloseBTN: {top: 10, right: 15, position: 'absolute'},
+  containerHeight: {
+    borderRadius: 25,
+    borderTopStartRadius: 0,
+  },
+  formattedDateText: {
+    color: 'white',
+    fontSize: 10,
+    textAlign: 'left',
+    width: '100%',
+    marginLeft: 10,
   },
 });
 

@@ -667,14 +667,14 @@ export const Styles = StyleSheet.create({
   text_send: {
     backgroundColor: '#d2691e',
     padding: 10,
-    width: 200,
-    left: width - 220,
+    width: 250,
+    left: width - 270,
 
     borderBottomLeftRadius: 25,
     borderTopLeftRadius: 25,
     borderBottomRightRadius: 25,
     margin: 10,
-    // marginRight: 10,
+    elevation: 0,
   },
   text_send_right: {
     backgroundColor: '#bbb',
@@ -686,6 +686,7 @@ export const Styles = StyleSheet.create({
     borderTopRightRadius: 25,
     borderBottomRightRadius: 25,
     margin: 10,
+    elevation: 0,
     // marginRight: 10,
   },
   msgbar: {

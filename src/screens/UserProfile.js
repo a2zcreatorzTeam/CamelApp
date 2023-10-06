@@ -58,6 +58,7 @@ class UserProfile extends Component {
       searchText: '',
       searchedItem: '',
       filterPosts: [],
+      OtherUserDetail: '',
     };
   }
   ScrollToRefresh() {
@@ -76,7 +77,7 @@ class UserProfile extends Component {
       ) {
         let msg = 'Hello';
         let mobile = userProfile?.whatsapp_no;
-        if (mobile.length != 0) {
+        if (mobile?.length != 0) {
           if (msg) {
             let url = 'whatsapp://send?text=' + msg + '&phone=' + mobile;
             Linking.openURL(url)
@@ -118,27 +119,37 @@ class UserProfile extends Component {
   audioCall() {
     let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
+
     if (user != undefined) {
       if (user?.id != this.props.route.params.userProfile.user_id) {
         let phone = this.props.route.params.userProfile?.user_phone;
-        if (Platform.OS !== 'android') {
-          phoneNumber = `telprompt:${phone}`;
+
+        if (
+          this?.state?.OtherUserDetail?.phone_status == true ||
+          this?.state?.OtherUserDetail?.phone_status == 'True' ||
+          this?.state?.OtherUserDetail?.phone_status == 1
+        ) {
+          if (Platform.OS !== 'android') {
+            phoneNumber = `telprompt:${this?.state?.OtherUserDetail?.phone}`;
+          } else {
+            phoneNumber = `tel:${this?.state?.OtherUserDetail?.phone}`;
+          }
+          Linking.canOpenURL(phoneNumber)
+            .then(supported => {
+              if (!supported) {
+                // Toast.show({
+                //   type: 'error',
+                //   text1: 'Phone number is not available',
+                // });
+                Alert.alert('Phone number is not available');
+              } else {
+                return Linking.openURL(phoneNumber);
+              }
+            })
+            .catch(err => console.log(err));
         } else {
-          phoneNumber = `tel:${phone}`;
+          alert('This user has disabled mobile number');
         }
-        Linking.canOpenURL(phoneNumber)
-          .then(supported => {
-            if (!supported) {
-              // Toast.show({
-              //   type: 'error',
-              //   text1: 'Phone number is not available',
-              // });
-              Alert.alert('Phone number is not available');
-            } else {
-              return Linking.openURL(phoneNumber);
-            }
-          })
-          .catch(err => console.log(err));
       } else {
         Toast.show({
           type: 'error',
@@ -193,6 +204,7 @@ class UserProfile extends Component {
       })
       .then(response => {
         const data = response.data;
+        console.log('dsdsd', data, 'hyjhjjhghgjjj');
         if (data) {
           // let tempObjOfUserProfile = data;
           // let tempArrayOfUserPosts = [];
@@ -214,13 +226,13 @@ class UserProfile extends Component {
           });
           this.setState({
             postData: arrayPosts,
-          });
-          this.setState({
+
             following: data?.following,
             followers: data?.follwers,
             user: data.user,
-            noOfPosts: data?.posts.length,
+            noOfPosts: data?.posts?.length,
             key: !key,
+            OtherUserDetail: data?.user,
           });
         }
         this.setState({loading: false});
@@ -229,7 +241,7 @@ class UserProfile extends Component {
         }
       })
       .catch(error => {
-        console.log('error', error);
+        console.log('error1', error?.response);
         this.setState({loading: false});
       });
   };
@@ -440,13 +452,14 @@ class UserProfile extends Component {
       }
     };
     const onLikesClick = (item, setIsLiked, setLikeCount) => {
-      const user = this.props;
+      let user = this.props;
+      user = user?.user?.user?.user?.id;
       this.setState({loading: false});
       let post_id = item?.id;
       if (user != undefined) {
         camelapp
           .post('/add/like', {
-            user_id: user?.user_id,
+            user_id: user,
             post_id: post_id,
             type: 'abc',
           })
@@ -461,7 +474,7 @@ class UserProfile extends Component {
             }
           })
           .catch(error => {
-            console.log('error', error);
+            console.log('error like', error?.response);
             this.setState({loading: false});
           });
       } else {

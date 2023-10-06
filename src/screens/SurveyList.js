@@ -93,7 +93,7 @@ class SurveyList extends Component {
         const {title} = item;
         return title?.toLowerCase().includes(value.toLowerCase());
       });
-      if (filteredData.length > 0) {
+      if (filteredData?.length > 0) {
         this.setState({filterPosts: filteredData});
       } else {
         this.setState({filterPosts: []});

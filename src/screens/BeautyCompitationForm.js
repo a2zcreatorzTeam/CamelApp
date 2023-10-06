@@ -67,7 +67,7 @@ class participateInCompetition extends Component {
             let tempMixed = this.state.mixed;
             let mixed = this.state.mixed;
             let videoFlag = false;
-            if (tempMixed.length > 0) {
+            if (tempMixed?.length > 0) {
               tempMixed.map((item, index) => {
                 if (item?.mime != undefined) {
                   if (item?.mime.includes('video') === true) {
@@ -137,11 +137,11 @@ class participateInCompetition extends Component {
       selectionLimit: 4,
     })
       .then(async images => {
-        if (images.length <= 4) {
+        if (images?.length <= 4) {
           let tempImage = images;
           let bse64images = [];
           let mixedTemp = [];
-          for (let i = 0; i < tempImage.length; i++) {
+          for (let i = 0; i < tempImage?.length; i++) {
             bse64images.push('data:image/png;base64,' + images[i].data);
             mixedTemp.push(tempImage[i]);
           }
@@ -260,7 +260,7 @@ class participateInCompetition extends Component {
             placeholderTextColor="#b0b0b0"
             value={this.state.title}
             onChangeText={text => {
-              if (text.length <= 24) {
+              if (text?.length <= 24) {
                 this.setState({title: text});
               } else {
                 alert(ArabicText.limitCharacters);
@@ -274,7 +274,7 @@ class participateInCompetition extends Component {
             placeholderTextColor="#b0b0b0"
             value={this.state.location}
             onChangeText={text => {
-              if (text.length <= 24) {
+              if (text?.length <= 24) {
                 this.setState({location: text});
               } else {
                 alert(ArabicText.limitCharacters);
@@ -288,7 +288,7 @@ class participateInCompetition extends Component {
             keyboardType="numeric"
             value={this.state.age}
             onChangeText={text => {
-              if (text.length <= 3) {
+              if (text?.length <= 3) {
                 this.setState({age: text});
               } else {
                 alert(ArabicText.ageLimit);
@@ -301,7 +301,7 @@ class participateInCompetition extends Component {
             value={this.state.description}
             multiline
             onChangeText={text => {
-              if (text.length <= 300) {
+              if (text?.length <= 300) {
                 this.setState({description: text});
               } else {
                 alert(ArabicText.description);

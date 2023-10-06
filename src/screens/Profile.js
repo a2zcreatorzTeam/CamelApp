@@ -54,6 +54,8 @@ class Profile extends Component {
       phoneNumber: '',
       otpValue: '',
       registerSwitch: false,
+      phoneStatusSwitch: false,
+      updateLoader: false,
       chatFlag: true,
       modalChat: false,
       loading: false,
@@ -100,7 +102,7 @@ class Profile extends Component {
     let {user, actions} = this.props;
     user = user?.user?.user;
     //console.log("this.state.registerSwitch", this.state.registerSwitch)
-    if (this.state.whatsappNumber.length == 10) {
+    if (this.state?.whatsappNumber?.length == 10) {
       try {
         camelapp
           .post('/add/whatsapp/' + user.id, {
@@ -120,30 +122,67 @@ class Profile extends Component {
     }
   }
   updateNumber() {
-    let {user, actions} = this.props;
-    user = user?.user?.user;
+    this.setState({updateLoader: true});
+    if (this.props.user?.user?.user?.phone !== this.state.phoneNumber) {
+      let {user, actions} = this.props;
+      user = user?.user?.user;
 
-    var number = 0;
+      var number = 0;
 
-    do {
-      number = Math.floor(Math?.random() * 10000) + 1;
-      // console.log('number', number);
-    } while (number < 1000 || number > 10000);
+      do {
+        number = Math.floor(Math?.random() * 10000) + 1;
+        // console.log('number', number);
+      } while (number < 1000 || number > 10000);
+      alert(number);
+      camelapp
+        .post('sendsms', {
+          phone: this.state.phoneNumber,
+          message: number,
+        })
+        .then(response => {
+          this.setState({updateLoader: false});
 
-    camelapp
-      .post('sendsms', {
-        phone: this.state.phoneNumber,
-        message: number,
-      })
-      .then(response => {
-        if (response.data.status === true) {
-          this.setState({modalOtp: true, modalPhone: false, otpValue: number});
-        }
-      })
-      .catch(error => {
-        console.log('error', error);
-        this.setState({loader: false, btnPressed: false});
-      });
+          console.log(response.data.status);
+          if (response.data.status === true) {
+            this.setState({
+              modalOtp: true,
+              modalPhone: false,
+              otpValue: number,
+            });
+          } else {
+            this.setState({
+              modalOtp: true,
+              modalPhone: false,
+              otpValue: number,
+            });
+          }
+        })
+        .catch(error => {
+          console.log('error', error);
+          this.setState({loader: false, btnPressed: false});
+        });
+    } else {
+      let {user, actions} = this.props;
+      user = user?.user?.user;
+      camelapp
+        .post('/update', {
+          user_id: this.props?.user?.user?.user.id,
+          phone_status:
+            this.state?.phoneStatusSwitch == true ? 'True' : 'False',
+        })
+        .then(res => {
+          console.log('res number3232', res.data);
+          this.setState({updateLoader: false});
+
+          if (res?.data?.status == true) {
+            actions.userData(res.data);
+            this.setState({modalOtp: false, modalPhone: false});
+            alert('Phone Updated Successfully');
+          } else {
+            alert('Phone Number Already Exist');
+          }
+        });
+    }
   }
   verifiedSms() {
     let {actions} = this.props;
@@ -154,7 +193,7 @@ class Profile extends Component {
         phone: this.state.phoneNumber,
       })
       .then(res => {
-        // console.log('res', res.data);
+        console.log('res number', res.data);
 
         if (res?.data?.status == true) {
           actions.userData(res.data);
@@ -172,6 +211,11 @@ class Profile extends Component {
   onRegisterSwitchChanged(value) {
     //console.log("value", value)
     this.setState({registerSwitch: value});
+  }
+
+  phoneStatusSwitch(value) {
+    //console.log("value", value)
+    this.setState({phoneStatusSwitch: value});
   }
   // onCategoryClick = async item => {
   //   if (item.category_id == '1') {
@@ -276,6 +320,7 @@ class Profile extends Component {
           }
           this.setState({rating: rating});
           this.setState({
+            phoneStatusSwitch: this.props?.user?.user?.user?.phone_status,
             loader: false,
             whatsappNumber: this.props?.user?.user?.user?.whatsapp_no,
             phoneNumber: this.props.user?.user?.user?.phone,
@@ -1016,10 +1061,53 @@ class Profile extends Component {
                           this.setState({phoneNumber: text})
                         }
                         placeholderTextColor="#b0b0b0"></TextInput>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignSelf: 'flex-end',
+                          alignItems: 'center',
+                          marginTop: 10,
+                        }}>
+                        <Text
+                          style={{
+                            margin: 3,
+                            fontWeight: 'bold',
+                            color: 'black',
+                          }}>
+                          {this.state.phoneStatusSwitch == true ||
+                          this.state.phoneStatusSwitch == 'True'
+                            ? 'Active'
+                            : 'In Active'}
+                        </Text>
 
+                        <Switch
+                          trackColor={{false: '#767577', true: '#D2691Eff'}}
+                          thumbColor={
+                            this.state.phoneStatusSwitch == true ||
+                            this.state.phoneStatusSwitch == 'True'
+                              ? '#f5dd4b'
+                              : '#f4f3f4'
+                          }
+                          ios_backgroundColor="#3e3e3e"
+                          onValueChange={value => this.phoneStatusSwitch(value)}
+                          value={
+                            this.state.phoneStatusSwitch == true ||
+                            this.state.phoneStatusSwitch == 'True'
+                              ? true
+                              : false
+                          }
+                        />
+                      </View>
                       <TouchableOpacity onPress={() => this.updateNumber()}>
                         <View style={Styles.btnform}>
-                          <Text style={Styles.textbtn}>{ArabicText.add}</Text>
+                          {this.state?.updateLoader == true ? (
+                            <ActivityIndicator
+                              size={'large'}
+                              color={'white'}
+                            />
+                          ) : (
+                            <Text style={Styles.textbtn}>{ArabicText.add}</Text>
+                          )}
                         </View>
                       </TouchableOpacity>
                     </View>

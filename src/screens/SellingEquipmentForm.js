@@ -110,7 +110,7 @@ class CamelFood extends React.Component {
       this.state.title != '' &&
       this.state.location != '' &&
       this.state.description != '' &&
-      this.state.mixed.length != 0 &&
+      this.state.mixed?.length != 0 &&
       this.state.color != '' &&
       this.state.price != '' &&
       this.state.price_type != '' &&

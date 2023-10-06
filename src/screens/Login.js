@@ -25,6 +25,7 @@ import OTPTextView from 'react-native-otp-textinput';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { requestUserPermission } from '../services/Helper';
 
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
@@ -86,6 +87,11 @@ class Login extends Component {
         alert('Something went wrong');
       });
   }
+
+  componentDidMount = () => {
+    // requestUserPermission()
+  };
+
 
   render() {
     const authentication = async () => {

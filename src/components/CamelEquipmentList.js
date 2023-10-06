@@ -74,7 +74,7 @@ class CamelEquipmentList extends Component {
     }
   }
   searchFunction(searchtext) {
-    if (searchtext != undefined && searchtext.length != 0) {
+    if (searchtext != undefined && searchtext?.length != 0) {
       this.setState({searchedItem: searchtext});
       let tempPost = this.state.posts.filter(item => {
         return (
@@ -97,7 +97,7 @@ class CamelEquipmentList extends Component {
           item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) > -1
         );
       });
-      console.log('tempPost.length--camelequipment', tempPost.length);
+      // console.log('tempPost.length--camelequipment', tempPost.length);
 
       this.setState({filterPosts: tempPost});
     }

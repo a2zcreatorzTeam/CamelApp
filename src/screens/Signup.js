@@ -22,6 +22,7 @@ import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import {Checkbox} from 'react-native-paper';
+import {Platform} from 'react-native';
 
 class SignUp extends Component {
   constructor(props) {
@@ -237,6 +238,8 @@ class SignUp extends Component {
                     phone: this.state.phone,
                     password: this.state.password,
                     confirm_password: this.state.confirm_password,
+                    device_token: 'fcm',
+                    device_type: Platform?.OS,
                   };
                   this.props.navigation.navigate('OtpSignUp', {
                     code: number,

@@ -34,6 +34,7 @@ import {ActivityIndicator} from 'react-native';
 import Loader from '../components/PleaseWait';
 import Header from '../components/Header';
 import FastImage from 'react-native-fast-image';
+import {Share} from 'react-native';
 
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
@@ -368,6 +369,26 @@ class UserProfile extends Component {
   search(text) {
     this.setState({searchText: text});
   }
+  onShare = async () => {
+    try {
+      const result = await Share.share({
+        title: 'SHARE POST',
+        message: `URL`,
+        url: `www.google.com`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
   render() {
     const {filterPosts, postData, searchedItem, key, searchText} = this.state;
     const sharePosts = item => {
@@ -477,7 +498,8 @@ class UserProfile extends Component {
             onLikesClick(item, setIsLiked, setLikeCount)
           }
           onCommentsClick={() => onCommentsClick(item)}
-          sharePost={() => sharePosts(item)}
+          // sharePost={() => sharePosts(item)}
+          sharePost={() => this.onShare()}
           onVideoPlay={item => this.VideoPlay(item)}
           pausedCheck={this.state.pausedCheck}
           pauseCheckHandler={txt => this.setState({pausedCheck: txt})}

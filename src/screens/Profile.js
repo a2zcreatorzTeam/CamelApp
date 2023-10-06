@@ -13,6 +13,7 @@ import {
   TextInput,
   Switch,
   RefreshControl,
+  Share,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Feather from 'react-native-vector-icons/Feather';
@@ -428,6 +429,27 @@ class Profile extends Component {
     this.setState({searchText: text});
   }
 
+  onShare = async () => {
+    try {
+      const result = await Share.share({
+        title: 'SHARE POST',
+        message: `URL`,
+        url: `www.google.com`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   render() {
     console.log('myyyyProfileeeeee');
     const {key, filterPosts, posts, searchedItem, searchText} = this.state;
@@ -646,7 +668,8 @@ class Profile extends Component {
           // onUserProfileClick={() => onUserProfileClick(item)}
           onCategoryClick={() => this.onCategoryClick(item)}
           onCommentsClick={() => onCommentsClick(item)}
-          sharePost={() => sharePosts(item)}
+          // sharePost={() => sharePosts(item)}
+          sharePost={() => this.onShare()}
           onVideoPlay={item => this.VideoPlay(item)}
           pausedCheck={this.state.pausedCheck}
           pauseCheckHandler={txt => this.setState({pausedCheck: txt})}

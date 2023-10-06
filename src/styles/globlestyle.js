@@ -7,7 +7,7 @@ export const Styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     width: width,
   },
   headingPostText: {

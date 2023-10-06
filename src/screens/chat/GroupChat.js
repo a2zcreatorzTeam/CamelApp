@@ -674,7 +674,7 @@ const GroupChat = props => {
                           style={[
                             styles.chatImage,
                             {
-                              height: 180,
+                              height: 150,
                               backgroundColor: 'rgba(0,0,0,0.5)',
                               opacity: 0.6,
                               justifyContent: 'center',
@@ -738,7 +738,7 @@ const GroupChat = props => {
                 </View>
               ) : (
                 //// Left side messages
-                <View style={{flexDirection: 'row'}}>
+                <View style={{flexDirection: 'row',marginLeft:10}}>
                   {item?.message ||
                   item?.imageName ||
                   item?.videoName ||

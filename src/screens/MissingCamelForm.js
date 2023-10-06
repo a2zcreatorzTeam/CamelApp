@@ -108,11 +108,11 @@ class MissingCamelForm extends Component {
       selectionLimit: 4,
     })
       .then(async images => {
-        if (images.length <= 4) {
+        if (images?.length <= 4) {
           let tempImage = images;
           let bse64images = [];
           let mixedTemp = [];
-          for (let i = 0; i < tempImage.length; i++) {
+          for (let i = 0; i < tempImage?.length; i++) {
             bse64images.push('data:image/png;base64,' + images[i].data);
             mixedTemp.push(tempImage[i]);
           }

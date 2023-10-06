@@ -61,7 +61,7 @@ class CamelMarketingList extends Component {
 
     //   this.setState({filterPosts: tempPost});
     // }
-    if (searchtext != undefined && searchtext.length != 0) {
+    if (searchtext != undefined && searchtext?.length != 0) {
       this.setState({searchedItem: searchtext});
       let tempPost = this.state?.posts.filter(item => {
         return (

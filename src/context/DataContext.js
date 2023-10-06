@@ -1276,7 +1276,7 @@ export const viewProfile = async (user_id, current_user_id) => {
       })
       .then(response => {
         this.setState({profile: response.data});
-        let tempPost = response.data.posts.length;
+        let tempPost = response.data.posts?.length;
         // //console.log("length of post array", tempPost)
         let array = [];
         for (let i = 0; i < tempPost; i++) {

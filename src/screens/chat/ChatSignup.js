@@ -49,8 +49,8 @@ const ChatSignup = () => {
           //console.log('EMAIL', number + '@alsyahd.com');
           if (
             password === confirmPassword &&
-            password.length > 7 &&
-            confirmPassword.length > 7
+            password?.length > 7 &&
+            confirmPassword?.length > 7
           ) {
             register(number + '@alsyahd.com', password);
             navigation.navigate(ChatLogin);

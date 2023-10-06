@@ -2,7 +2,7 @@ import firebase from '@react-native-firebase/app';
 import React, {Component} from 'react';
 import Navigation from './src/components/Navigation';
 import SplashScreen from 'react-native-splash-screen';
-import {StatusBar, View, LogBox} from 'react-native';
+import {StatusBar, View, LogBox, Text,Modal,Dimensions} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import camelapp from './src/api/camelapp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,7 +13,8 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
 import firebaseConfig from './src/components/firebase';
 import {getStorage} from 'firebase/storage';
-
+// import codePush from "react-native-code-push";
+const width = Dimensions.get('window')
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(['Remote debugger']);
 const toastConfig = {
@@ -52,6 +53,20 @@ const toastConfig = {
 };
 
 class App extends Component {
+  state = {
+    versionAvailble: false,
+    connectedNetwork: false,
+    maintainace: false,
+    syncMessage: "Loading",
+    progress: null,
+    updateProcess: true,
+    downloaded: 0,
+    downloading: true,
+    source: {
+      html: ``,
+    },
+    update: false,
+  };
   async checkUser() {
     const userPhone = await AsyncStorage.getItem('@UserPhone');
     const userPass = await AsyncStorage.getItem('@UserPassword');
@@ -81,8 +96,104 @@ class App extends Component {
       console.log('Error Message--- signin', error);
     }
   }
-
+  // syncImmediate() {
+  //   this.setState({ updateProcess: true });
+  //   codePush?.sync(
+  //     {
+  //       installMode: codePush?.InstallMode.IMMEDIATE,
+  //       updateDialog: {
+  //         appendReleaseDescription: false,
+  //         optionalIgnoreButtonLabel: "Close",
+  //         optionalInstallButtonLabel: "Install",
+  //         optionalUpdateMessage: "New update available. Install update",
+  //         title: "Update Required",
+  //       },
+  //     },
+  //     this.codePushStatusDidChange.bind(this),
+  //     this.codePushDownloadDidProgress.bind(this)
+  //   );
+  // }
+  // codePushDownloadDidProgress(progress) {
+  //   console.log(progress);
+  //   const downloaded = Math.round(
+  //     (progress?.receivedBytes / progress?.totalBytes) * 100
+  //   );
+  //   console.log("downloaded", downloaded);
+  //   this.setState({ progress, downloading: true, downloaded: downloaded });
+  // }
+  // codePushStatusDidChange(syncStatus) {
+  //   switch (syncStatus) {
+  //     case codePush.SyncStatus.CHECKING_FOR_UPDATE:
+  //       setTimeout(() => {
+  //         this.setState({ syncMessage: "Checking For Update" });
+  //       }, 100);
+  //       break;
+  //     case codePush.SyncStatus.DOWNLOADING_PACKAGE:
+  //       // alert("Please wait few minutes while the update is installed")
+  //       setTimeout(() => {
+  //         this.setState({
+  //           update: true,
+  //           syncMessage: "Downloading updates",
+  //           downloading: true,
+  //         });
+  //       }, 100);
+  //       break;
+  //     case codePush.SyncStatus.AWAITING_USER_ACTION:
+  //       setTimeout(() => {
+  //         this.setState({
+  //           syncMessage: "Waiting for user action to accept",
+  //           downloading: true,
+  //         });
+  //       }, 100);
+  //       break;
+  //     case codePush.SyncStatus.INSTALLING_UPDATE:
+  //       setTimeout(() => {
+  //         this.setState({
+  //           syncMessage: "Kindly wait, update is being install",
+  //           downloading: true,
+  //         });
+  //       }, 100);
+  //       break;
+  //     case codePush.SyncStatus.UP_TO_DATE:
+  //       setTimeout(() => {
+  //         this.setState({
+  //           syncMessage: "Your app is upto-date",
+  //           updateProcess: false,
+  //           downloading: false,
+  //         });
+  //       }, 100);
+  //       break;
+  //     case codePush.SyncStatus.UPDATE_IGNORED:
+  //       setTimeout(() => {
+  //         this.setState({ syncMessage: "User ignored the update" }, () => {
+  //           BackHandler.exitApp();
+  //         });
+  //       }, 100);
+  //       break;
+  //     case codePush.SyncStatus.UPDATE_INSTALLED:
+  //       setTimeout(() => {
+  //         this.setState(
+  //           {
+  //             syncMessage: "Your application is updated now",
+  //             updateProcess: false,
+  //             update: false,
+  //           },
+  //           () => {
+  //             codePush.restartApp();
+  //           }
+  //         );
+  //       }, 100);
+  //       break;
+  //     case codePush.SyncStatus.UNKNOWN_ERROR:
+  //       // setTimeout(() => {
+  //       //   this.setState({ syncMessage: "There is an unknown error" });
+  //       // }, 100);
+  //       break;
+  //   }
+  // }
   componentDidMount() {
+    // this.syncImmediate();
+
     SplashScreen.hide();
     this.checkUser();
     let app;
@@ -109,6 +220,62 @@ class App extends Component {
         />
         <Toast config={toastConfig} />
         <Navigation />
+        {/* <Modal
+                animationType="slide"
+                transparent={true}
+                visible={true} //this.state.update
+              >
+                <View
+                  style={{
+                    width: width,
+                    height: "100%",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                    backgroundColor: "rgba(52,52,52,0.3)",
+                  }}
+                >
+                  <View
+                    style={{
+                      width: width,
+                      height: 270,
+                      borderTopLeftRadius: 30,
+                      borderTopRightRadius: 30,
+                      backgroundColor: "white",
+                      justifyContent: "center",
+                    }}
+                  >
+                   
+                    <Text
+                      style={{
+                      
+                        fontSize: 20,
+                        color: "black",
+                        alignSelf: "center",
+                        marginBottom: 10,
+                      }}
+                    >
+                      App is updating, please wait.
+                    </Text>
+                   
+                    <Text
+                      style={{
+                      
+                        fontSize: 18,
+                        color: "white",
+                        alignSelf: "center",
+                        marginVertical: 10,
+                        position: "absolute",
+                        bottom: 29,
+                        left: 35,
+                        zIndex: 50,
+                      }}
+                    >
+                      {this.state.downloaded}%
+                    </Text>
+                 
+                  </View>
+                </View>
+              </Modal> */}
       </SafeAreaProvider>
       // </View>
     );

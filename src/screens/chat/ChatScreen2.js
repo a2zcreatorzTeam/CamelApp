@@ -68,7 +68,7 @@ const ChatScreen2 = () => {
           />
         </View>
 
-        {messageText.length > 0 ? (
+        {messageText?.length > 0 ? (
           <TouchableOpacity
             style={{marginHorizontal: 10}}
             onPress={() => handlePress()}>

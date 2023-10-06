@@ -57,7 +57,7 @@ class Sponser extends Component {
           phone?.toLowerCase().includes(value.toLowerCase())
         );
       });
-      if (filteredData.length > 0) {
+      if (filteredData?.length > 0) {
         this.setState({filterPosts: filteredData, key: !key});
       } else {
         this.setState({filterPosts: [], key: !key});

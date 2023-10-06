@@ -97,7 +97,7 @@ class CamelSellingList extends Component {
     }
   }
   searchFunction(searchtext) {
-    if (searchtext != undefined && searchtext.length != 0) {
+    if (searchtext != undefined && searchtext?.length != 0) {
       this.setState({searchedItem: searchtext});
       let tempPost = this.state.posts.filter(item => {
         return (

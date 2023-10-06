@@ -35,7 +35,7 @@ class CamelFemaleList extends Component {
 
   searchFunction(searchtext) {
     console.log('searchtext', searchtext);
-    if (searchtext != undefined && searchtext.length != 0) {
+    if (searchtext != undefined && searchtext?.length != 0) {
       this.setState({searchedItem: searchtext});
       let tempPost = this.state.posts.filter(item => {
         return (
@@ -58,7 +58,7 @@ class CamelFemaleList extends Component {
           item.camel_type.toLowerCase().indexOf(searchtext.toLowerCase()) > -1
         );
       });
-      console.log('tempPost.length--femaleList', tempPost.length);
+      // console.log('tempPost.length--femaleList', tempPost.length);
 
       this.setState({filterPosts: tempPost});
     }

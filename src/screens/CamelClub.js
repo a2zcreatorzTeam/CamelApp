@@ -70,7 +70,7 @@ class CamelClub extends Component {
               let tempMixed = this.state.mixed;
               let mixed = this.state.mixed;
               let videoFlag = false;
-              if (tempMixed.length > 0) {
+              if (tempMixed?.length > 0) {
                 tempMixed.map((item, index) => {
                   if (item?.mime != undefined) {
                     if (item?.mime.includes('video') === true) {
@@ -111,7 +111,7 @@ class CamelClub extends Component {
           let tempImage = images;
           let bse64images = [];
           let mixedTemp = [];
-          for (let i = 0; i < tempImage.length; i++) {
+          for (let i = 0; i < tempImage?.length; i++) {
             bse64images.push('data:image/png;base64,' + images[i].data);
             mixedTemp.push(tempImage[i]);
           }
@@ -143,7 +143,7 @@ class CamelClub extends Component {
           let mixedTemp = [];
           mixedTemp.push(images);
           if (imagesForPost?.length > 0) {
-            console.log('length');
+            // console.log('length');
             this.setState(previousState => {
               return {
                 imagesForPost: [

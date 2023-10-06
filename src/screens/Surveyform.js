@@ -78,7 +78,7 @@ class Surveyform extends Component {
     let {user} = this.props;
     user = user?.user?.user;
     let survey = this?.props?.route?.params?.surveyId;
-    for (let j = 0; j < survey?.survey_details[index]['answer'].length; j++) {
+    for (let j = 0; j < survey?.survey_details[index]['answer']?.length; j++) {
       survey.survey_details[index]['answer'][j]['flag'] = false;
       survey.survey_details[index]['answer'][j]['flagForCount'] = true;
     }

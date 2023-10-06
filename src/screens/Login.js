@@ -10,6 +10,7 @@ import {
   Modal,
   ScrollView,
   Linking,
+  Platform,
 } from 'react-native';
 import * as ArabicText from '../language/EnglishToArabic';
 import {Styles} from '../styles/globlestyle';
@@ -24,6 +25,7 @@ import OTPTextView from 'react-native-otp-textinput';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { requestUserPermission } from '../services/Helper';
 
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
@@ -86,6 +88,11 @@ class Login extends Component {
       });
   }
 
+  componentDidMount = () => {
+    // requestUserPermission()
+  };
+
+
   render() {
     const authentication = async () => {
       this.setState({loader: true});
@@ -104,6 +111,8 @@ class Login extends Component {
             .post('/login', {
               phone: this.state.contactNumber,
               password: this.state.password,
+              device_type:Platform.OS,
+              device_token:'fcm'
             })
             .then(res => {
               response = res.data;

@@ -42,7 +42,7 @@ class CamelMovingList extends Component {
   }
   searchFunction(searchtext) {
     const {key} = this.state;
-    if (searchtext != undefined && searchtext.length != 0) {
+    if (searchtext != undefined && searchtext?.length != 0) {
       this.setState({searchedItem: searchtext});
       let tempPost = this.state?.posts.filter(item => {
         return (

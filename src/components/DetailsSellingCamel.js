@@ -126,7 +126,7 @@ class DetailsComponent extends Component {
           let msg = 'Hello';
           let mobile = this.state.itemFromDetails?.user_whatsapp_no;
 
-          if (mobile.length != 0) {
+          if (mobile?.length != 0) {
             if (msg) {
               let url = 'whatsapp://send?text=' + msg + '&phone=' + mobile;
               Linking.openURL(url)

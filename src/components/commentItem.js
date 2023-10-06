@@ -30,7 +30,7 @@ const Item = ({
           paddingVertical: 10,
           justifyContent: 'center',
         }}>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', position:'absolute', bottom:10, alignItems:'center'}}>
           <Text
             style={{
               color: 'black',
@@ -75,7 +75,7 @@ const Item = ({
               flexDirection: 'row',
               // width: '100%',
             }}>
-            <View style={{width: '90%'}}>
+            <View style={{width: '90%', marginLeft:'auto',}}>
               <Text
                 style={{
                   fontSize: 16,
@@ -99,9 +99,12 @@ const Item = ({
               <Text 
                 ellipsizeMode="tail"
                 style={{
-                  fontSize: 12,
+                  fontSize: 15,
                   color: 'black',
                   textAlign: 'right',
+                  paddingHorizontal: 20,
+                  marginVertical:10
+
                   // width: '90%',
                   // marginLeft: 10,
                 }}>

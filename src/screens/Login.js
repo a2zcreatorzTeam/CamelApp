@@ -152,8 +152,8 @@ console.log("1", auth)
             .post('/login', {
               phone: this.state.contactNumber,
               password: this.state.password,
-              device_type: Platform.OS,
-              device_token: deviceToken,
+              device_type:Platform?.OS,
+              device_token:"fcm"
             })
             .then(res => {
               response = res.data;

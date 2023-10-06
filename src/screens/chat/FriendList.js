@@ -31,11 +31,14 @@ const FriendList = prop => {
         '/getfriendrequest/' + prop?.user?.user?.user?.id,
       );
       fetchData?.data?.FriendRequest?.length &&
-        setFriendRequest(fetchData?.data?.FriendRequest);
-      setKey(!key);
+        setFriendRequest(fetchData?.data?.FriendRequest),
+        setKey(!key);
+      fetchData?.data?.FriendRequest == undefined && setFriendRequest([]),
+        setKey(!key);
     } catch (error) {
       setFriendRequest([]);
       console.log(error?.response, '=====ERROR getfriendrequest===');
+      setKey(!key);
     }
   }
   };
@@ -46,7 +49,7 @@ const FriendList = prop => {
         friend_id: prop?.friend_id,
         status: status,
       });
-      console.log(prop?.user_id, prop?.friend_id, status, 'statusstatus');
+      console.log(fetchData, status, 'statusstatus');
       getFriendreq();
     } catch (error) {
       console.log(error, '=====ERROR friendrequest===');
@@ -57,7 +60,6 @@ const FriendList = prop => {
     getFriendreq();
     setRefreshing(false);
   };
-
   const isFocused = useIsFocused();
   useEffect(() => {
     getFriendreq();
@@ -78,7 +80,7 @@ const FriendList = prop => {
         }
         data={friendRequest}
         renderItem={({item}) => {
-          console.log(item, 'itemmmmm');
+          console.log(item, 'itemmmmm123');
           return (
             <TouchableWithoutFeedback
             // onPress={() => prop.navigation.navigate("GroupChat", { group_id: item?.id })}
@@ -139,7 +141,6 @@ const FriendList = prop => {
     </View>
   );
 };
-
 const mapStateToProps = state => ({
   user: state.user,
 });
@@ -148,7 +149,6 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(FriendList);
-
 const styles = StyleSheet.create({
   groupContainer: {
     backgroundColor: '#fff',

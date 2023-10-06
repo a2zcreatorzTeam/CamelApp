@@ -232,7 +232,7 @@ class SignUp extends Component {
                 message: number,
               })
               .then(response => {
-                if (response.data.status === true) {
+                if (response) {
                   let tempSignUpObj = {
                     name: this.state.name,
                     phone: this.state.phone,

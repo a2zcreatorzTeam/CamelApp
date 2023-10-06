@@ -10,6 +10,7 @@ import {
   Modal,
   ScrollView,
   Linking,
+  Platform,
 } from 'react-native';
 import * as ArabicText from '../language/EnglishToArabic';
 import {Styles} from '../styles/globlestyle';
@@ -104,6 +105,8 @@ class Login extends Component {
             .post('/login', {
               phone: this.state.contactNumber,
               password: this.state.password,
+              device_type:Platform?.OS,
+              device_token:"fcm"
             })
             .then(res => {
               response = res.data;

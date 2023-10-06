@@ -15,6 +15,7 @@ import {bindActionCreators} from 'redux';
 import * as ArabicText from '../language/EnglishToArabic';
 
 import camelapp from '../api/camelapp';
+import {Platform} from 'react-native';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -90,48 +91,60 @@ class App extends Component {
   submitOTP() {
     let number =
       this.state.one + this.state.two + this.state.three + this.state.four;
-
-    //console.log('number', number);
-    //console.log('sign_up_data', this.state.sign_up_data);
-
     let user_data = this.state.sign_up_data;
-
     //console.log('previous number', this.state.number);
     if (number != '') {
       if (parseInt(this.state.number) === parseInt(number)) {
         this.setState({btnPressed: true, loader: true});
         // //console.log("signUpUser", signUpUser)
-
         camelapp
           .post('/register', {
             name: user_data.name,
             phone: user_data.phone,
             password: user_data.password,
+            device_type: Platform.OS,
+            device_token: 'fcm',
           })
           .then(respo => {
-            console.log('respo', respo.data);
-
-            if (respo.data.status === true) {
+            console.log(
+              'respo1234',
+              respo,
+              user_data.name,
+              user_data.phone,
+              user_data.password,
+              Platform.OS,
+              'fcm',
+            );
+            if (respo?.data?.status == true) {
+              console.log('heyyyyy', user_data.phone, user_data.password);
               camelapp
                 .post('/login', {
                   phone: user_data.phone,
                   password: user_data.password,
+                  device_type: Platform.OS,
+                  device_token: 'fcm',
                 })
                 .then(res => {
+                  console.log(res?.data, 'responseloginOnaotp');
                   let response = res.data;
-
-                  if (response.status == true) {
+                  if (response) {
+                    // if (response.status == true) {
                     this.setState({loader: false, btnPressed: false});
+                    // this.props.navigation.navigate('CreateProfile', {
+                    //   response: response,
+                    // });
+                    console.log('response', response);
                     let {actions} = this.props;
                     actions.userData(response);
-                    console.log('response', response);
                     this.props.navigation.navigate('Home');
                   } else {
                     alert(response.error + '');
                     this.setState({loader: false});
                   }
                 })
-                .catch(error => {});
+                .catch(error => {
+                  console.log(error, 'eriiiiii');
+                });
             }
           })
           .catch(error => {

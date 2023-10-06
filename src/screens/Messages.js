@@ -57,7 +57,6 @@ class Messages extends Component {
       const usersData = [];
       for (const doc of querySnapshot.docs) {
         const chatRoomData = doc.data();
-        console.log(chatRoomData, 'chatRoomDattaa');
         const otherUserId = Object.keys(chatRoomData.members).find(
           userId => userId != currentUser,
         );
@@ -71,7 +70,6 @@ class Messages extends Component {
           .get();
         const lastMessageDoc = lastMessageQuery.docs[0];
         const lastMessageData = lastMessageDoc ? lastMessageDoc.data() : null;
-        console.log(lastMessageData, 'lastMessageDatalastMessageData');
         // Fetch user details for the other user
         if (lastMessageData && user_id) {
           const userWithLastMessage = {
@@ -94,17 +92,6 @@ class Messages extends Component {
       // Unsubscribe the listener when the component unmounts
       unsubscribe();
     };
-  }
-  getMessagesList(user_id) {
-    camelapp
-      .get('/getmsg/' + user_id)
-      .then(res => {
-        //console.log("response Get Message", res);
-        this.setState({getUserDropList: res.data});
-      })
-      .catch(error => {
-        console.log('getUserDropList====>> ', error);
-      });
   }
   checkUserLogedIn() {
     let {user} = this.props;

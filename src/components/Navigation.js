@@ -72,6 +72,7 @@ import GroupChat from '../screens/chat/GroupChat';
 import CreateGroup from '../screens/chat/CreateGroup';
 import UserProfile from '../screens/UserProfile';
 import detailCompetition from './detailCompetition';
+import CreateProfile from '../screens/CreateProfile';
 const Stack = createNativeStackNavigator();
 export default function Navigation() {
   return (
@@ -85,6 +86,11 @@ export default function Navigation() {
         <Stack.Screen
           name="OtpForgetPassword"
           component={OtpForgetPassword}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CreateProfile"
+          component={CreateProfile}
           options={{headerShown: false}}
         />
         <Stack.Screen
@@ -440,9 +446,10 @@ export default function Navigation() {
 
         <Stack.Screen name="FriendList" component={FriendList} />
 
-        <Stack.Screen name="GroupChat" component={GroupChat} 
+        <Stack.Screen
+          name="GroupChat"
+          component={GroupChat}
           options={{headerShown: false}}
-        
         />
 
         <Stack.Screen name="CreateGroup" component={CreateGroup} />

@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
   ActivityIndicator,
+  Share,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -147,6 +148,27 @@ const Post = ({
   const handleCategoryClick = useCallback(() => {
     onCategoryClick && onCategoryClick(item);
   }, [onCategoryClick, item]);
+
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        title: 'SHARE POST',
+        message: `URL`,
+        url: `www.google.com`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
   // price={item?.price}
   // item={item}
   // title={item?.title}
@@ -450,7 +472,8 @@ const Post = ({
             justifyContent: 'center',
             marginRight: 5,
           }}
-          onPress={handleShareClick}>
+          // onPress={handleShareClick}
+          onPress={() => onShare()}>
           <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
             {share_count}
           </Text>

@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   Dimensions,
   RefreshControl,
+  Share,
 } from 'react-native';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -548,7 +549,8 @@ class Home extends Component {
             onLikesClick(item, setIsLiked, setLikeCount)
           }
           onTouchStart={playVideo}
-          sharePost={sharePosts}
+          // sharePost={sharePosts}
+          sharePost={onShare}
           flagForVideo={false}
           createdDate={item?.created_at?.slice(0, 10)}
           postViewed={(viewCount, setViewCount) =>
@@ -592,6 +594,26 @@ class Home extends Component {
     };
     const onGroupSurvey = () => {
       this.props.navigation.navigate('SurveyList');
+    };
+    const onShare = async () => {
+      try {
+        const result = await Share.share({
+          title: 'SHARE POST',
+          message: `URL`,
+          url: `www.google.com`,
+        });
+        if (result.action === Share.sharedAction) {
+          if (result.activityType) {
+            // shared with activity type of result.activityType
+          } else {
+            // shared
+          }
+        } else if (result.action === Share.dismissedAction) {
+          // dismissed
+        }
+      } catch (error) {
+        alert(error.message);
+      }
     };
 
     return (

@@ -513,14 +513,13 @@ class Home extends Component {
     // });
   };
   readMore = n => {
-    const {posts}= this.state
-    if(posts?.length){
+    const {posts} = this.state;
+    if (posts?.length) {
       this.setState({
         counta: this.state.counta + n,
       });
-    }
-    else{
-      this.viewPosts()
+    } else {
+      this.viewPosts();
     }
   };
   render() {
@@ -604,7 +603,7 @@ class Home extends Component {
               onChangeText={text => {
                 this.search(text);
               }}
-              onPressSearch={() => this.searchHandler(this.state.searchText)}
+              onPressSearch={() => this.searchHandler(this.state?.searchText)}
             />
             <ActivityIndicator
               size="large"

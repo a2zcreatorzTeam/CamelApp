@@ -142,7 +142,6 @@ const GroupChat = props => {
             location: locations,
             timestamp: firebase?.firestore?.FieldValue.serverTimestamp(),
           });
-        getDocumentIdForUserId();
 
         console.log('Message sent successfully');
         setInputValue('');
@@ -537,14 +536,8 @@ const GroupChat = props => {
     // getDocumentIdForUserId();
     // requestLocationPermission();
   }, []);
-  // useEffect(() => {
-  //   const focusListner = navigation.addListener('focus', async () => {
-  //     // toTop()
-  //     // getGroupChat();
-  //   });
-  //   return focusListner;
-  // }, []);
-  const {groupName} = props.route.params;
+
+  const {groupName} = props?.route?.params;
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       <View
@@ -600,21 +593,26 @@ const GroupChat = props => {
               {/* Right side messages */}
               {item?.senderId === user?.user?.user?.id ? (
                 <View>
-                  {
-                    item?.message ? 
+                  {item?.message ? (
                     <Card style={Styles.text_send}>
-                    <Text
-                      style={{color: '#fff', textAlign: 'left', fontSize: 14}}>
-                      {item?.message}
-                    </Text>
-                    <Text
-                      style={{color: '#eee', fontSize: 10, textAlign: 'left'}}>
-                      {moment(item.timestamp?.toDate())?.format('h:mm a')}
-                    </Text>
-                  </Card>
-                  : null
-                  }
-                  
+                      <Text
+                        style={{
+                          color: '#fff',
+                          textAlign: 'left',
+                          fontSize: 14,
+                        }}>
+                        {item?.message}
+                      </Text>
+                      <Text
+                        style={{
+                          color: '#eee',
+                          fontSize: 10,
+                          textAlign: 'left',
+                        }}>
+                        {moment(item.timestamp?.toDate())?.format('h:mm a')}
+                      </Text>
+                    </Card>
+                  ) : null}
 
                   {/* CHAT IMAGE */}
                   {item?.imageName ? (
@@ -741,76 +739,111 @@ const GroupChat = props => {
               ) : (
                 //// Left side messages
                 <View style={{flexDirection: 'row'}}>
-                  <View>
-                    <Image
-                      source={{
-                        uri:
-                          'http://www.tasdeertech.com/images/profiles/' +
-                          item?.user_image,
-                      }}
-                      style={{width: 50, height: 50, borderRadius: 100}}
-                    />
-                  </View>
-                  <Card style={Styles.text_send_right}>
-                    <Text
-                      style={{
-                        color: '#d2691e',
-                        fontSize: 13,
-                        fontWeight: '700',
-                      }}>
-                      {item?.user_name}
-                    </Text>
-                    <Text
-                      style={{color: '#000', fontSize: 14, marginVertical: 5}}>
-                      {item?.message}
-                    </Text>
-                    <Text
-                      style={{color: '#eee', textAlign: 'right', fontSize: 10}}>
-                      {moment(item.timestamp?.toDate())?.format('h:mm a')}
-                    </Text>
-                  </Card>
-                  {item?.imageName ? (
-                    <View style={styles.rightChatImageContainer}>
-                      {/* <Text
+                  {item?.message ||
+                  item?.imageName ||
+                  item?.videoName ||
+                  item?.location ? (
+                    <View>
+                      <Image
+                        source={{
+                          uri:
+                            'http://www.tasdeertech.com/images/profiles/' +
+                            item?.user_image,
+                        }}
+                        style={{width: 50, height: 50, borderRadius: 100}}
+                      />
+                    </View>
+                  ) : null}
+                  {item?.message && (
+                    <Card style={Styles.text_send_right}>
+                      <Text
                         style={{
-                          color: '#fff',
+                          color: '#d2691e',
                           fontSize: 13,
                           fontWeight: '700',
-                          // marginBottom: 7,
                         }}>
-                        {item?.sender}
-                      </Text> */}
+                        {item?.user_name}
+                      </Text>
+                      <Text
+                        style={{
+                          color: '#000',
+                          fontSize: 14,
+                          marginVertical: 5,
+                        }}>
+                        {item?.message}
+                      </Text>
+                      <Text
+                        style={{
+                          color: '#eee',
+                          textAlign: 'left',
+                          fontSize: 10,
+                        }}>
+                        {moment(item.timestamp?.toDate())?.format('h:mm a')}
+                      </Text>
+                    </Card>
+                  )}
+                  {item?.imageName ? (
+                    <TouchableOpacity
+                      style={[styles.chatImageContainer, {height: 200}]}
+                      onPress={() => {
+                        setModalItemForModal(true),
+                          setModalItemsData({uri: item?.downloadURL}),
+                          setModalItemType('image');
+                      }}>
+                      <Text
+                        style={{
+                          color: '#d2691e',
+                          fontSize: 13,
+                          fontWeight: '700',
+                          marginBottom: 5,
+                        }}>
+                        {item?.user_name}
+                      </Text>
 
                       {/* <Image source={{uri:"file:///data/user/0/com.alsyahd/cache/rn_image_picker_lib_temp_3c073ac1-2850-41ed-815a-70389f526201.jpg"}} style={styles.chatImage} /> */}
 
                       <Image
-                        resizeMode="cover"
+                        resizeMode="contain"
                         source={{uri: item?.downloadURL}}
-                        style={styles.chatImage}
+                        style={[
+                          styles.chatImage,
+                          {
+                            height: '80%',
+                          },
+                        ]}
                       />
 
                       <Text
                         style={{
                           marginHorizontal: 20,
                           position: 'absolute',
-                          bottom: 10,
+                          bottom: 5,
                           color: '#eee',
                           fontSize: 10,
-                          textAlign: 'left',
+                          textAlign: 'right',
                         }}>
-                        {moment(item.timestamp?.toDate())?.format('h:mm a')}
+                        {moment(item?.timestamp?.toDate())?.format('h:mm a')}
                       </Text>
-                    </View>
+                    </TouchableOpacity>
                   ) : null}
                   {item?.videoName ? (
                     <View>
                       <TouchableOpacity
-                        style={[styles.rightChatImageContainer]}
+                        style={[styles.chatImageContainer, {height: 200}]}
                         onPress={() => {
-                          setModal(true),
-                            setModalItem({uri: item?.videoUrl}),
+                          setModalItemForModal(true),
+                            setModalItemsData({uri: item?.downloadURL}),
                             setModalItemType('video');
                         }}>
+                        <Text
+                          style={{
+                            color: '#d2691e',
+                            fontSize: 13,
+                            fontWeight: '700',
+                            marginBottom: 5,
+                          }}>
+                          {item?.user_name}
+                        </Text>
                         <ImageBackground
                           imageStyle={{
                             borderRadius: 25,
@@ -819,7 +852,7 @@ const GroupChat = props => {
                           style={[
                             styles.chatImage,
                             {
-                              height: 180,
+                              height: 143,
                               backgroundColor: 'rgba(0,0,0,0.5)',
                               opacity: 0.6,
                               justifyContent: 'center',
@@ -837,7 +870,7 @@ const GroupChat = props => {
                           style={{
                             marginHorizontal: 20,
                             position: 'absolute',
-                            bottom: 10,
+                            bottom: 5,
                             color: '#eee',
                             fontSize: 10,
                             textAlign: 'left',
@@ -860,17 +893,31 @@ const GroupChat = props => {
                         {item?.sender}
                       </Text> */}
                       <TouchableOpacity
-                        style={styles.rightChatImageContainer}
+                        style={styles.chatImageContainer}
                         onPress={() => proceed(item?.location)}>
+                        <Text
+                          style={{
+                            color: '#d2691e',
+                            fontSize: 13,
+                            fontWeight: '700',
+                            marginBottom: 5,
+                          }}>
+                          {item?.user_name}
+                        </Text>
                         <Image
                           source={require('../../../assets/maps.jpg')}
-                          style={styles.chatImage}
+                          style={[
+                            styles.chatImage,
+                            {
+                              height: '80%',
+                            },
+                          ]}
                         />
                         <Text
                           style={{
                             marginHorizontal: 20,
                             position: 'absolute',
-                            bottom: 10,
+                            bottom: 5,
                             color: '#eee',
                             fontSize: 10,
                             textAlign: 'left',
@@ -1156,92 +1203,95 @@ const GroupChat = props => {
       />
 
       {/* group info */}
-      <Modal
-        visible={Infomodal}
-        transparent={true}
-        animationType="slide"
-        onDismiss={() => {
-          setInfoModal(false);
-        }}
-        onRequestClose={() => {
-          setInfoModal(false);
-        }}>
-        <View
-          style={{
-            backgroundColor: 'white',
-            elevation: 10,
-            marginHorizontal: 20,
-            position: 'relative',
-            top: height / 4,
-            height: undefined,
-            padding: 10,
+      {groupInfoDetails?.length && (
+        <Modal
+          visible={Infomodal}
+          transparent={true}
+          animationType="slide"
+          onDismiss={() => {
+            setInfoModal(false);
+          }}
+          onRequestClose={() => {
+            setInfoModal(false);
           }}>
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
+              backgroundColor: 'white',
+              elevation: 10,
+              marginHorizontal: 20,
+              position: 'relative',
+              top: height / 4,
+              height: undefined,
+              padding: 10,
             }}>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => {
-                setInfoModal(false);
-              }}
+            <View
               style={{
-                marginVertical: 20,
-                zIndex: 1111,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}>
-              <AntDesign name="closecircle" size={25} color="black" />
-            </TouchableOpacity>
-            <Text
-              style={{
-                paddingHorizontal: 10,
-                color: 'black',
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => {
+                  setInfoModal(false);
+                }}
+                style={{
+                  marginVertical: 20,
+                  zIndex: 1111,
+                }}>
+                <AntDesign name="closecircle" size={25} color="black" />
+              </TouchableOpacity>
+              <Text
+                style={{
+                  paddingHorizontal: 10,
+                  color: 'black',
 
-                fontSize: 18,
-                fontWeight: '700',
-              }}>
-              مشارك في المجموعة
-            </Text>
-          </View>
-          {groupInfoDetails?.length &&
-            groupInfoDetails?.map(item => {
-              return (
-                <ScrollView>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      paddingVertical: 5,
-                    }}>
-                    <Image
-                      source={{
-                        uri:
-                          'http://www.tasdeertech.com/images/profiles/' +
-                          item?.user_image,
-                      }}
+                  fontSize: 18,
+                  fontWeight: '700',
+                }}>
+                مشارك في المجموعة
+              </Text>
+            </View>
+            {groupInfoDetails?.length &&
+              groupInfoDetails?.map(item => {
+                return (
+                  <ScrollView>
+                    <View
                       style={{
-                        width: 50,
-                        height: 50,
-                        borderRadius: 100,
-                        backgroundColor: 'grey',
-                      }}
-                    />
-                    <Text
-                      style={{
-                        paddingHorizontal: 10,
-                        color: 'black',
-                        fontSize: 18,
-                        fontWeight: '700',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        paddingVertical: 5,
+                        justifyContent: 'flex-end',
                       }}>
-                      {item?.user_name}
-                    </Text>
-                  </View>
-                </ScrollView>
-              );
-            })}
-        </View>
-      </Modal>
+                      <Text
+                        style={{
+                          paddingHorizontal: 10,
+                          color: 'black',
+                          fontSize: 18,
+                          fontWeight: '700',
+                        }}>
+                        {item?.user_name}
+                      </Text>
+                      <Image
+                        source={{
+                          uri:
+                            'http://www.tasdeertech.com/images/profiles/' +
+                            item?.user_image,
+                        }}
+                        style={{
+                          width: 50,
+                          height: 50,
+                          borderRadius: 100,
+                          backgroundColor: 'grey',
+                        }}
+                      />
+                    </View>
+                  </ScrollView>
+                );
+              })}
+          </View>
+        </Modal>
+      )}
 
       {/* //modal view  */}
       <Modal

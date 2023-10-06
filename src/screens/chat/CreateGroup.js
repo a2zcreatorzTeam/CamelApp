@@ -8,6 +8,7 @@ import {
   Keyboard,
   Dimensions,
   Image,
+  ImageBackground,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import camelapp from '../../api/camelapp';
@@ -16,6 +17,7 @@ import firebase from '@react-native-firebase/app';
 import firebaseConfig, {db} from '../../components/firebase';
 import firestore from '@react-native-firebase/firestore';
 import database from '@react-native-firebase/database';
+import storage from '@react-native-firebase/storage';
 
 import {
   collection,
@@ -26,6 +28,7 @@ import {
   setDoc,
   where,
 } from 'firebase/firestore';
+import ImageCropPicker from 'react-native-image-crop-picker';
 // import { connect, useSelector } from 'react-redux';
 // import * as userActions from '../../redux/actions/user_actions';
 // import { bindActionCreators } from 'redux';
@@ -37,6 +40,8 @@ const CreateGroup = props => {
   const [friendlist, setFriendList] = useState([]);
   const [newParticipant, setNewParticipant] = useState([]);
   const [groupName, setGroupName] = useState('');
+  const [image, setImage] = useState('');
+
   // const getUser = useSelector(userReducer)
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
@@ -89,7 +94,7 @@ const CreateGroup = props => {
   const getFriendlist = async () => {
     try {
       // userID user id statc
-      console.log(userID,"GJGJG")
+      console.log(userID, 'GJGJG');
       const fetchfriendlist = await camelapp.get('/friendlist/' + userID);
       console.log(fetchfriendlist?.data, 'fetchfriendlist');
       setFriendList(fetchfriendlist?.data);
@@ -167,46 +172,59 @@ const CreateGroup = props => {
   const createGroup = async () => {
     let {userID, refreshGrouplist} = props.route.params;
     let tempArrayForUserDetails = [];
-    tempArrayForUserDetails.push({id:userID, message:""})
-        if (groupName === "") {
-          return alert("Please Enter Group Name")
-      }
-    if(newParticipant?.length==0){
-        alert("Please select a participant")
-    } 
+    tempArrayForUserDetails.push({id: userID, message: ''});
+    if (groupName === '') {
+      return alert('Please Enter Group Name');
+    }
+    if (!image ) {
+      return alert('Please Enter Group Image');
+    }
+    if (newParticipant?.length == 0) {
+      alert('Please select a participant');
+    }
     let tempArray = [];
 
+    newParticipant?.forEach(e => {
+      tempArray.push(e?.firend_id);
+      tempArrayForUserDetails.push({id: e?.firend_id, message: ''});
+    });
+    if (tempArray?.length) {
+      try {
+        var localImageoUri = image?.imageShow;
 
-        newParticipant?.forEach(e => {
- 
-            tempArray.push(e?.firend_id)
-            tempArrayForUserDetails.push({id:e?.firend_id,message:''})
-        });
-        if(tempArray?.length){
+        const response = await fetch(localImageoUri);
+        const blob = await response.blob();
+        const storageRef = storage().ref(
+          `Create_Group_Images/${image?.imageName}`,
+        );
+        await storageRef.put(blob);
 
-        
-    try {
-      const collectionRef = firestore().collection('groupChat'); // Replace with your actual collection name
-      const documentData = {
-        lastUpdated: Date.now(),
-        users: userID,
-        members:tempArray,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        messages: [],
-        groupUserDetails:tempArrayForUserDetails,
-        groupName: groupName, //TODO admin can set group name
-        // groupAdmins: [auth?.currentUser?.email] //TODO can change group admins later
-      }; // Replace with your actual document data
+        // Get the download URL of the uploaded video
+        const downloadURL = await storageRef.getDownloadURL();
+        const collectionRef = firestore().collection('groupChat'); // Replace with your actual collection name
+        const documentData = {
+          lastUpdated: Date.now(),
+          users: userID,
+          members: tempArray,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          messages: [],
+          imageName: image?.imageName,
 
-      await collectionRef.add(documentData);
-      console.log('Document added successfully');
-      props.navigation.goBack()
-      console.log("Group Created Successfully");
-    //   queryDocumentsInCollection();
-    } catch (error) {
-      console.error('Error adding document:', error);
+          downloadURL,
+          groupUserDetails: tempArrayForUserDetails,
+          groupName: groupName, //TODO admin can set group name
+          // groupAdmins: [auth?.currentUser?.email] //TODO can change group admins later
+        }; // Replace with your actual document data
+
+        await collectionRef.add(documentData);
+        console.log('Document added successfully');
+        props.navigation.goBack();
+        console.log('Group Created Successfully');
+        //   queryDocumentsInCollection();
+      } catch (error) {
+        console.error('Error adding document:', error);
+      }
     }
-}
   };
 
   //get all document details
@@ -226,13 +244,33 @@ const CreateGroup = props => {
     }
   };
 
+  const imagePick = () => {
+    ImageCropPicker.openPicker({
+      mediaType: 'photo',
+      multiple: false,
+      includeBase64: false,
+      selectionLimit: 1,
+    })
+      .then(async images => {
+        if (images) {
+          setImage({
+            // image: undefined,
+            pickedImage: images?.data,
+            imageShow: images?.path,
+            mediaType: images?.mime,
+            imageName: images?.modificationDate,
+          });
+        } else {
+        }
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
 
-
-
-
+    // setModalVisible(false)
+  };
 
   useEffect(() => {
-  
     getFriendlist();
   }, []);
 
@@ -242,6 +280,55 @@ const CreateGroup = props => {
     <View style={{flex: 1}}>
       <View style={{height: '60%'}}>
         <ScrollView contentContainerStyle={{paddingBottom: 40}}>
+          <View
+            style={{
+              backgroundColor: 'red',
+              width: 150,
+              height: 150,
+              borderRadius: 100,
+              alignSelf: 'center',
+            }}>
+            <ImageBackground
+              imageStyle={{
+                borderRadius: 100,
+                borderColor: 'orange',
+                borderWidth: 2,
+              }}
+              style={{
+                // backgroundColor: 'red',
+                width: 150,
+                height: 150,
+                borderRadius: 100,
+                alignSelf: 'center',
+              }}
+              source={{uri: image?.imageShow}}>
+              <TouchableOpacity
+                onPress={() => imagePick()}
+                style={{
+                  marginTop: -30,
+                  position: 'absolute',
+                  bottom: 0,
+                  borderRadius: 100,
+                  backgroundColor: 'orange',
+                  // borderColor: Colors.color1,
+                  // borderWidth: 4,
+                  alignContent: 'center',
+                  alignSelf: 'center',
+                  padding: 10,
+                }}>
+                <Image
+                  source={require('../../../assets/edit.png')}
+                  resizeMode="contain"
+                  style={{
+                    tintColor: 'white',
+                    width: 20,
+                    height: 20,
+                  }}
+                  name="upload"
+                />
+              </TouchableOpacity>
+            </ImageBackground>
+          </View>
           {/* Create Group Section */}
           <View style={styles.createGroupSection}>
             {/* <Image source={require("../../../assets/splashimg.png")} style={{ width: 70, height: 70, borderRadius: 50 }} /> */}
@@ -348,7 +435,7 @@ const UserComp = ({item, addGroupUser, newUser}) => {
 };
 
 const NewUserComp = ({item, removeGroupUser, newUser}) => {
-  console.log('===jhkhkhk=dd=', item);
+  console.log('===jhkhkhk=dd=s', item);
 
   return (
     <View style={styles.userContainer}>

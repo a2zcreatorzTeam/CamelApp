@@ -9,6 +9,7 @@ import {
   Dimensions,
   Image,
   ImageBackground,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import camelapp from '../../api/camelapp';
@@ -40,6 +41,8 @@ const CreateGroup = props => {
   const [friendlist, setFriendList] = useState([]);
   const [newParticipant, setNewParticipant] = useState([]);
   const [groupName, setGroupName] = useState('');
+  const [groupLoader, setGroupLoader] = useState(false);
+
   const [image, setImage] = useState('');
 
   // const getUser = useSelector(userReducer)
@@ -103,71 +106,6 @@ const CreateGroup = props => {
     }
   };
 
-  // const createGroup = async () => {
-  //     let tempArray = [];
-
-  //     newParticipant.forEach(e => {
-  //         tempArray.push(e.user.id)
-  //     });
-  //     // console.log(tempArray, "---tempArray");
-  //     // console.log(groupName, "---groupName");
-
-  //     if (groupName === "") {
-  //         return alert("Please Enter Group Name")
-  //     }
-  //     if (tempArray.length === 0) {
-  //         return alert("Please add participants")
-  //     }
-  //     try {
-  //         await camelapp.post("/creategroup", {
-  //             "user_id": userID,
-  //             "name": groupName,
-  //             "participants": tempArray,
-  //         })
-  //             .then((res) => {
-  //                 if (res?.data?.status === true) {
-  //                     props.navigation.goBack()
-  //                     refreshGrouplist();
-  //                     console.log("Group Created Successfully");
-  //                 } else {
-  //                     console.log("group creation failed");
-  //                 }
-  //             })
-  //     } catch (error) {
-  //         console.log(error, "create Group error");
-  //     }
-  // }
-
-  //     const createGroup= async()=>{
-  //      console.log(firebase.apps)
-  //     if (!firebase.apps.length) {
-  //         console.log("1")
-  //       firebase.initializeApp(firebaseConfig);
-  //     } else {
-  //         console.log("2")
-  //       firebase.app();
-  //     }
-  //     if(firebase.apps?.length){
-
-  //  console.log("GERERE")
-  // //  const database = await getFirestore();
-
-  //         let { userID, refreshGrouplist } = props.route.params
-  //         console.log(userID, "userID");
-  //         // const newRef = collection(db, "chats")
-  //         const collectionRef = firestore().collection('chats');
-  //         setDoc(collectionRef, {
-  //             lastUpdated: Date.now(),
-  //             users: userID,
-  //             messages: [],
-  //             groupName: groupName, //TODO admin can set group name
-  //             // groupAdmins: [auth?.currentUser?.email] //TODO can change group admins later
-  //         }).then(
-  //             console.log("IM HERER")
-  //             // navigation.navigate('Chat', { id: newRef.id, chatName: groupName })
-  //         )
-  //     }
-  //     }
 
   const createGroup = async () => {
     let {userID, refreshGrouplist} = props.route.params;
@@ -176,7 +114,7 @@ const CreateGroup = props => {
     if (groupName === '') {
       return alert('Please Enter Group Name');
     }
-    if (!image ) {
+    if (!image) {
       return alert('Please Enter Group Image');
     }
     if (newParticipant?.length == 0) {
@@ -190,6 +128,7 @@ const CreateGroup = props => {
     });
     if (tempArray?.length) {
       try {
+        setGroupLoader(true)
         var localImageoUri = image?.imageShow;
 
         const response = await fetch(localImageoUri);
@@ -217,11 +156,15 @@ const CreateGroup = props => {
         }; // Replace with your actual document data
 
         await collectionRef.add(documentData);
+        setGroupLoader(false)
+alert('Group created successfully')
         console.log('Document added successfully');
         props.navigation.goBack();
         console.log('Group Created Successfully');
         //   queryDocumentsInCollection();
       } catch (error) {
+        setGroupLoader(false)
+
         console.error('Error adding document:', error);
       }
     }
@@ -282,7 +225,7 @@ const CreateGroup = props => {
         <ScrollView contentContainerStyle={{paddingBottom: 40}}>
           <View
             style={{
-              backgroundColor: 'red',
+              backgroundColor: 'lightgrey',
               width: 150,
               height: 150,
               borderRadius: 100,
@@ -301,7 +244,7 @@ const CreateGroup = props => {
                 borderRadius: 100,
                 alignSelf: 'center',
               }}
-              source={{uri: image?.imageShow}}>
+              source={image ? {uri: image?.imageShow} : require('../../../assets/dummyImage.jpeg')}>
               <TouchableOpacity
                 onPress={() => imagePick()}
                 style={{
@@ -343,7 +286,13 @@ const CreateGroup = props => {
             <TouchableOpacity
               onPress={createGroup}
               style={styles.createGroupBTN}>
-              <Text style={{color: '#fff', fontSize: 15}}>Create Group</Text>
+         {groupLoader==true ? 
+         <ActivityIndicator color={'white'} size={'large'}/>
+
+
+         :
+         
+         <Text style={{color: '#fff', fontSize: 15}}>Create Group</Text>}
             </TouchableOpacity>
           </View>
 
@@ -389,7 +338,7 @@ const CreateGroup = props => {
             initialNumToRender={5}
             maxToRenderPerBatch={5}
             renderItem={({item}) => (
-              <UserComp item={item} addGroupUser={addGroupUser} />
+              <UserComp item={item} addGroupUser={addGroupUser}  />
             )}
           />
         </ScrollView>

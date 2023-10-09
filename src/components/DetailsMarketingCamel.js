@@ -328,11 +328,19 @@ class DetailsMarketingCamel extends Component {
             <Text style={[Styles.textHeadingg, {right: 0}]}>
               {ArabicText.Description}
             </Text>
-            <TextInput
+            {/* <TextInput
               value={this.state.itemFromDetails.description}
               style={[Styles.inputdecrp, {marginTop: 0}]}
               placeholder={this.state.itemFromDetails.description}
-              editable={false}></TextInput>
+              editable={false}></TextInput> */}
+               <Text style={[Styles.inputdecrp,{
+              color:'black',
+               height:undefined,
+               marginTop:0
+            }]}>
+            {this.state?.itemFromDetails?.description}
+            
+            </Text>
           </View>
           <View
             style={{

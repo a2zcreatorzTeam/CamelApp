@@ -5,6 +5,7 @@ export async function requestUserPermission() {
   const authStatus = await messaging().requestPermission({
     alert: true,
     providesAppNotificationSettings: true,
+    badge:true
   });
 
   const enabled =
@@ -41,14 +42,14 @@ export const notificationListener = async () => {
   // Background
   messaging().onNotificationOpenedApp(remoteMessage => {
     console.log('Background Notification===>>', remoteMessage.notification);
-    alert(remoteMessage?.notification?.body)
+    alert(remoteMessage?.notification?.title)
 
   });
 
   // Forground
   messaging().onMessage(async remoteMessage => {
     console.log('Forground Notification===>>', remoteMessage);
-    alert(remoteMessage?.notification?.body)
+    alert(remoteMessage?.notification?.title)
   });
 
   // Quit

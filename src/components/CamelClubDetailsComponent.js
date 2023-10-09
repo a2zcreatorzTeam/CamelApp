@@ -289,7 +289,7 @@ class CamelClubDetailsComponent extends Component {
               color:'black',
                height:undefined
             }]}>
-            {this.state.itemFromDetails.description}
+            {this.state?.itemFromDetails?.description}
             
             </Text>
             {/* <TextInput

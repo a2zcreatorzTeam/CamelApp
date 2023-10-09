@@ -2,7 +2,7 @@ import firebase from '@react-native-firebase/app';
 import React, {Component} from 'react';
 import Navigation from './src/components/Navigation';
 import SplashScreen from 'react-native-splash-screen';
-import {StatusBar, View, LogBox, Text,Modal,Dimensions} from 'react-native';
+import {StatusBar, View, LogBox, Text,Dimensions,Modal} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import camelapp from './src/api/camelapp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -17,8 +17,6 @@ import { notificationListener } from './src/services/Helper';
 // import codePush from "react-native-code-push";
 const width = Dimensions.get('window')
 // import codePush from 'react-native-code-push';
-import {Modal} from 'react-native';
-import {Text} from 'react-native';
 
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(['Remote debugger']);

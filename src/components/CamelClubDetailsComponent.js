@@ -285,11 +285,18 @@ class CamelClubDetailsComponent extends Component {
               editable={false}></TextInput>
 
             <Text style={Styles.textHeadingg}>{ArabicText.Description}</Text>
-            <TextInput
+            <Text style={[Styles.inputdecrp,{
+              color:'black',
+               height:undefined
+            }]}>
+            {this.state.itemFromDetails.description}
+            
+            </Text>
+            {/* <TextInput
               value={this.state.itemFromDetails.description}
               style={Styles.inputdecrp}
               placeholder={this.state.itemFromDetails.description}
-              editable={false}></TextInput>
+              editable={false}></TextInput> */}
           </View>
 
           <View

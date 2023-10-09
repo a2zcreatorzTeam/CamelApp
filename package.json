@@ -37,6 +37,7 @@
     "react-native-get-location": "^2.2.1",
     "react-native-google-places-autocomplete": "^2.5.5",
     "react-native-image-crop-picker": "0.38.1",
+    "react-native-instagram-login": "^2.0.6",
     "react-native-maps": "^1.4.0",
     "react-native-otp-textinput": "^0.0.9",
     "react-native-pager-view": "^6.1.2",

@@ -18,8 +18,7 @@ export async function requestUserPermission() {
 }
 
 const getFCMToken = async () => {
-  // const ddd=   await messaging().registerDeviceForRemoteMessages();
-  console.log('ddd', messaging);
+
   let fcmToken = await AsyncStorage.getItem('fcmToken');
   if (!fcmToken) {
     try {

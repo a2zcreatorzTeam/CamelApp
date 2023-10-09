@@ -99,18 +99,20 @@ try {
 
     // Create a Twitter credential with the tokens
     if( authToken && authTokenSecret){
-
-      const twitterCredential = await auth?.TwitterAuthProvider.credential(
+console.log("1", auth)
+      const twitterCredential = await auth.TwitterAuthProvider.credential(
         authToken,
         authTokenSecret,
         );
         console.log(twitterCredential, 'twitterCredential');
-        const dddd = await auth().currentUser.linkWithCredential(twitterCredential);
-        console.log(twitterCredential, dddd, 'twitterCredential');
-        // Sign-in the user with the credential
-        return auth().signInWithCredential(dddd);
+        // const dddd = await auth().currentUser.linkWithCredential(twitterCredential);
+        // console.log(twitterCredential, dddd, 'twitterCredential');
+        // // Sign-in the user with the credential
+        // // return auth().signInWithCredential(dddd);
+        // return dddd
       }
-    } catch(e){
+    } catch(error){
+      const userDetails = error.NativeMap;
       console.log("ERROR",e)
     }
   };

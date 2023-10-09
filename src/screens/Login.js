@@ -95,7 +95,7 @@ class Login extends Component {
   render() {
     const authentication = async () => {
       const deviceToken = await AsyncStorage.getItem('fcmToken');
-
+console.log(deviceToken)
       this.setState({loader: true});
       this.setState({loader: true});
       let number = 0;

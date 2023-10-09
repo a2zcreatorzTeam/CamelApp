@@ -499,7 +499,6 @@ const GroupChat = props => {
   fileDownload = async (type, item) => {
     const date = Date.now();
     setdownloadFiles(true);
-    console.log('sdsdsdsdsds', item, 'IYTEUE');
     RNFS.downloadFile({
       fromUrl: item?.uri,
       toFile:

@@ -16,6 +16,7 @@ import * as ImageCropPicker from 'react-native-image-crop-picker';
 import {bindActionCreators} from 'redux';
 import {ImageBackground} from 'react-native';
 import * as EmailValidator from 'email-validator';
+import {ScrollView} from 'react-native';
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -46,7 +47,7 @@ class CreateProfile extends Component {
             pickedImage: 'data:image/png;base64,' + images.data,
           });
         } else {
-          alert('Only 1 image allowed');
+          alert(ArabicText?.Only1imageallowed);
         }
         console.log('images', images);
       })
@@ -57,18 +58,19 @@ class CreateProfile extends Component {
   createProfile = async () => {
     const {pickedImage, location, email} = this.state;
     const userdata = this.props?.route?.params?.response;
-    this.setState({
-      btnLoader: true,
-    });
+
     if (!email) {
-      alert("Email field can't be empty");
+      alert(ArabicText?.EmailFieldCantBeEmpty);
     } else if (!EmailValidator.validate(email)) {
-      alert('Email is not valid');
+      alert(ArabicText?.EmailIsNotValid);
     } else if (!location) {
-      alert("Location field can't be empty");
+      alert(ArabicText?.LocationFieldCantBeEmpty);
     } else if (!pickedImage) {
-      alert("Image can't be empty");
+      alert(ArabicText?.ImageCantBeEmpty);
     } else {
+      this.setState({
+        btnLoader: true,
+      });
       await camelapp
         .post('/update', {
           user_id: userdata?.user?.id,
@@ -91,7 +93,7 @@ class CreateProfile extends Component {
             this.setState({
               btnLoader: false,
             });
-            alert('User Update failed');
+            alert(ArabicText?.UserUpdateFailed);
           }
         })
         .catch(error => {
@@ -129,107 +131,113 @@ class CreateProfile extends Component {
   //   };
 
   render() {
-    const {image, pickedImage, location} = this.state;
-    console.log(this.props.navigation?.route?.params?.response, 'responseeeee');
+    const {image, btnLoader, location} = this.state;
+    console.log(image, 'imageeee');
     return (
-      <View style={Styles.container}>
-        <View
-          style={{
-            backgroundColor: 'lightgrey',
-            width: 150,
-            height: 150,
-            borderRadius: 100,
-            marginTop: 100,
-            marginBottom: 30,
-            // alignSelf: 'center',
-          }}>
-          <ImageBackground
-            imageStyle={{
-              borderRadius: 100,
-              borderColor: 'orange',
-              borderWidth: 2,
-            }}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{paddingTop: 10, backgroundColor: '#fff'}}>
+        <View style={Styles.container}>
+          <View
             style={{
+              backgroundColor: 'lightgrey',
               width: 150,
               height: 150,
               borderRadius: 100,
-              alignSelf: 'center',
-            }}
-            source={
-              image ? {uri: image} : require('../../assets/dummyImage.jpeg')
-            }>
-            <TouchableOpacity
-              onPress={() => this.imagePick()}
-              style={{
-                marginTop: -30,
-                position: 'absolute',
-                bottom: 0,
+              marginTop: 100,
+              marginBottom: 30,
+              // alignSelf: 'center',
+            }}>
+            <ImageBackground
+              imageStyle={{
                 borderRadius: 100,
-                backgroundColor: 'orange',
-                // borderColor: Colors.color1,
-                // borderWidth: 4,
-                alignContent: 'center',
+                borderColor: 'orange',
+                borderWidth: 2,
+              }}
+              style={{
+                width: 150,
+                height: 150,
+                borderRadius: 100,
                 alignSelf: 'center',
-                padding: 10,
-              }}>
-              <Image
-                source={require('../../assets/edit.png')}
-                resizeMode="contain"
+              }}
+              source={
+                image ? {uri: image} : require('../../assets/dummyImage.jpeg')
+              }>
+              <TouchableOpacity
+                onPress={() => this.imagePick()}
                 style={{
-                  tintColor: 'white',
-                  width: 20,
-                  height: 20,
-                }}
-                name="upload"
-              />
-            </TouchableOpacity>
-          </ImageBackground>
-        </View>
+                  marginTop: -30,
+                  position: 'absolute',
+                  bottom: 0,
+                  borderRadius: 100,
+                  backgroundColor: 'orange',
+                  // borderColor: Colors.color1,
+                  // borderWidth: 4,
+                  alignContent: 'center',
+                  alignSelf: 'center',
+                  padding: 10,
+                }}>
+                <Image
+                  source={require('../../assets/edit.png')}
+                  resizeMode="contain"
+                  style={{
+                    tintColor: 'white',
+                    width: 20,
+                    height: 20,
+                  }}
+                  name="upload"
+                />
+              </TouchableOpacity>
+            </ImageBackground>
+          </View>
 
-        <Text style={[Styles.text, {marginVertical: 20}]}>
-          {ArabicText?.Edit_profile}
-        </Text>
-        <View style={Styles.profileQuestioncard}>
-          <TextInput
-            style={Styles.inputs}
-            value={this?.state?.email}
-            onChangeText={text => this.setState({email: text})}
-            placeholder={ArabicText.EMAIL}
-            placeholderTextColor="#b0b0b0"
-            keyboardType="email-address"
-          />
-          <TextInput
-            style={Styles.inputs}
-            value={location}
-            onChangeText={text => this.setState({location: text})}
-            placeholder={ArabicText.Location}
-            placeholderTextColor="#b0b0b0"
-          />
-        </View>
-
-        {/* Create Profile */}
-        <TouchableOpacity
-          onPress={() => this.createProfile()}
-          style={{
-            backgroundColor: '#8b4513',
-            width: 200,
-            height: 40,
-            borderRadius: 7,
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginVertical: 20,
-          }}>
-          {this?.state?.btnLoader ? (
-            <ActivityIndicator
-              size="large"
-              color="white"
-              animating={this?.state?.btnLoader}
+          <Text style={[Styles.text, {marginVertical: 20}]}>
+            {ArabicText?.Edit_profile}
+          </Text>
+          <View style={Styles.profileQuestioncard}>
+            <TextInput
+              style={Styles.inputs}
+              value={this?.state?.email}
+              onChangeText={text => this.setState({email: text})}
+              placeholder={ArabicText.EMAIL}
+              placeholderTextColor="#b0b0b0"
+              keyboardType="email-address"
             />
-          ) : (
-            <Text style={{color: '#fff', fontSize: 16}}>Create Profile</Text>
-          )}
-        </TouchableOpacity>
-      </View>
+            <TextInput
+              style={Styles.inputs}
+              value={location}
+              onChangeText={text => this.setState({location: text})}
+              placeholder={ArabicText.Location}
+              placeholderTextColor="#b0b0b0"
+            />
+          </View>
+
+          {/* Create Profile */}
+          <TouchableOpacity
+            onPress={() => {
+              !btnLoader && this.createProfile();
+            }}
+            style={{
+              backgroundColor: '#8b4513',
+              width: 200,
+              height: 40,
+              borderRadius: 7,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginVertical: 20,
+            }}>
+            {this?.state?.btnLoader ? (
+              <ActivityIndicator
+                size="large"
+                color="white"
+                animating={this?.state?.btnLoader}
+              />
+            ) : (
+              <Text style={{color: '#fff', fontSize: 16}}>Create Profile</Text>
+            )}
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     );
   }
 }

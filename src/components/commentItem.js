@@ -4,6 +4,7 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useState} from 'react';
 import {Styles} from '../styles/globlestyle';
+import FastImage from 'react-native-fast-image';
 const Item = ({
   userName,
   item,
@@ -30,7 +31,13 @@ const Item = ({
           paddingVertical: 10,
           justifyContent: 'center',
         }}>
-        <View style={{flexDirection: 'row', position:'absolute', bottom:10, alignItems:'center'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            position: 'absolute',
+            bottom: 10,
+            alignItems: 'center',
+          }}>
           <Text
             style={{
               color: 'black',
@@ -75,7 +82,7 @@ const Item = ({
               flexDirection: 'row',
               // width: '100%',
             }}>
-            <View style={{width: '90%', marginLeft:'auto',}}>
+            <View style={{width: '90%', marginLeft: 'auto'}}>
               <Text
                 style={{
                   fontSize: 16,
@@ -96,14 +103,14 @@ const Item = ({
                 }}>
                 {date}
               </Text>
-              <Text 
+              <Text
                 ellipsizeMode="tail"
                 style={{
                   fontSize: 15,
                   color: 'black',
                   textAlign: 'right',
                   paddingHorizontal: 20,
-                  marginVertical:10
+                  marginVertical: 10,
 
                   // width: '90%',
                   // marginLeft: 10,
@@ -119,15 +126,17 @@ const Item = ({
               height: 50,
               width: 50,
             }}>
-            <Image
-              source={{
-                uri: 'http://www.tasdeertech.com/images/profiles/' + userImage,
-              }}
+            <FastImage
               style={{
                 width: 50,
                 height: 50,
                 borderRadius: 100,
-              }}></Image>
+              }}
+              source={{
+                uri: 'http://www.tasdeertech.com/images/profiles/' + userImage,
+              }}
+              resizeMode={FastImage?.resizeMode.cover}
+            />
           </View>
         </View>
       </View>

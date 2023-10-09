@@ -799,15 +799,15 @@ class Profile extends Component {
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
-                  <Image
+                  <FastImage
+                    style={styles.img}
                     source={{
                       uri:
-                        // this.props.user.user.user  === undefined ? this.props.navigation.navigate('Login')  :
                         'http://www.tasdeertech.com/public/images/profiles/' +
                         this.props?.user?.user?.user.image,
-                      // "http://www.tasdeertech.com/public/images/profiles/" + this.props.user.user.user.image === undefined ? this.props.navigation.navigate('Login') : this.props.user.user.user.image
                     }}
-                    style={styles.img}></Image>
+                    resizeMode={FastImage?.resizeMode.cover}
+                  />
                   <Text style={styles.name}>
                     {this.props?.user?.user?.user?.name}
                   </Text>
@@ -1103,10 +1103,7 @@ class Profile extends Component {
                       <TouchableOpacity onPress={() => this.updateNumber()}>
                         <View style={Styles.btnform}>
                           {this.state?.updateLoader == true ? (
-                            <ActivityIndicator
-                              size={'large'}
-                              color={'white'}
-                            />
+                            <ActivityIndicator size={'large'} color={'white'} />
                           ) : (
                             <Text style={Styles.textbtn}>{ArabicText.add}</Text>
                           )}

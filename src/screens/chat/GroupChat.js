@@ -16,7 +16,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import storage from '@react-native-firebase/storage';
-import RNFS from 'react-native-fs';
+
 import {Styles} from '../../styles/globlestyle';
 import {Card} from 'react-native-paper';
 import Feather from 'react-native-vector-icons/Feather';
@@ -36,9 +36,10 @@ import Video from 'react-native-video';
 import VideoModal from '../../components/VideoModal';
 import firestore from '@react-native-firebase/firestore';
 import firebase from '@react-native-firebase/app';
-import moment from 'moment';
+import moment, {now} from 'moment';
 import FastImage from 'react-native-fast-image';
-
+import RNFS from 'react-native-fs';
+import {clearTextOnFocus} from 'deprecated-react-native-prop-types/DeprecatedTextInputPropTypes';
 const GroupChat = props => {
   const flatListRef = useRef();
   const storageRef = storage().ref();
@@ -68,7 +69,7 @@ const GroupChat = props => {
 
   const [modalItemForModal, setModalItemForModal] = useState('');
   const [modalItemsData, setModalItemsData] = useState('');
-  const [mediaSendLoader, setmediaSendLoader] = useState(false);
+  const [downloadFiles, setdownloadFiles] = useState(false);
 
   const navigation = useNavigation();
   // const [sendMessage, setSendMessage] = useState([]);
@@ -495,6 +496,28 @@ const GroupChat = props => {
     }
   };
 
+  fileDownload = async (type, item) => {
+    const date = Date.now();
+    setdownloadFiles(true);
+    console.log('sdsdsdsdsds', item, 'IYTEUE');
+    RNFS.downloadFile({
+      fromUrl: item?.uri,
+      toFile:
+        type == 'image'
+          ? `${RNFS.DownloadDirectoryPath}/${date}.png`
+          : `${RNFS.DownloadDirectoryPath}/${date}.mp4`,
+    })
+      .promise.then(r => {
+        setdownloadFiles(false);
+        alert('Download Successfully');
+      })
+      .catch(err => {
+        setdownloadFiles(false);
+        alert('Something went wrong in downloading');
+
+        console.log(err);
+      });
+  };
   useEffect(() => {
     getUsersDetailInfo();
   }, []);
@@ -1388,6 +1411,28 @@ const GroupChat = props => {
               )}
             </View>
           </View>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => {
+              fileDownload(modalItemType, modalItemsData);
+            }}
+            style={{
+              bottom: 0,
+              // top: 10,
+              // right: 15,
+              marginHorizontal: 30,
+              marginVertical: 30,
+              position: 'absolute',
+              backgroundColor: 'white',
+              padding: 10,
+              borderRadius: 100,
+            }}>
+            {downloadFiles == true ? (
+              <ActivityIndicator size={20} color={'#D2691E'} />
+            ) : (
+              <AntDesign name="download" size={25} color="black" />
+            )}
+          </TouchableOpacity>
         </View>
       </Modal>
     </View>

@@ -90,28 +90,27 @@ class Login extends Component {
   tweetNow = async () => {
     // RNTwitterSignIn.logOut()
     console.log('Before RNTwitterSignIn.logIn');
-try {
+    try {
+      // Perform the login request
+      const {authToken, authTokenSecret} = await RNTwitterSignIn.logIn();
+      console.log(authToken, authTokenSecret);
 
-
-    // Perform the login request
-    const {authToken, authTokenSecret} = await RNTwitterSignIn.logIn();
-    console.log(authToken, authTokenSecret);
-
-    // Create a Twitter credential with the tokens
-    if( authToken && authTokenSecret){
-
-      const twitterCredential = await auth?.TwitterAuthProvider.credential(
-        authToken,
-        authTokenSecret,
+      // Create a Twitter credential with the tokens
+      if (authToken && authTokenSecret) {
+        const twitterCredential = await auth?.TwitterAuthProvider.credential(
+          authToken,
+          authTokenSecret,
         );
         console.log(twitterCredential, 'twitterCredential');
-        const dddd = await auth().currentUser.linkWithCredential(twitterCredential);
+        const dddd = await auth().currentUser.linkWithCredential(
+          twitterCredential,
+        );
         console.log(twitterCredential, dddd, 'twitterCredential');
         // Sign-in the user with the credential
         return auth().signInWithCredential(dddd);
       }
-    } catch(e){
-      console.log("ERROR",e)
+    } catch (e) {
+      console.log('ERROR', e);
     }
   };
 

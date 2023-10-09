@@ -16,6 +16,7 @@ import * as ArabicText from '../language/EnglishToArabic';
 
 import camelapp from '../api/camelapp';
 import {Platform} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -88,7 +89,8 @@ class App extends Component {
       }
     }
   };
-  submitOTP() {
+  submitOTP = async () => {
+    const deviceToken = await AsyncStorage.getItem('fcmToken');
     let number =
       this.state.one + this.state.two + this.state.three + this.state.four;
     let user_data = this.state.sign_up_data;
@@ -103,7 +105,7 @@ class App extends Component {
             phone: user_data.phone,
             password: user_data.password,
             device_type: Platform.OS,
-            device_token: 'fcm',
+            device_token: deviceToken,
           })
           .then(respo => {
             console.log(
@@ -116,19 +118,16 @@ class App extends Component {
               'fcm',
             );
             if (respo?.data?.status == true) {
-              console.log('heyyyyy', respo?.data, user_data.password);
               camelapp
                 .post('/login', {
                   phone: user_data.phone,
                   password: user_data.password,
                   device_type: Platform.OS,
-                  device_token: 'fcm',
+                  device_token: deviceToken,
                 })
                 .then(res => {
-                  console.log(res, 'responseloginOnaotp');
                   let response = res.data;
                   if (response) {
-                    console.log(response, "rspnseLogin");
                     // if (response.status == true) {
                     this.setState({loader: false, btnPressed: false});
                     this.props.navigation.navigate('CreateProfile', {
@@ -164,7 +163,7 @@ class App extends Component {
         alert('Please enter the OTP');
       }, 2000);
     }
-  }
+  };
 
   render() {
     const {oneFocus, twoFocus, threeFocus} = this.state;

@@ -92,7 +92,7 @@ class App extends Component {
     let number =
       this.state.one + this.state.two + this.state.three + this.state.four;
     let user_data = this.state.sign_up_data;
-    //console.log('previous number', this.state.number);
+    //console.log('previous number', this.state.numberfdfdf);
     if (number != '') {
       if (parseInt(this.state.number) === parseInt(number)) {
         this.setState({btnPressed: true, loader: true});

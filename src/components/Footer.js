@@ -20,7 +20,7 @@ const Tab = createBottomTabNavigator();
 const BottomTab = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName={ArabicText.home}
       screenOptions={{backgroundColor: '#f8f8ff', unmountOnBlur: true}}>
       <Tab.Screen
         name={ArabicText.home}

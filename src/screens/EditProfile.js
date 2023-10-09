@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
+  ImageBackground,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,6 +17,8 @@ import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
 import {bindActionCreators} from 'redux';
+import * as EmailValidator from 'email-validator';
+
 class EditProfile extends Component {
   constructor(props) {
     super(props);
@@ -25,32 +28,32 @@ class EditProfile extends Component {
       lastName: '',
       userName: '',
       phone: {},
-      image: this.props.user.user.user.image,
+      image: '',
       location: '',
       imageShow: undefined,
       imageFlage: true,
       flagforImagePicker: false,
       imageForUpdate: undefined,
-      pickedImage: undefined,
+      pickedImage: '',
       modalVisible: false,
       optVal: {},
       btnLoader: false,
+      email: this.props.user.user.user.email,
     };
   }
 
   logOut() {
     try {
       let {user, actions} = this.props;
-      console.log( this.props.navigation,"ACTIONSSSS")
+      console.log(this.props.navigation, 'ACTIONSSSS');
       actions?.userLogout({});
-      
-      console.log("2")
+
+      console.log('2');
       AsyncStorage.removeItem('@UserPhone');
-      console.log("3")
+      console.log('3');
       AsyncStorage.removeItem('@UserPassword');
-      console.log("4")
+      console.log('4');
       this.props.navigation.replace('Home');
-   
     } catch (error) {
       console.log('error', error);
     }
@@ -58,10 +61,8 @@ class EditProfile extends Component {
   componentDidMount() {
     let {user} = this.props;
     user = user.user.user;
-
     this.setState({user: user, userName: user.name, location: user.location});
   }
-
   openGallery() {
     ImageCropPicker.openPicker({
       mediaType: 'photo',
@@ -72,9 +73,8 @@ class EditProfile extends Component {
       .then(async images => {
         if ((images.length = 1)) {
           this.setState({
-            imageShow: images.path,
+            image: images?.path,
             pickedImage: 'data:image/png;base64,' + images.data,
-            image: undefined,
           });
         } else {
           alert('Only 1 image allowed');
@@ -85,126 +85,123 @@ class EditProfile extends Component {
         console.log('error', error);
       });
   }
-
   clearText = () => {
     this.otpInput.clear();
   };
-
   setText = () => {
     this.otpInput.setValue('1234');
   };
-
   updateProfile = async () => {
-    this.setState({
-      btnLoader: true,
-    });
+    const {image} = this.props.user.user.user;
+    const {email, location, pickedImage, userName} = this.state;
+    console.log(image, 'jkjk', pickedImage, 'imageess', !pickedImage, !image);
+    if (!pickedImage && !image) {
+      alert("Image can't be empty");
+    } else if (!userName) {
+      alert("Username can't be empty");
+    } else if (!email) {
+      alert("Email field can't be empty");
+    } else if (!EmailValidator.validate(email)) {
+      alert('Email is not valid');
+    } else if (!location) {
+      alert("Location field can't be empty");
+    } else {
+      this.setState({
+        btnLoader: true,
+      });
 
-    let {actions} = this.props;
-    if (this.state.imageShow == undefined) {
-      console.log('99999');
-      await camelapp
-        .post('/update', {
-          user_id: this.props.user.user.user.id,
-          name: this.state.userName,
-          location: this.state.location,
-          // phone: this.state.phone,
-        })
-        .then(res => {
-          if (res.data.status == true) {
+      let {actions} = this.props;
+      if (this.state.imageShow == undefined) {
+        console.log('99999');
+        await camelapp
+          .post('/update', {
+            user_id: this.props.user.user.user.id,
+            name: userName,
+            location: location,
+            email: email,
+            image: pickedImage ? pickedImage : image,
+          })
+          .then(res => {
+            if (res.data.status == true) {
+              this.setState({
+                btnLoader: false,
+              });
+              // alert('User Updated Successfully');
+              actions.userData(res?.data);
+              this.props.navigation.replace('Profile', {screen:ArabicText.profilee});
+            } else {
+              this.setState({
+                btnLoader: false,
+              });
+              this.props.navigation.replace('Profile', {screen:ArabicText.profilee});
+            }
+          })
+          .catch(error => {
+            console.log(error, 'errorr');
             this.setState({
               btnLoader: false,
             });
-            // alert('User Updated Successfully');
-            actions.userData(res?.data);
-            this.props.navigation.replace('Profile');
-          } else {
-            this.setState({
-              btnLoader: false,
-            });
-            alert('User Update failed');
-          }
-        });
-    }
-
-    if (this.state.image == undefined) {
-      console.log('12666');
-      console.log('user', this.props.user.user.user.id);
-      await camelapp
-        .post('/update', {
-          user_id: this.props.user.user.user.id,
-          name: this.state.name,
-          location: this.state.location,
-          image: this.state.pickedImage,
-        })
-        .then(res => {
-          console.log('response', res.data);
-          if (res.data.status == true) {
-            actions.userData(res.data);
-            this.setState({
-              imageShow: undefined,
-              pickedImage: undefined,
-              image: this.props.user.user.user.image,
-            });
-            alert('User Updated Successfully');
-            this.props.navigation.replace('Profile');
-          } else {
-            this.setState({
-              btnLoader: false,
-            });
-            alert('User Update failed');
-          }
-        })
-        .catch(error => {
-          this.setState({
-            btnLoader: false,
           });
-          console.log('error', error);
-        });
+      }
     }
   };
-
   render() {
-    console.log(this.state.optVal);
-
+    const {image, pickedImage} = this.state;
     return (
       // <ScrollView
       //   showsVerticalScrollIndicator={false}
       //   contentContainerStyle={{ paddingTop: 10, backgroundColor: "#fff" }}>
       <View style={Styles.container}>
-        {this.state.flagforImagePicker && (
+        <ImageBackground
+          imageStyle={{
+            borderRadius: 100,
+            borderColor: 'orange',
+            borderWidth: 2,
+          }}
+          style={{
+            width: 150,
+            height: 150,
+            borderRadius: 100,
+            alignSelf: 'center',
+            marginTop: 30,
+          }}
+          source={
+            pickedImage?.length
+              ? {uri: image}
+              : this.props.user.user.user?.image
+              ? {
+                  uri:
+                    'http://www.tasdeertech.com/public/images/profiles/' +
+                    this.props.user.user.user?.image,
+                }
+              : require('../../assets/dummyImage.jpeg')
+          }>
           <TouchableOpacity
-            style={{alignSelf: 'center'}}
-            onPress={() => this.openGallery()}>
+            onPress={() => this.openGallery()}
+            style={{
+              marginTop: -30,
+              position: 'absolute',
+              bottom: 0,
+              borderRadius: 100,
+              backgroundColor: 'orange',
+              // borderColor: Colors.color1,
+              // borderWidth: 4,
+              alignContent: 'center',
+              alignSelf: 'center',
+              padding: 10,
+            }}>
             <Image
-              source={{
-                uri: this.state.image,
-              }}
+              source={require('../../assets/edit.png')}
+              resizeMode="contain"
               style={{
-                width: 70,
-                height: 70,
-                borderRadius: 100,
-              }}></Image>
-          </TouchableOpacity>
-        )}
-        {this.state.imageFlage && (
-          <TouchableOpacity
-            style={{alignSelf: 'center'}}
-            onPress={() => this.openGallery()}>
-            <Image
-              source={{
-                uri:
-                  this.state.image === undefined
-                    ? this.state.imageShow
-                    : 'http://www.tasdeertech.com/public/images/profiles/' +
-                      this.state.image,
+                tintColor: 'white',
+                width: 20,
+                height: 20,
               }}
-              style={{
-                width: 200,
-                height: 200,
-                borderRadius: 100,
-              }}></Image>
+              name="upload"
+            />
           </TouchableOpacity>
-        )}
+        </ImageBackground>
         <Text style={Styles.text}>{ArabicText.Edit_profile}</Text>
 
         <View style={Styles.profileQuestioncard}>
@@ -215,6 +212,14 @@ class EditProfile extends Component {
             placeholder={ArabicText.Name}
             placeholderTextColor="#b0b0b0"
           />
+          <TextInput
+            style={Styles.inputs}
+            value={this?.state?.email}
+            onChangeText={text => this.setState({email: text})}
+            placeholder={ArabicText.EMAIL}
+            placeholderTextColor="#b0b0b0"
+            keyboardType="email-address"
+          />
 
           <TextInput
             style={Styles.inputs}
@@ -224,26 +229,6 @@ class EditProfile extends Component {
             placeholderTextColor="#b0b0b0"
           />
         </View>
-
-        {/* <TouchableOpacity style={{ alignSelf: 'center', marginTop: 10 }} onPress={() => this.updateProfile()}>
-            <View style={Styles.btn}><Text style={Styles.textbtn}>{ArabicText.Update_Profile}</Text></View>
-          </TouchableOpacity>
-
-          <View style={[Styles.profileQuestioncard, { marginTop: 10 }]}>
-            <TextInput
-              style={Styles.inputs}
-              value={this.state.phone}
-              keyboardType='numeric'
-              onChangeText={(text) => this.setState({ phone: text })}
-              placeholder={ArabicText.ENTER_PHONE_NUMBER}
-              placeholderTextColor="#b0b0b0"
-            />
-          
-          </View>
-          <TouchableOpacity style={{ alignSelf: 'center', marginTop: 10 }} onPress={() => this.setState({ modalVisible: true })}>
-            <View style={Styles.btn}><Text style={Styles.textbtn}>Update Number</Text></View>
-          </TouchableOpacity> */}
-
         {/* Update Profile */}
         <TouchableOpacity
           onPress={this.updateProfile}
@@ -324,5 +309,4 @@ const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);

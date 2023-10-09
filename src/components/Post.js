@@ -35,6 +35,7 @@ const Post = ({
   flagForVideo,
   pauseVideo,
   createdDate,
+  category,
   postViewed = () => {},
 }) => {
   const navigation = useNavigation();
@@ -83,7 +84,7 @@ const Post = ({
       flagForVideo,
       lastBidPrice,
     } = item;
-    // console.log(flagForLike,"flagForLike");
+    console.log(category_name, 'flagForLike');
     // console.log(item, "itemmmmm");
     // console.log(item,"flagForLikeflagForLike");
     return {
@@ -114,18 +115,15 @@ const Post = ({
     name,
     image,
     like_count,
-    flagForLike,
-    description,
     comment_count,
     share_count,
-    view_count,
     user_location,
     user_images,
     imagesArray,
     category_name,
     lastBidPrice,
   } = memoizedItemProps;
-
+  console.log(category_name, 'nmee', category);
   // =====Memoized Functions====
   const handleCommentsClick = useCallback(() => {
     onCommentsClick(item);
@@ -169,30 +167,14 @@ const Post = ({
       alert(error.message);
     }
   };
-  // price={item?.price}
-  // item={item}
-  // title={item?.title}
-  // date={item?.date}
-  // image={item?.image}
-  // likes={item?.like_count}
-  // likeStatus={item?.flagForLike}
-  // description={item?.description}
-  // comments={item?.comment_count}
-  // shares={item?.share_count}
-  // views={item?.view_count}
-  // userName={item?.name}
-  // userCity={item?.user_location}
-  // userImage={item?.user_images}
-  // imagesArray={item?.imagesArray}
-  // category={item?.category_name}
-  // pauseFlag={item?.flagForVideo}
-  // lastBidPrice={item?.lastBidPrice}
   return (
     <View style={styles.main}>
       {/*Post Header*/}
       <View style={styles.headerContainer}>
         <TouchableOpacity style={Styles.btnHome2} onPress={handleCategoryClick}>
-          <Text style={styles.catBtnText}>{category_name}</Text>
+          <Text style={styles.catBtnText}>
+            {category ? category : category_name}
+          </Text>
         </TouchableOpacity>
         {/* Profile Btn */}
         <TouchableOpacity

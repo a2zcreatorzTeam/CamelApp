@@ -5,6 +5,7 @@ export async function requestUserPermission() {
   const authStatus = await messaging().requestPermission({
     alert: true,
     providesAppNotificationSettings: true,
+    badge:true
   });
 
   const enabled =

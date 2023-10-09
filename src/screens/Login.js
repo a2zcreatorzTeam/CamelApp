@@ -11,7 +11,9 @@ import {
   ScrollView,
   Linking,
   Platform,
+  NativeModules,
 } from 'react-native';
+const {RNTwitterSignIn} = NativeModules;
 import * as ArabicText from '../language/EnglishToArabic';
 import {Styles} from '../styles/globlestyle';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -26,10 +28,18 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {requestUserPermission} from '../services/Helper';
-
+import {auth} from '@react-native-firebase/auth';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
-
+RNTwitterSignIn.init(
+  'WzSvycGgEkZsznUOoqi18XUBP',
+  '0cfvEIxQgytLEL5TS5y1Ys8uNvHHpoMiIWZSbxDF8xKKolb2Iq',
+).then(res => console.log(res, 'Twitter SDK initialized'));
+// RNTwitterSignIn.init({
+//   apiKey: 'gvjMAUvs5tp11k4tZhT9TU7bm',
+//   apiSecret: '21PtUlWScusODhTFTc0xkOdfJHZd0Er4LUKJyNW0xnwLcNOowO',
+//   // redirectURI: 'https://camelapplication-f93a0.firebaseapp.com/__/auth/handler',
+// });
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -77,7 +87,35 @@ class Login extends Component {
       });
   }
 
-  tweetNow() {
+  tweetNow = async () => {
+    // RNTwitterSignIn.logOut()
+    console.log('Before RNTwitterSignIn.logIn');
+try {
+
+
+    // Perform the login request
+    const {authToken, authTokenSecret} = await RNTwitterSignIn.logIn();
+    console.log(authToken, authTokenSecret);
+
+    // Create a Twitter credential with the tokens
+    if( authToken && authTokenSecret){
+
+      const twitterCredential = await auth?.TwitterAuthProvider.credential(
+        authToken,
+        authTokenSecret,
+        );
+        console.log(twitterCredential, 'twitterCredential');
+        const dddd = await auth().currentUser.linkWithCredential(twitterCredential);
+        console.log(twitterCredential, dddd, 'twitterCredential');
+        // Sign-in the user with the credential
+        return auth().signInWithCredential(dddd);
+      }
+    } catch(e){
+      console.log("ERROR",e)
+    }
+  };
+
+  tweetNows() {
     const url = 'https://twitter.com/Alsyahdapp';
     Linking.openURL(url)
       .then(data => {
@@ -95,7 +133,7 @@ class Login extends Component {
   render() {
     const authentication = async () => {
       const deviceToken = await AsyncStorage.getItem('fcmToken');
-console.log(deviceToken)
+      console.log(deviceToken);
       this.setState({loader: true});
       this.setState({loader: true});
       let number = 0;

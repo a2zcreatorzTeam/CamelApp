@@ -36,6 +36,7 @@ public class MainApplication extends Application implements ReactApplication {
       // example:
       // packages.add(new MyReactNativePackage());
       new VectorIconsPackage();
+      
       new SplashScreenReactPackage(); // here
       // new RNFirebaseStoragePackage(); // Add Firebase storage package here
       return packages;

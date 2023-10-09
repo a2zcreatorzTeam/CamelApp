@@ -140,6 +140,7 @@ class CamelFoodList extends Component {
   };
 
   render() {
+    console.log("camelFood");
     const {key, searchedItem, posts, filterPosts} = this.state;
     const renderItem = ({item}) => {
       return (

@@ -210,7 +210,6 @@ class BeautyOfCompetition extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-
     postViewed = async (item, viewCount, setViewCount) => {
       this.setState({loading: false});
       let {user} = this.props;

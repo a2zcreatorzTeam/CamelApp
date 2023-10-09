@@ -59,6 +59,7 @@ class UserProfile extends Component {
       searchedItem: '',
       filterPosts: [],
       OtherUserDetail: '',
+      loader: false,
     };
   }
   ScrollToRefresh() {
@@ -286,15 +287,16 @@ class UserProfile extends Component {
     camelapp
       .get('/friendshipstatus/' + user?.id + '/' + user_friend?.user_id)
       .then(res => {
-        this.setState({friendshipStatus: res?.data?.status});
+        this.setState({friendshipStatus: res?.data?.status, loading: false});
       })
       .catch(error => {
+        this.setState({loading: false});
         console.log(error, '<<=====ERROR friendshipstatus');
       });
   }
   friendRequestHandler(status) {
+    this.setState({loading: true});
     const friend_id = this.props.route?.params?.user_id;
-    // let friend_id = this.state.user.id;
     let {user} = this.props;
     user = user.user.user ? user?.user?.user : user?.user;
     if (user != undefined) {
@@ -306,10 +308,6 @@ class UserProfile extends Component {
         })
         .then(res => {
           this.checkFriendshipStatus();
-          // Toast.show({
-          //   type: 'success',
-          //   text1: 'Friend request has been sent.',
-          // });
           // Alert.alert('Friend request has been sent.');
         })
         .catch(error => {
@@ -684,10 +682,6 @@ class UserProfile extends Component {
     //   );
     // };
     const FriendshipStatusBTN = () => {
-      console.log(
-        this.state.friendshipStatus,
-        'friendshipStatusfriendshipStatus',
-      );
       const user = this.props.user.user.user;
       if (
         this.state.friendshipStatus == null
@@ -769,6 +763,14 @@ class UserProfile extends Component {
           }}
           onPressSearch={() => this.searchHandler(searchText)}
         />
+        {this.state.loader && (
+          <ActivityIndicator
+            size="large"
+            color="#D2691Eff"
+            animating={this.state.loader}
+            style={{marginTop: 20}}
+          />
+        )}
         <View style={Styles.headerProfile}>
           {/* FOLLOW VIEW */}
           <View style={{position: 'absolute', top: 40, right: 20}}>

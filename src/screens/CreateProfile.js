@@ -15,6 +15,7 @@ import * as userActions from '../redux/actions/user_actions';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
 import {bindActionCreators} from 'redux';
 import {ImageBackground} from 'react-native';
+import * as EmailValidator from 'email-validator';
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -55,14 +56,19 @@ class CreateProfile extends Component {
   }
   createProfile = async () => {
     const {pickedImage, location, email} = this.state;
-    console.log(this.props.navigation?.route?.params?.response, 'responseeeee');
-    const userdata = this.props.navigation?.route?.params?.response;
+    const userdata = this.props?.route?.params?.response;
     this.setState({
       btnLoader: true,
     });
-
-    let {actions} = this.props;
-    if (this.state.imageShow == undefined) {
+    if (!email) {
+      alert("Email field can't be empty");
+    } else if (!EmailValidator.validate(email)) {
+      alert('Email is not valid');
+    } else if (!location) {
+      alert("Location field can't be empty");
+    } else if (!pickedImage) {
+      alert("Image can't be empty");
+    } else {
       await camelapp
         .post('/update', {
           user_id: userdata?.user?.id,
@@ -71,43 +77,16 @@ class CreateProfile extends Component {
           image: pickedImage,
         })
         .then(res => {
-            console.log("res,",res?.data);
+          this.setState({
+            btnLoader: false,
+          });
           if (res.data.status == true) {
             this.setState({
               btnLoader: false,
             });
+            let {actions} = this.props;
             actions.userData(res?.data);
-            this.props.navigation.replace('Profile');
-          } else {
-            this.setState({
-              btnLoader: false,
-            });
-            alert('User Update failed');
-          }
-        });
-    }
-
-    if (this.state.image == undefined) {
-      console.log('12666');
-      console.log('user', this.props.user.user.user.id);
-      await camelapp
-        .post('/update', {
-          user_id: this.props.user.user.user.id,
-          name: this.state.name,
-          location: this.state.location,
-          image: this.state.pickedImage,
-        })
-        .then(res => {
-          console.log('response', res.data);
-          if (res.data.status == true) {
-            actions.userData(res.data);
-            this.setState({
-              imageShow: undefined,
-              pickedImage: undefined,
-              image: this?.props?.user?.user?.user?.image,
-            });
-            alert('User Updated Successfully');
-            this.props.navigation.replace('Profile');
+            this.props.navigation.navigate('Home');
           } else {
             this.setState({
               btnLoader: false,
@@ -116,10 +95,10 @@ class CreateProfile extends Component {
           }
         })
         .catch(error => {
+          console.log(error, 'errorrr');
           this.setState({
             btnLoader: false,
           });
-          console.log('error', error);
         });
     }
   };
@@ -207,7 +186,9 @@ class CreateProfile extends Component {
           </ImageBackground>
         </View>
 
-        <Text style={[Styles.text, {marginVertical:20}]}>{ArabicText?.Edit_profile}</Text>
+        <Text style={[Styles.text, {marginVertical: 20}]}>
+          {ArabicText?.Edit_profile}
+        </Text>
         <View style={Styles.profileQuestioncard}>
           <TextInput
             style={Styles.inputs}
@@ -228,7 +209,7 @@ class CreateProfile extends Component {
 
         {/* Create Profile */}
         <TouchableOpacity
-          onPress={this?.updateProfile}
+          onPress={() => this.createProfile()}
           style={{
             backgroundColor: '#8b4513',
             width: 200,

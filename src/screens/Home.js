@@ -231,7 +231,22 @@ class Home extends Component {
       this.props.navigation.navigate('CamelEquipmentList');
     }
     if (item.category_id == '7') {
-      this.props.navigation.navigate('CamelEquipmentList');
+      try {
+        await camelapp
+          .post('get/competition_details', {
+            competition_id: item?.competition_id,
+          })
+          .then(res => {
+            if (res) {
+              let temp = res?.data;
+              this.props.navigation.navigate('BeautyOfCompetition', {
+                competition_item: [temp],
+              });
+            }
+          });
+      } catch (error) {
+        console.log('Error Message get competition List', error?.response);
+      }
     }
     if (item.category_id == '5') {
       this.props.navigation.navigate('CamelMovingList');

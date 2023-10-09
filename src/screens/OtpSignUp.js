@@ -116,7 +116,7 @@ class App extends Component {
               'fcm',
             );
             if (respo?.data?.status == true) {
-              console.log('heyyyyy', user_data.phone, user_data.password);
+              console.log('heyyyyy', respo?.data, user_data.password);
               camelapp
                 .post('/login', {
                   phone: user_data.phone,
@@ -125,18 +125,19 @@ class App extends Component {
                   device_token: 'fcm',
                 })
                 .then(res => {
-                  console.log(res?.data, 'responseloginOnaotp');
+                  console.log(res, 'responseloginOnaotp');
                   let response = res.data;
                   if (response) {
+                    console.log(response, "rspnseLogin");
                     // if (response.status == true) {
                     this.setState({loader: false, btnPressed: false});
-                    // this.props.navigation.navigate('CreateProfile', {
-                    //   response: response,
-                    // });
-                    console.log('response', response);
-                    let {actions} = this.props;
-                    actions.userData(response);
-                    this.props.navigation.navigate('Home');
+                    this.props.navigation.navigate('CreateProfile', {
+                      response: response,
+                    });
+                    // console.log('response', response);
+                    // let {actions} = this.props;
+                    // actions.userData(response);
+                    // this.props.navigation.navigate('Home');
                   } else {
                     alert(response.error + '');
                     this.setState({loader: false});

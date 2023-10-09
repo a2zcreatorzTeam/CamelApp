@@ -93,6 +93,8 @@ class CamelMovingList extends Component {
     this.focusListener();
   }
   render() {
+    console.log("CamelMovingg");
+    
     const {key, filterPosts, searchedItem} = this.state;
     const renderItem = ({item}) => {
       return (

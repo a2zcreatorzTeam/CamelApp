@@ -144,6 +144,7 @@ class CamelTreatmentList extends Component {
     }
   };
   render() {
+    console.log("CamelTreatment");
     const {key, searchedItem, posts, filterPosts} = this.state;
     const renderItem = ({item}) => {
       return (

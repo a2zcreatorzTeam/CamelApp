@@ -90,7 +90,6 @@ class CamelSellingList extends Component {
       this.setState({
         posts: [],
         filterPosts: [],
-
         loader: false,
       });
       console.log('Error Message--- view post', error);
@@ -140,8 +139,6 @@ class CamelSellingList extends Component {
     this.setState({refreshing: false});
   }
   componentDidMount = () => {
-    this.fetchUser();
-    this.checkUserLogedIn();
     this.focusListener = this.props.navigation.addListener('focus', () => {
       this.viewPosts();
     });

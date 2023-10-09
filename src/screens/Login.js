@@ -25,7 +25,7 @@ import OTPTextView from 'react-native-otp-textinput';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { requestUserPermission } from '../services/Helper';
+import {requestUserPermission} from '../services/Helper';
 
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
@@ -89,12 +89,13 @@ class Login extends Component {
   }
 
   componentDidMount = () => {
-    // requestUserPermission()
+    requestUserPermission();
   };
-
 
   render() {
     const authentication = async () => {
+      const deviceToken = await AsyncStorage.getItem('fcmToken');
+console.log(deviceToken)
       this.setState({loader: true});
       this.setState({loader: true});
       let number = 0;
@@ -111,8 +112,8 @@ class Login extends Component {
             .post('/login', {
               phone: this.state.contactNumber,
               password: this.state.password,
-              device_type:Platform?.OS,
-              device_token:"fcm"
+              device_type: Platform.OS,
+              device_token: deviceToken,
             })
             .then(res => {
               response = res.data;

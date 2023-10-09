@@ -18,8 +18,6 @@ export async function requestUserPermission() {
 }
 
 const getFCMToken = async () => {
-  // const ddd=   await messaging().registerDeviceForRemoteMessages();
-  console.log('ddd', messaging);
   let fcmToken = await AsyncStorage.getItem('fcmToken');
   if (!fcmToken) {
     try {
@@ -43,11 +41,14 @@ export const notificationListener = async () => {
   // Background
   messaging().onNotificationOpenedApp(remoteMessage => {
     console.log('Background Notification===>>', remoteMessage.notification);
+    alert(remoteMessage?.notification?.body)
+
   });
 
   // Forground
   messaging().onMessage(async remoteMessage => {
     console.log('Forground Notification===>>', remoteMessage);
+    alert(remoteMessage?.notification?.body)
   });
 
   // Quit

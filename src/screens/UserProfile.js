@@ -161,6 +161,7 @@ class UserProfile extends Component {
     }
   }
   sendMessage() {
+    
     let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {

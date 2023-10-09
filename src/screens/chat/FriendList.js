@@ -24,7 +24,9 @@ const FriendList = prop => {
   const [key, setKey] = useState(false);
 
   const getFriendreq = async () => {
+    if(prop?.user?.user?.user?.id){
     try {
+
       const fetchData = await camelapp.get(
         '/getfriendrequest/' + prop?.user?.user?.user?.id,
       );
@@ -33,8 +35,9 @@ const FriendList = prop => {
       setKey(!key);
     } catch (error) {
       setFriendRequest([]);
-      console.log(error, '=====ERROR getfriendrequest===');
+      console.log(error?.response, '=====ERROR getfriendrequest===');
     }
+  }
   };
   const friendRequestHandler = async (prop, status) => {
     try {

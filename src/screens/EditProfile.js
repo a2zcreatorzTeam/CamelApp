@@ -77,7 +77,7 @@ class EditProfile extends Component {
             pickedImage: 'data:image/png;base64,' + images.data,
           });
         } else {
-          alert('Only 1 image allowed');
+          alert(ArabicText?.Only1imageallowed);
         }
         console.log('images', images);
       })
@@ -92,19 +92,19 @@ class EditProfile extends Component {
     this.otpInput.setValue('1234');
   };
   updateProfile = async () => {
+    console.log( pickedImage, this.props.user.user.user?.image );
     const {image} = this.props.user.user.user;
     const {email, location, pickedImage, userName} = this.state;
-    console.log(image, 'jkjk', pickedImage, 'imageess', !pickedImage, !image);
     if (!pickedImage && !image) {
-      alert("Image can't be empty");
+      alert(ArabicText?.ImageCantBeEmpty);
     } else if (!userName) {
-      alert("Username can't be empty");
+      alert(ArabicText?.UsernameCantBeEmpty);
     } else if (!email) {
-      alert("Email field can't be empty");
+      alert(ArabicText?.EmailFieldCantBeEmpty);
     } else if (!EmailValidator.validate(email)) {
-      alert('Email is not valid');
+      alert(ArabicText?.EmailIsNotValid);
     } else if (!location) {
-      alert("Location field can't be empty");
+      alert(ArabicText?.LocationFieldCantBeEmpty);
     } else {
       this.setState({
         btnLoader: true,
@@ -119,21 +119,26 @@ class EditProfile extends Component {
             name: userName,
             location: location,
             email: email,
-            image: pickedImage ? pickedImage : image,
+            image: pickedImage!==undefined ? pickedImage : this.props.user.user.user?.image,
           })
           .then(res => {
+            console.log(res?.data, "dtaaresponseee");
             if (res.data.status == true) {
               this.setState({
                 btnLoader: false,
               });
               // alert('User Updated Successfully');
               actions.userData(res?.data);
-              this.props.navigation.replace('Profile', {screen:ArabicText.profilee});
+              this.props.navigation.replace('Profile', {
+                screen: ArabicText.profilee,
+              });
             } else {
               this.setState({
                 btnLoader: false,
               });
-              this.props.navigation.replace('Profile', {screen:ArabicText.profilee});
+              this.props.navigation.replace('Profile', {
+                screen: ArabicText.profilee,
+              });
             }
           })
           .catch(error => {

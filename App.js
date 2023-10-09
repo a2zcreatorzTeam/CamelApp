@@ -13,6 +13,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
 import firebaseConfig from './src/components/firebase';
 import {getStorage} from 'firebase/storage';
+import { notificationListener } from './src/services/Helper';
 // import codePush from "react-native-code-push";
 const width = Dimensions.get('window')
 LogBox.ignoreAllLogs(true);
@@ -192,6 +193,7 @@ class App extends Component {
   //   }
   // }
   componentDidMount() {
+    notificationListener()
     // this.syncImmediate();
 
     SplashScreen.hide();

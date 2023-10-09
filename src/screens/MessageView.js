@@ -29,6 +29,7 @@ import {Modal} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Linking} from 'react-native';
 import Video from 'react-native-video';
+import RNFS from 'react-native-fs';
 import FastImage from 'react-native-fast-image';
 const MessageView = ({route}) => {
   const [inputValue, setInputValue] = useState('');
@@ -48,6 +49,7 @@ const MessageView = ({route}) => {
   const [load, setLoad] = useState(false);
   const [modalItem, setModalItem] = useState('');
   const [modalItemType, setModalItemType] = useState('');
+  const [downloadFiles, setdownloadFiles] = useState(false);
 
   const reciever_id = route.params.messageData.id;
   const reciever_data = route.params.messageData;
@@ -343,6 +345,27 @@ const MessageView = ({route}) => {
       }
     });
   };
+  fileDownload = async (type, item) => {
+    const date = Date.now();
+    setdownloadFiles(true);
+    RNFS.downloadFile({
+      fromUrl: item?.uri,
+      toFile:
+        type == 'image'
+          ? `${RNFS.DownloadDirectoryPath}/${date}.png`
+          : `${RNFS.DownloadDirectoryPath}/${date}.mp4`,
+    })
+      .promise.then(r => {
+        setdownloadFiles(false);
+        alert('Download Successfully');
+      })
+      .catch(err => {
+        setdownloadFiles(false);
+        alert('Something went wrong in downloading');
+
+        console.log(err);
+      });
+  };
   useEffect(() => {
     checkOrCreateChatRoom(chatRoomId, user_id, reciever_id);
     const unsubscribe = firestore()
@@ -610,6 +633,28 @@ const MessageView = ({route}) => {
               )}
             </View>
           </View>
+          <TouchableOpacity
+          activeOpacity={0.7}
+            onPress={() => {
+              fileDownload(modalItemType, modalItem);
+            }}
+            style={{
+              bottom: 0,
+              // top: 10,
+              // right: 15,
+              marginHorizontal: 30,
+              marginVertical: 30,
+              position: 'absolute',
+              backgroundColor: 'white',
+              padding: 10,
+              borderRadius: 100,
+            }}>
+            {downloadFiles == true ? (
+              <ActivityIndicator size={20} color={'#D2691E'} />
+            ) : (
+              <AntDesign name="download" size={25} color="black" />
+            )}
+          </TouchableOpacity>
         </View>
       </Modal>
     </View>

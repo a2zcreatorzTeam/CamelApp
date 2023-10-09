@@ -41,11 +41,14 @@ export const notificationListener = async () => {
   // Background
   messaging().onNotificationOpenedApp(remoteMessage => {
     console.log('Background Notification===>>', remoteMessage.notification);
+    alert(remoteMessage?.notification?.body)
+
   });
 
   // Forground
   messaging().onMessage(async remoteMessage => {
     console.log('Forground Notification===>>', remoteMessage);
+    alert(remoteMessage?.notification?.body)
   });
 
   // Quit

@@ -23,6 +23,7 @@ import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import {Checkbox} from 'react-native-paper';
 import {Platform} from 'react-native';
+import {ScrollView} from 'react-native';
 
 class SignUp extends Component {
   constructor(props) {
@@ -51,74 +52,6 @@ class SignUp extends Component {
     };
   }
 
-  // createAnAccount = async signUpUser => {
-
-  //   if (
-  //     this.state.name.length >= 3 &&
-  //     this.state.phone.length >= 9 &&
-  //     this.state.password.length >= 5
-  //   ) {
-  //     //console.log('state', this.state);
-
-  //     if (this.state.password === this.state.confirm_password) {
-  //       this.setState({ btnPressed: true, loader: true })
-  //       camelapp
-  //         .get('checkemail?phone=' + this.state.phone)
-  //         .then(response => {
-  //           //console.log('response check phone', response.data);
-
-  //           let number = 0;
-
-  //           do {
-  //             number = Math.floor(Math.random() * 10000) + 1;
-  //             //console.log('number', number);
-  //           } while (number < 1000 || number > 10000);
-  //           this.setState({ randomIndex: number });
-  //           if (response.data.status === true) {
-  //             this.setState({ loader: false });
-  //             camelapp
-  //               .post('sendsms', {
-  //                 phone: this.state.phone,
-  //                 message: number,
-  //               })
-  //               .then(response => {
-  //                 if (response.data.status === true) {
-  //                   let tempSignUpObj = {
-  //                     name: this.state.name,
-  //                     phone: this.state.phone,
-  //                     password: this.state.password,
-  //                     confirm_password: this.state.confirm_password,
-  //                   };
-  //                   this.props.navigation.navigate('OtpSignUp', {
-  //                     code: number,
-  //                     sign_up: tempSignUpObj,
-  //                   });
-  //                   this.setState({ loader: false });
-  //                 }
-  //               })
-  //               .catch(error => {
-  //                 //console.log('error', error);
-  //               });
-  //           }
-  //         })
-  //         .catch(error => {
-  //           //console.log('error', error);
-  //         });
-  //     } else {
-  //       setTimeout(() => {
-  //         this.setState({ loader: false });
-  //         alert('Password does not match!');
-  //       }, 1000);
-  //     }
-  //   } else {
-  //     // //console.log("error", this.state)
-  //     setTimeout(() => {
-  //       this.setState({ loader: false });
-  //       alert('Please Complete fields!');
-  //     }, 1000);
-  //   }
-  // };
-
   createAnAccount = async signUpUser => {
     let {
       name,
@@ -129,6 +62,7 @@ class SignUp extends Component {
       flagphone,
       flagpassword,
       flag_confirm_password,
+      isChecked,
     } = this.state;
 
     // check name
@@ -137,62 +71,49 @@ class SignUp extends Component {
         flagname: false,
       });
       flagname = false;
-      console.log(' name done', flagname);
     } else {
       this.setState({
         flagname: true,
       });
       flagname = true;
-      console.log(' name  not done', flagname);
     }
-
     // check phone mumber
     if (phone.length == 10) {
       this.setState({
         flagphone: false,
       });
       flagphone = false;
-      console.log(' phone done', flagphone);
     } else {
       this.setState({
         flagphone: true,
       });
       flagphone = true;
-      console.log(' phone not done', flagphone);
     }
-
     // check password
     if (password.length >= 6 && password.length != 0) {
       this.setState({
         flagpassword: false,
       });
       flagpassword = false;
-      console.log(' paswword done', flagpassword);
     } else {
       this.setState({
         flagpassword: true,
       });
       flagpassword = true;
-      console.log(' password not done', flagpassword);
     }
-
     // check password
     if (password === confirm_password && confirm_password.length != 0) {
       this.setState({
         flag_confirm_password: false,
       });
       flag_confirm_password = false;
-      console.log(' confirm paswword done', flag_confirm_password);
     } else {
       this.setState({
         flag_confirm_password: true,
       });
       flag_confirm_password = true;
-      console.log('  confirm paswword not done', flag_confirm_password);
     }
-
     //tersm cibdtiion
-
     if (this.state?.isChecked == true) {
       this.setState({
         flag_termsCondition: true,
@@ -201,22 +122,13 @@ class SignUp extends Component {
       this.setState({
         flag_termsCondition: false,
       });
-      alert('الرجاء تحديد الشروط والأحكام');
     }
-
-    if (
-      flagname == false &&
-      flagphone == false &&
-      flagpassword == false &&
-      flag_confirm_password == false &&
-      this.state?.flag_termsCondition == true
-    ) {
+    if (name && phone && confirm_password && password && isChecked == true) {
       console.log('state', this.state);
       this.setState({btnPressed: true, loader: true});
       camelapp
         .get('checkemail?phone=' + this.state.phone)
         .then(response => {
-          console.log('response check phone', response.data);
           let number = 0;
           do {
             number = Math.floor(Math.random() * 10000) + 1;
@@ -258,14 +170,16 @@ class SignUp extends Component {
           }
         })
         .catch(error => {
-          console.log('error', error);
+          alert(ArabicText?.phoneNumberAlreadyExist);
           this.setState({loader: false, btnPressed: false});
         });
     } else {
-      // //console.log("error", this.state)
-
       this.setState({loader: false, btnPressed: false});
-      alert('من فضلك أكمل الحقول');
+      if (name && phone && confirm_password && password && !isChecked) {
+        alert('الرجاء تحديد الشروط والأحكام');
+      } else {
+        alert(ArabicText?.PleaseCompleteThefields);
+      }
     }
   };
 
@@ -282,266 +196,272 @@ class SignUp extends Component {
       flag_termsCondition,
     } = this.state;
     return (
-      <View style={Styles.container}>
-        <Text style={Styles.text}>إنشاء حساب</Text>
-        <Image
-          source={require('../../assets/logo-camel.png')}
-          style={{
-            height: 90,
-            width: 90,
-            alignSelf: 'center',
-            margin: 15,
-          }}></Image>
-
-        <View style={Styles.cardsignup}>
-          <TextInput
-            style={Styles.inputs}
-            placeholder={ArabicText.Name}
-            placeholderTextColor="#000000"
-            onChangeText={text => this.setState({name: text})}></TextInput>
-          {flagname == true && (
-            <Text
-              style={{
-                color: 'crimson',
-                fontSize: 12,
-                textAlign: 'right',
-              }}>
-              يجب أن يحتوي الاسم على 3 أحرف على الأقل
-            </Text>
-          )}
-
-          <TextInput
-            style={Styles.inputs}
-            placeholder={ArabicText.phone}
-            keyboardType="numeric"
-            maxLength={10}
-            placeholderTextColor="#000000"
-            onChangeText={text =>
-              this.setState({phone: text.replace(/[^0-9]/g, '')})
-            }></TextInput>
-          {flagphone == true && (
-            <Text
-              style={{
-                color: 'crimson',
-                fontSize: 12,
-                textAlign: 'right',
-              }}>
-              يجب أن يحتوي رقم الهاتف على أرقام فقط
-            </Text>
-          )}
-
-          <View
-            style={[
-              Styles.inputs,
-              {
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              },
-            ]}>
-            {this.state.hidePassword === true ? (
-              <Ionicons
-                name="eye"
-                size={18}
-                color="brown"
-                onPress={() => this.setState({hidePassword: false})}
-              />
-            ) : (
-              <Ionicons
-                name="eye-off"
-                size={18}
-                color="brown"
-                onPress={() => this.setState({hidePassword: true})}
-              />
-            )}
-
-            <TextInput
-              style={{textAlign: 'right', color: 'black'}}
-              placeholderTextColor="#000000"
-              placeholder={ArabicText.passwords}
-              onChangeText={text => this.setState({password: text})}
-              secureTextEntry={this.state.hidePassword}
-            />
-          </View>
-
-          {flagpassword == true && (
-            <Text
-              style={{
-                color: 'crimson',
-                fontSize: 12,
-                textAlign: 'right',
-              }}>
-              يجب أن يحتوي الاسم على 6 أحرف على الأقل
-            </Text>
-          )}
-
-          <View
-            style={[
-              Styles.inputs,
-              {
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              },
-            ]}>
-            {this.state.hideConfirmPassword === true ? (
-              <Ionicons
-                name="eye"
-                size={18}
-                color="brown"
-                onPress={() => this.setState({hideConfirmPassword: false})}
-              />
-            ) : (
-              <Ionicons
-                name="eye-off"
-                size={18}
-                color="brown"
-                onPress={() => this.setState({hideConfirmPassword: true})}
-              />
-            )}
-
-            <TextInput
-              style={{textAlign: 'right', color: 'black'}}
-              placeholderTextColor="#000000"
-              placeholder={ArabicText.confirm_password}
-              onChangeText={text => this.setState({confirm_password: text})}
-              secureTextEntry={this.state.hideConfirmPassword}
-            />
-          </View>
-
-          {flag_confirm_password == true && (
-            <Text
-              style={{
-                color: 'crimson',
-                fontSize: 12,
-                textAlign: 'right',
-              }}>
-              يجب أن يحتوي الاسم على 6 أحرف على الأقل
-            </Text>
-          )}
-        </View>
-
-        <TouchableOpacity style={{alignSelf: 'flex-end'}}>
-          <Text
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{paddingTop: 10, backgroundColor: '#fff'}}>
+        <View style={Styles.container}>
+          <Text style={Styles.text}>إنشاء حساب</Text>
+          <Image
+            source={require('../../assets/logo-camel.png')}
             style={{
-              color: '#d2691e',
-              fontSize: 12,
-              margin: 5,
-              marginRight: 25,
-            }}
-            onPress={() => this.props.navigation.navigate('Login')}>
-            {ArabicText.Already_an_account}
-          </Text>
-        </TouchableOpacity>
+              height: 90,
+              width: 90,
+              alignSelf: 'center',
+              margin: 15,
+            }}></Image>
 
-        <TouchableOpacity
-          onPress={() => {
-            if (this.state.btnPressed != true) {
-              this.createAnAccount();
-            } else {
-              console.log('Waiting For Response');
-            }
-          }}
-          style={{alignSelf: 'center', margin: 10}}>
-          <View
-            style={[
-              Styles.btn,
-              {
-                backgroundColor:
-                  this.state.loader == false ? '#8b4513' : '#cccbca',
-              },
-            ]}>
-            {this.state.loader && (
-              <ActivityIndicator
-                size="large"
-                color="#D2691Eff"
-                animating={this.state.loader}
-              />
-            )}
-            {this.state.loader == false && (
-              <Text style={Styles.textbtn}>{ArabicText.signUp}</Text>
-            )}
-          </View>
-        </TouchableOpacity>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignSelf: 'center',
-            alignItems: 'center',
-          }}>
-          <Text style={{color: 'black', fontSize: 14}}>
-            أوافق على الشروط والأحكام
-          </Text>
-          <Checkbox
-            color="#D2691Eff"
-            onPress={() => this.setState({isChecked: !this.state?.isChecked})}
-            status={this.state?.isChecked ? 'checked' : 'unchecked'}
-          />
-        </View>
-        <TouchableOpacity
-          style={{marginBottom: 10}}
-          onPress={() => Linking.openURL('https://www.google.com')}>
-          <Text
-            style={{
-              textDecorationLine: 'underline',
-              color: '#D2691Eff',
-              fontSize: 14,
-            }}>
-            تعرف على المزيد حول الشروط والأحكام
-          </Text>
-        </TouchableOpacity>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            this.setState({modalVisible: false});
-          }}>
-          {this.state.otp === true && (
-            <View style={{flex: 1}}>
-              <View
+          <View style={Styles.cardsignup}>
+            <TextInput
+              style={Styles.inputs}
+              placeholder={ArabicText.Name}
+              placeholderTextColor="#000000"
+              onChangeText={text => this.setState({name: text})}></TextInput>
+            {flagname == true && (
+              <Text
                 style={{
-                  flex: 1,
-                  backgroundColor: 'black',
-                  opacity: 0.7,
-                }}></View>
+                  color: 'crimson',
+                  fontSize: 12,
+                  textAlign: 'right',
+                }}>
+                يجب أن يحتوي الاسم على 3 أحرف على الأقل
+              </Text>
+            )}
 
-              <View
-                style={[
-                  styles.modalView,
-                  {
-                    bottom: 0,
-                  },
-                ]}>
-                {/* <Text style={{ fontSize: 25, textAlign: "center", fontWeight: "700", color: "black" }}>Enter OTP</Text> */}
-                <OTPTextView
-                  ref={e => (this.input1 = e)}
-                  handleTextChange={e => {
-                    if (parseInt(e) == this.state.randomIndex) {
-                      // setTimeout(() => {
-                      this.setState({otp: false, loader: true});
+            <TextInput
+              style={Styles.inputs}
+              placeholder={ArabicText.phone}
+              keyboardType="numeric"
+              maxLength={10}
+              placeholderTextColor="#000000"
+              onChangeText={text =>
+                this.setState({phone: text.replace(/[^0-9]/g, '')})
+              }></TextInput>
+            {flagphone == true && (
+              <Text
+                style={{
+                  color: 'crimson',
+                  fontSize: 12,
+                  textAlign: 'right',
+                }}>
+                يجب أن يحتوي رقم الهاتف على أرقام فقط
+              </Text>
+            )}
 
-                      setTimeout(() => {
-                        this.setState({checked: true, loader: false});
+            <View
+              style={[
+                Styles.inputs,
+                {
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                },
+              ]}>
+              {this.state.hidePassword === true ? (
+                <Ionicons
+                  name="eye"
+                  size={18}
+                  color="brown"
+                  onPress={() => this.setState({hidePassword: false})}
+                />
+              ) : (
+                <Ionicons
+                  name="eye-off"
+                  size={18}
+                  color="brown"
+                  onPress={() => this.setState({hidePassword: true})}
+                />
+              )}
+
+              <TextInput
+                style={{textAlign: 'right', color: 'black'}}
+                placeholderTextColor="#000000"
+                placeholder={ArabicText.passwords}
+                onChangeText={text => this.setState({password: text})}
+                secureTextEntry={this.state.hidePassword}
+              />
+            </View>
+
+            {flagpassword == true && (
+              <Text
+                style={{
+                  color: 'crimson',
+                  fontSize: 12,
+                  textAlign: 'right',
+                }}>
+                يجب أن يحتوي الاسم على 6 أحرف على الأقل
+              </Text>
+            )}
+
+            <View
+              style={[
+                Styles.inputs,
+                {
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                },
+              ]}>
+              {this.state.hideConfirmPassword === true ? (
+                <Ionicons
+                  name="eye"
+                  size={18}
+                  color="brown"
+                  onPress={() => this.setState({hideConfirmPassword: false})}
+                />
+              ) : (
+                <Ionicons
+                  name="eye-off"
+                  size={18}
+                  color="brown"
+                  onPress={() => this.setState({hideConfirmPassword: true})}
+                />
+              )}
+
+              <TextInput
+                style={{textAlign: 'right', color: 'black'}}
+                placeholderTextColor="#000000"
+                placeholder={ArabicText.confirm_password}
+                onChangeText={text => this.setState({confirm_password: text})}
+                secureTextEntry={this.state.hideConfirmPassword}
+              />
+            </View>
+
+            {flag_confirm_password == true && (
+              <Text
+                style={{
+                  color: 'crimson',
+                  fontSize: 12,
+                  textAlign: 'right',
+                }}>
+                يجب أن يحتوي الاسم على 6 أحرف على الأقل
+              </Text>
+            )}
+          </View>
+
+          <TouchableOpacity style={{alignSelf: 'flex-end'}}>
+            <Text
+              style={{
+                color: '#d2691e',
+                fontSize: 12,
+                margin: 5,
+                marginRight: 25,
+              }}
+              onPress={() => this.props.navigation.navigate('Login')}>
+              {ArabicText.Already_an_account}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => {
+              if (this.state.btnPressed != true) {
+                this.createAnAccount();
+              } else {
+                console.log('Waiting For Response');
+              }
+            }}
+            style={{alignSelf: 'center', margin: 10}}>
+            <View
+              style={[
+                Styles.btn,
+                {
+                  backgroundColor:
+                    this.state.loader == false ? '#8b4513' : '#cccbca',
+                },
+              ]}>
+              {this.state.loader && (
+                <ActivityIndicator
+                  size="large"
+                  color="#D2691Eff"
+                  animating={this.state.loader}
+                />
+              )}
+              {this.state.loader == false && (
+                <Text style={Styles.textbtn}>{ArabicText.signUp}</Text>
+              )}
+            </View>
+          </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignSelf: 'center',
+              alignItems: 'center',
+            }}>
+            <Text style={{color: 'black', fontSize: 14}}>
+              أوافق على الشروط والأحكام
+            </Text>
+            <Checkbox
+              color="#D2691Eff"
+              onPress={() => this.setState({isChecked: !this.state?.isChecked})}
+              status={this.state?.isChecked ? 'checked' : 'unchecked'}
+            />
+          </View>
+          <TouchableOpacity
+            style={{marginBottom: 10}}
+            onPress={() => Linking.openURL('https://www.google.com')}>
+            <Text
+              style={{
+                textDecorationLine: 'underline',
+                color: '#D2691Eff',
+                fontSize: 14,
+              }}>
+              تعرف على المزيد حول الشروط والأحكام
+            </Text>
+          </TouchableOpacity>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              this.setState({modalVisible: false});
+            }}>
+            {this.state.otp === true && (
+              <View style={{flex: 1}}>
+                <View
+                  style={{
+                    flex: 1,
+                    backgroundColor: 'black',
+                    opacity: 0.7,
+                  }}></View>
+
+                <View
+                  style={[
+                    styles.modalView,
+                    {
+                      bottom: 0,
+                    },
+                  ]}>
+                  {/* <Text style={{ fontSize: 25, textAlign: "center", fontWeight: "700", color: "black" }}>Enter OTP</Text> */}
+                  <OTPTextView
+                    ref={e => (this.input1 = e)}
+                    handleTextChange={e => {
+                      if (parseInt(e) == this.state.randomIndex) {
+                        // setTimeout(() => {
+                        this.setState({otp: false, loader: true});
 
                         setTimeout(() => {
-                          this.setState({checked: false, modalVisible: false});
-                          this.props.navigation.navigate('Home');
-                        }, 1000);
-                      }, 1000);
-                      // }, 2000);
-                    }
-                  }}
-                  containerStyle={styles.textInputContainer}
-                  textInputStyle={styles.roundedTextInput}
-                  inputCount={4}
-                  keyboardType="numeric"
-                />
-              </View>
-            </View>
-          )}
+                          this.setState({checked: true, loader: false});
 
-          {/* {this.state.checked === true && (
+                          setTimeout(() => {
+                            this.setState({
+                              checked: false,
+                              modalVisible: false,
+                            });
+                            this.props.navigation.navigate('Home');
+                          }, 1000);
+                        }, 1000);
+                        // }, 2000);
+                      }
+                    }}
+                    containerStyle={styles.textInputContainer}
+                    textInputStyle={styles.roundedTextInput}
+                    inputCount={4}
+                    keyboardType="numeric"
+                  />
+                </View>
+              </View>
+            )}
+
+            {/* {this.state.checked === true && (
             <View style={{ flex: 1 }}>
               <View
                 style={{
@@ -565,7 +485,7 @@ class SignUp extends Component {
               </View>
             </View>
           )} */}
-          {/* {this.state.loader === true && (
+            {/* {this.state.loader === true && (
             <View style={{flex: 1}}>
               <View
                 style={{
@@ -590,7 +510,7 @@ class SignUp extends Component {
             </View>
           )} */}
 
-          {/* {this.state.openloader == true && (
+            {/* {this.state.openloader == true && (
             <View
               style={[
                 styles.modalView,
@@ -605,8 +525,9 @@ class SignUp extends Component {
               />
             </View>
           )} */}
-        </Modal>
-      </View>
+          </Modal>
+        </View>
+      </ScrollView>
     );
   }
 }

@@ -50,7 +50,6 @@ const Post = ({
   const [viewCount, setViewCount] = useState(item?.view_count);
 
   const onUserProfileClick = async item => {
-    console.log(item?.user_id, 'itemmm544', item, item?.user_id == user?.id);
     if (user != undefined) {
       if (item?.user_id == user?.id) {
         navigation?.navigate('Profile', {screen: ArabicText?.profilee});
@@ -84,7 +83,6 @@ const Post = ({
       flagForVideo,
       lastBidPrice,
     } = item;
-    console.log(category_name, 'flagForLike');
     // console.log(item, "itemmmmm");
     // console.log(item,"flagForLikeflagForLike");
     return {
@@ -123,7 +121,6 @@ const Post = ({
     category_name,
     lastBidPrice,
   } = memoizedItemProps;
-  console.log(category_name, 'nmee', category);
   // =====Memoized Functions====
   const handleCommentsClick = useCallback(() => {
     onCommentsClick(item);

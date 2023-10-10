@@ -79,7 +79,6 @@ const FriendList = prop => {
         }
         data={friendRequest}
         renderItem={({item}) => {
-          console.log(item, 'itemmmmm123');
           return (
             <TouchableWithoutFeedback
             // onPress={() => prop.navigation.navigate("GroupChat", { group_id: item?.id })}

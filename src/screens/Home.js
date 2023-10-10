@@ -549,6 +549,9 @@ class Home extends Component {
       sharePosts,
       postViewed,
     } = this;
+    let {user} = this.props;
+    user = user.user.user;
+    console.log(user,"usererere5533");
     const {key, filterPosts, searchedItem} = this.state;
     const renderItem = ({item}) => {
       return (

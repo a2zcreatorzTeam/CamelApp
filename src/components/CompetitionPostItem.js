@@ -15,11 +15,9 @@ const PostItem = ({
   postComment = () => {},
   onClickItem = () => {},
 }) => {
-  console.log(image, 'imageee');
   const [isLiked, setIsLiked] = useState();
   const [likeCount, setLikeCount] = useState(item?.like_count);
   const [viewCount, setViewCount] = useState(item?.view_count);
-  console.log(item.flagForLike, 'flagForLike22', item?.view_count);
   return (
     <TouchableOpacity
       onPress={() => onClickItem(viewCount, setViewCount)}

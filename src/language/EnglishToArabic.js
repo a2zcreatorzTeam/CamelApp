@@ -240,3 +240,6 @@ export const phoneNumberAlreadyExist = 'رقم الهاتف موجود بالف�
 export const PleaseCompleteThefields = 'من فضلك أكمل الحقول';
 export const PleaseSpecifyTheTermsAndConditions =
   'الرجاء تحديد الشروط والأحكام';
+export const Started = 'بدأت';
+export const Ended = 'انتهى';
+export const RequestToBuy= 'طلب شراء'

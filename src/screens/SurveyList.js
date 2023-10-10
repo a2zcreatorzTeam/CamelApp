@@ -19,6 +19,8 @@ import {Dimensions} from 'react-native';
 import Header from '../components/Header';
 const width = Dimensions.get('screen').width;
 import EmptyComponent from '../components/EmptyComponent';
+import moment from 'moment';
+import * as ArabicText from '../language/EnglishToArabic';
 
 class SurveyList extends Component {
   constructor(props) {
@@ -44,7 +46,6 @@ class SurveyList extends Component {
         user_id: user?.id,
       })
       .then(response => {
-        console.log('response-->', response.status);
         if (response?.status == 200) {
           this.setState({
             posts: response.data.survey,
@@ -58,7 +59,6 @@ class SurveyList extends Component {
       });
   }
   onItemClick = async item => {
-    // this.viewPosts();
     let {user} = this.props;
     user = user?.user?.user;
     if (user != undefined) {
@@ -69,7 +69,6 @@ class SurveyList extends Component {
           survey_id: item?.survey_details[0]?.survey_id,
         })
         .then(response => {
-          console.log('response', response?.data.status);
           this.props.navigation.navigate('Survey', {
             surveyId: item,
             arrayAnswers: tempString,
@@ -116,7 +115,6 @@ class SurveyList extends Component {
   componentWillUnmount() {
     this.focusListener();
   }
-
   render() {
     const {posts, filterPosts, searchedItem, key} = this.state;
     const renderItem = ({item}) => {
@@ -128,6 +126,7 @@ class SurveyList extends Component {
           end_date={item.end_date}
           onItemClick={() => this.onItemClick(item)}
           image={item?.image}
+          todaysDate={moment().format('YYYY-MM-DD')}
         />
       );
     };
@@ -185,28 +184,24 @@ class SurveyList extends Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(SurveyList);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     height: '100%',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
 });
-
 const Item = ({
+  item,
   name,
   start_date,
   end_date,
@@ -215,6 +210,7 @@ const Item = ({
   onItemClick,
   question,
   image,
+  todaysDate,
 }) => (
   <Card>
     <TouchableOpacity onPress={onItemClick}>
@@ -223,14 +219,17 @@ const Item = ({
           Styles.newsbox1,
           {
             flexDirection: 'row-reverse',
-            justifyContent: 'flex-end',
+            // justifyContent: 'flex-end',
             height: 80,
+            justifyContent: 'flex-start',
+            paddingHorizontal: 10,
           },
         ]}>
+        {console.log(item?.survey_end_status, 'survey_end_status')}
         <View
           style={{
-            position: 'absolute',
-            left: 20,
+            // position: 'absolute',
+            // left: 20,
             backgroundColor: '#fff',
             borderRadius: 30,
             borderColor: '#d2691e',
@@ -245,18 +244,35 @@ const Item = ({
             }}
             resizeMode="cover"></Image>
         </View>
-
         <Text
           numberOfLines={2}
           style={{
-            width: width - 120,
-            textAlign: 'right',
+            // width: width - 170,
+            // textAlign: 'right',
             fontWeight: '500',
             fontSize: 16,
             color: 'black',
+            marginHorizontal: 10,
+            // marginLeft:'auto',
           }}>
-          {question}
+          {question?.length > 30 ? question?.slice(0, 30) : question}
         </Text>
+        <View
+          style={{
+            backgroundColor: '#d2691e',
+            padding: 5,
+            // marginLeft: 10,
+            borderRadius: 10,
+            marginLeft: 'auto',
+          }}>
+          <Text style={{color: '#fff'}}>
+            {item?.survey_end_status == 1
+              ? 'غير نشط'
+              : todaysDate <= end_date
+              ? ArabicText?.Started
+              : ArabicText?.Ended}
+          </Text>
+        </View>
       </View>
     </TouchableOpacity>
   </Card>

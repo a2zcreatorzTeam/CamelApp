@@ -54,34 +54,29 @@ class DetailsComponent extends Component {
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
+      bidStatus: null,
     };
   }
 
   componentDidMount() {
+    const bid = this.props.route.param?.bid;
+    this.checkBidStatus();
     let {user} = this.props;
     user = user.user.user;
     this.setState({user_ids: user?.id});
-    console.log(this.state.itemFromDetails.img, 'jkjkjkjkjjjj');
     if (this.props.route.params.itemFromDetails.price_type == 'سوم') {
       this.setState({flagForBid: true});
     }
-    console.log(this.state.itemFromDetails, ' this.state.itemFromDetails');
-    let array = this.state.itemFromDetails.img;
+    let array = this.state?.itemFromDetails?.img;
     let imagesArray = [];
-
     array.forEach(element => {
-      imagesArray.push({type: 'image', source: element});
+      imagesArray.push({type: 'image', source: bid ? element?.image : element});
     });
     imagesArray.push({
       type: 'video',
       source: this.state?.itemFromDetails?.video,
     });
-    console.log(imagesArray, 'imagesArray');
     this.setState({imagesArray: imagesArray});
-
-    // this.focusListener = this.props.navigation.addListener('focus', () => {
-    //   // this.getLastPrice();
-    // });
   }
   onCommentsClick = () => {
     let item = this.state.itemFromDetails;
@@ -104,21 +99,16 @@ class DetailsComponent extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-
   sendWhatsAppMessage() {
     let {user} = this.props;
-
     // console.log('user', user.user.user);
-
     if (user?.user?.user?.id != this.state?.itemFromDetails?.user_id) {
       if (user.user.user != undefined) {
         // console.log(
         //   'this.state.itemFromDetails.user_whatsapp_status',
         //   this.state.itemFromDetails.user_whatsapp_status,
         // );
-
         //console.log("user", this.state.user)
-
         if (
           this.state.itemFromDetails.user_whatsapp_status == true ||
           this.state.itemFromDetails.user_whatsapp_status == '1'
@@ -152,7 +142,6 @@ class DetailsComponent extends Component {
       alert('This is your post');
     }
   }
-
   sendMessage() {
     let {user} = this.props;
     if (user.user.user != undefined) {
@@ -175,64 +164,108 @@ class DetailsComponent extends Component {
     }
   }
 
+  checkBidStatus = () => {
+    let {user} = this.props;
+    user = user.user.user;
+    if (
+      user !== undefined &&
+      user?.id != this.props.route.params.itemFromDetails.user_id
+    ) {
+      camelapp
+        .post('/checkBid', {
+          user_id: user.id,
+          post_id: this.state.itemFromDetails.id,
+        })
+        .then(response => {
+          if (response.data.status == 'Not Exists') {
+            this.setState({bidStatus: false});
+          } else {
+            this.setState({bidStatus: true});
+          }
+        });
+    }
+  };
   placeBid() {
-    console.log(
-      this.props.route.params.itemFromDetails.price,
-      'placebid',
-      'this.state.price',
-      this.state.price,
-    );
+    const previousPrice = this.props.route.params.itemFromDetails.price;
+    const {itemFromDetails, price} = this.state;
     let {user} = this.props;
     user = user.user.user;
     if (user != undefined) {
-      if (
-        parseInt(this.state.price) >
-        parseInt(this.props.route.params.itemFromDetails.price)
-      ) {
-        if (user.id != this.props.route.params.itemFromDetails.user_id) {
+      if (this.props.route.params.itemFromDetails.price_type == 'سوم') {
+        if (
+          parseInt(this.state.price) >
+          parseInt(this.props.route.params.itemFromDetails.price)
+        ) {
+          if (
+            user?.id != this?.props?.route?.params?.itemFromDetails?.user_id
+          ) {
+            camelapp
+              .post('/add/bid', {
+                user_id: user?.id,
+                post_id: itemFromDetails?.id,
+                price: parseInt(price),
+              })
+              .then(response => {
+                if (response?.data?.status == true) {
+                  alert(response?.data?.message);
+                  this.setState({bidStatus: true});
+                  this.setState({modalOffer: false});
+                  // this.props.navigation.pop();
+                } else {
+                  alert('Error in adding bid!');
+                }
+              });
+          } else {
+            console.log('====================================');
+            console.log('You_can_not_Place_bid_on_your_price');
+            console.log('====================================');
+            alert(ArabicText.You_can_not_Place_bid_on_your_price + '');
+          }
+        } else {
+          alert(ArabicText.Offer_can_not_be_less_than_base_price + '');
+        }
+      } else {
+        if (user.id != this.props.route.params?.itemFromDetails.user_id) {
+          // camelapp
+          //   .post('/checkBid', {
+          //     user_id: user.id,
+          //     post_id: this.state.itemFromDetails.id,
+          //   })
+          //   .then(response => {
+          //     console.log(response.data.status, 'response.data.status');
+          //     // this.getLastPrice();
+          //     if (response.data.status == 'Not Exists') {
           camelapp
-            .post('/checkBid', {
-              user_id: user.id,
-              post_id: this.state.itemFromDetails.id,
+            .post('/add/bid', {
+              user_id: user?.id,
+              post_id: itemFromDetails?.id,
+              price: parseInt(previousPrice),
             })
             .then(response => {
-              console.log(response.data.status, 'response.data.status');
-              // this.getLastPrice();
-              if (response.data.status == 'Not Exists') {
-                camelapp
-                  .post('/add/bid', {
-                    user_id: user.id,
-                    post_id: this.state.itemFromDetails?.id,
-                    price: parseInt(this.state?.price),
-                  })
-                  .then(response => {
-                    if (response.data.status == true) {
-                      alert(response?.data?.message);
-                      this.setState({modalOffer: false});
-                      this.props.navigation.pop();
-                    } else {
-                      alert('Error in adding bid!');
-                    }
-                  });
+              if (response.data.status == true) {
+                this.setState({bidStatus: true});
+                alert(response?.data?.message);
+                // this.props.navigation.pop();
               } else {
-                alert('Bid already exists');
-                this.setState({modalOffer: false});
+                alert('Error in adding bid!');
               }
             });
+          // } else {
+          //   alert('Bid already exists');
+          //   this.setState({modalOffer: false});
+          // }
+          // });
         } else {
           console.log('====================================');
           console.log('You_can_not_Place_bid_on_your_price');
           console.log('====================================');
           alert(ArabicText.You_can_not_Place_bid_on_your_price + '');
         }
-      } else {
-        alert(ArabicText.Offer_can_not_be_less_than_base_price + '');
       }
     } else {
       this.props.navigation.navigate('Login');
     }
   }
-
   // getLastPrice() {
   //   let item = this.state.itemFromDetails;
   //   let post_id = item?.id;
@@ -256,10 +289,17 @@ class DetailsComponent extends Component {
   //       }
   //     });
   // }
-
   render() {
-    const {pausedCheck, loadVideo, videoModal, modalItem, imagesArray} =
-      this.state;
+    const {
+      pausedCheck,
+      loadVideo,
+      videoModal,
+      modalItem,
+      imagesArray,
+      itemFromDetails,
+      bidStatus,
+      flagForBid,
+    } = this.state;
     return (
       <ScrollView style={{backgroundColor: '#fff'}}>
         <BackBtnHeader />
@@ -271,7 +311,11 @@ class DetailsComponent extends Component {
             paddingHorizontal: 20,
             marginTop: 15,
           }}>
-          <View style={{alignItems: 'flex-end'}}>
+          <View
+            style={{
+              alignItems: 'flex-end',
+              // width: '100%',
+            }}>
             <Text
               style={{
                 color: '#000',
@@ -279,61 +323,14 @@ class DetailsComponent extends Component {
                 fontWeight: '700',
                 marginRight: 20,
               }}>
-              {this.state.itemFromDetails.name}
+              {itemFromDetails.name
+                ? itemFromDetails?.name
+                : itemFromDetails?.user_name}
             </Text>
             <Text style={{color: '#000', fontSize: 14, marginRight: 20}}>
-              {this.state.itemFromDetails.user_location}
+              {itemFromDetails.user_location}
             </Text>
           </View>
-          {/* {this?.state?.higherAmount == 0 ? ( */}
-          {/* PRICE SECTION */}
-
-          {/* ) : (
-            <View
-              style={{
-                marginTop: '25%',
-                marginHorizontal: 20,
-                position: 'absolute',
-                zIndex: 1111,
-                alignSelf: 'flex-start',
-                alignItems: 'flex-start',
-                justifyContent: 'flex-start',
-                height: hight / 2.5,
-                width: '100%',
-              }}>
-              <View
-                style={{
-                  paddingTop: 5,
-                  alignItems: 'center',
-                  alignContent: 'center',
-                  width: 60,
-                  backgroundColor: '#D2691Eff',
-                  height: hight * 0.065,
-                  borderBottomRightRadius: 50,
-                  borderBottomLeftRadius: 50,
-                }}>
-                <Text
-                  style={{
-                    color: 'white',
-                    fontWeight: '800',
-                    fontSize: 14,
-                  }}>
-                  {' '}
-                  {ArabicText.Price}
-                </Text>
-                <Text
-                  numberOfLines={2}
-                  style={{
-                    textAlign: 'center',
-                    color: 'white',
-                    fontWeight: '500',
-                    fontSize: 13,
-                  }}>
-                  {this?.state?.higherAmount}
-                </Text>
-              </View>
-            </View>
-          )} */}
           <View
             style={{
               height: 63,
@@ -347,7 +344,9 @@ class DetailsComponent extends Component {
               source={{
                 uri:
                   'http://www.tasdeertech.com/images/profiles/' +
-                  this.state.itemFromDetails.user_images,
+                  itemFromDetails.user_images
+                    ? itemFromDetails.user_images
+                    : itemFromDetails.user_image,
               }}
               style={{
                 height: 55,
@@ -403,50 +402,6 @@ class DetailsComponent extends Component {
               </Text>
             </View>
           </View>
-          {/* <Carousel
-            // keyExtractor={this.state.mixed.fileName}
-            data={this.state.imagesArray}
-            layout={'default'}
-            scrollEnabled={true}
-            onScroll={() => this.setState({pauseVideo: true})}
-            renderItem={({item, index}) => {
-              //console.log('item');
-              return (
-                <View style={Styles.imageCarousal}>
-                  {item.type == 'image' && (
-                    <Image
-                      source={{
-                        uri:
-                          'http://www.tasdeertech.com/images/posts/' +
-                          item.source,
-                      }}
-                      key={String(index)}
-                      resizeMode={'cover'}
-                      style={Styles.image}
-                    />
-                  )}
-                  {item.type == 'video' && (
-                    <Video
-                      onTouchStart={() => {
-                        this.setState({pauseVideo: !this.state.pauseVideo});
-                      }}
-                      source={{
-                        uri: 'http://www.tasdeertech.com/videos/' + item.source,
-                      }} // Can be a URL or a local file.
-                      key={String(index)}
-                      resizeMode="stretch"
-                      controls={false}
-                      paused={this.state.pauseVideo}
-                      style={Styles.image}
-                    />
-                  )}
-                </View>
-              );
-            }}
-            sliderWidth={width}
-            itemWidth={width}
-          /> */}
-
           <HorizontalCarousel
             price={this?.state?.itemFromDetails?.price}
             imagesArray={imagesArray}
@@ -508,13 +463,22 @@ class DetailsComponent extends Component {
               editable={false}></TextInput>
 
             <Text style={Styles.textHeadingg}>{ArabicText.Description}</Text>
-            <TextInput
+            {/* <TextInput
               value={this.state.itemFromDetails.description}
               style={Styles.inputdecrp}
               placeholder={this.state.itemFromDetails.description}
-              editable={false}></TextInput>
+              editable={false}></TextInput> */}
+            <Text
+              style={[
+                Styles.inputdecrp,
+                {
+                  color: 'black',
+                  height: undefined,
+                },
+              ]}>
+              {this.state?.itemFromDetails?.description}
+            </Text>
           </View>
-
           <Modal
             animationType="slide"
             transparent={true}
@@ -530,6 +494,7 @@ class DetailsComponent extends Component {
                   </Pressable>
                   <Text style={{margin: 5}}>{ArabicText.offer_Up}</Text>
                   <TextInput
+                    keyboardType="numeric"
                     value={this.state.price}
                     style={Styles.forminputsPrice}
                     placeholder={ArabicText.offer_Up_placeholder}
@@ -546,12 +511,25 @@ class DetailsComponent extends Component {
               </View>
             </TouchableWithoutFeedback>
           </Modal>
-
-          {this.state.flagForBid &&
+          {bidStatus !== null &&
+            !bidStatus &&
+            flagForBid &&
             this?.state?.user_ids !== this?.state?.user?.id && (
               <TouchableOpacity
                 style={{marginBottom: 20, marginTop: 20}}
                 onPress={() => this.setState({modalOffer: true})}>
+                <View style={Styles.btnform}>
+                  <Text style={Styles.textbtn}>{ArabicText.MyBids}</Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          {bidStatus !== null &&
+            !bidStatus &&
+            !flagForBid &&
+            this?.state?.user_ids !== this?.state?.user?.id && (
+              <TouchableOpacity
+                style={{marginBottom: 20, marginTop: 20}}
+                onPress={() => this.placeBid()}>
                 <View style={Styles.btnform}>
                   <Text style={Styles.textbtn}>{ArabicText.MyBids}</Text>
                 </View>

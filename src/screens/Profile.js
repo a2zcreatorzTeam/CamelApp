@@ -403,6 +403,8 @@ class Profile extends Component {
     console.log('====================================');
     AsyncStorage.removeItem('user');
     AsyncStorage.removeItem('user_check_in');
+    AsyncStorage.removeItem('fcmToken');
+
 
     this.props.navigation.replace('Login');
   }

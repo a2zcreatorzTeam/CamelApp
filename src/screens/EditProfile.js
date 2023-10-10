@@ -53,6 +53,7 @@ class EditProfile extends Component {
       console.log('3');
       AsyncStorage.removeItem('@UserPassword');
       console.log('4');
+      AsyncStorage.removeItem('fcmToken');
       this.props.navigation.replace('Home');
     } catch (error) {
       console.log('error', error);

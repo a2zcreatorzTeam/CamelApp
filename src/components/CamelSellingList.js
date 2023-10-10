@@ -73,6 +73,7 @@ class CamelSellingList extends Component {
             let array = item?.img;
             let imagesArray = [];
             array?.forEach(element => {
+              console.log(element,"elementtttt");
               imagesArray?.push({type: 'image', source: element});
             });
             imagesArray?.push({type: 'video', source: item?.video});
@@ -319,6 +320,9 @@ class CamelSellingList extends Component {
         //     itemFromDetails: item,
         //     userId: this?.state?.userId,
         //   });
+      }
+      else{
+        this.props.navigation.navigate('Login');
       }
     };
     const onAddButtonClick = () => {

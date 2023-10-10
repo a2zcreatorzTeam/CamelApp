@@ -2,7 +2,7 @@ import firebase from '@react-native-firebase/app';
 import React, {Component} from 'react';
 import Navigation from './src/components/Navigation';
 import SplashScreen from 'react-native-splash-screen';
-import {StatusBar, View, LogBox, Text,Modal,Dimensions} from 'react-native';
+import {StatusBar, View, LogBox, Text,Dimensions,Modal} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import camelapp from './src/api/camelapp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,6 +16,8 @@ import {getStorage} from 'firebase/storage';
 import { notificationListener } from './src/services/Helper';
 // import codePush from "react-native-code-push";
 const width = Dimensions.get('window')
+// import codePush from 'react-native-code-push';
+
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(['Remote debugger']);
 const toastConfig = {
@@ -54,20 +56,6 @@ const toastConfig = {
 };
 
 class App extends Component {
-  state = {
-    versionAvailble: false,
-    connectedNetwork: false,
-    maintainace: false,
-    syncMessage: "Loading",
-    progress: null,
-    updateProcess: true,
-    downloaded: 0,
-    downloading: true,
-    source: {
-      html: ``,
-    },
-    update: false,
-  };
   async checkUser() {
     const userPhone = await AsyncStorage.getItem('@UserPhone');
     const userPass = await AsyncStorage.getItem('@UserPassword');
@@ -222,62 +210,6 @@ class App extends Component {
         />
         <Toast config={toastConfig} />
         <Navigation />
-        {/* <Modal
-                animationType="slide"
-                transparent={true}
-                visible={true} //this.state.update
-              >
-                <View
-                  style={{
-                    width: width,
-                    height: "100%",
-                    justifyContent: "flex-end",
-                    alignItems: "center",
-                    backgroundColor: "rgba(52,52,52,0.3)",
-                  }}
-                >
-                  <View
-                    style={{
-                      width: width,
-                      height: 270,
-                      borderTopLeftRadius: 30,
-                      borderTopRightRadius: 30,
-                      backgroundColor: "white",
-                      justifyContent: "center",
-                    }}
-                  >
-                   
-                    <Text
-                      style={{
-                      
-                        fontSize: 20,
-                        color: "black",
-                        alignSelf: "center",
-                        marginBottom: 10,
-                      }}
-                    >
-                      App is updating, please wait.
-                    </Text>
-                   
-                    <Text
-                      style={{
-                      
-                        fontSize: 18,
-                        color: "white",
-                        alignSelf: "center",
-                        marginVertical: 10,
-                        position: "absolute",
-                        bottom: 29,
-                        left: 35,
-                        zIndex: 50,
-                      }}
-                    >
-                      {this.state.downloaded}%
-                    </Text>
-                 
-                  </View>
-                </View>
-              </Modal> */}
       </SafeAreaProvider>
       // </View>
     );

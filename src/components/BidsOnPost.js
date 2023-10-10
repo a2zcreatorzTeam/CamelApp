@@ -104,9 +104,11 @@ class Bids extends Component {
     }
   }
   onWithdrawBid(item) {
+    const {key} = this.state;
     console.log('bid item', item?.bid_id);
     withdrawBid(item?.bid_id).then(res => {
       if (res?.status == 'Successfully Delete') {
+        this.viewPosts();
         alert('Bid successfully withdrawn!');
       } else {
         alert('Error in withdrawing bid!');
@@ -115,6 +117,7 @@ class Bids extends Component {
     });
   }
   render() {
+    const {key} = this.state;
     const BidsItem = ({
       userName,
       userImage,
@@ -206,12 +209,15 @@ class Bids extends Component {
       <View style={Styles.containerBids}>
         {/* {this.state.loader == false && <Loader />} */}
         <FlatList
+          key={key}
+          style={{flex: 1}}
+          contentContainerStyle={{paddingBottom: width * 0.5, flexGrow: 1}}
           data={this.state.posts}
           renderItem={renderBidItem}
-          extraData={this.state}
+          // extraData={this.state}
           refeshing={this.state.refreshing}
-          initialNumToRender={5}
-          maxToRenderPerBatch={5}
+          // initialNumToRender={5}
+          // maxToRenderPerBatch={5}
         />
       </View>
     );

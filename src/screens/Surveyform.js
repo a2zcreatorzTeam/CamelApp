@@ -23,12 +23,13 @@ const hight = Dimensions.get('screen').height;
 import Loader from '../components/PleaseWait';
 import {ActivityIndicator} from 'react-native';
 import BackBtnHeader from '../components/headerWithBackBtn';
+import moment from 'moment';
 class Surveyform extends Component {
   constructor(props) {
     super(props);
     this.state = {
       survey: props?.route?.params?.surveyId,
-      end_date_status: this.props?.route?.params.surveyId?.status ? 1 : 0,
+      end_date_status: this.props?.route?.params.surveyId?.survey_end_status,
       arrayAnswers: props?.route?.params?.arrayAnswers?.answers,
       status: props?.route?.params?.status,
       showPercents: false,
@@ -46,6 +47,7 @@ class Surveyform extends Component {
       user_id: user?.id,
       survey_answers: this?.state?.arrayForSubmit,
     };
+    console.log(data, 'dattatata');
     if (user != undefined) {
       if (this?.state?.arrayForSubmit?.length !== 0) {
         this.setState({loader: true});
@@ -104,13 +106,18 @@ class Surveyform extends Component {
     this.setState({arrayForSubmit: tempsubmitArray});
   }
   render() {
+    const todaysData = moment().format('YYYY-MM-DD');
+    const submitStatus = this.props?.route?.params?.status;
+    const surveyEndDate = this.props?.route?.params?.surveyId?.end_date;
+    const surveyActiveStatus =
+      this.props?.route?.params.surveyId?.survey_end_status;
     console.log(
-      this.props?.route?.params?.surveyId,
-      'props?.route?.params?.surveyId',
+      this.props?.route?.params.surveyId?.survey_end_status,
+      'this.props?.route?.params.surveyId?.status',
     );
     return (
-      <View style={{flex: 1, alignItems: 'center', width:'100%'}}>
-        <BackBtnHeader style={{marginBottom:15}}/>
+      <View style={{flex: 1, alignItems: 'center', width: '100%'}}>
+        <BackBtnHeader style={{marginBottom: 15}} />
         <Text
           style={{
             fontSize: 30,
@@ -118,7 +125,7 @@ class Surveyform extends Component {
             color: '#d2691e',
             fontFamily: 'centaur',
             marginBottom: 5,
-            textAlign:'center'
+            textAlign: 'center',
           }}>
           Take a Survey
         </Text>
@@ -155,8 +162,6 @@ class Surveyform extends Component {
                         fontWeight: 'bold',
                         color: 'black',
                         marginBottom: 10,
-                        backgroundColor:'red'
-                        // marginRight: 20,
                       }}>
                       {item?.question}
                     </Text>
@@ -185,10 +190,12 @@ class Surveyform extends Component {
                     {item?.answer?.map((val, i) => {
                       return (
                         <TouchableOpacity
+                          activeOpacity={0.9}
                           key={String(i)}
                           onPress={() => {
-                            this.selectedAnswer(val, i, index);
-                            this.setState({showPercents: true});
+                            todaysData <= surveyEndDate &&
+                              this.selectedAnswer(val, i, index),
+                              this.setState({showPercents: true});
                           }}
                           style={{
                             backgroundColor:
@@ -270,7 +277,6 @@ class Surveyform extends Component {
             />
           </View>
         )}
-
         {this.state.status && (
           <View style={{width: width}}>
             <FlatList
@@ -304,7 +310,6 @@ class Surveyform extends Component {
                         fontWeight: 'bold',
                         color: 'black',
                         marginBottom: 10,
-                        // marginRight: 20,
                       }}>
                       {item?.question}
                     </Text>
@@ -385,10 +390,9 @@ class Surveyform extends Component {
             />
           </View>
         )}
-
-        {this?.state?.status ? null : this?.state?.end_date_status == 1 &&
-          this?.state?.status == true ? null : this?.state?.end_date_status ==
-            0 && this?.state?.status == false ? (
+        {surveyActiveStatus == 0 &&
+        todaysData <= surveyEndDate &&
+        submitStatus == false ? (
           <TouchableOpacity
             style={[Styles.btn, {position: 'absolute', bottom: 10}]}
             onPress={() => this.submitSurvey()}>

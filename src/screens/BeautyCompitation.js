@@ -8,9 +8,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
-import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {useNavigation} from '@react-navigation/native';

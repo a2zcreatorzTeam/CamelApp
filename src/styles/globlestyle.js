@@ -110,7 +110,7 @@ export const Styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     alignItems: 'center',
     // justifyContent: 'center',
-
+    // overflow:'scroll',
     width: width,
     // height: hight
   },

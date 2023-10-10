@@ -132,7 +132,6 @@ class CreateProfile extends Component {
 
   render() {
     const {image, btnLoader, location} = this.state;
-    console.log(image, 'imageeee');
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}

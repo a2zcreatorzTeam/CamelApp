@@ -97,19 +97,20 @@ class Login extends Component {
 
       // Create a Twitter credential with the tokens
       if (authToken && authTokenSecret) {
-        const twitterCredential = await auth?.TwitterAuthProvider.credential(
+        console.log('1', auth);
+        const twitterCredential = await auth.TwitterAuthProvider.credential(
           authToken,
           authTokenSecret,
         );
         console.log(twitterCredential, 'twitterCredential');
-        const dddd = await auth().currentUser.linkWithCredential(
-          twitterCredential,
-        );
-        console.log(twitterCredential, dddd, 'twitterCredential');
-        // Sign-in the user with the credential
-        return auth().signInWithCredential(dddd);
+        // const dddd = await auth().currentUser.linkWithCredential(twitterCredential);
+        // console.log(twitterCredential, dddd, 'twitterCredential');
+        // // Sign-in the user with the credential
+        // // return auth().signInWithCredential(dddd);
+        // return dddd
       }
-    } catch (e) {
+    } catch (error) {
+      const userDetails = error.NativeMap;
       console.log('ERROR', e);
     }
   };
@@ -138,7 +139,6 @@ class Login extends Component {
       let number = 0;
       do {
         number = Math.floor(Math.random() * 10000) + 1;
-        //console.log('number', number);
       } while (number < 1000 || number > 10000);
       this.setState({randomIndex: number});
       if (this.state.contactNumber.length >= 10 && this.state.password != '') {
@@ -149,11 +149,12 @@ class Login extends Component {
             .post('/login', {
               phone: this.state.contactNumber,
               password: this.state.password,
-              device_type: Platform.OS,
+              device_type: Platform?.OS,
               device_token: deviceToken,
             })
             .then(res => {
               response = res.data;
+              console.log(response,"responselogin");
 
               if (response.status == true) {
                 this.setState({loader: false});

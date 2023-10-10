@@ -73,6 +73,7 @@ class Bids extends Component {
     if (item.post.category_id == '2') {
       this.props.navigation.navigate('DetailsSellingCamel', {
         itemFromDetails: item.post,
+        bid: true,
       });
     }
     if (item.post.category_id == '6') {
@@ -102,9 +103,11 @@ class Bids extends Component {
     }
   }
   onWithdrawBid(item) {
+    const {key} = this.state;
     //console.log("bid item", item)
-    withdrawBid(item.id).then(res => {
+    withdrawBid(item?.id).then(res => {
       if (res.status == 'Successfully Delete') {
+        this.viewPosts();
         alert('Bid successfully withdrawn!');
       } else {
         alert('Error in withdrawing bid!');
@@ -188,9 +191,7 @@ class Bids extends Component {
         </View>
       </View>
     );
-
     const renderBidItem = item => {
-      console.log(item?.item?.post, "itemmmm");
       return (
         <BidsItem
           item={item}
@@ -214,11 +215,11 @@ class Bids extends Component {
             />
           }
           style={{flex: 1}}
-          contentContainerStyle={{flexGrow: 1}}
+          contentContainerStyle={{flexGrow: 1, paddingBottom: width * 0.5}}
           data={this.state?.posts}
           renderItem={renderBidItem}
-          initialNumToRender={5}
-          maxToRenderPerBatch={5}
+          // initialNumToRender={5}
+          // maxToRenderPerBatch={5}
         />
       </View>
     );

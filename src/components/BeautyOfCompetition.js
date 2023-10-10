@@ -75,7 +75,6 @@ class BeautyOfCompetition extends Component {
         .then(res => {
           const arrayPosts = res?.data?.competition_posts;
           arrayPosts?.map((item, index) => {
-            console.log(item, 'itemmmm');
             let array = item?.img;
             let imagesArray = [];
             array?.forEach(element => {
@@ -139,9 +138,7 @@ class BeautyOfCompetition extends Component {
   }
 
   render() {
-    const todaysData = new Date();
-    const NewDate = moment(todaysData).format('YYYY-MM-DD');
-
+    const NewDate = moment().format('YYYY-MM-DD');
     const {key} = this.state;
     const tagsStyles = {
       body: {
@@ -179,7 +176,6 @@ class BeautyOfCompetition extends Component {
     onLikesClick = async (item, setIsLiked, setLikeCount) => {
       this.setState({loading: false});
       let {user} = this.props;
-      console.log(item, "itemmmmm");
       user = user.user.user;
       let post_id = item.post_id;
       // console.log(user.id, post_id, item?.competition_id);
@@ -242,7 +238,6 @@ class BeautyOfCompetition extends Component {
       postViewed(item, viewCount, setViewCount);
     };
     const renderPostItem = ({item}) => {
-      console.log(item?.img[0], 'item?.imgitem?.img');
       return (
         <PostItem
           viewCount={item?.view_count}
@@ -519,29 +514,6 @@ class BeautyOfCompetition extends Component {
             />
           )}
         </View>
-
-        {/* <TouchableWithoutFeedback
-       onPress={() => this.selectedCompetition()}
-          style={{
-            width: 300,
-            height: 100,
-            marginRight: 20,
-            backgroundColor: 'red',
-          }}>
-          <View
-            style={{
-              width: 60,
-              height: 60,
-              position: 'absolute',
-              bottom: 10,
-              alignSelf: 'flex-end',
-              right: 20,
-              backgroundColor: 'white',
-              borderRadius: 30,
-            }}>
-            <AntDesign name="pluscircle" size={60} color="#D2691Eff" />
-          </View>
-        </TouchableWithoutFeedback> */}
       </View>
     );
   }

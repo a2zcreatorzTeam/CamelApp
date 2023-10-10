@@ -126,6 +126,7 @@ class App extends Component {
                   device_token: deviceToken,
                 })
                 .then(res => {
+                  console.log(res, 'responseloginOnaotp');
                   let response = res.data;
                   if (response) {
                     // if (response.status == true) {

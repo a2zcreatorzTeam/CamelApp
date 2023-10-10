@@ -242,4 +242,5 @@ export const PleaseSpecifyTheTermsAndConditions =
   'الرجاء تحديد الشروط والأحكام';
 export const Started = 'بدأت';
 export const Ended = 'انتهى';
-export const RequestToBuy= 'طلب شراء'
+export const RequestToBuy = 'طلب شراء';
+export const SurveyIsInactive = 'لاستطلاع غير نشط';

@@ -62,22 +62,26 @@ class SurveyList extends Component {
     let {user} = this.props;
     user = user?.user?.user;
     if (user != undefined) {
-      let tempString = item?.survey_details;
-      await camelapp
-        .post('/check/survey/by/user_id', {
-          user_id: user?.id,
-          survey_id: item?.survey_details[0]?.survey_id,
-        })
-        .then(response => {
-          this.props.navigation.navigate('Survey', {
-            surveyId: item,
-            arrayAnswers: tempString,
-            status: response?.data?.status,
+      if (item?.survey_end_status == 0) {
+        let tempString = item?.survey_details;
+        await camelapp
+          .post('/check/survey/by/user_id', {
+            user_id: user?.id,
+            survey_id: item?.survey_details[0]?.survey_id,
+          })
+          .then(response => {
+            this.props.navigation.navigate('Survey', {
+              surveyId: item,
+              arrayAnswers: tempString,
+              status: response?.data?.status,
+            });
+          })
+          .catch(error => {
+            //console.log("Error Message camel club List----", error);
           });
-        })
-        .catch(error => {
-          //console.log("Error Message camel club List----", error);
-        });
+      } else {
+        alert(ArabicText?.SurveyIsInactive);
+      }
     } else {
       this.props.navigation.navigate('Login');
     }
@@ -261,9 +265,11 @@ const Item = ({
           style={{
             backgroundColor: '#d2691e',
             padding: 5,
-            // marginLeft: 10,
             borderRadius: 10,
             marginLeft: 'auto',
+            width: 70,
+            alignItems: 'center',
+            justifyContent: 'center',
           }}>
           <Text style={{color: '#fff'}}>
             {item?.survey_end_status == 1

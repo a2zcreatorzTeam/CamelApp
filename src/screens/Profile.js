@@ -1025,6 +1025,7 @@ class Profile extends Component {
                       </Text>
 
                       <TextInput
+                        maxLength={10}
                         value={this.state.phoneNumber}
                         style={Styles.forminputsPrice}
                         placeholder="Phone Number"

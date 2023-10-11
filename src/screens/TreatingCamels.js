@@ -105,35 +105,25 @@ class TreatingCamels extends Component {
       mediaType: 'photo',
       multiple: true,
       includeBase64: true,
-      selectionLimit: 4,
+      // selectionLimit: 4,
     })
       .then(async images => {
-        if (images?.length <= 4) {
-          let tempImage = images;
-          let bse64images = [];
-          let mixedTemp = [];
-          for (let i = 0; i < tempImage?.length; i++) {
-            bse64images.push('data:image/png;base64,' + images[i].data);
-            mixedTemp.push(tempImage[i]);
-          }
-          this.setState({imagesForPost: bse64images, image: tempImage});
-          // if (this.state.video != undefined) {
-          //   let video = this.state.video;
-          //   mixedTemp.push(video);
-          // }
-          // if (this.state.cameraimage != undefined) {
-          //   let cameraimage = this.state.cameraimage;
-          //   for (var i = 0; i < cameraimage?.length; i++) {
-          //     mixedTemp.push(cameraimage[i]);
-          //   }
-          // }
-          this.setState(previousState => {
-            return {mixed: [...previousState?.mixed, ...mixedTemp]};
-          });
-        } else {
-          alert('Only 4 images allowed');
+        // if (images?.length <= 4) {
+        let tempImage = images;
+        let bse64images = this.state.imagesForPost;
+        let mixedTemp = [];
+        for (let i = 0; i < tempImage?.length; i++) {
+          bse64images.push('data:image/png;base64,' + images[i].data);
+          mixedTemp.push(tempImage[i]);
         }
-        console.log('images', images);
+        this.setState({imagesForPost: bse64images, image: tempImage});
+        this.setState(previousState => {
+          return {mixed: [...previousState?.mixed, ...mixedTemp]};
+        });
+        // } else {
+        //   alert('Only 4 images allowed');
+        // }
+        // console.log('images', images);
       })
       .catch(error => {
         console.log('error', error);
@@ -179,29 +169,13 @@ class TreatingCamels extends Component {
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
-
-    // var combineImages;
-    // if (image1?.length && image2?.length) {
-    //   combineImages = image1.concat(image2);
-    // }
-    // if (image1?.length && !image2?.length) {
-    //   combineImages = image1;
-    // }
-    // if (!image1?.length && image2?.length) {
-    //   combineImages = image2;
-    // }
-
     if (this.state.videoForPost === undefined) {
       return alert('Can not post without video');
     }
-    console.log(
-      '==================this.state.imagesForPost==================',
-      combineImages?.length,
-    );
     if (combineImages == undefined || combineImages?.length == 0) {
       return alert('Can not post without image');
     }
-    if (combineImages?.length > 4) {
+    if (combineImages?.length < 4) {
       return alert('Upload upto 4 images');
     }
     if (
@@ -213,9 +187,6 @@ class TreatingCamels extends Component {
       this.state.mixed.length != 0
     ) {
       let {user} = this.props;
-      console.log('====================================');
-      console.log(combineImages);
-      console.log('====================================');
       let user_id = user.user.user.id;
       this.setState({loading: true});
       camelapp
@@ -230,7 +201,6 @@ class TreatingCamels extends Component {
           video: this.state.videoForPost,
         })
         .then(response => {
-          console.log('response', response.data);
           this.setState({
             loading: false,
             video: undefined,
@@ -242,7 +212,6 @@ class TreatingCamels extends Component {
           });
 
           alert(ArabicText.Post_added_successfully);
-          // this.props.navigation.navigate("Home")
           this.props.navigation.replace('CamelTreatmentList');
         })
         .catch(error => {
@@ -351,7 +320,7 @@ class TreatingCamels extends Component {
           <View style={{flexDirection: 'row', marginTop: 10}}>
             <View style={Styles.cameraview}>
               <TouchableOpacity onPress={() => this.videoPicker()}>
-              <FontAwesome name="video-camera" size={30} color="#D2691Eff" />
+                <FontAwesome name="video-camera" size={30} color="#D2691Eff" />
               </TouchableOpacity>
             </View>
             {/* Click pic from camera */}

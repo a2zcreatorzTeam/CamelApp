@@ -105,25 +105,19 @@ class MissingCamelForm extends Component {
       mediaType: 'photo',
       multiple: true,
       includeBase64: true,
-      selectionLimit: 4,
     })
       .then(async images => {
-        if (images?.length <= 4) {
-          let tempImage = images;
-          let bse64images = [];
-          let mixedTemp = [];
-          for (let i = 0; i < tempImage?.length; i++) {
-            bse64images.push('data:image/png;base64,' + images[i].data);
-            mixedTemp.push(tempImage[i]);
-          }
-          this.setState({imagesForPost: bse64images, image: tempImage});
-          this.setState(previousState => {
-            return {mixed: [...previousState?.mixed, ...mixedTemp]};
-          });
-        } else {
-          alert('Only 4 images allowed');
+        let tempImage = images;
+        let bse64images = this?.state?.imagesForPost;
+        let mixedTemp = [];
+        for (let i = 0; i < tempImage?.length; i++) {
+          bse64images.push('data:image/png;base64,' + images[i].data);
+          mixedTemp.push(tempImage[i]);
         }
-        console.log('images', images);
+        this.setState({imagesForPost: bse64images, image: tempImage});
+        this.setState(previousState => {
+          return {mixed: [...previousState?.mixed, ...mixedTemp]};
+        });
       })
       .catch(error => {
         console.log('error', error);
@@ -169,16 +163,6 @@ class MissingCamelForm extends Component {
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
-    // var combineImages;
-    // if (image1?.length && image2?.length) {
-    //   combineImages = image1.concat(image2);
-    // }
-    // if (image1?.length && !image2?.length) {
-    //   combineImages = image1;
-    // }
-    // if (!image1?.length && image2?.length) {
-    //   combineImages = image2;
-    // }
     if (this.state.videoForPost === undefined) {
       return alert('Can not post without video');
     }
@@ -189,7 +173,7 @@ class MissingCamelForm extends Component {
     if (combineImages == undefined || combineImages?.length == 0) {
       return alert('Can not post without image');
     }
-    if (combineImages?.length > 4) {
+    if (combineImages?.length < 4) {
       return alert('Upload upto 4 images');
     }
     if (
@@ -328,7 +312,7 @@ class MissingCamelForm extends Component {
           <View style={{flexDirection: 'row', marginTop: 10}}>
             <View style={Styles.cameraview}>
               <TouchableOpacity onPress={() => this.selectVideo()}>
-              <FontAwesome name="video-camera" size={30} color="#D2691Eff" />
+                <FontAwesome name="video-camera" size={30} color="#D2691Eff" />
               </TouchableOpacity>
             </View>
             <View style={Styles.cameraview}>

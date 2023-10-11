@@ -163,7 +163,6 @@ class UserProfile extends Component {
     }
   }
   sendMessage() {
-    
     let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
@@ -521,6 +520,8 @@ class UserProfile extends Component {
           }
           user_images={item?.user_images}
           category={item?.category_name}
+          price={item?.price}
+          bid_price={item?.bid_price}
         />
       );
     };
@@ -1024,6 +1025,31 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
   },
+  priceContainer: {
+    position: 'absolute',
+    top: 70,
+    paddingTop: 5,
+    alignItems: 'center',
+    alignContent: 'center',
+    width: 60,
+    backgroundColor: '#D2691Eff',
+    height: height * 0.065,
+    borderBottomRightRadius: 50,
+    borderBottomLeftRadius: 50,
+    zIndex: 111,
+    left: 20,
+  },
+  priceTxt: {
+    color: 'white',
+    fontWeight: '800',
+    fontSize: 14,
+  },
+  bidPrice: {
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: '500',
+    fontSize: 13,
+  },
 });
 
 const Item = ({
@@ -1049,8 +1075,11 @@ const Item = ({
   flagForLike,
   likes,
   item,
+  price,
+  bid_price,
   postViewed = () => {},
 }) => {
+  console.log(price, bid_price, 'priceeee');
   const [pausedCheck, setpausedCheck] = useState(true);
   const [load, setLoad] = useState(false);
   const [modal, setModal] = useState(false);
@@ -1134,6 +1163,14 @@ const Item = ({
           </View>
         </View>
       </View>
+      {price?.length ? (
+        <TouchableOpacity style={styles.priceContainer}>
+          <Text style={styles.priceTxt}> {ArabicText?.Price}</Text>
+          <Text numberOfLines={2} style={styles.bidPrice}>
+            {bid_price > 0 ? bid_price : price}
+          </Text>
+        </TouchableOpacity>
+      ) : null}
       <Carousel
         data={imagesArray}
         layout={'default'}

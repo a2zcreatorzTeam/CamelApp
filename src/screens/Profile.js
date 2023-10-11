@@ -65,7 +65,6 @@ class Profile extends Component {
       posts: [],
       pausedCheck: false,
       key: false,
-
       searchText: '',
       searchedItem: '',
       filterPosts: [],
@@ -212,7 +211,6 @@ class Profile extends Component {
     //console.log("value", value)
     this.setState({registerSwitch: value});
   }
-
   phoneStatusSwitch(value) {
     //console.log("value", value)
     this.setState({phoneStatusSwitch: value});
@@ -378,35 +376,12 @@ class Profile extends Component {
           this.setState({loader: false});
         }
       });
-    // deletePost(item.id).then((response) => {
-    //   //console.log("response post deleted --- ", response)
-    //   if (response.data.status != falase) {
-    //     alert("Post Deleted Succesfully");
-    //   } else {
-    //     alert("Error Deleting Post");
-
-    //   }
-    // })
   }
   openFollowersModal() {
-    //console.log("follower Modal is")
-
     this.setState({modal: true});
   }
   openFollowingModal() {
     this.setState({modalFollowing: true});
-    //console.log("Follwing Modal is")
-  }
-  logOut() {
-    console.log('====================================');
-    console.log('LOGOUT');
-    console.log('====================================');
-    AsyncStorage.removeItem('user');
-    AsyncStorage.removeItem('user_check_in');
-    AsyncStorage.removeItem('fcmToken');
-
-
-    this.props.navigation.replace('Login');
   }
   ScrollToRefresh() {
     this.fetchUser();
@@ -437,7 +412,6 @@ class Profile extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-
   // =============NEW Updated Search Handler==============
   searchHandler = value => {
     const {key, posts} = this.state;
@@ -475,7 +449,6 @@ class Profile extends Component {
   search(text) {
     this.setState({searchText: text});
   }
-
   onShare = async () => {
     try {
       const result = await Share.share({
@@ -496,9 +469,7 @@ class Profile extends Component {
       alert(error.message);
     }
   };
-
   render() {
-    console.log('myyyyProfileeeeee');
     const {key, filterPosts, posts, searchedItem, searchText} = this.state;
     const sharePosts = item => {
       this.setState({loading: true});
@@ -712,10 +683,8 @@ class Profile extends Component {
           onLikesClick={(item, setIsLiked, setLikeCount) =>
             onLikesClick(item, setIsLiked, setLikeCount)
           }
-          // onUserProfileClick={() => onUserProfileClick(item)}
           onCategoryClick={() => this.onCategoryClick(item)}
           onCommentsClick={() => onCommentsClick(item)}
-          // sharePost={() => sharePosts(item)}
           sharePost={() => this.onShare()}
           onVideoPlay={item => this.VideoPlay(item)}
           pausedCheck={this.state.pausedCheck}
@@ -725,6 +694,8 @@ class Profile extends Component {
             this.postViewed(item, viewCount, setViewCount)
           }
           date={item?.created_at?.slice(0, 10)}
+          price={item?.price}
+          bid_price={item?.bid_price}
         />
       );
     };
@@ -1233,11 +1204,8 @@ const Item = ({
   title,
   user_name,
   user_location,
-  image,
   comments,
   shares,
-  views,
-  userImage,
   category,
   onPostDelete,
   onDetailsClick = () => {},
@@ -1245,15 +1213,14 @@ const Item = ({
   onCategoryClick,
   onLikesClick = () => {},
   imagesArray,
-  pauseCheckHandler,
-  // pausedCheck,
-  onVideoPlay,
   sharePost,
   user_images,
   flagForLike,
   likes,
   item,
   date,
+  price,
+  bid_price,
   postViewed = () => {},
 }) => {
   const [pausedCheck, setpausedCheck] = useState(true);
@@ -1351,9 +1318,15 @@ const Item = ({
           </View>
         </View>
       </View>
-
+      {price?.length ? (
+      <TouchableOpacity style={styles.priceContainer}>
+        <Text style={styles.priceTxt}> {ArabicText?.Price}</Text>
+        <Text numberOfLines={2} style={styles.bidPrice}>
+          {bid_price > 0 ? bid_price : price}
+        </Text>
+      </TouchableOpacity>
+    ) : null} 
       <Carousel
-        // keyExtractor={this.state.mixed.fileName}
         data={imagesArray}
         layout={'default'}
         scrollEnabled={true}
@@ -1748,5 +1721,31 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 15,
     fontWeight: '600',
+  },
+  priceContainer: {
+    position: 'absolute',
+    // left: -350,
+    top: 70,
+    paddingTop: 5,
+    alignItems: 'center',
+    alignContent: 'center',
+    width: 60,
+    backgroundColor: '#D2691Eff',
+    height: height * 0.065,
+    borderBottomRightRadius: 50,
+    borderBottomLeftRadius: 50,
+    zIndex: 111,
+    left:20
+  },
+  priceTxt: {
+    color: 'white',
+    fontWeight: '800',
+    fontSize: 14,
+  },
+  bidPrice: {
+    textAlign: 'center',
+    color: 'white',
+    fontWeight: '500',
+    fontSize: 13,
   },
 });

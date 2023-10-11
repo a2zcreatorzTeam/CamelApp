@@ -81,7 +81,7 @@ const Post = ({
       imagesArray,
       category_name,
       flagForVideo,
-      lastBidPrice,
+      bid_price,
     } = item;
     // console.log(item, "itemmmmm");
     // console.log(item,"flagForLikeflagForLike");
@@ -102,10 +102,11 @@ const Post = ({
       imagesArray,
       category_name,
       flagForVideo,
-      lastBidPrice,
+      bid_price,
     };
   }, [item]);
   // =====Memoized Props====
+
   const {
     price,
     title,
@@ -119,7 +120,7 @@ const Post = ({
     user_images,
     imagesArray,
     category_name,
-    lastBidPrice,
+    bid_price,
   } = memoizedItemProps;
   // =====Memoized Functions====
   const handleCommentsClick = useCallback(() => {
@@ -164,6 +165,7 @@ const Post = ({
       alert(error.message);
     }
   };
+  console.log('item167', bid_price, item?.price);
   return (
     <View style={styles.main}>
       {/*Post Header*/}
@@ -229,7 +231,7 @@ const Post = ({
                   <TouchableOpacity style={styles.priceContainer}>
                     <Text style={styles.priceTxt}> {ArabicText?.Price}</Text>
                     <Text numberOfLines={2} style={styles.bidPrice}>
-                      {lastBidPrice ? lastBidPrice : price}
+                      {bid_price > 0 ? bid_price : price}
                     </Text>
                   </TouchableOpacity>
                 ) : null}

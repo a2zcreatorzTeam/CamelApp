@@ -420,21 +420,28 @@ class DetailsComponent extends Component {
       modalItem: '',
       loadVideo: false,
       imagesArray: [],
+      bidStatus: null,
     };
   }
 
   componentDidMount() {
-    // if (this.props.route.params.itemFromDetails.price_type != 'FIX') {
-    //   this.setState({flagForBid: true});
-    // }
-    let array = this.state.itemFromDetails.img;
-    console.log(
-      this.state.itemFromDetails.img,
-      'this.state.itemFromDetails.imgthis.state.itemFromDetails.img',
-    );
-    let imagesArray = [];
+    const {itemFromDetails} = this.state;
+    let {user} = this.props;
+    user = user.user.user;
+    this.setState({user_ids: user?.id});
 
-    array.forEach(element => {
+    const bid = this.props.route.param?.bid;
+    this.checkBidStatus();
+    if (
+      this.props.route.params.itemFromDetails.price_type == 'سوم' ||
+      this.props.route.params.itemFromDetails.price_type == 'موس'
+    ) {
+      this.setState({flagForBid: true});
+    }
+    let array = itemFromDetails?.img
+    console.log(array,"arrayyyyy");
+    let imagesArray = [];
+    array?.forEach(element => {
       imagesArray.push({type: 'image', source: element});
     });
     imagesArray.push({type: 'video', source: this.state.itemFromDetails.video});
@@ -462,74 +469,108 @@ class DetailsComponent extends Component {
       this.props.navigation.navigate('Login');
     }
   }
-  placeBid() {
+  checkBidStatus = () => {
+    const {itemFromDetails} = this.state;
     let {user} = this.props;
-    user = user?.user?.user;
+    user = user.user.user;
     if (
-      parseInt(this.state.price) >
-      parseInt(this.props?.route?.params?.itemFromDetails?.price)
+      user !== undefined &&
+      user?.id != this.props.route.params.itemFromDetails.user_id
     ) {
-      if (user?.id != this.props.route.params?.itemFromDetails?.user_id) {
-        //console.log("this.state.itemFromDetails.id", this.state.itemFromDetails.id)
-        // checkBid(user_id, this.state.itemFromDetails.id).then(response => {
-        //   //console.log("response check bid", response)
-
-        //   if (response.status == 'Not Exists') {
-        //     placeBid(
-        //       user_id,
-        //       this.props.route.params.itemFromDetails.id,
-        //       parseInt(this.state.price),
-        //     ).then(response => {
-        //       if (response.status == true) {
-        //         alert(response.message);
-        //         this.setState({modalOffer: false});
-        //       } else {
-        //         alert('Error in adding bid!');
-        //       }
-        //     });
-        //   } else {
-        //     alert('Bid already exists');
-        //   }
-        //   //console.log("price", this.state.price)
-        // });
-        camelapp
-          .post('/checkBid', {
-            user_id: user?.id,
-            post_id: this.state?.itemFromDetails?.id,
-          })
-          .then(response => {
-            console.log(response?.data?.status, 'response.data.status');
-            this.getLastPrice();
-            if (response?.data?.status == 'Not Exists') {
-              camelapp
-                .post('/add/bid', {
-                  user_id: user.id,
-                  post_id: this.state?.itemFromDetails?.id,
-                  price: parseInt(this.state?.price),
-                })
-                .then(response => {
-                  if (response.data.status == true) {
-                    alert(response?.data?.message);
-                    this.setState({modalOffer: false});
-                    this.props.navigation.pop();
-                  } else {
-                    alert('Error in adding bid!');
-                  }
-                });
-            } else {
-              alert('Bid already exists');
-              this.setState({modalOffer: false});
-            }
-          });
+      camelapp
+        .post('/checkBid', {
+          user_id: user?.id,
+          post_id: itemFromDetails?.id,
+        })
+        .then(response => {
+          if (response.data.status == 'Not Exists') {
+            this.setState({bidStatus: false});
+          } else {
+            this.setState({bidStatus: true});
+          }
+        });
+    }
+  };
+  placeBid() {
+    const previousPrice = this.props.route.params.itemFromDetails.price;
+    const {itemFromDetails, price} = this.state;
+    let {user} = this.props;
+    user = user.user.user;
+    if (user != undefined) {
+      if (this.props.route.params.itemFromDetails.price_type == 'سوم') {
+        if (
+          parseInt(price) >
+          parseInt(
+            itemFromDetails?.bid_price > 0
+              ? itemFromDetails.bid_price
+              : itemFromDetails?.price,
+          )
+        ) {
+          if (user?.id != itemFromDetails?.user_id) {
+            camelapp
+              .post('/add/bid', {
+                user_id: user?.id,
+                post_id: itemFromDetails?.id,
+                price: parseInt(price),
+              })
+              .then(response => {
+                if (response?.data?.status == true) {
+                  alert(response?.data?.message);
+                  this.setState({bidStatus: true});
+                  this.setState({modalOffer: false});
+                } else {
+                  alert('Error in adding bid!');
+                }
+              });
+          } else {
+            console.log('====================================');
+            console.log('You_can_not_Place_bid_on_your_price');
+            console.log('====================================');
+            alert(ArabicText.You_can_not_Place_bid_on_your_price + '');
+          }
+        } else {
+          alert(ArabicText.Offer_can_not_be_less_than_base_price + '');
+        }
       } else {
-        alert(ArabicText.You_can_not_Place_bid_on_your_price + '');
+        if (user.id != this.props.route.params?.itemFromDetails.user_id) {
+          camelapp
+            .post('/add/bid', {
+              user_id: user?.id,
+              post_id: itemFromDetails?.id,
+              price: parseInt(previousPrice),
+            })
+            .then(response => {
+              if (response.data.status == true) {
+                this.setState({bidStatus: true});
+                alert(response?.data?.message);
+              } else {
+                alert('Error in adding bid!');
+              }
+            });
+        } else {
+          console.log('====================================');
+          console.log('You_can_not_Place_bid_on_your_price');
+          console.log('====================================');
+          alert(ArabicText.You_can_not_Place_bid_on_your_price + '');
+        }
       }
     } else {
-      alert(ArabicText.Offer_can_not_be_less_than_base_price + '');
+      this.props.navigation.navigate('Login');
     }
   }
   render() {
-    const {videoModal, modalItem, pausedCheck, loadVideo} = this.state;
+    let user = this.props;
+    user = user?.user?.user;
+    const {
+      pausedCheck,
+      loadVideo,
+      videoModal,
+      modalItem,
+      imagesArray,
+      itemFromDetails,
+      bidStatus,
+      flagForBid,
+    } = this.state;
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
         <BackBtnHeader />
@@ -541,8 +582,37 @@ class DetailsComponent extends Component {
             paddingHorizontal: 20,
             marginTop: 15,
           }}>
+          {/* PRICE SECTION */}
+          <View
+            style={{
+              backgroundColor: '#D2691Eff',
+              padding: 10,
+              borderRadius: 10,
+            }}>
+            <Text
+              style={{
+                color: 'white',
+                fontWeight: '800',
+                fontSize: 14,
+              }}>
+              {' '}
+              {ArabicText?.Price}
+            </Text>
+            <Text
+              numberOfLines={2}
+              style={{
+                textAlign: 'center',
+                color: 'white',
+                fontWeight: '500',
+                fontSize: 13,
+              }}>
+              {itemFromDetails?.bid_price > 0
+                ? itemFromDetails?.bid_price
+                : itemFromDetails?.price}
+            </Text>
+          </View>
           {/* PROFILE VIEW */}
-          <View style={{alignItems: 'flex-end'}}>
+          <View style={{alignItems: 'flex-end', width: '70%'}}>
             <Text
               style={{
                 color: '#000',
@@ -550,10 +620,12 @@ class DetailsComponent extends Component {
                 fontWeight: '700',
                 marginRight: 20,
               }}>
-              {this.state.itemFromDetails.name}
+              {itemFromDetails?.name}
             </Text>
             <Text style={{color: '#000', fontSize: 14, marginRight: 20}}>
-              {this.state.itemFromDetails.user_location}
+              {itemFromDetails?.location
+                ? itemFromDetails?.location
+                : itemFromDetails?.user_location}
             </Text>
           </View>
 
@@ -581,7 +653,7 @@ class DetailsComponent extends Component {
             />
           </View>
         </View>
-        <View
+        {/* <View
           style={{
             marginTop: '20%',
             marginHorizontal: 20,
@@ -621,10 +693,12 @@ class DetailsComponent extends Component {
                 fontWeight: '500',
                 fontSize: 13,
               }}>
-              {this?.state?.itemFromDetails?.price}
+              {itemFromDetails?.bid_price > 0
+                ? itemFromDetails?.bid_price
+                : itemFromDetails?.price}
             </Text>
           </View>
-        </View>
+        </View> */}
 
         <View style={[Styles.containerDetails]}>
           <HorizontalCarousel
@@ -642,46 +716,39 @@ class DetailsComponent extends Component {
               this.setState({pausedCheck: true});
             }}
           />
-          {/* <Image
-            source={{
-              uri:
-                'http://www.tasdeertech.com/images/posts/' +
-                this.state.itemFromDetails.img[0],
-            }}
-            style={Styles.image}></Image> */}
           <View style={{textAlign: 'right'}}>
             <Text style={Styles.textHeadingg}>{ArabicText.Title}</Text>
             <TextInput
-              value={this.state.itemFromDetails.title}
+              value={itemFromDetails.title}
               style={Styles.forminputsDetails}
-              placeholder={this.state.itemFromDetails.title}
+              placeholder={itemFromDetails.title}
               editable={false}></TextInput>
 
             <Text style={Styles.textHeadingg}>{ArabicText.Color}</Text>
             <TextInput
-              value={this.state.itemFromDetails.color}
+              value={itemFromDetails.color}
               style={Styles.forminputsDetails}
-              placeholder={this.state.itemFromDetails.color}
+              placeholder={itemFromDetails.color}
               editable={false}></TextInput>
 
             <Text style={Styles.textHeadingg}>{ArabicText?.camel}</Text>
             <TextInput
-              value={this.state?.itemFromDetails?.camel_type}
+              value={itemFromDetails?.camel_type}
               style={Styles.forminputsDetails}
-              placeholder={this.state?.itemFromDetails?.camel_type}
+              placeholder={itemFromDetails?.camel_type}
               editable={false}></TextInput>
             <Text style={Styles.textHeadingg}>{ArabicText.Location}</Text>
             <TextInput
-              value={this.state?.itemFromDetails?.location}
+              value={itemFromDetails?.location}
               style={Styles.forminputsDetails}
-              placeholder={this.state?.itemFromDetails?.location}
+              placeholder={itemFromDetails?.location}
               editable={false}></TextInput>
 
             <Text style={Styles.textHeadingg}>{ArabicText.Payment_Types}</Text>
             <TextInput
-              value={this.state?.itemFromDetails?.price_type}
+              value={itemFromDetails?.price_type}
               style={Styles.forminputsDetails}
-              placeholder={this.state?.itemFromDetails?.price_type}
+              placeholder={itemFromDetails?.price_type}
               editable={false}></TextInput>
 
             <Text style={Styles.textHeadingg}>{ArabicText?.Description}</Text>
@@ -698,7 +765,7 @@ class DetailsComponent extends Component {
                   height: undefined,
                 },
               ]}>
-              {this.state?.itemFromDetails?.description}
+              {itemFromDetails?.description}
             </Text>
           </View>
 
@@ -730,13 +797,7 @@ class DetailsComponent extends Component {
                   }
                   placeholderTextColor="#b0b0b0"></TextInput>
 
-                <TouchableOpacity
-                  onPress={
-                    () => this.placeBid()()
-                    //   context?.placeBid,
-                    //   context?.checkBid,
-                    //   context?.data?.profile?.user.id,
-                  }>
+                <TouchableOpacity onPress={() => this.placeBid()}>
                   <View style={Styles.btnform}>
                     <Text style={Styles.textbtn}>{ArabicText.offer_Up}</Text>
                   </View>
@@ -744,11 +805,25 @@ class DetailsComponent extends Component {
               </View>
             </View>
           </Modal>
-          {this.state.flagForBid &&
-            this?.state?.user?.id !== this?.state?.user?.id && (
+          {bidStatus !== null &&
+            !bidStatus &&
+            flagForBid &&
+            this?.state?.user_ids !== this?.state?.user?.id && (
               <TouchableOpacity
                 style={{marginBottom: 20, marginTop: 20}}
                 onPress={() => this.setState({modalOffer: true})}>
+                <View style={Styles.btnform}>
+                  <Text style={Styles.textbtn}>{ArabicText.MyBids}</Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          {bidStatus !== null &&
+            !bidStatus &&
+            !flagForBid &&
+            this?.state?.user_ids !== this?.state?.user?.id && (
+              <TouchableOpacity
+                style={{marginBottom: 20, marginTop: 20}}
+                onPress={() => this.placeBid()}>
                 <View style={Styles.btnform}>
                   <Text style={Styles.textbtn}>{ArabicText.MyBids}</Text>
                 </View>

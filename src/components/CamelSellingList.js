@@ -73,7 +73,6 @@ class CamelSellingList extends Component {
             let array = item?.img;
             let imagesArray = [];
             array?.forEach(element => {
-              console.log(element,"elementtttt");
               imagesArray?.push({type: 'image', source: element});
             });
             imagesArray?.push({type: 'video', source: item?.video});
@@ -293,36 +292,19 @@ class CamelSellingList extends Component {
       }
     };
     const onDetailsClick = (item, viewCount, setViewCount) => {
-      console.log(item, 'itemmmmmm');
       let {user} = this.props;
       user = user.user.user;
-      let post_id = item?.id;
       if (user != undefined) {
         this.postViewed(item, viewCount, setViewCount);
         this.props.navigation.navigate('DetailsSellingCamel', {
           itemFromDetails: item,
           userId: this?.state?.userId,
         });
-        //   camelapp
-        //     .post('/add/view', {
-        //       post_id: post_id,
-        //       user_id: user?.id,
-        //     })
-        //     .then(res => {
-        //       //console.log("response", res.data);
-        //       this.props.navigation.navigate('DetailsSellingCamel', {
-        //         itemFromDetails: item,
-        //         userId: this?.state?.userId,
-        //       });
-        //     });
-        // } else {
-        //   this.props.navigation.navigate('DetailsSellingCamel', {
-        //     itemFromDetails: item,
-        //     userId: this?.state?.userId,
-        //   });
-      }
-      else{
-        this.props.navigation.navigate('Login');
+      } else {
+        this.props.navigation.navigate('DetailsSellingCamel', {
+          itemFromDetails: item,
+          userId: this?.state?.userId,
+        });
       }
     };
     const onAddButtonClick = () => {
@@ -333,7 +315,6 @@ class CamelSellingList extends Component {
         this.props.navigation.navigate('Login');
       }
     };
-    console.log('IS THIS SAME SCREEN');
     return (
       <View style={styles.container}>
         <Header

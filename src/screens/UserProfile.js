@@ -230,7 +230,7 @@ class UserProfile extends Component {
 
             following: data?.following,
             followers: data?.follwers,
-            user: data.user,
+            user: data?.user,
             noOfPosts: data?.posts?.length,
             key: !key,
             OtherUserDetail: data?.user,
@@ -400,7 +400,8 @@ class UserProfile extends Component {
     }
   };
   render() {
-    const {filterPosts, postData, searchedItem, key, searchText} = this.state;
+    const {filterPosts, postData, searchedItem, key, searchText, user} =
+      this.state;
     const sharePosts = item => {
       const user = this.props.route?.params;
       this.setState({loading: true});
@@ -753,6 +754,23 @@ class UserProfile extends Component {
       }
     };
 
+    const BlockUser = () => {
+      return (
+        <TouchableOpacity
+          style={{
+            width: 70,
+            backgroundColor: '#d2691e',
+            padding: 5,
+            borderRadius: 10,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          onPress={() => {}}>
+          <Text style={{color: '#fff'}}>{ArabicText?.Unblock}</Text>
+        </TouchableOpacity>
+      );
+    };
+
     return (
       <View style={styles.container}>
         <Header
@@ -787,7 +805,7 @@ class UserProfile extends Component {
           </View>
 
           <View style={{position: 'absolute', top: 40, left: 20}}>
-            <FriendshipStatusBTN />
+            {user?.is_Blocked == 1 ? <BlockUser /> : <FriendshipStatusBTN />}
           </View>
 
           <View>
@@ -962,18 +980,14 @@ class UserProfile extends Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -1051,7 +1065,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 });
-
 const Item = ({
   title,
   user_name,

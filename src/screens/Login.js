@@ -86,7 +86,6 @@ class Login extends Component {
         alert('Something went wrong');
       });
   }
-
   tweetNow = async () => {
     // RNTwitterSignIn.logOut()
     console.log('Before RNTwitterSignIn.logIn');
@@ -114,7 +113,6 @@ class Login extends Component {
       console.log('ERROR', e);
     }
   };
-
   tweetNows() {
     const url = 'https://twitter.com/Alsyahdapp';
     Linking.openURL(url)
@@ -125,14 +123,12 @@ class Login extends Component {
         alert('Something went wrong');
       });
   }
-
   componentDidMount = () => {
     requestUserPermission();
   };
-
   render() {
     const authentication = async () => {
-      const deviceToken = await AsyncStorage.getItem('fcmToken');
+      const deviceToken = await AsyncStorage?.getItem('fcmToken');
       console.log(deviceToken);
       this.setState({loader: true});
       this.setState({loader: true});
@@ -154,7 +150,7 @@ class Login extends Component {
             })
             .then(res => {
               response = res.data;
-              console.log(response,"responselogin");
+              console.log(response, 'responselogin');
 
               if (response.status == true) {
                 this.setState({loader: false});
@@ -162,7 +158,7 @@ class Login extends Component {
                 actions.userData(response);
                 this.saveData();
                 this.userlogin();
-
+                console.log('loginmnnn');
                 this.props.navigation.navigate('Home');
               } else {
                 alert(response.error + '');

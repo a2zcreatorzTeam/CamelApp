@@ -50,9 +50,10 @@ const Post = ({
   const [viewCount, setViewCount] = useState(item?.view_count);
 
   const onUserProfileClick = async item => {
+    console.log('helllo');
     if (user != undefined) {
       if (item?.user_id == user?.id) {
-        navigation?.navigate('Profile', {screen: ArabicText?.profilee});
+        navigation?.navigate('Profile', {screenName: ArabicText.profilee});
       } else {
         navigation?.navigate('UserProfile', {
           user_id: item?.user_id,
@@ -60,6 +61,10 @@ const Post = ({
         });
       }
     } else {
+      navigation?.navigate('UserProfile', {
+        user_id: item?.user_id,
+        userProfile: item,
+      });
     }
   };
   // =====MEMO=====
@@ -165,7 +170,6 @@ const Post = ({
       alert(error.message);
     }
   };
-  console.log('item167', bid_price, item?.price);
   return (
     <View style={styles.main}>
       {/*Post Header*/}

@@ -85,9 +85,6 @@ class CamelClub extends Component {
             };
           });
         }
-        // else {
-        //   alert(" IF Only 4 images allowed")
-        // }
       })
       .catch(error => {
         console.log('error', error);
@@ -138,24 +135,24 @@ class CamelClub extends Component {
       mediaType: 'photo',
       multiple: true,
       includeBase64: true,
-      selectionLimit: 4,
     })
       .then(async images => {
-        if (images.length <= 4) {
-          let tempImage = images;
-          let bse64images = [];
-          let mixedTemp = [];
-          for (let i = 0; i < tempImage.length; i++) {
-            bse64images.push('data:image/png;base64,' + images[i].data);
-            mixedTemp.push(tempImage[i]);
-          }
-          this.setState({imagesForPost: bse64images, image: tempImage});
-          this.setState(previousState => {
-            return {mixed: [...previousState?.mixed, ...mixedTemp]};
-          });
-        } else {
-          alert('Only 4 images allowed');
+        // if (images.length <= 4) {
+        let tempImage = images;
+        let bse64images = this.state.imagesForPost;
+        let mixedTemp = [];
+        console.log(this.state?.mixed?.state, 'stateee');
+        for (let i = 0; i < tempImage.length; i++) {
+          bse64images.push('data:image/png;base64,' + images[i].data);
+          mixedTemp.push(tempImage[i]);
         }
+        this.setState({imagesForPost: bse64images, image: tempImage});
+        this.setState(previousState => {
+          return {mixed: [...previousState?.mixed, ...mixedTemp]};
+        });
+        // } else {
+        //   alert('Only 4 images allowed');
+        // }
         // console.log('images', images);
       })
       .catch(error => {
@@ -166,31 +163,17 @@ class CamelClub extends Component {
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
-    // var combineImages;
-    // if (image1?.length && image2?.length) {
-    //   combineImages = image1.concat(image2);
-    // }
-    // if (image1?.length && !image2?.length) {
-    //   combineImages = image1;
-    // }
-    // if (!image1?.length && image2?.length) {
-    //   combineImages = image2;
-    // }
 
     if (this.state.videoForPost === undefined) {
       return alert('Can not post without video');
     }
-    // console.log(
-    //   '==================this.state.imagesForPost==================',
-    //   combineImages?.length,
-    // );
     if (combineImages == undefined || combineImages?.length == 0) {
       return alert('Can not post without image');
     }
-    if (combineImages?.length > 4) {
+    console.log(combineImages?.length);
+    if (combineImages?.length < 4) {
       return alert('Upload upto 4 images');
     }
-
     if (
       this.state.title != '' &&
       this.state.description != '' &&
@@ -200,9 +183,7 @@ class CamelClub extends Component {
     ) {
       let {user} = this.props;
       let user_id = user.user.user.id;
-
       this.setState({loading: true});
-
       camelapp
         .post('/add/marketing', {
           user_id: user_id,
@@ -216,7 +197,6 @@ class CamelClub extends Component {
         .then(response => {
           this.setState({loading: false});
           alert(ArabicText.Post_added_successfully);
-          // this.props.navigation.navigate('Home');
           this.props.navigation.replace('CamelMarketingList');
         })
         .catch(error => {
@@ -236,7 +216,6 @@ class CamelClub extends Component {
   };
 
   render() {
-    console.log('liveMarketingForm');
     const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
     return (
       <ScrollView style={{backgroundColor: '#ffffff'}}>
@@ -254,7 +233,6 @@ class CamelClub extends Component {
             CustomUrl
             imagesArray={this.state.mixed}
             onPress={mediaSource => {
-              // console.log(mediaSource, 'mediaSource');
               this.setState({
                 pausedCheck: false,
                 videoModal: true,

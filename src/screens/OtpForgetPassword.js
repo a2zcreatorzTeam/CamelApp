@@ -121,38 +121,32 @@ export default class App extends Component {
     this.setState({loader: true});
     let number =
       this.state.one + this.state.two + this.state.three + this.state.four;
-    //console.log("number", number);
-    //console.log("previous number", this.state.number)
-  
-      if (this.state.password.length > 5) {
-        if (this.state.password === this.state.confirm_password) {
-            camelapp
-              .post('password/reset', {
-                phone: this.state.phone,
-                password: this.state.password,
-              })
-              .then(response => {
-                if (response.data.status === true) {
-                    alert(response?.data?.message)
-                    setTimeout(() => {
-                        
-                        this.props.navigation.navigate('Login');
-                    }, 1000);
-                }
-              })
-              .catch(error => {
-                //console.log("error", error)
-              });
-         
-        } else {
-          alert('Password does not match');
-          this.setState({loader: false});
-        }
+    if (this.state.password.length > 5) {
+      if (this.state.password === this.state.confirm_password) {
+        camelapp
+          .post('password/reset', {
+            phone: this.state.phone,
+            password: this.state.password,
+          })
+          .then(response => {
+            if (response.data.status === true) {
+              alert(response?.data?.message);
+              setTimeout(() => {
+                this.props.navigation.navigate('Login');
+              }, 1000);
+            }
+          })
+          .catch(error => {
+            //console.log("error", error)
+          });
       } else {
-        alert('Password must contains 6 characters');
+        alert('Password does not match');
         this.setState({loader: false});
       }
-    
+    } else {
+      alert('Password must contains 6 characters');
+      this.setState({loader: false});
+    }
   }
 
   render() {

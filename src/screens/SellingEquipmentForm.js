@@ -77,37 +77,21 @@ class CamelFood extends React.Component {
     };
   }
   createPostCamelFood = async () => {
-    console.log(this.state.register_value, 'this.state.register_value');
-
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
-
-    // var combineImages;
-    // if (image1?.length && image2?.length) {
-    //   combineImages = image1.concat(image2);
-    // }
-    // if (image1?.length && !image2?.length) {
-    //   combineImages = image1;
-    // }
-    // if (!image1?.length && image2?.length) {
-    //   combineImages = image2;
-    // }
-
     if (this.state.videoForPost === undefined) {
       return alert('Can not post without video');
     }
-
     if (combineImages == undefined || combineImages?.length == 0) {
       return alert('Can not post without image');
     }
-    if (combineImages?.length > 4) {
+    if (combineImages?.length < 4) {
       return alert('Upload upto 4 images');
     }
     if (this.state.videoForPost === undefined) {
       return alert('Can not post without video');
     }
-
     if (
       this.state.title != '' &&
       this.state.location != '' &&
@@ -212,24 +196,23 @@ class CamelFood extends React.Component {
       mediaType: 'photo',
       multiple: true,
       includeBase64: true,
-      selectionLimit: 4,
     })
       .then(async images => {
-        if (images.length <= 4) {
-          let tempImage = images;
-          let bse64images = [];
-          let mixedTemp = [];
-          for (let i = 0; i < tempImage.length; i++) {
-            bse64images.push('data:image/png;base64,' + images[i].data);
-            mixedTemp.push(tempImage[i]);
-          }
-          this.setState({imagesForPost: bse64images, image: tempImage});
-          this.setState(previousState => {
-            return {mixed: [...previousState?.mixed, ...mixedTemp]};
-          });
-        } else {
-          alert('Only 4 images allowed');
+        // if (images.length <= 4) {
+        let tempImage = images;
+        let bse64images = this.state.imagesForPost;
+        let mixedTemp = [];
+        for (let i = 0; i < tempImage.length; i++) {
+          bse64images.push('data:image/png;base64,' + images[i].data);
+          mixedTemp.push(tempImage[i]);
         }
+        this.setState({imagesForPost: bse64images, image: tempImage});
+        this.setState(previousState => {
+          return {mixed: [...previousState?.mixed, ...mixedTemp]};
+        });
+        // } else {
+        //   alert('Only 4 images allowed');
+        // }
         console.log('images', images);
       })
       .catch(error => {

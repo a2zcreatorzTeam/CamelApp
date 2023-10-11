@@ -234,43 +234,6 @@ class DetailsComponent extends Component {
         } else {
           alert(ArabicText.Offer_can_not_be_less_than_base_price + '');
         }
-      } else {
-        if (user.id != this.props.route.params?.itemFromDetails.user_id) {
-          // camelapp
-          //   .post('/checkBid', {
-          //     user_id: user.id,
-          //     post_id: this.state.itemFromDetails.id,
-          //   })
-          //   .then(response => {
-          //     console.log(response.data.status, 'response.data.status');
-          //     // this.getLastPrice();
-          //     if (response.data.status == 'Not Exists') {
-          camelapp
-            .post('/add/bid', {
-              user_id: user?.id,
-              post_id: itemFromDetails?.id,
-              price: parseInt(previousPrice),
-            })
-            .then(response => {
-              if (response.data.status == true) {
-                this.setState({bidStatus: true});
-                alert(response?.data?.message);
-                // this.props.navigation.pop();
-              } else {
-                alert('Error in adding bid!');
-              }
-            });
-          // } else {
-          //   alert('Bid already exists');
-          //   this.setState({modalOffer: false});
-          // }
-          // });
-        } else {
-          console.log('====================================');
-          console.log('You_can_not_Place_bid_on_your_price');
-          console.log('====================================');
-          alert(ArabicText.You_can_not_Place_bid_on_your_price + '');
-        }
       }
     } else {
       this.props.navigation.navigate('Login');
@@ -574,9 +537,17 @@ class DetailsComponent extends Component {
             this?.state?.user_ids !== this?.state?.user?.id && (
               <TouchableOpacity
                 style={{marginBottom: 20, marginTop: 20}}
-                onPress={() => this.placeBid()}>
+                onPress={() => {
+                  this.props.navigation.navigate('MessageViewScreen', {
+                    messageData: {
+                      id: this?.state?.user?.id,
+                      user_name: itemFromDetails?.name,
+                      user_image: itemFromDetails.user_images,
+                    },
+                  });
+                }}>
                 <View style={Styles.btnform}>
-                  <Text style={Styles.textbtn}>{ArabicText.MyBids}</Text>
+                  <Text style={Styles.textbtn}>{ArabicText.IamInterested}</Text>
                 </View>
               </TouchableOpacity>
             )}

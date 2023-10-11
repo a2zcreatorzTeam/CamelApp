@@ -12,7 +12,7 @@ const BackBtnHeader = props => {
   const goBack = () => {
     navigation.goBack();
   };
-
+console.log(props?.reciever_data?.user_image,"props?.reciever_data?.user_image");
   return (
     <View style={[Styles.header, style]}>
       {props?.reciever_data && (

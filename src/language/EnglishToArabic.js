@@ -245,3 +245,4 @@ export const Ended = 'انتهى';
 export const RequestToBuy = 'طلب شراء';
 export const SurveyIsInactive = 'لاستطلاع غير نشط';
 export const Unblock = 'رفع الحظر';
+export const IamInterested = 'أنا مهتم';

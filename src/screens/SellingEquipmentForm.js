@@ -72,6 +72,8 @@ class CamelFood extends React.Component {
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
+
+      bidExpireDate: '',
     };
   }
   createPostCamelFood = async () => {
@@ -371,7 +373,11 @@ class CamelFood extends React.Component {
             <View style={{flexDirection: 'row', marginTop: 10}}>
               <View style={Styles.cameraview}>
                 <TouchableOpacity onPress={() => this.videoPicker()}>
-                <FontAwesome name="video-camera" size={30} color="#D2691Eff" />
+                  <FontAwesome
+                    name="video-camera"
+                    size={30}
+                    color="#D2691Eff"
+                  />
                 </TouchableOpacity>
               </View>
               {/* Click pic from camera */}

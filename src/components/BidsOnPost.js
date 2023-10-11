@@ -193,11 +193,11 @@ class Bids extends Component {
       </View>
     );
     const renderBidItem = ({item}) => {
-      console.log(item?.post);
+      console.log(item);
       return (
         <BidsItem
           item={item}
-          userName={item?.user_name}
+          userName={item?.bid_user_name}
           userImage={item?.user_image}
           bidPrice={item?.price}
           onViewPost={() => this.onViewPostClick(item)}

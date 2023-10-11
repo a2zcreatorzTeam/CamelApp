@@ -36,7 +36,6 @@ class CamelEquipmentList extends Component {
     };
     this.viewPosts();
   }
-
   async viewPosts() {
     const {key} = this.state;
     let {user} = this.props;
@@ -151,7 +150,6 @@ class CamelEquipmentList extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-
   render() {
     const {key, searchedItem, posts, filterPosts} = this.state;
     const renderItem = ({item}) => {
@@ -277,28 +275,15 @@ class CamelEquipmentList extends Component {
     const onDetailsClick = (item, viewCount, setViewCount) => {
       let {user} = this.props;
       user = user.user.user;
-      let post_id = item?.id;
       if (user != undefined) {
         this.props.navigation.navigate('DetailsComponentWithPrice', {
           itemFromDetails: item,
         });
         this.postViewed(item, viewCount, setViewCount);
-
-        //   camelapp
-        //     .post('/add/view', {
-        //       post_id: post_id,
-        //       user_id: user?.id,
-        //     })
-        //     .then(res => {
-        //       //console.log("response", res.data);
-        //       this.props.navigation.navigate('DetailsComponentWithPrice', {
-        //         itemFromDetails: item,
-        //       });
-        //     });
-        // } else {
-        //   this.props.navigation.navigate('DetailsComponentWithPrice', {
-        //     itemFromDetails: item,
-        //   });
+      } else {
+        this.props.navigation.navigate('DetailsComponentWithPrice', {
+          itemFromDetails: item,
+        });
       }
     };
     const onAddButtonClick = () => {
@@ -358,14 +343,11 @@ class CamelEquipmentList extends Component {
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(CamelEquipmentList);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

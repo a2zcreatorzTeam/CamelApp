@@ -59,12 +59,19 @@ class DetailsComponent extends Component {
   }
 
   componentDidMount() {
+    console.log(
+      this.props.route.params.itemFromDetails.price_type,
+      'this.props.route.params.itemFromDetails.price_type',
+    );
     const bid = this.props.route.param?.bid;
     this.checkBidStatus();
     let {user} = this.props;
     user = user.user.user;
     this.setState({user_ids: user?.id});
-    if (this.props.route.params.itemFromDetails.price_type == 'سوم') {
+    if (
+      this.props.route.params.itemFromDetails.price_type == 'سوم' ||
+      this.props.route.params.itemFromDetails.price_type == 'موس'
+    ) {
       this.setState({flagForBid: true});
     }
     let array = this.state?.itemFromDetails?.img;
@@ -193,8 +200,12 @@ class DetailsComponent extends Component {
     if (user != undefined) {
       if (this.props.route.params.itemFromDetails.price_type == 'سوم') {
         if (
-          parseInt(this.state.price) >
-          parseInt(this.props.route.params.itemFromDetails.price)
+          parseInt(price) >
+          parseInt(
+            itemFromDetails?.bid_price > 0
+              ? itemFromDetails.bid_price
+              : itemFromDetails?.price,
+          )
         ) {
           if (
             user?.id != this?.props?.route?.params?.itemFromDetails?.user_id
@@ -210,7 +221,6 @@ class DetailsComponent extends Component {
                   alert(response?.data?.message);
                   this.setState({bidStatus: true});
                   this.setState({modalOffer: false});
-                  // this.props.navigation.pop();
                 } else {
                   alert('Error in adding bid!');
                 }
@@ -290,6 +300,8 @@ class DetailsComponent extends Component {
   //     });
   // }
   render() {
+    let user = this.props;
+    user = user?.user?.user;
     const {
       pausedCheck,
       loadVideo,
@@ -310,11 +322,41 @@ class DetailsComponent extends Component {
             justifyContent: 'flex-end',
             paddingHorizontal: 20,
             marginTop: 15,
+            width: '100%',
           }}>
+          {/* PRICE SECTION */}
+          <View
+            style={{
+              backgroundColor: '#D2691Eff',
+              padding: 10,
+              borderRadius: 10,
+            }}>
+            <Text
+              style={{
+                color: 'white',
+                fontWeight: '800',
+                fontSize: 14,
+              }}>
+              {' '}
+              {ArabicText?.Price}
+            </Text>
+            <Text
+              numberOfLines={2}
+              style={{
+                textAlign: 'center',
+                color: 'white',
+                fontWeight: '500',
+                fontSize: 13,
+              }}>
+              {itemFromDetails?.bid_price > 0
+                ? itemFromDetails?.bid_price
+                : itemFromDetails?.price}
+            </Text>
+          </View>
           <View
             style={{
               alignItems: 'flex-end',
-              // width: '100%',
+              width: '70%',
             }}>
             <Text
               style={{
@@ -328,7 +370,9 @@ class DetailsComponent extends Component {
                 : itemFromDetails?.user_name}
             </Text>
             <Text style={{color: '#000', fontSize: 14, marginRight: 20}}>
-              {itemFromDetails.user_location}
+              {itemFromDetails?.location
+                ? itemFromDetails?.location
+                : itemFromDetails?.user_location}
             </Text>
           </View>
           <View
@@ -344,9 +388,9 @@ class DetailsComponent extends Component {
               source={{
                 uri:
                   'http://www.tasdeertech.com/images/profiles/' +
-                  itemFromDetails.user_images
+                  (itemFromDetails.user_images?.length
                     ? itemFromDetails.user_images
-                    : itemFromDetails.user_image,
+                    : itemFromDetails.user_image),
               }}
               style={{
                 height: 55,
@@ -357,8 +401,9 @@ class DetailsComponent extends Component {
             />
           </View>
         </View>
+
         <View style={Styles.containerDetails}>
-          <View
+          {/* <View
             style={{
               // marginTop: '18%',
               marginHorizontal: 20,
@@ -401,7 +446,7 @@ class DetailsComponent extends Component {
                 {this?.state?.itemFromDetails?.price}
               </Text>
             </View>
-          </View>
+          </View> */}
           <HorizontalCarousel
             price={this?.state?.itemFromDetails?.price}
             imagesArray={imagesArray}

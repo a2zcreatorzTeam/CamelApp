@@ -140,7 +140,6 @@ class CamelFoodList extends Component {
   };
 
   render() {
-    console.log("camelFood");
     const {key, searchedItem, posts, filterPosts} = this.state;
     const renderItem = ({item}) => {
       return (
@@ -229,7 +228,6 @@ class CamelFoodList extends Component {
     const onDetailsClick = (item, viewCount, setViewCount) => {
       let {user} = this.props;
       user = user.user.user;
-      let post_id = item?.id;
       if (user != undefined) {
         this.props.navigation.navigate('DetailsComponentWithPrice', {
           itemFromDetails: item,
@@ -251,10 +249,13 @@ class CamelFoodList extends Component {
         //   this.props.navigation.navigate('DetailsComponentWithPrice', {
         //     itemFromDetails: item,
         //   });
+      } else {
+        this.props.navigation.navigate('DetailsComponentWithPrice', {
+          itemFromDetails: item,
+        });
       }
     };
     const sharePosts = item => {
-      console.log('working');
       this.setState({loading: true});
       let {user} = this.props;
       user = user.user.user;
@@ -266,7 +267,6 @@ class CamelFoodList extends Component {
             post_id: post_id,
           })
           .then(response => {
-            console.log('response.data', response.data);
             if (response.data) {
               let filterPosts = this.state.filterPosts;
               this.viewPosts();

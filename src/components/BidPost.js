@@ -18,6 +18,7 @@ import EmptyComponent from './EmptyComponent';
 
 import {Dimensions} from 'react-native';
 import {RefreshControl} from 'react-native';
+import FastImage from 'react-native-fast-image';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 class Bids extends Component {
@@ -54,51 +55,52 @@ class Bids extends Component {
     this.setState({refreshing: false});
   }
   onViewPostClick(item) {
-    console.log(item.post.category_id);
+  
+    console.log(item?.posts,"imgggg");
     if (item.post.category_id == '1') {
       this.props.navigation.navigate('CamelClubDetailsComponent', {
-        itemFromDetails: item.post,
+        itemFromDetails: item?.posts[0],
       });
     }
     if (item.post.category_id == '4') {
       this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
-        itemFromDetails: item.post,
+        itemFromDetails: item?.posts[0],
       });
     }
     if (item.post.category_id == '3') {
       this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
-        itemFromDetails: item.post,
+        itemFromDetails: item?.posts[0],
       });
     }
     if (item.post.category_id == '2') {
       this.props.navigation.navigate('DetailsSellingCamel', {
-        itemFromDetails: item.post,
+        itemFromDetails: item?.posts[0],
         bid: true,
       });
     }
     if (item.post.category_id == '6') {
       this.props.navigation.navigate('DetailsComponentWithPrice', {
-        itemFromDetails: item.post,
+        itemFromDetails: item?.posts[0],
       });
     }
     if (item.post.category_id == '8') {
       this.props.navigation.navigate('DetailsComponentWithPrice', {
-        itemFromDetails: item.post,
+        itemFromDetails: item?.posts[0],
       });
     }
     if (item.post.category_id == '5') {
       this.props.navigation.navigate('DetailsMovingCamel', {
-        itemFromDetails: item.post,
+        itemFromDetails: item?.posts[0],
       });
     }
     if (item.post.category_id == '9') {
       this.props.navigation.navigate('DetailsMarketingCamel', {
-        itemFromDetails: item.post,
+        itemFromDetails: item?.posts[0],
       });
     }
     if (item.post.category_id == '11') {
       this.props.navigation.navigate('DetailsFemaleCamel', {
-        itemFromDetails: item.post,
+        itemFromDetails: item?.posts[0],
       });
     }
   }
@@ -135,16 +137,18 @@ class Bids extends Component {
           marginTop: 10,
           marginBottom: 10,
         }}>
-        <Image
-          source={{
-            uri: 'https:www.tasdeertech.com/images/profiles/' + userImage,
-          }}
+
+        <FastImage
           style={{
             width: 80,
             height: 80,
             borderRadius: 40,
             alignSelf: 'center',
           }}
+          source={{
+            uri: 'https:www.tasdeertech.com/images/profiles/' + userImage,
+          }}
+          resizeMode={FastImage?.resizeMode.cover}
         />
 
         <View
@@ -192,6 +196,7 @@ class Bids extends Component {
       </View>
     );
     const renderBidItem = item => {
+      // console.log(item?.item, 'item bidd123');
       return (
         <BidsItem
           item={item}

@@ -438,8 +438,8 @@ class DetailsComponent extends Component {
     ) {
       this.setState({flagForBid: true});
     }
-    let array = itemFromDetails?.img
-    console.log(array,"arrayyyyy");
+    let array = itemFromDetails?.img;
+    console.log(array, 'arrayyyyy');
     let imagesArray = [];
     array?.forEach(element => {
       imagesArray.push({type: 'image', source: element});
@@ -531,28 +531,6 @@ class DetailsComponent extends Component {
         } else {
           alert(ArabicText.Offer_can_not_be_less_than_base_price + '');
         }
-      } else {
-        if (user.id != this.props.route.params?.itemFromDetails.user_id) {
-          camelapp
-            .post('/add/bid', {
-              user_id: user?.id,
-              post_id: itemFromDetails?.id,
-              price: parseInt(previousPrice),
-            })
-            .then(response => {
-              if (response.data.status == true) {
-                this.setState({bidStatus: true});
-                alert(response?.data?.message);
-              } else {
-                alert('Error in adding bid!');
-              }
-            });
-        } else {
-          console.log('====================================');
-          console.log('You_can_not_Place_bid_on_your_price');
-          console.log('====================================');
-          alert(ArabicText.You_can_not_Place_bid_on_your_price + '');
-        }
       }
     } else {
       this.props.navigation.navigate('Login');
@@ -642,7 +620,7 @@ class DetailsComponent extends Component {
               source={{
                 uri:
                   'http://www.tasdeertech.com/images/profiles/' +
-                  this.state.itemFromDetails.user_images,
+                  itemFromDetails.user_images,
               }}
               style={{
                 height: 55,
@@ -823,9 +801,17 @@ class DetailsComponent extends Component {
             this?.state?.user_ids !== this?.state?.user?.id && (
               <TouchableOpacity
                 style={{marginBottom: 20, marginTop: 20}}
-                onPress={() => this.placeBid()}>
+                onPress={() => {
+                  this.props.navigation.navigate('MessageViewScreen', {
+                    messageData: {
+                      id: this?.state?.user?.id,
+                      user_name: itemFromDetails?.name,
+                      user_image: itemFromDetails.user_images,
+                    },
+                  });
+                }}>
                 <View style={Styles.btnform}>
-                  <Text style={Styles.textbtn}>{ArabicText.MyBids}</Text>
+                  <Text style={Styles.textbtn}>{ArabicText.IamInterested}</Text>
                 </View>
               </TouchableOpacity>
             )}

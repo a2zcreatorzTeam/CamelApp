@@ -53,6 +53,7 @@ const MessageView = ({route}) => {
 
   const reciever_id = route.params.messageData.id;
   const reciever_data = route.params.messageData;
+  console.log(reciever_data,"datatata");
   const user_id = useSelector(state => state?.user?.user?.user?.id);
   const user = useSelector(state => state?.user);
   const chatRoomId =

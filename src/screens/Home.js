@@ -437,10 +437,34 @@ class Home extends Component {
           if (response.data.message == 'Successfully liked') {
             setIsLiked(true);
             setLikeCount(response?.data?.total_likes);
+            // let filterPosts = this.state.filterPosts;
+            // let tempIndex = filterPosts.indexOf(item);
+            // let like_count = item?.like_count + 1;
+            // let tempItem = item;
+            // tempItem['like_count'] = like_count;
+            // tempItem['flagForLike'] = true;
+            // filterPosts[tempIndex] = tempItem;
+            // this.setState({
+            //   loading: false,
+            //   filterPosts: filterPosts,
+            //   key: !key,
+            // });
           }
           if (response.data.message == 'Successfully Unliked') {
             setIsLiked(false);
             setLikeCount(response?.data?.total_likes);
+            // let filterPosts = this.state.filterPosts;
+            // let tempIndex = filterPosts.indexOf(item);
+            // let like_count = item.like_count - 1;
+            // let tempItem = item;
+            // tempItem['like_count'] = like_count;
+            // tempItem['flagForLike'] = false;
+            // filterPosts[tempIndex] = tempItem;
+            // this.setState({
+            //   loading: false,
+            //   filterPosts: filterPosts,
+            //   key: !key,
+            // });
           }
         })
         .catch(error => {

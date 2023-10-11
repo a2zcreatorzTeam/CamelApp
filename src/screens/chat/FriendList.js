@@ -24,22 +24,21 @@ const FriendList = prop => {
   const [key, setKey] = useState(false);
 
   const getFriendreq = async () => {
-    if(prop?.user?.user?.user?.id){
-    try {
-
-      const fetchData = await camelapp.get(
-        '/getfriendrequest/' + prop?.user?.user?.user?.id,
-      );
-      fetchData?.data?.FriendRequest?.length &&
-        setFriendRequest(fetchData?.data?.FriendRequest),
+    if (prop?.user?.user?.user?.id) {
+      try {
+        const fetchData = await camelapp.get(
+          '/getfriendrequest/' + prop?.user?.user?.user?.id,
+        );
+        fetchData?.data?.FriendRequest?.length &&
+          setFriendRequest(fetchData?.data?.FriendRequest),
+          setKey(!key);
+        fetchData?.data?.FriendRequest == undefined && setFriendRequest([]),
+          setKey(!key);
+      } catch (error) {
+        setFriendRequest([]);
         setKey(!key);
-      fetchData?.data?.FriendRequest == undefined && setFriendRequest([]),
-        setKey(!key);
-    } catch (error) {
-      setFriendRequest([]);
-      setKey(!key);
+      }
     }
-  }
   };
   const friendRequestHandler = async (prop, status) => {
     try {
@@ -50,6 +49,18 @@ const FriendList = prop => {
       });
       console.log(fetchData, status, 'statusstatus');
       getFriendreq();
+    } catch (error) {
+      console.log(error, '=====ERROR friendrequest===');
+    }
+  };
+  const BlockContact = async prop => {
+    try {
+      const fetchData = await camelapp.post('/add/block', {
+        user_id: prop?.user_id,
+        friend_id: prop?.friend_id,
+        status: 'B',
+      });
+      fetchData?.data?.status == 'successfully blocked' && getFriendreq();
     } catch (error) {
       console.log(error, '=====ERROR friendrequest===');
     }
@@ -102,7 +113,7 @@ const FriendList = prop => {
                   <Text style={{color: '#000', fontSize: 11}}>Reject</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => friendRequestHandler(item, 'B')}
+                  onPress={() => BlockContact(item)}
                   style={[
                     styles.friendReqBTN,
                     {

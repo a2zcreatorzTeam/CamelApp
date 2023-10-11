@@ -70,14 +70,13 @@ class Profile extends Component {
       filterPosts: [],
     };
   }
-
   // ==========NEW============
   checkUserLogedIn() {
     const {user} = this.props;
     if (user?.user?.user) {
       this.fetchUser();
     } else {
-      this.props.navigation.navigate('Login');
+      this.props.navigation?.navigate('Login');
     }
   }
   saveChat() {
@@ -1319,13 +1318,13 @@ const Item = ({
         </View>
       </View>
       {price?.length ? (
-      <TouchableOpacity style={styles.priceContainer}>
-        <Text style={styles.priceTxt}> {ArabicText?.Price}</Text>
-        <Text numberOfLines={2} style={styles.bidPrice}>
-          {bid_price > 0 ? bid_price : price}
-        </Text>
-      </TouchableOpacity>
-    ) : null} 
+        <TouchableOpacity style={styles.priceContainer}>
+          <Text style={styles.priceTxt}> {ArabicText?.Price}</Text>
+          <Text numberOfLines={2} style={styles.bidPrice}>
+            {bid_price > 0 ? bid_price : price}
+          </Text>
+        </TouchableOpacity>
+      ) : null}
       <Carousel
         data={imagesArray}
         layout={'default'}
@@ -1735,7 +1734,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 50,
     borderBottomLeftRadius: 50,
     zIndex: 111,
-    left:20
+    left: 20,
   },
   priceTxt: {
     color: 'white',

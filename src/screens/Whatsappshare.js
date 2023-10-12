@@ -44,7 +44,11 @@ export default function App() {
         alert('Instagram Opened');
       })
       .catch(() => {
-        alert('Something went wrong');
+        Toast.show({
+          text1: ArabicText?.Somethingwentwrong,
+          type: 'error',
+          visibilityTime: 3000,
+        });
       });
   };
   const tweetNow = () => {
@@ -65,7 +69,11 @@ export default function App() {
         alert('Twitter Opened');
       })
       .catch(() => {
-        alert('Something went wrong');
+        Toast.show({
+          text1: ArabicText?.Somethingwentwrong,
+          type: 'error',
+          visibilityTime: 3000,
+        });
       });
   };
   const navigation = useNavigation();

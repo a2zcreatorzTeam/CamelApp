@@ -40,6 +40,7 @@ import moment, {now} from 'moment';
 import FastImage from 'react-native-fast-image';
 import RNFS from 'react-native-fs';
 import {clearTextOnFocus} from 'deprecated-react-native-prop-types/DeprecatedTextInputPropTypes';
+import Toast from 'react-native-toast-message';
 const GroupChat = props => {
   const flatListRef = useRef();
   const storageRef = storage().ref();
@@ -241,7 +242,16 @@ const GroupChat = props => {
         setImage('');
       } catch (error) {
         setLoader(false);
-        alert('Something went wrong');
+        Toast.show({
+          text1: ArabicText?.Somethingwentwrong,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        Toast.show({
+          text1: ArabicText?.Somethingwentwrong,
+          type: 'error',
+          visibilityTime: 3000,
+        });
 
         console.error('Error uploading video:', error);
       }
@@ -273,11 +283,18 @@ const GroupChat = props => {
         setImage('');
         setVideo('');
         setModalVisible(false);
-
-        console.log('Video uploaded and metadata stored successfully.');
       } catch (error) {
         setLoader(false);
-        alert('Something went wrong');
+        Toast.show({
+          text1: ArabicText?.Somethingwentwrong,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        Toast.show({
+          text1: ArabicText?.Somethingwentwrong,
+          type: 'error',
+          visibilityTime: 3000,
+        });
         console.error('Error uploading image:', error);
       }
     }
@@ -310,7 +327,12 @@ const GroupChat = props => {
   const postGroupChat = async () => {
     if (!inputValue) {
       setLoader(false);
-      alert('Please Enter Message');
+      Toast.show({
+        text1: ArabicText?.PleaseEnterMessage,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // alert('Please Enter Message');
     }
     const groupDocumentId = props?.route?.params?.group_id;
     try {
@@ -326,15 +348,11 @@ const GroupChat = props => {
             message: inputValue,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           });
-
-        console.log('Message sent successfully');
         setLoader(false);
-
         setInputValue('');
       }
     } catch (error) {
       setLoader(false);
-
       console.error('Error sending message:', error);
     }
   };
@@ -406,7 +424,11 @@ const GroupChat = props => {
       setVideoName(video?.modificationDate);
       if (video) {
         if (video?.size > 10000000) {
-          alert('Video must be less then 10 MB');
+          Toast.show({
+          text1: ArabicText?.Videomustbelessthen10MB,
+          type: 'error',
+          visibilityTime: 3000,
+        });
         } else {
           RNFS.readFile(video.path, 'base64')
             .then(res => {
@@ -760,7 +782,7 @@ const GroupChat = props => {
                 </View>
               ) : (
                 //// Left side messages
-                <View style={{flexDirection: 'row',marginLeft:10}}>
+                <View style={{flexDirection: 'row', marginLeft: 10}}>
                   {item?.message ||
                   item?.imageName ||
                   item?.videoName ||

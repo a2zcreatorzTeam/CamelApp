@@ -31,6 +31,7 @@ import {Linking} from 'react-native';
 import Video from 'react-native-video';
 import RNFS from 'react-native-fs';
 import FastImage from 'react-native-fast-image';
+import Toast from 'react-native-toast-message';
 const MessageView = ({route}) => {
   const [inputValue, setInputValue] = useState('');
   const [dataSource, setDataSource] = useState([]);
@@ -331,7 +332,11 @@ const MessageView = ({route}) => {
       console.log('video4100', video);
       if (video) {
         if (video?.size > 10000000) {
-          alert('Video must be less then 10 MB');
+          Toast.show({
+            text1: ArabicText?.Videomustbelessthen10MB,
+            type: 'error',
+            visibilityTime: 3000,
+          });
         } else {
           console.log(video?.path, 'videoooooo');
           setVideo(video?.path);

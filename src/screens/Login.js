@@ -29,6 +29,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {requestUserPermission} from '../services/Helper';
 import {auth} from '@react-native-firebase/auth';
+import Toast from 'react-native-toast-message';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 RNTwitterSignIn.init(
@@ -74,7 +75,12 @@ class Login extends Component {
 
       console.log(userPhone, '====userCheck====', userPass);
     } catch (e) {
-      alert(e);
+      Toast.show({
+        text1: e,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // alert(e);
     }
   };
 
@@ -83,7 +89,11 @@ class Login extends Component {
     Linking.openURL(url)
       .then(data => {})
       .catch(() => {
-        alert('Something went wrong');
+        Toast.show({
+          text1: ArabicText?.Somethingwentwrong,
+          type: 'error',
+          visibilityTime: 3000,
+        });
       });
   }
   tweetNow = async () => {
@@ -120,7 +130,11 @@ class Login extends Component {
         // alert('Twitter Opened');
       })
       .catch(() => {
-        alert('Something went wrong');
+        Toast.show({
+          text1: ArabicText?.Somethingwentwrong,
+          type: 'error',
+          visibilityTime: 3000,
+        });
       });
   }
   componentDidMount = () => {
@@ -161,8 +175,12 @@ class Login extends Component {
                 console.log('loginmnnn');
                 this.props.navigation.navigate('Home');
               } else {
-                alert(response.error + '');
-
+                Toast.show({
+                  text1: response.error + '',
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
+                // alert(response.error + '');
                 this.setState({loader: false});
               }
             })
@@ -172,8 +190,12 @@ class Login extends Component {
         }
       } else {
         this.setState({loader: false});
-
-        alert(ArabicText.Please_complete_the_fields + '');
+        Toast.show({
+          text1: ArabicText.Please_complete_the_fields + '',
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert(ArabicText.Please_complete_the_fields + '');
       }
     };
     return (

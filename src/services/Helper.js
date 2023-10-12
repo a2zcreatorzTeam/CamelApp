@@ -1,11 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import messaging, {firebase} from '@react-native-firebase/messaging';
-
+import Toast from 'react-native-toast-message';
 export async function requestUserPermission() {
   const authStatus = await messaging().requestPermission({
     alert: true,
     providesAppNotificationSettings: true,
-    badge:true
+    badge: true,
   });
 
   const enabled =
@@ -42,14 +42,23 @@ export const notificationListener = async () => {
   // Background
   messaging().onNotificationOpenedApp(remoteMessage => {
     console.log('Background Notification===>>', remoteMessage.notification);
-    alert(remoteMessage?.notification?.title)
-
+    Toast.show({
+      text1: remoteMessage?.notification?.title,
+      type: 'success',
+      visibilityTime: 3000,
+    });
+    // alert(remoteMessage?.notification?.title);
   });
 
   // Forground
   messaging().onMessage(async remoteMessage => {
     console.log('Forground Notification===>>', remoteMessage);
-    alert(remoteMessage?.notification?.title)
+    // alert()
+    Toast.show({
+      text1: remoteMessage?.notification?.title,
+      type: 'success',
+      visibilityTime: 3000,
+    });
   });
 
   // Quit

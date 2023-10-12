@@ -27,6 +27,7 @@ import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Toast from 'react-native-toast-message';
 
 const width = Dimensions.get('screen').width;
 
@@ -67,7 +68,11 @@ class MissingCamelForm extends Component {
       mediaType: 'video',
     }).then(async video => {
       if (video?.size > 10000000) {
-        alert('Video must be less then 10 MB');
+        Toast.show({
+          text1: ArabicText?.Videomustbelessthen10MB,
+          type: 'error',
+          visibilityTime: 3000,
+        });
       } else {
         RNFS.readFile(video.path, 'base64')
           .then(res => {
@@ -171,7 +176,7 @@ class MissingCamelForm extends Component {
       combineImages?.length,
     );
     if (combineImages == undefined || combineImages?.length == 0) {
-      return alert(ArabicText?.Cannotpostwithoutimage);
+      return alert('Can not post without image');
     }
     if (combineImages?.length < 4) {
       return alert(ArabicText?.UploadMinimum4Images);

@@ -2,7 +2,7 @@ import firebase from '@react-native-firebase/app';
 import React, {Component} from 'react';
 import Navigation from './src/components/Navigation';
 import SplashScreen from 'react-native-splash-screen';
-import {StatusBar, View, LogBox, Text,Dimensions,Modal} from 'react-native';
+import {StatusBar, View, LogBox, Text, Dimensions, Modal} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import camelapp from './src/api/camelapp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,9 +13,10 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
 import firebaseConfig from './src/components/firebase';
 import {getStorage} from 'firebase/storage';
-import { notificationListener } from './src/services/Helper';
+import {notificationListener} from './src/services/Helper';
 // import codePush from "react-native-code-push";
-const width = Dimensions.get('window')
+const width = Dimensions.get('window');
+
 // import codePush from 'react-native-code-push';
 
 LogBox.ignoreAllLogs(true);
@@ -181,7 +182,7 @@ class App extends Component {
   //   }
   // }
   componentDidMount() {
-    notificationListener()
+    notificationListener();
     // this.syncImmediate();
 
     SplashScreen.hide();
@@ -208,8 +209,8 @@ class App extends Component {
           backgroundColor="#d2691e"
           // backgroundColor={backgroundStyle.backgroundColor}
         />
-        <Toast config={toastConfig} />
         <Navigation />
+        <Toast config={toastConfig} />
       </SafeAreaProvider>
       // </View>
     );

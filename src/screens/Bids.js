@@ -17,6 +17,7 @@ import camelapp from '../api/camelapp';
 import EmptyComponent from '../components/EmptyComponent';
 import {Dimensions} from 'react-native';
 const width = Dimensions.get('screen').width;
+import Toast from 'react-native-toast-message';
 class Bids extends Component {
   constructor(props) {
     super(props);
@@ -101,9 +102,19 @@ class Bids extends Component {
     //console.log("bid item", item)
     withdrawBid(item.id).then(res => {
       if (res.status == 'Successfully Delete') {
-        alert('Bid successfully withdrawn!');
+        return Toast.show({
+          text1: ArabicText?.Bidsuccessfullywithdrawn,
+          type: 'success',
+          visibilityTime: 3000,
+        });
+        // alert('Bid successfully withdrawn!');
       } else {
-        alert('Error in withdrawing bid!');
+        return Toast.show({
+          text1: ArabicText?.Errorinwithdrawingbid,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert('Error in withdrawing bid!');
       }
       //console.log("response", res)
     });

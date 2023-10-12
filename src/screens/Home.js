@@ -28,6 +28,7 @@ import Header from '../components/Header';
 import Loader from '../components/PleaseWait';
 import Ads from '../components/Ads';
 import NotFound from '../components/NotFound';
+import Toast from 'react-native-toast-message';
 
 const {width, height} = Dimensions.get('screen');
 const debounce = (func, delay) => {
@@ -642,7 +643,15 @@ class Home extends Component {
               onChangeText={text => {
                 this.search(text);
               }}
-              onPressSearch={() => this.searchHandler(this.state?.searchText)}
+              onPressSearch={
+                () =>
+                  Toast.show({
+                    text1: 'Invalid OTP verification code.',
+                    type: 'error',
+                    visibilityTime: 3000,
+                  })
+                // this.searchHandler(this.state?.searchText)
+              }
             />
             <ActivityIndicator
               size="large"

@@ -32,6 +32,7 @@ import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Toast from 'react-native-toast-message';
 
 class SellingCamelForm extends React.Component {
   constructor(props) {
@@ -89,7 +90,11 @@ class SellingCamelForm extends React.Component {
       mediaType: 'video',
     }).then(async video => {
       if (video?.size > 10000000) {
-        alert('Video must be less then 10 MB');
+        Toast.show({
+          text1: ArabicText?.Videomustbelessthen10MB,
+          type: 'error',
+          visibilityTime: 3000,
+        });
       } else {
         RNFS.readFile(video.path, 'base64')
           .then(res => {

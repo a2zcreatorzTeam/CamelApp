@@ -22,6 +22,7 @@ import HorizontalCarousel from '../components/HorizontalCarousel';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Loader from '../components/PleaseWait';
+import Toast from 'react-native-toast-message';
 class participateInCompetition extends Component {
   constructor(props) {
     super(props);
@@ -59,7 +60,11 @@ class participateInCompetition extends Component {
       mediaType: 'video',
     }).then(async video => {
       if (video?.size > 10000000) {
-        alert('Video must be less then 10 MB');
+        Toast.show({
+          text1: ArabicText?.Videomustbelessthen10MB,
+          type: 'error',
+          visibilityTime: 3000,
+        });
       } else {
         RNFS.readFile(video.path, 'base64')
           .then(res => {
@@ -164,13 +169,28 @@ class participateInCompetition extends Component {
     var combineImages = [...image1, ...image2];
 
     if (this.state.videoForPost === undefined) {
-      return alert(ArabicText?.Cannotpostwithoutvideo);
+      return Toast.show({
+        text1: ArabicText?.Cannotpostwithoutvideo,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // alert(ArabicText?.Cannotpostwithoutvideo);
     }
     if (combineImages == undefined || combineImages?.length == 0) {
-      return alert(ArabicText?.Cannotpostwithoutimage);
+      return Toast.show({
+        text1: ArabicText?.Cannotpostwithoutimage,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // return alert(ArabicText?.Cannotpostwithoutimage);
     }
     if (combineImages?.length < 4) {
-      return alert(ArabicText?.UploadMinimum4Images);
+      return Toast.show({
+        text1: ArabicText?.UploadMinimum4Images,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // return alert(ArabicText?.UploadMinimum4Images);
     }
     if (
       this.state.title != '' &&
@@ -195,7 +215,12 @@ class participateInCompetition extends Component {
           video: this.state.videoForPost,
         })
         .then(response => {
-          alert(ArabicText.Post_added_successfully + '');
+          Toast.show({
+            text1: ArabicText?.Post_added_successfully + '',
+            type: 'success',
+            visibilityTime: 3000,
+          });
+          // alert(ArabicText.Post_added_successfully + '');
           this.setState({
             title: '',
             description: '',
@@ -211,7 +236,12 @@ class participateInCompetition extends Component {
           console.log(error?.response, 'errror234');
         });
     } else {
-      alert(ArabicText.Please_complete_the_fields + '');
+      return Toast.show({
+        text1: ArabicText.Please_complete_the_fields + '',
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // alert(ArabicText.Please_complete_the_fields + '');
     }
   };
 
@@ -263,7 +293,12 @@ class participateInCompetition extends Component {
               if (text?.length <= 24) {
                 this.setState({title: text});
               } else {
-                alert(ArabicText.limitCharacters);
+                Toast.show({
+                  text1: ArabicText?.limitCharacters,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
+                // alert(ArabicText.limitCharacters);
               }
             }}></TextInput>
           <Loader loading={this.state.loading} />
@@ -277,7 +312,12 @@ class participateInCompetition extends Component {
               if (text?.length <= 24) {
                 this.setState({location: text});
               } else {
-                alert(ArabicText.limitCharacters);
+                Toast.show({
+                  text1: ArabicText?.limitCharacters,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
+                // alert(ArabicText.limitCharacters);
               }
             }}></TextInput>
 
@@ -291,7 +331,12 @@ class participateInCompetition extends Component {
               if (text?.length <= 3) {
                 this.setState({age: text});
               } else {
-                alert(ArabicText.ageLimit);
+                Toast.show({
+                  text1: ArabicText?.ageLimit,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
+                // alert(ArabicText.ageLimit);
               }
             }}></TextInput>
           <TextInput
@@ -304,7 +349,12 @@ class participateInCompetition extends Component {
               if (text?.length <= 300) {
                 this.setState({description: text});
               } else {
-                alert(ArabicText.description);
+                Toast.show({
+                  text1: ArabicText?.description,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
+                // alert(ArabicText.description);
               }
             }}></TextInput>
 

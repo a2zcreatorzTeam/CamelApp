@@ -22,7 +22,7 @@ import camelapp from '../api/camelapp';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
-const hight = Dimensions.get('screen').height;
+const width = Dimensions.get('screen').width;
 import * as ArabicText from '../language/EnglishToArabic';
 import HorizontalCarousel from './HorizontalCarousel';
 import VideoModal from './VideoModal';
@@ -55,6 +55,7 @@ class DetailsComponent extends Component {
       modalItem: '',
       loadVideo: false,
       bidStatus: null,
+      closeOffer: null,
     };
   }
 
@@ -170,7 +171,6 @@ class DetailsComponent extends Component {
       this.props.navigation.navigate('Login');
     }
   }
-
   checkBidStatus = () => {
     let {user} = this.props;
     user = user.user.user;
@@ -239,29 +239,30 @@ class DetailsComponent extends Component {
       this.props.navigation.navigate('Login');
     }
   }
-  // getLastPrice() {
-  //   let item = this.state.itemFromDetails;
-  //   let post_id = item?.id;
-  //   camelapp
-  //     .get(`/getLastBidPrice/${post_id}`, {
-  //       post_id: post_id,
-  //     })
-  //     .then(res => {
-  //       // console.log(res?.data);
-  //       if (res?.data?.is_data_found == '0' || res?.data?.is_data_found == 0) {
-  //         this.setState({higherAmount: 0});
-  //       } else if (
-  //         res?.data?.is_data_found == '1' ||
-  //         res?.data?.is_data_found == 1
-  //       ) {
-  //         console.log(
-  //           '================PRICE====================',
-  //           res?.data?.data?.price,
-  //         );
-  //         this.setState({higherAmount: res?.data?.data?.price});
-  //       }
-  //     });
-  // }
+  closeBid() {
+    const {itemFromDetails, price} = this.state;
+    let {user} = this.props;
+    user = user.user.user;
+    if (user != undefined) {
+      // camelapp
+      //   .post('/add/bid', {
+      //     user_id: user?.id,
+      //     post_id: itemFromDetails?.id,
+      //     price: parseInt(price),
+      //   })
+      //   .then(response => {
+      //     if (response?.data?.status == true) {
+      //       alert(response?.data?.message);
+      //       this.setState({bidStatus: true});
+      //       this.setState({modalOffer: false});
+      //     } else {
+      //       alert('Error in adding bid!');
+      //     }
+      //   });
+    } else {
+      this.props.navigation.navigate('Login');
+    }
+  }
   render() {
     let user = this.props;
     user = user?.user?.user;
@@ -519,6 +520,7 @@ class DetailsComponent extends Component {
               </View>
             </TouchableWithoutFeedback>
           </Modal>
+          {/* OFFER UP  */}
           {bidStatus !== null &&
             !bidStatus &&
             flagForBid &&
@@ -531,6 +533,7 @@ class DetailsComponent extends Component {
                 </View>
               </TouchableOpacity>
             )}
+          {/* FIXED PRICE  */}
           {bidStatus !== null &&
             !bidStatus &&
             !flagForBid &&
@@ -551,54 +554,69 @@ class DetailsComponent extends Component {
                 </View>
               </TouchableOpacity>
             )}
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginTop: 20,
-              justifyContent: 'center',
-            }}>
+          {/* CLOSE OFFER  */}
+          {this?.state?.user_ids == this?.state?.user?.id && (
             <TouchableOpacity
-              onPress={() => this.sendMessage()}
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                margin: 8,
-              }}>
-              <Feather name="send" size={30} color="#CD853F" />
-              <Text style={Styles.fontDetails}>{ArabicText.message}</Text>
+              style={{marginBottom: 20, marginTop: 20}}
+              onPress={() => {}}>
+              <View style={[Styles.btnform, {width: width / 3}]}>
+                <Text style={[Styles.textbtn, {marginHorizontal: 10}]}>
+                  {ArabicText.CloseOffer}
+                </Text>
+              </View>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this.onCommentsClick()}
+          )}
+          {/* SOCIAL ICONS */}
+          {this?.state?.user_ids !== this?.state?.user?.id && (
+            <View
               style={{
-                justifyContent: 'center',
+                flexDirection: 'row',
                 alignItems: 'center',
-                margin: 8,
+                marginTop: 20,
+                justifyContent: 'center',
               }}>
-              <Feather name="message-square" size={30} color="#CD853F" />
-              <Text style={Styles.fontDetails}>{ArabicText.comments}</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => this.sendMessage()}
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  margin: 8,
+                }}>
+                <Feather name="send" size={30} color="#CD853F" />
+                <Text style={Styles.fontDetails}>{ArabicText.message}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => this.onCommentsClick()}
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  margin: 8,
+                }}>
+                <Feather name="message-square" size={30} color="#CD853F" />
+                <Text style={Styles.fontDetails}>{ArabicText.comments}</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              onPress={() => this.sendWhatsAppMessage()}
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                margin: 8,
-              }}>
-              <FontAwesome name="whatsapp" size={30} color="#CD853F" />
-              <Text style={Styles.fontDetails}>واتساب</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                margin: 8,
-              }}>
-              <AntDesign name="mobile1" size={30} color="#CD853F" />
-              <Text style={Styles.fontDetails}>{ArabicText.phone}</Text>
-            </TouchableOpacity>
-          </View>
+              <TouchableOpacity
+                onPress={() => this.sendWhatsAppMessage()}
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  margin: 8,
+                }}>
+                <FontAwesome name="whatsapp" size={30} color="#CD853F" />
+                <Text style={Styles.fontDetails}>واتساب</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  margin: 8,
+                }}>
+                <AntDesign name="mobile1" size={30} color="#CD853F" />
+                <Text style={Styles.fontDetails}>{ArabicText.phone}</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
         {/* VIDEO MODAL */}
         <VideoModal

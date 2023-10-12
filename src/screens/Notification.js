@@ -16,7 +16,6 @@ import EmptyComponent from '../components/EmptyComponent';
 import Header from '../components/Header';
 
 const width = Dimensions.get('screen').width;
-const height = Dimensions.get('screen').height;
 
 const Post = ({description, date}) => (
   <View
@@ -149,8 +148,6 @@ class CamelClubList extends Component {
     const {filterPosts, key, searchedItem, posts} = this.state;
     const renderItem = ({item}) => {
       let d = new Date(item.created_at);
-      //console.log("d", d.toLocaleString())
-
       return (
         <Post
           item={item}

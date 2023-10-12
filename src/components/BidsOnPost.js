@@ -105,7 +105,6 @@ class Bids extends Component {
   }
   onWithdrawBid(item) {
     const {key} = this.state;
-    console.log('bid item', item?.bid_id);
     withdrawBid(item?.bid_id).then(res => {
       if (res?.status == 'Successfully Delete') {
         this.viewPosts();
@@ -174,6 +173,7 @@ class Bids extends Component {
           </Text>
         </View>
         <View style={{flexDirection: 'column', justifyContent: 'space-around'}}>
+          
           <TouchableOpacity
             style={Styles.bidsButtonAccept}
             onPress={onWithdrawBid}>

@@ -134,24 +134,24 @@ class participateInCompetition extends Component {
       mediaType: 'photo',
       multiple: true,
       includeBase64: true,
-      selectionLimit: 4,
+      // selectionLimit: 4,
     })
       .then(async images => {
-        if (images?.length <= 4) {
-          let tempImage = images;
-          let bse64images = [];
-          let mixedTemp = [];
-          for (let i = 0; i < tempImage?.length; i++) {
-            bse64images.push('data:image/png;base64,' + images[i].data);
-            mixedTemp.push(tempImage[i]);
-          }
-          this.setState({imagesForPost: bse64images, image: tempImage});
-          this.setState(previousState => {
-            return {mixed: [...previousState?.mixed, ...mixedTemp]};
-          });
-        } else {
-          alert('Only 4 images allowed');
+        // if (images?.length <= 4) {
+        let tempImage = images;
+        let bse64images = imagesForPost;
+        let mixedTemp = [];
+        for (let i = 0; i < tempImage?.length; i++) {
+          bse64images.push('data:image/png;base64,' + images[i].data);
+          mixedTemp.push(tempImage[i]);
         }
+        this.setState({imagesForPost: bse64images, image: tempImage});
+        this.setState(previousState => {
+          return {mixed: [...previousState?.mixed, ...mixedTemp]};
+        });
+        // } else {
+        //   alert('Only 4 images allowed');
+        // }
         // console.log('images', images);
       })
       .catch(error => {
@@ -164,13 +164,13 @@ class participateInCompetition extends Component {
     var combineImages = [...image1, ...image2];
 
     if (this.state.videoForPost === undefined) {
-      return alert('Can not post without video');
+      return alert(ArabicText?.Cannotpostwithoutvideo);
     }
     if (combineImages == undefined || combineImages?.length == 0) {
-      return alert('Can not post without image');
+      return alert(ArabicText?.Cannotpostwithoutimage);
     }
-    if (combineImages?.length > 4) {
-      return alert('Upload upto 4 images');
+    if (combineImages?.length < 4) {
+      return alert(ArabicText?.UploadMinimum4Images);
     }
     if (
       this.state.title != '' &&

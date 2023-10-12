@@ -273,7 +273,6 @@ class Profile extends Component {
     this.setState({loader: true});
     let {user, actions} = this.props;
     user = user?.user?.user;
-    console.log(user, 'userererererere6767');
 
     try {
       camelapp.get('/get/fetchUser/' + user.id).then(res => {

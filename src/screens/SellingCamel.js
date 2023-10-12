@@ -76,6 +76,10 @@ class SellingCamelForm extends React.Component {
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
+
+      showBidOption: false,
+      selectedBidOption: '',
+      showOption: false,
     };
   }
   // SELECT VIDEO
@@ -123,24 +127,24 @@ class SellingCamelForm extends React.Component {
       mediaType: 'photo',
       multiple: true,
       includeBase64: true,
-      selectionLimit: 4,
+      // selectionLimit: 4,
     })
       .then(async images => {
-        if (images.length <= 4) {
-          let tempImage = images;
-          let bse64images = [];
-          let mixedTemp = [];
-          for (let i = 0; i < tempImage.length; i++) {
-            bse64images.push('data:image/png;base64,' + images[i].data);
-            mixedTemp.push(tempImage[i]);
-          }
-          this.setState({imagesForPost: bse64images, image: tempImage});
-          this.setState(previousState => {
-            return {mixed: [...previousState?.mixed, ...mixedTemp]};
-          });
-        } else {
-          alert('Only 4 images allowed');
+        // if (images.length <= 4) {
+        let tempImage = images;
+        let bse64images = this.state.imagesForPost;
+        let mixedTemp = [];
+        for (let i = 0; i < tempImage.length; i++) {
+          bse64images.push('data:image/png;base64,' + images[i].data);
+          mixedTemp.push(tempImage[i]);
         }
+        this.setState({imagesForPost: bse64images, image: tempImage});
+        this.setState(previousState => {
+          return {mixed: [...previousState?.mixed, ...mixedTemp]};
+        });
+        // } else {
+        //   alert('Only 4 images allowed');
+        // }
       })
       .catch(error => {
         console.log('error', error);
@@ -186,33 +190,22 @@ class SellingCamelForm extends React.Component {
       });
   }
   createPostSellingCamel = async () => {
+    const {selectedBidOption} = this.state;
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
-
-    // var combineImages;
-    // if (image1?.length && image2?.length) {
-    //   combineImages = image1.concat(image2);
-    // }
-    // if (image1?.length && !image2?.length) {
-    //   combineImages = image1;
-    // }
-    // if (!image1?.length && image2?.length) {
-    //   combineImages = image2;
-    // }
     if (this.state.videoForPost === undefined) {
-      return alert('Can not post without video');
+      return alert(ArabicText?.Cannotpostwithoutvideo);
     }
-
     if (combineImages == undefined || combineImages?.length == 0) {
-      return alert('Can not post without image');
+      return alert(ArabicText?.Cannotpostwithoutimage);
     }
     console.log(combineImages, 'combineImagescombineImages');
-    if (combineImages?.length > 4) {
-      return alert('Upload upto 4 images');
+    if (combineImages?.length < 4) {
+      return alert(ArabicText?.UploadMinimum4Images);
     }
     if (this.state.videoForPost === undefined) {
-      return alert('Can not post without video');
+      return alert(ArabicText?.Cannotpostwithoutvideo);
     }
 
     if (
@@ -224,29 +217,16 @@ class SellingCamelForm extends React.Component {
       this.state.price_type != '' &&
       this.state.camel_type != '' &&
       this.state.selectedItem != '' &&
-      this.state.mixed.length != 0
+      this.state.mixed.length != 0 &&
+      (this.state.price_type == ArabicText?.offer_Up
+        ? selectedBidOption !== ''
+        : true)
     ) {
       let {user} = this.props;
       let user_id = user.user.user.id;
       console.log(user?.user?.user, user_id);
-      // console.log(
-      //   'respnseee263',
-      //   user_id,
-      //   // this.state.title,
-      //   // this.state.location,
-      //   // this.state.description,
-      //   // this.state.camel_type,
-      //   // this.state.color,
-      //   // this.state.price,
-      //   // this.state.price_type,
-      //   // this.state.selectedItem.name,
-      //   // this.state.selectedItem?.id,
-      //   // this.state.videoForPost,
-      //   combineImages,
-      //   "kkjkjkjkjk"
-      // );
-
       this.setState({loading: true});
+      console.log(selectedBidOption?.name, 'jkjkj');
       camelapp
         .post('/add/selling', {
           user_id: user_id,
@@ -261,9 +241,9 @@ class SellingCamelForm extends React.Component {
           commission: this.state.selectedItem.name,
           video: this.state.videoForPost,
           register: this.state.register,
+          bid_expired_days: selectedBidOption?.name,
         })
         .then(response => {
-          console.log(response?.data, 'responseererererer275');
           this.setState({
             loading: false,
             video: undefined,
@@ -285,7 +265,8 @@ class SellingCamelForm extends React.Component {
           this.props.navigation.replace('CamelSellingList');
         })
         .catch(error => {
-          console.log('error', error.response);
+          console.log('error12', error);
+          this.setState({loading: false});
         });
     } else {
       alert(ArabicText.Please_complete_the_fields + '');
@@ -298,6 +279,10 @@ class SellingCamelForm extends React.Component {
     this.setState({showOption: false});
     this.setState({selectedItem: val});
   }
+  onBidExpireOption(val) {
+    this.setState({showBidOption: false});
+    this.setState({selectedBidOption: val});
+  }
   onRegisterSwitchChanged(value) {
     this.setState({registerSwitch: value});
     if (value === false) {
@@ -307,11 +292,9 @@ class SellingCamelForm extends React.Component {
       this.setState({register: 1});
     }
   }
-
   modalOpen = () => {
     this.setState({modal: true});
   };
-
   // REMOVE ITEM
   removeItem = i => {
     const {mixed} = this.state;
@@ -322,7 +305,16 @@ class SellingCamelForm extends React.Component {
   };
 
   render() {
-    const {pausedCheck, loadVideo, videoModal, modalItem, checked} = this.state;
+    const {
+      pausedCheck,
+      loadVideo,
+      videoModal,
+      modalItem,
+      checked,
+      showBidOption,
+      selectedBidOption,
+      price_type,
+    } = this.state;
     let Period = [
       {
         id: 1,
@@ -333,7 +325,20 @@ class SellingCamelForm extends React.Component {
         name: ArabicText.Seller,
       },
     ];
-    console.log('Selling Camel');
+    let ExpireType = [
+      {
+        id: 1,
+        name: ArabicText.oneDay,
+      },
+      {
+        id: 2,
+        name: ArabicText.threeDays,
+      },
+      {
+        id: 3,
+        name: ArabicText?.fiveDays,
+      },
+    ];
     return (
       <View style={{flex: 1}}>
         <ScrollView
@@ -366,44 +371,6 @@ class SellingCamelForm extends React.Component {
                 this.setState({pausedCheck: true});
               }}
             />
-            {/* <Carousel
-              keyExtractor={this.state.mixed.fileName}
-              data={this.state.mixed}
-              layout={'default'}
-              scrollEnabled={true}
-              onScroll={() => this.setState({pauseVideo: true})}
-              renderItem={({item, index}) => {
-                return (
-                  <View style={Styles.imageCarousal}>
-                    {item.mime != undefined && item.mime.includes('image') && (
-                      <Image
-                        source={{uri: item.path}}
-                        key={String(index)}
-                        resizeMode={'cover'}
-                        style={{width: '100%', height: '100%'}}
-                      />
-                    )}
-                    {item.mime != undefined && item.mime.includes('video') && (
-                      <Video
-                        onTouchStart={() => {
-                          ////console.log("Pause:  ", this.state.pauseVideo)
-                          this.setState({pauseVideo: !this.state.pauseVideo});
-                        }}
-                        source={{uri: item.path}} // Can be a URL or a local file.
-                        key={String(index)}
-                        resizeMode="stretch"
-                        repeat
-                        controls={false}
-                        paused={this.state.pauseVideo}
-                        style={Styles.video}
-                      />
-                    )}
-                  </View>
-                );
-              }}
-              sliderWidth={width}
-              itemWidth={width}
-            /> */}
             {this.state.imageFlage && (
               <Image
                 source={{
@@ -627,6 +594,7 @@ class SellingCamelForm extends React.Component {
               {ArabicText.Please_select_price_type}
             </Text>
 
+            {/* SELECT PRICE TYPE */}
             <View
               style={{
                 flexDirection: 'row',
@@ -670,6 +638,133 @@ class SellingCamelForm extends React.Component {
                 }}
               />
             </View>
+
+            {/* //SELECT BID EXPIRE DAYS */}
+            {price_type == ArabicText.offer_Up && (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <View style={{alignItems: 'center'}}>
+                  <View
+                    style={{
+                      width: '45%',
+                      height: 20,
+                      backgroundColor: 'white',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      alignSelf: 'flex-end',
+                      marginBottom: -9,
+                      zIndex: 10,
+                      marginRight: 20,
+                    }}>
+                    <View
+                      style={{
+                        width: '100%',
+                        height: 12,
+                        backgroundColor: '#fff',
+                        marginTop: -3,
+                      }}></View>
+                  </View>
+
+                  <TouchableOpacity
+                    style={[
+                      styles.dropDownstyle,
+                      {
+                        flexDirection: 'row-reverse',
+                        borderColor:
+                          showBidOption == true ? '#d2691e' : '#d2691e',
+                        borderWidth: showBidOption == true ? 2 : 1,
+                        borderTopEndRadius: showBidOption == true ? 20 : 20,
+                        borderTopStartRadius: showBidOption == true ? 20 : 20,
+                        borderBottomEndRadius: showBidOption == true ? 0 : 20,
+                        borderBottomStartRadius: showBidOption == true ? 0 : 20,
+                      },
+                    ]}
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      this.setState({showBidOption: !showBidOption})
+                    }>
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        fontWeight: '500',
+                        color: selectedBidOption == '' ? '#a6a3a2' : 'black',
+                        marginRight: 15,
+                      }}>
+                      {!!selectedBidOption
+                        ? selectedBidOption.name
+                        : ArabicText.Selectbidexpiredays}
+                    </Text>
+                    <Image
+                      style={{
+                        transform: [
+                          {rotate: showBidOption ? '180deg' : '0deg'},
+                        ],
+                        width: 20,
+                        height: 20,
+                        marginLeft: 10,
+                      }}
+                      source={require('../../assets/dropdown.jpg')}
+                    />
+                  </TouchableOpacity>
+                  {showBidOption && (
+                    <View
+                      style={{
+                        backgroundColor: 'white',
+                        marginLeft: 15,
+                        width: width - 50,
+                        borderBottomEndRadius: 6,
+                        borderBottomStartRadius: 6,
+                        borderBottomWidth: 2,
+                        borderLeftWidth: 2,
+                        borderColor: '#d2691e',
+                        elevation: 10,
+                        position: 'absolute',
+                        marginTop: 65,
+                        zIndex: 80,
+                      }}>
+                      {/* DROP DOWN */}
+                      {ExpireType?.map((val, i) => {
+                        console.log(val);
+                        return (
+                          <TouchableOpacity
+                            key={String(i)}
+                            onPress={() => this.onBidExpireOption(val)}
+                            style={{
+                              backgroundColor:
+                                selectedBidOption?.id == val?.id
+                                  ? '#d2691e'
+                                  : 'white',
+                              paddingVertical: 8,
+                              paddingHorizontal: 10,
+                              marginLeft: 0,
+                              width: '100%',
+                              marginBottom: 4,
+                            }}>
+                            <Text
+                              style={{
+                                fontSize: 18,
+                                fontWeight: '500',
+                                color:
+                                  selectedBidOption?.id == val?.id
+                                    ? 'white'
+                                    : 'black',
+                                alignSelf: 'flex-end',
+                              }}>
+                              {val?.name}
+                            </Text>
+                          </TouchableOpacity>
+                        );
+                      })}
+                    </View>
+                  )}
+                </View>
+              </View>
+            )}
+            {/* SECTION BID EXPIRE END  */}
 
             <TextInput
               style={[Styles.inputdecrp, {marginTop: 20}]}

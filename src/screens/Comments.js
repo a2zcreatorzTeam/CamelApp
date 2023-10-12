@@ -64,6 +64,7 @@ class Comments extends Component {
           reply: this.state.newReply,
         })
         .then(response => {
+          console.log(response?.data,"responseeecomment");
           this.setState({
             flagForNewComment: true,
             flagForReplyComment: false,
@@ -135,7 +136,6 @@ class Comments extends Component {
     this.getCommentsOnPost();
   };
   addNewComment = async () => {
-    console.log(this.state.newComment, 'this.state.newComment');
     if (this.state.newComment != '') {
       this.setState({loading: true});
       camelapp
@@ -167,7 +167,6 @@ class Comments extends Component {
         });
     }
   };
-  // =============NEW Updated Search Handler==============
   searchHandler = value => {
     const {dataNotFound} = this.state;
     if (!value) {
@@ -186,15 +185,20 @@ class Comments extends Component {
       }
     }
   };
-
   search(text) {
     this.setState({searchText: text});
   }
   render() {
     const renderItem = ({item}) => {
-      console.log(item, 'item.comment');
       return (
         <Item
+          Reply={(item) => {
+            this.setState({
+              flagForReplyComment: true,
+              flagForNewComment: false,
+              commentId:item?.id
+            });
+          }}
           item={item}
           date={item?.created_at?.slice(0, 9)}
           comment={item.comment}
@@ -216,7 +220,7 @@ class Comments extends Component {
       commentsList,
       filterPosts,
       searchedItem,
-      newComment
+      newComment,
     } = this.state;
     return (
       <SafeAreaView style={Styles.containerComments}>

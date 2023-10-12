@@ -72,20 +72,25 @@ class CamelFood extends React.Component {
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
+
+      showBidOption: false,
+      selectedBidOption: '',
+      showOption: false,
     };
   }
   createPostCamelFood = async () => {
+    const {selectedBidOption} = this.state;
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
     if (this.state.videoForPost === undefined) {
-      return alert('Can not post without video');
+      return alert(ArabicText?.Cannotpostwithoutvideo);
     }
     if (combineImages == undefined || combineImages?.length == 0) {
-      return alert('Can not post without image');
+      return alert(ArabicText?.Cannotpostwithoutimage);
     }
     if (combineImages?.length < 4) {
-      return alert('Upload upto 4 images');
+      return alert(ArabicText?.UploadMinimum4Images);
     }
     if (
       this.state.title != '' &&
@@ -95,7 +100,10 @@ class CamelFood extends React.Component {
       this.state.color != '' &&
       this.state.price != '' &&
       this.state.price_type != '' &&
-      this.state.camel_type != ''
+      this.state.camel_type != '' &&
+      (this.state.price_type == ArabicText?.offer_Up
+        ? selectedBidOption !== ''
+        : true)
     ) {
       this.setState({loading: true});
 
@@ -113,6 +121,7 @@ class CamelFood extends React.Component {
           color: this.state.color,
           price: this.state.price,
           price_type: this.state.price_type,
+          bid_expired_days: selectedBidOption?.name,
         })
         .then(response => {
           console.log(response, 'responseeee');
@@ -271,10 +280,37 @@ class CamelFood extends React.Component {
     });
     this.setState({mixed: filteredList});
   };
+  onBidExpireOption(val) {
+    this.setState({showBidOption: false});
+    this.setState({selectedBidOption: val});
+  }
+
   render() {
     const {checked} = this.state;
     const {checked_register} = this.state;
-    const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
+    const {
+      pausedCheck,
+      loadVideo,
+      videoModal,
+      modalItem,
+      showBidOption,
+      selectedBidOption,
+      price_type,
+    } = this.state;
+    let ExpireType = [
+      {
+        id: 1,
+        name: ArabicText.oneDay,
+      },
+      {
+        id: 2,
+        name: ArabicText.threeDays,
+      },
+      {
+        id: 3,
+        name: ArabicText?.fiveDays,
+      },
+    ];
     return (
       <View style={{flex: 1}}>
         <ScrollView
@@ -306,44 +342,6 @@ class CamelFood extends React.Component {
                 this.setState({pausedCheck: true});
               }}
             />
-            {/* <Carousel
-              keyExtractor={this.state.mixed.fileName}
-              data={this.state.mixed}
-              layout={'default'}
-              scrollEnabled={true}
-              onScroll={() => this.setState({pauseVideo: true})}
-              renderItem={({item, index}) => {
-                // //console.log("ITEM__________:", item.mime)
-                return (
-                  <View style={Styles.imageCarousal}>
-                    {item.mime != undefined && item.mime.includes('image') && (
-                      <Image
-                        source={{uri: item.path}}
-                        key={String(index)}
-                        resizeMode={'cover'}
-                        style={{width: '100%', height: '100%'}}
-                      />
-                    )}
-                    {item.mime != undefined && item.mime.includes('video') && (
-                      <Video
-                        onTouchStart={() => {
-                          this.setState({pauseVideo: !this.state.pauseVideo});
-                        }}
-                        source={{uri: item.path}}
-                        key={String(index)}
-                        resizeMode="stretch"
-                        repeat
-                        controls={false}
-                        paused={this.state.pauseVideo}
-                        style={Styles.video}
-                      />
-                    )}
-                  </View>
-                );
-              }}
-              sliderWidth={width}
-              itemWidth={width}
-            /> */}
             {this.state.imageFlage && (
               <Image
                 source={{
@@ -558,6 +556,133 @@ class CamelFood extends React.Component {
               />
             </View>
 
+            {/* //SELECT BID EXPIRE DAYS */}
+            {price_type == ArabicText.offer_Up && (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <View style={{alignItems: 'center'}}>
+                  <View
+                    style={{
+                      width: '45%',
+                      height: 20,
+                      backgroundColor: 'white',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      alignSelf: 'flex-end',
+                      marginBottom: -9,
+                      zIndex: 10,
+                      marginRight: 20,
+                    }}>
+                    <View
+                      style={{
+                        width: '100%',
+                        height: 12,
+                        backgroundColor: '#fff',
+                        marginTop: -3,
+                      }}></View>
+                  </View>
+
+                  <TouchableOpacity
+                    style={[
+                      styles.dropDownstyle,
+                      {
+                        flexDirection: 'row-reverse',
+                        borderColor:
+                          showBidOption == true ? '#d2691e' : '#d2691e',
+                        borderWidth: showBidOption == true ? 2 : 1,
+                        borderTopEndRadius: showBidOption == true ? 20 : 20,
+                        borderTopStartRadius: showBidOption == true ? 20 : 20,
+                        borderBottomEndRadius: showBidOption == true ? 0 : 20,
+                        borderBottomStartRadius: showBidOption == true ? 0 : 20,
+                      },
+                    ]}
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      this.setState({showBidOption: !showBidOption})
+                    }>
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        fontWeight: '500',
+                        color: selectedBidOption == '' ? '#a6a3a2' : 'black',
+                        marginRight: 15,
+                      }}>
+                      {!!selectedBidOption
+                        ? selectedBidOption.name
+                        : ArabicText.Selectbidexpiredays}
+                    </Text>
+                    <Image
+                      style={{
+                        transform: [
+                          {rotate: showBidOption ? '180deg' : '0deg'},
+                        ],
+                        width: 20,
+                        height: 20,
+                        marginLeft: 10,
+                      }}
+                      source={require('../../assets/dropdown.jpg')}
+                    />
+                  </TouchableOpacity>
+                  {showBidOption && (
+                    <View
+                      style={{
+                        backgroundColor: 'white',
+                        marginLeft: 15,
+                        width: width - 50,
+                        borderBottomEndRadius: 6,
+                        borderBottomStartRadius: 6,
+                        borderBottomWidth: 2,
+                        borderLeftWidth: 2,
+                        borderColor: '#d2691e',
+                        elevation: 10,
+                        position: 'absolute',
+                        marginTop: 65,
+                        zIndex: 80,
+                      }}>
+                      {/* DROP DOWN */}
+                      {ExpireType?.map((val, i) => {
+                        console.log(val);
+                        return (
+                          <TouchableOpacity
+                            key={String(i)}
+                            onPress={() => this.onBidExpireOption(val)}
+                            style={{
+                              backgroundColor:
+                                selectedBidOption?.id == val?.id
+                                  ? '#d2691e'
+                                  : 'white',
+                              paddingVertical: 8,
+                              paddingHorizontal: 10,
+                              marginLeft: 0,
+                              width: '100%',
+                              marginBottom: 4,
+                            }}>
+                            <Text
+                              style={{
+                                fontSize: 18,
+                                fontWeight: '500',
+                                color:
+                                  selectedBidOption?.id == val?.id
+                                    ? 'white'
+                                    : 'black',
+                                alignSelf: 'flex-end',
+                              }}>
+                              {val?.name}
+                            </Text>
+                          </TouchableOpacity>
+                        );
+                      })}
+                    </View>
+                  )}
+                </View>
+              </View>
+            )}
+            {/* SECTION BID EXPIRE END  */}
+
             <TextInput
               style={[Styles.inputdecrp, {marginTop: 20}]}
               placeholderTextColor="#b0b0b0"
@@ -634,5 +759,17 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 4,
     elevation: 5,
+  },
+  dropDownstyle: {
+    backgroundColor: 'white',
+    padding: 6,
+    borderWidth: 0.5,
+    width: width - 50,
+    minHeight: 55,
+    // borderColor: "#d2691e",
+    //alignSelf: "flex-start",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });

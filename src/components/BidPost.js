@@ -55,8 +55,7 @@ class Bids extends Component {
     this.setState({refreshing: false});
   }
   onViewPostClick(item) {
-  
-    console.log(item?.posts,"imgggg");
+    console.log(item?.posts, 'imgggg');
     if (item.post.category_id == '1') {
       this.props.navigation.navigate('CamelClubDetailsComponent', {
         itemFromDetails: item?.posts[0],
@@ -120,6 +119,7 @@ class Bids extends Component {
   render() {
     const {key} = this.state;
     const BidsItem = ({
+      item,
       userName,
       userImage,
       bidPrice,
@@ -137,7 +137,6 @@ class Bids extends Component {
           marginTop: 10,
           marginBottom: 10,
         }}>
-
         <FastImage
           style={{
             width: 80,
@@ -177,13 +176,24 @@ class Bids extends Component {
           </Text>
         </View>
         <View style={{flexDirection: 'column', justifyContent: 'space-around'}}>
-          <TouchableOpacity
-            style={Styles.bidsButtonAccept}
-            onPress={onWithdrawBid}>
-            <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
-              {ArabicText?.WithDraw}
-            </Text>
-          </TouchableOpacity>
+          {item?.bit_closed == 1 ? (
+            <TouchableOpacity
+              activeOpacity={0.99}
+              style={Styles.bidsButtonAccept}
+              onPress={() => {}}>
+              <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
+                {ArabicText?.bidClosed}
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={Styles.bidsButtonAccept}
+              onPress={onWithdrawBid}>
+              <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
+                {ArabicText?.WithDraw}
+              </Text>
+            </TouchableOpacity>
+          )}
 
           <TouchableOpacity
             style={Styles.bidsButtonAccept}
@@ -196,15 +206,14 @@ class Bids extends Component {
       </View>
     );
     const renderBidItem = item => {
-      // console.log(item?.item, 'item bidd123');
       return (
         <BidsItem
           item={item}
-          userName={item.item.user.name}
-          userImage={item.item.user.image}
-          bidPrice={item.item.price}
-          onViewPost={() => this.onViewPostClick(item.item)}
-          onWithdrawBid={() => this.onWithdrawBid(item.item)}
+          userName={item?.item?.user?.name}
+          userImage={item?.item?.user?.image}
+          bidPrice={item?.item.price}
+          onViewPost={() => this.onViewPostClick(item?.item)}
+          onWithdrawBid={() => this.onWithdrawBid(item?.item)}
         />
       );
     };
@@ -223,8 +232,6 @@ class Bids extends Component {
           contentContainerStyle={{flexGrow: 1, paddingBottom: width * 0.5}}
           data={this.state?.posts}
           renderItem={renderBidItem}
-          // initialNumToRender={5}
-          // maxToRenderPerBatch={5}
         />
       </View>
     );
@@ -234,18 +241,8 @@ class Bids extends Component {
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(Bids);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

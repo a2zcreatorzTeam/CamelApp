@@ -199,13 +199,13 @@ class CamelClub extends Component {
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
     if (this.state.videoForPost === undefined) {
-      return alert('Can not post without video');
+      return alert(ArabicText?.Cannotpostwithoutvideo);
     }
     if (imagesForPost == undefined || imagesForPost?.length == 0) {
-      return alert('Can not post without image');
+      return alert(ArabicText?.Cannotpostwithoutimage);
     }
     if (combineImages?.length < 4) {
-      return alert('Upload upto 4 images');
+      return alert(ArabicText?.UploadMinimum4Images);
     }
     if (
       this.state.title != '' &&

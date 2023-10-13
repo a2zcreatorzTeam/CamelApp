@@ -17,6 +17,7 @@ import {bindActionCreators} from 'redux';
 import {ImageBackground} from 'react-native';
 import * as EmailValidator from 'email-validator';
 import {ScrollView} from 'react-native';
+import Toast from 'react-native-toast-message';
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -47,7 +48,12 @@ class CreateProfile extends Component {
             pickedImage: 'data:image/png;base64,' + images.data,
           });
         } else {
-          alert(ArabicText?.Only1imageallowed);
+          Toast.show({
+            text1: ArabicText.Only1imageallowed,
+            type: 'error',
+            visibilityTime: 3000,
+          });
+          // alert(ArabicText?.Only1imageallowed);
         }
         console.log('images', images);
       })
@@ -60,13 +66,33 @@ class CreateProfile extends Component {
     const userdata = this.props?.route?.params?.response;
 
     if (!email) {
-      alert(ArabicText?.EmailFieldCantBeEmpty);
+      Toast.show({
+        text1: ArabicText.EmailFieldCantBeEmpty,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // alert(ArabicText?.EmailFieldCantBeEmpty);
     } else if (!EmailValidator.validate(email)) {
-      alert(ArabicText?.EmailIsNotValid);
+      Toast.show({
+        text1: ArabicText.EmailIsNotValid,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // alert(ArabicText?.EmailIsNotValid);
     } else if (!location) {
-      alert(ArabicText?.LocationFieldCantBeEmpty);
+      Toast.show({
+        text1: ArabicText.LocationFieldCantBeEmpty,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // alert(ArabicText?.LocationFieldCantBeEmpty);
     } else if (!pickedImage) {
-      alert(ArabicText?.ImageCantBeEmpty);
+      Toast.show({
+        text1: ArabicText.ImageCantBeEmpty,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // alert(ArabicText?.ImageCantBeEmpty);
     } else {
       this.setState({
         btnLoader: true,
@@ -93,7 +119,12 @@ class CreateProfile extends Component {
             this.setState({
               btnLoader: false,
             });
-            alert(ArabicText?.UserUpdateFailed);
+            Toast.show({
+              text1: ArabicText.UserUpdateFailed,
+              type: 'error',
+              visibilityTime: 3000,
+            });
+            // alert(ArabicText?.UserUpdateFailed);
           }
         })
         .catch(error => {

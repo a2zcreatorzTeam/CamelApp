@@ -630,7 +630,12 @@ class Home extends Component {
           // dismissed
         }
       } catch (error) {
-        alert(error.message);
+        Toast.show({
+          text1: error?.message,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert(error.message);
       }
     };
 

@@ -18,34 +18,41 @@ export async function requestUserPermission() {
   }
 }
 
-const getFCMToken = async () => {
-  let fcmToken = await AsyncStorage.getItem('fcmToken');
-  if (!fcmToken) {
-    try {
-      const fcmToken = await messaging().getToken();
-      console.log('New FCM Token===>>', fcmToken);
-      if (fcmToken) {
-        await AsyncStorage.setItem('fcmToken', fcmToken);
-      }
-    } catch (error) {
-      console.log('token error===>>', error);
-      alert('ERROR', error.message);
-      // return 'null';
+export const getFCMToken = async () => {
+  const token = await AsyncStorage.getItem('fcmToken');
+  await firebase.messaging().deleteToken();
+
+  // if (!fcmToken) {
+  try {
+    const fcmToken = await messaging().getToken();
+    if (fcmToken) {
+      await AsyncStorage.setItem('fcmToken', fcmToken);
+      return fcmToken;
     }
-  } else {
-    console.log('Old FCM Token===>>', fcmToken);
-    return fcmToken;
+  } catch (error) {
+    console.log('token error===>>', error);
+    alert('ERROR', error.message);
+    return;
+    // return 'null';
   }
+  // }
+  //  else {
+  //   console.log('Old FCM Token===>>', fcmToken);
+  //   return fcmToken;
+  // // }
 };
 
 export const notificationListener = async () => {
   // Background
   messaging().onNotificationOpenedApp(remoteMessage => {
-    console.log('Background Notification===>>', remoteMessage.notification);
+    console.log(
+      'Background Notification===>>',
+      remoteMessage?.notification?.body,
+    );
     Toast.show({
-      text1: remoteMessage?.notification?.title,
+      text1: remoteMessage?.notification?.body,
       type: 'success',
-      visibilityTime: 3000,
+      visibilityTime: 5000,
     });
     // alert(remoteMessage?.notification?.title);
   });
@@ -55,9 +62,9 @@ export const notificationListener = async () => {
     console.log('Forground Notification===>>', remoteMessage);
     // alert()
     Toast.show({
-      text1: remoteMessage?.notification?.title,
+      text1: remoteMessage?.notification?.body,
       type: 'success',
-      visibilityTime: 3000,
+      visibilityTime: 5000,
     });
   });
 

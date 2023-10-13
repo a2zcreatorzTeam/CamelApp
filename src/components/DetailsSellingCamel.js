@@ -27,9 +27,12 @@ import * as ArabicText from '../language/EnglishToArabic';
 import HorizontalCarousel from './HorizontalCarousel';
 import VideoModal from './VideoModal';
 import BackBtnHeader from './headerWithBackBtn';
+import Toast from 'react-native-toast-message';
+import {ActivityIndicator} from 'react-native';
 class DetailsComponent extends Component {
   constructor(props) {
     super(props);
+    let bid_status = props.route.params.itemFromDetails?.bid_status;
     this.state = {
       userId: this?.props?.route?.params?.userId,
       user_ids: '',
@@ -55,7 +58,8 @@ class DetailsComponent extends Component {
       modalItem: '',
       loadVideo: false,
       bidStatus: null,
-      closeOffer: null,
+      closeOffer: bid_status == 1 ? true : false,
+      load: false,
     };
   }
 
@@ -240,29 +244,68 @@ class DetailsComponent extends Component {
     }
   }
   closeBid() {
-    const {itemFromDetails, price} = this.state;
+    const {itemFromDetails} = this.state;
     let {user} = this.props;
     user = user.user.user;
     if (user != undefined) {
-      // camelapp
-      //   .post('/add/bid', {
-      //     user_id: user?.id,
-      //     post_id: itemFromDetails?.id,
-      //     price: parseInt(price),
-      //   })
-      //   .then(response => {
-      //     if (response?.data?.status == true) {
-      //       alert(response?.data?.message);
-      //       this.setState({bidStatus: true});
-      //       this.setState({modalOffer: false});
-      //     } else {
-      //       alert('Error in adding bid!');
-      //     }
-      //   });
+      camelapp
+        .post('/closed/bid', {
+          bid_status: 1,
+          post_id: itemFromDetails?.id,
+        })
+        .then(response => {
+          console.log(response?.data, 'responseeee');
+          if (response?.data?.success == true) {
+            this.setState({closeOffer: true});
+            Toast.show({
+              text1: response?.data?.message,
+              type: 'success',
+              visibilityTime: 3000,
+            });
+          } else {
+            Toast.show({
+              text1: ArabicText.Errorinclosingbid,
+              type: 'error',
+              visibilityTime: 3000,
+            });
+          }
+        });
     } else {
       this.props.navigation.navigate('Login');
     }
   }
+  chatRequestNotification = item => {
+    const {itemFromDetails} = this.state;
+    let {user} = this.props;
+    user = user.user.user;
+    console.log(user?.id, this.state.user?.id, itemFromDetails?.id, 'itemmm');
+    if (user != undefined) {
+      this.setState({load: true});
+      camelapp
+        .post('/chat/request/notification', {
+          user_id: user?.id,
+          friend_id: this.state.user?.id,
+          post_id: itemFromDetails?.id,
+          type: 'CHAT',
+        })
+        .then(response => {
+          this.setState({load: false});
+          console.log(response?.data, 'responseeeee280');
+          if (response?.data?.success == true) {
+            Toast.show({
+              text1: ArabicText.Yourrequesthasbeensenttotheseller + '',
+              type: 'success',
+              visibilityTime: 3000,
+            });
+          } else {
+            this.setState({load: false});
+            console.log('error');
+          }
+        });
+    } else {
+      this.props.navigation.navigate('Login');
+    }
+  };
   render() {
     let user = this.props;
     user = user?.user?.user;
@@ -275,7 +318,10 @@ class DetailsComponent extends Component {
       itemFromDetails,
       bidStatus,
       flagForBid,
+      closeOffer,
+      load,
     } = this.state;
+    console.log(itemFromDetails?.chat_status, 'itemmforrDetaillssss');
     return (
       <ScrollView style={{backgroundColor: '#fff'}}>
         <BackBtnHeader />
@@ -366,7 +412,7 @@ class DetailsComponent extends Component {
           </View>
         </View>
 
-        <View style={Styles.containerDetails}>
+        <View style={[Styles.containerDetails, {paddingBottom: width * 0.1}]}>
           {/* <View
             style={{
               // marginTop: '18%',
@@ -521,7 +567,11 @@ class DetailsComponent extends Component {
             </TouchableWithoutFeedback>
           </Modal>
           {/* OFFER UP  */}
-          {bidStatus !== null &&
+          {(itemFromDetails?.bit_status !== 'true' ||
+            itemFromDetails?.bit_status !== true) &&
+            user !== undefined &&
+            closeOffer == 0 &&
+            bidStatus !== null &&
             !bidStatus &&
             flagForBid &&
             this?.state?.user_ids !== this?.state?.user?.id && (
@@ -529,43 +579,77 @@ class DetailsComponent extends Component {
                 style={{marginBottom: 20, marginTop: 20}}
                 onPress={() => this.setState({modalOffer: true})}>
                 <View style={Styles.btnform}>
-                  <Text style={Styles.textbtn}>{ArabicText.MyBids}</Text>
+                  {load ? (
+                    <ActivityIndicator size="small" />
+                  ) : (
+                    <Text style={Styles.textbtn}>{ArabicText.MyBids}</Text>
+                  )}
                 </View>
               </TouchableOpacity>
             )}
           {/* FIXED PRICE  */}
-          {bidStatus !== null &&
-            !bidStatus &&
-            !flagForBid &&
-            this?.state?.user_ids !== this?.state?.user?.id && (
+
+          {
+            // bidStatus !== null &&
+            //   !bidStatus &&
+            (itemFromDetails?.bit_status !== 'true' ||
+              itemFromDetails?.bit_status !== true) &&
+              user !== undefined &&
+              closeOffer == 0 &&
+              !flagForBid &&
+              this?.state?.user_ids !== this?.state?.user?.id && (
+                <TouchableOpacity
+                  style={{marginBottom: 20, marginTop: 20}}
+                  onPress={() => {
+                    console.log(
+                      this?.state?.user?.id,
+                      ' this?.state?.user?.id this?.state?.user?.id',
+                    );
+                    itemFromDetails?.chat_status == 1 ||
+                    itemFromDetails?.chat_status == 'true' ||
+                    itemFromDetails?.chat_status == true
+                      ? this.props.navigation.navigate('MessageViewScreen', {
+                          messageData: {
+                            id: this?.state?.user?.id,
+                            user_name: itemFromDetails?.name,
+                            user_image: itemFromDetails.user_images,
+                          },
+                        })
+                      : this.chatRequestNotification();
+                  }}>
+                  <View style={Styles.btnform}>
+                    <Text style={Styles.textbtn}>
+                      {load ? (
+                        <ActivityIndicator size="small" />
+                      ) : (
+                        ArabicText.IamInterested
+                      )}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              )
+          }
+          {/* CLOSE OFFER  */}
+          {(itemFromDetails?.bit_status !== 'true' ||
+            itemFromDetails?.bit_status !== true) &&
+            closeOffer == 0 &&
+            this?.state?.user_ids == this?.state?.user?.id && (
               <TouchableOpacity
                 style={{marginBottom: 20, marginTop: 20}}
                 onPress={() => {
-                  this.props.navigation.navigate('MessageViewScreen', {
-                    messageData: {
-                      id: this?.state?.user?.id,
-                      user_name: itemFromDetails?.name,
-                      user_image: itemFromDetails.user_images,
-                    },
-                  });
+                  this.closeBid();
                 }}>
-                <View style={Styles.btnform}>
-                  <Text style={Styles.textbtn}>{ArabicText.IamInterested}</Text>
+                <View style={[Styles.btnform, {width: width / 3}]}>
+                  <Text style={[Styles.textbtn, {marginHorizontal: 10}]}>
+                    {load ? (
+                      <ActivityIndicator size="small" />
+                    ) : (
+                      ArabicText.CloseOffer
+                    )}
+                  </Text>
                 </View>
               </TouchableOpacity>
             )}
-          {/* CLOSE OFFER  */}
-          {this?.state?.user_ids == this?.state?.user?.id && (
-            <TouchableOpacity
-              style={{marginBottom: 20, marginTop: 20}}
-              onPress={() => {}}>
-              <View style={[Styles.btnform, {width: width / 3}]}>
-                <Text style={[Styles.textbtn, {marginHorizontal: 10}]}>
-                  {ArabicText.CloseOffer}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )}
           {/* SOCIAL ICONS */}
           {this?.state?.user_ids !== this?.state?.user?.id && (
             <View

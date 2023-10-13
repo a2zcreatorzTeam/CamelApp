@@ -24,6 +24,7 @@ import Loader from '../components/PleaseWait';
 import {ActivityIndicator} from 'react-native';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import moment from 'moment';
+import Toast from 'react-native-toast-message';
 class Surveyform extends Component {
   constructor(props) {
     super(props);
@@ -55,11 +56,21 @@ class Surveyform extends Component {
           .post('/add/survey', {data: data})
           .then(res => {
             if (res?.data?.message === 'Already Submitted') {
-              alert('You have already submitted survey');
+              Toast.show({
+                text1: ArabicText?.Youhavealreadysubmittedsurvey,
+                type: 'error',
+                visibilityTime: 3000,
+              });
+              // alert('You have already submitted survey');
               this.setState({loader: false});
             } else {
               if (res?.data) {
-                alert('تم إرسال الاستبيان بنجاح');
+                Toast.show({
+                  text1: 'تم إرسال الاستبيان بنجاح',
+                  type: 'success',
+                  visibilityTime: 3000,
+                });
+                // alert('تم إرسال الاستبيان بنجاح');
                 this.props.navigation.pop();
                 this.setState({loader: false});
               }
@@ -70,7 +81,12 @@ class Surveyform extends Component {
             console.log(err, 'ererrererer');
           });
       } else {
-        alert('يرجى تحديد الخيارات');
+        Toast.show({
+          text1: 'يرجى تحديد الخيارات',
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert('يرجى تحديد الخيارات');
       }
     } else {
       this.props.navigation.navigate('Login');

@@ -24,6 +24,7 @@ import camelapp from '../api/camelapp';
 import moment from 'moment';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Loader from '../components/PleaseWait';
+import Toast from 'react-native-toast-message';
 
 class ViewNews extends Component {
   constructor(props) {
@@ -76,7 +77,12 @@ class ViewNews extends Component {
         })
         .then(response => {
           if (response) {
-            alert(response?.data?.message);
+            Toast.show({
+              text1: response?.data?.message,
+              type: 'success',
+              visibilityTime: 3000,
+            });
+            // alert(response?.data?.message);
           }
           // if (response.data.status == true) {
           //   alert('Rating added Successfully');
@@ -99,11 +105,20 @@ class ViewNews extends Component {
             comment: this.state.newComment,
           })
           .then(res => {
-            alert(ArabicText.Comment_Added + '');
+            Toast.show({
+              text1: ArabicText.Comment_Added + '',
+              type: 'success',
+              visibilityTime: 3000,
+            });
+            // alert(ArabicText.Comment_Added + '');
             this.setState({newComment: ''});
           });
       } else {
-        alert(ArabicText.Please_complete_the_fields + '');
+        return Toast.show({
+          text1: ArabicText.Please_complete_the_fields + '',
+          type: 'error',
+          visibilityTime: 3000,
+        });
       }
     } else {
       this.props.navigation.navigate('Login');

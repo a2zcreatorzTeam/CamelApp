@@ -40,6 +40,7 @@ import OTPTextInput from 'react-native-otp-textinput';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Header from '../components/Header';
 import FastImage from 'react-native-fast-image';
+import Toast from 'react-native-toast-message';
 
 class Profile extends Component {
   constructor(props) {
@@ -85,12 +86,12 @@ class Profile extends Component {
 
     try {
       camelapp
-        .post('/add/chat/' + user.id, {
+        .post('/add/chat/' + user?.id, {
           chat_status: this?.state?.chatFlag == true ? 1 : 0,
         })
         .then(res => {
+          console.log(res, 'responseee');
           this.setState({modalChat: false});
-          //console.log("response at fetch", res.data);
         });
     } catch (error) {
       //console.log("error at fetch user", error.response)
@@ -116,7 +117,12 @@ class Profile extends Component {
         //console.log("error at fetch user", error.response)
       }
     } else {
-      alert('Invalid Number');
+      Toast.show({
+        text1: ArabicText?.InvalidNumber,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // alert('Invalid Number');
     }
   }
   updateNumber() {
@@ -131,7 +137,12 @@ class Profile extends Component {
         number = Math.floor(Math?.random() * 10000) + 1;
         // console.log('number', number);
       } while (number < 1000 || number > 10000);
-      alert(number);
+      Toast.show({
+        text1: number,
+        type: 'success',
+        visibilityTime: 3000,
+      });
+      // alert(number);
       camelapp
         .post('sendsms', {
           phone: this.state.phoneNumber,
@@ -175,9 +186,19 @@ class Profile extends Component {
           if (res?.data?.status == true) {
             actions.userData(res.data);
             this.setState({modalOtp: false, modalPhone: false});
-            alert('Phone Updated Successfully');
+            Toast.show({
+              text1: ArabicText?.PhoneUpdatedSuccessfully,
+              type: 'success',
+              visibilityTime: 3000,
+            });
+            // alert('Phone Updated Successfully');
           } else {
-            alert('Phone Number Already Exist');
+            Toast.show({
+              text1: ArabicText?.PhoneNumberAlreadyExist,
+              type: 'error',
+              visibilityTime: 3000,
+            });
+            // alert('Phone Number Already Exist');
           }
         });
     }
@@ -196,9 +217,19 @@ class Profile extends Component {
         if (res?.data?.status == true) {
           actions.userData(res.data);
           this.setState({modalOtp: false, modalPhone: false});
-          alert('Phone Updated Successfully');
+          Toast.show({
+            text1: ArabicText?.PhoneUpdatedSuccessfully,
+            type: 'success',
+            visibilityTime: 3000,
+          });
+          // alert('Phone Updated Successfully');
         } else {
-          alert('Phone Number Already Exist');
+          Toast.show({
+            text1: ArabicText?.PhoneNumberAlreadyExist,
+            type: 'error',
+            visibilityTime: 3000,
+          });
+          // alert('Phone Number Already Exist');
         }
       });
   }
@@ -211,7 +242,6 @@ class Profile extends Component {
     this.setState({registerSwitch: value});
   }
   phoneStatusSwitch(value) {
-    //console.log("value", value)
     this.setState({phoneStatusSwitch: value});
   }
   // onCategoryClick = async item => {
@@ -464,7 +494,12 @@ class Profile extends Component {
         // dismissed
       }
     } catch (error) {
-      alert(error.message);
+      Toast.show({
+        text1: error?.message,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // alert(error.message);
     }
   };
   render() {

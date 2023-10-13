@@ -21,6 +21,7 @@ const width = Dimensions.get('screen').width;
 import EmptyComponent from '../components/EmptyComponent';
 import moment from 'moment';
 import * as ArabicText from '../language/EnglishToArabic';
+import Toast from 'react-native-toast-message';
 
 class SurveyList extends Component {
   constructor(props) {
@@ -80,7 +81,12 @@ class SurveyList extends Component {
             //console.log("Error Message camel club List----", error);
           });
       } else {
-        alert(ArabicText?.SurveyIsInactive);
+        Toast.show({
+          text1: ArabicText?.SurveyIsInactive,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert(ArabicText?.SurveyIsInactive);
       }
     } else {
       this.props.navigation.navigate('Login');

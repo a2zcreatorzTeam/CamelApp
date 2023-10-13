@@ -173,13 +173,25 @@ class MissingCamelForm extends Component {
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
     if (this.state.videoForPost === undefined) {
-      return alert(ArabicText?.Cannotpostwithoutvideo);
+      return Toast.show({
+        text1: ArabicText?.Cannotpostwithoutvideo,
+        type: 'error',
+        visibilityTime: 3000,
+      });
     }
     if (combineImages == undefined || combineImages?.length == 0) {
-      return alert(ArabicText?.Cannotpostwithoutimage);
+      return Toast.show({
+        text1: ArabicText?.Cannotpostwithoutimage,
+        type: 'error',
+        visibilityTime: 3000,
+      });
     }
     if (combineImages?.length < 4) {
-      return alert(ArabicText?.UploadMinimum4Images);
+      return Toast.show({
+        text1: ArabicText?.UploadMinimum4Images,
+        type: 'error',
+        visibilityTime: 3000,
+      });
     }
     if (
       this.state.title != '' &&
@@ -215,7 +227,12 @@ class MissingCamelForm extends Component {
               cameraimagesForPost: undefined,
             });
             console.log('response', response.data);
-            alert(ArabicText.Post_added_successfully);
+            Toast.show({
+              text1: ArabicText.Post_added_successfully,
+              type: 'success',
+              visibilityTime: 3000,
+            });
+            // alert(ArabicText.Post_added_successfully);
             this.setState({
               title: '',
               description: '',
@@ -234,7 +251,11 @@ class MissingCamelForm extends Component {
         this.setState({loading: false});
       }
     } else {
-      alert(ArabicText.Please_complete_the_fields + '');
+      return Toast.show({
+        text1: ArabicText.Please_complete_the_fields + '',
+        type: 'error',
+        visibilityTime: 3000,
+      });
     }
   };
   // REMOVE ITEM
@@ -316,7 +337,11 @@ class MissingCamelForm extends Component {
               if (text.length <= 24) {
                 this.setState({title: text});
               } else {
-                alert(ArabicText.limitCharacters);
+                Toast.show({
+                  text1: ArabicText?.limitCharacters,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
               }
             }}></TextInput>
 
@@ -329,7 +354,11 @@ class MissingCamelForm extends Component {
               if (text.length <= 24) {
                 this.setState({color: text});
               } else {
-                alert(ArabicText.limitCharacters);
+                Toast.show({
+                  text1: ArabicText?.limitCharacters,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
               }
             }}></TextInput>
 
@@ -342,7 +371,11 @@ class MissingCamelForm extends Component {
               if (text.length <= 24) {
                 this.setState({camel_type: text});
               } else {
-                alert(ArabicText.limitCharacters);
+                Toast.show({
+                  text1: ArabicText?.limitCharacters,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
               }
             }}></TextInput>
 
@@ -355,7 +388,11 @@ class MissingCamelForm extends Component {
               if (text.length <= 24) {
                 this.setState({location: text});
               } else {
-                alert(ArabicText.limitCharacters);
+                Toast.show({
+                  text1: ArabicText?.limitCharacters,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
               }
             }}></TextInput>
 
@@ -369,7 +406,11 @@ class MissingCamelForm extends Component {
               if (text.length <= 300) {
                 this.setState({description: text});
               } else {
-                alert(ArabicText.description);
+                Toast.show({
+                  text1: ArabicText?.description,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
               }
             }}></TextInput>
           <Loader loading={this.state.loading} />

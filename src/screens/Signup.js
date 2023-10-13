@@ -24,6 +24,7 @@ import {bindActionCreators} from 'redux';
 import {Checkbox} from 'react-native-paper';
 import {Platform} from 'react-native';
 import {ScrollView} from 'react-native';
+import Toast from 'react-native-toast-message';
 
 class SignUp extends Component {
   constructor(props) {
@@ -134,7 +135,12 @@ class SignUp extends Component {
             number = Math.floor(Math.random() * 10000) + 1;
             console.log(number);
           } while (number < 1000 || number > 10000);
-          alert(number);
+          Toast.show({
+            text1: number,
+            type: 'success',
+            visibilityTime: 3000,
+          });
+          // alert(number);
           this.setState({randomIndex: number});
           if (response.data.status === true) {
             this.setState({loader: false});
@@ -165,20 +171,40 @@ class SignUp extends Component {
                 this.setState({loader: false, btnPressed: false});
               });
           } else {
-            alert(response?.data?.message);
+            Toast.show({
+              text1: response?.data?.message,
+              type: 'error',
+              visibilityTime: 3000,
+            });
+            // alert(response?.data?.message);
             this.setState({btnPressed: false, loader: false});
           }
         })
         .catch(error => {
-          alert(ArabicText?.phoneNumberAlreadyExist);
+          Toast.show({
+            text1: ArabicText?.phoneNumberAlreadyExist,
+            type: 'error',
+            visibilityTime: 3000,
+          });
+          // alert(ArabicText?.phoneNumberAlreadyExist);
           this.setState({loader: false, btnPressed: false});
         });
     } else {
       this.setState({loader: false, btnPressed: false});
       if (name && phone && confirm_password && password && !isChecked) {
-        alert('الرجاء تحديد الشروط والأحكام');
+        Toast.show({
+          text1: 'الرجاء تحديد الشروط والأحكام',
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert('الرجاء تحديد الشروط والأحكام');
       } else {
-        alert(ArabicText?.PleaseCompleteThefields);
+        Toast.show({
+          text1: ArabicText?.PleaseCompleteThefields,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert(ArabicText?.PleaseCompleteThefields);
       }
     }
   };

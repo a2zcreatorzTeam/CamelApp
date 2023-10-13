@@ -24,10 +24,9 @@ import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import {Dimensions} from 'react-native';
 import OTPTextView from 'react-native-otp-textinput';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {requestUserPermission} from '../services/Helper';
+import {getFCMToken} from '../services/Helper';
 import {auth} from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
 const width = Dimensions.get('screen').width;
@@ -137,15 +136,12 @@ class Login extends Component {
         });
       });
   }
-  componentDidMount = () => {
-    requestUserPermission();
-  };
+  componentDidMount = () => {};
   render() {
     const authentication = async () => {
+      this.setState({loader: true});
+      await getFCMToken();
       const deviceToken = await AsyncStorage?.getItem('fcmToken');
-      console.log(deviceToken);
-      this.setState({loader: true});
-      this.setState({loader: true});
       let number = 0;
       do {
         number = Math.floor(Math.random() * 10000) + 1;
@@ -153,7 +149,6 @@ class Login extends Component {
       this.setState({randomIndex: number});
       if (this.state.contactNumber.length >= 10 && this.state.password != '') {
         var response = null;
-
         try {
           camelapp
             .post('/login', {
@@ -164,29 +159,34 @@ class Login extends Component {
             })
             .then(res => {
               response = res.data;
-              console.log(response, 'responselogin');
-
               if (response.status == true) {
                 this.setState({loader: false});
                 let {actions} = this.props;
                 actions.userData(response);
                 this.saveData();
                 this.userlogin();
-                console.log('loginmnnn');
                 this.props.navigation.navigate('Home');
               } else {
                 Toast.show({
-                  text1: response.error + '',
+                  text1: response?.error + '',
                   type: 'error',
                   visibilityTime: 3000,
                 });
+                // alert(response?.error);
                 // alert(response.error + '');
                 this.setState({loader: false});
               }
             })
             .catch(error => {});
         } catch (error) {
-          //console.log("Error Message--- signin", error);
+          this.setState({loader: false});
+          Toast.show({
+            text1: error?.response + '',
+            type: 'error',
+            visibilityTime: 3000,
+          });
+          // alert(error?.response + '');
+          console.log('Error Message--- signin', error);
         }
       } else {
         this.setState({loader: false});

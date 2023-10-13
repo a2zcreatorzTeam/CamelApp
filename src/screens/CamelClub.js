@@ -98,7 +98,12 @@ class CamelClub extends Component {
             });
         }
       } else {
-        alert('Please select the video.');
+        Toast.show({
+          text1: ArabicText?.Pleaseselectthevideo,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert('Please select the video.');
       }
     });
   };
@@ -147,7 +152,6 @@ class CamelClub extends Component {
         let mixedTemp = [];
         mixedTemp.push(images);
         if (imagesForPost?.length > 0) {
-          // console.log('length');
           this.setState(previousState => {
             return {
               imagesForPost: [
@@ -167,31 +171,6 @@ class CamelClub extends Component {
             mixed: [...mixedTemp, ...previousState?.mixed],
           };
         });
-        // console.log(images?.data, 'mixedTemppppp');
-        // this.setState(prevstate => ({
-        //   cameraimage: prevstate.cameraimage.concat(tempImage),
-        // }));
-        // const newImageArray = this?.state?.cameraimage;
-        // for (var i = 0; i < newImageArray?.length; i++) {
-        //   mixedTemp.push(newImageArray[i]);
-        //   bse64images.push('data:image/png;base64,' + newImageArray[i]?.data);
-        //   // mixedTemp.push(tempImage);
-        // }
-        // this.setState({imagesForPost: bse64images, image: tempImage});
-        // if (this.state.image != undefined) {
-        //   let image = this.state.image;
-        //   for (var i = 0; i < image?.length; i++) {
-        //     mixedTemp.push(image[i]);
-        //   }
-        // }
-        // if (this.state.video != undefined) {
-        //   let video = this.state.video;
-        //   mixedTemp.push(video);
-        // }
-        // console.log(this.state.mixed, 'mixedddd186');
-        // } else {
-        //   alert('Only 4 items are allowed');
-        // }
       })
       .catch(error => {
         console.log('error', error);
@@ -204,13 +183,28 @@ class CamelClub extends Component {
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
     if (this.state.videoForPost === undefined) {
-      return alert(ArabicText?.Cannotpostwithoutvideo);
+      return Toast.show({
+        text1: ArabicText?.Cannotpostwithoutvideo,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // return alert(ArabicText?.Cannotpostwithoutvideo);
     }
     if (imagesForPost == undefined || imagesForPost?.length == 0) {
-      return alert(ArabicText?.Cannotpostwithoutimage);
+      return Toast.show({
+        text1: ArabicText?.Cannotpostwithoutimage,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // return alert(ArabicText?.Cannotpostwithoutimage);
     }
     if (combineImages?.length < 4) {
-      return alert(ArabicText?.UploadMinimum4Images);
+      return Toast.show({
+        text1: ArabicText?.UploadMinimum4Images,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // return alert(ArabicText?.UploadMinimum4Images);
     }
     if (
       this.state.title != '' &&
@@ -249,7 +243,11 @@ class CamelClub extends Component {
           this.setState({loading: false});
         });
     } else {
-      alert(ArabicText.Please_complete_the_fields + '');
+      return Toast.show({
+        text1: ArabicText.Please_complete_the_fields + '',
+        type: 'error',
+        visibilityTime: 3000,
+      });
     }
   };
   // REMOVE ITEM
@@ -355,7 +353,11 @@ class CamelClub extends Component {
                 if (text.length <= 24) {
                   this.setState({title: text});
                 } else {
-                  alert(ArabicText.limitCharacters);
+                  Toast.show({
+                    text1: ArabicText?.limitCharacters,
+                    type: 'error',
+                    visibilityTime: 3000,
+                  });
                 }
               }}></TextInput>
 
@@ -368,7 +370,11 @@ class CamelClub extends Component {
                 if (text.length <= 24) {
                   this.setState({location: text});
                 } else {
-                  alert(ArabicText.limitCharacters);
+                  Toast.show({
+                    text1: ArabicText?.limitCharacters,
+                    type: 'error',
+                    visibilityTime: 3000,
+                  });
                 }
               }}></TextInput>
 
@@ -382,7 +388,11 @@ class CamelClub extends Component {
                 if (text.length <= 300) {
                   this.setState({description: text});
                 } else {
-                  alert(ArabicText.description);
+                  Toast.show({
+                    text1: ArabicText?.description,
+                    type: 'error',
+                    visibilityTime: 3000,
+                  });
                 }
               }}></TextInput>
             <Loader loading={this.state.loading} />

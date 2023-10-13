@@ -13,6 +13,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import * as ArabicText from '../language/EnglishToArabic';
 import camelapp from '../api/camelapp';
+import Toast from 'react-native-toast-message';
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -113,7 +114,12 @@ export default class App extends Component {
         this.first.current.focus();
 
         this.setState({four: '', loader: false, one: '', two: '', three: ''});
-        alert('Invalid OTP!');
+        Toast.show({
+          text1: ArabicText?.InvalidOTP,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert('Invalid OTP!');
       }, 1000);
     }
   }
@@ -130,7 +136,12 @@ export default class App extends Component {
           })
           .then(response => {
             if (response.data.status === true) {
-              alert(response?.data?.message);
+              Toast.show({
+                text1: response?.data?.message,
+                type: 'error',
+                visibilityTime: 3000,
+              });
+              // alert(response?.data?.message);
               setTimeout(() => {
                 this.props.navigation.navigate('Login');
               }, 1000);
@@ -140,11 +151,21 @@ export default class App extends Component {
             //console.log("error", error)
           });
       } else {
-        alert('Password does not match');
+        Toast.show({
+          text1: ArabicText?.Passworddoesnotmatch,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert('Password does not match');
         this.setState({loader: false});
       }
     } else {
-      alert('Password must contains 6 characters');
+      Toast.show({
+        text1: ArabicText?.Passwordmustcontains6characters,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // alert('Password must contains 6 characters');
       this.setState({loader: false});
     }
   }

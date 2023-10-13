@@ -425,10 +425,10 @@ const GroupChat = props => {
       if (video) {
         if (video?.size > 10000000) {
           Toast.show({
-          text1: ArabicText?.Videomustbelessthen10MB,
-          type: 'error',
-          visibilityTime: 3000,
-        });
+            text1: ArabicText?.Videomustbelessthen10MB,
+            type: 'error',
+            visibilityTime: 3000,
+          });
         } else {
           RNFS.readFile(video.path, 'base64')
             .then(res => {
@@ -462,7 +462,12 @@ const GroupChat = props => {
             });
         }
       } else {
-        alert('Please select the video.');
+        Toast.show({
+          text1: ArabicText?.Pleaseselectthevideo,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert('Please select the video.');
       }
     });
   };

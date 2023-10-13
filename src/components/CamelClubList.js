@@ -37,10 +37,7 @@ class CamelClubList extends Component {
       searchedItem: '',
       key: false,
     };
-
-    // this.viewPosts();
   }
-
   searchFunction(searchtext) {
     const {key} = this.state;
     if (searchtext != undefined && searchtext?.length != 0) {
@@ -141,68 +138,14 @@ class CamelClubList extends Component {
   };
   componentDidMount = () => {
     this.focusListener = this.props.navigation.addListener('focus', () => {
-      // this.setState({ searchText: '', searchedItem: '' })
       this.viewPosts();
     });
   };
-  // componentWillUnmount() {
-  //   console.log("componentWillUnmount");
-  //   this.setState({ searchText: '', searchedItem: '' })
-  // }
-  // onUserProfileClick = async item => {
-  //   this.setState({ loading: true });
-  //   let { user } = this.props;
-
-  //   user = user.user.user;
-
-  //   if (user != undefined) {
-  //     if (item.user_id === user.id) {
-  //       this.props.navigation.navigate('Profile');
-  //     } else {
-  //       await camelapp
-  //         .post('/userprofile', {
-  //           user_id: item.user_id,
-  //         })
-  //         .then(response => {
-  //           if (response.data) {
-  //             this.props.navigation.navigate('UserProfile', {
-  //               postData: item,
-  //               userProfile: response.data,
-  //             });
-  //             this.setState({ loading: false });
-  //           }
-  //         })
-  //         .catch(error => {
-  //           console.log('error', error);
-  //           this.setState({ loading: false });
-  //         });
-  //     }
-  //   } else {
-  //     await camelapp
-  //       .post('/userprofile', {
-  //         user_id: item.user_id,
-  //       })
-  //       .then(response => {
-  //         if (response.data) {
-  //           this.props.navigation.navigate('UserProfile', {
-  //             postData: item,
-  //             userProfile: response.data,
-  //           });
-  //           this.setState({ loading: false });
-  //         }
-  //       })
-  //       .catch(error => {
-  //         console.log('error', error);
-  //         this.setState({ loading: false });
-  //       });
-  //   }
-  // };
   render() {
     const {posts, filterPosts, key, searchedItem} = this.state;
     const renderItem = ({item}) => {
       return (
         <Post
-          // onUserProfileClick={this.onUserProfileClick}
           item={item}
           image={item.img}
           likes={item.like_count}
@@ -438,18 +381,14 @@ class CamelClubList extends Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(CamelClubList);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

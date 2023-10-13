@@ -16,6 +16,7 @@ import camelapp from '../api/camelapp';
 
 import * as ArabicText from '../language/EnglishToArabic';
 import {Dimensions} from 'react-native';
+import Toast from 'react-native-toast-message';
 
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
@@ -42,7 +43,12 @@ class ForgetPassword extends Component {
         let number = 0;
         do {
           number = Math.floor(Math.random() * 10000) + 1;
-          alert(number);
+          Toast.show({
+            text1: number,
+            type: 'success',
+            visibilityTime: 3000,
+          });
+          // alert(number);
         } while (number < 1000 || number > 10000);
         if (response.data.status === false) {
           this.setState({otp: true, loader: false});
@@ -53,7 +59,12 @@ class ForgetPassword extends Component {
             })
             .then(response => {
               if (response.data.status === true) {
-                alert('Opt sent to your Phone Number');
+                Toast.show({
+                  text1: ArabicText.OTPsenttoyourPhoneNumber,
+                  type: 'success',
+                  visibilityTime: 3000,
+                });
+                // alert('Opt sent to your Phone Number');
                 this.props.navigation.navigate('OtpForgetPassword', {
                   code: number,
                   phone: this.state.phone,
@@ -65,12 +76,22 @@ class ForgetPassword extends Component {
             });
         } else {
           this.setState({loader: false});
-          alert('Please enter valid phone');
+          Toast.show({
+            text1: ArabicText.Pleaseentervalidphonenumber,
+            type: 'error',
+            visibilityTime: 3000,
+          });
+          // alert('Please enter valid phone');
         }
       });
     } else {
       this.setState({loader: false});
-      alert('Please enter valid phone');
+      Toast?.show({
+        text1: ArabicText.Pleaseentervalidphonenumber,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // alert('Please enter valid phone');
     }
   }
   render() {

@@ -54,7 +54,6 @@ const MessageView = ({route}) => {
 
   const reciever_id = route.params.messageData.id;
   const reciever_data = route.params.messageData;
-  console.log(reciever_data,"datatata");
   const user_id = useSelector(state => state?.user?.user?.user?.id);
   const user = useSelector(state => state?.user);
   const chatRoomId =
@@ -62,6 +61,16 @@ const MessageView = ({route}) => {
       ? `${user_id}_${reciever_id}`
       : `${reciever_id}_${user_id}`;
   handlePress = () => {
+    console.log(
+      user_id,
+      inputValue,
+      chatRoomId,
+      lat,
+      long,
+      image,
+      video,
+      'user_id, inputValue, chatRoomId, lat, long, image, video',
+    );
     sendMessage(user_id, inputValue, chatRoomId, lat, long, image, video).then(
       success => {
         success && setModalVisible(false),
@@ -75,7 +84,6 @@ const MessageView = ({route}) => {
       },
     );
     setInputValue('');
-    console.log(!image, 'jkjkj', !video);
     !image && !video && setLoader(false);
   };
   const proceed = async (lat, long) => {
@@ -320,7 +328,12 @@ const MessageView = ({route}) => {
         }
       })
       .catch(error => {
-        alert(error, 'errroooooooeee');
+        Toast.show({
+          text1: error,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert(error, 'errroooooooeee');
         console.log('error', error);
       });
     // setModalVisible(false)
@@ -347,7 +360,12 @@ const MessageView = ({route}) => {
           setModalVisible(false);
         }
       } else {
-        alert('Please select the video.');
+        Toast.show({
+          text1: ArabicText?.Pleaseselectthevideo,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert('Please select the video.');
       }
     });
   };
@@ -363,11 +381,21 @@ const MessageView = ({route}) => {
     })
       .promise.then(r => {
         setdownloadFiles(false);
-        alert('Download Successfully');
+        Toast.show({
+          text1: ArabicText?.DownloadSuccessfully,
+          type: 'success',
+          visibilityTime: 3000,
+        });
+        // alert('Download Successfully');
       })
       .catch(err => {
         setdownloadFiles(false);
-        alert('Something went wrong in downloading');
+        Toast.show({
+          text1: ArabicText?.Somethingwentwrongindownloading,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert('Something went wrong in downloading');
 
         console.log(err);
       });
@@ -640,7 +668,7 @@ const MessageView = ({route}) => {
             </View>
           </View>
           <TouchableOpacity
-          activeOpacity={0.7}
+            activeOpacity={0.7}
             onPress={() => {
               fileDownload(modalItemType, modalItem);
             }}

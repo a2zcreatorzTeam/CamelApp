@@ -200,17 +200,33 @@ class SellingCamelForm extends React.Component {
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
     if (this.state.videoForPost === undefined) {
-      return alert(ArabicText?.Cannotpostwithoutvideo);
+      return Toast.show({
+        text1: ArabicText?.Cannotpostwithoutvideo,
+        type: 'error',
+        visibilityTime: 3000,
+      });
     }
     if (combineImages == undefined || combineImages?.length == 0) {
-      return alert(ArabicText?.Cannotpostwithoutimage);
+      return Toast.show({
+        text1: ArabicText?.Cannotpostwithoutimage,
+        type: 'error',
+        visibilityTime: 3000,
+      });
     }
     console.log(combineImages, 'combineImagescombineImages');
     if (combineImages?.length < 4) {
-      return alert(ArabicText?.UploadMinimum4Images);
+      return Toast.show({
+        text1: ArabicText?.UploadMinimum4Images,
+        type: 'error',
+        visibilityTime: 3000,
+      });
     }
     if (this.state.videoForPost === undefined) {
-      return alert(ArabicText?.Cannotpostwithoutvideo);
+      return Toast.show({
+        text1: ArabicText?.Cannotpostwithoutvideo,
+        type: 'error',
+        visibilityTime: 3000,
+      });
     }
 
     if (
@@ -258,7 +274,11 @@ class SellingCamelForm extends React.Component {
             cameraimage: [],
             cameraimagesForPost: undefined,
           });
-          alert(ArabicText.Post_added_successfully);
+          Toast.show({
+            text1: ArabicText.Post_added_successfully,
+            type: 'success',
+            visibilityTime: 3000,
+          });
 
           this.setState({
             title: '',
@@ -274,7 +294,11 @@ class SellingCamelForm extends React.Component {
           this.setState({loading: false});
         });
     } else {
-      alert(ArabicText.Please_complete_the_fields + '');
+      return Toast.show({
+        text1: ArabicText.Please_complete_the_fields + '',
+        type: 'error',
+        visibilityTime: 3000,
+      });
     }
   };
   updateUser = commission => {
@@ -421,7 +445,11 @@ class SellingCamelForm extends React.Component {
                 if (text.length <= 24) {
                   this.setState({title: text});
                 } else {
-                  alert(ArabicText.limitCharacters);
+                  Toast.show({
+                    text1: ArabicText?.limitCharacters,
+                    type: 'error',
+                    visibilityTime: 3000,
+                  });
                 }
               }}></TextInput>
             <TextInput
@@ -433,8 +461,16 @@ class SellingCamelForm extends React.Component {
                 if (text.length <= 24) {
                   this.setState({color: text});
                 } else {
-                  alert(ArabicText.limitCharacters);
-                }
+                  Toast.show({
+                  text1: ArabicText?.limitCharacters,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
+                }Toast.show({
+                  text1: ArabicText?.limitCharacters,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
               }}></TextInput>
 
             <TextInput
@@ -446,7 +482,11 @@ class SellingCamelForm extends React.Component {
                 if (text.length <= 24) {
                   this.setState({camel_type: text});
                 } else {
-                  alert(ArabicText.limitCharacters);
+                  Toast.show({
+                  text1: ArabicText?.limitCharacters,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
                 }
               }}></TextInput>
 
@@ -459,7 +499,11 @@ class SellingCamelForm extends React.Component {
                 if (text.length <= 24) {
                   this.setState({location: text});
                 } else {
-                  alert(ArabicText.limitCharacters);
+                  Toast.show({
+                  text1: ArabicText?.limitCharacters,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
                 }
               }}></TextInput>
 

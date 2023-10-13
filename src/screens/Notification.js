@@ -14,11 +14,170 @@ import {Dimensions} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import EmptyComponent from '../components/EmptyComponent';
 import Header from '../components/Header';
+import {RefreshControl} from 'react-native';
+import {TouchableOpacity} from 'react-native';
+import Toast from 'react-native-toast-message';
+import * as ArabicText from '../language/EnglishToArabic';
 
 const width = Dimensions.get('screen').width;
 
-const Post = ({description, date}) => (
-  <View
+class Notification extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      posts: [],
+      loader: true,
+      searchedItem: '',
+      searchText: '',
+      filterPosts: [],
+      key: false,
+      refreshing: false,
+    };
+  }
+  componentDidMount() {
+    this.checkUserLogedIn();
+  }
+  checkUserLogedIn() {
+    let {user} = this.props;
+    // //console.log("user", this.props.user.user.user.id)
+    if (user.user.user != undefined) {
+      this.viewPosts();
+    } else {
+      this.props.navigation.navigate('Login');
+    }
+  }
+  async viewPosts() {
+    let {user} = this.props;
+    user = user.user.user.id;
+    const {key} = this.state;
+    await camelapp
+      .get('/notification/' + user)
+      .then(res => {
+        console.log(res?.data?.notification, 'res?.data?.notification');
+        this.setState({
+          posts: res?.data?.notification,
+          loader: false,
+          key: !key,
+        });
+      })
+      .catch(error => {
+        console.log('Error notification  List----', error);
+        this.setState({
+          loader: false,
+        });
+      });
+  }
+  searchHandler = value => {
+    const {key} = this.state;
+    if (!value?.length) {
+      this.setState({filterPosts: this.state.posts});
+    } else {
+      this.setState({searchedItem: value});
+      // Data Filtration
+      const filteredData = this.state.posts.filter(item => {
+        const {description} = item;
+        return description?.toLowerCase().includes(value.toLowerCase());
+      });
+      if (filteredData.length > 0) {
+        this.setState({filterPosts: filteredData, key: !key});
+      } else {
+        this.setState({filterPosts: [], key: !key});
+      }
+    }
+  };
+  // =============NEW Search Handler==============
+  search(text) {
+    this.setState({searchText: text});
+  }
+  ScrollToRefresh() {
+    this.viewPosts();
+    this.setState({refreshing: false});
+  }
+  onPressNotificaion = item => {
+    if (
+      item?.type == 'CHAT' ||
+      (item?.type == 'chat' && item?.bid_status == 0)
+    ) {
+      this.props.navigation.navigate('MessageViewScreen', {
+        messageData: {
+          id: item?.sender_id,
+          user_name: item?.sender_name,
+          user_image: item?.sender_image,
+        },
+      });
+    } else if (
+      item?.type == 'CHAT' ||
+      (item?.type == 'chat' && item?.bid_status == 1)
+    ) {
+      Toast.show({
+        text1: ArabicText.offerhasbeenclosed,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+    }
+  };
+  render() {
+    const {filterPosts, key, searchedItem, posts} = this.state;
+    const renderItem = ({item}) => {
+      let d = new Date(item.created_at);
+      return (
+        <Post
+          onPress={item => {
+            this.onPressNotificaion(item);
+          }}
+          item={item}
+          description={item.description}
+          date={d.toLocaleString()}
+        />
+      );
+    };
+    return (
+      <View style={styles.container}>
+        <Header
+          onChangeText={text => {
+            if (text) {
+              this.search(text);
+            } else {
+              this.setState({searchedItem: '', searchText: ''});
+            }
+          }}
+          onPressSearch={() => this.searchFunction(this.state.searchText)}
+        />
+        {this.state.loader && (
+          <ActivityIndicator
+            size="large"
+            color="#D2691Eff"
+            animating={this.state.loader}
+            style={{marginTop: 20}}
+          />
+        )}
+
+        {this.state.loader == false && (
+          <FlatList
+            key={key}
+            ListEmptyComponent={() => <EmptyComponent />}
+            data={searchedItem ? filterPosts : posts}
+            contentContainerStyle={{paddingBottom: '10%'}}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            initialNumToRender={10}
+            maxToRenderPerBatch={5}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={() => this.ScrollToRefresh()}
+              />
+            }
+          />
+        )}
+      </View>
+    );
+  }
+}
+
+const Post = ({description, date, item, onPress = () => {}}) => (
+  <TouchableOpacity
+    onPress={() => onPress(item)}
     style={{
       width: width,
       height: 80,
@@ -74,126 +233,8 @@ const Post = ({description, date}) => (
       }}>
       <MaterialIcons name="notifications-none" size={20} color="#D2691E" />
     </View>
-  </View>
+  </TouchableOpacity>
 );
-
-class CamelClubList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      posts: [],
-      loader: true,
-      searchedItem: '',
-      searchText: '',
-      filterPosts: [],
-      key: false,
-    };
-  }
-  componentDidMount() {
-    this.checkUserLogedIn();
-  }
-  checkUserLogedIn() {
-    let {user} = this.props;
-    // //console.log("user", this.props.user.user.user.id)
-    if (user.user.user != undefined) {
-      this.viewPosts();
-    } else {
-      this.props.navigation.navigate('Login');
-    }
-  }
-  async viewPosts() {
-    let {user} = this.props;
-    user = user.user.user.id;
-    const {key} = this.state;
-    await camelapp
-      .get('/notification/' + user)
-      .then(res => {
-        this.setState({
-          posts: res?.data?.notification,
-          loader: false,
-          key: !key,
-        });
-      })
-      .catch(error => {
-        console.log('Error notification  List----', error);
-        this.setState({
-          loader: false,
-        });
-      });
-  }
-  searchHandler = value => {
-    const {key} = this.state;
-    if (!value?.length) {
-      this.setState({filterPosts: this.state.posts});
-    } else {
-      this.setState({searchedItem: value});
-      // Data Filtration
-      const filteredData = this.state.posts.filter(item => {
-        const {description} = item;
-        return description?.toLowerCase().includes(value.toLowerCase());
-      });
-      if (filteredData.length > 0) {
-        this.setState({filterPosts: filteredData, key: !key});
-      } else {
-        this.setState({filterPosts: [], key: !key});
-      }
-    }
-  };
-  // =============NEW Search Handler==============
-  search(text) {
-    this.setState({searchText: text});
-  }
-
-  render() {
-    const {filterPosts, key, searchedItem, posts} = this.state;
-    const renderItem = ({item}) => {
-      let d = new Date(item.created_at);
-      return (
-        <Post
-          item={item}
-          description={item.description}
-          date={d.toLocaleString()}
-        />
-      );
-    };
-
-    return (
-      <View style={styles.container}>
-        <Header
-          onChangeText={text => {
-            if (text) {
-              this.search(text);
-            } else {
-              this.setState({searchedItem: '', searchText: ''});
-            }
-          }}
-          onPressSearch={() => this.searchFunction(this.state.searchText)}
-        />
-        {this.state.loader && (
-          <ActivityIndicator
-            size="large"
-            color="#D2691Eff"
-            animating={this.state.loader}
-            style={{marginTop: 20}}
-          />
-        )}
-
-        {this.state.loader == false && (
-          <FlatList
-            key={key}
-            ListEmptyComponent={() => <EmptyComponent />}
-            data={searchedItem ? filterPosts : posts}
-            contentContainerStyle={{paddingBottom: '10%'}}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-            initialNumToRender={10}
-            maxToRenderPerBatch={5}
-          />
-        )}
-      </View>
-    );
-  }
-}
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -204,7 +245,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CamelClubList);
+export default connect(mapStateToProps, mapDispatchToProps)(Notification);
 
 const styles = StyleSheet.create({
   container: {

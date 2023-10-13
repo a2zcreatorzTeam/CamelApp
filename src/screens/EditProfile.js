@@ -18,6 +18,7 @@ import * as userActions from '../redux/actions/user_actions';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
 import {bindActionCreators} from 'redux';
 import * as EmailValidator from 'email-validator';
+import Toast from 'react-native-toast-message';
 
 class EditProfile extends Component {
   constructor(props) {
@@ -47,7 +48,6 @@ class EditProfile extends Component {
       let {user, actions} = this.props;
       console.log(this.props.navigation, 'ACTIONSSSS');
       actions?.userLogout({});
-
       console.log('2');
       AsyncStorage.removeItem('@UserPhone');
       console.log('3');
@@ -78,7 +78,11 @@ class EditProfile extends Component {
             pickedImage: 'data:image/png;base64,' + images.data,
           });
         } else {
-          alert(ArabicText?.Only1imageallowed);
+          Toast.show({
+            text1: ArabicText.Only1imageallowed,
+            type: 'error',
+            visibilityTime: 3000,
+          });
         }
         console.log('images', images);
       })
@@ -93,19 +97,39 @@ class EditProfile extends Component {
     this.otpInput.setValue('1234');
   };
   updateProfile = async () => {
-    console.log( pickedImage, this.props.user.user.user?.image );
+    console.log(pickedImage, this.props.user.user.user?.image);
     const {image} = this.props.user.user.user;
     const {email, location, pickedImage, userName} = this.state;
     if (!pickedImage && !image) {
-      alert(ArabicText?.ImageCantBeEmpty);
+      Toast.show({
+        text1: ArabicText.ImageCantBeEmpty,
+        type: 'error',
+        visibilityTime: 3000,
+      });
     } else if (!userName) {
-      alert(ArabicText?.UsernameCantBeEmpty);
+      Toast.show({
+        text1: ArabicText.UsernameCantBeEmpty,
+        type: 'error',
+        visibilityTime: 3000,
+      });
     } else if (!email) {
-      alert(ArabicText?.EmailFieldCantBeEmpty);
+      Toast.show({
+        text1: ArabicText.EmailFieldCantBeEmpty,
+        type: 'error',
+        visibilityTime: 3000,
+      });
     } else if (!EmailValidator.validate(email)) {
-      alert(ArabicText?.EmailIsNotValid);
+      Toast.show({
+        text1: ArabicText.EmailIsNotValid,
+        type: 'error',
+        visibilityTime: 3000,
+      });
     } else if (!location) {
-      alert(ArabicText?.LocationFieldCantBeEmpty);
+      Toast.show({
+        text1: ArabicText.LocationFieldCantBeEmpty,
+        type: 'error',
+        visibilityTime: 3000,
+      });
     } else {
       this.setState({
         btnLoader: true,
@@ -120,15 +144,17 @@ class EditProfile extends Component {
             name: userName,
             location: location,
             email: email,
-            image: pickedImage!==undefined ? pickedImage : this.props.user.user.user?.image,
+            image:
+              pickedImage !== undefined
+                ? pickedImage
+                : this.props.user.user.user?.image,
           })
           .then(res => {
-            console.log(res?.data, "dtaaresponseee");
+            console.log(res?.data, 'dtaaresponseee');
             if (res.data.status == true) {
               this.setState({
                 btnLoader: false,
               });
-              // alert('User Updated Successfully');
               actions.userData(res?.data);
               this.props.navigation.replace('Profile', {
                 screen: ArabicText.profilee,

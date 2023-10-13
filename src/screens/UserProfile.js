@@ -86,28 +86,44 @@ class UserProfile extends Component {
                 //console.log("WhatsApp Opened successfully " + data);
               })
               .catch(() => {
-                alert('Make sure WhatsApp installed on your device');
-                // Toast.show({
-                //   type: 'error',
-                //   text1: 'Make sure WhatsApp installed on your device',
-                // });
+                // alert('Make sure WhatsApp installed on your device');
+                Toast.show({
+                  text1: ArabicText?.MakesureWhatsAppinstalledonyourdevice,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
               });
           } else {
-            alert('Please enter message to send');
+            Toast.show({
+              text1: ArabicText?.Pleaseentermessagetosend,
+              type: 'error',
+              visibilityTime: 3000,
+            });
+            // alert('Please enter message to send');
             // Toast.show({
             //   type: 'error',
             //   text1: 'Please enter message to send',
             // });
           }
         } else {
-          alert('This user has disabled chat');
+          Toast.show({
+            text1: ArabicText?.Thisuserhasdisabledchat,
+            type: 'error',
+            visibilityTime: 3000,
+          });
+          // alert('This user has disabled chat');
           // Toast.show({
           //   type: 'error',
           //   text1: 'This is some something',
           // });
         }
       } else {
-        alert('This user has disabled chat');
+        Toast.show({
+          text1: ArabicText?.Thisuserhasdisabledchat,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert('This user has disabled chat');
         // Toast.show({
         //   type: 'error',
         //   text1: 'This user has disabled chat',

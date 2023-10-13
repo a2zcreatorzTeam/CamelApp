@@ -17,6 +17,7 @@ import * as ArabicText from '../language/EnglishToArabic';
 import camelapp from '../api/camelapp';
 import {Platform} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -90,7 +91,8 @@ class App extends Component {
     }
   };
   submitOTP = async () => {
-    const deviceToken = await AsyncStorage.getItem('fcmToken');
+    Promise.all(requestUserPermission());
+    const deviceToken = await AsyncStorage?.getItem('fcmToken');
     let number =
       this.state.one + this.state.two + this.state.three + this.state.four;
     let user_data = this.state.sign_up_data;
@@ -126,7 +128,6 @@ class App extends Component {
                   device_token: deviceToken,
                 })
                 .then(res => {
-                  console.log(res, 'responseloginOnaotp');
                   let response = res.data;
                   if (response) {
                     // if (response.status == true) {
@@ -139,7 +140,12 @@ class App extends Component {
                     // actions.userData(response);
                     // this.props.navigation.navigate('Home');
                   } else {
-                    alert(response.error + '');
+                    Toast.show({
+                      text1: response.error + '',
+                      type: 'error',
+                      visibilityTime: 3000,
+                    });
+                    // alert(response.error + '');
                     this.setState({loader: false});
                   }
                 })
@@ -155,13 +161,23 @@ class App extends Component {
       } else {
         setTimeout(() => {
           this.setState({loader: false, btnPressed: false});
-          alert('Invalid OTP!');
+          Toast.show({
+            text1: ArabicText?.InvalidOTP,
+            type: 'error',
+            visibilityTime: 3000,
+          });
+          // alert('Invalid OTP!');
         }, 2000);
       }
     } else {
       setTimeout(() => {
         this.setState({loader: false, btnPressed: false});
-        alert('Please enter the OTP');
+        Toast.show({
+          text1: ArabicText?.PleaseentertheOTP,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert('Please enter the OTP');
       }, 2000);
     }
   };

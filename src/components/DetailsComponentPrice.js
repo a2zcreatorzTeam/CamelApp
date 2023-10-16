@@ -26,6 +26,7 @@ const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 import * as ArabicText from '../language/EnglishToArabic';
 import VideoModal from './VideoModal';
+import Toast from 'react-native-toast-message';
 
 class DetailsComponent extends Component {
   constructor(props) {
@@ -115,23 +116,42 @@ class DetailsComponent extends Component {
                   //console.log("WhatsApp Opened successfully " + data);
                 })
                 .catch(() => {
-                  alert('Make sure WhatsApp installed on your device');
+                  Toast.show({
+                  text1: ArabicText?.MakesureWhatsAppinstalledonyourdevice,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
                 });
             } else {
-              alert('Please enter message to send');
+              Toast.show({
+              text1: ArabicText?.Pleaseentermessagetosend,
+              type: 'error',
+              visibilityTime: 3000,
+            });
             }
           } else {
-            alert('This user has disabled chat');
+            Toast.show({
+            text1: ArabicText?.Thisuserhasdisabledchat,
+            type: 'error',
+            visibilityTime: 3000,
+          });
           }
         } else {
-          alert('This user has disabled chat');
+          Toast.show({
+            text1: ArabicText?.Thisuserhasdisabledchat,
+            type: 'error',
+            visibilityTime: 3000,
+          });
         }
       } else {
         this.props.navigation.navigate('Login');
       }
     } else {
-      alert('This is your post');
-    }
+       Toast.show({
+        type: 'error',
+        text1:ArabicText?.Thisisyourpost,
+        visibilityTime: 3000,
+      });    }
   }
 
   sendMessage() {
@@ -146,11 +166,18 @@ class DetailsComponent extends Component {
             messageData: this.state.user,
           });
         } else {
-          alert('This user has disabled chat');
+          Toast.show({
+            text1: ArabicText?.Thisuserhasdisabledchat,
+            type: 'error',
+            visibilityTime: 3000,
+          });
         }
       } else {
-        alert('This is your post');
-      }
+         Toast.show({
+        type: 'error',
+        text1:ArabicText?.Thisisyourpost,
+        visibilityTime: 3000,
+      });      }
     } else {
       this.props.navigation.navigate('Login');
     }

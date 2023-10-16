@@ -19,6 +19,7 @@ import EmptyComponent from './EmptyComponent';
 import {Dimensions} from 'react-native';
 import {RefreshControl} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import Toast from 'react-native-toast-message';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 class Bids extends Component {
@@ -109,9 +110,19 @@ class Bids extends Component {
     withdrawBid(item?.id).then(res => {
       if (res.status == 'Successfully Delete') {
         this.viewPosts();
-        alert('Bid successfully withdrawn!');
+        Toast.show({
+          text1: ArabicText?.Bidsuccessfullywithdrawn,
+          type: 'success',
+          visibilityTime: 3000,
+        });
+        // alert('Bid successfully withdrawn!');
       } else {
-        alert('Error in withdrawing bid!');
+        Toast.show({
+          text1: ArabicText?.Errorinwithdrawingbid,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert('Error in withdrawing bid!');
       }
       //console.log("response", res)
     });

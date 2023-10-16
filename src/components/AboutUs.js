@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet, ScrollView, ActivityIndicator
 } from "react-native";
-import { Styles } from '../styles/globlestyle'
 
 import * as ArabicText from "../language/EnglishToArabic"
 import camelapp from "../api/camelapp";

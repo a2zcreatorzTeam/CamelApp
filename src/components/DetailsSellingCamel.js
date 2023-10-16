@@ -136,22 +136,42 @@ class DetailsComponent extends Component {
                   //console.log("WhatsApp Opened successfully " + data);
                 })
                 .catch(() => {
-                  alert('Make sure WhatsApp installed on your device');
+                  Toast.show({
+                    text1: ArabicText?.MakesureWhatsAppinstalledonyourdevice,
+                    type: 'error',
+                    visibilityTime: 3000,
+                  });
                 });
             } else {
-              alert('Please enter message to send');
+              Toast.show({
+                text1: ArabicText?.Pleaseentermessagetosend,
+                type: 'error',
+                visibilityTime: 3000,
+              });
             }
           } else {
-            alert('This user has disabled chat');
+            Toast.show({
+              text1: ArabicText?.Thisuserhasdisabledchat,
+              type: 'error',
+              visibilityTime: 3000,
+            });
           }
         } else {
-          alert('This user has disabled chat');
+          Toast.show({
+            text1: ArabicText?.Thisuserhasdisabledchat,
+            type: 'error',
+            visibilityTime: 3000,
+          });
         }
       } else {
         this.props.navigation.navigate('Login');
       }
     } else {
-      alert('This is your post');
+      Toast.show({
+        type: 'error',
+        text1: ArabicText?.Thisisyourpost,
+        visibilityTime: 3000,
+      });
     }
   }
   sendMessage() {
@@ -166,10 +186,18 @@ class DetailsComponent extends Component {
             messageData: this.state.user,
           });
         } else {
-          alert('This user has disabled chat');
+          Toast.show({
+            text1: ArabicText?.Thisuserhasdisabledchat,
+            type: 'error',
+            visibilityTime: 3000,
+          });
         }
       } else {
-        alert('This is your post');
+        Toast.show({
+          type: 'error',
+          text1: ArabicText?.Thisisyourpost,
+          visibilityTime: 3000,
+        });
       }
     } else {
       this.props.navigation.navigate('Login');
@@ -222,21 +250,42 @@ class DetailsComponent extends Component {
               })
               .then(response => {
                 if (response?.data?.status == true) {
-                  alert(response?.data?.message);
+                  Toast.show({
+                    type: 'success',
+                    text1: response?.data?.message,
+                    visibilityTime: 3000,
+                  });
+                  // alert(response?.data?.message);
                   this.setState({bidStatus: true});
                   this.setState({modalOffer: false});
                 } else {
-                  alert('Error in adding bid!');
+                  Toast.show({
+                    type: 'error',
+                    text1: ArabicText?.Errorinaddingbid,
+                    visibilityTime: 3000,
+                  });
+                  // alert('Error in adding bid!');
                 }
               });
           } else {
             console.log('====================================');
             console.log('You_can_not_Place_bid_on_your_price');
             console.log('====================================');
-            alert(ArabicText.You_can_not_Place_bid_on_your_price + '');
+
+            Toast.show({
+              type: 'error',
+              text1: ArabicText?.You_can_not_Place_bid_on_your_price,
+              visibilityTime: 3000,
+            });
+            // alert(ArabicText.You_can_not_Place_bid_on_your_price + '');
           }
         } else {
-          alert(ArabicText.Offer_can_not_be_less_than_base_price + '');
+          Toast.show({
+            type: 'error',
+            text1: ArabicText?.Offer_can_not_be_less_than_base_price,
+            visibilityTime: 3000,
+          });
+          // alert(ArabicText.Offer_can_not_be_less_than_base_price + '');
         }
       }
     } else {

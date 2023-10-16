@@ -13,6 +13,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {useNavigation} from '@react-navigation/native';
 import * as ArabicText from '../language/EnglishToArabic';
 import BackBtnHeader from '../components/headerWithBackBtn';
+import Toast from 'react-native-toast-message';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 
@@ -28,13 +29,26 @@ export default function App() {
             //console.log("WhatsApp Opened successfully " + data);
           })
           .catch(() => {
-            alert('Make sure WhatsApp installed on your device');
+            Toast.show({
+              text1: ArabicText?.MakesureWhatsAppinstalledonyourdevice,
+              type: 'error',
+              visibilityTime: 3000,
+            });
           });
       } else {
-        alert('Please enter message to send');
+        Toast.show({
+          text1: ArabicText?.Pleaseentermessagetosend,
+          type: 'error',
+          visibilityTime: 3000,
+        });
       }
     } else {
-      alert('Please enter mobile no');
+      Toast.show({
+        text1: ArabicText.Pleaseentermobileno,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // alert('Please enter mobile no');
     }
   };
   const openIstagram = () => {

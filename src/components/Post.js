@@ -23,6 +23,7 @@ import {useSelector} from 'react-redux';
 import {Styles} from '../styles/globlestyle';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
+import Toast from 'react-native-toast-message';
 const Post = ({
   item,
   onCommentsClick,
@@ -167,7 +168,12 @@ const Post = ({
         // dismissed
       }
     } catch (error) {
-      alert(error.message);
+      Toast.show({
+        type: 'error',
+        text1: error?.message,
+        visibilityTime: 3000,
+      });
+      // alert(error.message);
     }
   };
   return (

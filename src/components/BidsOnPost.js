@@ -16,6 +16,7 @@ import {bindActionCreators} from 'redux';
 import camelapp from '../api/camelapp';
 import Loader from './PleaseWait';
 import {Dimensions} from 'react-native';
+import Toast from 'react-native-toast-message';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 
@@ -108,9 +109,19 @@ class Bids extends Component {
     withdrawBid(item?.bid_id).then(res => {
       if (res?.status == 'Successfully Delete') {
         this.viewPosts();
-        alert('Bid successfully withdrawn!');
+        Toast.show({
+          text1: ArabicText?.Bidsuccessfullywithdrawn,
+          type: 'success',
+          visibilityTime: 3000,
+        });
+        // alert('Bid successfully withdrawn!');
       } else {
-        alert('Error in withdrawing bid!');
+        Toast.show({
+          text1: ArabicText?.Errorinwithdrawingbid,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert('Error in withdrawing bid!');
       }
       //console.log("response", res)
     });
@@ -173,7 +184,6 @@ class Bids extends Component {
           </Text>
         </View>
         <View style={{flexDirection: 'column', justifyContent: 'space-around'}}>
-          
           <TouchableOpacity
             style={Styles.bidsButtonAccept}
             onPress={onWithdrawBid}>

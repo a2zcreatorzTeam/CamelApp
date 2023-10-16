@@ -26,6 +26,7 @@ import camelapp from '../api/camelapp';
 import PostItem from './CompetitionPostItem';
 import BackBtnHeader from './headerWithBackBtn';
 import moment from 'moment';
+import Toast from 'react-native-toast-message';
 const width = Dimensions.get('screen').width;
 class BeautyOfCompetition extends Component {
   constructor(props) {
@@ -458,7 +459,12 @@ class BeautyOfCompetition extends Component {
                   competitionItem: this.state.competition_winner,
                 });
               } else {
-                alert('No one has participated yet!');
+                Toast.show({
+                  text1: ArabicText?.Noonehasparticipatedyet,
+                  type: 'success',
+                  visibilityTime: 3000,
+                });
+                // alert('No one has participated yet!');
               }
             }}>
             <Text style={Styles.ButtonBeauty}>{ArabicText.winner}</Text>

@@ -277,7 +277,12 @@ export const PleaseentertheOTP = 'الرجاء إدخال كلمة المرور 
 export const InvalidNumber = 'رقم غير صالح';
 export const PhoneUpdatedSuccessfully = 'تم تحديث الهاتف بنجاح';
 export const PhoneNumberAlreadyExist = 'رقم الهاتف موجود بالفعل';
-export const Youhavealreadysubmittedsurvey= 'لقد قمت بالفعل بإرسال الاستطلاع'
-export const MakesureWhatsAppinstalledonyourdevice='تأكد من تثبيت تطبيق WhatsApp على جهازك'
-export const Pleaseentermessagetosend='الرجاء إدخال الرسالة لإرسالها'
-export const Thisuserhasdisabledchat='لقد قام هذا المستخدم بتعطيل الدردشة'
+export const Youhavealreadysubmittedsurvey = 'لقد قمت بالفعل بإرسال الاستطلاع';
+export const MakesureWhatsAppinstalledonyourdevice =
+  'تأكد من تثبيت تطبيق WhatsApp على جهازك';
+export const Pleaseentermessagetosend = 'الرجاء إدخال الرسالة لإرسالها';
+export const Thisuserhasdisabledchat = 'لقد قام هذا المستخدم بتعطيل الدردشة';
+export const Pleaseentermobileno = 'الرجاء إدخال رقم الجوال';
+export const Noonehasparticipatedyet = 'لم يشارك أحد حتى الآن';
+export const Thisisyourpost = 'هذه هي رسالتك';
+export const Errorinaddingbid = 'خطأ في إضافة العطاء';

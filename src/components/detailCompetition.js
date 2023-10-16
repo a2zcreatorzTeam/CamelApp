@@ -26,6 +26,7 @@ import * as ArabicText from '../language/EnglishToArabic';
 import VideoModal from './VideoModal';
 import HorizontalCarousel from './HorizontalCarousel';
 import BackBtnHeader from './headerWithBackBtn';
+import Toast from 'react-native-toast-message';
 
 class CompetitionDetails extends Component {
   constructor(props) {
@@ -107,22 +108,42 @@ class CompetitionDetails extends Component {
                   //console.log("WhatsApp Opened successfully " + data);
                 })
                 .catch(() => {
-                  alert('Make sure WhatsApp installed on your device');
+                  Toast.show({
+                    text1: ArabicText?.MakesureWhatsAppinstalledonyourdevice,
+                    type: 'error',
+                    visibilityTime: 3000,
+                  });
                 });
             } else {
-              alert('Please enter message to send');
+              Toast.show({
+                text1: ArabicText?.Pleaseentermessagetosend,
+                type: 'error',
+                visibilityTime: 3000,
+              });
             }
           } else {
-            alert('This user has disabled chat');
+            Toast.show({
+              text1: ArabicText?.Thisuserhasdisabledchat,
+              type: 'error',
+              visibilityTime: 3000,
+            });
           }
         } else {
-          alert('This user has disabled chat');
+          Toast.show({
+            text1: ArabicText?.Thisuserhasdisabledchat,
+            type: 'error',
+            visibilityTime: 3000,
+          });
         }
       } else {
         this.props.navigation.navigate('Login');
       }
     } else {
-      alert('This is your post');
+      Toast.show({
+        type: 'error',
+        text1: ArabicText?.Thisisyourpost,
+        visibilityTime: 3000,
+      });
     }
   }
   sendMessage() {
@@ -137,10 +158,18 @@ class CompetitionDetails extends Component {
             messageData: this.state.user,
           });
         } else {
-          alert('This user has disabled chat');
+          Toast.show({
+            text1: ArabicText?.Thisuserhasdisabledchat,
+            type: 'error',
+            visibilityTime: 3000,
+          });
         }
       } else {
-        alert('This is your post');
+        Toast.show({
+          type: 'error',
+          text1: ArabicText?.Thisisyourpost,
+          visibilityTime: 3000,
+        });
       }
     } else {
       this.props.navigation.navigate('Login');
@@ -248,12 +277,15 @@ class CompetitionDetails extends Component {
               style={Styles.inputdecrp}
               placeholder={this.state.itemFromDetails.description}
               editable={false}></TextInput> */}
-                <Text style={[Styles.inputdecrp,{
-              color:'black',
-               height:undefined
-            }]}>
-            {this.state.itemFromDetails?.description}
-            
+            <Text
+              style={[
+                Styles.inputdecrp,
+                {
+                  color: 'black',
+                  height: undefined,
+                },
+              ]}>
+              {this.state.itemFromDetails?.description}
             </Text>
           </View>
 
@@ -312,7 +344,7 @@ class CompetitionDetails extends Component {
             this.setState({loadVideo: true});
           }}
           onReadyForDisplay={() => {
-            console.log("readyyy");
+            console.log('readyyy');
             this.setState({loadVideo: false});
           }}
           onPress={() => {

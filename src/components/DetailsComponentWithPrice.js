@@ -61,11 +61,18 @@
 //             messageData: this.state.user,
 //           });
 //         } else {
-//           alert('This user has disabled chat');
+//           Toast.show({
+//   text1: ArabicText?.Thisuserhasdisabledchat,
+//   type: 'error',
+//   visibilityTime: 3000,
+// });
 //         }
 //       } else {
-//         alert('This is your post');
-//       }
+//          Toast.show({
+// type: 'error',
+// text1:ArabicText?.Thisisyourpost,
+// visibilityTime: 3000,
+// });//       }
 //     } else {
 //       this.props.navigation.navigate('Login');
 //     }
@@ -465,10 +472,18 @@ class DetailsComponent extends Component {
             messageData: this.state.user,
           });
         } else {
-          alert('This user has disabled chat');
+          Toast.show({
+            text1: ArabicText?.Thisuserhasdisabledchat,
+            type: 'error',
+            visibilityTime: 3000,
+          });
         }
       } else {
-        alert('This is your post');
+        Toast.show({
+          type: 'error',
+          text1: ArabicText?.Thisisyourpost,
+          visibilityTime: 3000,
+        });
       }
     } else {
       this.props.navigation.navigate('Login');

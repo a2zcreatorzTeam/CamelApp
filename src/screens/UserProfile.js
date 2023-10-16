@@ -86,7 +86,6 @@ class UserProfile extends Component {
                 //console.log("WhatsApp Opened successfully " + data);
               })
               .catch(() => {
-                // alert('Make sure WhatsApp installed on your device');
                 Toast.show({
                   text1: ArabicText?.MakesureWhatsAppinstalledonyourdevice,
                   type: 'error',
@@ -99,7 +98,6 @@ class UserProfile extends Component {
               type: 'error',
               visibilityTime: 3000,
             });
-            // alert('Please enter message to send');
             // Toast.show({
             //   type: 'error',
             //   text1: 'Please enter message to send',
@@ -111,7 +109,6 @@ class UserProfile extends Component {
             type: 'error',
             visibilityTime: 3000,
           });
-          // alert('This user has disabled chat');
           // Toast.show({
           //   type: 'error',
           //   text1: 'This is some something',
@@ -123,7 +120,6 @@ class UserProfile extends Component {
           type: 'error',
           visibilityTime: 3000,
         });
-        // alert('This user has disabled chat');
         // Toast.show({
         //   type: 'error',
         //   text1: 'This user has disabled chat',
@@ -171,8 +167,8 @@ class UserProfile extends Component {
         Toast.show({
           type: 'error',
           text1: 'This is your post',
+          visibilityTime: 3000,
         });
-        // alert('This is your post');
       }
     } else {
       this.props.navigation.navigate('Login');
@@ -195,14 +191,13 @@ class UserProfile extends Component {
             type: 'error',
             text1: 'This user has disabled chat',
           });
-          // alert('This user has disabled chat');
         }
       } else {
         Toast.show({
           type: 'error',
-          text1: 'This is your post',
+          text1: ArabicText?.Thisisyourpost,
+          visibilityTime: 3000,
         });
-        // alert('This is your post');
       }
     } else {
       this.props.navigation.navigate('Login');

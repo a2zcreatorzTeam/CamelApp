@@ -26,6 +26,7 @@ import * as ArabicText from '../language/EnglishToArabic';
 import VideoModal from './VideoModal';
 import HorizontalCarousel from './HorizontalCarousel';
 import BackBtnHeader from './headerWithBackBtn';
+import Toast from 'react-native-toast-message';
 
 class CamelClubDetailsComponent extends Component {
   constructor(props) {
@@ -115,10 +116,18 @@ class CamelClubDetailsComponent extends Component {
                   //console.log("WhatsApp Opened successfully " + data);
                 })
                 .catch(() => {
-                  alert('Make sure WhatsApp installed on your device');
+                  Toast.show({
+                    text1: ArabicText?.MakesureWhatsAppinstalledonyourdevice,
+                    type: 'error',
+                    visibilityTime: 3000,
+                  });
                 });
             } else {
-              alert('Please enter message to send');
+              Toast.show({
+                text1: ArabicText?.Pleaseentermessagetosend,
+                type: 'error',
+                visibilityTime: 3000,
+              });
             }
           } else {
             alert('This user has disabled chat');
@@ -130,7 +139,11 @@ class CamelClubDetailsComponent extends Component {
         this.props.navigation.navigate('Login');
       }
     } else {
-      alert('This is your post');
+      Toast.show({
+        type: 'error',
+        text1: ArabicText?.Thisisyourpost,
+        visibilityTime: 3000,
+      });
     }
   }
 
@@ -149,7 +162,11 @@ class CamelClubDetailsComponent extends Component {
           alert('This user has disabled chat');
         }
       } else {
-        alert('This is your post');
+        Toast.show({
+          type: 'error',
+          text1: ArabicText?.Thisisyourpost,
+          visibilityTime: 3000,
+        });
       }
     } else {
       this.props.navigation.navigate('Login');
@@ -285,12 +302,15 @@ class CamelClubDetailsComponent extends Component {
               editable={false}></TextInput>
 
             <Text style={Styles.textHeadingg}>{ArabicText.Description}</Text>
-            <Text style={[Styles.inputdecrp,{
-              color:'black',
-               height:undefined
-            }]}>
-            {this.state?.itemFromDetails?.description}
-            
+            <Text
+              style={[
+                Styles.inputdecrp,
+                {
+                  color: 'black',
+                  height: undefined,
+                },
+              ]}>
+              {this.state?.itemFromDetails?.description}
             </Text>
             {/* <TextInput
               value={this.state.itemFromDetails.description}

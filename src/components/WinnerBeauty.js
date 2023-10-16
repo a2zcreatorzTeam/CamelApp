@@ -9,7 +9,6 @@ class WinnerBeauty extends Component {
       winnerList: props.route.params.competitionItem,
       competitionItem: props.route.params.competitionItem,
     };
-    console.log('this.state.winnerList', this.state.winnerList);
   }
 
   render() {

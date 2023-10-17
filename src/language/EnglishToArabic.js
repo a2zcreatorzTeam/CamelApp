@@ -286,3 +286,5 @@ export const Pleaseentermobileno = 'الرجاء إدخال رقم الجوال'
 export const Noonehasparticipatedyet = 'لم يشارك أحد حتى الآن';
 export const Thisisyourpost = 'هذه هي رسالتك';
 export const Errorinaddingbid = 'خطأ في إضافة العطاء';
+
+export const somethingwentwrong = 'هناك خطأ ما';

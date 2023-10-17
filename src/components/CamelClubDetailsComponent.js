@@ -49,22 +49,15 @@ class CamelClubDetailsComponent extends Component {
       modalItem: '',
       loadVideo: false,
     };
-
-    console.log(
-      'this.props.route.params.itemFromDetails.',
-      this.props.route.params.itemFromDetails,
-    );
   }
 
   componentDidMount() {
     let array = this.state.itemFromDetails.img;
     let imagesArray = [];
-
     array.forEach(element => {
       imagesArray.push({type: 'image', source: element});
     });
     imagesArray.push({type: 'video', source: this.state.itemFromDetails.video});
-
     this.setState({imagesArray: imagesArray});
   }
   onCommentsClick = () => {
@@ -88,26 +81,16 @@ class CamelClubDetailsComponent extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-
   sendWhatsAppMessage() {
     let {user} = this.props;
-
-    console.log('user', user.user.user);
-
     if (user?.user?.user?.id != this.state?.itemFromDetails?.user_id) {
       if (user.user.user != undefined) {
-        console.log(
-          'this.state.itemFromDetails.user_whatsapp_status',
-          this.state.itemFromDetails.user_whatsapp_status,
-        );
-
         if (
           this.state.itemFromDetails.user_whatsapp_status == true ||
           this.state.itemFromDetails.user_whatsapp_status == '1'
         ) {
           let msg = 'Hello';
           let mobile = this.state.itemFromDetails?.user_whatsapp_no;
-
           if (mobile?.length != 0) {
             if (msg) {
               let url = 'whatsapp://send?text=' + msg + '&phone=' + mobile;
@@ -130,9 +113,19 @@ class CamelClubDetailsComponent extends Component {
               });
             }
           } else {
-            alert('This user has disabled chat');
+            Toast.show({
+              text1: ArabicText?.Thisuserhasdisabledchat,
+              type: 'error',
+              visibilityTime: 3000,
+            });
+            // alert('This user has disabled chat');
           }
         } else {
+          Toast.show({
+            text1: ArabicText?.Thisuserhasdisabledchat,
+            type: 'error',
+            visibilityTime: 3000,
+          });
           alert('This user has disabled chat');
         }
       } else {

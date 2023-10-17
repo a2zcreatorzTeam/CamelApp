@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
 import {
-  StyleSheet,
   Text,
   View,
   Image,
   Dimensions,
   TouchableOpacity,
   FlatList,
-  TextInput,
   ScrollView,
   Modal,
   Pressable,
@@ -16,7 +14,6 @@ import {
 } from 'react-native';
 import 'react-native-gesture-handler';
 import {Styles} from '../styles/globlestyle';
-
 import HTML from 'react-native-render-html';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -41,7 +38,6 @@ class BeautyOfCompetition extends Component {
       competition_winner:
         props.route.params.competition_item[0]?.competition_winner,
       sponsors: props.route.params.competition_item[0]?.sponsors,
-
       modal: false,
       particpateModal: false,
       generalRulesModal: false,
@@ -53,7 +49,6 @@ class BeautyOfCompetition extends Component {
   selectedCompetition() {
     let {user} = this.props;
     user = user.user.user;
-
     if (user != undefined) {
       this.props.navigation.navigate('BeautyCompetitionForm', {
         competitionItem: this.state.competition[0].id,
@@ -85,39 +80,23 @@ class BeautyOfCompetition extends Component {
             item['imagesArray'] = imagesArray;
             arrayPosts[index] = item;
           });
-          console.log(arrayPosts, 'arrayposttss');
-
           this.setState({
             posts: res?.data?.competition_posts,
             key: !key,
           });
         });
     } catch (error) {
+      Toast.show({
+        text1: ArabicText?.somethingwentwrong,
+        type: 'error',
+        visibilityTime: 3000,
+      });
       console.log('Error Message get competition List', error);
     }
   }
   componentDidMount() {
     this.competitionDetails();
-
     let date = new Date();
-
-    // console.log('DAte', date.getDate());
-    // console.log('month', date.getMonth());
-    // console.log('year', date.getFullYear());
-
-    let tempDate =
-      date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate();
-
-    // console.log('tempDate', Date.parse(tempDate));
-    // console.log(
-    //   'this.props.route.params.competition_item[0].competition.end_date',
-    //   this.props.route.params.competition_item[0],
-    // );
-    // console.log(
-    //   'this.props.route.params.competition_item[0].competition.start_date',
-    //   this.props.route.params.competition_item,
-    // );
-
     this.setState({
       start_date: Date.parse(
         this.props.route.params.competition_item?.length
@@ -137,7 +116,6 @@ class BeautyOfCompetition extends Component {
     this.competitionDetails();
     this.setState({refreshing: false});
   }
-
   render() {
     const NewDate = moment().format('YYYY-MM-DD');
     const {key} = this.state;
@@ -179,7 +157,6 @@ class BeautyOfCompetition extends Component {
       let {user} = this.props;
       user = user.user.user;
       let post_id = item.post_id;
-      // console.log(user.id, post_id, item?.competition_id);
       if (user != undefined) {
         await camelapp
           .post('/add/like', {
@@ -189,7 +166,6 @@ class BeautyOfCompetition extends Component {
               this.props.route.params.competition_item[0].competition[0].id,
           })
           .then(response => {
-            console.log(response?.data, 'response123');
             if (response.data.message == 'Successfully liked') {
               setIsLiked(true);
               setLikeCount(response?.data?.total_likes);
@@ -200,6 +176,11 @@ class BeautyOfCompetition extends Component {
             }
           })
           .catch(error => {
+            Toast.show({
+              text1: ArabicText?.somethingwentwrong,
+              type: 'error',
+              visibilityTime: 3000,
+            });
             console.log('error', error);
             this.setState({loading: false});
           });
@@ -278,7 +259,6 @@ class BeautyOfCompetition extends Component {
       </View>
     );
     const renderSponserItem = ({item}) => {
-      // console.log(item, 'itemmmm');
       return <SponsorItem item={item} name={item.name} image={item.image} />;
     };
     const {competition} = this.state;
@@ -293,9 +273,7 @@ class BeautyOfCompetition extends Component {
             onRequestClose={() => {
               this.setState({modal: false});
             }}>
-            <TouchableWithoutFeedback
-            // onPress={() => this.setState({ modal: false })}
-            >
+            <TouchableWithoutFeedback>
               <View style={Styles.centeredView}>
                 <View style={Styles.modalView}>
                   <Pressable onPress={modal => this.setState({modal: !modal})}>
@@ -314,7 +292,6 @@ class BeautyOfCompetition extends Component {
                       }}
                     />
                   )}
-
                   <TouchableOpacity
                     onPress={() => this.setState({modal: false})}>
                     <View style={Styles.btnform}>
@@ -325,11 +302,9 @@ class BeautyOfCompetition extends Component {
               </View>
             </TouchableWithoutFeedback>
           </Modal>
-
           <Pressable onPress={() => this.setState({modal: true})}>
             <Text style={Styles.ButtonBeauty}>{ArabicText.Reward}</Text>
           </Pressable>
-
           <Modal
             animationType="slide"
             transparent={false}
@@ -384,13 +359,11 @@ class BeautyOfCompetition extends Component {
               </View>
             </View>
           </Modal>
-
           <Pressable onPress={() => this.setState({particpateModal: true})}>
             <Text style={Styles.ButtonBeauty}>
               {ArabicText.How_to_Participate}
             </Text>
           </Pressable>
-
           <Modal
             animationType="slide"
             transparent={false}
@@ -447,11 +420,9 @@ class BeautyOfCompetition extends Component {
               </View>
             </View>
           </Modal>
-
           <Pressable onPress={() => this.setState({generalRulesModal: true})}>
             <Text style={Styles.ButtonBeauty}>{ArabicText.General_Rule}</Text>
           </Pressable>
-
           <Pressable
             onPress={() => {
               if (this?.state?.posts?.length > 0) {
@@ -477,8 +448,6 @@ class BeautyOfCompetition extends Component {
             data={this.state.sponsors}
             renderItem={renderSponserItem}
             horizontal={true}
-            // initialNumToRender={5}
-            // maxToRenderPerBatch={5}
           />
         </View>
 

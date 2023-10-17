@@ -199,11 +199,8 @@ class SellingCamel extends React.Component {
             let tempMixed = this.state.mixed;
             let mixed = this.state.mixed;
             let videoFlag = false;
-            console.log('19111');
             if (tempMixed.length > 0) {
-              console.log('19');
               tempMixed.map((item, index) => {
-                console.log(index, video, 'videorlllll');
                 if (item?.mime != undefined) {
                   if (item?.mime.includes('video') === true) {
                     mixed[index] = video;
@@ -232,12 +229,12 @@ class SellingCamel extends React.Component {
       mediaType: 'photo',
       multiple: true,
       includeBase64: true,
-      // selectionLimit: 4,
+      selectionLimit: 4,
     })
       .then(async images => {
         // if (images.length <= 4) {
         let tempImage = images;
-        let bse64images = imagesForPost;
+        let bse64images = this.state.imagesForPost;
         let mixedTemp = [];
         for (let i = 0; i < tempImage.length; i++) {
           bse64images.push('data:image/png;base64,' + images[i].data);
@@ -250,7 +247,7 @@ class SellingCamel extends React.Component {
         // } else {
         //   alert('Only 4 images allowed');
         // }
-        console.log('images', images);
+        // console.log('images', images);
       })
       .catch(error => {
         console.log('error', error);

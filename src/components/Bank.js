@@ -13,9 +13,9 @@ import {
 import Item from './BankItem';
 import camelapp from '../api/camelapp';
 import BackBtnHeader from './headerWithBackBtn';
-
+import Toast from 'react-native-toast-message';
+import * as ArabicText from '../language/EnglishToArabic';
 const width = Dimensions.get('screen').width;
-const hight = Dimensions.get('screen').height;
 
 class Bank extends Component {
   constructor(props) {
@@ -25,10 +25,8 @@ class Bank extends Component {
       loader: true,
       text: 0,
     };
-
     this.viewPosts();
   }
-
   async viewPosts() {
     try {
       return await camelapp.get('/getBank').then(response => {
@@ -43,14 +41,17 @@ class Bank extends Component {
         posts: [],
         loader: false,
       });
+      Toast.show({
+        text1: ArabicText?.somethingwentwrong,
+        type: 'error',
+        visibilityTime: 3000,
+      });
       //console.log("Error Message camel club List", error.response);
     }
   }
-
   componentDidMount() {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }
-
   render() {
     const renderItem = ({item}) => {
       return (
@@ -75,14 +76,11 @@ class Bank extends Component {
               style={{marginTop: 30}}
             />
           )}
-
           {this.state.loader == false && (
             <View>
               <View style={{marginBottom: 20}}>
                 <View
                   style={{
-                    // marginRight: 20,
-
                     alignSelf: 'center',
                     width: width - 30,
                     alignItems: 'center',
@@ -97,14 +95,12 @@ class Bank extends Component {
                     }}>
                     نسبة العمولة
                   </Text>
-
                   <Text
                     style={{
                       fontSize: 20,
                       color: '#D2691E',
                       marginTop: 10,
                       textAlign: 'center',
-                      // alignSelf:"center"
                     }}>
                     هي النسبة المطلوب دفعها للتطبيق نظير الاستفادة من بيع الحلال
                     بمقدار 2% من مبلغ البيع وصاحب الحلال له احقية اختيار المسؤول
@@ -189,7 +185,6 @@ class Bank extends Component {
                   </View>
                 </View>
               </View>
-
               <FlatList
                 contentContainerStyle={{
                   flexGrow: 1,
@@ -207,13 +202,11 @@ class Bank extends Component {
   }
 }
 export default Bank;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     height: '100%',
-    // backgroundColor: 'red'
   },
 });

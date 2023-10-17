@@ -200,6 +200,8 @@ class DetailsComponent extends Component {
     const {pausedCheck, loadVideo, videoModal, modalItem, itemFromDetails} =
       this.state;
     console.log('DetailsMissingAndTreatingCamel');
+    let user = this.props;
+    user = user?.user?.user;
     return (
       <ScrollView>
         <BackBtnHeader />
@@ -316,7 +318,7 @@ class DetailsComponent extends Component {
               {this.state?.itemFromDetails?.description}
             </Text>
             {/* SOCIAL ICONS */}
-            {this?.state?.user_ids !== this?.state?.user?.id && (
+            {user !== undefined && user !== this?.state?.user?.id && (
               <View
                 style={{
                   flexDirection: 'row',

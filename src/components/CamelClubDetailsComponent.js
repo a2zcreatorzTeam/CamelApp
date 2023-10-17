@@ -44,7 +44,6 @@ class CamelClubDetailsComponent extends Component {
       },
       imagesArray: [],
       pauseVideo: true,
-
       videoModal: false,
       pausedCheck: true,
       modalItem: '',
@@ -194,6 +193,8 @@ class CamelClubDetailsComponent extends Component {
     console.log('=CAMEL CLUB DETAILS-=-=');
     const {pausedCheck, loadVideo, videoModal, modalItem, itemFromDetails} =
       this.state;
+    let user = this.props;
+    user = user?.user?.user;
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
         <BackBtnHeader />
@@ -298,7 +299,7 @@ class CamelClubDetailsComponent extends Component {
           </View>
 
           {/* SOCIAL ICONS */}
-          {this?.state?.user_ids !== this?.state?.user?.id && (
+          {user !== undefined && user?.id !== this?.state?.user?.id && (
             <View
               style={{
                 flexDirection: 'row',

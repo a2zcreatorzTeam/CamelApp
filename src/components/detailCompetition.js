@@ -191,7 +191,9 @@ class CompetitionDetails extends Component {
   }
   render() {
     const {pausedCheck, loadVideo, videoModal, modalItem, itemFromDetails} =
-    this.state;
+      this.state;
+    let user = this.props;
+    user = user?.user?.user;
     console.log('=COMPETITION DETAILS', itemFromDetails);
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
@@ -305,7 +307,7 @@ class CompetitionDetails extends Component {
           </View>
 
           {/* SOCIAL ICONS */}
-          {this?.state?.user_ids !== this?.state?.user?.id && (
+          {user !== undefined && user?.id !== this?.state?.user?.id && (
             <View
               style={{
                 flexDirection: 'row',

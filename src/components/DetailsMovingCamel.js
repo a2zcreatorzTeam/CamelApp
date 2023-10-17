@@ -189,8 +189,10 @@ class DetailsComponent extends Component {
   }
 
   render() {
-    const {loadVideo, pausedCheck, modalItem, videoModal, itemFromDetails} = this.state;
-
+    const {loadVideo, pausedCheck, modalItem, videoModal, itemFromDetails} =
+      this.state;
+    let user = this.props;
+    user = user?.user?.user;
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
         <BackBtnHeader />
@@ -331,7 +333,7 @@ class DetailsComponent extends Component {
           </View>
 
           {/* SOCIAL ICONS */}
-          {this?.state?.user_ids !== this?.state?.user?.id && (
+          {user !== undefined && user !== this?.state?.user?.id && (
             <View
               style={{
                 flexDirection: 'row',

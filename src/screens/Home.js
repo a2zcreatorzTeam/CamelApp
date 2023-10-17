@@ -148,7 +148,7 @@ class Home extends Component {
         filterPosts: [],
         loader: false,
       });
-      console.log('Error Message--- view post', error?.response);
+      console.log('Error Message--- view post', error?.response?.status);
     }
   }
   postViewed = async (item, viewCount, setViewCount) => {
@@ -630,11 +630,11 @@ class Home extends Component {
           // dismissed
         }
       } catch (error) {
-        Toast.show({
-          text1: error?.message,
-          type: 'error',
-          visibilityTime: 3000,
-        });
+        // Toast.show({
+        //   text1: error?.message,
+        //   type: 'error',
+        //   visibilityTime: 3000,
+        // });
         // alert(error.message);
       }
     };
@@ -648,15 +648,15 @@ class Home extends Component {
               onChangeText={text => {
                 this.search(text);
               }}
-              onPressSearch={
-                () =>
-                  Toast.show({
-                    text1: 'Invalid OTP verification code.',
-                    type: 'error',
-                    visibilityTime: 3000,
-                  })
-                // this.searchHandler(this.state?.searchText)
-              }
+              // onPressSearch={
+              //   () =>
+              //     Toast.show({
+              //       text1: 'Invalid OTP verification code.',
+              //       type: 'error',
+              //       visibilityTime: 3000,
+              //     })
+              //   // this.searchHandler(this.state?.searchText)
+              // }
             />
             <ActivityIndicator
               size="large"

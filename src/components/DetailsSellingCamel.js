@@ -691,77 +691,78 @@ class DetailsComponent extends Component {
               </TouchableOpacity>
             )}
           {/* SOCIAL ICONS */}
-          {this?.state?.user_ids !== this?.state?.user?.id && (
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 20,
-                justifyContent: 'center',
-              }}>
-              {/* CHAT ICON  */}
-              <TouchableOpacity
-                onPress={() => {
-                  itemFromDetails?.chat_status == 1 ||
-                  itemFromDetails?.chat_status == 'true' ||
-                  itemFromDetails?.chat_status == true
-                    ? this.props.navigation.navigate('MessageViewScreen', {
-                        messageData: {
-                          id: this?.state?.user?.id,
-                          user_name: itemFromDetails?.name,
-                          user_image: itemFromDetails.user_images,
-                        },
-                      })
-                    : Toast.show({
-                        text1: ArabicText?.Thisuserhasdisabledchat,
-                        type: 'error',
-                        visibilityTime: 3000,
-                      });
-                  //  this.chatRequestNotification();
-                }}
+          {this.state.user_ids !== undefined &&
+            this?.state?.user_ids !== this?.state?.user?.id && (
+              <View
                 style={{
-                  justifyContent: 'center',
+                  flexDirection: 'row',
                   alignItems: 'center',
-                  margin: 8,
-                }}>
-                <Feather name="send" size={30} color="#CD853F" />
-                <Text style={Styles.fontDetails}>{ArabicText.message}</Text>
-              </TouchableOpacity>
-              {/* COMMENT ICON */}
-              <TouchableOpacity
-                onPress={() => this.onCommentsClick()}
-                style={{
+                  marginTop: 20,
                   justifyContent: 'center',
-                  alignItems: 'center',
-                  margin: 8,
                 }}>
-                <Feather name="message-square" size={30} color="#CD853F" />
-                <Text style={Styles.fontDetails}>{ArabicText.comments}</Text>
-              </TouchableOpacity>
-              {/* WhatsApp */}
-              <TouchableOpacity
-                onPress={() => this.sendWhatsAppMessage()}
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  margin: 8,
-                }}>
-                <FontAwesome name="whatsapp" size={30} color="#CD853F" />
-                <Text style={Styles.fontDetails}>واتساب</Text>
-              </TouchableOpacity>
-              {/* CALL USER */}
-              <TouchableOpacity
-                onPress={() => this.audioCall()}
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  margin: 8,
-                }}>
-                <AntDesign name="mobile1" size={30} color="#CD853F" />
-                <Text style={Styles.fontDetails}>{ArabicText.phone}</Text>
-              </TouchableOpacity>
-            </View>
-          )}
+                {/* CHAT ICON  */}
+                <TouchableOpacity
+                  onPress={() => {
+                    itemFromDetails?.chat_status == 1 ||
+                    itemFromDetails?.chat_status == 'true' ||
+                    itemFromDetails?.chat_status == true
+                      ? this.props.navigation.navigate('MessageViewScreen', {
+                          messageData: {
+                            id: this?.state?.user?.id,
+                            user_name: itemFromDetails?.name,
+                            user_image: itemFromDetails.user_images,
+                          },
+                        })
+                      : Toast.show({
+                          text1: ArabicText?.Thisuserhasdisabledchat,
+                          type: 'error',
+                          visibilityTime: 3000,
+                        });
+                    //  this.chatRequestNotification();
+                  }}
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    margin: 8,
+                  }}>
+                  <Feather name="send" size={30} color="#CD853F" />
+                  <Text style={Styles.fontDetails}>{ArabicText.message}</Text>
+                </TouchableOpacity>
+                {/* COMMENT ICON */}
+                <TouchableOpacity
+                  onPress={() => this.onCommentsClick()}
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    margin: 8,
+                  }}>
+                  <Feather name="message-square" size={30} color="#CD853F" />
+                  <Text style={Styles.fontDetails}>{ArabicText.comments}</Text>
+                </TouchableOpacity>
+                {/* WhatsApp */}
+                <TouchableOpacity
+                  onPress={() => this.sendWhatsAppMessage()}
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    margin: 8,
+                  }}>
+                  <FontAwesome name="whatsapp" size={30} color="#CD853F" />
+                  <Text style={Styles.fontDetails}>واتساب</Text>
+                </TouchableOpacity>
+                {/* CALL USER */}
+                <TouchableOpacity
+                  onPress={() => this.audioCall()}
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    margin: 8,
+                  }}>
+                  <AntDesign name="mobile1" size={30} color="#CD853F" />
+                  <Text style={Styles.fontDetails}>{ArabicText.phone}</Text>
+                </TouchableOpacity>
+              </View>
+            )}
         </View>
         {/* VIDEO MODAL */}
         <VideoModal

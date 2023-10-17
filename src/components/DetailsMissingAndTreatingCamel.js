@@ -202,6 +202,7 @@ class DetailsComponent extends Component {
     console.log('DetailsMissingAndTreatingCamel');
     let user = this.props;
     user = user?.user?.user;
+    console.log(user, 'usererer');
     return (
       <ScrollView>
         <BackBtnHeader />

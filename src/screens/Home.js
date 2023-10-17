@@ -119,6 +119,7 @@ class Home extends Component {
     const {key} = this.state;
     let {user} = this.props;
     user = user.user.user;
+    console.log(user,"userer");
     try {
       return await camelapp
         .post('/view/post', {

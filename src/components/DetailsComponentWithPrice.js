@@ -405,6 +405,7 @@ import HorizontalCarousel from './HorizontalCarousel';
 import VideoModal from './VideoModal';
 import BackBtnHeader from './headerWithBackBtn';
 import Toast from 'react-native-toast-message';
+import {Platform} from 'react-native';
 class DetailsComponent extends Component {
   constructor(props) {
     super(props);
@@ -459,17 +460,115 @@ class DetailsComponent extends Component {
 
     this.setState({imagesArray: imagesArray});
   }
-  sendMessage() {
+  onCommentsClick = () => {
+    let item = this.state.itemFromDetails;
     let {user} = this.props;
-    if (user.user.user != undefined) {
-      if (user?.user?.user?.id != this.state?.itemFromDetails?.user_id) {
-        if (
-          this.state.itemFromDetails.user_chat_status == true ||
-          this.state.itemFromDetails.user_chat_status == '1'
-        ) {
-          this.props.navigation.navigate('MessageViewScreen', {
-            messageData: this.state.user,
+    user = user.user.user;
+    let post_id = item.id;
+    if (user != undefined) {
+      camelapp
+        .post('/get/comment', {
+          post_id: post_id,
+        })
+        .then(res => {
+          this.props.navigation.navigate('Comments', {
+            commentsForPost: res,
+            user: user,
+            post: item,
           });
+        });
+    } else {
+      this.props.navigation.navigate('Login');
+    }
+  };
+  // DAIL NUMBER
+  audioCall() {
+    let {user} = this.props;
+    user = user?.user?.user ? user?.user?.user : user?.user;
+    let otherUser = this.props.route.params.itemFromDetails;
+    console.log('498');
+    if (user != undefined) {
+      if (user?.id != otherUser?.user_id) {
+        let phone = otherUser?.user_phone;
+        if (
+          otherUser?.phone_status == true ||
+          otherUser?.phone_status == 'True' ||
+          otherUser?.phone_status == 1
+        ) {
+          if (Platform.OS !== 'android') {
+            phoneNumber = `telprompt:${phone}`;
+          } else {
+            phoneNumber = `tel:${phone}`;
+          }
+          Linking.canOpenURL(phoneNumber)
+            .then(supported => {
+              if (!supported) {
+                Toast.show({
+                  type: 'error',
+                  text1: ArabicText?.Phonenumberisnotavailable,
+                  visibilityTime: 3000,
+                });
+                // Alert.alert('Phone number is not available');
+              } else {
+                return Linking.openURL(phoneNumber);
+              }
+            })
+            .catch(err => console.log(err));
+        } else {
+          Toast.show({
+            type: 'error',
+            text1: ArabicText?.Thisuserhasdisabledmobilenumber,
+            visibilityTime: 3000,
+          });
+          // alert('This user has disabled mobile number');
+        }
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: ArabicText?.Thisisyourpost,
+          visibilityTime: 3000,
+        });
+      }
+    } else {
+      this.props.navigation.navigate('Login');
+    }
+  }
+  // WHATSAPP
+  sendWhatsAppMessage() {
+    let otherUser = this.props.route.params.itemFromDetails;
+    console.log(otherUser, 'profileee');
+    let {user} = this.props;
+    console.log(otherUser?.whatsapp_status);
+    user = user?.user?.user ? user?.user?.user : user?.user;
+    if (user != undefined) {
+      if (
+        otherUser?.whatsapp_status == 1 ||
+        otherUser?.whatsapp_status == true
+      ) {
+        let msg = 'Hello';
+        let mobile = otherUser?.whatsapp_no;
+        if (mobile?.length != 0) {
+          if (msg) {
+            let url = 'whatsapp://send?text=' + msg + '&phone=' + mobile;
+            Linking.openURL(url)
+              .then(data => {
+                console.log(data, 'dataaaa');
+                //console.log("WhatsApp Opened successfully " + data);
+              })
+              .catch(error => {
+                Toast.show({
+                  text1: ArabicText?.MakesureWhatsAppinstalledonyourdevice,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
+              });
+          } else {
+            Toast.show({
+              text1: ArabicText?.Pleaseentermessagetosend,
+              type: 'error',
+              visibilityTime: 3000,
+            });
+          }
         } else {
           Toast.show({
             text1: ArabicText?.Thisuserhasdisabledchat,
@@ -479,8 +578,8 @@ class DetailsComponent extends Component {
         }
       } else {
         Toast.show({
+          text1: ArabicText?.Thisuserhasdisabledchat,
           type: 'error',
-          text1: ArabicText?.Thisisyourpost,
           visibilityTime: 3000,
         });
       }
@@ -633,6 +732,7 @@ class DetailsComponent extends Component {
     }
   };
   render() {
+    console.log('detailsCompoennet');
     let user = this.props;
     user = user?.user?.user;
     const {
@@ -729,52 +829,6 @@ class DetailsComponent extends Component {
             />
           </View>
         </View>
-        {/* <View
-          style={{
-            marginTop: '20%',
-            marginHorizontal: 20,
-            position: 'absolute',
-            zIndex: 1111,
-            alignSelf: 'flex-start',
-            alignItems: 'flex-start',
-            justifyContent: 'flex-start',
-            height: hight / 2.5,
-            width: '100%',
-          }}>
-          <View
-            style={{
-              paddingTop: 0,
-              alignItems: 'center',
-              alignContent: 'center',
-              width: 60,
-              backgroundColor: '#D2691Eff',
-              height: hight * 0.065,
-              borderBottomRightRadius: 50,
-              borderBottomLeftRadius: 50,
-            }}>
-            <Text
-              style={{
-                color: 'white',
-                fontWeight: '800',
-                fontSize: 14,
-              }}>
-              {' '}
-              {ArabicText?.Price}
-            </Text>
-            <Text
-              numberOfLines={2}
-              style={{
-                textAlign: 'center',
-                color: 'white',
-                fontWeight: '500',
-                fontSize: 13,
-              }}>
-              {itemFromDetails?.bid_price > 0
-                ? itemFromDetails?.bid_price
-                : itemFromDetails?.price}
-            </Text>
-          </View>
-        </View> */}
 
         <View style={[Styles.containerDetails, {paddingBottom: width * 0.1}]}>
           <HorizontalCarousel
@@ -970,8 +1024,26 @@ class DetailsComponent extends Component {
                 marginTop: 20,
                 justifyContent: 'center',
               }}>
+              {/* CHAT ICON  */}
               <TouchableOpacity
-                onPress={() => this.sendMessage()}
+                onPress={() => {
+                  itemFromDetails?.chat_status == 1 ||
+                  itemFromDetails?.chat_status == 'true' ||
+                  itemFromDetails?.chat_status == true
+                    ? this.props.navigation.navigate('MessageViewScreen', {
+                        messageData: {
+                          id: this?.state?.user?.id,
+                          user_name: itemFromDetails?.name,
+                          user_image: itemFromDetails.user_images,
+                        },
+                      })
+                    : Toast.show({
+                        text1: ArabicText?.Thisuserhasdisabledchat,
+                        type: 'error',
+                        visibilityTime: 3000,
+                      });
+                  //  this.chatRequestNotification();
+                }}
                 style={{
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -980,7 +1052,9 @@ class DetailsComponent extends Component {
                 <Feather name="send" size={30} color="#CD853F" />
                 <Text style={Styles.fontDetails}>{ArabicText.message}</Text>
               </TouchableOpacity>
+              {/* COMMENT ICON */}
               <TouchableOpacity
+                onPress={() => this.onCommentsClick()}
                 style={{
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -989,7 +1063,9 @@ class DetailsComponent extends Component {
                 <Feather name="message-square" size={30} color="#CD853F" />
                 <Text style={Styles.fontDetails}>{ArabicText.comments}</Text>
               </TouchableOpacity>
+              {/* WhatsApp */}
               <TouchableOpacity
+                onPress={() => this.sendWhatsAppMessage()}
                 style={{
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -998,7 +1074,9 @@ class DetailsComponent extends Component {
                 <FontAwesome name="whatsapp" size={30} color="#CD853F" />
                 <Text style={Styles.fontDetails}>واتساب</Text>
               </TouchableOpacity>
+              {/* CALL USER */}
               <TouchableOpacity
+                onPress={() => this.audioCall()}
                 style={{
                   justifyContent: 'center',
                   alignItems: 'center',

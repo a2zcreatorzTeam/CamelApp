@@ -84,6 +84,11 @@ export default function Navigation() {
           options={{headerShown: false}}
         />
         <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name="OtpForgetPassword"
           component={OtpForgetPassword}
           options={{headerShown: false}}
@@ -94,14 +99,34 @@ export default function Navigation() {
           options={{headerShown: false}}
         />
         <Stack.Screen
+          name="Signup"
+          component={Signup}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name="OtpSignUp"
           component={OtpSignUp}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Forgetpass"
+          component={Forgetpass}
           options={{headerShown: false}}
         />
         <Stack.Screen
           name="Messages"
           component={Footer}
           options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="MessageViewScreen"
+          component={MessageView}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="MessageNew"
+          component={MessageNew}
+          options={{header: () => <Header />}}
         />
         <Stack.Screen
           name="Bids"
@@ -113,11 +138,11 @@ export default function Navigation() {
           component={BidsOnPost}
           options={{headerShown: false}}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="newSatck"
           component={NewSatck}
           options={{headerShown: false}}
-        />
+        /> */}
 
         <Stack.Screen
           name="BidPost"
@@ -125,10 +150,11 @@ export default function Navigation() {
           options={{header: () => <Header />}}
         />
         <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{headerShown: false, gestureEnabled: false}}
+          name="BidTab"
+          component={BidTab}
+          options={{headerShown: false}}
         />
+        {/* LIST COMPONENET */}
         <Stack.Screen
           name="CamelFoodList"
           component={CamelFoodList}
@@ -181,11 +207,7 @@ export default function Navigation() {
           component={CamelTreatmentList}
           options={{headerShown: false}}
         />
-        <Stack.Screen
-          name="Signup"
-          component={Signup}
-          options={{headerShown: false}}
-        />
+
         <Stack.Screen
           name="DetailsComponent"
           component={DetailsComponent}
@@ -215,16 +237,6 @@ export default function Navigation() {
           name="DetailsComponentWithPrice"
           component={DetailsComponentWithPrice}
           options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="MessageViewScreen"
-          component={MessageView}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="MessageNew"
-          component={MessageNew}
-          options={{header: () => <Header />}}
         />
 
         <Stack.Screen
@@ -286,11 +298,7 @@ export default function Navigation() {
           // options={{header: () => <Header />}}
           options={{headerShown: false}}
         />
-        <Stack.Screen
-          name="BidTab"
-          component={BidTab}
-          options={{headerShown: false}}
-        />
+
         <Stack.Screen
           name="ViewNews"
           component={ViewNews}
@@ -321,11 +329,6 @@ export default function Navigation() {
           options={{headerShown: false}}
         />
 
-        <Stack.Screen
-          name="Forgetpass"
-          component={Forgetpass}
-          options={{headerShown: false}}
-        />
         <Stack.Screen
           name="Profile"
           component={Footer}

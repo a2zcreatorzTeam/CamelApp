@@ -23,7 +23,6 @@
     "@react-navigation/native": "^6.0.14",
     "@react-navigation/native-stack": "^6.5.2",
     "@reduxjs/toolkit": "^1.8.5",
-    "@types/react-native-snap-carousel": "^3.8.5",
     "axios": "^0.26.1",
     "deprecated-react-native-prop-types": "^4.2.1",
     "email-validator": "^2.0.4",
@@ -39,7 +38,6 @@
     "react-native-google-places-autocomplete": "^2.5.5",
     "react-native-image-crop-picker": "0.38.1",
     "react-native-instagram-login": "^2.0.6",
-    "react-native-maps": "^1.4.0",
     "react-native-otp-textinput": "^0.0.9",
     "react-native-pager-view": "^6.1.2",
     "react-native-paper": "^4.11.2",
@@ -57,9 +55,7 @@
     "react-redux": "^8.0.2",
     "redux": "^4.2.0",
     "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.4.2",
-    "thunk": "^0.0.1",
-    "utf8": "^3.0.0"
+    "redux-thunk": "^2.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

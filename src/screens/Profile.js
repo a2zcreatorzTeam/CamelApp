@@ -78,7 +78,8 @@ class Profile extends Component {
     if (user?.user?.user) {
       this.fetchUser();
     } else {
-      this.props.navigation?.navigate('Login');
+      // console.log("helooo");
+      // this.props.navigation?.navigate('OtpForgetPassword');
     }
   }
   saveChat() {
@@ -371,10 +372,10 @@ class Profile extends Component {
     }
   };
   componentDidMount = () => {
-    this.setState({rating: 0, posts: []});
-    this.focusListener = this.props.navigation.addListener('focus', () => {
-      this.checkUserLogedIn();
-    });
+    // this.setState({rating: 0, posts: []});
+    // this.focusListener = this.props.navigation.addListener('focus', () => {
+    //   this.checkUserLogedIn();
+    // });
   };
   filterPostOnDelete = item => {
     const {posts} = this.state;
@@ -496,7 +497,6 @@ class Profile extends Component {
     }
   };
   render() {
-    console.log(this?.state?.chatFlag, 'this?.state?.chatFlag');
     const {key, filterPosts, posts, searchedItem, searchText} = this.state;
     const sharePosts = item => {
       this.setState({loading: true});

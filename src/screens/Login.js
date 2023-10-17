@@ -12,6 +12,7 @@ import {
   Linking,
   Platform,
   NativeModules,
+  BackHandler,
 } from 'react-native';
 const {RNTwitterSignIn} = NativeModules;
 import * as ArabicText from '../language/EnglishToArabic';
@@ -56,15 +57,14 @@ class Login extends Component {
       randomIndex: 0,
       hidePassword: true,
     };
+    this.backHandler = null;
   }
-
   saveData() {
     let phone = this.state.contactNumber;
     let password = this.state.password;
     AsyncStorage.setItem('@UserPhone', phone);
     AsyncStorage.setItem('@UserPassword', password);
   }
-
   userlogin = async () => {
     try {
       let userPhone = await AsyncStorage.getItem('@UserPhone');
@@ -82,7 +82,6 @@ class Login extends Component {
       // alert(e);
     }
   };
-
   openIstagram() {
     const url = 'https://instagram.com/alsyahd?igshid=YmMyMTA2M2Y=';
     Linking.openURL(url)
@@ -136,7 +135,23 @@ class Login extends Component {
         });
       });
   }
-  componentDidMount = () => {};
+  componentDidMount = () => {
+    this.focusListener = this.props.navigation.addListener('focus', () => {
+      this.backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        () => {
+          this.props.navigation.navigate('Home', {screen: ArabicText?.home});
+          console.log('workibngggggg');
+          return true; // or false based on your requirements
+        },
+      );
+    });
+  };
+
+  componentWillUnmount = () => {
+    this.focusListener(); // Remove the focus listener
+    this.backHandler.remove(); // Remove the BackHandler event listener
+  };
   render() {
     const authentication = async () => {
       this.setState({loader: true});

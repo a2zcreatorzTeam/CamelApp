@@ -288,3 +288,6 @@ export const Thisisyourpost = 'هذه هي رسالتك';
 export const Errorinaddingbid = 'خطأ في إضافة العطاء';
 
 export const somethingwentwrong = 'هناك خطأ ما';
+export const Phonenumberisnotavailable = 'رقم الهاتف غير متوفر';
+export const Thisuserhasdisabledmobilenumber =
+  'لقد قام هذا المستخدم بتعطيل رقم الجوال';

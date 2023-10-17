@@ -9,6 +9,7 @@ export const Styles = StyleSheet.create({
     alignItems: 'center',
     // justifyContent: 'center',
     width: width,
+    // backgroundColor:'red'
   },
   headingPostText: {
     marginTop: 5,

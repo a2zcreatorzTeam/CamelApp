@@ -318,7 +318,7 @@ class DetailsComponent extends Component {
               {this.state?.itemFromDetails?.description}
             </Text>
             {/* SOCIAL ICONS */}
-            {user !== undefined && user !== this?.state?.user?.id && (
+            {user !== undefined && user?.id !== this?.state?.user?.id && (
               <View
                 style={{
                   flexDirection: 'row',

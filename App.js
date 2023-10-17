@@ -14,6 +14,7 @@ import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
 import firebaseConfig from './src/components/firebase';
 import {getStorage} from 'firebase/storage';
 import {notificationListener} from './src/services/Helper';
+// import {store, persistor} from './src/redux/store/configureStore';
 // import codePush from "react-native-code-push";
 const width = Dimensions.get('window');
 
@@ -203,15 +204,17 @@ class App extends Component {
 
     return (
       // <View style={[backgroundStyle, {backgroundColor: '#fff'}]}>
-      <SafeAreaProvider>
-        <StatusBar
-          barStyle="default"
-          backgroundColor="#d2691e"
-          // backgroundColor={backgroundStyle.backgroundColor}
-        />
-        <Navigation />
-        <Toast config={toastConfig} />
-      </SafeAreaProvider>
+      // <Provider store={store}>
+        <SafeAreaProvider>
+          <StatusBar
+            barStyle="default"
+            backgroundColor="#d2691e"
+            // backgroundColor={backgroundStyle.backgroundColor}
+          />
+          <Navigation />
+          <Toast config={toastConfig} />
+        </SafeAreaProvider>
+      // </Provider>
       // </View>
     );
   }

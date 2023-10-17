@@ -47,7 +47,6 @@ class Comments extends Component {
         ? this.props.route.params.user?.user_id
         : this.props.route.params.user?.id,
     };
-
     LogBox.ignoreLogs([
       'Non-serializable values were found in the navigation state.',
     ]);
@@ -64,7 +63,7 @@ class Comments extends Component {
           reply: this.state.newReply,
         })
         .then(response => {
-          console.log(response?.data,"responseeecomment");
+          console.log(response?.data, 'responseeecomment');
           this.setState({
             flagForNewComment: true,
             flagForReplyComment: false,
@@ -94,7 +93,6 @@ class Comments extends Component {
           comment_id: item.id,
         })
         .then(response => {
-          // this.getCommentsOnPost();
           if (response.data.message == 'Successfully liked') {
             setIsLiked(true);
             setLikeCount(response?.data?.total_likes);
@@ -104,7 +102,6 @@ class Comments extends Component {
             setIsLiked(false);
             setLikeCount(response?.data?.total_likes);
             this.setState({loading: false});
-            // alert(ArabicText.Successfully_Unliked);
           }
         })
         .catch(error => {
@@ -192,11 +189,11 @@ class Comments extends Component {
     const renderItem = ({item}) => {
       return (
         <Item
-          Reply={(item) => {
+          Reply={item => {
             this.setState({
               flagForReplyComment: true,
               flagForNewComment: false,
-              commentId:item?.id
+              commentId: item?.id,
             });
           }}
           item={item}

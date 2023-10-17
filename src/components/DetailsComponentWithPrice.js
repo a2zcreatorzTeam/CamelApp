@@ -385,6 +385,7 @@ import {
   TouchableWithoutFeedback,
   Pressable,
   Linking,
+  ActivityIndicator,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -399,7 +400,6 @@ import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 const width = Dimensions.get('screen').width;
-const hight = Dimensions.get('screen').height;
 import * as ArabicText from '../language/EnglishToArabic';
 import HorizontalCarousel from './HorizontalCarousel';
 import VideoModal from './VideoModal';
@@ -409,7 +409,6 @@ class DetailsComponent extends Component {
   constructor(props) {
     super(props);
     let bid_status = props.route.params.itemFromDetails?.bid_status;
-    console.log(bid_status, 'statuss');
     this.state = {
       itemFromDetails: props.route.params.itemFromDetails,
       user: {
@@ -535,18 +534,38 @@ class DetailsComponent extends Component {
               })
               .then(response => {
                 if (response?.data?.status == true) {
-                  alert(response?.data?.message);
+                  Toast.show({
+                    type: 'success',
+                    text1: response?.data?.message,
+                    visibilityTime: 3000,
+                  });
+                  // alert(response?.data?.message);
                   this.setState({bidStatus: true});
                   this.setState({modalOffer: false});
                 } else {
-                  alert('Error in adding bid!');
+                  Toast.show({
+                    type: 'error',
+                    text1: ArabicText?.Errorinaddingbid,
+                    visibilityTime: 3000,
+                  });
+                  // alert('Error in adding bid!');
                 }
               });
           } else {
-            alert(ArabicText.You_can_not_Place_bid_on_your_price + '');
+            Toast.show({
+              type: 'error',
+              text1: ArabicText?.You_can_not_Place_bid_on_your_price,
+              visibilityTime: 3000,
+            });
+            // alert(ArabicText.You_can_not_Place_bid_on_your_price + '');
           }
         } else {
-          alert(ArabicText.Offer_can_not_be_less_than_base_price + '');
+          Toast.show({
+            type: 'error',
+            text1: ArabicText?.Offer_can_not_be_less_than_base_price,
+            visibilityTime: 3000,
+          });
+          // alert(ArabicText.Offer_can_not_be_less_than_base_price + '');
         }
       }
     } else {
@@ -1012,7 +1031,6 @@ class DetailsComponent extends Component {
           modalItem={modalItem}
         />
       </ScrollView>
-      //     );
     );
   }
 }

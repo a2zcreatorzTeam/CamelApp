@@ -552,6 +552,7 @@ class Home extends Component {
     } = this;
     let {user} = this.props;
     user = user.user.user;
+    console.log(user,"userrrr");
     const {key, filterPosts, searchedItem} = this.state;
     const renderItem = ({item}) => {
       return (

@@ -63,10 +63,10 @@ class Comments extends Component {
           reply: this.state.newReply,
         })
         .then(response => {
-          console.log(response?.data, 'responseeecomment');
           this.setState({
             flagForNewComment: true,
             flagForReplyComment: false,
+            newReply: '',
           });
           this.getCommentsOnPost();
         })
@@ -255,6 +255,7 @@ class Comments extends Component {
 
         {this.state.commentsList?.length && loader == false ? (
           <FlatList
+            showsVerticalScrollIndicator={false}
             extraData={commentsList}
             key={dataNotFound}
             refreshControl={

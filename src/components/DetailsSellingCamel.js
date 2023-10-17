@@ -323,7 +323,6 @@ class DetailsComponent extends Component {
     const {itemFromDetails} = this.state;
     let {user} = this.props;
     user = user.user.user;
-    console.log(user?.id, this.state.user?.id, itemFromDetails?.id, 'itemmm');
     if (user != undefined) {
       this.setState({load: true});
       camelapp
@@ -335,7 +334,6 @@ class DetailsComponent extends Component {
         })
         .then(response => {
           this.setState({load: false});
-          console.log(response?.data, 'responseeeee280');
           if (response?.data?.success == true) {
             Toast.show({
               text1: ArabicText.Yourrequesthasbeensenttotheseller + '',

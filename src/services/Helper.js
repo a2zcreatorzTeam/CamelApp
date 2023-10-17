@@ -44,15 +44,15 @@ export const getFCMToken = async () => {
 
 export const notificationListener = async () => {
   // Background
+  handleOnClick = item => {
+    console.log('Background Notification===>>', item);
+  };
   messaging().onNotificationOpenedApp(remoteMessage => {
-    console.log(
-      'Background Notification===>>',
-      remoteMessage?.notification?.body,
-    );
     Toast.show({
       text1: remoteMessage?.notification?.body,
       type: 'success',
       visibilityTime: 5000,
+      onPress: () => handleOnClick(remoteMessage?.notification),
     });
     // alert(remoteMessage?.notification?.title);
   });
@@ -73,6 +73,7 @@ export const notificationListener = async () => {
     .getInitialNotification()
     .then(remoteMessage => {
       if (remoteMessage) {
+        handleOnClick();
         console.log('Quit Notification:===>>', remoteMessage.notification);
       }
     });

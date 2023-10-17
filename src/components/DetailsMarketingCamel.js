@@ -347,7 +347,7 @@ class DetailsMarketingCamel extends Component {
             </Text>
           </View>
           {/* SOCIAL ICONS */}
-          {user !== undefined && user !== this?.state?.user?.id && (
+          {user !== undefined && user?.id !== this?.state?.user?.id && (
             <View
               style={{
                 flexDirection: 'row',

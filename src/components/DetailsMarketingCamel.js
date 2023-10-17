@@ -190,6 +190,8 @@ class DetailsMarketingCamel extends Component {
     const {pausedCheck, loadVideo, videoModal, modalItem, itemFromDetails} =
       this.state;
     console.log('detailmarketing');
+    let user = this.props;
+    user = user?.user?.user;
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
         <BackBtnHeader />
@@ -345,7 +347,7 @@ class DetailsMarketingCamel extends Component {
             </Text>
           </View>
           {/* SOCIAL ICONS */}
-          {this?.state?.user_ids !== this?.state?.user?.id && (
+          {user !== undefined && user !== this?.state?.user?.id && (
             <View
               style={{
                 flexDirection: 'row',

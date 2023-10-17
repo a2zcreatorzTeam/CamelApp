@@ -1016,7 +1016,8 @@ class DetailsComponent extends Component {
               </TouchableOpacity>
             )}
           {/* SOCIAL ICONS */}
-          {this?.state?.user_ids !== this?.state?.user?.id && (
+          {this.state.user_ids !== undefined &&
+          this?.state?.user_ids !== this?.state?.user?.id && (
             <View
               style={{
                 flexDirection: 'row',

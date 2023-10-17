@@ -52,7 +52,7 @@ const HorizontalCarousel = ({
                   source={{uri: item?.path}}
                   resizeMode="cover"
                   style={Styles.image}>
-                  {/* <TouchableOpacity
+                  <TouchableOpacity
                     onPress={() => {
                       removeItem(index, 'image', item?.path);
                       imagesArray?.length > 2 &&
@@ -66,7 +66,7 @@ const HorizontalCarousel = ({
                       alignSelf: 'flex-end',
                     }}>
                     <Ionicons name={'close'} size={24} color="red" />
-                  </TouchableOpacity> */}
+                  </TouchableOpacity>
                 </ImageBackground>
                 // <FastImage
                 //   style={Styles.image}

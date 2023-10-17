@@ -11,11 +11,11 @@ const Ads = () => {
         setAdsData(res?.data?.advertisement);
       });
     } catch (error) {
-      Toast.show({
-        text1: error,
-        type: 'error',
-        visibilityTime: 3000,
-      });
+      // Toast.show({
+      //   text1: error,
+      //   type: 'error',
+      //   visibilityTime: 3000,
+      // });
       console.log('advertisement:====', error);
     }
   };

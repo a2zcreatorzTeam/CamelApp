@@ -57,7 +57,7 @@ class Profile extends Component {
       registerSwitch: false,
       phoneStatusSwitch: false,
       updateLoader: false,
-      chatFlag: true,
+      chatFlag: props?.user?.user?.user?.chat_status == 0 ? false : true,
       modalChat: false,
       loading: false,
       modalPhone: false,
@@ -74,6 +74,7 @@ class Profile extends Component {
   // ==========NEW============
   checkUserLogedIn() {
     const {user} = this.props;
+    console.log(user, 'userrr');
     if (user?.user?.user) {
       this.fetchUser();
     } else {
@@ -83,14 +84,12 @@ class Profile extends Component {
   saveChat() {
     let {user, actions} = this.props;
     user = user?.user?.user;
-
     try {
       camelapp
         .post('/add/chat/' + user?.id, {
           chat_status: this?.state?.chatFlag == true ? 1 : 0,
         })
         .then(res => {
-          console.log(res, 'responseee');
           this.setState({modalChat: false});
         });
     } catch (error) {
@@ -309,12 +308,6 @@ class Profile extends Component {
         actions.userData(res?.data);
         const data = res.data;
         if (data) {
-          // console.log(data, 'dattaa251');
-          // let tempObjOfUserProfile = data;
-          // let tempArrayOfUserPosts = [];
-          // for (let i = 0; i < tempObjOfUserProfile.posts.length; i++) {
-          //   tempArrayOfUserPosts.push(tempObjOfUserProfile.posts[i].post);
-          // }
           var arrayPosts = res?.data?.posts;
           arrayPosts?.map((item, index) => {
             let array = item?.img;
@@ -503,6 +496,7 @@ class Profile extends Component {
     }
   };
   render() {
+    console.log(this?.state?.chatFlag, 'this?.state?.chatFlag');
     const {key, filterPosts, posts, searchedItem, searchText} = this.state;
     const sharePosts = item => {
       this.setState({loading: true});

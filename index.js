@@ -4,9 +4,9 @@ import App from './App';
 import {name as appName} from './app.json';
 import {Provider} from 'react-redux';
 
-import configureStore from './src/redux/store/configureStore';
-
-const store = configureStore();
+// import configureStore from './src/redux/store/configureStore';
+import store, {persistor} from './src/redux/store/configureStore';
+// const store = configureStore();
 const RNRedux = () => (
   <Provider store={store}>
     <App />

@@ -268,10 +268,6 @@ class DetailsComponent extends Component {
                 }
               });
           } else {
-            console.log('====================================');
-            console.log('You_can_not_Place_bid_on_your_price');
-            console.log('====================================');
-
             Toast.show({
               type: 'error',
               text1: ArabicText?.You_can_not_Place_bid_on_your_price,
@@ -370,7 +366,7 @@ class DetailsComponent extends Component {
       closeOffer,
       load,
     } = this.state;
-    console.log(itemFromDetails?.chat_status, 'itemmforrDetaillssss');
+    console.log(itemFromDetails?.chat_status,"itemFromDetails?.chat_status");
     return (
       <ScrollView style={{backgroundColor: '#fff'}}>
         <BackBtnHeader />
@@ -462,50 +458,6 @@ class DetailsComponent extends Component {
         </View>
 
         <View style={[Styles.containerDetails, {paddingBottom: width * 0.1}]}>
-          {/* <View
-            style={{
-              // marginTop: '18%',
-              marginHorizontal: 20,
-              position: 'absolute',
-              zIndex: 1111,
-              alignSelf: 'flex-start',
-              alignItems: 'flex-start',
-              justifyContent: 'flex-start',
-              height: hight / 2.5,
-              width: '100%',
-            }}>
-            <View
-              style={{
-                paddingTop: 0,
-                alignItems: 'center',
-                alignContent: 'center',
-                width: 60,
-                backgroundColor: '#D2691Eff',
-                height: hight * 0.065,
-                borderBottomRightRadius: 50,
-                borderBottomLeftRadius: 50,
-              }}>
-              <Text
-                style={{
-                  color: 'white',
-                  fontWeight: '800',
-                  fontSize: 14,
-                }}>
-                {' '}
-                {ArabicText?.Price}
-              </Text>
-              <Text
-                numberOfLines={2}
-                style={{
-                  textAlign: 'center',
-                  color: 'white',
-                  fontWeight: '500',
-                  fontSize: 13,
-                }}>
-                {this?.state?.itemFromDetails?.price}
-              </Text>
-            </View>
-          </View> */}
           <HorizontalCarousel
             price={this?.state?.itemFromDetails?.price}
             imagesArray={imagesArray}
@@ -651,7 +603,7 @@ class DetailsComponent extends Component {
                   style={{marginBottom: 20, marginTop: 20}}
                   onPress={() => {
                     console.log(
-                      this?.state?.user?.id,
+                      itemFromDetails?.chat_status,
                       ' this?.state?.user?.id this?.state?.user?.id',
                     );
                     itemFromDetails?.chat_status == 1 ||

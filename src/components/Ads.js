@@ -1,33 +1,27 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Dimensions,
-  FlatList,
-} from 'react-native';
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
+import {Text, View, Image, Dimensions, FlatList} from 'react-native';
 import camelapp from '../api/camelapp';
-
+import Toast from 'react-native-toast-message';
 const width = Dimensions.get('screen').width;
-
 const Ads = () => {
   const [adsData, setAdsData] = useState([]);
-  const flatListRef = useRef();
   const viewAds = async () => {
     try {
       return await camelapp.get('/get-advertisement').then(res => {
         setAdsData(res?.data?.advertisement);
       });
     } catch (error) {
+      Toast.show({
+        text1: error,
+        type: 'error',
+        visibilityTime: 3000,
+      });
       console.log('advertisement:====', error);
     }
   };
-
   useEffect(() => {
     viewAds();
   }, []);
-
   return (
     <View style={{height: 115}}>
       <FlatList
@@ -42,7 +36,6 @@ const Ads = () => {
   );
 };
 export default Ads;
-
 const AdsComp = ({item}) => {
   return (
     <View
@@ -100,5 +93,3 @@ const AdsComp = ({item}) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({});

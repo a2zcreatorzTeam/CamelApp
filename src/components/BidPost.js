@@ -35,7 +35,6 @@ class Bids extends Component {
     try {
       let {user} = this.props;
       const {key} = this.state;
-      //console.log('user', user.user.user.id);
       return await camelapp
         .post('/get/bids', {
           user_id: user.user.user.id,
@@ -46,7 +45,13 @@ class Bids extends Component {
             key: !key,
           });
         });
-    } catch (error) {}
+    } catch (error) {
+      Toast.show({
+        text1: ArabicText?.Noonehasparticipatedyet,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+    }
   }
   componentDidMount() {
     this.viewPosts();
@@ -56,7 +61,6 @@ class Bids extends Component {
     this.setState({refreshing: false});
   }
   onViewPostClick(item) {
-    console.log(item?.posts, 'imgggg');
     if (item.post.category_id == '1') {
       this.props.navigation.navigate('CamelClubDetailsComponent', {
         itemFromDetails: item?.posts[0],
@@ -105,10 +109,7 @@ class Bids extends Component {
     }
   }
   onWithdrawBid(item) {
-    const {key} = this.state;
-    console.log('bid item', item);
     withdrawBid(item?.id).then(res => {
-      console.log(res, 'responseBid');
       if (res?.status == 'Successfully Delete') {
         this.viewPosts();
         Toast.show({
@@ -125,7 +126,6 @@ class Bids extends Component {
         });
         // alert('Error in withdrawing bid!');
       }
-      //console.log("response", res)
     });
   }
   render() {
@@ -218,7 +218,6 @@ class Bids extends Component {
       </View>
     );
     const renderBidItem = item => {
-      console.log(item?.item, 'itemmmmmmm');
       return (
         <BidsItem
           item={item}

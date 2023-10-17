@@ -30,11 +30,9 @@ class Bids extends Component {
       key: false,
     };
   }
-
   componentDidMount() {
     this.viewPosts();
   }
-
   async viewPosts() {
     try {
       const {key} = this.state;
@@ -42,7 +40,6 @@ class Bids extends Component {
       return await camelapp
         .get(`/get/bids/${user?.user?.user?.id}`)
         .then(res => {
-          console.log(res?.data, 'responseee41111');
           this.setState({
             posts: res?.data,
             key: !key,
@@ -53,6 +50,11 @@ class Bids extends Component {
       this.setState({
         posts: [],
         loader: false,
+      });
+      Toast.show({
+        text1: ArabicText?.Noonehasparticipatedyet,
+        type: 'error',
+        visibilityTime: 3000,
       });
       //console.log("Error Message--- view post", error.response);
     }
@@ -159,7 +161,6 @@ class Bids extends Component {
             alignSelf: 'center',
           }}
         />
-
         <View
           style={{
             height: '100%',
@@ -205,7 +206,6 @@ class Bids extends Component {
       </View>
     );
     const renderBidItem = ({item}) => {
-      console.log(item, 'itemmmmmm');
       return (
         <BidsItem
           item={item}
@@ -226,10 +226,7 @@ class Bids extends Component {
           contentContainerStyle={{paddingBottom: width * 0.5, flexGrow: 1}}
           data={this.state.posts}
           renderItem={renderBidItem}
-          // extraData={this.state}
           refeshing={this.state.refreshing}
-          // initialNumToRender={5}
-          // maxToRenderPerBatch={5}
         />
       </View>
     );

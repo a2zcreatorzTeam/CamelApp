@@ -65,6 +65,7 @@ export const notificationListener = async () => {
       text1: remoteMessage?.notification?.body,
       type: 'success',
       visibilityTime: 5000,
+      onPress: () => handleOnClick(remoteMessage?.notification),
     });
   });
 
@@ -72,9 +73,17 @@ export const notificationListener = async () => {
   messaging()
     .getInitialNotification()
     .then(remoteMessage => {
+      console.log(remoteMessage,"remoteMessageee");
       if (remoteMessage) {
-        handleOnClick();
-        console.log('Quit Notification:===>>', remoteMessage.notification);
+        Toast.show({
+          text1: remoteMessage?.notification?.body,
+          type: 'success',
+          visibilityTime: 5000,
+          // onPress: () => handleOnClick(remoteMessage?.notification),
+        });
+        const notification = remoteMessage?.notification;
+        handleOnClick(notification);
+        console.log('Quit Notification:===>>', notification);
       }
     });
 };

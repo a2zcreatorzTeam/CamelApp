@@ -27,7 +27,7 @@ export default class App extends Component {
       twoFocus: false,
       threeFocus: false,
       fourFocus: false,
-      number: props.route.params.code,
+      number: props?.route?.params?.code,
       hidePassword: true,
       hidePassword2: true,
       loader: false,

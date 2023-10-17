@@ -28,11 +28,6 @@ export default function NewSatck() {
         options={{headerShown: false}}
         // options={{header: () => <Header />}}
       />
-      <NewStack.Screen
-        name="Profile"
-        component={Profile}
-        options={{headerShown: false}}
-      />
 
       {/* <NewStack.Screen
         name="UserProfile"

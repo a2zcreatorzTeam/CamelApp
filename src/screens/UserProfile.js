@@ -67,25 +67,27 @@ class UserProfile extends Component {
     this.setState({refreshing: false});
   }
   sendWhatsAppMessage() {
-    const {userProfile} = this.props.route?.params;
+    const {OtherUserDetail} = this.state;
+    console.log(OtherUserDetail, 'profileee');
     let {user} = this.props;
-    console.log(userProfile?.whatsapp_status);
+    console.log(OtherUserDetail?.whatsapp_status);
     user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
       if (
-        userProfile?.whatsapp_status == 1 ||
-        userProfile?.whatsapp_status == true
+        OtherUserDetail?.whatsapp_status == 1 ||
+        OtherUserDetail?.whatsapp_status == true
       ) {
         let msg = 'Hello';
-        let mobile = userProfile?.whatsapp_no;
+        let mobile = OtherUserDetail?.whatsapp_no;
         if (mobile?.length != 0) {
           if (msg) {
             let url = 'whatsapp://send?text=' + msg + '&phone=' + mobile;
             Linking.openURL(url)
               .then(data => {
+                console.log(data, 'dataaaa');
                 //console.log("WhatsApp Opened successfully " + data);
               })
-              .catch(() => {
+              .catch(error => {
                 Toast.show({
                   text1: ArabicText?.MakesureWhatsAppinstalledonyourdevice,
                   type: 'error',
@@ -98,10 +100,6 @@ class UserProfile extends Component {
               type: 'error',
               visibilityTime: 3000,
             });
-            // Toast.show({
-            //   type: 'error',
-            //   text1: 'Please enter message to send',
-            // });
           }
         } else {
           Toast.show({
@@ -109,10 +107,6 @@ class UserProfile extends Component {
             type: 'error',
             visibilityTime: 3000,
           });
-          // Toast.show({
-          //   type: 'error',
-          //   text1: 'This is some something',
-          // });
         }
       } else {
         Toast.show({
@@ -120,10 +114,6 @@ class UserProfile extends Component {
           type: 'error',
           visibilityTime: 3000,
         });
-        // Toast.show({
-        //   type: 'error',
-        //   text1: 'This user has disabled chat',
-        // });
       }
     } else {
       this.props.navigation.navigate('Login');
@@ -136,7 +126,7 @@ class UserProfile extends Component {
     if (user != undefined) {
       if (user?.id != this.props.route.params.userProfile.user_id) {
         let phone = this.props.route.params.userProfile?.user_phone;
-
+        console.log(phone, 'phonnumberrr', this?.state?.OtherUserDetail);
         if (
           this?.state?.OtherUserDetail?.phone_status == true ||
           this?.state?.OtherUserDetail?.phone_status == 'True' ||
@@ -236,15 +226,16 @@ class UserProfile extends Component {
             item['imagesArray'] = imagesArray;
             arrayPosts[index] = item;
           });
+          console.log(data?.user, 'userere');
           this.setState({
             postData: arrayPosts,
 
             following: data?.following,
             followers: data?.follwers,
-            user: data?.user,
+            user: data?.user[0],
             noOfPosts: data?.posts?.length,
             key: !key,
-            OtherUserDetail: data?.user,
+            OtherUserDetail: data?.user[0],
           });
         }
         this.setState({loading: false});
@@ -764,7 +755,6 @@ class UserProfile extends Component {
         );
       }
     };
-
     const BlockUser = () => {
       return (
         <TouchableOpacity
@@ -781,7 +771,6 @@ class UserProfile extends Component {
         </TouchableOpacity>
       );
     };
-
     return (
       <View style={styles.container}>
         <Header

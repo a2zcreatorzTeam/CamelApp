@@ -51,10 +51,14 @@ const Post = ({
   const [viewCount, setViewCount] = useState(item?.view_count);
 
   const onUserProfileClick = async item => {
-    console.log('helllo');
     if (user != undefined) {
       if (item?.user_id == user?.id) {
-        navigation?.navigate('Profile', {screenName: ArabicText.profilee});
+        console.log('حسابي', 'ArabicText?.profilee');
+        // navigation?.navigate('Profile');
+        navigation.navigate('Profile', {screen: 'حسابي'});
+
+        // navigation?.navigate('Home', {screen: ArabicText.profilee});
+        console.log('helllo');
       } else {
         navigation?.navigate('UserProfile', {
           user_id: item?.user_id,

@@ -10,10 +10,9 @@ class WinnerBeauty extends Component {
       competitionItem: props.route.params.competitionItem,
     };
   }
-
   render() {
     return (
-      <View style={Styles.container}>
+      <View style={[Styles.container, {justifyContent: 'center'}]}>
         {this.state.winnerList.map((el, i) => (
           <View style={[Styles.WinnerIcon, {marginBottom: 20}]}>
             <View style={Styles.winnerBeauty}>

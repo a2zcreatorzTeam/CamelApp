@@ -27,6 +27,7 @@ import VideoModal from './VideoModal';
 import HorizontalCarousel from './HorizontalCarousel';
 import BackBtnHeader from './headerWithBackBtn';
 import Toast from 'react-native-toast-message';
+import {Platform} from 'react-native';
 
 class CamelClubDetailsComponent extends Component {
   constructor(props) {
@@ -81,78 +82,48 @@ class CamelClubDetailsComponent extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-  sendWhatsAppMessage() {
+  // DAIL NUMBER
+  audioCall() {
     let {user} = this.props;
-    if (user?.user?.user?.id != this.state?.itemFromDetails?.user_id) {
-      if (user.user.user != undefined) {
+    user = user?.user?.user ? user?.user?.user : user?.user;
+    let otherUser = this.props.route.params.itemFromDetails;
+    console.log(otherUser?.user_phone, 'phoneee');
+    if (user != undefined) {
+      if (user?.id != otherUser?.user_id) {
+        let phone = otherUser?.user_phone;
         if (
-          this.state.itemFromDetails.user_whatsapp_status == true ||
-          this.state.itemFromDetails.user_whatsapp_status == '1'
+          otherUser?.phone_status == true ||
+          otherUser?.phone_status == 'True' ||
+          otherUser?.phone_status == 1
         ) {
-          let msg = 'Hello';
-          let mobile = this.state.itemFromDetails?.user_whatsapp_no;
-          if (mobile?.length != 0) {
-            if (msg) {
-              let url = 'whatsapp://send?text=' + msg + '&phone=' + mobile;
-              Linking.openURL(url)
-                .then(data => {
-                  //console.log("WhatsApp Opened successfully " + data);
-                })
-                .catch(() => {
-                  Toast.show({
-                    text1: ArabicText?.MakesureWhatsAppinstalledonyourdevice,
-                    type: 'error',
-                    visibilityTime: 3000,
-                  });
-                });
-            } else {
-              Toast.show({
-                text1: ArabicText?.Pleaseentermessagetosend,
-                type: 'error',
-                visibilityTime: 3000,
-              });
-            }
+          if (Platform.OS !== 'android') {
+            phoneNumber = `telprompt:${phone}`;
           } else {
-            Toast.show({
-              text1: ArabicText?.Thisuserhasdisabledchat,
-              type: 'error',
-              visibilityTime: 3000,
-            });
-            // alert('This user has disabled chat');
+            phoneNumber = `tel:${phone}`;
           }
+          Linking.canOpenURL(phoneNumber)
+            .then(supported => {
+              if (!supported) {
+                console.log('notSupported');
+                Toast.show({
+                  type: 'error',
+                  text1: ArabicText?.Phonenumberisnotavailable,
+                  visibilityTime: 3000,
+                });
+                // Alert.alert('Phone number is not available');
+              } else {
+                return Linking.openURL(phoneNumber);
+              }
+            })
+            .catch(err => console.log(err));
         } else {
+          console.log('disabledd');
           Toast.show({
-            text1: ArabicText?.Thisuserhasdisabledchat,
             type: 'error',
+            text1: ArabicText?.Thisuserhasdisabledmobilenumber,
             visibilityTime: 3000,
           });
-          alert('This user has disabled chat');
-        }
-      } else {
-        this.props.navigation.navigate('Login');
-      }
-    } else {
-      Toast.show({
-        type: 'error',
-        text1: ArabicText?.Thisisyourpost,
-        visibilityTime: 3000,
-      });
-    }
-  }
-
-  sendMessage() {
-    let {user} = this.props;
-    if (user.user.user != undefined) {
-      if (user?.user?.user?.id != this.state?.itemFromDetails?.user_id) {
-        if (
-          this.state.itemFromDetails.user_chat_status == true ||
-          this.state.itemFromDetails.user_chat_status == '1'
-        ) {
-          this.props.navigation.navigate('MessageViewScreen', {
-            messageData: this.state.user,
-          });
-        } else {
-          alert('This user has disabled chat');
+          // alert('This user has disabled mobile number');
         }
       } else {
         Toast.show({
@@ -165,9 +136,64 @@ class CamelClubDetailsComponent extends Component {
       this.props.navigation.navigate('Login');
     }
   }
+  // WHATSAPP
+  sendWhatsAppMessage() {
+    let otherUser = this.props.route.params.itemFromDetails;
+    console.log(otherUser, 'profileee');
+    let {user} = this.props;
+    console.log(otherUser?.whatsapp_status);
+    user = user?.user?.user ? user?.user?.user : user?.user;
+    if (user != undefined) {
+      if (
+        otherUser?.whatsapp_status == 1 ||
+        otherUser?.whatsapp_status == true
+      ) {
+        let msg = 'Hello';
+        let mobile = otherUser?.whatsapp_no;
+        if (mobile?.length != 0) {
+          if (msg) {
+            let url = 'whatsapp://send?text=' + msg + '&phone=' + mobile;
+            Linking.openURL(url)
+              .then(data => {
+                console.log(data, 'dataaaa');
+                //console.log("WhatsApp Opened successfully " + data);
+              })
+              .catch(error => {
+                Toast.show({
+                  text1: ArabicText?.MakesureWhatsAppinstalledonyourdevice,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
+              });
+          } else {
+            Toast.show({
+              text1: ArabicText?.Pleaseentermessagetosend,
+              type: 'error',
+              visibilityTime: 3000,
+            });
+          }
+        } else {
+          Toast.show({
+            text1: ArabicText?.Thisuserhasdisabledchat,
+            type: 'error',
+            visibilityTime: 3000,
+          });
+        }
+      } else {
+        Toast.show({
+          text1: ArabicText?.Thisuserhasdisabledchat,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+      }
+    } else {
+      this.props.navigation.navigate('Login');
+    }
+  }
   render() {
     console.log('=CAMEL CLUB DETAILS-=-=');
-    const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
+    const {pausedCheck, loadVideo, videoModal, modalItem, itemFromDetails} =
+      this.state;
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
         <BackBtnHeader />
@@ -239,47 +265,6 @@ class CamelClubDetailsComponent extends Component {
               this.setState({pausedCheck: true});
             }}
           />
-          {/* <Carousel
-            data={this.state.imagesArray}
-            layout={'default'}
-            scrollEnabled={true}
-            onScroll={() => this.setState({pauseVideo: true})}
-            renderItem={({item, index}) => {
-              return (
-                <View style={Styles.imageCarousal}>
-                  {item.type == 'image' && (
-                    <Image
-                      source={{
-                        uri:
-                          'http://www.tasdeertech.com/images/posts/' +
-                          item.source,
-                      }}
-                      key={String(index)}
-                      resizeMode={'cover'}
-                      style={Styles.image}
-                    />
-                  )}
-                  {item.type == 'video' && (
-                    <Video
-                      onTouchStart={() => {
-                        this.setState({pauseVideo: !this.state.pauseVideo});
-                      }}
-                      source={{
-                        uri: 'http://www.tasdeertech.com/videos/' + item.source,
-                      }} // Can be a URL or a local file.
-                      key={String(index)}
-                      resizeMode="stretch"
-                      controls={false}
-                      paused={this.state.pauseVideo}
-                      style={Styles.image}
-                    />
-                  )}
-                </View>
-              );
-            }}
-            sliderWidth={width}
-            itemWidth={width}
-          /> */}
           <View style={{textAlign: 'right'}}>
             <Text style={Styles.textHeadingg}>{ArabicText.Title}</Text>
             <TextInput
@@ -312,54 +297,78 @@ class CamelClubDetailsComponent extends Component {
               editable={false}></TextInput> */}
           </View>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginTop: 20,
-              justifyContent: 'center',
-            }}>
-            <TouchableOpacity
-              onPress={() => this.sendMessage()}
+          {/* SOCIAL ICONS */}
+          {this?.state?.user_ids !== this?.state?.user?.id && (
+            <View
               style={{
-                justifyContent: 'center',
+                flexDirection: 'row',
                 alignItems: 'center',
-                margin: 8,
-              }}>
-              <Feather name="send" size={30} color="#CD853F" />
-              <Text style={Styles.fontDetails}>{ArabicText.message}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this.onCommentsClick()}
-              style={{
+                marginTop: 20,
                 justifyContent: 'center',
-                alignItems: 'center',
-                margin: 8,
               }}>
-              <Feather name="message-square" size={30} color="#CD853F" />
-              <Text style={Styles.fontDetails}>{ArabicText.comments}</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => this.sendWhatsAppMessage()}
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                margin: 8,
-              }}>
-              <FontAwesome name="whatsapp" size={30} color="#CD853F" />
-              <Text style={Styles.fontDetails}>واتساب</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                margin: 8,
-              }}>
-              <AntDesign name="mobile1" size={30} color="#CD853F" />
-              <Text style={Styles.fontDetails}>{ArabicText.phone}</Text>
-            </TouchableOpacity>
-          </View>
+              {/* CHAT ICON  */}
+              <TouchableOpacity
+                onPress={() => {
+                  itemFromDetails?.chat_status == 1 ||
+                  itemFromDetails?.chat_status == 'true' ||
+                  itemFromDetails?.chat_status == true
+                    ? this.props.navigation.navigate('MessageViewScreen', {
+                        messageData: {
+                          id: this?.state?.user?.id,
+                          user_name: itemFromDetails?.name,
+                          user_image: itemFromDetails.user_images,
+                        },
+                      })
+                    : Toast.show({
+                        text1: ArabicText?.Thisuserhasdisabledchat,
+                        type: 'error',
+                        visibilityTime: 3000,
+                      });
+                  //  this.chatRequestNotification();
+                }}
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  margin: 8,
+                }}>
+                <Feather name="send" size={30} color="#CD853F" />
+                <Text style={Styles.fontDetails}>{ArabicText.message}</Text>
+              </TouchableOpacity>
+              {/* COMMENT ICON */}
+              <TouchableOpacity
+                onPress={() => this.onCommentsClick()}
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  margin: 8,
+                }}>
+                <Feather name="message-square" size={30} color="#CD853F" />
+                <Text style={Styles.fontDetails}>{ArabicText.comments}</Text>
+              </TouchableOpacity>
+              {/* WhatsApp */}
+              <TouchableOpacity
+                onPress={() => this.sendWhatsAppMessage()}
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  margin: 8,
+                }}>
+                <FontAwesome name="whatsapp" size={30} color="#CD853F" />
+                <Text style={Styles.fontDetails}>واتساب</Text>
+              </TouchableOpacity>
+              {/* CALL USER */}
+              <TouchableOpacity
+                onPress={() => this.audioCall()}
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  margin: 8,
+                }}>
+                <AntDesign name="mobile1" size={30} color="#CD853F" />
+                <Text style={Styles.fontDetails}>{ArabicText.phone}</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
         {/* VIDEO MODAL */}
         <VideoModal

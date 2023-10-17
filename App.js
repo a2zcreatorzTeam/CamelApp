@@ -61,6 +61,7 @@ class App extends Component {
   async checkUser() {
     const userPhone = await AsyncStorage.getItem('@UserPhone');
     const userPass = await AsyncStorage.getItem('@UserPassword');
+    console.log(userPhone, userPass);
     try {
       camelapp
         .post('/login', {
@@ -184,10 +185,8 @@ class App extends Component {
   // }
   componentDidMount() {
     notificationListener();
-    // this.syncImmediate();
-
     SplashScreen.hide();
-    this.checkUser();
+    // this.checkUser();
     let app;
     if (firebase.apps.length === 0) {
       app = firebase.initializeApp(firebaseConfig);
@@ -205,15 +204,15 @@ class App extends Component {
     return (
       // <View style={[backgroundStyle, {backgroundColor: '#fff'}]}>
       // <Provider store={store}>
-        <SafeAreaProvider>
-          <StatusBar
-            barStyle="default"
-            backgroundColor="#d2691e"
-            // backgroundColor={backgroundStyle.backgroundColor}
-          />
-          <Navigation />
-          <Toast config={toastConfig} />
-        </SafeAreaProvider>
+      <SafeAreaProvider>
+        <StatusBar
+          barStyle="default"
+          backgroundColor="#d2691e"
+          // backgroundColor={backgroundStyle.backgroundColor}
+        />
+        <Navigation />
+        <Toast config={toastConfig} />
+      </SafeAreaProvider>
       // </Provider>
       // </View>
     );

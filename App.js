@@ -101,7 +101,6 @@ class App extends Component {
     }
   }
   takePermission = async () => {
-    console.log(DeviceInfo.getApiLevelSync(), 'DeviceInfo.getApiLevelSync()');
     // NO NEED TO ASK PERMISSION FOR LESS THAN 33 APILEVEL
     if (Platform.OS == 'android' && DeviceInfo.getApiLevelSync() >= 33) {
       if (Platform.OS == 'android') {

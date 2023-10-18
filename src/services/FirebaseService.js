@@ -36,6 +36,7 @@ const sendMessage = async (
   long,
   image,
   video,
+  reciever_id,
 ) => {
   let imageUrl;
   let videoUrl;
@@ -60,6 +61,7 @@ const sendMessage = async (
     text: inputValue,
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     date: new Date(),
+    reciever: reciever_id,
   };
   const locationObj = {
     sender: user_id,
@@ -67,18 +69,21 @@ const sendMessage = async (
     longitude: long,
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     date: new Date(),
+    reciever: reciever_id,
   };
   const ImageObj = {
     sender: user_id,
     imageUrl: imageUrl, // Add the image URL
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     date: new Date(),
+    reciever: reciever_id,
   };
   const videoObj = {
     sender: user_id,
     videoUrl: videoUrl, // Add the image URL
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     date: new Date(),
+    reciever: reciever_id,
   };
   const messagesRef = firebase
     .firestore()

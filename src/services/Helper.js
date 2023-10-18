@@ -48,6 +48,7 @@ export const notificationListener = async () => {
     console.log('Background Notification===>>', item);
   };
   messaging().onNotificationOpenedApp(remoteMessage => {
+    console.log("remote openedapp", remoteMessage);
     Toast.show({
       text1: remoteMessage?.notification?.body,
       type: 'success',

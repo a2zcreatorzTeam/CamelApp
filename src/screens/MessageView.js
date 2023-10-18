@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -17,7 +17,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import * as ArabicText from '../language/EnglishToArabic';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
-import {connect, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {checkOrCreateChatRoom, sendMessage} from '../services';
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
@@ -35,7 +35,6 @@ import Toast from 'react-native-toast-message';
 const MessageView = ({route}) => {
   const [inputValue, setInputValue] = useState('');
   const [dataSource, setDataSource] = useState([]);
-  const [key, setKey] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -351,7 +350,6 @@ const MessageView = ({route}) => {
             visibilityTime: 3000,
           });
         } else {
-          console.log(video?.path, 'videoooooo');
           setVideo(video?.path);
           setlat('');
           setlong('');

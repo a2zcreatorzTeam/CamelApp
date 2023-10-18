@@ -1,22 +1,16 @@
-import React, {Component, useState} from 'react';
-import {
-  View,
-} from 'react-native';
+import React, {Component} from 'react';
+import {View} from 'react-native';
 import {Styles} from '../styles/globlestyle';
-import {Card} from 'react-native-paper';
-import Footer from '../components/Footer.js';
 import Feather from 'react-native-vector-icons/Feather';
 
-import {DataContext, getChatMessages} from '../context/DataContext';
+import {DataContext} from '../context/DataContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {TextInput} from 'react-native-paper';
-// import * as ImagePicker from 'expo-image-picker';
 class MessageView extends Component {
   constructor(props) {
     super(props);
     this.state = {
       reciever_id: props.route.params.messageData.id,
-
       isLoading: true,
       inputValue: '',
       image: null,

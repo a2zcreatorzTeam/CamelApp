@@ -42,11 +42,9 @@ class App extends Component {
     this.third = React.createRef();
     this.fourth = React.createRef();
   }
-
   componentDidMount() {
     this.first.current.focus();
   }
-
   handleChangeTextOne = text => {
     this.setState({one: text}, () => {
       if (this.state.one) this.second.current.focus();
@@ -96,11 +94,9 @@ class App extends Component {
     let number =
       this.state.one + this.state.two + this.state.three + this.state.four;
     let user_data = this.state.sign_up_data;
-    //console.log('previous number', this.state.number);
     if (number != '') {
       if (parseInt(this.state.number) === parseInt(number)) {
         this.setState({btnPressed: true, loader: true});
-        // //console.log("signUpUser", signUpUser)
         camelapp
           .post('/register', {
             name: user_data.name,

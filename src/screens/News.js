@@ -75,7 +75,6 @@ class News extends Component {
       }
     }
   };
-  // =============NEW Search Handler==============
   search(text) {
     this.setState({searchText: text});
   }

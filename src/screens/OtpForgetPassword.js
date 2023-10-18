@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import * as ArabicText from '../language/EnglishToArabic';
 import camelapp from '../api/camelapp';
 import Toast from 'react-native-toast-message';

@@ -1,19 +1,14 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import {
   Text,
   View,
   Image,
-  TouchableOpacity,
-  SafeAreaView,
   FlatList,
-  ScrollView,
   Modal,
-  Button,
   Pressable,
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
-import {Styles} from '../styles/globlestyle';
 import {Card, Searchbar} from 'react-native-paper';
 import {Dimensions} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -110,14 +105,10 @@ class Messages extends Component {
   componentWillUnmount() {
     clearInterval(this.interval);
   }
-  modalOpen = () => {
-    this.setState({modal: true});
-  };
   navigateToMessages = item => {
     this.props.navigation.navigate('MessageViewScreen', {messageData: item});
   };
   navigateToMessagesNew = item => {
-    this.setState({modal: false});
     this.props.navigation.navigate('MessageNew', {messageData: item});
   };
   ScrollToRefresh() {
@@ -236,16 +227,6 @@ class Messages extends Component {
         />
       );
     };
-    const renderLisTItem = ({item}) => {
-      return (
-        <ListItem
-          item={item}
-          userName={item.name}
-          userImage={item.image}
-          onUserMessageClick={() => this.navigateToMessagesNew(item)}
-        />
-      );
-    };
     return (
       <View
         style={{flex: 1, backgroundColor: '#fff', width: width, height: hight}}>
@@ -271,57 +252,6 @@ class Messages extends Component {
             renderItem={renderItem}
             keyExtractor={item => item.id.toString()}
           />
-        )}
-
-        {this.state.modal && (
-          <Modal transparent={true} visible={this.state.modal}>
-            <View
-              style={{
-                backgroundColor: '#ffffff',
-                flex: 1,
-                width: width,
-                height: hight,
-                alignItems: 'center',
-              }}>
-              <Pressable
-                style={{
-                  marginTop: 10,
-                  alignSelf: 'flex-end',
-                  marginBottom: 10,
-                }}
-                onPress={modal => this.setState({modal: !modal})}>
-                <Ionicons name="close" size={30} color="brown" />
-              </Pressable>
-              <View
-                style={{
-                  backgroundColor: '#FFFFFF',
-                  borderRadius: 10,
-                  flex: 1,
-                }}>
-                <View>
-                  <Searchbar
-                    placeholder="Search"
-                    style={{
-                      width: width - 45,
-                      height: 60,
-                      alignSelf: 'center',
-                      borderRadius: 10,
-                      marginBottom: 10,
-                    }}
-                  />
-                </View>
-                <FlatList
-                  data={this.state.getUserDropList}
-                  renderItem={renderLisTItem}
-                  keyExtractor={item => item.id}
-                  style={{
-                    width: width - 45,
-                    alignSelf: 'center',
-                  }}
-                />
-              </View>
-            </View>
-          </Modal>
         )}
       </View>
     );

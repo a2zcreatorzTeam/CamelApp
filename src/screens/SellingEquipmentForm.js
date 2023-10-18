@@ -17,8 +17,6 @@ import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ArabicText from '../language/EnglishToArabic';
-import Video from 'react-native-video';
-import Carousel from 'react-native-snap-carousel';
 import {Dimensions} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 const width = Dimensions.get('screen').width;
@@ -33,7 +31,7 @@ import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
 
-class CamelFood extends React.Component {
+class SellingEquipmentForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -176,7 +174,6 @@ class CamelFood extends React.Component {
       });
     }
   };
-
   videoPicker = async () => {
     this.setState({video: {}});
     ImageCropPicker.openPicker({
@@ -409,10 +406,10 @@ class CamelFood extends React.Component {
                   this.setState({title: text});
                 } else {
                   Toast.show({
-                  text1: ArabicText?.limitCharacters,
-                  type: 'error',
-                  visibilityTime: 3000,
-                });
+                    text1: ArabicText?.limitCharacters,
+                    type: 'error',
+                    visibilityTime: 3000,
+                  });
                 }
               }}></TextInput>
             <TextInput
@@ -425,10 +422,10 @@ class CamelFood extends React.Component {
                   this.setState({color: text});
                 } else {
                   Toast.show({
-                  text1: ArabicText?.limitCharacters,
-                  type: 'error',
-                  visibilityTime: 3000,
-                });
+                    text1: ArabicText?.limitCharacters,
+                    type: 'error',
+                    visibilityTime: 3000,
+                  });
                 }
               }}></TextInput>
 
@@ -442,10 +439,10 @@ class CamelFood extends React.Component {
                   this.setState({camel_type: text});
                 } else {
                   Toast.show({
-                  text1: ArabicText?.limitCharacters,
-                  type: 'error',
-                  visibilityTime: 3000,
-                });
+                    text1: ArabicText?.limitCharacters,
+                    type: 'error',
+                    visibilityTime: 3000,
+                  });
                 }
               }}></TextInput>
 
@@ -459,10 +456,10 @@ class CamelFood extends React.Component {
                   this.setState({location: text});
                 } else {
                   Toast.show({
-                  text1: ArabicText?.limitCharacters,
-                  type: 'error',
-                  visibilityTime: 3000,
-                });
+                    text1: ArabicText?.limitCharacters,
+                    type: 'error',
+                    visibilityTime: 3000,
+                  });
                 }
               }}></TextInput>
             <Loader loading={this.state.loading} />
@@ -760,17 +757,17 @@ class CamelFood extends React.Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
-export default connect(mapStateToProps, mapDispatchToProps)(CamelFood);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SellingEquipmentForm);
 
 const styles = StyleSheet.create({
   container: {

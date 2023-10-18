@@ -68,7 +68,6 @@ class UserProfile extends Component {
   }
   sendWhatsAppMessage() {
     const {OtherUserDetail} = this.state;
-    console.log(OtherUserDetail, 'profileee');
     let {user} = this.props;
     console.log(OtherUserDetail?.whatsapp_status);
     user = user?.user?.user ? user?.user?.user : user?.user;
@@ -85,7 +84,6 @@ class UserProfile extends Component {
             Linking.openURL(url)
               .then(data => {
                 console.log(data, 'dataaaa');
-                //console.log("WhatsApp Opened successfully " + data);
               })
               .catch(error => {
                 Toast.show({
@@ -122,11 +120,9 @@ class UserProfile extends Component {
   audioCall() {
     let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
-
     if (user != undefined) {
       if (user?.id != this.props.route.params.userProfile.user_id) {
         let phone = this.props.route.params.userProfile?.user_phone;
-        console.log(phone, 'phonnumberrr', this?.state?.OtherUserDetail);
         if (
           this?.state?.OtherUserDetail?.phone_status == true ||
           this?.state?.OtherUserDetail?.phone_status == 'True' ||
@@ -140,23 +136,27 @@ class UserProfile extends Component {
           Linking.canOpenURL(phoneNumber)
             .then(supported => {
               if (!supported) {
-                // Toast.show({
-                //   type: 'error',
-                //   text1: 'Phone number is not available',
-                // });
-                Alert.alert('Phone number is not available');
+                Toast.show({
+                  type: 'error',
+                  text1: ArabicText?.Phonenumberisnotavailable,
+                  visibilityTime: 3000,
+                });
               } else {
                 return Linking.openURL(phoneNumber);
               }
             })
             .catch(err => console.log(err));
         } else {
-          alert('This user has disabled mobile number');
+          Toast.show({
+            type: 'error',
+            text1: ArabicText?.Thisuserhasdisabledmobilenumber,
+            visibilityTime: 3000,
+          });
         }
       } else {
         Toast.show({
           type: 'error',
-          text1: 'This is your post',
+          text1: ArabicText?.Thisisyourpost,
           visibilityTime: 3000,
         });
       }
@@ -402,8 +402,15 @@ class UserProfile extends Component {
     }
   };
   render() {
-    const {filterPosts, postData, searchedItem, key, searchText, user} =
-      this.state;
+    const {
+      filterPosts,
+      postData,
+      searchedItem,
+      key,
+      searchText,
+      user,
+      OtherUserDetail,
+    } = this.state;
     const sharePosts = item => {
       const user = this.props.route?.params;
       this.setState({loading: true});
@@ -844,7 +851,23 @@ class UserProfile extends Component {
                 <AntDesign name="mobile1" size={20} color="#CD853F" />
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => this.sendMessage()}
+                onPress={() => {
+                  OtherUserDetail?.chat_status == 1 ||
+                  OtherUserDetail?.chat_status == 'true' ||
+                  OtherUserDetail?.chat_status == true
+                    ? this.props.navigation.navigate('MessageViewScreen', {
+                        messageData: {
+                          id: OtherUserDetail?.Uid,
+                          user_name: OtherUserDetail?.name,
+                          user_image: OtherUserDetail.image,
+                        },
+                      })
+                    : Toast.show({
+                        text1: ArabicText?.Thisuserhasdisabledchat,
+                        type: 'error',
+                        visibilityTime: 3000,
+                      });
+                }}
                 style={Styles.detailsIcons}>
                 <Feather name="message-square" size={20} color="#CD853F" />
               </TouchableOpacity>

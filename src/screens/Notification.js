@@ -235,18 +235,14 @@ const Post = ({description, date, item, onPress = () => {}}) => (
     </View>
   </TouchableOpacity>
 );
-
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(Notification);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

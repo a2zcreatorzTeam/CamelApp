@@ -30,28 +30,22 @@ class ViewNews extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newsItem: props.route.params.newsItem,
       rating: 0,
-      image: '',
-      name: '',
       commentList: [],
-      news_id: props.route.params.newsItem.id,
       newComment: '',
       like: [],
-      userID: [],
-      filterNews: [],
       like_count: [],
       loading: false,
     };
   }
 
   getComments = async () => {
-    let {newsItem} = this.props?.route.params;
+    const newsdata = this.props.route.params.newsItem;
     let {user} = this.props;
     user = user?.user?.user;
     await camelapp
       .post('/get/news_comments_like', {
-        news_id: newsItem?.id,
+        news_id: newsdata?.id,
         user_id: user?.id,
       })
       .then(res => {
@@ -65,6 +59,7 @@ class ViewNews extends Component {
       });
   };
   rating = rating => {
+    const newsdata = this.props.route.params.newsItem;
     this.setState({loading: true});
     let {user} = this.props;
     user = user.user.user;
@@ -73,7 +68,7 @@ class ViewNews extends Component {
         .post('/add/rating', {
           user_id: user?.id,
           rating: rating,
-          news_id: this.state.news_id,
+          news_id: newsdata?.id,
         })
         .then(response => {
           if (response) {
@@ -94,6 +89,7 @@ class ViewNews extends Component {
     this.setState({loading: false});
   };
   newComment() {
+    const newsdata = this.props.route.params.newsItem;
     let {user} = this.props;
     user = user.user.user;
     if (user != undefined) {
@@ -101,7 +97,7 @@ class ViewNews extends Component {
         camelapp
           .post('/add/news/comment', {
             user_id: user.id,
-            news_id: this.state.news_id,
+            news_id: newsdata?.id,
             comment: this.state.newComment,
           })
           .then(res => {
@@ -128,9 +124,9 @@ class ViewNews extends Component {
     this.getComments();
   }
   render() {
+    const newsdata = this.props.route.params.newsItem;
     let {user} = this.props;
     user = user?.user?.user;
-    const {newsItem} = this.state;
     const likeCommentHandler = async (item, setIsLiked, setLikeCount) => {
       this.setState({loading: false});
       let {user} = this.props;
@@ -231,7 +227,7 @@ class ViewNews extends Component {
       );
     };
     const source = {
-      html: `<p>${this.state.newsItem.description}</p>`,
+      html: `<p>${newsdata?.description}</p>`,
     };
     const tagsStyles = {
       body: {
@@ -255,17 +251,17 @@ class ViewNews extends Component {
             }}>
             <View>
               <Text style={{color: 'black', fontWeight: 'bold', fontSize: 17}}>
-                {newsItem.user?.name}
+                {newsdata?.user?.name}
               </Text>
               <Text style={{color: 'grey', fontSize: 10}}>
-                {newsItem?.date}
+                {newsdata?.date}
               </Text>
             </View>
             <Image
               source={{
                 uri:
                   'http://www.tasdeertech.com/public/images/profiles/' +
-                  newsItem?.user?.image,
+                  newsdata?.user?.image,
               }}
               style={{
                 width: 80,
@@ -282,13 +278,13 @@ class ViewNews extends Component {
               color: 'black',
               fontSize: 24,
             }}>
-            {newsItem.title}
+            {newsdata?.title}
           </Text>
           <Image
             source={{
               uri:
                 'http://www.tasdeertech.com/public/images/news/' +
-                newsItem.image,
+                newsdata?.image,
             }}
             style={Styles.image}
             resizeMode="cover"></Image>
@@ -305,7 +301,7 @@ class ViewNews extends Component {
               alignItems: 'flex-end',
               justifyContent: 'center',
             }}>
-            {user != undefined && newsItem?.flagForRating == false && (
+            {user != undefined && newsdata?.flagForRating == false && (
               <Rating
                 onFinishRating={rating => this.rating(rating)}
                 ratingCount={5}
@@ -328,7 +324,7 @@ class ViewNews extends Component {
               marginBottom: 10,
               color: 'black',
             }}>
-            <Text style={{color: 'black'}}>{ArabicText.comments}</Text>
+            <Text style={{color: 'black'}}>{ArabicText?.comments}</Text>
           </View>
           <FlatList
             style={{flex: 1}}

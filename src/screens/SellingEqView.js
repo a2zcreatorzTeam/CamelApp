@@ -8,11 +8,9 @@ import {
   FlatList,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
-
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
-
 import {Card} from 'react-native-paper';
 import {DataContext, likePost} from '../context/DataContext';
 import * as ArabicText from '../language/EnglishToArabic';
@@ -109,7 +107,6 @@ const Home = props => {
 
   const onLikesClick = item => {
     this.setState({loading: true});
-
     let {user} = this.props;
     user = user.user.user;
     let post_id = item.id;

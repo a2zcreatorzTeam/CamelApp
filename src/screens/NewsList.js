@@ -1,24 +1,14 @@
 import React from 'react';
-import {
-  View,
-  TextInput,
-  TouchableOpacity,
-  Text,
-  Image,
-  SafeAreaView,
-} from 'react-native';
+import {View, TouchableOpacity, Text, Image, SafeAreaView} from 'react-native';
 import {Styles} from '../styles/globlestyle';
-import Feather from 'react-native-vector-icons/Feather';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 import {Dimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
-export default function App() {
+export default function NewsList() {
   const navigation = useNavigation();
   return (
     <View style={Styles.container}>

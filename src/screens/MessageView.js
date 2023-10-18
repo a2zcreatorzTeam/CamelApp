@@ -70,18 +70,25 @@ const MessageView = ({route}) => {
       video,
       'user_id, inputValue, chatRoomId, lat, long, image, video',
     );
-    sendMessage(user_id, inputValue, chatRoomId, lat, long, image, video).then(
-      success => {
-        success && setModalVisible(false),
-          setConfirmModal(false),
-          setImage(''),
-          setVideo(''),
-          setlat(''),
-          setlong('');
-        setLoader(false);
-        !success && setLoader(false);
-      },
-    );
+    sendMessage(
+      user_id,
+      inputValue,
+      chatRoomId,
+      lat,
+      long,
+      image,
+      video,
+      reciever_id,
+    ).then(success => {
+      success && setModalVisible(false),
+        setConfirmModal(false),
+        setImage(''),
+        setVideo(''),
+        setlat(''),
+        setlong('');
+      setLoader(false);
+      !success && setLoader(false);
+    });
     setInputValue('');
     !image && !video && setLoader(false);
   };

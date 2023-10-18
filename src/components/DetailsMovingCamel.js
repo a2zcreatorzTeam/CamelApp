@@ -191,8 +191,9 @@ class DetailsComponent extends Component {
   render() {
     const {loadVideo, pausedCheck, modalItem, videoModal, itemFromDetails} =
       this.state;
-    let user = this.props;
-    user = user?.user?.user;
+      let user = this.props?.user;
+      user = user?.user?.user;
+      console.log(user?.id, "usererer");
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
         <BackBtnHeader />

@@ -199,10 +199,9 @@ class DetailsComponent extends Component {
   render() {
     const {pausedCheck, loadVideo, videoModal, modalItem, itemFromDetails} =
       this.state;
-    console.log('DetailsMissingAndTreatingCamel');
-    let user = this.props;
-    user = user?.user?.user;
-    console.log(user, 'usererer');
+      let user = this.props?.user;
+      user = user?.user?.user;
+      console.log('DetailsMissingAndTreatingCamel', user?.id , this?.state?.user?.id);
     return (
       <ScrollView>
         <BackBtnHeader />

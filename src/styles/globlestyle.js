@@ -113,6 +113,7 @@ export const Styles = StyleSheet.create({
     // justifyContent: 'center',
     // overflow:'scroll',
     width: width,
+    paddingBottom: width * 0.2,
     // height: hight
   },
   text: {

@@ -192,8 +192,8 @@ class CompetitionDetails extends Component {
   render() {
     const {pausedCheck, loadVideo, videoModal, modalItem, itemFromDetails} =
       this.state;
-    let user = this.props;
-    user = user?.user?.user;
+      let user = this.props?.user;
+      user = user?.user?.user;
     console.log('=COMPETITION DETAILS', itemFromDetails);
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>

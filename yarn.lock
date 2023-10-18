@@ -7765,6 +7765,11 @@ react-native-compressor@^1.8.4:
   resolved "https://registry.npmjs.org/react-native-compressor/-/react-native-compressor-1.8.4.tgz"
   integrity sha512-33i+bBXai00oHUrmcyBq31mlBdOBTwYzqnq+bGbR0hDGDu6rd1nA2C1MzHVqXSCR+JWjPRoRd7QIcFukGUQGWw==
 
+react-native-device-info@^10.11.0:
+  version "10.11.0"
+  resolved "https://registry.npmjs.org/react-native-device-info/-/react-native-device-info-10.11.0.tgz"
+  integrity sha512-qRzhuYOm5ZXQi5dhfJFjDq157oipxcEW/fo0QyMm5+TI6V6/+P/tju+Hif6z0rpLCf7MV7iDVRv2Kqha4D/yvQ==
+
 react-native-fast-image@^8.6.3:
   version "8.6.3"
   resolved "https://registry.npmjs.org/react-native-fast-image/-/react-native-fast-image-8.6.3.tgz"
@@ -7846,6 +7851,11 @@ react-native-paper@^4.11.2:
     "@callstack/react-theme-provider" "^3.0.7"
     color "^3.1.2"
     react-native-iphone-x-helper "^1.3.1"
+
+react-native-permissions@^3.10.0:
+  version "3.10.0"
+  resolved "https://registry.npmjs.org/react-native-permissions/-/react-native-permissions-3.10.0.tgz"
+  integrity sha512-6SB6JInfC0u54Wco8M1QsRoOGThnVjrhaks5IDWyYgwfi6JpXfTIi+F9fZZmRycyyPCgU8vGtht/5gF4VWEB/A==
 
 react-native-ratings@^8.1.0:
   version "8.1.0"
@@ -7933,7 +7943,7 @@ react-native-webview@^11.26.1, react-native-webview@^11.6.2:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
 
-react-native@*, react-native@^*, "react-native@^0.0.0-0 || 0.60 - 0.72 || 1000.0.0", "react-native@>= 0.59", react-native@>=0.20.0, react-native@>=0.40.0, react-native@>=0.42.0, react-native@>=0.57.0, react-native@>=0.58.0, react-native@>=0.59, react-native@>=0.60, react-native@>=0.60.0, react-native@0.70.5:
+react-native@*, react-native@^*, "react-native@^0.0.0-0 || 0.60 - 0.72 || 1000.0.0", "react-native@>= 0.59", react-native@>=0.20.0, react-native@>=0.40.0, react-native@>=0.42.0, react-native@>=0.57.0, react-native@>=0.58.0, react-native@>=0.59, react-native@>=0.60, react-native@>=0.60.0, react-native@>=0.63.3, react-native@0.70.5:
   version "0.70.5"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.70.5.tgz"
   integrity sha512-5NZM80LC3L+TIgQX/09yiyy48S73wMgpIgN5cCv3XTMR394+KpDI3rBZGH4aIgWWuwijz31YYVF5504+9n2Zfw==
@@ -8005,7 +8015,7 @@ react-test-renderer@18.1.0:
     react-shallow-renderer "^16.15.0"
     scheduler "^0.22.0"
 
-react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", "react@^17 || ^18", react@^18.1.0, react@>=16.0.0, react@>=16.3.0, react@>=17.0.0, react@18.1.0:
+react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", "react@^17 || ^18", react@^18.1.0, react@>=16.0.0, react@>=16.13.1, react@>=16.3.0, react@>=17.0.0, react@18.1.0:
   version "18.1.0"
   resolved "https://registry.npmjs.org/react/-/react-18.1.0.tgz"
   integrity sha512-4oL8ivCz5ZEPyclFQXaNksK3adutVS8l2xzZU0cqEFrE9Sb7fC0EFK5uEk74wIreL1DERyjvsU915j1pcT2uEQ==

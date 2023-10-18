@@ -2,7 +2,16 @@ import firebase from '@react-native-firebase/app';
 import React, {Component} from 'react';
 import Navigation from './src/components/Navigation';
 import SplashScreen from 'react-native-splash-screen';
-import {StatusBar, View, LogBox, Text, Dimensions, Modal} from 'react-native';
+import {
+  StatusBar,
+  View,
+  LogBox,
+  Text,
+  Dimensions,
+  Modal,
+  Platform,
+  PermissionsAndroid,
+} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import camelapp from './src/api/camelapp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,6 +23,9 @@ import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
 import firebaseConfig from './src/components/firebase';
 import {getStorage} from 'firebase/storage';
 import {notificationListener} from './src/services/Helper';
+import {requestNotifications, openSettings} from 'react-native-permissions';
+import DeviceInfo from 'react-native-device-info';
+
 // import {store, persistor} from './src/redux/store/configureStore';
 // import codePush from "react-native-code-push";
 const width = Dimensions.get('window');
@@ -88,6 +100,25 @@ class App extends Component {
       console.log('Error Message--- signin', error);
     }
   }
+  takePermission = async () => {
+    console.log(DeviceInfo.getApiLevelSync(), 'DeviceInfo.getApiLevelSync()');
+    if (Platform.OS == 'android' && DeviceInfo.getApiLevelSync() >= 33) {
+      console.log('ediiittt');
+      if (Platform.OS == 'android') {
+        console.log('androidddd');
+        try {
+          const granted = await PermissionsAndroid?.request(
+            PermissionsAndroid?.PERMISSIONS?.POST_NOTIFICATION,
+          );
+          console.log(granted, 'grantedd');
+          if (granted === PermissionsAndroid?.RESULTS?.GRANTED) {
+          } else {
+          }
+        } catch (err) {}
+      }
+    }
+  };
+
   // syncImmediate() {
   //   this.setState({ updateProcess: true });
   //   codePush?.sync(
@@ -184,6 +215,7 @@ class App extends Component {
   //   }
   // }
   componentDidMount() {
+    this.takePermission();
     notificationListener();
     SplashScreen.hide();
     // this.checkUser();

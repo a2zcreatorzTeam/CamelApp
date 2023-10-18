@@ -396,7 +396,7 @@ class DetailsComponent extends Component {
   }
 
   render() {
-    let user = this.props;
+    let user = this.props?.user;
     user = user?.user?.user;
     const {
       pausedCheck,

@@ -190,7 +190,7 @@ class DetailsMarketingCamel extends Component {
     const {pausedCheck, loadVideo, videoModal, modalItem, itemFromDetails} =
       this.state;
     console.log('detailmarketing');
-    let user = this.props;
+    let user = this.props?.user;
     user = user?.user?.user;
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>

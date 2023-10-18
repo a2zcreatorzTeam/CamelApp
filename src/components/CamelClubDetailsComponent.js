@@ -190,13 +190,13 @@ class CamelClubDetailsComponent extends Component {
     }
   }
   render() {
-    console.log('=CAMEL CLUB DETAILS-=-=');
     const {pausedCheck, loadVideo, videoModal, modalItem, itemFromDetails} =
       this.state;
-    let user = this.props;
+    let user = this.props?.user;
     user = user?.user?.user;
     return (
-      <ScrollView style={{backgroundColor: '#ffff'}}>
+      <ScrollView
+        style={{backgroundColor: '#ffff', paddingBottom: width * 0.4}}>
         <BackBtnHeader />
         <View
           style={{

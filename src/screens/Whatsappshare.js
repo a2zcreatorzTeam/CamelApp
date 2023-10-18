@@ -9,13 +9,10 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import {useNavigation} from '@react-navigation/native';
 import * as ArabicText from '../language/EnglishToArabic';
-import BackBtnHeader from '../components/headerWithBackBtn';
 import Toast from 'react-native-toast-message';
 const width = Dimensions.get('screen').width;
-const hight = Dimensions.get('screen').height;
 
 export default function App() {
   const openWhatsApp = () => {

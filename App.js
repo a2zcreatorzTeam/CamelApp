@@ -102,10 +102,9 @@ class App extends Component {
   }
   takePermission = async () => {
     console.log(DeviceInfo.getApiLevelSync(), 'DeviceInfo.getApiLevelSync()');
+    // NO NEED TO ASK PERMISSION FOR LESS THAN 33 APILEVEL
     if (Platform.OS == 'android' && DeviceInfo.getApiLevelSync() >= 33) {
-      console.log('ediiittt');
       if (Platform.OS == 'android') {
-        console.log('androidddd');
         try {
           const granted = await PermissionsAndroid?.request(
             PermissionsAndroid?.PERMISSIONS?.POST_NOTIFICATION,

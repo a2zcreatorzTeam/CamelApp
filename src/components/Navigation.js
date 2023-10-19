@@ -60,9 +60,6 @@ import Bank from '../components/Bank';
 import BidPost from '../components/BidPost';
 import BidsOnPost from '../components/BidsOnPost';
 import OtpForgetPassword from '../screens/OtpForgetPassword';
-import ChatList from '../screens/chat/ChatList';
-import ChatScreen from '../screens/chat/ChatScreen';
-import ChatLogin from '../screens/chat/ChatLogin';
 import News from '../screens/News';
 import BidTab from '../screens/BidTab';
 import ChatTopTab from '../screens/chat/ChatTopTab';
@@ -418,23 +415,6 @@ export default function Navigation() {
         <Stack.Screen
           name="EditProfile"
           component={EditProfile}
-          options={{header: () => <Header />}}
-        />
-        {/* CHAT */}
-        <Stack.Screen
-          name="ChatList"
-          component={ChatList}
-          options={{header: () => <Header />}}
-        />
-
-        <Stack.Screen
-          name="ChatScreen"
-          component={ChatScreen}
-          options={{header: () => <Header />}}
-        />
-        <Stack.Screen
-          name="ChatLogin"
-          component={ChatLogin}
           options={{header: () => <Header />}}
         />
         <Stack.Screen

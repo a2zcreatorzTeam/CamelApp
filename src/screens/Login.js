@@ -30,12 +30,18 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {getFCMToken} from '../services/Helper';
 import {auth} from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
+import {authorize} from 'react-native-app-auth';
+
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
-RNTwitterSignIn.init(
-  'WzSvycGgEkZsznUOoqi18XUBP',
-  '0cfvEIxQgytLEL5TS5y1Ys8uNvHHpoMiIWZSbxDF8xKKolb2Iq',
-).then(res => console.log(res, 'Twitter SDK initialized'));
+// RNTwitterSignIn.init(
+//   'WzSvycGgEkZsznUOoqi18XUBP',
+//   '0cfvEIxQgytLEL5TS5y1Ys8uNvHHpoMiIWZSbxDF8xKKolb2Iq',
+// )
+//   .then(response => console.log(response, 'Twitter SDK initialized'))
+//   .catch(err => {
+//     console.log('errorrrr', err);
+//   });
 // RNTwitterSignIn.init({
 //   apiKey: 'gvjMAUvs5tp11k4tZhT9TU7bm',
 //   apiSecret: '21PtUlWScusODhTFTc0xkOdfJHZd0Er4LUKJyNW0xnwLcNOowO',
@@ -82,43 +88,70 @@ class Login extends Component {
       // alert(e);
     }
   };
-  openIstagram() {
-    const url = 'https://instagram.com/alsyahd?igshid=YmMyMTA2M2Y=';
-    Linking.openURL(url)
-      .then(data => {})
-      .catch(() => {
-        Toast.show({
-          text1: ArabicText?.Somethingwentwrong,
-          type: 'error',
-          visibilityTime: 3000,
-        });
-      });
-  }
-  tweetNow = async () => {
-    // RNTwitterSignIn.logOut()
-    console.log('Before RNTwitterSignIn.logIn');
-    try {
-      // Perform the login request
-      const {authToken, authTokenSecret} = await RNTwitterSignIn.logIn();
-      console.log(authToken, authTokenSecret);
 
-      // Create a Twitter credential with the tokens
-      if (authToken && authTokenSecret) {
-        console.log('1', auth);
-        const twitterCredential = await auth.TwitterAuthProvider.credential(
-          authToken,
-          authTokenSecret,
-        );
-        console.log(twitterCredential, 'twitterCredential');
-        // const dddd = await auth().currentUser.linkWithCredential(twitterCredential);
-        // console.log(twitterCredential, dddd, 'twitterCredential');
-        // // Sign-in the user with the credential
-        // // return auth().signInWithCredential(dddd);
-        // return dddd
-      }
+  openIstagram = async () => {
+    config = {
+      redirectUrl: 'https://com.alsyahd.camel/redirect',
+      clientId: '613718807578569',
+      serviceConfiguration: {
+        authorizationEndpoint: 'https://api.instagram.com/oauth/authorize',
+        tokenEndpoint: 'https://api.instagram.com/oauth/access_token',
+      },
+    };
+    try {
+      console.log(config);
+      const result = await authorize(config);
+      console.log('Authentication Successful', 'Authorization Code:', result);
+      setAuthCode(result.code);
     } catch (error) {
-      const userDetails = error.NativeMap;
-      console.log('ERROR', e);
+      console.error('Failed to authenticate:', error);
+    }
+  };
+  tweetNow = async () => {
+    // try {
+    //   await RNTwitterSignIn.init(
+    //     'WzSvycGgEkZsznUOoqi18XUBP',
+    //     '0cfvEIxQgytLEL5TS5y1Ys8uNvHHpoMiIWZSbxDF8xKKolb2Iq',
+    //   );
+    //   console.log('Twitter sign-in module initialized successfully');
+    // } catch (error) {
+    //   console.error('Error initializing Twitter sign-in:', error);
+    // }
+    try {
+      await RNTwitterSignIn.init(
+        'WzSvycGgEkZsznUOoqi18XUBP',
+        '0cfvEIxQgytLEL5TS5y1Ys8uNvHHpoMiIWZSbxDF8xKKolb2Iq',
+      );
+      let twitterCredential;
+      console.log('success');
+      const {authToken, authTokenSecret} = await RNTwitterSignIn.logIn();
+      twitterCredential = auth.TwitterAuthProvider.credential(
+        authToken,
+        authTokenSecret,
+      );
+
+      console.log('heyyyy');
+      // if (email === 'COULD_NOT_FETCH') {
+      //   // Handle the case where the email could not be fetched
+      //   // You might choose to proceed without the email or show an error message to the user
+      //   console.log('Email could not be fetched');
+      // } else {
+      //   // Proceed with the obtained data
+      //   console.log('Twitter Auth Token:', authToken);
+      //   console.log('Twitter Auth Token Secret:', authTokenSecret);
+      //   console.log('Email:', email);
+      //   console.log('Username:', userName);
+      //   console.log('User ID:', userID);
+      //   console.log('Name:', name);
+      //   // You can use the obtained data as needed
+      //   setUserInfo({email, userName, userID, name});
+      // }
+
+      // You can use the obtained data as needed
+      // setUserInfo({email, userName, userID, name});
+    } catch (error) {
+      const value = error;
+      console.error('Twitter login error:', error);
     }
   };
   tweetNows() {
@@ -141,7 +174,6 @@ class Login extends Component {
         'hardwareBackPress',
         () => {
           this.props.navigation.navigate('Home', {screen: ArabicText?.home});
-          console.log('workibngggggg');
           return true; // or false based on your requirements
         },
       );
@@ -149,8 +181,8 @@ class Login extends Component {
   };
 
   componentWillUnmount = () => {
-    this.focusListener(); // Remove the focus listener
-    this.backHandler.remove(); // Remove the BackHandler event listener
+    this?.focusListener(); // Remove the focus listener
+    this?.backHandler?.remove(); // Remove the BackHandler event listener
   };
   render() {
     const authentication = async () => {

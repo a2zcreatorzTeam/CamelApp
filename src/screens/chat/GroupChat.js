@@ -16,7 +16,6 @@ import React, {useEffect, useState, useRef} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import storage from '@react-native-firebase/storage';
-
 import {Styles} from '../../styles/globlestyle';
 import {Card} from 'react-native-paper';
 import Feather from 'react-native-vector-icons/Feather';
@@ -27,19 +26,17 @@ import {FlatList} from 'react-native';
 import {Image} from 'react-native';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
 import {useNavigation} from '@react-navigation/native';
-import {connect, useSelector} from 'react-redux';
+import {connect} from 'react-redux';
 import * as userActions from '../../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import GetLocation from 'react-native-get-location';
 const {width, height} = Dimensions.get('window');
 import Video from 'react-native-video';
-import VideoModal from '../../components/VideoModal';
 import firestore from '@react-native-firebase/firestore';
 import firebase from '@react-native-firebase/app';
-import moment, {now} from 'moment';
+import moment from 'moment';
 import FastImage from 'react-native-fast-image';
 import RNFS from 'react-native-fs';
-import {clearTextOnFocus} from 'deprecated-react-native-prop-types/DeprecatedTextInputPropTypes';
 import Toast from 'react-native-toast-message';
 const GroupChat = props => {
   const flatListRef = useRef();
@@ -57,32 +54,18 @@ const GroupChat = props => {
   const [flagvideo, setFlagVedio] = useState([]);
   const [indexx, setIndexx] = useState();
   const [loader, setLoader] = useState(false);
-
   const [pausedCheck, setPausedCheck] = useState(true);
-  const [modalItem, setModalItem] = useState('');
-  const [videoModal, setVideoModal] = useState(false);
-  const [loadVideo, setLoadVideo] = useState(false);
   const [modal, setModal] = useState(false);
   const [Infomodal, setInfoModal] = useState(false);
   const [groupInfoDetails, setgroupInfoDetails] = useState(null);
   const [modalItemType, setModalItemType] = useState(false);
   const [load, setLoad] = useState(false);
-
   const [modalItemForModal, setModalItemForModal] = useState('');
   const [modalItemsData, setModalItemsData] = useState('');
   const [downloadFiles, setdownloadFiles] = useState(false);
 
   const navigation = useNavigation();
-  // const [sendMessage, setSendMessage] = useState([]);
-  // const [showImage, setShowImage] = useState(undefined);
-  // const [pickedImage, setPickedImage] = useState(undefined);
-
-  // launchCamera(options?, callback);
-  // const result = await launchCamera(options?);
-  // console.log("IMAGE===>>> ", image?.imageShow)
-
   const {group_id} = props.route.params;
-  console.log(image, 'IMAGE');
   let {user} = props;
   const requestLocationPermission = async () => {
     try {
@@ -90,19 +73,26 @@ const GroupChat = props => {
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
           title: `Alsyahd Mobile App`,
-          message: 'Alsyahd needs location access to get your current location',
-
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
+          message: ArabicText?.Alsyahdneedslocationaccesstogetyourcurrentlocation,
+          buttonNeutral: ArabicText?.AskMeLater,
+          buttonNegative: ArabicText?.Cancel,
+          buttonPositive: ArabicText?.OK,
         },
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('You can use the location');
-        alert('You can use the location');
+        Toast.show({
+          text1: ArabicText?.Youcanusethelocation,
+          type: 'error',
+          visibilityTime: 3000,
+        });
       } else {
+        Toast.show({
+          text1: ArabicText?.locationpermissiondenied,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+
         console.log('location permission denied');
-        alert('Location permission denied');
       }
     } catch (err) {
       console.log(err);
@@ -116,7 +106,6 @@ const GroupChat = props => {
       timeout: 15000,
     })
       .then(location => {
-        console.log(location, 'LOCATIONNSS');
         setlat(location?.latitude);
         setlong(location?.longitude);
         setModalVisible(false);

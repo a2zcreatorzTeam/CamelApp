@@ -291,3 +291,14 @@ export const somethingwentwrong = 'هناك خطأ ما';
 export const Phonenumberisnotavailable = 'رقم الهاتف غير متوفر';
 export const Thisuserhasdisabledmobilenumber =
   'لقد قام هذا المستخدم بتعطيل رقم الجوال';
+export const PleaseEnterGroupName = 'الرجاء إدخال اسم المجموعة';
+export const PleaseEnterGroupImage = 'الرجاء إدخال صورة المجموعة';
+export const Pleaseselectaparticipant = 'الرجاء اختيار مشارك';
+export const Groupcreatedsuccessfully = 'تم إنشاء المجموعة بنجاح';
+export const Alsyahdneedslocationaccesstogetyourcurrentlocation =
+  'يحتاج Alsyahd إلى الوصول إلى الموقع للحصول على موقعك الحالي';
+export const AskMeLater = 'اسالني لاحقا';
+export const Cancel = 'يلغي';
+export const OK='نعم'
+export const Youcanusethelocation='يمكنك استخدام الموقع'
+export const locationpermissiondenied='تم رفض إذن الموقع'

@@ -15,38 +15,19 @@ import React, {useEffect, useState} from 'react';
 import camelapp from '../../api/camelapp';
 import {ScrollView} from 'react-native-gesture-handler';
 import firebase from '@react-native-firebase/app';
-import firebaseConfig, {db} from '../../components/firebase';
 import firestore from '@react-native-firebase/firestore';
-import database from '@react-native-firebase/database';
 import storage from '@react-native-firebase/storage';
-
-import {
-  collection,
-  doc,
-  onSnapshot,
-  orderBy,
-  query,
-  setDoc,
-  where,
-} from 'firebase/firestore';
 import ImageCropPicker from 'react-native-image-crop-picker';
-// import { connect, useSelector } from 'react-redux';
-// import * as userActions from '../../redux/actions/user_actions';
-// import { bindActionCreators } from 'redux';
+import Toast from 'react-native-toast-message';
 
 const width = Dimensions.get('screen').width;
-const height = Dimensions.get('screen').height;
 
 const CreateGroup = props => {
   const [friendlist, setFriendList] = useState([]);
   const [newParticipant, setNewParticipant] = useState([]);
   const [groupName, setGroupName] = useState('');
   const [groupLoader, setGroupLoader] = useState(false);
-
   const [image, setImage] = useState('');
-
-  // const getUser = useSelector(userReducer)
-
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {
@@ -71,14 +52,11 @@ const CreateGroup = props => {
     };
   }, []);
 
-  let {userID, refreshGrouplist} = props.route.params;
-  console.log(userID, 'userID');
-
+  let {userID} = props.route.params;
   const addGroupUser = prop => {
     // //PUSH in useState Array of Objects
     setNewParticipant(item => [...item, prop]);
     // //Remove User from Array
-
     setFriendList(
       friendlist.filter(item => item?.firend_id !== prop?.firend_id),
     );
@@ -106,31 +84,43 @@ const CreateGroup = props => {
     }
   };
 
-
   const createGroup = async () => {
     let {userID, refreshGrouplist} = props.route.params;
     let tempArrayForUserDetails = [];
     tempArrayForUserDetails.push({id: userID, message: ''});
     if (groupName === '') {
-      return alert('Please Enter Group Name');
+      Toast.show({
+        text1: ArabicText?.PleaseEnterGroupName,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // return alert('Please Enter Group Name');
     }
     if (!image) {
-      return alert('Please Enter Group Image');
+      Toast.show({
+        text1: ArabicText?.PleaseEnterGroupImage,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // return alert('Please Enter Group Image');
     }
     if (newParticipant?.length == 0) {
-      alert('Please select a participant');
+      Toast.show({
+        text1: ArabicText?.Pleaseselectaparticipant,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // alert('Please select a participant');
     }
     let tempArray = [];
-
     newParticipant?.forEach(e => {
       tempArray.push(e?.firend_id);
       tempArrayForUserDetails.push({id: e?.firend_id, message: ''});
     });
     if (tempArray?.length) {
       try {
-        setGroupLoader(true)
+        setGroupLoader(true);
         var localImageoUri = image?.imageShow;
-
         const response = await fetch(localImageoUri);
         const blob = await response.blob();
         const storageRef = storage().ref(
@@ -148,7 +138,6 @@ const CreateGroup = props => {
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           messages: [],
           imageName: image?.imageName,
-
           downloadURL,
           groupUserDetails: tempArrayForUserDetails,
           groupName: groupName, //TODO admin can set group name
@@ -156,15 +145,17 @@ const CreateGroup = props => {
         }; // Replace with your actual document data
 
         await collectionRef.add(documentData);
-        setGroupLoader(false)
-alert('Group created successfully')
-        console.log('Document added successfully');
+        setGroupLoader(false);
+        Toast.show({
+          text1: ArabicText?.Groupcreatedsuccessfully,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert('Group created successfully');
         props.navigation.goBack();
-        console.log('Group Created Successfully');
         //   queryDocumentsInCollection();
       } catch (error) {
-        setGroupLoader(false)
-
+        setGroupLoader(false);
         console.error('Error adding document:', error);
       }
     }
@@ -197,7 +188,6 @@ alert('Group created successfully')
       .then(async images => {
         if (images) {
           setImage({
-            // image: undefined,
             pickedImage: images?.data,
             imageShow: images?.path,
             mediaType: images?.mime,
@@ -216,8 +206,6 @@ alert('Group created successfully')
   useEffect(() => {
     getFriendlist();
   }, []);
-
-  console.log(newParticipant, '23newParticipant1234');
 
   return (
     <View style={{flex: 1}}>
@@ -238,13 +226,16 @@ alert('Group created successfully')
                 borderWidth: 2,
               }}
               style={{
-                // backgroundColor: 'red',
                 width: 150,
                 height: 150,
                 borderRadius: 100,
                 alignSelf: 'center',
               }}
-              source={image ? {uri: image?.imageShow} : require('../../../assets/dummyImage.jpeg')}>
+              source={
+                image
+                  ? {uri: image?.imageShow}
+                  : require('../../../assets/dummyImage.jpeg')
+              }>
               <TouchableOpacity
                 onPress={() => imagePick()}
                 style={{
@@ -253,8 +244,6 @@ alert('Group created successfully')
                   bottom: 0,
                   borderRadius: 100,
                   backgroundColor: 'orange',
-                  // borderColor: Colors.color1,
-                  // borderWidth: 4,
                   alignContent: 'center',
                   alignSelf: 'center',
                   padding: 10,
@@ -274,25 +263,20 @@ alert('Group created successfully')
           </View>
           {/* Create Group Section */}
           <View style={styles.createGroupSection}>
-            {/* <Image source={require("../../../assets/splashimg.png")} style={{ width: 70, height: 70, borderRadius: 50 }} /> */}
-
             <TextInput
               placeholder="Group Name"
               placeholderTextColor="grey"
               style={styles.inputField}
               onChangeText={e => setGroupName(e)}
             />
-
             <TouchableOpacity
               onPress={createGroup}
               style={styles.createGroupBTN}>
-         {groupLoader==true ? 
-         <ActivityIndicator color={'white'} size={'large'}/>
-
-
-         :
-         
-         <Text style={{color: '#fff', fontSize: 15}}>Create Group</Text>}
+              {groupLoader == true ? (
+                <ActivityIndicator color={'white'} size={'large'} />
+              ) : (
+                <Text style={{color: '#fff', fontSize: 15}}>Create Group</Text>
+              )}
             </TouchableOpacity>
           </View>
 
@@ -338,7 +322,7 @@ alert('Group created successfully')
             initialNumToRender={5}
             maxToRenderPerBatch={5}
             renderItem={({item}) => (
-              <UserComp item={item} addGroupUser={addGroupUser}  />
+              <UserComp item={item} addGroupUser={addGroupUser} />
             )}
           />
         </ScrollView>
@@ -347,12 +331,9 @@ alert('Group created successfully')
   );
 };
 
-const UserComp = ({item, addGroupUser, newUser}) => {
-  // console.log(item.name, "====");
-
+const UserComp = ({item, addGroupUser}) => {
   return (
     <>
-      {/* {newUser?.user?.name !== item?.name ? ( */}
       <View style={styles.userContainer}>
         <View style={styles.userImageContainer}>
           <Image
@@ -364,11 +345,9 @@ const UserComp = ({item, addGroupUser, newUser}) => {
             style={styles.userImageStyle}
           />
         </View>
-
         <View>
           <Text style={styles.userName}>{item?.firend_name}</Text>
         </View>
-
         <View style={{position: 'absolute', right: 15}}>
           <TouchableOpacity
             activeOpacity={0.5}
@@ -378,14 +357,11 @@ const UserComp = ({item, addGroupUser, newUser}) => {
           </TouchableOpacity>
         </View>
       </View>
-      {/* ) : null} */}
     </>
   );
 };
 
-const NewUserComp = ({item, removeGroupUser, newUser}) => {
-  console.log('===jhkhkhk=dd=s', item);
-
+const NewUserComp = ({item, removeGroupUser}) => {
   return (
     <View style={styles.userContainer}>
       <View style={styles.userImageContainer}>
@@ -398,11 +374,9 @@ const NewUserComp = ({item, removeGroupUser, newUser}) => {
           style={styles.userImageStyle}
         />
       </View>
-
       <View>
         <Text style={styles.userName}>{item?.firend_name}</Text>
       </View>
-
       <View style={{position: 'absolute', right: 15}}>
         <TouchableOpacity
           activeOpacity={0.5}
@@ -414,35 +388,18 @@ const NewUserComp = ({item, removeGroupUser, newUser}) => {
     </View>
   );
 };
-
-// const mapStateToProps = state => ({
-//     user: state.user
-// });
-
-// const ActionCreators = Object.assign(
-//     {},
-//     userActions
-// );
-// const mapDispatchToProps = dispatch => ({
-//     actions: bindActionCreators(ActionCreators, dispatch),
-// });
-
-// export default connect(mapStateToProps, mapDispatchToProps)(CreateGroup);
 export default CreateGroup;
 
 const styles = StyleSheet.create({
   createGroupSection: {
     width: width,
     alignItems: 'center',
-    // justifyContent: "space-between",
     paddingHorizontal: 10,
     height: 200,
     flexDirection: 'column',
     marginTop: 20,
     marginBottom: 20,
     zIndex: 50,
-    // position:"absolute",
-    // top:20,
   },
   inputField: {
     width: '100%',

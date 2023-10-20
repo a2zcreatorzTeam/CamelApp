@@ -70,6 +70,7 @@ import CreateGroup from '../screens/chat/CreateGroup';
 import UserProfile from '../screens/UserProfile';
 import detailCompetition from './detailCompetition';
 import CreateProfile from '../screens/CreateProfile';
+// import InstagramScreen from '../screens/instagram';
 const Stack = createNativeStackNavigator();
 export default function Navigation() {
   return (
@@ -436,6 +437,7 @@ export default function Navigation() {
         />
 
         <Stack.Screen name="CreateGroup" component={CreateGroup} />
+        {/* <Stack.Screen name="InstagramScreen" component={InstagramScreen} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

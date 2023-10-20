@@ -89,24 +89,24 @@ class Login extends Component {
     }
   };
 
-  openIstagram = async () => {
-    config = {
-      redirectUrl: 'https://com.alsyahd.camel/redirect',
-      clientId: '613718807578569',
-      serviceConfiguration: {
-        authorizationEndpoint: 'https://api.instagram.com/oauth/authorize',
-        tokenEndpoint: 'https://api.instagram.com/oauth/access_token',
-      },
-    };
-    try {
-      console.log(config);
-      const result = await authorize(config);
-      console.log('Authentication Successful', 'Authorization Code:', result);
-      setAuthCode(result.code);
-    } catch (error) {
-      console.error('Failed to authenticate:', error);
-    }
-  };
+  // openIstagram = async () => {
+  //   config = {
+  //     redirectUrl: 'https://com.alsyahd.camel/redirect',
+  //     clientId: '1337858990436785',
+  //     serviceConfiguration: {
+  //       authorizationEndpoint: 'https://api.instagram.com/oauth/authorize',
+  //       tokenEndpoint: 'https://api.instagram.com/oauth/access_token',
+  //     },
+  //   };
+  //   try {
+  //     console.log(config);
+  //     const result = await authorize(config);
+  //     console.log('Authentication Successful', 'Authorization Code:', result);
+  //     setAuthCode(result.code);
+  //   } catch (error) {
+  //     console.error('Failed to authenticate:', error);
+  //   }
+  // };
   tweetNow = async () => {
     // try {
     //   await RNTwitterSignIn.init(
@@ -336,7 +336,7 @@ class Login extends Component {
           <View
             style={{flexDirection: 'row', alignSelf: 'center', marginTop: 20}}>
             <TouchableOpacity
-              onPress={this.openIstagram}
+              onPress={() => {}}
               style={{flexDirection: 'row'}}>
               <Fontisto
                 name="instagram"

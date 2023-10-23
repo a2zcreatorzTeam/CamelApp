@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, createRef} from 'react';
 import {
   View,
   Text,
@@ -11,8 +11,8 @@ import {
   ScrollView,
   Linking,
   Platform,
-  NativeModules,
   BackHandler,
+  NativeModules,
 } from 'react-native';
 const {RNTwitterSignIn} = NativeModules;
 import * as ArabicText from '../language/EnglishToArabic';
@@ -28,25 +28,20 @@ import OTPTextView from 'react-native-otp-textinput';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {getFCMToken} from '../services/Helper';
-import {auth} from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-toast-message';
-import {authorize} from 'react-native-app-auth';
-
+import InstagramLogin from 'react-native-instagram-login';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
-// RNTwitterSignIn.init(
-//   'WzSvycGgEkZsznUOoqi18XUBP',
-//   '0cfvEIxQgytLEL5TS5y1Ys8uNvHHpoMiIWZSbxDF8xKKolb2Iq',
-// )
-//   .then(response => console.log(response, 'Twitter SDK initialized'))
-//   .catch(err => {
-//     console.log('errorrrr', err);
-//   });
-// RNTwitterSignIn.init({
-//   apiKey: 'gvjMAUvs5tp11k4tZhT9TU7bm',
-//   apiSecret: '21PtUlWScusODhTFTc0xkOdfJHZd0Er4LUKJyNW0xnwLcNOowO',
-//   // redirectURI: 'https://camelapplication-f93a0.firebaseapp.com/__/auth/handler',
-// });
+import CookieManager from '@react-native-cookies/cookies';
+
+RNTwitterSignIn.init(
+  'v45uUCHQCpEQKWZGH5GxGFJGe',
+  'h0DKDjKJfg61YOcoMqcmxmNIByVGIQzWg9vMhzozFLUW2hudB5',
+).then(() => console.log('Twitter SDK initialized'));
+
+// 1711260246377730048-evHWc3jllY5Ci2kU6DH5V3ZcxzNuh6 access token
+// vyD5PFr1QBXSE6J6wud5dpDMcN0dDe7JR4RnqXmaQqGqI access secret key
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -62,8 +57,10 @@ class Login extends Component {
       otp: false,
       randomIndex: 0,
       hidePassword: true,
+      token: '',
     };
     this.backHandler = null;
+    this.instagramLoginRef = createRef();
   }
   saveData() {
     let phone = this.state.contactNumber;
@@ -88,86 +85,38 @@ class Login extends Component {
       // alert(e);
     }
   };
-
-  // openIstagram = async () => {
-  //   config = {
-  //     redirectUrl: 'https://com.alsyahd.camel/redirect',
-  //     clientId: '1337858990436785',
-  //     serviceConfiguration: {
-  //       authorizationEndpoint: 'https://api.instagram.com/oauth/authorize',
-  //       tokenEndpoint: 'https://api.instagram.com/oauth/access_token',
-  //     },
-  //   };
-  //   try {
-  //     console.log(config);
-  //     const result = await authorize(config);
-  //     console.log('Authentication Successful', 'Authorization Code:', result);
-  //     setAuthCode(result.code);
-  //   } catch (error) {
-  //     console.error('Failed to authenticate:', error);
-  //   }
-  // };
-  tweetNow = async () => {
-    // try {
-    //   await RNTwitterSignIn.init(
-    //     'WzSvycGgEkZsznUOoqi18XUBP',
-    //     '0cfvEIxQgytLEL5TS5y1Ys8uNvHHpoMiIWZSbxDF8xKKolb2Iq',
-    //   );
-    //   console.log('Twitter sign-in module initialized successfully');
-    // } catch (error) {
-    //   console.error('Error initializing Twitter sign-in:', error);
-    // }
+  setIgToken = data => {
+    this.onClear();
+    this.setState({loader: true});
     try {
-      await RNTwitterSignIn.init(
-        'WzSvycGgEkZsznUOoqi18XUBP',
-        '0cfvEIxQgytLEL5TS5y1Ys8uNvHHpoMiIWZSbxDF8xKKolb2Iq',
-      );
-      let twitterCredential;
-      console.log('success');
-      const {authToken, authTokenSecret} = await RNTwitterSignIn.logIn();
-      twitterCredential = auth.TwitterAuthProvider.credential(
-        authToken,
-        authTokenSecret,
-      );
-
-      console.log('heyyyy');
-      // if (email === 'COULD_NOT_FETCH') {
-      //   // Handle the case where the email could not be fetched
-      //   // You might choose to proceed without the email or show an error message to the user
-      //   console.log('Email could not be fetched');
-      // } else {
-      //   // Proceed with the obtained data
-      //   console.log('Twitter Auth Token:', authToken);
-      //   console.log('Twitter Auth Token Secret:', authTokenSecret);
-      //   console.log('Email:', email);
-      //   console.log('Username:', userName);
-      //   console.log('User ID:', userID);
-      //   console.log('Name:', name);
-      //   // You can use the obtained data as needed
-      //   setUserInfo({email, userName, userID, name});
-      // }
-
-      // You can use the obtained data as needed
-      // setUserInfo({email, userName, userID, name});
+      camelapp
+        .post('/social/login', {
+          socialToken: data?.access_token,
+          userId: data?.user_id,
+        })
+        .then(res => {
+          console.log(res, 'resposr');
+          this.props.navigation?.navigate('CreateProfile', {
+            screen: 'socialLogin',
+          });
+          this.setState({loader: false});
+        })
+        .catch(error => {
+          console.log(error, 'errorr');
+          this.setState({loader: false});
+        });
     } catch (error) {
-      const value = error;
-      console.error('Twitter login error:', error);
+      this.setState({loader: false});
+      Toast.show({
+        text1: error?.response + '',
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // alert(error?.response + '');
+      console.log('Error Message--- signin', error);
     }
   };
-  tweetNows() {
-    const url = 'https://twitter.com/Alsyahdapp';
-    Linking.openURL(url)
-      .then(data => {
-        // alert('Twitter Opened');
-      })
-      .catch(() => {
-        Toast.show({
-          text1: ArabicText?.Somethingwentwrong,
-          type: 'error',
-          visibilityTime: 3000,
-        });
-      });
-  }
+
   componentDidMount = () => {
     this.focusListener = this.props.navigation.addListener('focus', () => {
       this.backHandler = BackHandler.addEventListener(
@@ -184,6 +133,42 @@ class Login extends Component {
     this?.focusListener(); // Remove the focus listener
     this?.backHandler?.remove(); // Remove the BackHandler event listener
   };
+
+  signInWithTwitter = async () => {
+    console.log('heyyyy');
+    try {
+      // Log in with Twitter and get tokens
+      const {authToken, authTokenSecret, email} = await RNTwitterSignIn.logIn();
+      console.log(authToken, authTokenSecret, email);
+      if (!email) {
+        console.log('Email is missing. Prompt the user to enter their email.');
+        return;
+      }
+
+      // Create a Twitter credential with the tokens
+      const twitterCredential = auth.TwitterAuthProvider.credential(
+        authToken,
+        authTokenSecret,
+      );
+      console.log(twitterCredential, 'twitterCredential');
+
+      // Sign in the user with the Twitter credential
+      const userCredential = await auth().signInWithCredential(
+        twitterCredential,
+      );
+
+      console.log('User signed in:', userCredential.user);
+    } catch ({error}) {
+      let err= error
+      console.error('Error signing in with Twitter and Firebase:', error);
+    }
+  };
+  onClear = () => {
+    CookieManager.clearAll(true).then(res => {
+      console.log(res, 'responsee');
+    });
+  };
+
   render() {
     const authentication = async () => {
       this.setState({loader: true});
@@ -336,7 +321,10 @@ class Login extends Component {
           <View
             style={{flexDirection: 'row', alignSelf: 'center', marginTop: 20}}>
             <TouchableOpacity
-              onPress={() => {}}
+              onPress={() => {
+                // this.props.navigation?.navigate('InstagramScreen');
+                this.instagramLogin.show();
+              }}
               style={{flexDirection: 'row'}}>
               <Fontisto
                 name="instagram"
@@ -349,7 +337,7 @@ class Login extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={this.tweetNow}
+              onPress={() => this.signInWithTwitter()}
               style={{flexDirection: 'row'}}>
               <Feather
                 name="twitter"
@@ -497,6 +485,19 @@ class Login extends Component {
             </View>
           } */}
         </Modal>
+
+        <InstagramLogin
+          ref={ref => (this.instagramLogin = ref)}
+          appId="1337858990436785"
+          appSecret="7515c4a451f66cc42943205054700db2"
+          redirectUrl="https://com.alsyahd.camel/redirect"
+          incognito={false}
+          // scopes={['user_profile', 'user_media']}
+          scopes={['user_profile', 'user_email']}
+          onLoginSuccess={this.setIgToken}
+          onLoginFailure={data => console.log(data)}
+          language="en" //default is 'en' for english
+        />
       </View>
     );
   }

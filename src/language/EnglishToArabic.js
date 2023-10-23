@@ -299,6 +299,8 @@ export const Alsyahdneedslocationaccesstogetyourcurrentlocation =
   'يحتاج Alsyahd إلى الوصول إلى الموقع للحصول على موقعك الحالي';
 export const AskMeLater = 'اسالني لاحقا';
 export const Cancel = 'يلغي';
-export const OK='نعم'
-export const Youcanusethelocation='يمكنك استخدام الموقع'
-export const locationpermissiondenied='تم رفض إذن الموقع'
+export const OK = 'نعم';
+export const Youcanusethelocation = 'يمكنك استخدام الموقع';
+export const locationpermissiondenied = 'تم رفض إذن الموقع';
+export const phonenumbercantbeempty = 'لا يمكن أن يكون رقم الهاتف فارغًا';
+export const usernamecantbeempty = 'لا يمكن أن يكون اسم المستخدم فارغًا';

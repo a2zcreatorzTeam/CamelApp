@@ -272,7 +272,6 @@ dependencies {
     // implementation project(':react-native-code-push')
     // implementation 'com.google.firebase:firebase-storage:14.12.0' // Check the latest version
 
-
     implementation project(':react-native-splash-screen')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(':react-native-fs')

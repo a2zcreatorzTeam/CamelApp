@@ -23,7 +23,6 @@ import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
 import firebaseConfig from './src/components/firebase';
 import {getStorage} from 'firebase/storage';
 import {notificationListener} from './src/services/Helper';
-import {requestNotifications, openSettings} from 'react-native-permissions';
 import DeviceInfo from 'react-native-device-info';
 
 // import {store, persistor} from './src/redux/store/configureStore';

@@ -27,6 +27,8 @@ class CreateProfile extends Component {
       location: '',
       email: '',
       pickedImage: '',
+      userName: '',
+      phoneNumber: '',
     };
   }
   componentDidMount() {
@@ -62,10 +64,24 @@ class CreateProfile extends Component {
       });
   }
   createProfile = async () => {
-    const {pickedImage, location, email} = this.state;
+    const {pickedImage, location, email, userName, phoneNumber} = this.state;
     const userdata = this.props?.route?.params?.response;
-
-    if (!email) {
+    const {screen} = this.props.route?.params;
+    if (screen == 'socialLogin') {
+      if (!userName) {
+        Toast.show({
+          text1: ArabicText.usernamecantbeempty,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+      } else if (!phoneNumber) {
+        Toast.show({
+          text1: ArabicText.phonenumbercantbeempty,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+      }
+    } else if (!email) {
       Toast.show({
         text1: ArabicText.EmailFieldCantBeEmpty,
         type: 'error',
@@ -163,10 +179,17 @@ class CreateProfile extends Component {
 
   render() {
     const {image, btnLoader, location} = this.state;
+    const {screen} = this.props.route?.params;
+    console.log(screen, 'screemj');
     return (
       <ScrollView
+        style={{flex: 1}}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingTop: 10, backgroundColor: '#fff'}}>
+        contentContainerStyle={{
+          paddingTop: 10,
+          backgroundColor: '#fff',
+          flex: 1,
+        }}>
         <View style={Styles.container}>
           <View
             style={{
@@ -224,7 +247,28 @@ class CreateProfile extends Component {
           <Text style={[Styles.text, {marginVertical: 20}]}>
             {ArabicText?.Edit_profile}
           </Text>
+
           <View style={Styles.profileQuestioncard}>
+            {screen == 'socialLogin' ? (
+              <>
+                <TextInput
+                  style={Styles.inputs}
+                  keyboardType="numeric"
+                  placeholder={ArabicText.phone}
+                  maxLength={11}
+                  placeholderTextColor="#000000"
+                  onChangeText={text =>
+                    this.setState({phoneNumber: text.replace(/[^0-9]/g, '')})
+                  }></TextInput>
+                <TextInput
+                  style={Styles.inputs}
+                  value={this?.state?.userName}
+                  onChangeText={text => this.setState({userName: text})}
+                  placeholder={ArabicText.name}
+                  placeholderTextColor="#b0b0b0"
+                />
+              </>
+            ) : null}
             <TextInput
               style={Styles.inputs}
               value={this?.state?.email}

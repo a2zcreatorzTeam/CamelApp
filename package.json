@@ -28,6 +28,7 @@
     "appcenter-analytics": "5.0.0",
     "appcenter-crashes": "5.0.0",
     "axios": "^0.26.1",
+    "base-64": "^1.0.0",
     "deprecated-react-native-prop-types": "^4.2.1",
     "email-validator": "^2.0.4",
     "firebase": "^10.4.0",

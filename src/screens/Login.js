@@ -34,11 +34,15 @@ import InstagramLogin from 'react-native-instagram-login';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 import CookieManager from '@react-native-cookies/cookies';
+import {encode as base64Encode} from 'base-64';
 
 RNTwitterSignIn.init(
-  'v45uUCHQCpEQKWZGH5GxGFJGe',
-  'h0DKDjKJfg61YOcoMqcmxmNIByVGIQzWg9vMhzozFLUW2hudB5',
+  'WW08tCdnwdVjaEwHkRUJsKyXK',
+  'QJKZDX6neisbF6pKB3rNuL1CkYoIPRErRDJX5mcXa4Sg0bK0KU',
 ).then(() => console.log('Twitter SDK initialized'));
+// b2O6ZYjbTBfD6If5Sk9WQY9N0 //appKEY
+//CSMNevPnxKSPXOj4GE8Zdr0fGMyt1PwX8gwK0ML1V5GLKFTGzK app secretkey
+// AAAAAAAAAAAAAAAAAAAAAIOxqgEAAAAA70t7%2B6N8GbN%2BNOXoqit47AwUnBQ%3D7LUQVc4o4n34SAvp2TkaiAGGH4uXaxMLn4h9YDBtY7c88DaENi Bearertoken
 
 // 1711260246377730048-evHWc3jllY5Ci2kU6DH5V3ZcxzNuh6 access token
 // vyD5PFr1QBXSE6J6wud5dpDMcN0dDe7JR4RnqXmaQqGqI access secret key
@@ -116,7 +120,6 @@ class Login extends Component {
       console.log('Error Message--- signin', error);
     }
   };
-
   componentDidMount = () => {
     this.focusListener = this.props.navigation.addListener('focus', () => {
       this.backHandler = BackHandler.addEventListener(
@@ -128,40 +131,153 @@ class Login extends Component {
       );
     });
   };
-
   componentWillUnmount = () => {
     this?.focusListener(); // Remove the focus listener
     this?.backHandler?.remove(); // Remove the BackHandler event listener
   };
-
   signInWithTwitter = async () => {
     console.log('heyyyy');
-    try {
-      // Log in with Twitter and get tokens
-      const {authToken, authTokenSecret, email} = await RNTwitterSignIn.logIn();
-      console.log(authToken, authTokenSecret, email);
-      if (!email) {
-        console.log('Email is missing. Prompt the user to enter their email.');
-        return;
-      }
+    // try {
+    //   // Log in with Twitter and get tokens
+    //   const {authToken, authTokenSecret, email} = await RNTwitterSignIn.logIn();
+    //   console.log(authToken, authTokenSecret, email);
+    //   if (!email) {
+    //     console.log('Email is missing. Prompt the user to enter their email.');
+    //     return;
+    //   }
 
-      // Create a Twitter credential with the tokens
-      const twitterCredential = auth.TwitterAuthProvider.credential(
-        authToken,
-        authTokenSecret,
-      );
-      console.log(twitterCredential, 'twitterCredential');
+    //   // Create a Twitter credential with the tokens
+    //   const twitterCredential = auth.TwitterAuthProvider.credential(
+    //     authToken,
+    //     authTokenSecret,
+    //   );
+    //   console.log(twitterCredential, 'twitterCredential');
 
-      // Sign in the user with the Twitter credential
-      const userCredential = await auth().signInWithCredential(
-        twitterCredential,
-      );
+    //   // Sign in the user with the Twitter credential
+    //   const userCredential = await auth().signInWithCredential(
+    //     twitterCredential,
+    //   );
 
-      console.log('User signed in:', userCredential.user);
-    } catch ({error}) {
-      let err= error
-      console.error('Error signing in with Twitter and Firebase:', error);
-    }
+    //   console.log('User signed in:', userCredential.user);
+    // } catch (error) {
+    //   let err= error
+    //   console.error('Error signing in with Twitter and Firebase:', error);
+    // }
+    // Log in with Twitter and get tokens
+    // RNTwitterSignIn.init(
+    //   'b2O6ZYjbTBfD6If5Sk9WQY9N0',
+    //   'CSMNevPnxKSPXOj4GE8Zdr0fGMyt1PwX8gwK0ML1V5GLKFTGzK',
+    // );
+    // RNTwitterSignIn.logIn()
+    //   .then(loginData => {
+    //     console.log(loginData);
+    //     const {authToken, authTokenSecret} = loginData;
+    //     console.log(authToken, 'authToken', authTokenSecret);
+    //     if (authToken && authTokenSecret) {
+    //     }
+    //   })
+    //   .catch(error => {
+    //     try {
+    //       const message = error?.message;
+    //       const startIndex = message.indexOf('{"email":');
+    //       const endIndex = message.lastIndexOf('"}');
+    //       if (startIndex !== -1 && endIndex !== -1) {
+    //         const innerJsonString = message.slice(startIndex, endIndex + 2); // Include the closing double quote and curly brace
+    //         try {
+    //           const data = JSON.parse(innerJsonString);
+    //           const {
+    //             email,
+    //             userName,
+    //             userID,
+    //             name,
+    //             authToken,
+    //             authTokenSecret,
+    //           } = data;
+    //           const twitterCredential = auth.TwitterAuthProvider.credential(
+    //             authToken,
+    //             authTokenSecret,
+    //           );
+    //           const userCredential =
+    //             auth().signInWithCredential(twitterCredential);
+    //           console.log(userCredential, 'Name:123', twitterCredential);
+    //         } catch (e) {
+    //           console.error('Error parsing inner data:', e);
+    //         }
+    //       } else {
+    //         console.error('Data not found in the string');
+    //       }
+    //     } catch {}
+    //   });
+    // try {
+    //   RNTwitterSignIn.init(
+    //     'WW08tCdnwdVjaEwHkRUJsKyXK',
+    //     'QJKZDX6neisbF6pKB3rNuL1CkYoIPRErRDJX5mcXa4Sg0bK0KU',
+    //   );
+    //   const loginData = await RNTwitterSignIn.logIn();
+    //   const {authToken, authTokenSecret} = loginData;
+    //   console.log(authToken, 'authToken', authTokenSecret);
+    //   if (authToken && authTokenSecret) {
+    //   }
+    // } catch (error) {
+    //   try {
+    //     const message = error?.message;
+    //     console.log(error, 'error');
+    //     const startIndex = message.indexOf('{"email":');
+    //     const endIndex = message.lastIndexOf('"}');
+    //     console.log(startIndex, endIndex);
+    //     if (startIndex !== -1 && endIndex !== -1) {
+    //       const innerJsonString = message.slice(startIndex, endIndex + 2); // Include the closing double quote and curly brace
+    //       console.log(innerJsonString);
+    //       try {
+    //         const data = JSON.parse(innerJsonString);
+    //         const {email, userName, userID, name, authToken, authTokenSecret} =
+    //           data;
+    //         // Create a Twitter credential with the tokens
+    //         let twitterCredential = await auth.TwitterAuthProvider.credential(
+    //           authToken,
+    //           authTokenSecret,
+    //         );
+    //         twitterCredential.email = 'developer.a2zcreatorz@gmail.com';
+    //         console.log(twitterCredential, 'twitterCredential');
+    //         // Sign-in the user with the credential
+    //         const results = await auth().signInWithCredential(
+    //           twitterCredential,
+    //         );
+    //         console.log(results, 'Name:123');
+    //       } catch (e) {
+    //         console.error('Error parsing inner data:', e);
+    //       }
+    //     } else {
+    //       console.error('Data not found in the string');
+    //     }
+    //   } catch (err) {
+    //     console.log('errr', err);
+    //   }
+    // }
+
+    const API_KEY = 'WW08tCdnwdVjaEwHkRUJsKyXK';
+    const API_SECRET_KEY = 'CSMNevPnxKSPXOj4GE8Zdr0fGMyt1PwX8gwK0ML1V5GLKFTGzK';
+    const credentials = `${API_KEY}:${API_SECRET_KEY}`;
+    console.log(credentials);
+    const base64Credentials = base64Encode(credentials);
+    console.log(base64Credentials,"credentials");
+    fetch('https://api.twitter.com/oauth2/token', {
+      method: 'POST',
+      headers: {
+        Authorization: `Basic ${base64Credentials}`,
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      },
+      body: 'grant_type=client_credentials',
+    })
+      .then(response => response.json())
+      .then(data => {
+        const bearerToken = data.access_token;
+        console.log(data, 'bearerToken', bearerToken);
+        // Use the bearer token for API requests
+      })
+      .catch(error => {
+        console.error('Error obtaining bearer token:', error);
+      });
   };
   onClear = () => {
     CookieManager.clearAll(true).then(res => {
@@ -337,7 +453,9 @@ class Login extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => this.signInWithTwitter()}
+              onPress={() => {
+                this.signInWithTwitter();
+              }}
               style={{flexDirection: 'row'}}>
               <Feather
                 name="twitter"

@@ -38,10 +38,11 @@ class News extends Component {
           user_id: user?.id,
         })
         .then(res => {
+          console.log(res?.data?.news, 'reponseeee');
           this.setState({
             posts: res.data.news,
             loader: false,
-            key: !key,
+            // key: !key,
           });
         });
     } catch (error) {
@@ -80,13 +81,11 @@ class News extends Component {
   }
   componentDidMount = () => {
     this.viewPosts();
-    this.focusListener = this.props.navigation.addListener('focus', () => {
-      this.viewPosts();
-    });
   };
-  componentWillUnmount() {
-    this.focusListener();
-  }
+  // componentWillUnmount() {
+  //   // Remove the 'focus' event listener when the component unmounts to prevent memory leaks.
+  //   this.focusListener.remove();
+  // }
   render() {
     const {posts, filterPosts, searchedItem, key} = this.state;
     const onItemClick = item => {
@@ -137,15 +136,13 @@ class News extends Component {
               key={key}
               data={searchedItem ? filterPosts : posts}
               renderItem={renderItem}
-              keyExtractor={item => item.id}
+              keyExtractor={item => item?.id}
               refreshControl={
                 <RefreshControl
                   refreshing={this.state.refreshing}
                   onRefresh={() => this.ScrollToRefresh()}
                 />
               }
-              initialNumToRender={5}
-              maxToRenderPerBatch={5}
             />
           </View>
         )}

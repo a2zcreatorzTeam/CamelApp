@@ -92,10 +92,12 @@ class CamelTreatmentList extends Component {
             // console.log('index', index);
             let array = item?.img;
             let imagesArray = [];
-            array?.forEach(element => {
-              imagesArray?.push({type: 'image', source: element});
-            });
-            imagesArray?.push({type: 'video', source: item?.video});
+            array[0] !== '' &&
+              array?.forEach(element => {
+                imagesArray?.push({type: 'image', source: element});
+              });
+            item?.video !== null &&
+              imagesArray?.push({type: 'video', source: item?.video});
             item['imagesArray'] = imagesArray;
             arrayPosts[index] = item;
           });
@@ -144,7 +146,7 @@ class CamelTreatmentList extends Component {
     }
   };
   render() {
-    console.log("CamelTreatment");
+    console.log('CamelTreatment');
     const {key, searchedItem, posts, filterPosts} = this.state;
     const renderItem = ({item}) => {
       return (

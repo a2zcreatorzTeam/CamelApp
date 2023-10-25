@@ -165,28 +165,18 @@ class CamelClub extends Component {
       });
   }
   createPostCamelClub = async () => {
+    const {videoForPost} = this.state;
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
 
-    if (this.state.videoForPost === undefined) {
+    if (
+      (combineImages == undefined || combineImages?.length == 0) &&
+      videoForPost == undefined
+    ) {
+      console.log('ifff');
       return Toast.show({
-        text1: ArabicText?.Cannotpostwithoutvideo,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-    }
-    if (combineImages == undefined || combineImages?.length == 0) {
-      return Toast.show({
-        text1: ArabicText?.Cannotpostwithoutimage,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-    }
-    console.log(combineImages?.length);
-    if (combineImages?.length < 4) {
-      return Toast.show({
-        text1: ArabicText?.UploadMinimum4Images,
+        text1: ArabicText?.cannotpostwithoutmedia,
         type: 'error',
         visibilityTime: 3000,
       });
@@ -195,8 +185,9 @@ class CamelClub extends Component {
       this.state.title != '' &&
       this.state.description != '' &&
       this.state.location != '' &&
-      this.state.price != '' &&
-      this.state.mixed != []
+      this.state.price != ''
+      //  &&
+      // this.state.mixed != []
     ) {
       let {user} = this.props;
       let user_id = user.user.user.id;
@@ -208,8 +199,8 @@ class CamelClub extends Component {
           location: this.state.location,
           description: this.state.description,
           price: this.state.price,
-          images: combineImages,
-          video: this.state.videoForPost,
+          images: combineImages ? combineImages : [],
+          video: videoForPost ? videoForPost : null,
         })
         .then(response => {
           this.setState({loading: false});
@@ -304,7 +295,7 @@ class CamelClub extends Component {
               if (text.length <= 24) {
                 this.setState({title: text});
               } else {
-               Toast.show({
+                Toast.show({
                   text1: ArabicText?.limitCharacters,
                   type: 'error',
                   visibilityTime: 3000,
@@ -321,7 +312,7 @@ class CamelClub extends Component {
               if (text.length <= 24) {
                 this.setState({location: text});
               } else {
-               Toast.show({
+                Toast.show({
                   text1: ArabicText?.limitCharacters,
                   type: 'error',
                   visibilityTime: 3000,
@@ -340,7 +331,7 @@ class CamelClub extends Component {
               if (text.length <= 24) {
                 this.setState({price: text.replace(/[^0-9]/g, '')});
               } else {
-               Toast.show({
+                Toast.show({
                   text1: ArabicText?.limitCharacters,
                   type: 'error',
                   visibilityTime: 3000,

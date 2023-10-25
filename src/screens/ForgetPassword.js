@@ -40,17 +40,18 @@ class ForgetPassword extends Component {
     if (this.state.phone.length > 9) {
       this.setState({btnPressed: true, loader: true});
       camelapp.get('checkemail?phone=' + this.state.phone).then(response => {
-        let number = 0;
-        do {
-          number = Math.floor(Math.random() * 10000) + 1;
-          Toast.show({
-            text1: number,
-            type: 'success',
-            visibilityTime: 3000,
-          });
-          // alert(number);
-        } while (number < 1000 || number > 10000);
-        if (response.data.status === false) {
+        console.log(number, 'numberrrrr');
+        // let number = 0;
+        // do {
+        //   number = Math.floor(Math.random() * 10000) + 1;
+        //   Toast.show({
+        //     text1: number,
+        //     type: 'success',
+        //     visibilityTime: 3000,
+        //   });
+        //   // alert(number);
+        // } while (number < 1000 || number > 10000);
+        if (response.data.status) {
           this.setState({otp: true, loader: false});
           camelapp
             .post('sendsms', {
@@ -58,7 +59,7 @@ class ForgetPassword extends Component {
               message: number,
             })
             .then(response => {
-              if (response.data.status === true) {
+              if (response.data.status) {
                 Toast.show({
                   text1: ArabicText.OTPsenttoyourPhoneNumber,
                   type: 'success',

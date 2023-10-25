@@ -169,26 +169,17 @@ class MissingCamelForm extends Component {
   }
   // POST
   createPostMissingCamelForm = async () => {
+    const {videoForPost} = this.state;
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
-    if (this.state.videoForPost === undefined) {
+    if (
+      (combineImages == undefined || combineImages?.length == 0) &&
+      videoForPost == undefined
+    ) {
+      console.log('ifff');
       return Toast.show({
-        text1: ArabicText?.Cannotpostwithoutvideo,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-    }
-    if (combineImages == undefined || combineImages?.length == 0) {
-      return Toast.show({
-        text1: ArabicText?.Cannotpostwithoutimage,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-    }
-    if (combineImages?.length < 4) {
-      return Toast.show({
-        text1: ArabicText?.UploadMinimum4Images,
+        text1: ArabicText?.cannotpostwithoutmedia,
         type: 'error',
         visibilityTime: 3000,
       });
@@ -198,8 +189,9 @@ class MissingCamelForm extends Component {
       this.state.description != '' &&
       this.state.location != '' &&
       this.state.color != '' &&
-      this.state.camel_type != '' &&
-      this.state.mixed.length != 0
+      this.state.camel_type != ''
+      // &&
+      // this.state.mixed.length != 0
     ) {
       let {user} = this.props;
       let user_id = user.user.user.id;
@@ -208,13 +200,13 @@ class MissingCamelForm extends Component {
         camelapp
           .post('/add/camel_female', {
             user_id: user_id,
-            images: combineImages,
             type: this.state.camel_type,
             color: this.state.color,
             location: this.state.location,
             description: this.state.description,
             title: this.state.title,
-            video: this.state.videoForPost,
+            images: combineImages ? combineImages : [],
+            video: videoForPost ? videoForPost : null,
           })
           .then(response => {
             this.setState({
@@ -240,7 +232,7 @@ class MissingCamelForm extends Component {
               image: [],
               fileName: '',
             });
-            this.props.navigation.navigate('FemaleList');
+            this.props.navigation.replace('FemaleList');
           })
           .catch(error => {
             console.log('error', error.response);

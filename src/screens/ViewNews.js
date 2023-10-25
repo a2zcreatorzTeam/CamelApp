@@ -36,10 +36,13 @@ class ViewNews extends Component {
       like: [],
       like_count: [],
       loading: false,
+      key: false,
+      rated: props?.route?.params?.newsItem?.flagForRating,
     };
   }
 
   getComments = async () => {
+    const {key} = this.state;
     const newsdata = this.props.route.params.newsItem;
     let {user} = this.props;
     user = user?.user?.user;
@@ -49,9 +52,11 @@ class ViewNews extends Component {
         user_id: user?.id,
       })
       .then(res => {
+        console.log(res, 'responseeee');
         this.setState({
           commentList: res?.data,
           loader: false,
+          key: !key,
         });
       })
       .catch(err => {
@@ -77,6 +82,7 @@ class ViewNews extends Component {
               type: 'success',
               visibilityTime: 3000,
             });
+            this.setState({rated: true});
             // alert(response?.data?.message);
           }
           // if (response.data.status == true) {
@@ -101,13 +107,14 @@ class ViewNews extends Component {
             comment: this.state.newComment,
           })
           .then(res => {
-            Toast.show({
-              text1: ArabicText.Comment_Added + '',
-              type: 'success',
-              visibilityTime: 3000,
-            });
+            // Toast.show({
+            //   text1: ArabicText.Comment_Added + '',
+            //   type: 'success',
+            //   visibilityTime: 3000,
+            // });
             // alert(ArabicText.Comment_Added + '');
             this.setState({newComment: ''});
+            this.getComments();
           });
       } else {
         return Toast.show({
@@ -124,6 +131,7 @@ class ViewNews extends Component {
     this.getComments();
   }
   render() {
+    const {key, rated} = this.state;
     const newsdata = this.props.route.params.newsItem;
     let {user} = this.props;
     user = user?.user?.user;
@@ -301,7 +309,7 @@ class ViewNews extends Component {
               alignItems: 'flex-end',
               justifyContent: 'center',
             }}>
-            {user != undefined && newsdata?.flagForRating == false && (
+            {user != undefined && rated == false && (
               <Rating
                 onFinishRating={rating => this.rating(rating)}
                 ratingCount={5}
@@ -327,6 +335,7 @@ class ViewNews extends Component {
             <Text style={{color: 'black'}}>{ArabicText?.comments}</Text>
           </View>
           <FlatList
+            key={key}
             style={{flex: 1}}
             // inverted
             data={this.state.commentList}

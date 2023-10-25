@@ -177,40 +177,28 @@ class CamelClub extends Component {
       });
   }
   createPostCamelClub = async () => {
-    const {imagesForPost} = this.state;
+    const {imagesForPost, videoForPost} = this.state;
     console.log('createe');
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
-    if (this.state.videoForPost === undefined) {
+    if (
+      (combineImages == undefined || combineImages?.length == 0) &&
+      videoForPost == undefined
+    ) {
+      console.log('ifff');
       return Toast.show({
-        text1: ArabicText?.Cannotpostwithoutvideo,
+        text1: ArabicText?.cannotpostwithoutmedia,
         type: 'error',
         visibilityTime: 3000,
       });
-      // return alert(ArabicText?.Cannotpostwithoutvideo);
-    }
-    if (imagesForPost == undefined || imagesForPost?.length == 0) {
-      return Toast.show({
-        text1: ArabicText?.Cannotpostwithoutimage,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-      // return alert(ArabicText?.Cannotpostwithoutimage);
-    }
-    if (combineImages?.length < 4) {
-      return Toast.show({
-        text1: ArabicText?.UploadMinimum4Images,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-      // return alert(ArabicText?.UploadMinimum4Images);
     }
     if (
       this.state.title != '' &&
       this.state.description != '' &&
-      this.state.location != '' &&
-      this.state.mixed != []
+      this.state.location != ''
+      //  &&
+      // this.state.mixed != []
     ) {
       let {user} = this.props;
       let user_id = user.user.user.id;
@@ -221,8 +209,8 @@ class CamelClub extends Component {
           title: this.state.title,
           location: this.state.location,
           description: this.state.description,
-          images: this.state.imagesForPost,
-          video: this.state.videoForPost,
+          images: combineImages ? combineImages : [],
+          video: videoForPost ? videoForPost : null,
         })
         .then(response => {
           if (response.data) {
@@ -235,6 +223,7 @@ class CamelClub extends Component {
               cameraimage: [],
               cameraimagesForPost: undefined,
             });
+            // this.props.navigation.goBack();
             this.props.navigation.replace('CamelClubList');
           }
         })

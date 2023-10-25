@@ -6,7 +6,6 @@ import Login from '../screens/Login';
 import Signup from '../screens/Signup';
 import SellingEqForm from '../screens/SellingEquipmentForm.js';
 import MissingCamelForm from '../screens/MissingCamelForm.js';
-import MarketingForm from '../screens/MarketingForm';
 import CamelClub from '../screens/CamelClub';
 import MovingCamelForm from '../screens/MovingCamelForm';
 import Forgetpass from '../screens/ForgetPassword';
@@ -300,11 +299,6 @@ export default function Navigation() {
         <Stack.Screen
           name="ViewNews"
           component={ViewNews}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="MarketingForm"
-          component={MarketingForm}
           options={{headerShown: false}}
         />
         <Stack.Screen

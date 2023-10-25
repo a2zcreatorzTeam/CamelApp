@@ -77,36 +77,33 @@ class SellingCamel extends React.Component {
     };
   }
   createPostMovingCamel = async () => {
+    const {videoForPost} = this.state;
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
-    if (this.state.videoForPost === undefined) {
+    // if (this.state.videoForPost === undefined) {
+    //   return Toast.show({
+    //     text1: ArabicText?.Cannotpostwithoutvideo,
+    //     type: 'error',
+    //     visibilityTime: 3000,
+    //   });
+    // }
+    if (
+      (combineImages == undefined || combineImages?.length == 0) &&
+      videoForPost == undefined
+    ) {
+      console.log('ifff');
       return Toast.show({
-        text1: ArabicText?.Cannotpostwithoutvideo,
+        text1: ArabicText?.cannotpostwithoutmedia,
         type: 'error',
         visibilityTime: 3000,
       });
-    }
-    if (combineImages == undefined || combineImages?.length == 0) {
-      return Toast.show({
-        text1: ArabicText?.Cannotpostwithoutimage,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-    }
-    if (combineImages?.length < 4) {
-      return Toast.show({
-        text1: ArabicText?.UploadMinimum4Images,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-      // return alert(ArabicText?.UploadMinimum4Images);
     }
     if (
       this.state.title != '' &&
       this.state.location != '' &&
       this.state.description != '' &&
-      this.state.image != '' &&
+      // this.state.combineImages != '' &&
       this.state.car_name != '' &&
       this.state.car_type != '' &&
       this.state.price != '' &&
@@ -121,8 +118,8 @@ class SellingCamel extends React.Component {
           title: this.state.title,
           location: this.state.location,
           description: this.state.description,
-          images: combineImages,
-          video: this.state.videoForPost,
+          images: combineImages ? combineImages : [],
+          video: videoForPost ? videoForPost : null,
           register: this.state.register,
           car_model: this.state.car_name,
           car_type: this.state.car_type,

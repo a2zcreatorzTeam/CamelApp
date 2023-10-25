@@ -11,6 +11,7 @@ import {
   Pressable,
   TouchableWithoutFeedback,
   RefreshControl,
+  StyleSheet,
 } from 'react-native';
 import 'react-native-gesture-handler';
 import {Styles} from '../styles/globlestyle';
@@ -265,183 +266,197 @@ class BeautyOfCompetition extends Component {
     return (
       <View style={[Styles.containerBeauty, {position: 'relative'}]}>
         <BackBtnHeader />
-        <View style={{flexDirection: 'row', marginTop: 20, gap: 5}}>
-          <Modal
-            animationType="slide"
-            transparent={false}
-            visible={this.state.modal}
-            onRequestClose={() => {
-              this.setState({modal: false});
-            }}>
-            <TouchableWithoutFeedback>
-              <View style={Styles.centeredView}>
-                <View style={Styles.modalView}>
-                  <Pressable onPress={modal => this.setState({modal: !modal})}>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 20,
+            width: '100%',
+            width: '90%',
+          }}>
+          <ScrollView horizontal style={styles.scrollView}>
+            <Pressable onPress={() => this.setState({modal: true})}>
+              <Text style={Styles.ButtonBeauty}>{ArabicText.Reward}</Text>
+            </Pressable>
+
+            <Pressable onPress={() => this.setState({particpateModal: true})}>
+              <Text style={Styles.ButtonBeauty}>
+                {ArabicText.How_to_Participate}
+              </Text>
+            </Pressable>
+
+            <Pressable onPress={() => this.setState({generalRulesModal: true})}>
+              <Text style={Styles.ButtonBeauty}>{ArabicText.General_Rule}</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                if (this?.state?.posts?.length > 0) {
+                  this.props.navigation.navigate('WinnerBeauty', {
+                    competitionItem: this.state.competition_winner,
+                  });
+                } else {
+                  Toast.show({
+                    text1: ArabicText?.Noonehasparticipatedyet,
+                    type: 'error',
+                    visibilityTime: 3000,
+                  });
+                  // alert('No one has participated yet!');
+                }
+              }}>
+              <Text style={Styles.ButtonBeauty}>{ArabicText.winner}</Text>
+            </Pressable>
+         
+            <Pressable onPress={() => this.setState({generalRulesModal: true})}>
+              <Text style={Styles.ButtonBeauty}>{ArabicText.General_Rule}</Text>
+            </Pressable>
+          </ScrollView>
+        </View>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modal}
+          onRequestClose={() => {
+            this.setState({modal: false});
+          }}>
+          <TouchableWithoutFeedback>
+            <View style={Styles.centeredView}>
+              <View style={Styles.modalView}>
+                <Pressable onPress={modal => this.setState({modal: !modal})}>
+                  <Ionicons name="close" size={30} color="brown" />
+                </Pressable>
+                <Text style={{margin: 5, color: 'black'}}>
+                  {ArabicText.Reward}
+                </Text>
+                {this.state?.competition_prize && (
+                  <Image
+                    style={{width: 250, height: 250}}
+                    source={{
+                      uri:
+                        'http://www.tasdeertech.com/images/prizes/' +
+                        this.state?.competition_prize[0]?.image,
+                    }}
+                  />
+                )}
+                <TouchableOpacity onPress={() => this.setState({modal: false})}>
+                  <View style={Styles.btnform}>
+                    <Text style={Styles.textbtn}>{ArabicText.close}</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.particpateModal}
+          onRequestClose={() => {
+            this.setState({particpateModal: false});
+          }}>
+          <View style={Styles.centeredView}>
+            <View style={[Styles.modalView]}>
+              {this.state.competition?.length && (
+                <ScrollView
+                  contentContainerStyle={{flexGrow: 1}}
+                  style={{
+                    width: '90%',
+                    height: '50%',
+                    flexGrow: 1,
+                  }}>
+                  <Pressable
+                    style={{position: 'absolute', top: 0}}
+                    onPress={particpateModal =>
+                      this.setState({particpateModal: !particpateModal})
+                    }>
                     <Ionicons name="close" size={30} color="brown" />
                   </Pressable>
                   <Text style={{margin: 5, color: 'black'}}>
-                    {ArabicText.Reward}
+                    {ArabicText.How_to_Participate}
                   </Text>
-                  {this.state?.competition_prize && (
-                    <Image
-                      style={{width: 250, height: 250}}
+                  {/* {console.log(
+                      this.state.competition,
+                      'this.state.competition[0]?.procedure',
+                    )} */}
+                  <View style={{padding: 10}}>
+                    <HTML
+                      tagsStyles={tagsStyles}
                       source={{
-                        uri:
-                          'http://www.tasdeertech.com/images/prizes/' +
-                          this.state?.competition_prize[0]?.image,
+                        html: `<p>${this.state.competition[0]?.procedure}</p>`,
                       }}
+                      contentWidth={width}
                     />
-                  )}
+                  </View>
+                  {/* </ScrollView> */}
+                  {/* <Text style={{ margin: 5 }}>{this.state.competition[0].procedure}</Text> */}
+
                   <TouchableOpacity
-                    onPress={() => this.setState({modal: false})}>
+                    onPress={() => this.setState({particpateModal: false})}>
                     <View style={Styles.btnform}>
                       <Text style={Styles.textbtn}>{ArabicText.close}</Text>
                     </View>
                   </TouchableOpacity>
-                </View>
-              </View>
-            </TouchableWithoutFeedback>
-          </Modal>
-          <Pressable onPress={() => this.setState({modal: true})}>
-            <Text style={Styles.ButtonBeauty}>{ArabicText.Reward}</Text>
-          </Pressable>
-          <Modal
-            animationType="slide"
-            transparent={false}
-            visible={this.state.particpateModal}
-            onRequestClose={() => {
-              this.setState({particpateModal: false});
-            }}>
-            <View style={Styles.centeredView}>
-              <View style={[Styles.modalView]}>
-                {this.state.competition?.length && (
-                  <ScrollView
-                    contentContainerStyle={{flexGrow: 1}}
+                </ScrollView>
+              )}
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.generalRulesModal}
+          onRequestClose={() => {
+            this.setState({generalRulesModal: false});
+          }}>
+          <View style={Styles.centeredView}>
+            <View style={[Styles.modalView]}>
+              {this.state.competition?.length && (
+                <ScrollView
+                  contentContainerStyle={{flexGrow: 1}}
+                  style={{width: '90%', height: '50%', flexGrow: 1}}>
+                  <Pressable
                     style={{
-                      width: '90%',
-                      height: '50%',
-                      flexGrow: 1,
-                    }}>
-                    <Pressable
-                      style={{position: 'absolute', top: 0}}
-                      onPress={particpateModal =>
-                        this.setState({particpateModal: !particpateModal})
-                      }>
-                      <Ionicons name="close" size={30} color="brown" />
-                    </Pressable>
-                    <Text style={{margin: 5, color: 'black'}}>
-                      {ArabicText.How_to_Participate}
-                    </Text>
-                    {/* {console.log(
-                      this.state.competition,
-                      'this.state.competition[0]?.procedure',
-                    )} */}
-                    <View style={{padding: 10}}>
-                      <HTML
-                        tagsStyles={tagsStyles}
-                        source={{
-                          html: `<p>${this.state.competition[0]?.procedure}</p>`,
-                        }}
-                        contentWidth={width}
-                      />
-                    </View>
-                    {/* </ScrollView> */}
-                    {/* <Text style={{ margin: 5 }}>{this.state.competition[0].procedure}</Text> */}
+                      position: 'absolute',
+                      top: 0,
+                    }}
+                    onPress={generalRulesModal =>
+                      this.setState({
+                        generalRulesModal: !generalRulesModal,
+                      })
+                    }>
+                    <Ionicons
+                      name="close"
+                      size={30}
+                      color="brown"
+                      // style={{ marginLeft: width - 140 }}
+                    />
+                  </Pressable>
+                  <Text style={{margin: 5, color: 'black'}}>
+                    {ArabicText.General_Rule}
+                  </Text>
 
-                    <TouchableOpacity
-                      onPress={() => this.setState({particpateModal: false})}>
-                      <View style={Styles.btnform}>
-                        <Text style={Styles.textbtn}>{ArabicText.close}</Text>
-                      </View>
-                    </TouchableOpacity>
-                  </ScrollView>
-                )}
-              </View>
-            </View>
-          </Modal>
-          <Pressable onPress={() => this.setState({particpateModal: true})}>
-            <Text style={Styles.ButtonBeauty}>
-              {ArabicText.How_to_Participate}
-            </Text>
-          </Pressable>
-          <Modal
-            animationType="slide"
-            transparent={false}
-            visible={this.state.generalRulesModal}
-            onRequestClose={() => {
-              this.setState({generalRulesModal: false});
-            }}>
-            <View style={Styles.centeredView}>
-              <View style={[Styles.modalView]}>
-                {this.state.competition?.length && (
-                  <ScrollView
-                    contentContainerStyle={{flexGrow: 1}}
-                    style={{width: '90%', height: '50%', flexGrow: 1}}>
-                    <Pressable
-                      style={{
-                        position: 'absolute',
-                        top: 0,
+                  <View style={{padding: 10}}>
+                    <HTML
+                      tagsStyles={tagsStyles}
+                      source={{
+                        html: `<p>${this.state.competition[0].rules}</p>`,
                       }}
-                      onPress={generalRulesModal =>
-                        this.setState({
-                          generalRulesModal: !generalRulesModal,
-                        })
-                      }>
-                      <Ionicons
-                        name="close"
-                        size={30}
-                        color="brown"
-                        // style={{ marginLeft: width - 140 }}
-                      />
-                    </Pressable>
-                    <Text style={{margin: 5, color: 'black'}}>
-                      {ArabicText.General_Rule}
-                    </Text>
+                      contentWidth={width}
+                    />
+                  </View>
+                  {/* <Text style={{ margin: 5 }}>{this.state.competition[0].rules}</Text> */}
 
-                    <View style={{padding: 10}}>
-                      <HTML
-                        tagsStyles={tagsStyles}
-                        source={{
-                          html: `<p>${this.state.competition[0].rules}</p>`,
-                        }}
-                        contentWidth={width}
-                      />
+                  <TouchableOpacity
+                    onPress={() => this.setState({generalRulesModal: false})}>
+                    <View style={Styles.btnform}>
+                      <Text style={Styles.textbtn}>{ArabicText.close}</Text>
                     </View>
-                    {/* <Text style={{ margin: 5 }}>{this.state.competition[0].rules}</Text> */}
-
-                    <TouchableOpacity
-                      onPress={() => this.setState({generalRulesModal: false})}>
-                      <View style={Styles.btnform}>
-                        <Text style={Styles.textbtn}>{ArabicText.close}</Text>
-                      </View>
-                    </TouchableOpacity>
-                  </ScrollView>
-                )}
-              </View>
+                  </TouchableOpacity>
+                </ScrollView>
+              )}
             </View>
-          </Modal>
-          <Pressable onPress={() => this.setState({generalRulesModal: true})}>
-            <Text style={Styles.ButtonBeauty}>{ArabicText.General_Rule}</Text>
-          </Pressable>
-          <Pressable
-            onPress={() => {
-              if (this?.state?.posts?.length > 0) {
-                this.props.navigation.navigate('WinnerBeauty', {
-                  competitionItem: this.state.competition_winner,
-                });
-              } else {
-                Toast.show({
-                  text1: ArabicText?.Noonehasparticipatedyet,
-                  type: 'success',
-                  visibilityTime: 3000,
-                });
-                // alert('No one has participated yet!');
-              }
-            }}>
-            <Text style={Styles.ButtonBeauty}>{ArabicText.winner}</Text>
-          </Pressable>
-        </View>
-
+          </View>
+        </Modal>
+        
         <View style={Styles.BeautyOfComp}>
           <FlatList
             showsHorizontalScrollIndicator={false}
@@ -507,3 +522,14 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(BeautyOfCompetition);
+
+const styles = StyleSheet.create({
+  scrollView: {
+    backgroundColor: '#fff',
+    // width: '90%',
+    // flexGrow: 1,
+    flexDirection: 'row',
+    // marginTop: 20,
+    // flex: 1,
+  },
+});

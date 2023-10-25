@@ -78,36 +78,40 @@ class SellingEquipmentForm extends React.Component {
     };
   }
   createPostCamelFood = async () => {
-    const {selectedBidOption} = this.state;
+    const {selectedBidOption, videoForPost} = this.state;
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
-    if (combineImages == undefined || combineImages?.length == 0) {
+    if (
+      (combineImages == undefined || combineImages?.length == 0) &&
+      videoForPost == undefined
+    ) {
+      console.log('ifff');
       return Toast.show({
-        text1: ArabicText?.Cannotpostwithoutimage,
+        text1: ArabicText?.cannotpostwithoutmedia,
         type: 'error',
         visibilityTime: 3000,
       });
     }
-    if (combineImages?.length < 4) {
-      return Toast.show({
-        text1: ArabicText?.UploadMinimum4Images,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-    }
-    if (this.state.videoForPost === undefined) {
-      return Toast?.show({
-        text1: ArabicText?.Cannotpostwithoutvideo,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-    }
+    // if (combineImages?.length < 4) {
+    //   return Toast.show({
+    //     text1: ArabicText?.UploadMinimum4Images,
+    //     type: 'error',
+    //     visibilityTime: 3000,
+    //   });
+    // }
+    // if (this.state.videoForPost === undefined) {
+    //   return Toast?.show({
+    //     text1: ArabicText?.Cannotpostwithoutvideo,
+    //     type: 'error',
+    //     visibilityTime: 3000,
+    //   });
+    // }
     if (
       this.state.title != '' &&
       this.state.location != '' &&
       this.state.description != '' &&
-      this.state.mixed?.length != 0 &&
+      // this.state.mixed?.length != 0 &&
       this.state.color != '' &&
       this.state.price != '' &&
       this.state.price_type != '' &&
@@ -127,8 +131,8 @@ class SellingEquipmentForm extends React.Component {
           title: this.state.title,
           location: this.state.location,
           description: this.state.description,
-          images: combineImages,
-          video: this.state.videoForPost,
+          images: combineImages ? combineImages : [],
+          video: videoForPost ? videoForPost : null,
           camel_type: this.state.camel_type,
           color: this.state.color,
           price: this.state.price,

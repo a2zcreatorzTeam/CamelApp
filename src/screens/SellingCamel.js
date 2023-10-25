@@ -195,40 +195,21 @@ class SellingCamelForm extends React.Component {
       });
   }
   createPostSellingCamel = async () => {
-    const {selectedBidOption} = this.state;
+    const {selectedBidOption, videoForPost} = this.state;
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
-    if (this.state.videoForPost === undefined) {
+    if (
+      (combineImages == undefined || combineImages?.length == 0) &&
+      videoForPost == undefined
+    ) {
+      console.log('ifff');
       return Toast.show({
-        text1: ArabicText?.Cannotpostwithoutvideo,
+        text1: ArabicText?.cannotpostwithoutmedia,
         type: 'error',
         visibilityTime: 3000,
       });
     }
-    if (combineImages == undefined || combineImages?.length == 0) {
-      return Toast.show({
-        text1: ArabicText?.Cannotpostwithoutimage,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-    }
-    console.log(combineImages, 'combineImagescombineImages');
-    if (combineImages?.length < 4) {
-      return Toast.show({
-        text1: ArabicText?.UploadMinimum4Images,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-    }
-    if (this.state.videoForPost === undefined) {
-      return Toast.show({
-        text1: ArabicText?.Cannotpostwithoutvideo,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-    }
-
     if (
       this.state.title != '' &&
       this.state.location != '' &&
@@ -238,7 +219,7 @@ class SellingCamelForm extends React.Component {
       this.state.price_type != '' &&
       this.state.camel_type != '' &&
       this.state.selectedItem != '' &&
-      this.state.mixed.length != 0 &&
+      // this.state.mixed.length != 0 &&
       (this.state.price_type == ArabicText?.offer_Up
         ? selectedBidOption !== ''
         : true)
@@ -254,15 +235,15 @@ class SellingCamelForm extends React.Component {
           title: this.state.title,
           location: this.state.location,
           description: this.state.description,
-          images: combineImages,
           camel_type: this.state.camel_type,
           color: this.state.color,
           price: this.state.price,
           price_type: this.state.price_type,
           commission: this.state.selectedItem.name,
-          video: this.state.videoForPost,
           register: this.state.register,
           bid_expired_days: selectedBidOption?.name,
+          images: combineImages ? combineImages : [],
+          video: videoForPost ? videoForPost : null,
         })
         .then(response => {
           this.setState({
@@ -462,11 +443,12 @@ class SellingCamelForm extends React.Component {
                   this.setState({color: text});
                 } else {
                   Toast.show({
-                  text1: ArabicText?.limitCharacters,
-                  type: 'error',
-                  visibilityTime: 3000,
-                });
-                }Toast.show({
+                    text1: ArabicText?.limitCharacters,
+                    type: 'error',
+                    visibilityTime: 3000,
+                  });
+                }
+                Toast.show({
                   text1: ArabicText?.limitCharacters,
                   type: 'error',
                   visibilityTime: 3000,
@@ -483,10 +465,10 @@ class SellingCamelForm extends React.Component {
                   this.setState({camel_type: text});
                 } else {
                   Toast.show({
-                  text1: ArabicText?.limitCharacters,
-                  type: 'error',
-                  visibilityTime: 3000,
-                });
+                    text1: ArabicText?.limitCharacters,
+                    type: 'error',
+                    visibilityTime: 3000,
+                  });
                 }
               }}></TextInput>
 
@@ -500,10 +482,10 @@ class SellingCamelForm extends React.Component {
                   this.setState({location: text});
                 } else {
                   Toast.show({
-                  text1: ArabicText?.limitCharacters,
-                  type: 'error',
-                  visibilityTime: 3000,
-                });
+                    text1: ArabicText?.limitCharacters,
+                    type: 'error',
+                    visibilityTime: 3000,
+                  });
                 }
               }}></TextInput>
 

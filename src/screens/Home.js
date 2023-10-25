@@ -119,7 +119,7 @@ class Home extends Component {
     const {key} = this.state;
     let {user} = this.props;
     user = user.user.user;
-    console.log(user,"userer");
+    console.log(user, 'userer');
     try {
       return await camelapp
         .post('/view/post', {
@@ -130,10 +130,12 @@ class Home extends Component {
           arrayPosts?.map((item, index) => {
             let array = item?.img;
             let imagesArray = [];
-            array?.forEach(element => {
-              imagesArray?.push({type: 'image', source: element});
-            });
-            imagesArray?.push({type: 'video', source: item?.video});
+            array[0] !== '' &&
+              array?.forEach(element => {
+                imagesArray?.push({type: 'image', source: element});
+              });
+            item?.video !== null &&
+              imagesArray?.push({type: 'video', source: item?.video});
             item['imagesArray'] = imagesArray;
             arrayPosts[index] = item;
           });

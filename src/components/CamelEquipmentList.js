@@ -50,9 +50,11 @@ class CamelEquipmentList extends Component {
           arrayPosts.map((item, index) => {
             let array = item?.img;
             let imagesArray = [];
+            array[0] !== '' &&
             array?.forEach(element => {
               imagesArray?.push({type: 'image', source: element});
             });
+          item?.video !== null &&
             imagesArray?.push({type: 'video', source: item?.video});
             item['imagesArray'] = imagesArray;
             arrayPosts[index] = item;

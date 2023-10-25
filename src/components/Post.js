@@ -602,7 +602,8 @@ const styles = StyleSheet.create({
   },
   priceContainer: {
     position: 'absolute',
-    left: -350,
+    // left: -350,
+    left:20,
     top: 20,
     paddingTop: 5,
     alignItems: 'center',
@@ -612,6 +613,7 @@ const styles = StyleSheet.create({
     height: height * 0.065,
     borderBottomRightRadius: 50,
     borderBottomLeftRadius: 50,
+    zIndex:1111
   },
   priceTxt: {
     color: 'white',

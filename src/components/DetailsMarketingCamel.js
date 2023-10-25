@@ -54,10 +54,16 @@ class DetailsMarketingCamel extends Component {
   componentDidMount() {
     let array = this.state.itemFromDetails.img;
     let imagesArray = [];
-    array.forEach(element => {
-      imagesArray.push({type: 'image', source: element});
-    });
-    imagesArray.push({type: 'video', source: this.state.itemFromDetails.video});
+    console.log(array, 'arrayy');
+    array[0] !== '' &&
+      array.forEach(element => {
+        imagesArray.push({type: 'image', source: element});
+      });
+    this.state?.itemFromDetails?.video !== null &&
+      imagesArray.push({
+        type: 'video',
+        source: this.state?.itemFromDetails?.video,
+      });
     this.setState({imagesArray: imagesArray});
   }
   onCommentsClick = () => {
@@ -189,7 +195,6 @@ class DetailsMarketingCamel extends Component {
   render() {
     const {pausedCheck, loadVideo, videoModal, modalItem, itemFromDetails} =
       this.state;
-    console.log('detailmarketing');
     let user = this.props?.user;
     user = user?.user?.user;
     return (
@@ -203,7 +208,44 @@ class DetailsMarketingCamel extends Component {
             paddingHorizontal: 20,
             marginTop: 15,
           }}>
-          <View style={{alignItems: 'flex-end'}}>
+          {/* PRICE SECTION */}
+          <View
+            style={{
+              backgroundColor: '#D2691Eff',
+              padding: 10,
+              borderRadius: 10,
+              width: '20%',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                color: 'white',
+                fontWeight: '800',
+                fontSize: 14,
+              }}>
+              {' '}
+              {ArabicText?.Price}
+            </Text>
+            <Text
+              numberOfLines={2}
+              style={{
+                textAlign: 'center',
+                color: 'white',
+                fontWeight: '500',
+                fontSize: 13,
+              }}>
+              {itemFromDetails?.bid_price > 0
+                ? itemFromDetails?.bid_price
+                : itemFromDetails?.price}
+            </Text>
+          </View>
+          {/* PROFILE SECTION  */}
+          <View
+            style={{
+              alignItems: 'flex-end',
+              width: '65%',
+            }}>
             <Text
               style={{
                 color: '#000',
@@ -240,50 +282,6 @@ class DetailsMarketingCamel extends Component {
                 borderRadius: 50,
               }}
             />
-          </View>
-          <View
-            style={{
-              marginTop: '18%',
-              marginHorizontal: 20,
-              position: 'absolute',
-              zIndex: 1111,
-              alignSelf: 'flex-start',
-              alignItems: 'flex-start',
-              justifyContent: 'flex-start',
-              height: hight / 2.5,
-              width: '100%',
-            }}>
-            <View
-              style={{
-                paddingTop: 0,
-                alignItems: 'center',
-                alignContent: 'center',
-                width: 60,
-                backgroundColor: '#D2691Eff',
-                height: hight * 0.065,
-                borderBottomRightRadius: 50,
-                borderBottomLeftRadius: 50,
-              }}>
-              <Text
-                style={{
-                  color: 'white',
-                  fontWeight: '800',
-                  fontSize: 14,
-                }}>
-                {' '}
-                {ArabicText?.Price}
-              </Text>
-              <Text
-                numberOfLines={2}
-                style={{
-                  textAlign: 'center',
-                  color: 'white',
-                  fontWeight: '500',
-                  fontSize: 13,
-                }}>
-                {this?.state?.itemFromDetails?.price}
-              </Text>
-            </View>
           </View>
         </View>
         <View style={Styles.containerDetails}>

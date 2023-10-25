@@ -310,11 +310,14 @@ class Profile extends Component {
           var arrayPosts = res?.data?.posts;
           arrayPosts?.map((item, index) => {
             let array = item?.img;
+            console.log(array?.length);
             let imagesArray = [];
-            array?.forEach(element => {
-              imagesArray?.push({type: 'image', source: element});
-            });
-            imagesArray?.push({type: 'video', source: item?.video});
+            array[0] !== '' &&
+              array?.forEach(element => {
+                imagesArray?.push({type: 'image', source: element});
+              });
+            item?.video !== null &&
+              imagesArray?.push({type: 'video', source: item?.video});
             item['imagesArray'] = imagesArray;
             arrayPosts[index] = item;
           });
@@ -678,20 +681,22 @@ class Profile extends Component {
       }
     };
     const renderItem = ({item}) => {
-      let array = item?.img;
-      let imagesArray = [];
-      array?.forEach(element => {
-        if (element) {
-          imagesArray.push({type: 'image', source: element});
-        }
-      });
-      if (item?.video) {
-        imagesArray.push({type: 'video', source: item.video});
-      }
+      console.log(item?.imagesArray);
+      // let array = item?.img;
+      // let imagesArray = [];
+      // console.log(array?.length);
+      //     array?.forEach(element => {
+      //       if (element) {
+      //         imagesArray.push({type: 'image', source: element});
+      //       }
+      //     });
+      //   // if (item?.video && item?.video !== null) {
+      //     imagesArray.push({type: 'video', source: item.video});
+      //   // }
       return (
         <Item
           item={item}
-          imagesArray={imagesArray}
+          imagesArray={item?.imagesArray}
           likes={item?.like_count}
           title={item?.title}
           comments={item?.comment_count}
@@ -1257,7 +1262,6 @@ const Item = ({
   const [isLiked, setIsLiked] = useState(flagForLike);
   const [likeCount, setLikeCount] = useState(likes ? likes : 0);
   const [viewCount, setViewCount] = useState(item?.view_count);
-
   return (
     <Card style={{elevation: 5, marginTop: 10}}>
       <View style={Styles.homesec}>

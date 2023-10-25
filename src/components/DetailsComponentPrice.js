@@ -56,12 +56,15 @@ class DetailsComponent extends Component {
   componentDidMount() {
     let array = this.state.itemFromDetails.img;
     let imagesArray = [];
-
-    array.forEach(element => {
-      imagesArray.push({type: 'image', source: element});
-    });
-    imagesArray.push({type: 'video', source: this.state.itemFromDetails.video});
-
+    array[0] !== '' &&
+      array.forEach(element => {
+        imagesArray.push({type: 'image', source: element});
+      });
+    this.state?.itemFromDetails?.video !== null &&
+      imagesArray.push({
+        type: 'video',
+        source: this.state?.itemFromDetails?.video,
+      });
     this.setState({imagesArray: imagesArray});
   }
   onCommentsClick = () => {
@@ -86,7 +89,6 @@ class DetailsComponent extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-
   sendWhatsAppMessage() {
     let {user} = this.props;
 
@@ -117,24 +119,24 @@ class DetailsComponent extends Component {
                 })
                 .catch(() => {
                   Toast.show({
-                  text1: ArabicText?.MakesureWhatsAppinstalledonyourdevice,
-                  type: 'error',
-                  visibilityTime: 3000,
-                });
+                    text1: ArabicText?.MakesureWhatsAppinstalledonyourdevice,
+                    type: 'error',
+                    visibilityTime: 3000,
+                  });
                 });
             } else {
               Toast.show({
-              text1: ArabicText?.Pleaseentermessagetosend,
-              type: 'error',
-              visibilityTime: 3000,
-            });
+                text1: ArabicText?.Pleaseentermessagetosend,
+                type: 'error',
+                visibilityTime: 3000,
+              });
             }
           } else {
             Toast.show({
-            text1: ArabicText?.Thisuserhasdisabledchat,
-            type: 'error',
-            visibilityTime: 3000,
-          });
+              text1: ArabicText?.Thisuserhasdisabledchat,
+              type: 'error',
+              visibilityTime: 3000,
+            });
           }
         } else {
           Toast.show({
@@ -147,13 +149,13 @@ class DetailsComponent extends Component {
         this.props.navigation.navigate('Login');
       }
     } else {
-       Toast.show({
+      Toast.show({
         type: 'error',
-        text1:ArabicText?.Thisisyourpost,
+        text1: ArabicText?.Thisisyourpost,
         visibilityTime: 3000,
-      });    }
+      });
+    }
   }
-
   sendMessage() {
     let {user} = this.props;
     if (user.user.user != undefined) {
@@ -173,11 +175,12 @@ class DetailsComponent extends Component {
           });
         }
       } else {
-         Toast.show({
-        type: 'error',
-        text1:ArabicText?.Thisisyourpost,
-        visibilityTime: 3000,
-      });      }
+        Toast.show({
+          type: 'error',
+          text1: ArabicText?.Thisisyourpost,
+          visibilityTime: 3000,
+        });
+      }
     } else {
       this.props.navigation.navigate('Login');
     }
@@ -316,12 +319,15 @@ class DetailsComponent extends Component {
               style={Styles.inputdecrp}
               placeholder={this.state.itemFromDetails.description}
               editable={false}></TextInput> */}
-               <Text style={[Styles.inputdecrp,{
-              color:'black',
-               height:undefined
-            }]}>
-            {this.state?.itemFromDetails?.description}
-            
+            <Text
+              style={[
+                Styles.inputdecrp,
+                {
+                  color: 'black',
+                  height: undefined,
+                },
+              ]}>
+              {this.state?.itemFromDetails?.description}
             </Text>
           </View>
           <View

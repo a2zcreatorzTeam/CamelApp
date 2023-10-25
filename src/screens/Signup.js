@@ -130,24 +130,23 @@ class SignUp extends Component {
       camelapp
         .get('checkemail?phone=' + this.state.phone)
         .then(response => {
-          let number = 0;
-          do {
-            number = Math.floor(Math.random() * 10000) + 1;
-            console.log(number);
-          } while (number < 1000 || number > 10000);
-          Toast.show({
-            text1: number,
-            type: 'success',
-            visibilityTime: 3000,
-          });
-          // alert(number);
-          this.setState({randomIndex: number});
-          if (response.data.status === true) {
+          // let number = 0;
+          // do {
+          //   number = Math.floor(Math.random() * 10000) + 1;
+          //   console.log(number);
+          // } while (number < 1000 || number > 10000);
+          // Toast.show({
+          //   text1: number,
+          //   type: 'success',
+          //   visibilityTime: 3000,
+          // });
+          // // alert(number);
+          // this.setState({randomIndex: number});
+          if (response.data?.message == 'Success') {
             this.setState({loader: false});
             camelapp
               .post('sendsms', {
                 phone: this.state.phone,
-                message: number,
               })
               .then(response => {
                 if (response) {
@@ -160,7 +159,6 @@ class SignUp extends Component {
                     device_type: Platform?.OS,
                   };
                   this.props.navigation.navigate('OtpSignUp', {
-                    code: number,
                     sign_up: tempSignUpObj,
                   });
                   this.setState({loader: false, btnPressed: false});

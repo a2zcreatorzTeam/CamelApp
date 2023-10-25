@@ -3,7 +3,7 @@ import {Image, Text, View, TouchableOpacity, Dimensions} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Styles} from '../styles/globlestyle';
-const {width} = Dimensions.get('screen');
+const {width, height} = Dimensions.get('screen');
 import FastImage from 'react-native-fast-image';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -28,13 +28,44 @@ const PostItem = ({
         justifyContent: 'space-evenly',
       }}>
       <View style={Styles.BeautyOpacity}>
-        <FastImage
-          style={Styles.BeautyImages}
-          source={{
-            uri: 'http://www.tasdeertech.com/images/posts/' + image,
-          }}
-          resizeMode={FastImage?.resizeMode.cover}
-        />
+        {image ? (
+          <FastImage
+            style={Styles.BeautyImages}
+            source={{
+              uri: 'http://www.tasdeertech.com/images/posts/' + image,
+            }}
+          />
+        ) : (
+          <View style={{backgroundColor: '#ededed'}}>
+            {
+              <Image
+                activeOpacity={0.2}
+                source={require('../../assets/camel.png')}
+                resizeMode={'cover'}
+                style={Styles.BeautyImages}
+              />
+            }
+            <TouchableOpacity
+              onPress={() => onClickItem(viewCount, setViewCount)}
+              style={{
+                height: 70,
+                width: 70,
+                justifyContent: 'center',
+                alignItems: 'center',
+                position: 'absolute',
+                elevation: 2,
+                bottom: 136 / 4,
+                left: 160 / 3,
+              }}>
+              <Image
+                activeOpacity={0.4}
+                source={require('../../assets/play.png')}
+                resizeMode={'cover'}
+                style={{width: 50, height: 50}}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
       <View
         style={{

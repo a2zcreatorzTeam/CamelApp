@@ -55,12 +55,15 @@ class CompetitionDetails extends Component {
   componentDidMount() {
     let array = this.state.itemFromDetails.img;
     let imagesArray = [];
-
-    array.forEach(element => {
-      imagesArray.push({type: 'image', source: element});
-    });
-    imagesArray.push({type: 'video', source: this.state.itemFromDetails.video});
-
+    array[0] !== '' &&
+      array.forEach(element => {
+        imagesArray.push({type: 'image', source: element});
+      });
+    this.state?.itemFromDetails?.video !== null &&
+      imagesArray.push({
+        type: 'video',
+        source: this.state?.itemFromDetails?.video,
+      });
     this.setState({imagesArray: imagesArray});
   }
   onCommentsClick = () => {
@@ -192,8 +195,8 @@ class CompetitionDetails extends Component {
   render() {
     const {pausedCheck, loadVideo, videoModal, modalItem, itemFromDetails} =
       this.state;
-      let user = this.props?.user;
-      user = user?.user?.user;
+    let user = this.props?.user;
+    user = user?.user?.user;
     console.log('=COMPETITION DETAILS', itemFromDetails);
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>

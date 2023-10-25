@@ -110,25 +110,25 @@ class Bids extends Component {
   onWithdrawBid(item) {
     console.log('itemmmmmm', item);
     const {key} = this.state;
-    // withdrawBid(item?.bid_id).then(res => {
-    //   if (res?.status == 'Successfully Delete') {
-    //     this.viewPosts();
-    //     Toast.show({
-    //       text1: ArabicText?.Bidsuccessfullywithdrawn,
-    //       type: 'success',
-    //       visibilityTime: 3000,
-    //     });
-    //     // alert('Bid successfully withdrawn!');
-    //   } else {
-    //     Toast.show({
-    //       text1: ArabicText?.Errorinwithdrawingbid,
-    //       type: 'error',
-    //       visibilityTime: 3000,
-    //     });
-    //     // alert('Error in withdrawing bid!');
-    //   }
-    //console.log("response", res)
-    // });
+    withdrawBid(item?.bid_id).then(res => {
+      if (res?.status == 'Successfully Delete') {
+        this.viewPosts();
+        Toast.show({
+          text1: ArabicText?.Bidsuccessfullywithdrawn,
+          type: 'success',
+          visibilityTime: 3000,
+        });
+        // alert('Bid successfully withdrawn!');
+      } else {
+        Toast.show({
+          text1: ArabicText?.Errorinwithdrawingbid,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert('Error in withdrawing bid!');
+      }
+    console.log("response", res)
+    });
   }
   render() {
     const {key} = this.state;
@@ -187,13 +187,13 @@ class Bids extends Component {
           </Text>
         </View>
         <View style={{flexDirection: 'column', justifyContent: 'space-around'}}>
-          {/* <TouchableOpacity
+          <TouchableOpacity
             style={Styles.bidsButtonAccept}
             onPress={onWithdrawBid}>
             <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
               {ArabicText.WithDraw}
             </Text>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
 
           <TouchableOpacity
             style={Styles.bidsButtonAccept}

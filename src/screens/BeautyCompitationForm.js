@@ -96,6 +96,7 @@ class participateInCompetition extends Component {
       }
     });
   };
+  // CAPTURE IMAGE
   openCameraForCapture() {
     const {cameraimagesForPost, mixed} = this.state;
     ImagePicker.openCamera({
@@ -126,9 +127,6 @@ class participateInCompetition extends Component {
             };
           });
         }
-        // else {
-        //   alert(" IF Only 4 images allowed")
-        // }
       })
       .catch(error => {
         console.log('error', error);
@@ -139,14 +137,14 @@ class participateInCompetition extends Component {
       mediaType: 'photo',
       multiple: true,
       includeBase64: true,
-      // selectionLimit: 4,
     })
       .then(async images => {
-        // if (images?.length <= 4) {
+        // if (images.length <= 4) {
         let tempImage = images;
-        let bse64images = imagesForPost;
+        let bse64images = this.state.imagesForPost;
         let mixedTemp = [];
-        for (let i = 0; i < tempImage?.length; i++) {
+        console.log(this.state?.mixed?.state, 'stateee');
+        for (let i = 0; i < tempImage.length; i++) {
           bse64images.push('data:image/png;base64,' + images[i].data);
           mixedTemp.push(tempImage[i]);
         }

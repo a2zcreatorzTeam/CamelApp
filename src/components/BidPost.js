@@ -110,6 +110,7 @@ class Bids extends Component {
   }
   onWithdrawBid(item) {
     withdrawBid(item?.id).then(res => {
+      console.log(res, 'resposennn');
       if (res?.status == 'Successfully Delete') {
         this.viewPosts();
         Toast.show({
@@ -188,7 +189,7 @@ class Bids extends Component {
           </Text>
         </View>
         <View style={{flexDirection: 'column', justifyContent: 'space-around'}}>
-          {/* {item?.bit_closed == 1 ? (
+          {item?.bit_closed == 1 ? (
             <TouchableOpacity
               activeOpacity={0.99}
               style={Styles.bidsButtonAccept}
@@ -205,7 +206,7 @@ class Bids extends Component {
                 {ArabicText?.WithDraw}
               </Text>
             </TouchableOpacity>
-          )} */}
+          )}
 
           <TouchableOpacity
             style={Styles.bidsButtonAccept}

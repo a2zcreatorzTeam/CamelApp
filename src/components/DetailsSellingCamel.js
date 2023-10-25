@@ -82,13 +82,18 @@ class DetailsComponent extends Component {
     }
     let array = this.state?.itemFromDetails?.img;
     let imagesArray = [];
-    array.forEach(element => {
-      imagesArray.push({type: 'image', source: bid ? element?.image : element});
-    });
-    imagesArray.push({
-      type: 'video',
-      source: this.state?.itemFromDetails?.video,
-    });
+    array[0] !== '' &&
+      array.forEach(element => {
+        imagesArray.push({
+          type: 'image',
+          source: bid ? element?.image : element,
+        });
+      });
+    this.state?.itemFromDetails?.video !== null &&
+      imagesArray.push({
+        type: 'video',
+        source: this.state?.itemFromDetails?.video,
+      });
     this.setState({imagesArray: imagesArray});
   }
   onCommentsClick = () => {

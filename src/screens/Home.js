@@ -913,6 +913,7 @@ class Home extends Component {
             {/* POST FLATLIST */}
             <Loader loading={this.state.loading} />
             <FlatList
+              style={{flex: 1}}
               scrollsToTop={false}
               key={key}
               data={

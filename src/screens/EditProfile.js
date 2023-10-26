@@ -20,6 +20,7 @@ import {bindActionCreators} from 'redux';
 import * as EmailValidator from 'email-validator';
 import Toast from 'react-native-toast-message';
 import BackBtnHeader from '../components/headerWithBackBtn';
+import CookieManager from '@react-native-cookies/cookies';
 
 class EditProfile extends Component {
   constructor(props) {
@@ -44,6 +45,12 @@ class EditProfile extends Component {
     };
   }
 
+  // clearAll COOKIES
+  onClear = () => {
+    CookieManager.clearAll(true).then(res => {
+      console.log(res, 'responsee');
+    });
+  };
   logOut() {
     try {
       let {user, actions} = this.props;
@@ -54,6 +61,8 @@ class EditProfile extends Component {
       AsyncStorage.removeItem('@UserPassword');
       console.log('4');
       AsyncStorage.removeItem('fcmToken');
+      // await RNTwitterSignIn.logOut();
+      // this.onClear();
       this.props.navigation.replace('Home');
     } catch (error) {
       console.log('error', error);
@@ -184,7 +193,7 @@ class EditProfile extends Component {
       //   showsVerticalScrollIndicator={false}
       //   contentContainerStyle={{ paddingTop: 10, backgroundColor: "#fff" }}>
       <View style={Styles.container}>
-        <BackBtnHeader showToolTip style={{justifyContent:'space-around'}}/>
+        <BackBtnHeader showToolTip style={{justifyContent: 'space-around'}} />
         <ImageBackground
           imageStyle={{
             borderRadius: 100,

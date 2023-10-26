@@ -35,7 +35,6 @@ import Loader from '../components/PleaseWait';
 import Header from '../components/Header';
 import FastImage from 'react-native-fast-image';
 import {Share} from 'react-native';
-
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
 
@@ -270,13 +269,14 @@ class UserProfile extends Component {
               type: 'success',
               text1: `${ArabicText?.Following} + ''`,
             });
-            alert(ArabicText.Following + '');
+
+            // alert(ArabicText.Following + '');
           } else {
             Toast.show({
               type: 'success',
               text1: `${ArabicText.Error} + ''`,
             });
-            alert(ArabicText.Error + '');
+            // alert(ArabicText.Error + '');
           }
         });
     } else {

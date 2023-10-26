@@ -59,9 +59,6 @@ class SignUp extends Component {
       phone,
       password,
       confirm_password,
-      flagname,
-      flagphone,
-      flagpassword,
       flag_confirm_password,
       isChecked,
     } = this.state;
@@ -130,6 +127,7 @@ class SignUp extends Component {
       camelapp
         .get('checkemail?phone=' + this.state.phone)
         .then(response => {
+          console.log(response?.data?.message);
           // let number = 0;
           // do {
           //   number = Math.floor(Math.random() * 10000) + 1;
@@ -142,7 +140,7 @@ class SignUp extends Component {
           // });
           // // alert(number);
           // this.setState({randomIndex: number});
-          if (response.data?.message == 'Success') {
+          if (response.data?.message !== 'Phone Already exists') {
             this.setState({loader: false});
             camelapp
               .post('sendsms', {

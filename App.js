@@ -2,16 +2,7 @@ import firebase from '@react-native-firebase/app';
 import React, {Component} from 'react';
 import Navigation from './src/components/Navigation';
 import SplashScreen from 'react-native-splash-screen';
-import {
-  StatusBar,
-  View,
-  LogBox,
-  Text,
-  Dimensions,
-  Modal,
-  Platform,
-  PermissionsAndroid,
-} from 'react-native';
+import {StatusBar, LogBox, Platform, PermissionsAndroid} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import camelapp from './src/api/camelapp';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -24,13 +15,6 @@ import firebaseConfig from './src/components/firebase';
 import {getStorage} from 'firebase/storage';
 import {notificationListener} from './src/services/Helper';
 import DeviceInfo from 'react-native-device-info';
-
-// import {store, persistor} from './src/redux/store/configureStore';
-// import codePush from "react-native-code-push";
-const width = Dimensions.get('window');
-
-// import codePush from 'react-native-code-push';
-
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(['Remote debugger']);
 const toastConfig = {
@@ -67,7 +51,6 @@ const toastConfig = {
     />
   ),
 };
-
 class App extends Component {
   async checkUser() {
     const userPhone = await AsyncStorage.getItem('@UserPhone');
@@ -116,106 +99,10 @@ class App extends Component {
     }
   };
 
-  // syncImmediate() {
-  //   this.setState({ updateProcess: true });
-  //   codePush?.sync(
-  //     {
-  //       installMode: codePush?.InstallMode.IMMEDIATE,
-  //       updateDialog: {
-  //         appendReleaseDescription: false,
-  //         optionalIgnoreButtonLabel: "Close",
-  //         optionalInstallButtonLabel: "Install",
-  //         optionalUpdateMessage: "New update available. Install update",
-  //         title: "Update Required",
-  //       },
-  //     },
-  //     this.codePushStatusDidChange.bind(this),
-  //     this.codePushDownloadDidProgress.bind(this)
-  //   );
-  // }
-  // codePushDownloadDidProgress(progress) {
-  //   console.log(progress);
-  //   const downloaded = Math.round(
-  //     (progress?.receivedBytes / progress?.totalBytes) * 100
-  //   );
-  //   console.log("downloaded", downloaded);
-  //   this.setState({ progress, downloading: true, downloaded: downloaded });
-  // }
-  // codePushStatusDidChange(syncStatus) {
-  //   switch (syncStatus) {
-  //     case codePush.SyncStatus.CHECKING_FOR_UPDATE:
-  //       setTimeout(() => {
-  //         this.setState({ syncMessage: "Checking For Update" });
-  //       }, 100);
-  //       break;
-  //     case codePush.SyncStatus.DOWNLOADING_PACKAGE:
-  //       // alert("Please wait few minutes while the update is installed")
-  //       setTimeout(() => {
-  //         this.setState({
-  //           update: true,
-  //           syncMessage: "Downloading updates",
-  //           downloading: true,
-  //         });
-  //       }, 100);
-  //       break;
-  //     case codePush.SyncStatus.AWAITING_USER_ACTION:
-  //       setTimeout(() => {
-  //         this.setState({
-  //           syncMessage: "Waiting for user action to accept",
-  //           downloading: true,
-  //         });
-  //       }, 100);
-  //       break;
-  //     case codePush.SyncStatus.INSTALLING_UPDATE:
-  //       setTimeout(() => {
-  //         this.setState({
-  //           syncMessage: "Kindly wait, update is being install",
-  //           downloading: true,
-  //         });
-  //       }, 100);
-  //       break;
-  //     case codePush.SyncStatus.UP_TO_DATE:
-  //       setTimeout(() => {
-  //         this.setState({
-  //           syncMessage: "Your app is upto-date",
-  //           updateProcess: false,
-  //           downloading: false,
-  //         });
-  //       }, 100);
-  //       break;
-  //     case codePush.SyncStatus.UPDATE_IGNORED:
-  //       setTimeout(() => {
-  //         this.setState({ syncMessage: "User ignored the update" }, () => {
-  //           BackHandler.exitApp();
-  //         });
-  //       }, 100);
-  //       break;
-  //     case codePush.SyncStatus.UPDATE_INSTALLED:
-  //       setTimeout(() => {
-  //         this.setState(
-  //           {
-  //             syncMessage: "Your application is updated now",
-  //             updateProcess: false,
-  //             update: false,
-  //           },
-  //           () => {
-  //             codePush.restartApp();
-  //           }
-  //         );
-  //       }, 100);
-  //       break;
-  //     case codePush.SyncStatus.UNKNOWN_ERROR:
-  //       // setTimeout(() => {
-  //       //   this.setState({ syncMessage: "There is an unknown error" });
-  //       // }, 100);
-  //       break;
-  //   }
-  // }
   componentDidMount() {
     this.takePermission();
     notificationListener();
     SplashScreen.hide();
-    // this.checkUser();
     let app;
     if (firebase.apps.length === 0) {
       app = firebase.initializeApp(firebaseConfig);
@@ -231,19 +118,11 @@ class App extends Component {
     };
 
     return (
-      // <View style={[backgroundStyle, {backgroundColor: '#fff'}]}>
-      // <Provider store={store}>
       <SafeAreaProvider>
-        <StatusBar
-          barStyle="default"
-          backgroundColor="#d2691e"
-          // backgroundColor={backgroundStyle.backgroundColor}
-        />
+        <StatusBar barStyle="default" backgroundColor="#d2691e" />
         <Navigation />
         <Toast config={toastConfig} />
       </SafeAreaProvider>
-      // </Provider>
-      // </View>
     );
   }
 }

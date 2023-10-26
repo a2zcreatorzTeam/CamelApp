@@ -306,3 +306,18 @@ export const phonenumbercantbeempty = 'لا يمكن أن يكون رقم اله
 export const usernamecantbeempty = 'لا يمكن أن يكون اسم المستخدم فارغًا';
 export const cannotpostwithoutmedia = 'لا يمكن النشر بدون وسائل الإعلام';
 export const PARTICIPANTS = 'مشاركون';
+export const currentpassword = 'كلمة السر الحالية';
+export const CurrentPasswordfieldcantbeempty =
+  'لا يمكن أن يكون حقل كلمة المرور الحالية فارغًا';
+export const NewPasswordfieldcantbeempty =
+  'لا يمكن أن يكون حقل كلمة المرور الجديدة فارغًا';
+export const CurrentpasswordandNewpasswordcantbesame =
+  'لا يمكن أن تكون كلمة المرور الحالية وكلمة المرور الجديدة متماثلتين';
+export const NewConfirmPasswordfieldcantbeempty =
+  'لا يمكن أن يكون حقل تأكيد كلمة المرور الجديد فارغًا';
+export const NewPasswordandConfirmPasswordmustbesame =
+  'يجب أن تكون كلمة المرور الجديدة وتأكيد كلمة المرور متماثلتين.';
+export const passwordmustbe6charcterslong =
+  'يجب أن تكون كلمة المرور مكونة من 6 أحرف';
+export const Changepassword = 'تغيير كلمة المرور';
+export const EnterYourNewPassword='أدخل كلمة المرور الجديدة'

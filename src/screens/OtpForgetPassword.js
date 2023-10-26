@@ -329,7 +329,7 @@ export default class App extends Component {
                 fontWeight: '600',
               }}
               numberOfLines={3}>
-              Enter Your New Password
+              {ArabicText?.EnterYourNewPassword}
             </Text>
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
               <View

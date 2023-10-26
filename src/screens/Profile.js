@@ -352,16 +352,6 @@ class Profile extends Component {
             key: !key,
           });
         }
-
-        // this.setState({
-        //   whatsappNumber: this.props?.user?.user?.user?.whatsapp_no,
-        //   phoneNumber: this.props.user?.user?.user?.phone,
-        //   chatFlag:
-        //     this?.props?.user?.user?.user?.chat_status == 0 ? false : true,
-        //   registerSwitch:
-        //     this.props.user?.user?.user?.whatsapp_status == 0 ? false : true,
-        //   posts: res?.data?.posts,
-        // });
       });
     } catch (error) {
       //console.log("error at fetch user", error.response)
@@ -371,12 +361,6 @@ class Profile extends Component {
     if (item?.source == 'UOmNlxYosf.mp4') {
       this.setState({pausedCheck: true});
     }
-  };
-  componentDidMount = () => {
-    // this.setState({rating: 0, posts: []});
-    // this.focusListener = this.props.navigation.addListener('focus', () => {
-    //   this.checkUserLogedIn();
-    // });
   };
   filterPostOnDelete = item => {
     const {posts} = this.state;
@@ -496,6 +480,12 @@ class Profile extends Component {
       });
       // alert(error.message);
     }
+  };
+  componentDidMount = () => {
+    // this.setState({rating: 0, posts: []});
+    this.focusListener = this.props.navigation.addListener('focus', () => {
+      this.fetchUser();
+    });
   };
   render() {
     const {key, filterPosts, posts, searchedItem, searchText} = this.state;

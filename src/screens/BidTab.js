@@ -1,16 +1,14 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text,  TouchableOpacity} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Dimensions} from 'react-native';
 import BidPost from '../components/BidPost';
 import Bids from '../components/BidsOnPost';
-
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 const Tab = createMaterialTopTabNavigator();
 import * as ArabicText from '../language/EnglishToArabic';
-
 export default class BidTab extends Component {
   render() {
     return (
@@ -114,5 +112,3 @@ export default class BidTab extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({});

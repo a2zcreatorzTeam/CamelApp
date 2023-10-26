@@ -2,12 +2,16 @@ import React from 'react';
 import {View, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 import {Text} from 'react-native';
 import FastImage from 'react-native-fast-image';
-
+import {Tooltip} from 'react-native-elements';
+import {useRef} from 'react';
+import {useState} from 'react';
 const BackBtnHeader = props => {
   let {style} = props;
+  const tooltipRef = useRef(null);
   const navigation = useNavigation(0);
   const goBack = () => {
     navigation.goBack();
@@ -51,6 +55,40 @@ const BackBtnHeader = props => {
           />
         </View>
       )}
+      {props?.showToolTip && (
+        <>
+          <Tooltip
+            ref={tooltipRef}
+            height={50}
+            containerStyle={styles.toolTip}
+            popover={
+              <View
+                style={{
+                  width: '90%',
+                  alignItems: 'center',
+                }}>
+                <TouchableOpacity
+                  activeOpacity={0.9}
+                  style={styles.tooltipItems}
+                  onPress={() => {
+                    tooltipRef.current.toggleTooltip();
+                    navigation.navigate('ChangePassword');
+                  }}>
+                  <Text style={styles.tooltipTitle}>Change Password</Text>
+                </TouchableOpacity>
+              </View>
+            }
+            withPointer={false}
+            backgroundColor={'#fff'}></Tooltip>
+          <TouchableOpacity
+            style={{width: 40, marginLeft:5}}
+            onPress={() => {
+              tooltipRef.current.toggleTooltip();
+            }}>
+            <Entypo name={'dots-three-vertical'} size={24} color={'#fff'} />
+          </TouchableOpacity>
+        </>
+      )}
       <CircularBTN
         recieverData={props?.reciever_data}
         iconName="md-arrow-redo"
@@ -77,7 +115,9 @@ const CircularBTN = ({onPress, iconName, recieverData}) => (
     />
   </TouchableOpacity>
 );
+// const Dots = ({onPress, iconName}) => (
 
+// );
 const styles = StyleSheet.create({
   btnContainer: {
     width: 35,
@@ -98,5 +138,20 @@ const styles = StyleSheet.create({
     height: '100%',
     zIndex: 20,
     position: 'absolute',
+  },
+  toolTip: {
+    marginHorizontal: 10,
+    marginVertical: 10,
+    alignItems: 'center',
+  },
+
+  tooltipItems: {
+    marginVertical: 5,
+    width: '100%',
+    alignItems: 'center',
+  },
+
+  tooltipTitle: {
+    color: 'black',
   },
 });

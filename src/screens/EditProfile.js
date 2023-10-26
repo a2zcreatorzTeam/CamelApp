@@ -19,6 +19,7 @@ import * as ImageCropPicker from 'react-native-image-crop-picker';
 import {bindActionCreators} from 'redux';
 import * as EmailValidator from 'email-validator';
 import Toast from 'react-native-toast-message';
+import BackBtnHeader from '../components/headerWithBackBtn';
 
 class EditProfile extends Component {
   constructor(props) {
@@ -183,6 +184,7 @@ class EditProfile extends Component {
       //   showsVerticalScrollIndicator={false}
       //   contentContainerStyle={{ paddingTop: 10, backgroundColor: "#fff" }}>
       <View style={Styles.container}>
+        <BackBtnHeader showToolTip style={{justifyContent:'space-around'}}/>
         <ImageBackground
           imageStyle={{
             borderRadius: 100,

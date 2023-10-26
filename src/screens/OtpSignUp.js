@@ -205,7 +205,7 @@ class App extends Component {
             color: 'black',
           }}
           numberOfLines={3}>
-          Enter the OTP Sent to Your Mobile
+          {ArabicText?.EntertheOTPSenttoYourMobile}
         </Text>
 
         <View style={styles.inputcontainer}>
@@ -309,10 +309,6 @@ class App extends Component {
             )}
           </View>
         </TouchableOpacity>
-
-        {/* <Text
-                            style={{ textAlign: "center", justifyContent: "center", fontSize: 15, textDecorationLine: "underline" }}
-                            numberOfLines={3}>Resend</Text> */}
       </View>
     );
   }

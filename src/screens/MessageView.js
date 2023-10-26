@@ -229,6 +229,11 @@ const MessageView = ({route}) => {
         ) : item?.videoUrl ? (
           <>
             <TouchableOpacity
+              onPress={() => {
+                setModal(true),
+                  setModalItem({uri: item?.videoUrl}),
+                  setModalItemType('video');
+              }}
               style={[
                 styles.rightChatImageContainer,
                 styles.containerHeight,
@@ -386,10 +391,11 @@ const MessageView = ({route}) => {
     })
       .promise.then(r => {
         setdownloadFiles(false);
+        setModal(false), setModalItem(''), setModalItemType('');
         Toast.show({
           text1: ArabicText?.DownloadSuccessfully,
           type: 'success',
-          visibilityTime: 3000,
+          visibilityTime: 5000,
         });
         // alert('Download Successfully');
       })
@@ -675,6 +681,7 @@ const MessageView = ({route}) => {
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => {
+              console.log('logggggg');
               fileDownload(modalItemType, modalItem);
             }}
             style={{

@@ -73,7 +73,8 @@ const GroupChat = props => {
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
           title: `Alsyahd Mobile App`,
-          message: ArabicText?.Alsyahdneedslocationaccesstogetyourcurrentlocation,
+          message:
+            ArabicText?.Alsyahdneedslocationaccesstogetyourcurrentlocation,
           buttonNeutral: ArabicText?.AskMeLater,
           buttonNegative: ArabicText?.Cancel,
           buttonPositive: ArabicText?.OK,
@@ -98,7 +99,6 @@ const GroupChat = props => {
       console.log(err);
     }
   };
-
   const getLocation = () => {
     requestLocationPermission();
     GetLocation.getCurrentPosition({
@@ -116,7 +116,6 @@ const GroupChat = props => {
         console.warn(code, message);
       });
   };
-
   const postLocation = async () => {
     const groupDocumentId = props?.route?.params?.group_id;
     const locations = `${lat},${long}`;
@@ -141,7 +140,6 @@ const GroupChat = props => {
       console.error('Error sending message:', error);
     }
   };
-
   const openGallery = () => {
     ImageCropPicker.openPicker({
       mediaType: 'photo',
@@ -167,18 +165,6 @@ const GroupChat = props => {
       });
     // setModalVisible(false)
   };
-  const toTop = () => {
-    flatListRef?.current?.scrollToEnd({animated: true, offset: 0});
-  };
-  const checkImage = () => {
-    if (image == null) {
-      null;
-      return;
-    } else {
-      ['data:image/jpg/jpeg/png;base64' + image.pickedImage];
-      return;
-    }
-  };
   const proceed = async item => {
     var newItem = item.split(',');
 
@@ -191,7 +177,6 @@ const GroupChat = props => {
       await Linking.openURL(url);
     }
   };
-
   const postGroupMedia = async () => {
     setLoader(true);
 
@@ -288,31 +273,6 @@ const GroupChat = props => {
       }
     }
   };
-
-  const postGroupMediassssss = async () => {
-    const groupDocumentId = props?.route?.params?.group_id;
-    try {
-      if (groupDocumentId) {
-        // Add the message to a subcollection within the group document
-        await firestore()
-          .collection('groupChat') // Replace with your actual collection name
-          .doc(groupDocumentId)
-          .collection('messages')
-          .add({
-            senderId: user?.user?.user?.id, // Replace with the actual sender user ID
-            // message: inputValue,
-            image: image,
-            timestamp: firebase?.firestore?.FieldValue.serverTimestamp(),
-          });
-        getDocumentIdForUserId();
-
-        console.log('Message sent successfully');
-        setInputValue('');
-      }
-    } catch (error) {
-      console.error('Error sending message:', error);
-    }
-  };
   const postGroupChat = async () => {
     if (!inputValue) {
       setLoader(false);
@@ -344,64 +304,6 @@ const GroupChat = props => {
       setLoader(false);
       console.error('Error sending message:', error);
     }
-  };
-
-  const postGroupChatssss = async () => {
-    const locations = `${lat},${long}`;
-
-    try {
-      if (!inputValue) {
-        setLoader(false);
-        alert('Please Enter Message');
-      } else {
-        setLoader(true);
-        const videoDummyLink = [`"data:${mimeVedio};base64",${video}"`];
-        const imageDummyLink = [
-          `"data:${image?.mediaType};base64,${image?.pickedImage}"`,
-        ];
-        console.log('====================================');
-        console.log(videoDummyLink);
-        console.log('====================================');
-        const paramsData = {
-          sender_id: user?.user?.user?.id,
-          reciever_id: null,
-          group_id: group_id,
-          message: inputValue,
-          location: lat ? locations?.toString() : null,
-          file_url: image ? imageDummyLink : video ? videoDummyLink : null,
-        };
-        console.log('====================================');
-        console.log(paramsData);
-        console.log('====================================');
-
-        await camelapp.post('/sendmsg', paramsData).then(res => {
-          setLoader(false);
-          setInputValue('');
-          setImage(null);
-          getGroupChat();
-          setlat(null);
-          setlong(null);
-          setMimeVideo(null);
-          setVideo(null);
-          console.log(res.data, '<<<<postGroupChat res');
-        });
-      }
-    } catch (error) {
-      console.log(error.response, '<<<<postGroupChat ERROR');
-    }
-  };
-
-  const getGroupChat = async () => {
-    // try {
-    //   console.log('group_id', group_id);
-    //   const fetchConversation = await camelapp.get(
-    //     '/getgroupconversation/' + group_id,
-    //   );
-    //   setGroupChat({chatData: fetchConversation.data});
-    //   console.log(fetchConversation.data, '========GET chat DATA');
-    // } catch (error) {
-    //   console.log(error, '<<<<getGroupChat ERROR');
-    // }
   };
   const selectOneFile = async () => {
     ImageCropPicker.openPicker({
@@ -460,22 +362,6 @@ const GroupChat = props => {
       }
     });
   };
-  const onTouchStart = (index, item) => {
-    var temArr = item;
-    setIndexx(index);
-    setFlagVedio(!temArr?.flagForVideo);
-    console.log('====================================');
-    console.log(flagvideo);
-    console.log('====================================');
-
-    //  temArr?.flagForVideo = !temArr?.flagForVideo ;
-
-    var tempArray = groupChat.chatData;
-    //   tempArray?.chatData[index]=item
-
-    // setGroupChat( tempArray)
-  };
-
   getUsersDetails = async (data, msgs) => {
     try {
       return await camelapp.post('getMultipleUsersDetails', data).then(res => {
@@ -499,7 +385,6 @@ const GroupChat = props => {
       console.log('Error Message', error?.response);
     }
   };
-
   getUsersDetailInfo = async () => {
     const data = props?.route?.params?.groupUserData;
 
@@ -524,13 +409,22 @@ const GroupChat = props => {
     })
       .promise.then(r => {
         setdownloadFiles(false);
-        alert('Download Successfully');
+        setModalItemForModal(false),
+          setModalItemsData(''),
+          setModalItemType('');
+        Toast.show({
+          text1: ArabicText?.DownloadSuccessfully,
+          type: 'success',
+          visibilityTime: 5000,
+        });
       })
       .catch(err => {
         setdownloadFiles(false);
-        alert('Something went wrong in downloading');
-
-        console.log(err);
+        Toast.show({
+          text1: ArabicText?.Somethingwentwrongindownloading,
+          type: 'error',
+          visibilityTime: 3000,
+        });
       });
   };
   useEffect(() => {

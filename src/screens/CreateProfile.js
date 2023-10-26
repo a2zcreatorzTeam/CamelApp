@@ -194,12 +194,12 @@ class CreateProfile extends Component {
     console.log(screen, 'screemj');
     return (
       <ScrollView
-        style={{flex: 1}}
+        // style={{flex: 1}}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingTop: 10,
           backgroundColor: '#fff',
-          flex: 1,
+          flexGrow: 1,
         }}>
         <View style={Styles.container}>
           <View

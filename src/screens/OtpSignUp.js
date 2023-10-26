@@ -88,12 +88,14 @@ class App extends Component {
     }
   };
   submitOTP = async () => {
-    Promise.all(requestUserPermission());
+    // Promise.all(requestUserPermission());
     const deviceToken = await AsyncStorage?.getItem('fcmToken');
     let number =
       this.state.one + this.state.two + this.state.three + this.state.four;
+    console.log(number, 'numveer');
     let user_data = this.state.sign_up_data;
     if (number != '') {
+      // API TO VERFY THE OTP
       if (parseInt(this.state.number) === parseInt(number)) {
         this.setState({btnPressed: true, loader: true});
         camelapp
@@ -105,15 +107,6 @@ class App extends Component {
             device_token: deviceToken,
           })
           .then(respo => {
-            console.log(
-              'respo1234',
-              respo,
-              user_data.name,
-              user_data.phone,
-              user_data.password,
-              Platform.OS,
-              'fcm',
-            );
             if (respo?.data?.status == true) {
               camelapp
                 .post('/login', {
@@ -154,26 +147,20 @@ class App extends Component {
             console.log('error', error);
           });
       } else {
-        setTimeout(() => {
-          this.setState({loader: false, btnPressed: false});
-          Toast.show({
-            text1: ArabicText?.InvalidOTP,
-            type: 'error',
-            visibilityTime: 3000,
-          });
-          // alert('Invalid OTP!');
-        }, 2000);
-      }
-    } else {
-      setTimeout(() => {
         this.setState({loader: false, btnPressed: false});
         Toast.show({
-          text1: ArabicText?.PleaseentertheOTP,
+          text1: ArabicText?.InvalidOTP,
           type: 'error',
           visibilityTime: 3000,
         });
-        // alert('Please enter the OTP');
-      }, 2000);
+      }
+    } else {
+      this.setState({loader: false, btnPressed: false});
+      Toast.show({
+        text1: ArabicText?.PleaseentertheOTP,
+        type: 'error',
+        visibilityTime: 3000,
+      });
     }
   };
 
@@ -197,16 +184,19 @@ class App extends Component {
     };
     return (
       <View style={styles.container}>
-        <Text
-          style={{
-            textAlign: 'center',
-            justifyContent: 'center',
-            fontSize: 24,
-            color: 'black',
-          }}
-          numberOfLines={3}>
-          {ArabicText?.EntertheOTPSenttoYourMobile}
-        </Text>
+        <View style={{width: '100%', alignItems: 'center'}}>
+          <Text
+            style={{
+              justifyContent: 'center',
+              fontSize: 24,
+              color: 'black',
+              width: '80%',
+              textAlign: 'center',
+            }}
+            numberOfLines={3}>
+            {ArabicText?.EntertheOTPSenttoYourMobile}
+          </Text>
+        </View>
 
         <View style={styles.inputcontainer}>
           <TextInput

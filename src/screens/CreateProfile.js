@@ -65,6 +65,13 @@ class CreateProfile extends Component {
   }
   createProfile = async () => {
     const {pickedImage, location, email, userName, phoneNumber} = this.state;
+    console.log(
+      location,
+      email,
+      userName,
+      phoneNumber,
+      ' location, email, userName, phoneNumber',
+    );
     const userdata = this.props?.route?.params?.response;
     const {screen} = this.props.route?.params;
     if (screen == 'socialLogin') {
@@ -81,75 +88,79 @@ class CreateProfile extends Component {
           visibilityTime: 3000,
         });
       }
-    } else if (!email) {
-      Toast.show({
-        text1: ArabicText.EmailFieldCantBeEmpty,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-      // alert(ArabicText?.EmailFieldCantBeEmpty);
-    } else if (!EmailValidator.validate(email)) {
-      Toast.show({
-        text1: ArabicText.EmailIsNotValid,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-      // alert(ArabicText?.EmailIsNotValid);
-    } else if (!location) {
-      Toast.show({
-        text1: ArabicText.LocationFieldCantBeEmpty,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-      // alert(ArabicText?.LocationFieldCantBeEmpty);
-    } else if (!pickedImage) {
-      Toast.show({
-        text1: ArabicText.ImageCantBeEmpty,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-      // alert(ArabicText?.ImageCantBeEmpty);
     } else {
-      this.setState({
-        btnLoader: true,
-      });
-      await camelapp
-        .post('/update', {
-          user_id: userdata?.user?.id,
-          location: location,
-          email: email,
-          image: pickedImage,
-        })
-        .then(res => {
-          this.setState({
-            btnLoader: false,
-          });
-          if (res.data.status == true) {
-            this.setState({
-              btnLoader: false,
-            });
-            let {actions} = this.props;
-            actions.userData(res?.data);
-            this.props.navigation.navigate('Home');
-          } else {
-            this.setState({
-              btnLoader: false,
-            });
-            Toast.show({
-              text1: ArabicText.UserUpdateFailed,
-              type: 'error',
-              visibilityTime: 3000,
-            });
-            // alert(ArabicText?.UserUpdateFailed);
-          }
-        })
-        .catch(error => {
-          console.log(error, 'errorrr');
-          this.setState({
-            btnLoader: false,
-          });
+      if (!email) {
+        Toast.show({
+          text1: ArabicText.EmailFieldCantBeEmpty,
+          type: 'error',
+          visibilityTime: 3000,
         });
+        // alert(ArabicText?.EmailFieldCantBeEmpty);
+      } else if (!EmailValidator.validate(email)) {
+        Toast.show({
+          text1: ArabicText.EmailIsNotValid,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert(ArabicText?.EmailIsNotValid);
+      } else if (!location) {
+        Toast.show({
+          text1: ArabicText.LocationFieldCantBeEmpty,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert(ArabicText?.LocationFieldCantBeEmpty);
+      } else if (!pickedImage) {
+        Toast.show({
+          text1: ArabicText.ImageCantBeEmpty,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+        // alert(ArabicText?.ImageCantBeEmpty);
+      }
     }
+    console.log(userdata?.user?.id, location, email, pickedImage);
+    this.setState({
+      btnLoader: true,
+    });
+    await camelapp
+      .post('/update', {
+        user_id: userdata?.user?.id,
+        location: location,
+        email: email,
+        image: pickedImage,
+        number: phoneNumber ? phoneNumber : null,
+      })
+      .then(res => {
+        console.log('responseeeeeeee', res);
+        this.setState({
+          btnLoader: false,
+        });
+        if (res.data.status == true) {
+          this.setState({
+            btnLoader: false,
+          });
+          let {actions} = this.props;
+          actions.userData(res?.data);
+          this.props.navigation.navigate('Home');
+        } else {
+          this.setState({
+            btnLoader: false,
+          });
+          Toast.show({
+            text1: ArabicText.UserUpdateFailed,
+            type: 'error',
+            visibilityTime: 3000,
+          });
+          // alert(ArabicText?.UserUpdateFailed);
+        }
+      })
+      .catch(error => {
+        console.log(error, 'errorrr');
+        this.setState({
+          btnLoader: false,
+        });
+      });
   };
   //   imagePick = () => {
   //     ImageCropPicker.openPicker({

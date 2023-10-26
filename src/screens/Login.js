@@ -97,9 +97,7 @@ class Login extends Component {
     this?.focusListener(); // Remove the focus listener
     this?.backHandler?.remove(); // Remove the BackHandler event listener
   };
-  socialLogin=()=>{
-    
-  }
+  socialLogin = () => {};
   // InstagramLogin
   setIgToken = data => {
     this.onClear();
@@ -109,6 +107,7 @@ class Login extends Component {
         .post('/social/login', {
           socialToken: data?.access_token,
           userId: data?.user_id,
+          socialType: data?.socialType ? data?.socialType : 'instagram',
         })
         .then(res => {
           this.props.navigation?.navigate('CreateProfile', {
@@ -152,6 +151,12 @@ class Login extends Component {
             const data = JSON.parse(innerJsonString);
             const {email, userName, userID, name, authToken, authTokenSecret} =
               data;
+            this.setIgToken({
+              access_token: authToken,
+              user_id: userID,
+              socialType: 'twitter',
+            });
+            console.log(authToken, authTokenSecret, userID, 'idsss tokennnss');
           } catch (e) {
             console.error('Error parsing inner data:', e);
           }

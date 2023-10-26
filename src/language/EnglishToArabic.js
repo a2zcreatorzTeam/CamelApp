@@ -305,3 +305,4 @@ export const locationpermissiondenied = 'تم رفض إذن الموقع';
 export const phonenumbercantbeempty = 'لا يمكن أن يكون رقم الهاتف فارغًا';
 export const usernamecantbeempty = 'لا يمكن أن يكون اسم المستخدم فارغًا';
 export const cannotpostwithoutmedia = 'لا يمكن النشر بدون وسائل الإعلام';
+export const PARTICIPANTS = 'مشاركون';

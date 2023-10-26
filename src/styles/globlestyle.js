@@ -406,6 +406,7 @@ export const Styles = StyleSheet.create({
     textAlign: 'center',
     borderColor: 'black',
     borderWidth: 0.5,
+    color:'#fff'
   },
 
   containerAddNew: {

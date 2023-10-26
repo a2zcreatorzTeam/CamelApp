@@ -25,6 +25,7 @@ import PostItem from './CompetitionPostItem';
 import BackBtnHeader from './headerWithBackBtn';
 import moment from 'moment';
 import Toast from 'react-native-toast-message';
+import {Card} from 'react-native-paper';
 const width = Dimensions.get('screen').width;
 class BeautyOfCompetition extends Component {
   constructor(props) {
@@ -39,12 +40,15 @@ class BeautyOfCompetition extends Component {
       competition_winner:
         props.route.params.competition_item[0]?.competition_winner,
       sponsors: props.route.params.competition_item[0]?.sponsors,
+      competition_participants:
+        props.route.params.competition_item[0]?.competition_participant,
       modal: false,
       particpateModal: false,
       generalRulesModal: false,
       refreshing: false,
       loading: false,
       key: false,
+      participantsModal: false,
     };
   }
   selectedCompetition() {
@@ -263,6 +267,65 @@ class BeautyOfCompetition extends Component {
       return <SponsorItem item={item} name={item.name} image={item.image} />;
     };
     const {competition} = this.state;
+    // PARTICIPANTS LIST
+    const Item = ({userName, userImage, onUserMessageClick}) => (
+      // <Card>
+      <View
+        style={{
+          backgroundColor: '#fff', // '#f3f3f3',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          width: '95%',
+          height: 70,
+          flexDirection: 'row',
+          marginBottom: 5,
+          borderBottomWidth: 1,
+          borderColor: '#D3D3D3',
+        }}>
+        <Text
+          style={{
+            fontSize: 16,
+            textAlign: 'right',
+            color: '#565756',
+            fontWeight: '700',
+            marginRight: 10,
+            marginBottom: 5,
+          }}>
+          {userName}
+        </Text>
+        <View
+          style={{
+            borderRadius: 30,
+            // borderWidth: 1,
+            // borderColor: '#D3D3D3',
+            marginRight: 10,
+            overflow: 'hidden',
+            marginBottom: 5,
+          }}>
+          <Image
+            source={{
+              uri:
+                'http://www.tasdeertech.com/public/images/profiles/' +
+                userImage,
+            }}
+            style={{
+              width: 50,
+              height: 50,
+            }}
+          />
+        </View>
+      </View>
+      // </Card>
+    );
+    const renderItem = ({item}) => {
+      return (
+        <Item
+          item={item}
+          userName={item?.user_name}
+          userImage={item.user_image}
+        />
+      );
+    };
     return (
       <View style={[Styles.containerBeauty, {position: 'relative'}]}>
         <BackBtnHeader />
@@ -275,25 +338,30 @@ class BeautyOfCompetition extends Component {
             width: '90%',
           }}>
           <ScrollView horizontal style={styles.scrollView}>
+            {/* Reward MODAL  */}
             <Pressable onPress={() => this.setState({modal: true})}>
               <Text style={Styles.ButtonBeauty}>{ArabicText.Reward}</Text>
             </Pressable>
-
+            {/* HOW TO PARTICIPATE */}
             <Pressable onPress={() => this.setState({particpateModal: true})}>
               <Text style={Styles.ButtonBeauty}>
                 {ArabicText.How_to_Participate}
               </Text>
             </Pressable>
-
+            {/* Rules Modal  */}
             <Pressable onPress={() => this.setState({generalRulesModal: true})}>
               <Text style={Styles.ButtonBeauty}>{ArabicText.General_Rule}</Text>
             </Pressable>
+            {/* WINNER  */}
             <Pressable
               onPress={() => {
                 if (this?.state?.posts?.length > 0) {
-                  this.props.navigation.navigate('WinnerBeauty', {
-                    competitionItem: this.state.competition_winner,
-                  });
+                  if (this.state.competition_winner?.length) {
+                    this.props.navigation.navigate('WinnerBeauty', {
+                      competitionItem: this.state.competition_winner,
+                    });
+                  } else {
+                  }
                 } else {
                   Toast.show({
                     text1: ArabicText?.Noonehasparticipatedyet,
@@ -303,11 +371,21 @@ class BeautyOfCompetition extends Component {
                   // alert('No one has participated yet!');
                 }
               }}>
-              <Text style={Styles.ButtonBeauty}>{ArabicText.winner}</Text>
+              <Text
+                style={[
+                  Styles.ButtonBeauty,
+                  {
+                    backgroundColor: this.state.competition_winner?.length
+                      ? '#D2691Eff'
+                      : '#808080',
+                  },
+                ]}>
+                {ArabicText.winner}
+              </Text>
             </Pressable>
-         
-            <Pressable onPress={() => this.setState({generalRulesModal: true})}>
-              <Text style={Styles.ButtonBeauty}>{ArabicText.General_Rule}</Text>
+            {/* PARTICIPANTS  */}
+            <Pressable onPress={() => this.setState({participantsModal: true})}>
+              <Text style={Styles.ButtonBeauty}>{ArabicText.PARTICIPANTS}</Text>
             </Pressable>
           </ScrollView>
         </View>
@@ -456,7 +534,36 @@ class BeautyOfCompetition extends Component {
             </View>
           </View>
         </Modal>
-        
+        {/* PARTICIPATES MODAL  */}
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.participantsModal}
+          onRequestClose={() => {
+            this.setState({participantsModal: false});
+          }}>
+          <View style={Styles.centeredView}>
+            <View style={[Styles.modalView]}>
+              {this.state.competition?.length && (
+                <FlatList
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={this.state.refreshing}
+                      onRefresh={() => this.ScrollToRefresh()}
+                    />
+                  }
+                  contentContainerStyle={{flexGrow: 1}}
+                  style={{height: '70%'}}
+                  ListEmptyComponent={() => <EmptyComponent />}
+                  data={this.state.competition_participants}
+                  renderItem={renderItem}
+                  keyExtractor={item => item?.user_id?.toString()}
+                />
+              )}
+            </View>
+          </View>
+        </Modal>
+
         <View style={Styles.BeautyOfComp}>
           <FlatList
             showsHorizontalScrollIndicator={false}
@@ -526,10 +633,6 @@ export default connect(
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: '#fff',
-    // width: '90%',
-    // flexGrow: 1,
     flexDirection: 'row',
-    // marginTop: 20,
-    // flex: 1,
   },
 });

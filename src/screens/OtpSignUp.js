@@ -63,7 +63,6 @@ class App extends Component {
   handleChangeTextFour = text => {
     this.setState({four: text});
   };
-
   backspace = id => {
     if (id === 'two') {
       if (this.state.two) {

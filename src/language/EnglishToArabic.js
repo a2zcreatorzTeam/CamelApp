@@ -321,3 +321,4 @@ export const passwordmustbe6charcterslong =
   'يجب أن تكون كلمة المرور مكونة من 6 أحرف';
 export const Changepassword = 'تغيير كلمة المرور';
 export const EnterYourNewPassword='أدخل كلمة المرور الجديدة'
+export const EntertheOTPSenttoYourMobile='أدخل كلمة المرور لمرة واحدة (OTP) المرسلة إلى هاتفك المحمول'

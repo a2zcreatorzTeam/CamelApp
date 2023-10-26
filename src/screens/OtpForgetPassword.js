@@ -45,7 +45,7 @@ export default class App extends Component {
   componentDidMount() {
     this.first.current.focus();
   }
-
+  // OTP
   handleChangeTextOne = text => {
     this.setState({one: text}, () => {
       if (this.state.one) this.second.current.focus();
@@ -64,7 +64,6 @@ export default class App extends Component {
   handleChangeTextFour = text => {
     this.setState({four: text});
   };
-
   backspace = id => {
     if (id === 'two') {
       if (this.state.two) {
@@ -89,7 +88,6 @@ export default class App extends Component {
       }
     }
   };
-
   checkOtp() {
     this.setState({loader: true});
     let number =
@@ -122,10 +120,10 @@ export default class App extends Component {
       }, 1000);
     }
   }
-  submitOTP(signUpUser) {
+
+  // PASSWORD
+  submitOTP() {
     this.setState({loader: true});
-    let number =
-      this.state.one + this.state.two + this.state.three + this.state.four;
     if (this.state.password.length > 5) {
       if (this.state.password === this.state.confirm_password) {
         camelapp
@@ -140,7 +138,6 @@ export default class App extends Component {
                 type: 'error',
                 visibilityTime: 3000,
               });
-              // alert(response?.data?.message);
               setTimeout(() => {
                 this.props.navigation.navigate('Login');
               }, 1000);
@@ -155,7 +152,6 @@ export default class App extends Component {
           type: 'error',
           visibilityTime: 3000,
         });
-        // alert('Password does not match');
         this.setState({loader: false});
       }
     } else {
@@ -164,15 +160,15 @@ export default class App extends Component {
         type: 'error',
         visibilityTime: 3000,
       });
-      // alert('Password must contains 6 characters');
       this.setState({loader: false});
     }
   }
-
   render() {
     console.log('====================================');
     console.log(this.state.number);
     console.log('====================================');
+
+    // OTP
     const {oneFocus, twoFocus, threeFocus} = this.state;
     const oneStyle = {
       borderBottomColor: oneFocus ? 'red' : 'black',
@@ -192,10 +188,6 @@ export default class App extends Component {
     };
     return (
       <View style={styles.container}>
-        {/* <Image
-            source={require('../../assets/logo-camel.png')}
-            style={{ height: 90, width: 90,  alignSelf: 'center' }}/> */}
-
         {this.state?.optButtonController == true ? (
           <>
             <Text
@@ -207,7 +199,7 @@ export default class App extends Component {
                 fontWeight: '600',
               }}
               numberOfLines={3}>
-              Enter the OTP Sent to Your Mobile
+              {ArabicText?.EntertheOTPSenttoYourMobile}
             </Text>
             <View style={styles.inputcontainer}>
               <TextInput
@@ -440,7 +432,6 @@ const styles = StyleSheet.create({
   },
   inputcontainer: {
     marginVertical: 25,
-    // flexDirection: 'row-reverse',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',

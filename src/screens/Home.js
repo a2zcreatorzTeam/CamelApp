@@ -70,7 +70,7 @@ class Home extends Component {
   }
   componentDidMount() {
     this.viewPosts();
-    this.checkUser();
+    // this.checkUser();
   }
   ScrollToRefresh() {
     this.viewPosts();
@@ -178,34 +178,34 @@ class Home extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-  async checkUser() {
-    const userPhone = await AsyncStorage.getItem('@UserPhone');
-    const userPass = await AsyncStorage.getItem('@UserPassword');
-    try {
-      camelapp
-        .post('/login', {
-          phone: userPhone,
-          password: userPass,
-        })
-        .then(res => {
-          let response = res.data;
-          if (response.status == true) {
-            let {actions} = this.props;
-            actions.userData(response);
-          } else {
-            let {user, actions} = this.props;
-            actions.userData({});
-            AsyncStorage.removeItem('@UserPhone');
-            AsyncStorage.removeItem('@UserPassword');
-          }
-        })
-        .catch(error => {
-          console.log('Error Message--- signin', error);
-        });
-    } catch (error) {
-      console.log('Error Message--- signin', error);
-    }
-  }
+  // async checkUser() {
+  //   const userPhone = await AsyncStorage.getItem('@UserPhone');
+  //   const userPass = await AsyncStorage.getItem('@UserPassword');
+  //   try {
+  //     camelapp
+  //       .post('/login', {
+  //         phone: userPhone,
+  //         password: userPass,
+  //       })
+  //       .then(res => {
+  //         let response = res.data;
+  //         if (response.status == true) {
+  //           let {actions} = this.props;
+  //           actions.userData(response);
+  //         } else {
+  //           let {user, actions} = this.props;
+  //           actions.userData({});
+  //           AsyncStorage.removeItem('@UserPhone');
+  //           AsyncStorage.removeItem('@UserPassword');
+  //         }
+  //       })
+  //       .catch(error => {
+  //         console.log('Error Message--- signin', error);
+  //       });
+  //   } catch (error) {
+  //     console.log('Error Message--- signin', error);
+  //   }
+  // }
   scrollToEnd = () => {
     this.scrollRef.current.scrollToEnd({animated: false});
   };

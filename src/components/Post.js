@@ -39,17 +39,16 @@ const Post = ({
   category,
   postViewed = () => {},
 }) => {
+  const user = useSelector(state => state?.user?.user?.user);
   const navigation = useNavigation();
   const [modal, setModal] = useState(false);
   const [pausedCheck, setpausedCheck] = useState(true);
-  const user = useSelector(state => state?.user?.user?.user);
   const [load, setLoad] = useState(false);
   const [modalItem, setModalItem] = useState('');
   const [modalItemType, setModalItemType] = useState('');
   const [isLiked, setIsLiked] = useState(item?.flagForLike);
   const [likeCount, setLikeCount] = useState(item?.like_count);
   const [viewCount, setViewCount] = useState(item?.view_count);
-
   const onUserProfileClick = async item => {
     if (user != undefined) {
       if (item?.user_id == user?.id) {
@@ -141,7 +140,11 @@ const Post = ({
   }, [sharePost, item]);
 
   const handleDetailsClick = useCallback(() => {
-    onDetailsClick(viewCount, setViewCount);
+    if (user) {
+      onDetailsClick(viewCount, setViewCount);
+    } else {
+      navigation.navigate('Login');
+    }
   }, [onDetailsClick, item]);
 
   const handleLikesClick = useCallback(() => {
@@ -230,10 +233,14 @@ const Post = ({
             <TouchableWithoutFeedback
               key={index}
               onPress={() => {
-                postViewed(viewCount, setViewCount);
-                setModal(true),
-                  setModalItem(mediaSource),
-                  setModalItemType(item?.type);
+                if (user) {
+                  postViewed(viewCount, setViewCount);
+                  setModal(true),
+                    setModalItem(mediaSource),
+                    setModalItemType(item?.type);
+                } else {
+                  navigation.navigate('Login');
+                }
               }}
               style={{}}>
               <View
@@ -603,7 +610,7 @@ const styles = StyleSheet.create({
   priceContainer: {
     position: 'absolute',
     // left: -350,
-    left:20,
+    left: 20,
     top: 20,
     paddingTop: 5,
     alignItems: 'center',
@@ -613,7 +620,7 @@ const styles = StyleSheet.create({
     height: height * 0.065,
     borderBottomRightRadius: 50,
     borderBottomLeftRadius: 50,
-    zIndex:1111
+    zIndex: 1111,
   },
   priceTxt: {
     color: 'white',

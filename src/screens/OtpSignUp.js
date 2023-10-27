@@ -108,38 +108,38 @@ class App extends Component {
           })
           .then(respo => {
             if (respo?.data?.status == true) {
-              camelapp
-                .post('/login', {
-                  phone: user_data.phone,
-                  password: user_data.password,
-                  device_type: Platform.OS,
-                  device_token: deviceToken,
-                })
-                .then(res => {
-                  let response = res.data;
-                  if (response) {
-                    // if (response.status == true) {
-                    this.setState({loader: false, btnPressed: false});
-                    this.props.navigation.navigate('CreateProfile', {
-                      response: response,
-                    });
-                    // console.log('response', response);
-                    // let {actions} = this.props;
-                    // actions.userData(response);
-                    // this.props.navigation.navigate('Home');
-                  } else {
-                    Toast.show({
-                      text1: response.error + '',
-                      type: 'error',
-                      visibilityTime: 3000,
-                    });
-                    // alert(response.error + '');
-                    this.setState({loader: false});
-                  }
-                })
-                .catch(error => {
-                  console.log(error, 'eriiiiii');
-                });
+              // camelapp
+              //   .post('/login', {
+              //     phone: user_data.phone,
+              //     password: user_data.password,
+              //     device_type: Platform.OS,
+              //     device_token: deviceToken,
+              //   })
+              //   .then(res => {
+              //     let response = res.data;
+              //     if (response) {
+              //       // if (response.status == true) {
+              //       this.setState({loader: false, btnPressed: false});
+              this.props.navigation.navigate('CreateProfile', {
+                response: response,
+              });
+              // console.log('response', response);
+              // let {actions} = this.props;
+              // actions.userData(response);
+              // this.props.navigation.navigate('Home');
+              //   } else {
+              //     Toast.show({
+              //       text1: response?.error + '',
+              //       type: 'error',
+              //       visibilityTime: 3000,
+              //     });
+              //     // alert(response.error + '');
+              //     this.setState({loader: false});
+              //   }
+              // })
+              // .catch(error => {
+              //   console.log(error, 'eriiiiii');
+              // });
             }
           })
           .catch(error => {

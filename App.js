@@ -5,7 +5,6 @@ import SplashScreen from 'react-native-splash-screen';
 import {StatusBar, LogBox, Platform, PermissionsAndroid} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import camelapp from './src/api/camelapp';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as userActions from './src/redux/actions/user_actions';
@@ -52,36 +51,6 @@ const toastConfig = {
   ),
 };
 class App extends Component {
-  async checkUser() {
-    const userPhone = await AsyncStorage.getItem('@UserPhone');
-    const userPass = await AsyncStorage.getItem('@UserPassword');
-    console.log(userPhone, userPass);
-    try {
-      camelapp
-        .post('/login', {
-          phone: userPhone,
-          password: userPass,
-        })
-        .then(res => {
-          let response = res?.data;
-          if (response.status == true) {
-            let {actions} = this.props;
-            actions.userData(response);
-          } else {
-            let {user, actions} = this.props;
-            actions.userData({});
-
-            AsyncStorage.removeItem('@UserPhone');
-            AsyncStorage.removeItem('@UserPassword');
-          }
-        })
-        .catch(error => {
-          console.log('Error Message--- signin', error);
-        });
-    } catch (error) {
-      console.log('Error Message--- signin', error);
-    }
-  }
   takePermission = async () => {
     // NO NEED TO ASK PERMISSION FOR LESS THAN 33 APILEVEL
     if (Platform.OS == 'android' && DeviceInfo.getApiLevelSync() >= 33) {
@@ -98,7 +67,6 @@ class App extends Component {
       }
     }
   };
-
   componentDidMount() {
     this.takePermission();
     notificationListener();
@@ -112,11 +80,6 @@ class App extends Component {
     }
   }
   render() {
-    const backgroundStyle = {
-      backgroundColor: Colors.darker,
-      flex: 1,
-    };
-
     return (
       <SafeAreaProvider>
         <StatusBar barStyle="default" backgroundColor="#d2691e" />

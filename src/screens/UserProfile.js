@@ -23,7 +23,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {Styles} from '../styles/globlestyle';
 
 import camelapp from '../api/camelapp';
-import {connect} from 'react-redux';
+import {connect, useSelector} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import * as ArabicText from '../language/EnglishToArabic';
@@ -35,6 +35,7 @@ import Loader from '../components/PleaseWait';
 import Header from '../components/Header';
 import FastImage from 'react-native-fast-image';
 import {Share} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
 
@@ -403,6 +404,114 @@ class UserProfile extends Component {
       alert(error.message);
     }
   };
+  onDetailsClick = async (item, viewCount, setViewCount) => {
+    let {user} = this.props;
+    user = user.user.user;
+    let post_id = item.id;
+    if (user != undefined) {
+      if (item.category_id == '1') {
+        this.props.navigation.navigate('CamelClubDetailsComponent', {
+          itemFromDetails: item,
+        });
+      } else if (item.category_id == '4') {
+        this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
+          itemFromDetails: item,
+        });
+      } else if (item.category_id == '3') {
+        this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
+          itemFromDetails: item,
+        });
+      } else if (item.category_id == '2') {
+        this.props.navigation.navigate('DetailsSellingCamel', {
+          itemFromDetails: item,
+        });
+      } else if (item.category_id == '6') {
+        console.log('iddd66666');
+        this.props.navigation.navigate('DetailsComponentWithPrice', {
+          itemFromDetails: item,
+        });
+      } else if (item.category_id == '8') {
+        console.log('iddd888888');
+        this.props.navigation.navigate('DetailsComponentWithPrice', {
+          itemFromDetails: item,
+        });
+      } else if (item.category_id == '5') {
+        this.props.navigation.navigate('DetailsMovingCamel', {
+          itemFromDetails: item,
+        });
+      } else if (item.category_id == '9') {
+        this.props.navigation.navigate('DetailsMarketingCamel', {
+          itemFromDetails: item,
+        });
+      } else if (item.category_id == '11') {
+        this.props.navigation.navigate('DetailsFemaleCamel', {
+          itemFromDetails: item,
+        });
+      } else if (item.category_id == '7') {
+        this.props.navigation.navigate('DetailsComponent', {
+          itemFromDetails: item,
+        });
+      }
+      this.postViewed(item, viewCount, setViewCount);
+    } else {
+      // if (item.category_id == '1') {
+      //   this.props.navigation.navigate('CamelClubDetailsComponent', {
+      //     itemFromDetails: item,
+      //   });
+      // }
+      // if (item.category_id == '4') {
+      //   this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
+      //     itemFromDetails: item,
+      //   });
+      // }
+      // if (item.category_id == '3') {
+      //   this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
+      //     itemFromDetails: item,
+      //   });
+      // }
+      // if (item.category_id == '2') {
+      //   this.props.navigation.navigate('DetailsSellingCamel', {
+      //     itemFromDetails: item,
+      //   });
+      // }
+      // if (item.category_id == '6') {
+      //   console.log('id6666');
+      //   this.props.navigation.navigate('DetailsComponentWithPrice', {
+      //     itemFromDetails: item,
+      //   });
+      // }
+      // if (item.category_id == '8') {
+      //   console.log('id88888');
+      //   this.props.navigation.navigate('DetailsComponentWithPrice', {
+      //     itemFromDetails: item,
+      //   });
+      // }
+      // if (item.category_id == '5') {
+      //   this.props.navigation.navigate('DetailsMovingCamel', {
+      //     itemFromDetails: item,
+      //   });
+      // }
+      // if (item.category_id == '9') {
+      //   this.props.navigation.navigate('DetailsMarketingCamel', {
+      //     itemFromDetails: item,
+      //   });
+      // }
+
+      // if (item.category_id == '11') {
+      //   this.props.navigation.navigate('DetailsFemaleCamel', {
+      //     itemFromDetails: item,
+      //   });
+      // }
+      // if (item.category_id == '7') {
+      //   this.props.navigation.navigate('DetailsComponent', {
+      //     itemFromDetails: item,
+      //   });
+      // }
+      this.props.navigation.navigate('Login');
+    }
+
+    // this.props.navigation.navigate("DetailsComponent", { itemFromDetails: item })
+  };
   render() {
     const {
       filterPosts,
@@ -516,7 +625,7 @@ class UserProfile extends Component {
           user_name={item?.user_name}
           user_location={item?.location}
           onDetailsClick={(viewCount, setViewCount) => {
-            onDetailsClick(item, viewCount, setViewCount);
+            this.onDetailsClick(item, viewCount, setViewCount);
           }}
           onLikesClick={(item, setIsLiked, setLikeCount) =>
             onLikesClick(item, setIsLiked, setLikeCount)
@@ -1127,6 +1236,9 @@ const Item = ({
   const [isLiked, setIsLiked] = useState(flagForLike);
   const [likeCount, setLikeCount] = useState(likes ? likes : 0);
   const [viewCount, setViewCount] = useState(item?.view_count);
+  const user = useSelector(state => state?.user?.user?.user);
+  const navigation = useNavigation();
+
   return (
     <Card style={{elevation: 5, marginTop: 10}}>
       <View style={Styles.homesec}>
@@ -1225,10 +1337,14 @@ const Item = ({
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => {
-                postViewed(viewCount, setViewCount);
-                setModal(true),
-                  setModalItem(mediaSource),
-                  setModalItemType(item?.type);
+                if (user) {
+                  postViewed(viewCount, setViewCount);
+                  setModal(true),
+                    setModalItem(mediaSource),
+                    setModalItemType(item?.type);
+                } else {
+                  navigation.navigate('Login');
+                }
               }}
               style={Styles.imageCarousal}>
               {item.type == 'image' && (

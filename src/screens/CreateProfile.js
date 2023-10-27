@@ -18,6 +18,7 @@ import {ImageBackground} from 'react-native';
 import * as EmailValidator from 'email-validator';
 import {ScrollView} from 'react-native';
 import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -35,6 +36,10 @@ class CreateProfile extends Component {
     let {user} = this.props;
     user = user?.user?.user;
     this.setState({user: user, image: user?.image, location: user?.location});
+  }
+  saveData() {
+    let phone = this.state.phoneNumber;
+    AsyncStorage.setItem('@UserPhone', phone);
   }
   imagePick() {
     ImageCropPicker.openPicker({
@@ -64,134 +69,117 @@ class CreateProfile extends Component {
       });
   }
   createProfile = async () => {
+    console.log(this.props.route.params.response);
     const {pickedImage, location, email, userName, phoneNumber} = this.state;
-    console.log(
-      location,
-      email,
-      userName,
-      phoneNumber,
-      ' location, email, userName, phoneNumber',
-    );
-    const userdata = this.props?.route?.params?.response;
     const {screen} = this.props.route?.params;
-    if (screen == 'socialLogin') {
-      if (!userName) {
-        Toast.show({
-          text1: ArabicText.usernamecantbeempty,
-          type: 'error',
-          visibilityTime: 3000,
-        });
-      } else if (!phoneNumber) {
-        Toast.show({
-          text1: ArabicText.phonenumbercantbeempty,
-          type: 'error',
-          visibilityTime: 3000,
-        });
-      }
-    } else {
-      if (!email) {
-        Toast.show({
-          text1: ArabicText.EmailFieldCantBeEmpty,
-          type: 'error',
-          visibilityTime: 3000,
-        });
-        // alert(ArabicText?.EmailFieldCantBeEmpty);
-      } else if (!EmailValidator.validate(email)) {
-        Toast.show({
-          text1: ArabicText.EmailIsNotValid,
-          type: 'error',
-          visibilityTime: 3000,
-        });
-        // alert(ArabicText?.EmailIsNotValid);
-      } else if (!location) {
-        Toast.show({
-          text1: ArabicText.LocationFieldCantBeEmpty,
-          type: 'error',
-          visibilityTime: 3000,
-        });
-        // alert(ArabicText?.LocationFieldCantBeEmpty);
-      } else if (!pickedImage) {
-        Toast.show({
-          text1: ArabicText.ImageCantBeEmpty,
-          type: 'error',
-          visibilityTime: 3000,
-        });
-        // alert(ArabicText?.ImageCantBeEmpty);
-      }
-    }
-    console.log(userdata?.user?.id, location, email, pickedImage);
-    this.setState({
-      btnLoader: true,
-    });
-    await camelapp
-      .post('/update', {
-        user_id: userdata?.user?.id,
-        location: location,
-        email: email,
-        image: pickedImage,
-        number: phoneNumber ? phoneNumber : null,
-      })
-      .then(res => {
-        console.log('responseeeeeeee', res);
-        this.setState({
-          btnLoader: false,
-        });
-        if (res.data.status == true) {
-          this.setState({
-            btnLoader: false,
-          });
-          let {actions} = this.props;
-          actions.userData(res?.data);
-          this.props.navigation.navigate('Home');
-        } else {
-          this.setState({
-            btnLoader: false,
-          });
-          Toast.show({
-            text1: ArabicText.UserUpdateFailed,
-            type: 'error',
-            visibilityTime: 3000,
-          });
-          // alert(ArabicText?.UserUpdateFailed);
-        }
-      })
-      .catch(error => {
-        console.log(error, 'errorrr');
-        this.setState({
-          btnLoader: false,
-        });
-      });
-  };
-  //   imagePick = () => {
-  //     ImageCropPicker.openPicker({
-  //       mediaType: 'photo',
-  //       multiple: false,
-  //       includeBase64: false,
-  //       selectionLimit: 1,
-  //     })
-  //       .then(async images => {
-  //         if (images) {
-  //           setImage({
-  //             // image: undefined,
-  //             pickedImage: images?.data,
-  //             imageShow: images?.path,
-  //             mediaType: images?.mime,
-  //             imageName: images?.modificationDate,
-  //           });
-  //         } else {
-  //         }
-  //       })
-  //       .catch(error => {
-  //         console.log('error', error);
-  //       });
 
-  //     // setModalVisible(false)
-  //   };
+    if (screen == 'socialLogin' && !phoneNumber) {
+      Toast.show({
+        text1: ArabicText.phonenumbercantbeempty,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+    } else if (screen == 'socialLogin' && phoneNumber?.length < 10) {
+      Toast.show({
+        text1: ArabicText.Pleaseentercorrectphonenumber,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+    } else if (screen == 'socialLogin' && !userName) {
+      Toast.show({
+        text1: ArabicText.usernamecantbeempty,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+    } else if (!email) {
+      Toast.show({
+        text1: ArabicText.EmailFieldCantBeEmpty,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // alert(ArabicText?.EmailFieldCantBeEmpty);
+    } else if (!EmailValidator.validate(email)) {
+      Toast.show({
+        text1: ArabicText.EmailIsNotValid,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // alert(ArabicText?.EmailIsNotValid);
+    } else if (!location) {
+      Toast.show({
+        text1: ArabicText.LocationFieldCantBeEmpty,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+      // alert(ArabicText?.LocationFieldCantBeEmpty);
+    } else if (!pickedImage) {
+      Toast.show({
+        text1: ArabicText.ImageCantBeEmpty,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+    } else {
+      console.log('1266');
+      this.setState({
+        btnLoader: true,
+      });
+      console.log(
+        this.props.route.params.response?.user?.id,
+        location,
+        phoneNumber,
+        email,
+        userName,
+        'detailss',
+      );
+      await camelapp
+        .post('/update', {
+          // user_id: userdata?.user?.id,
+          user_id: this.props.route.params.response?.user?.id,
+          location: location,
+          email: email,
+          image: pickedImage,
+          phone: phoneNumber ? phoneNumber : null,
+          name: userName ? userName : null,
+        })
+        .then(res => {
+          console.log(res?.data?.message, 'respnse');
+          this.setState({
+            btnLoader: false,
+          });
+
+          if (res.data.status == true) {
+            this.setState({
+              btnLoader: false,
+            });
+            let {actions} = this.props;
+            actions.userData(res?.data);
+            this.saveData();
+            this.props.navigation.navigate('Home');
+          } else {
+            this.setState({
+              btnLoader: false,
+            });
+            Toast.show({
+              text1: res?.data?.message
+                ? res?.data?.message
+                : ArabicText?.somethingwentwrong,
+              type: 'error',
+              visibilityTime: 3000,
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error, 'errorrr');
+          this.setState({
+            btnLoader: false,
+          });
+        });
+    }
+  };
 
   render() {
     const {image, btnLoader, location} = this.state;
     const {screen} = this.props.route?.params;
-    console.log(screen, 'screemj');
     return (
       <ScrollView
         // style={{flex: 1}}
@@ -266,7 +254,7 @@ class CreateProfile extends Component {
                   style={Styles.inputs}
                   keyboardType="numeric"
                   placeholder={ArabicText.phone}
-                  maxLength={11}
+                  maxLength={10}
                   placeholderTextColor="#000000"
                   onChangeText={text =>
                     this.setState({phoneNumber: text.replace(/[^0-9]/g, '')})

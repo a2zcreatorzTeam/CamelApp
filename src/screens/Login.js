@@ -82,7 +82,7 @@ class Login extends Component {
     }
   };
   componentDidMount = () => {
-    this.onClear();
+    // this.onClear();
     this.focusListener = this.props.navigation.addListener('focus', () => {
       this.backHandler = BackHandler.addEventListener(
         'hardwareBackPress',
@@ -106,13 +106,25 @@ class Login extends Component {
       camelapp
         .post('/social/login', {
           socialToken: data?.access_token,
-          userId: data?.user_id,
+          social_id: data?.user_id,
           socialType: data?.socialType ? data?.socialType : 'instagram',
+          device_token: data?.access_token,
         })
+
         .then(res => {
-          this.props.navigation?.navigate('CreateProfile', {
-            screen: 'socialLogin',
-          });
+          console.log(data?.user_id, 'data?.user_iddata?.user_id');
+          console.log(res?.data?.user, 'responsesocial');
+          if (res?.data?.user?.is_complete == 1) {
+            let {actions} = this.props;
+            actions.userData(res?.data);
+            this.saveData();
+            this.props.navigation.navigate('Home');
+          } else {
+            this.props.navigation.navigate('CreateProfile', {
+              response: res?.data,
+              screen: 'socialLogin',
+            });
+          }
           this.setState({loader: false});
         })
         .catch(error => {
@@ -199,19 +211,26 @@ class Login extends Component {
               response = res.data;
               if (response.status == true) {
                 this.setState({loader: false});
-                let {actions} = this.props;
-                actions.userData(response);
-                this.saveData();
-                this.userlogin();
-                this.props.navigation.navigate('Home');
+                if (response?.data?.is_complete == 1) {
+                  let {actions} = this.props;
+                  actions.userData(response);
+                  this.saveData();
+                  this.userlogin();
+                  this.props.navigation.navigate('Home');
+                } else {
+                  this.props.navigation.navigate('CreateProfile', {
+                    response: response,
+                  });
+                }
+                // this.props.navigation.navigate('Home', {
+                //   // response: response,
+                // });
               } else {
                 Toast.show({
                   text1: response?.error + '',
                   type: 'error',
                   visibilityTime: 3000,
                 });
-                // alert(response?.error);
-                // alert(response.error + '');
                 this.setState({loader: false});
               }
             })

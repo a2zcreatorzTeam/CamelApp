@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   ImageBackground,
+  NativeModules,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -21,6 +22,7 @@ import * as EmailValidator from 'email-validator';
 import Toast from 'react-native-toast-message';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import CookieManager from '@react-native-cookies/cookies';
+const {RNTwitterSignIn} = NativeModules;
 
 class EditProfile extends Component {
   constructor(props) {
@@ -41,7 +43,7 @@ class EditProfile extends Component {
       modalVisible: false,
       optVal: {},
       btnLoader: false,
-      email: this.props.user.user.user.email,
+      email: props?.user?.user?.user?.email,
     };
   }
 
@@ -51,23 +53,40 @@ class EditProfile extends Component {
       console.log(res, 'responsee');
     });
   };
-  logOut() {
+  logOut = async () => {
     try {
       let {user, actions} = this.props;
-      actions?.userLogout({});
-      console.log('2');
-      AsyncStorage.removeItem('@UserPhone');
-      console.log('3');
-      AsyncStorage.removeItem('@UserPassword');
-      console.log('4');
-      AsyncStorage.removeItem('fcmToken');
-      // await RNTwitterSignIn.logOut();
-      // this.onClear();
-      this.props.navigation.replace('Home');
+      let id = user?.user?.user?.id;
+      let userdetail = user?.user?.user;
+      await camelapp
+        .get('/logout/' + id)
+        .then(
+          (response = async () => {
+            console.log(response, 'responseee');
+            if (userdetail?.socialType == 'instagram') {
+              this.onClear();
+            } else if (userdetail?.socialType == 'twitter') {
+              await RNTwitterSignIn.logOut();
+            }
+            actions?.userLogout({});
+            AsyncStorage.removeItem('@UserPassword');
+            AsyncStorage.removeItem('@UserPhone');
+            AsyncStorage.removeItem('fcmToken');
+            this.props.navigation.replace('Home');
+            // Toast.show({
+            //   text1: ArabicText.ImageCantBeEmpty,
+            //   type: 'error',
+            //   visibilityTime: 3000,
+            // });
+          }),
+        )
+        .catch(error => {
+          console.log(error, 'errrrr');
+        });
     } catch (error) {
       console.log('error', error);
     }
-  }
+  };
   componentDidMount() {
     let {user} = this.props;
     user = user.user.user;
@@ -106,7 +125,6 @@ class EditProfile extends Component {
     this.otpInput.setValue('1234');
   };
   updateProfile = async () => {
-    console.log(pickedImage, this.props.user.user.user?.image);
     const {image} = this.props.user.user.user;
     const {email, location, pickedImage, userName} = this.state;
     if (!pickedImage && !image) {
@@ -143,7 +161,6 @@ class EditProfile extends Component {
       this.setState({
         btnLoader: true,
       });
-
       let {actions} = this.props;
       if (this.state.imageShow == undefined) {
         console.log('99999');

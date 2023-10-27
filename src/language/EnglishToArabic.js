@@ -322,3 +322,4 @@ export const passwordmustbe6charcterslong =
 export const Changepassword = 'تغيير كلمة المرور';
 export const EnterYourNewPassword='أدخل كلمة المرور الجديدة'
 export const EntertheOTPSenttoYourMobile='أدخل كلمة المرور لمرة واحدة (OTP) المرسلة إلى هاتفك المحمول'
+export const Pleaseentercorrectphonenumber='الرجاء إدخال رقم الهاتف الصحيح'

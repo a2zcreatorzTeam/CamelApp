@@ -25,6 +25,7 @@ import {Checkbox} from 'react-native-paper';
 import {Platform} from 'react-native';
 import {ScrollView} from 'react-native';
 import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class SignUp extends Component {
   constructor(props) {
@@ -122,7 +123,8 @@ class SignUp extends Component {
       });
     }
     if (name && phone && confirm_password && password && isChecked == true) {
-      console.log('state', this.state);
+      await getFCMToken();
+      const deviceToken = await AsyncStorage?.getItem('fcmToken');
       this.setState({btnPressed: true, loader: true});
       camelapp
         .get('checkemail?phone=' + this.state.phone)
@@ -153,7 +155,7 @@ class SignUp extends Component {
                     phone: this.state.phone,
                     password: this.state.password,
                     confirm_password: this.state.confirm_password,
-                    device_token: 'fcm',
+                    device_token: deviceToken,
                     device_type: Platform?.OS,
                   };
                   this.props.navigation.navigate('OtpSignUp', {

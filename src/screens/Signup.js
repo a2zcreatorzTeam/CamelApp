@@ -26,6 +26,7 @@ import {Platform} from 'react-native';
 import {ScrollView} from 'react-native';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getFCMToken} from '../services/Helper';
 
 class SignUp extends Component {
   constructor(props) {
@@ -129,27 +130,16 @@ class SignUp extends Component {
       camelapp
         .get('checkemail?phone=' + this.state.phone)
         .then(response => {
-          console.log(response?.data?.message);
-          // let number = 0;
-          // do {
-          //   number = Math.floor(Math.random() * 10000) + 1;
-          //   console.log(number);
-          // } while (number < 1000 || number > 10000);
-          // Toast.show({
-          //   text1: number,
-          //   type: 'success',
-          //   visibilityTime: 3000,
-          // });
-          // // alert(number);
-          // this.setState({randomIndex: number});
-          if (response.data?.message !== 'Phone Already exists') {
+          console.log(response?.data?.message, 'responsee');
+          if (response.data?.message != 'Phone Already exists!') {
             this.setState({loader: false});
             camelapp
               .post('sendsms', {
                 phone: this.state.phone,
               })
-              .then(response => {
-                if (response) {
+              .then(res => {
+                if (res) {
+                  console.log(response, 'responseeee154');
                   let tempSignUpObj = {
                     name: this.state.name,
                     phone: this.state.phone,
@@ -158,6 +148,11 @@ class SignUp extends Component {
                     device_token: deviceToken,
                     device_type: Platform?.OS,
                   };
+                  Toast.show({
+                    text1: ArabicText?.otphasbeensenttoyourphonenumber,
+                    type: 'success',
+                    visibilityTime: 3000,
+                  });
                   this.props.navigation.navigate('OtpSignUp', {
                     sign_up: tempSignUpObj,
                   });

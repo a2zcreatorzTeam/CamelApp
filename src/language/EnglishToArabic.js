@@ -320,7 +320,9 @@ export const NewPasswordandConfirmPasswordmustbesame =
 export const passwordmustbe6charcterslong =
   'يجب أن تكون كلمة المرور مكونة من 6 أحرف';
 export const Changepassword = 'تغيير كلمة المرور';
-export const EnterYourNewPassword='أدخل كلمة المرور الجديدة'
-export const EntertheOTPSenttoYourMobile='أدخل كلمة المرور لمرة واحدة (OTP) المرسلة إلى هاتفك المحمول'
-export const Pleaseentercorrectphonenumber='الرجاء إدخال رقم الهاتف الصحيح'
-export const logoutsuccessfully='تسجيل الخروج بنجاح'
+export const EnterYourNewPassword = 'أدخل كلمة المرور الجديدة';
+export const EntertheOTPSenttoYourMobile =
+  'أدخل كلمة المرور لمرة واحدة (OTP) المرسلة إلى هاتفك المحمول';
+export const Pleaseentercorrectphonenumber = 'الرجاء إدخال رقم الهاتف الصحيح';
+export const logoutsuccessfully = 'تسجيل الخروج بنجاح';
+export const otphasbeensenttoyourphonenumber = 'تم إرسال otp إلى رقم هاتفك';

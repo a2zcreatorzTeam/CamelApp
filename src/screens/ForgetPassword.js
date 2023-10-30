@@ -9,18 +9,13 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-
 import {Styles} from '../styles/globlestyle';
-
 import camelapp from '../api/camelapp';
-
 import * as ArabicText from '../language/EnglishToArabic';
 import {Dimensions} from 'react-native';
 import Toast from 'react-native-toast-message';
-
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
-
 class ForgetPassword extends Component {
   constructor(props) {
     super(props);
@@ -41,26 +36,16 @@ class ForgetPassword extends Component {
       this.setState({btnPressed: true, loader: true});
       camelapp.get('checkemail?phone=' + this.state.phone).then(response => {
         console.log(response?.data, 'responseeee');
-        // console.log(number, 'numberrrrr');
-        // let number = 0;
-        // do {
-        //   number = Math.floor(Math.random() * 10000) + 1;
-        //   Toast.show({
-        //     text1: number,
-        //     type: 'success',
-        //     visibilityTime: 3000,
-        //   });
-        //   // alert(number);
-        // } while (number < 1000 || number > 10000);
+
         if (response.data) {
           console.log('response', response?.data);
           this.setState({otp: true, loader: false});
           camelapp
-            .post('sendsms', {
+            .post('/reset/otp', {
               phone: this.state.phone,
             })
             .then(response => {
-              console.log(response?.data, 'respnesse');
+              console.log(response?.data, 'respnesse4888');
               if (response.data?.message == 'Success') {
                 Toast.show({
                   text1: ArabicText.OTPsenttoyourPhoneNumber,

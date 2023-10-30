@@ -14,6 +14,7 @@ import {
   Switch,
   RefreshControl,
   Share,
+  Platform,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Feather from 'react-native-vector-icons/Feather';
@@ -39,6 +40,7 @@ import OTPTextInput from 'react-native-otp-textinput';
 import Header from '../components/Header';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class Profile extends Component {
   constructor(props) {
@@ -72,7 +74,6 @@ class Profile extends Component {
   // ==========NEW============
   checkUserLogedIn() {
     const {user} = this.props;
-    console.log(user, 'userrr');
     if (user?.user?.user) {
       this.fetchUser();
     } else {
@@ -107,7 +108,6 @@ class Profile extends Component {
             whatsapp_status: this.state.registerSwitch,
           })
           .then(res => {
-            console.log(res?.data, 'res[ponseee');
             this.setState({modal: false});
             //console.log("response at fetch", res.data);
           });
@@ -123,52 +123,45 @@ class Profile extends Component {
       // alert('Invalid Number');
     }
   }
-  updateNumber() {
+  updateNumber = async () => {
+    const deviceToken = await AsyncStorage?.getItem('fcmToken');
+    console.log('jkjkjkk');
     this.setState({updateLoader: true});
     if (this.props.user?.user?.user?.phone !== this.state.phoneNumber) {
       let {user, actions} = this.props;
       user = user?.user?.user;
-
-      var number = 0;
-
-      do {
-        number = Math.floor(Math?.random() * 10000) + 1;
-        // console.log('number', number);
-      } while (number < 1000 || number > 10000);
-      Toast.show({
-        text1: number,
-        type: 'success',
-        visibilityTime: 3000,
-      });
-      // alert(number);
       camelapp
-        .post('sendsms', {
-          phone: this.state.phoneNumber,
-          message: number,
+        .post('/reset/otp', {
+          phone: this.props.user?.user?.user?.phone,
         })
-        .then(response => {
-          this.setState({updateLoader: false});
-
-          console.log(response.data.status);
-          if (response.data.status === true) {
-            this.setState({
-              modalOtp: true,
-              modalPhone: false,
-              otpValue: number,
+        .then(res => {
+          console.log(res?.data, 'respmseeeemasiiiii');
+          if (res) {
+            this.setState({updateLoader: false});
+            let tempSignUpObj = {
+              newphone: this.state.phoneNumber,
+              phone: this.props.user?.user?.user?.phone,
+              screenType: 'update',
+              id: this.props.user?.user?.user?.id,
+            };
+            Toast.show({
+              text1: ArabicText?.otphasbeensenttoyourphonenumber,
+              type: 'success',
+              visibilityTime: 3000,
             });
-          } else {
-            this.setState({
-              modalOtp: true,
-              modalPhone: false,
-              otpValue: number,
+            this.props.navigation.navigate('OtpSignUp', {
+              sign_up: tempSignUpObj,
             });
+            this.setState({loader: false, btnPressed: false});
           }
         })
         .catch(error => {
-          console.log('error', error);
+          this.setState({updateLoader: false});
+          console.log(error, 'errroro');
           this.setState({loader: false, btnPressed: false});
         });
     } else {
+      console.log('helllloooooo');
       let {user, actions} = this.props;
       user = user?.user?.user;
       camelapp
@@ -178,7 +171,7 @@ class Profile extends Component {
             this.state?.phoneStatusSwitch == true ? 'True' : 'False',
         })
         .then(res => {
-          console.log('res number3232', res.data);
+          // console.log('res number3232', res.data);
           this.setState({updateLoader: false});
 
           if (res?.data?.status == true) {
@@ -200,7 +193,7 @@ class Profile extends Component {
           }
         });
     }
-  }
+  };
   verifiedSms() {
     let {actions} = this.props;
 
@@ -210,7 +203,7 @@ class Profile extends Component {
         phone: this.state.phoneNumber,
       })
       .then(res => {
-        console.log('res number', res.data);
+        // console.log('res number', res.data);
 
         if (res?.data?.status == true) {
           actions.userData(res.data);
@@ -310,7 +303,6 @@ class Profile extends Component {
           var arrayPosts = res?.data?.posts;
           arrayPosts?.map((item, index) => {
             let array = item?.img;
-            console.log(array?.length);
             let imagesArray = [];
             array[0] !== '' &&
               array?.forEach(element => {
@@ -336,7 +328,6 @@ class Profile extends Component {
           } else if (length >= 200 && length < 250) {
             rating = 4;
           } else if (length > 250) {
-            console.log('250');
             rating = 5;
           }
           this.setState({rating: rating});
@@ -399,7 +390,6 @@ class Profile extends Component {
     let {user} = this.props;
     user = user?.user?.user;
     let post_id = item?.id;
-    console.log(user, post_id);
     if (user != undefined) {
       await camelapp
         .post('/add/view', {
@@ -445,7 +435,6 @@ class Profile extends Component {
           user_phone?.includes(value)
         );
       });
-      console.log(filteredData, 'foilteredDdataa');
       if (filteredData?.length > 0) {
         this.setState({filterPosts: filteredData, key: !key});
       } else {
@@ -590,12 +579,10 @@ class Profile extends Component {
             itemFromDetails: item,
           });
         } else if (item.category_id == '6') {
-          console.log('iddd66666');
           this.props.navigation.navigate('DetailsComponentWithPrice', {
             itemFromDetails: item,
           });
         } else if (item.category_id == '8') {
-          console.log('iddd888888');
           this.props.navigation.navigate('DetailsComponentWithPrice', {
             itemFromDetails: item,
           });
@@ -671,7 +658,6 @@ class Profile extends Component {
       }
     };
     const renderItem = ({item}) => {
-      console.log(item?.imagesArray);
       // let array = item?.img;
       // let imagesArray = [];
       // console.log(array?.length);
@@ -754,8 +740,7 @@ class Profile extends Component {
 
                   <TouchableOpacity
                     onPress={() => {
-                      this.props.navigation.navigate('BidTab'),
-                        console.log('bidTabbbb');
+                      this.props.navigation.navigate('BidTab');
                     }}>
                     <Foundation
                       name="shopping-cart"
@@ -1156,6 +1141,7 @@ class Profile extends Component {
                     handleTextChange={e => {
                       if (e === this.state.otpValue.toString()) {
                         this.verifiedSms();
+                        console.log('eeeeeee', e);
                       }
                     }}
                   />

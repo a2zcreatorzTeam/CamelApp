@@ -88,72 +88,70 @@ class App extends Component {
     }
   };
   submitOTP = async () => {
-    // Promise.all(requestUserPermission());
+    this.setState({btnPressed: true, loader: true});
     const deviceToken = await AsyncStorage?.getItem('fcmToken');
     let number =
       this.state.one + this.state.two + this.state.three + this.state.four;
-    console.log(number, 'numveer');
     let user_data = this.state.sign_up_data;
+    console.log(number, 'numveer', user_data?.phone);
     if (number != '') {
-      // API TO VERFY THE OTP
-      if (parseInt(this.state.number) === parseInt(number)) {
-        this.setState({btnPressed: true, loader: true});
-        camelapp
-          .post('/register', {
-            name: user_data.name,
-            phone: user_data.phone,
-            password: user_data.password,
-            device_type: Platform.OS,
-            device_token: deviceToken,
-          })
-          .then(respo => {
-            if (respo?.data?.status == true) {
-              // camelapp
-              //   .post('/login', {
-              //     phone: user_data.phone,
-              //     password: user_data.password,
-              //     device_type: Platform.OS,
-              //     device_token: deviceToken,
-              //   })
-              //   .then(res => {
-              //     let response = res.data;
-              //     if (response) {
-              //       // if (response.status == true) {
-              //       this.setState({loader: false, btnPressed: false});
-              this.props.navigation.navigate('CreateProfile', {
-                response: response,
+      camelapp
+        .post('/check/otp', {
+          otp_code: number,
+          phone: user_data?.phone,
+        })
+        .then(response => {
+          console.log(response?.data, 'responseeeee');
+          if (response?.data?.success == true) {
+            console.log(
+              user_data?.name,
+              user_data?.phone,
+              user_data?.password,
+              Platform.OS,
+              deviceToken,
+              'kammmmmmmmmmmmmmmmmmmmmmmm',
+            );
+            camelapp
+              .post('/register', {
+                name: user_data.name,
+                phone: user_data.phone,
+                password: user_data.password,
+                device_type: Platform.OS,
+                device_token: deviceToken,
+              })
+              .then(res => {
+                console.log(res?.data, 'respomseeeeeeeeeeeeeeee');
+                this.setState({btnPressed: false, loader: false});
+                this.props.navigation.navigate('CreateProfile', {
+                  response: response?.data,
+                });
+              })
+              .catch(error => {
+                this.setState({btnPressed: false, loader: false});
+                Toast.show({
+                  text1: response?.data?.message,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
               });
-              // console.log('response', response);
-              // let {actions} = this.props;
-              // actions.userData(response);
-              // this.props.navigation.navigate('Home');
-              //   } else {
-              //     Toast.show({
-              //       text1: response?.error + '',
-              //       type: 'error',
-              //       visibilityTime: 3000,
-              //     });
-              //     // alert(response.error + '');
-              //     this.setState({loader: false});
-              //   }
-              // })
-              // .catch(error => {
-              //   console.log(error, 'eriiiiii');
-              // });
-            }
-          })
-          .catch(error => {
-            this.setState({loader: false, btnPressed: false});
-            console.log('error', error);
+          } else {
+            this.setState({btnPressed: false, loader: false});
+            Toast.show({
+              text1: response?.data?.message,
+              type: 'error',
+              visibilityTime: 3000,
+            });
+          }
+        })
+        .catch(error => {
+          Toast.show({
+            text1: ArabicText?.somethingwentwrong,
+            type: 'error',
+            visibilityTime: 3000,
           });
-      } else {
-        this.setState({loader: false, btnPressed: false});
-        Toast.show({
-          text1: ArabicText?.InvalidOTP,
-          type: 'error',
-          visibilityTime: 3000,
+          this.setState({btnPressed: false, loader: true});
         });
-      }
+      // API TO VERFY THE OTP
     } else {
       this.setState({loader: false, btnPressed: false});
       Toast.show({

@@ -62,16 +62,15 @@ class CreateProfile extends Component {
           });
           // alert(ArabicText?.Only1imageallowed);
         }
-        console.log('images', images);
       })
       .catch(error => {
         console.log('error', error);
       });
   }
   createProfile = async () => {
-    console.log(this.props.route.params.response);
+    console.log(this.props.route.params.response, 'rrespkneee');
     const {pickedImage, location, email, userName, phoneNumber} = this.state;
-    const {screen} = this.props.route?.params;
+    const {screen, response} = this.props.route?.params;
 
     if (screen == 'socialLogin' && !phoneNumber) {
       Toast.show({
@@ -119,22 +118,13 @@ class CreateProfile extends Component {
         visibilityTime: 3000,
       });
     } else {
-      console.log('1266');
-      this.setState({
-        btnLoader: true,
-      });
-      console.log(
-        this.props.route.params.response?.user?.id,
-        location,
-        phoneNumber,
-        email,
-        userName,
-        'detailss',
-      );
+      this.setState({btnLoader: true});
       await camelapp
         .post('/update', {
           // user_id: userdata?.user?.id,
-          user_id: this.props.route.params.response?.user?.id,
+          user_id: response?.user?.id
+            ? response?.user?.id
+            : response?.user_details?.id,
           location: location,
           email: email,
           image: pickedImage,
@@ -142,7 +132,7 @@ class CreateProfile extends Component {
           name: userName ? userName : null,
         })
         .then(res => {
-          console.log(res?.data?.message, 'respnse');
+          console.log(res.data,"res.data.status");
           this.setState({
             btnLoader: false,
           });
@@ -170,6 +160,7 @@ class CreateProfile extends Component {
         })
         .catch(error => {
           console.log(error, 'errorrr');
+
           this.setState({
             btnLoader: false,
           });

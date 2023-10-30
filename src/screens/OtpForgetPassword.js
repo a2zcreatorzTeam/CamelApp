@@ -89,35 +89,67 @@ export default class App extends Component {
     }
   };
   checkOtp() {
+    let {phone} = this?.props?.route?.params;
+    console.log(phone, 'phone444');
     this.setState({loader: true});
     let number =
       this.state.one + this.state.two + this.state.three + this.state.four;
-
-    if (parseInt(this.state.number) == parseInt(number)) {
-      setTimeout(() => {
-        this.first.current.focus();
-
-        this.setState({
-          loader: false,
-          optButtonController: false,
-          four: '',
-          one: '',
-          two: '',
-          three: '',
+    console.log(number, 'numberrrrr');
+    if (number != '') {
+      camelapp
+        .post('/check/otp', {
+          otp_code: number,
+          phone: phone,
+        })
+        .then(response => {
+          console.log(response, 'response1066666');
+          if (response?.data?.success == true) {
+            console.log("1077777");
+            setTimeout(() => {
+              this.first.current.focus();
+              this.setState({
+                loader: false,
+                optButtonController: false,
+                four: '',
+                one: '',
+                two: '',
+                three: '',
+              });
+            }, 2000);
+          } else {
+            this.setState({btnPressed: false, loader: false});
+            Toast.show({
+              text1: response?.data?.message,
+              type: 'error',
+              visibilityTime: 3000,
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error, 'errrorrr');
+          setTimeout(() => {
+            this.first.current.focus();
+            this.setState({
+              four: '',
+              loader: false,
+              one: '',
+              two: '',
+              three: '',
+            });
+            Toast.show({
+              text1: ArabicText?.InvalidOTP,
+              type: 'error',
+              visibilityTime: 3000,
+            });
+          }, 1000);
         });
-      }, 2000);
     } else {
-      setTimeout(() => {
-        this.first.current.focus();
-
-        this.setState({four: '', loader: false, one: '', two: '', three: ''});
-        Toast.show({
-          text1: ArabicText?.InvalidOTP,
-          type: 'error',
-          visibilityTime: 3000,
-        });
-        // alert('Invalid OTP!');
-      }, 1000);
+      this.setState({btnPressed: false, loader: false});
+      Toast.show({
+        text1: ArabicText?.PleaseCompleteThefields,
+        type: 'error',
+        visibilityTime: 3000,
+      });
     }
   }
 
@@ -164,10 +196,6 @@ export default class App extends Component {
     }
   }
   render() {
-    console.log('====================================');
-    console.log(this.state.number);
-    console.log('====================================');
-
     // OTP
     const {oneFocus, twoFocus, threeFocus} = this.state;
     const oneStyle = {

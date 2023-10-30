@@ -210,8 +210,12 @@ class Login extends Component {
             .then(res => {
               response = res.data;
               if (response.status == true) {
+                console.log(response, 'dataaaaaaaa');
                 this.setState({loader: false});
-                if (response?.data?.is_complete == 1) {
+                if (
+                  response?.data?.is_complete == 1 ||
+                  response?.user?.is_complete == 1
+                ) {
                   let {actions} = this.props;
                   actions.userData(response);
                   this.saveData();

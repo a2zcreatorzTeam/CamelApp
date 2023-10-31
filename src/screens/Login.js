@@ -97,8 +97,8 @@ class Login extends Component {
     this?.focusListener(); // Remove the focus listener
     this?.backHandler?.remove(); // Remove the BackHandler event listener
   };
-  socialLogin = () => {};
-  // InstagramLogin
+
+  // InstagramTwitterLogin
   setIgToken = data => {
     this.onClear();
     this.setState({loader: true});

@@ -327,3 +327,4 @@ export const Pleaseentercorrectphonenumber = 'الرجاء إدخال رقم ا�
 export const logoutsuccessfully = 'تسجيل الخروج بنجاح';
 export const otphasbeensenttoyourphonenumber = 'تم إرسال otp إلى رقم هاتفك';
 export const passwordsuccessfullychanged='الرقم السري تغير بنجاح'
+export const Socialmediaaccounts= 'حسابات مواقع التواصل الاجتماعي'

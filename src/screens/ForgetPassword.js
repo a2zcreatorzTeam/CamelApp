@@ -55,6 +55,14 @@ class ForgetPassword extends Component {
                 this.props.navigation.navigate('OtpForgetPassword', {
                   phone: this.state.phone,
                 });
+              } else {
+                Toast.show({
+                  text1: response?.data?.message
+                    ? response?.data?.message
+                    : ArabicText?.somethingwentwrong,
+                  type: 'error',
+                  visibilityTime: 3000,
+                });
               }
             })
             .catch(error => {

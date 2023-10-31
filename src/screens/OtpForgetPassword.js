@@ -167,7 +167,7 @@ export default class App extends Component {
             if (response.data.status === true) {
               Toast.show({
                 text1: response?.data?.message,
-                type: 'error',
+                type: 'success',
                 visibilityTime: 3000,
               });
               setTimeout(() => {

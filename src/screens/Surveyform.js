@@ -12,10 +12,7 @@ import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import {Styles} from '../styles/globlestyle';
-// import {CheckBox} from "@react-native-community/checkbox"
-import {RadioButton} from 'react-native-paper';
 import * as ArabicText from '../language/EnglishToArabic';
-import {DataContext} from '../context/DataContext';
 import {Dimensions} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 const width = Dimensions.get('screen').width;

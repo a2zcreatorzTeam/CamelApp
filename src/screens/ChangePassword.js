@@ -10,6 +10,8 @@ import {ActivityIndicator} from 'react-native';
 import {TextInput} from 'react-native';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Toast from 'react-native-toast-message';
+import camelapp from '../api/camelapp';
+
 class ChangePassword extends Component {
   constructor() {
     super();
@@ -25,6 +27,9 @@ class ChangePassword extends Component {
   }
   render() {
     const {currentPassword, password, confirm_password} = this.state;
+    let user = this.props.user;
+    user = user?.user?.user;
+    console.log(user?.id, currentPassword, password, confirm_password);
     submit = async () => {
       if (currentPassword == '') {
         Toast.show({
@@ -63,15 +68,48 @@ class ChangePassword extends Component {
           visibilityTime: 3000,
         });
       } else {
+        this.setState({
+          loader: true,
+        });
         await camelapp
-          .post('/update', {})
+          .post('/change/password', {
+            userid: user?.id,
+            currentpaswd: currentPassword,
+            newpswd: password,
+            confirmpswd: confirm_password,
+          })
           .then(res => {
+            if (res?.data?.status == false) {
+              this.setState({
+                loader: false,
+              });
+              Toast.show({
+                text1: res?.data?.message,
+                type: 'error',
+                visibilityTime: 3000,
+              });
+            } else {
+              this.setState({
+                loader: false,
+              });
+              Toast.show({
+                text1: ArabicText?.passwordsuccessfullychanged,
+                type: 'success',
+                visibilityTime: 3000,
+              });
+              this.props.navigation.navigate('Profile');
+            }
             console.log(res?.data, 'dtaaresponseee');
           })
           .catch(error => {
-            console.log(error, 'errorr');
+            console.log(error, 'errorrr');
             this.setState({
-              btnLoader: false,
+              loader: false,
+            });
+            Toast.show({
+              text1: error?.message,
+              type: 'error',
+              visibilityTime: 3000,
             });
           });
       }

@@ -31,7 +31,7 @@ export default class BidTab extends Component {
                 alignSelf: 'center',
                 fontSize: 35,
               }}>
-              Bids
+              {ArabicText?.Bids}
             </Text>
 
             <TouchableOpacity

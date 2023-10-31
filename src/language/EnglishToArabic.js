@@ -326,5 +326,46 @@ export const EntertheOTPSenttoYourMobile =
 export const Pleaseentercorrectphonenumber = 'الرجاء إدخال رقم الهاتف الصحيح';
 export const logoutsuccessfully = 'تسجيل الخروج بنجاح';
 export const otphasbeensenttoyourphonenumber = 'تم إرسال otp إلى رقم هاتفك';
-export const passwordsuccessfullychanged='الرقم السري تغير بنجاح'
-export const Socialmediaaccounts= 'حسابات مواقع التواصل الاجتماعي'
+export const passwordsuccessfullychanged = 'الرقم السري تغير بنجاح';
+export const Socialmediaaccounts = 'حسابات مواقع التواصل الاجتماعي';
+export const Andfulfillyourcovenant =
+  'وأوفوا بعهد الله إذا عاهدتم ولا تنقضوا الأيمان بعد توكيدها';
+export const Ipledgethatalltheinformationthat =
+  '- أتعهد ان جميع المعلومات التي سوف اذكرها . صحيحة ومطابقة لحالة';
+export const Pledge = 'تـعـهــد';
+export const Howtosubscribe = 'طريقة الاشتراك';
+export const GeneralTerms = 'شروط عامة';
+export const Theofficialsponsorofthecompetition = '  الراعي الرسمي للمسابقة';
+export const Toparticipateclickhere = 'للمشاركة اضغط هنا';
+export const Mobilephones = 'الجوالز';
+export const MyBids1 = 'عطاءاتي';
+export const Bids = 'العطاءات';
+export const NoCommentFound = 'لم يتم العثور على تعليق';
+export const CreateProfile = 'إنشاء الملف الشخصي';
+export const UpdateProfile = 'تحديث الملف';
+export const Instagram = 'إنستغرام';
+export const Twitter = 'تويتر';
+export const TypeMessage = 'اكتب الرسالة';
+export const Movingcamel = 'نقل الابل';
+export const EnterBankDetails = 'أدخل التفاصيل المصرفية';
+export const AccountTitle = 'عنوان الحساب';
+export const AccountNumber = 'رقم حساب';
+export const BranchCode = 'رمز الفرع';
+export const Close = 'يغلق';
+export const AddWhatsappnumber = 'أضف رقم WhatsApp';
+export const WhatsAppNumber = 'رقم WhatsApp';
+export const Enable_dissableChat = 'تمكين/تعطيل الدردشة';
+export const UpdatePhone = 'تحديث الهاتف';
+export const PhoneNumber = 'رقم التليفون';
+export const EnterOTPHere = 'أدخل OTP هنا';
+export const NoPostFound = 'لم يتم العثور على وظيفة';
+export const Thenamemustcontainatleast3letters =
+  'يجب أن يحتوي الاسم على 3 أحرف على الأقل';
+export const Thephonenumbermustonlyhavenumbers =
+  'يجب أن يحتوي رقم الهاتف على أرقام فقط';
+export const Thenamemustcontainatleast6letters =
+  'يجب أن يحتوي الاسم على 6 أحرف على الأقل';
+export const Iagreetothetermsandconditions = 'أوافق على الشروط';
+export const Learnmoreabouttermsandconditions =
+  'تعرف على المزيد حول الشروط والأحكام';
+export const TakeaSurvey = 'قم باستطلاع';

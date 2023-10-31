@@ -297,7 +297,7 @@ class CreateProfile extends Component {
                 animating={this?.state?.btnLoader}
               />
             ) : (
-              <Text style={{color: '#fff', fontSize: 16}}>Create Profile</Text>
+              <Text style={{color: '#fff', fontSize: 16}}>{ArabicText?.CreateProfile}</Text>
             )}
           </TouchableOpacity>
         </View>

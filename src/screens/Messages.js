@@ -117,56 +117,7 @@ class Messages extends Component {
   }
   render() {
     const {userList} = this.state;
-    const ListItem = ({userName, userImage, onUserMessageClick}) => (
-      <Card onPress={onUserMessageClick}>
-        <View
-          style={{
-            backgroundColor: '#fff',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            width: width - 45,
-            height: hight / 9.5,
-            alignSelf: 'center',
-            flexDirection: 'row',
-            // marginBottom: 5,
-            marginTop: 5,
-          }}>
-          <Text
-            style={{
-              fontSize: 16,
-              textAlign: 'right',
-              fontWeight: 'bold',
-              marginRight: 20,
-              color: 'black',
-            }}>
-            {userName}
-          </Text>
-          <View
-            style={{
-              width: 60,
-              height: 60,
-              borderRadius: 60,
-              backgroundColor: '#fff',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderWidth: 2,
-              borderColor: 'grey',
-            }}>
-            <Image
-              source={{
-                uri:
-                  'http://www.tasdeertech.com/public/images/profiles/' +
-                  userImage,
-              }}
-              style={{
-                width: 50,
-                height: 50,
-                borderRadius: 30,
-              }}></Image>
-          </View>
-        </View>
-      </Card>
-    );
+
     const Item = ({userName, userImage, onUserMessageClick}) => (
       <Card onPress={onUserMessageClick}>
         <View

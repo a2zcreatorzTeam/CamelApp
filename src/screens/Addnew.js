@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
-  Dimensions,
 } from 'react-native';
 import 'react-native-gesture-handler';
 import {Styles} from '../styles/globlestyle';
@@ -14,7 +13,8 @@ import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import BackBtnHeader from '../components/headerWithBackBtn';
-const {width} = Dimensions.get('screen');
+import * as ArabicText from '../language/EnglishToArabic';
+
 class AddNew extends Component {
   constructor(props) {
     super(props);
@@ -42,7 +42,7 @@ class AddNew extends Component {
               fontWeight: 'bold',
               alignSelf: 'center',
             }}>
-            تـعـهــد
+            {ArabicText?.Pledge}
             {'\n'}
           </Text>
           <Text
@@ -54,7 +54,8 @@ class AddNew extends Component {
               alignSelf: 'center',
               textAlign: 'center',
             }}>
-            ( وأوفوا بعهد الله إذا عاهدتم ولا تنقضوا الأيمان بعد توكيدها ){'\n'}
+            {ArabicText?.Andfulfillyourcovenant}
+            {'\n'}
           </Text>
 
           <Text style={{fontSize: 14, textAlign: 'right', color: 'black'}}>
@@ -63,7 +64,6 @@ class AddNew extends Component {
             {'\n'} - أتعهد بأتباع شروط التطبيق اضغط هنا
           </Text>
         </View>
-        {/* <View style={Styles.cardaddew}> */}
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{
@@ -184,7 +184,6 @@ class AddNew extends Component {
             </TouchableOpacity>
           </View>
         </ScrollView>
-        {/* </View> */}
       </View>
     );
   }

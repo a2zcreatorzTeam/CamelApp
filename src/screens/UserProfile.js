@@ -1057,7 +1057,7 @@ class UserProfile extends Component {
                 marginVertical: 30,
               }}>
               {' '}
-              No Post Found
+              {ArabicText?.NoPostFound}
             </Text>
           }
           refreshControl={

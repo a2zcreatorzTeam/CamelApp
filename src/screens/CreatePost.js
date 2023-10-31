@@ -8,10 +8,7 @@ import {
   TextInput,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
-
 import * as ArabicText from '../language/EnglishToArabic';
-// import * as ImagePicker from 'expo-image-picker';
-
 import {DataContext} from '../context/DataContext';
 
 class CreatePost extends Component {

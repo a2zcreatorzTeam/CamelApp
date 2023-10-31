@@ -272,7 +272,7 @@ class Comments extends Component {
           <View
             style={{flex: 1, alignSelf: 'center', justifyContent: 'center'}}>
             <Text style={{color: 'black', alignSelf: 'center'}}>
-              No Comment Found
+              {ArabicText?.NoCommentFound}
             </Text>
           </View>
         )}

@@ -323,7 +323,7 @@ class EditProfile extends Component {
               animating={this.state.btnLoader}
             />
           ) : (
-            <Text style={{color: '#fff', fontSize: 16}}>Update Profile</Text>
+            <Text style={{color: '#fff', fontSize: 16}}>{ArabicText?.UpdateProfile}</Text>
           )}
         </TouchableOpacity>
 

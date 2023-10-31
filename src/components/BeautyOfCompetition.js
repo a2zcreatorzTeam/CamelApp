@@ -26,6 +26,8 @@ import BackBtnHeader from './headerWithBackBtn';
 import moment from 'moment';
 import Toast from 'react-native-toast-message';
 import {Card} from 'react-native-paper';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 const width = Dimensions.get('screen').width;
 class BeautyOfCompetition extends Component {
   constructor(props) {
@@ -389,6 +391,7 @@ class BeautyOfCompetition extends Component {
             </Pressable>
           </ScrollView>
         </View>
+        {/* PRIZE MODAL  */}
         <Modal
           animationType="slide"
           transparent={false}
@@ -399,9 +402,6 @@ class BeautyOfCompetition extends Component {
           <TouchableWithoutFeedback>
             <View style={Styles.centeredView}>
               <View style={Styles.modalView}>
-                <Pressable onPress={modal => this.setState({modal: !modal})}>
-                  <Ionicons name="close" size={30} color="brown" />
-                </Pressable>
                 <Text style={{margin: 5, color: 'black'}}>
                   {ArabicText.Reward}
                 </Text>
@@ -415,7 +415,9 @@ class BeautyOfCompetition extends Component {
                     }}
                   />
                 )}
-                <TouchableOpacity onPress={() => this.setState({modal: false})}>
+                <TouchableOpacity
+                  style={{marginTop: 'auto'}}
+                  onPress={() => this.setState({modal: false})}>
                   <View style={Styles.btnform}>
                     <Text style={Styles.textbtn}>{ArabicText.close}</Text>
                   </View>
@@ -424,6 +426,7 @@ class BeautyOfCompetition extends Component {
             </View>
           </TouchableWithoutFeedback>
         </Modal>
+        {/* particpateModal */}
         <Modal
           animationType="slide"
           transparent={false}
@@ -468,6 +471,7 @@ class BeautyOfCompetition extends Component {
                   {/* <Text style={{ margin: 5 }}>{this.state.competition[0].procedure}</Text> */}
 
                   <TouchableOpacity
+                    style={{marginTop: 'auto'}}
                     onPress={() => this.setState({particpateModal: false})}>
                     <View style={Styles.btnform}>
                       <Text style={Styles.textbtn}>{ArabicText.close}</Text>
@@ -478,6 +482,7 @@ class BeautyOfCompetition extends Component {
             </View>
           </View>
         </Modal>
+        {/* General_Rule */}
         <Modal
           animationType="slide"
           transparent={false}
@@ -524,6 +529,7 @@ class BeautyOfCompetition extends Component {
                   {/* <Text style={{ margin: 5 }}>{this.state.competition[0].rules}</Text> */}
 
                   <TouchableOpacity
+                    style={{marginTop: 'auto'}}
                     onPress={() => this.setState({generalRulesModal: false})}>
                     <View style={Styles.btnform}>
                       <Text style={Styles.textbtn}>{ArabicText.close}</Text>
@@ -537,13 +543,18 @@ class BeautyOfCompetition extends Component {
         {/* PARTICIPATES MODAL  */}
         <Modal
           animationType="slide"
-          transparent={false}
+          transparent={true}
           visible={this.state.participantsModal}
           onRequestClose={() => {
             this.setState({participantsModal: false});
           }}>
           <View style={Styles.centeredView}>
             <View style={[Styles.modalView]}>
+              {/* <TouchableOpacity
+                style={{marginLeft: 'auto'}}
+                onPress={() => this.setState({participantsModal: false})}>
+                <AntDesign name="closecircle" size={30} color="#CD853F" />
+              </TouchableOpacity> */}
               {this.state.competition?.length && (
                 <FlatList
                   refreshControl={
@@ -560,6 +571,13 @@ class BeautyOfCompetition extends Component {
                   keyExtractor={item => item?.user_id?.toString()}
                 />
               )}
+              <TouchableOpacity
+                style={{marginTop: 'auto'}}
+                onPress={() => this.setState({participantsModal: false})}>
+                <View style={Styles.btnform}>
+                  <Text style={Styles.textbtn}>{ArabicText.close}</Text>
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
         </Modal>

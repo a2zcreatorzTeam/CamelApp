@@ -326,3 +326,4 @@ export const EntertheOTPSenttoYourMobile =
 export const Pleaseentercorrectphonenumber = 'الرجاء إدخال رقم الهاتف الصحيح';
 export const logoutsuccessfully = 'تسجيل الخروج بنجاح';
 export const otphasbeensenttoyourphonenumber = 'تم إرسال otp إلى رقم هاتفك';
+export const passwordsuccessfullychanged='الرقم السري تغير بنجاح'

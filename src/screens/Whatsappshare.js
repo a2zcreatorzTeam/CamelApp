@@ -89,14 +89,14 @@ export default function App() {
   };
   const navigation = useNavigation();
   return (
-    <View style={Styles.container}>
+    <View style={[Styles.container, {paddingTop: 100}]}>
       <Text
         style={{
           fontWeight: 'bold',
           fontSize: 18,
           color: '#d2691e',
-          position: 'absolute',
-          top: 40,
+          // position: 'absolute',
+          // top: 40,
         }}>
         نشر الطبيق مع الا صدقاء
       </Text>
@@ -105,14 +105,12 @@ export default function App() {
           <Ionicons name="md-arrow-redo" size={24} color="#fff" />
         </View>
       </TouchableOpacity> */}
-      <TouchableOpacity
-        style={{top: 80, position: 'absolute'}}
-        onPress={() => navigation.navigate('Home')}>
+      <TouchableOpacity style={{}} onPress={() => navigation.navigate('Home')}>
         <View style={Styles.sharebtn}>
           <Ionicons name="arrow-undo-circle" size={24} color="#fff" />
         </View>
       </TouchableOpacity>
-
+      {/* ABOUT US  */}
       <View style={Styles.quesmark}>
         <TouchableOpacity
           onPress={() => navigation.navigate('AboutUs')}
@@ -134,7 +132,7 @@ export default function App() {
           </TouchableOpacity>
         </View>
       </View>
-
+      {/* Sponcers */}
       <TouchableOpacity
         onPress={() => navigation.navigate('Sponcers')}
         style={Styles.hand}>
@@ -148,6 +146,7 @@ export default function App() {
           </View>
         </TouchableOpacity>
       </TouchableOpacity>
+      {/* PrivacyPolicy */}
       <TouchableOpacity
         onPress={() => navigation.navigate('PrivacyPolicy')}
         style={Styles.warning}>
@@ -160,6 +159,7 @@ export default function App() {
           </View>
         </TouchableOpacity>
       </TouchableOpacity>
+      {/* Bank */}
       <TouchableOpacity
         onPress={() => navigation.navigate('Bank')}
         style={Styles.bank}>
@@ -184,21 +184,30 @@ export default function App() {
         </View>
       </View> */}
 
-      <Text style={{fontWeight: '400', fontSize: 14, color: 'grey', margin: 3}}>
-        حسابات مواقع التواصل الاجتماعي
+      <Text
+        style={{
+          fontWeight: '400',
+          fontSize: 14,
+          color: 'grey',
+          margin: 3,
+          marginVertical: 10,
+        }}>
+        {ArabicText?.Socialmediaaccounts}
       </Text>
-
+      {/* Social Share  */}
       <View
         style={{
           flexDirection: 'row',
           width: width / 2,
           alignSelf: 'center',
           justifyContent: 'space-around',
+          marginTop: 10,
         }}>
+        {/* Twitter  */}
         <TouchableOpacity onPress={() => tweetNow()}>
           <Entypo name="twitter-with-circle" size={45} color="#d2691e" />
         </TouchableOpacity>
-
+        {/* instagram  */}
         <TouchableOpacity
           onPress={() => {
             openIstagram();
@@ -213,7 +222,7 @@ export default function App() {
           }}>
           <FontAwesome5 name="instagram" size={28} color="#fff" />
         </TouchableOpacity>
-
+        {/* WhatsApp  */}
         <TouchableOpacity
           onPress={() => openWhatsApp()}
           style={{
@@ -227,6 +236,7 @@ export default function App() {
           <Fontisto name="whatsapp" size={28} color="#fff" />
         </TouchableOpacity>
       </View>
+      {/* Contact */}
       <Text style={{fontSize: 12, color: '#d2691e', margin: 3}}>
         Contact@Alsyahd.com
       </Text>

@@ -29,6 +29,7 @@ import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
+import * as ArabicText from '../language/EnglishToArabic';
 
 class SellingCamel extends React.Component {
   constructor(props) {
@@ -352,7 +353,7 @@ class SellingCamel extends React.Component {
         <ScrollView style={{backgroundColor: 'red'}}>
           <View style={Styles.container}>
             <Text style={[Styles.headingPostText, {marginTop: 30}]}>
-              نقل الابل
+              {ArabicText?.Movingcamel}
             </Text>
             <HorizontalCarousel
               removeItem={index => this.removeItem(index)}
@@ -676,7 +677,7 @@ class SellingCamel extends React.Component {
                   }}>
                   <Text
                     style={{color: '#8b4513', fontSize: 15, fontWeight: '600'}}>
-                    Enter Bank Details
+                    {ArabicText?.EnterBankDetails}
                   </Text>
                 </View>
                 <View
@@ -686,7 +687,7 @@ class SellingCamel extends React.Component {
                   ]}>
                   <Text style={{color: '#000', fontSize: 15}}>
                     <Text style={{color: 'grey', fontSize: 13}}>
-                      Account Title:{' '}
+                      {ArabicText?.AccountTitle}:{' '}
                     </Text>
                     Mansoor Akhter
                   </Text>
@@ -698,7 +699,7 @@ class SellingCamel extends React.Component {
                   ]}>
                   <Text style={{color: '#000', fontSize: 15}}>
                     <Text style={{color: 'grey', fontSize: 13}}>
-                      Account Number:{' '}
+                      {ArabicText?.AccountNumber}:{' '}
                     </Text>
                     0000-1111-2222-33
                   </Text>
@@ -710,7 +711,7 @@ class SellingCamel extends React.Component {
                   ]}>
                   <Text style={{color: '#000', fontSize: 15}}>
                     <Text style={{color: 'grey', fontSize: 13}}>
-                      Branch Code:{' '}
+                      {ArabicText?.BranchCode}:{' '}
                     </Text>
                     SC7512
                   </Text>
@@ -743,7 +744,7 @@ class SellingCamel extends React.Component {
                   style={{alignSelf: 'center', marginTop: 20}}
                   onPress={() => this.bankDetailHandler()}>
                   <View style={Styles.btn}>
-                    <Text style={Styles.textbtn}>Close</Text>
+                    <Text style={Styles.textbtn}>{ArabicText?.Close}</Text>
                   </View>
                 </TouchableOpacity>
               </View>

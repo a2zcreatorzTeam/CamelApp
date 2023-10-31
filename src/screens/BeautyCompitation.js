@@ -10,7 +10,7 @@ import {
 import {Styles} from '../styles/globlestyle';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
+import * as ArabicText from '../language/EnglishToArabic';
 import {useNavigation} from '@react-navigation/native';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
@@ -22,25 +22,29 @@ export default function App() {
       <View style={Styles.top}>
         <TouchableOpacity>
           <View style={Styles.topbtn}>
-            <Text style={{color: '#fff', fontWeight: '400'}}>الجوالز</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={Styles.topbtnn}>
-            <Text style={{color: '#cd853f', fontWeight: '400'}}>
-              طريقة الاشتراك
+            <Text style={{color: '#fff', fontWeight: '400'}}>
+              {ArabicText?.Mobilephones}
             </Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity>
           <View style={Styles.topbtnn}>
-            <Text style={{color: '#cd853f', fontWeight: '400'}}>شروط عامة</Text>
+            <Text style={{color: '#cd853f', fontWeight: '400'}}>
+              {ArabicText?.Howtosubscribe}
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <View style={Styles.topbtnn}>
+            <Text style={{color: '#cd853f', fontWeight: '400'}}>
+              {ArabicText?.GeneralTerms}
+            </Text>
           </View>
         </TouchableOpacity>
       </View>
       <View style={Styles.underTop}>
         <Text style={{color: '#cd853f', fontWeight: 'bold', fontSize: 18}}>
-          الراعي الرسمي للمسابقة
+          {ArabicText?.Theofficialsponsorofthecompetition}
         </Text>
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity onPress={() => navigation.navigate('Winner')}>
@@ -52,7 +56,7 @@ export default function App() {
       </View>
       <View style={Styles.bottombtnn}>
         <Text style={{color: '#cd853f', fontWeight: '400'}}>
-          للمشاركة اضغط هنا
+          {ArabicText?.Toparticipateclickhere}
         </Text>
       </View>
       <SafeAreaView>

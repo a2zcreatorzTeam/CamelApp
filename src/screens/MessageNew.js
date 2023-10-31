@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {View} from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Feather from 'react-native-vector-icons/Feather';
-
+import * as ArabicText from '../language/EnglishToArabic';
 import {DataContext} from '../context/DataContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {TextInput} from 'react-native-paper';
@@ -61,7 +61,7 @@ class MessageView extends Component {
 
               <TextInput
                 style={Styles.msginput}
-                placeholder=" Type Message"
+                placeholder={ArabicText?.TypeMessage}
                 onChangeText={text => this.setState({inputValue: text})}
                 value={this.state.inputValue}
                 // left={<TextInput.Icon name={'attachment'} size={28} color={'#D2691E'} onPress={this._pickImage} />}

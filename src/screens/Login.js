@@ -362,7 +362,9 @@ class Login extends Component {
                 style={{margin: 5}}
               />
 
-              <Text style={{margin: 5, color: '#d2691e'}}>إنستغرام</Text>
+              <Text style={{margin: 5, color: '#d2691e'}}>
+                {ArabicText?.Instagram}
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -377,7 +379,9 @@ class Login extends Component {
                 style={{margin: 5}}
               />
 
-              <Text style={{margin: 5, color: '#d2691e'}}>تويتر</Text>
+              <Text style={{margin: 5, color: '#d2691e'}}>
+                {ArabicText?.Twitter}
+              </Text>
             </TouchableOpacity>
           </View>
 

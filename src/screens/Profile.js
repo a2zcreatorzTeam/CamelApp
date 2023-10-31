@@ -901,14 +901,14 @@ class Profile extends Component {
                         <Ionicons name="close" size={30} color="brown" />
                       </Pressable>
                       <Text style={{margin: 5, color: 'black'}}>
-                        Add Whatsapp number
+                        {ArabicText?.AddWhatsappnumber}
                       </Text>
 
                       <TextInput
                         maxLength={10}
                         value={this.state.whatsappNumber}
                         style={Styles.forminputsPrice}
-                        placeholder="Whats App Number"
+                        placeholder={ArabicText?.WhatsAppNumber}
                         keyboardType="numeric"
                         onChangeText={text =>
                           this.setState({whatsappNumber: text})
@@ -971,7 +971,7 @@ class Profile extends Component {
                         <Ionicons name="close" size={30} color="brown" />
                       </Pressable>
                       <Text style={{margin: 5, color: 'black'}}>
-                        Enable/dissable Chat
+                        {ArabicText?.Enable_dissableChat}
                       </Text>
 
                       <View
@@ -1027,14 +1027,14 @@ class Profile extends Component {
                         <Ionicons name="close" size={30} color="brown" />
                       </Pressable>
                       <Text style={{margin: 5, color: 'black'}}>
-                        Update Phone
+                        {ArabicText?.UpdatePhone}
                       </Text>
 
                       <TextInput
                         maxLength={10}
                         value={this.state.phoneNumber}
                         style={Styles.forminputsPrice}
-                        placeholder="Phone Number"
+                        placeholder={ArabicText?.PhoneNumber}
                         keyboardType="numeric"
                         onChangeText={text =>
                           this.setState({phoneNumber: text})
@@ -1126,7 +1126,7 @@ class Profile extends Component {
                         fontSize: 15,
                         fontWeight: '600',
                       }}>
-                      Enter OTP Here
+                      {ArabicText?.EnterOTPHere}
                     </Text>
                   </View>
 
@@ -1171,7 +1171,7 @@ class Profile extends Component {
                       marginVertical: 30,
                     }}>
                     {' '}
-                    No Post Found
+                    {ArabicText?.NoPostFound}
                   </Text>
                 }
                 data={searchedItem ? filterPosts : posts}

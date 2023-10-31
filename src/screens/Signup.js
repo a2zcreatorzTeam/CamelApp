@@ -242,7 +242,7 @@ class SignUp extends Component {
                   fontSize: 12,
                   textAlign: 'right',
                 }}>
-                يجب أن يحتوي الاسم على 3 أحرف على الأقل
+                {ArabicText?.Thenamemustcontainatleast3letters}
               </Text>
             )}
 
@@ -262,7 +262,7 @@ class SignUp extends Component {
                   fontSize: 12,
                   textAlign: 'right',
                 }}>
-                يجب أن يحتوي رقم الهاتف على أرقام فقط
+                {ArabicText?.Thephonenumbermustonlyhavenumbers}
               </Text>
             )}
 
@@ -307,7 +307,7 @@ class SignUp extends Component {
                   fontSize: 12,
                   textAlign: 'right',
                 }}>
-                يجب أن يحتوي الاسم على 6 أحرف على الأقل
+                {ArabicText?.Thenamemustcontainatleast6letters}
               </Text>
             )}
 
@@ -352,7 +352,7 @@ class SignUp extends Component {
                   fontSize: 12,
                   textAlign: 'right',
                 }}>
-                يجب أن يحتوي الاسم على 6 أحرف على الأقل
+                {ArabicText?.Thenamemustcontainatleast6letters}
               </Text>
             )}
           </View>
@@ -406,7 +406,7 @@ class SignUp extends Component {
               alignItems: 'center',
             }}>
             <Text style={{color: 'black', fontSize: 14}}>
-              أوافق على الشروط والأحكام
+              {ArabicText?.Iagreetothetermsandconditions}
             </Text>
             <Checkbox
               color="#D2691Eff"
@@ -423,7 +423,7 @@ class SignUp extends Component {
                 color: '#D2691Eff',
                 fontSize: 14,
               }}>
-              تعرف على المزيد حول الشروط والأحكام
+              {ArabicText?.Learnmoreabouttermsandconditions}
             </Text>
           </TouchableOpacity>
           <Modal

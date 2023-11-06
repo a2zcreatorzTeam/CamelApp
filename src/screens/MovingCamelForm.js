@@ -29,7 +29,6 @@ import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
-import * as ArabicText from '../language/EnglishToArabic';
 
 class SellingCamel extends React.Component {
   constructor(props) {

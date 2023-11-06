@@ -5,6 +5,8 @@ import {
   FlatList,
   ActivityIndicator,
   RefreshControl,
+  Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 import camelapp from '../api/camelapp';
 import Ads from '../components/Ads';
@@ -14,7 +16,7 @@ import EmptyComponent from '../components/EmptyComponent';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-
+const {width} = Dimensions.get('window');
 class News extends Component {
   constructor(props) {
     super(props);
@@ -132,6 +134,7 @@ class News extends Component {
           <View>
             <Ads />
             <FlatList
+              contentContainerStyle={{paddingBottom: width * 0.3}}
               ListEmptyComponent={() => <EmptyComponent />}
               key={key}
               data={searchedItem ? filterPosts : posts}

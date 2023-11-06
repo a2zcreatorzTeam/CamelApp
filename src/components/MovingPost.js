@@ -73,10 +73,12 @@ const MovingPost = ({
             <Text style={styles.text}>
               {ArabicText.Location}:{location}
             </Text>
-            <Text style={styles.text}>
-              {' '}
-              {ArabicText.Price}:{price}
-            </Text>
+            {price ? (
+              <Text style={styles.text}>
+                {' '}
+                {ArabicText.Price}:{price}
+              </Text>
+            ) : null}
           </View>
 
           <TouchableOpacity

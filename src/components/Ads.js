@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {Text, View, Image, Dimensions, FlatList} from 'react-native';
 import camelapp from '../api/camelapp';
 import Toast from 'react-native-toast-message';
+import * as ArabicText from '../language/EnglishToArabic';
+
 const width = Dimensions.get('screen').width;
 const Ads = () => {
   const [adsData, setAdsData] = useState([]);
@@ -58,19 +60,20 @@ const AdsComp = ({item}) => {
           flexDirection: 'row',
         }}>
         <Image
+          resizeMode="contain"
           source={{
             uri:
               'http://www.tasdeertech.com/images/advertisement/' + item?.image,
           }}
           style={{
-            width: 200,
+            width: '100%',
             height: '100%',
             borderRadius: 7,
-            resizeMode: 'contain',
+            // resizeMode: 'contain',
           }}
         />
 
-        <Image
+        {/* <Image
           source={require('../../assets/star.png')}
           style={{
             width: 20,
@@ -79,16 +82,16 @@ const AdsComp = ({item}) => {
             top: 6,
             right: 6,
           }}
-        />
+        /> */}
 
-        <View style={{paddingHorizontal: 10, marginTop: 25}}>
+        {/* <View style={{paddingHorizontal: 10, marginTop: 25}}>
           <Text style={{fontSize: 20, color: '#000', fontWeight: '600'}}>
             {item?.title}
           </Text>
           <Text style={{color: '#000', fontSize: 12, fontWeight: '300'}}>
-            Created at: {item?.created_at.slice(2, 10)}
+            {ArabicText?.Createdat}: {item?.created_at.slice(2, 10)}
           </Text>
-        </View>
+        </View> */}
       </View>
     </View>
   );

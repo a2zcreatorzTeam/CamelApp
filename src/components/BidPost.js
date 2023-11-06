@@ -219,6 +219,7 @@ class Bids extends Component {
       </View>
     );
     const renderBidItem = item => {
+      console.log(item?.item?.post?.bid_status, 'itemmm');
       return (
         <BidsItem
           item={item}

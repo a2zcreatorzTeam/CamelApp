@@ -1,10 +1,13 @@
 import React from 'react';
 import {View, Text} from 'react-native';
+import * as ArabicText from '../language/EnglishToArabic';
 
 const EmptyComponent = ({text}) => {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text style={{color: 'black', textAlign:'center'}}>No data found</Text>
+      <Text style={{color: 'black', textAlign: 'center'}}>
+        {ArabicText?.Nodatafound}
+      </Text>
     </View>
   );
 };

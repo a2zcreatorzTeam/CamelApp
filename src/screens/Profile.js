@@ -848,14 +848,17 @@ class Profile extends Component {
 
               <View style={styles.headerContainer}>
                 <View style={styles.row}>
-                  <View
-                    // onPress={() => this.openFollowingModal()}
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.props.navigation.navigate('FollowingList');
+                      console.log('tttttt');
+                    }}
                     style={styles.video}>
                     <Text style={styles.textcolor}>
                       {this.props?.user?.user?.follwers}
                     </Text>
                     <Text style={styles.textcolor}>{ArabicText.Followers}</Text>
-                  </View>
+                  </TouchableOpacity>
 
                   <Text
                     style={{fontSize: 30, fontWeight: '400', color: '#fff'}}>

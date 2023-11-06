@@ -303,7 +303,7 @@ class ViewNews extends Component {
               contentWidth={width}
             />
           </View>
-          <View
+          {/* <View
             style={{
               flexDirection: 'row',
               alignItems: 'flex-end',
@@ -321,9 +321,7 @@ class ViewNews extends Component {
                 ratingBackgroundColor={'black'}
               />
             )}
-
-            {/* tintColor="white" */}
-          </View>
+          </View> */}
           <View
             style={{
               alignItems: 'center',

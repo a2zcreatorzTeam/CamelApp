@@ -127,12 +127,13 @@ class Bids extends Component {
         });
         // alert('Error in withdrawing bid!');
       }
-    console.log("response", res)
+      console.log('response', res);
     });
   }
   render() {
     const {key} = this.state;
     const BidsItem = ({
+      item,
       userName,
       userImage,
       bidPrice,
@@ -187,13 +188,26 @@ class Bids extends Component {
           </Text>
         </View>
         <View style={{flexDirection: 'column', justifyContent: 'space-around'}}>
-          <TouchableOpacity
-            style={Styles.bidsButtonAccept}
-            onPress={onWithdrawBid}>
-            <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
-              {ArabicText.WithDraw}
-            </Text>
-          </TouchableOpacity>
+          {item?.post?.bit_closed == 1 ? (
+            <TouchableOpacity
+              activeOpacity={0.99}
+              style={Styles.bidsButtonAccept}
+              onPress={() => {
+                
+              }}>
+              <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
+                {ArabicText?.bidClosed}
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={Styles.bidsButtonAccept}
+              onPress={onWithdrawBid}>
+              <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
+                {ArabicText.WithDraw}
+              </Text>
+            </TouchableOpacity>
+          )}
 
           <TouchableOpacity
             style={Styles.bidsButtonAccept}

@@ -369,3 +369,7 @@ export const Iagreetothetermsandconditions = 'أوافق على الشروط';
 export const Learnmoreabouttermsandconditions =
   'تعرف على المزيد حول الشروط والأحكام';
 export const TakeaSurvey = 'قم باستطلاع';
+
+export const Createdat = 'أنشئت في';
+export const Nodatafound = 'لاتوجد بيانات';
+

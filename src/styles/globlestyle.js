@@ -406,7 +406,7 @@ export const Styles = StyleSheet.create({
     textAlign: 'center',
     borderColor: 'black',
     borderWidth: 0.5,
-    color:'#fff'
+    color: '#fff',
   },
 
   containerAddNew: {
@@ -1062,7 +1062,7 @@ export const Styles = StyleSheet.create({
   },
   imageNews: {
     width: width - 245,
-    height: 155,
+    height: 140,
     borderRadius: 10,
     marginRight: -10,
   },
@@ -1078,7 +1078,7 @@ export const Styles = StyleSheet.create({
     // flex:1, //used in news screen
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     flexDirection: 'row', //remved for news screen
     width: width - 20,
     height: 160,
@@ -1086,6 +1086,8 @@ export const Styles = StyleSheet.create({
     marginBottom: 10,
     elevation: 5,
     borderRadius: 15,
+    overflow: 'hidden',
+    paddingHorizontal: 30,
   },
   Questioncard: {
     backgroundColor: '#fff',

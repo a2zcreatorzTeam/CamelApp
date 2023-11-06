@@ -7,6 +7,7 @@ import {
   RefreshControl,
   Dimensions,
   TouchableOpacity,
+  Text,
 } from 'react-native';
 import camelapp from '../api/camelapp';
 import Ads from '../components/Ads';
@@ -16,6 +17,8 @@ import EmptyComponent from '../components/EmptyComponent';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
+import {Styles} from '../styles/globlestyle';
+import * as ArabicText from '../language/EnglishToArabic';
 const {width} = Dimensions.get('window');
 class News extends Component {
   constructor(props) {
@@ -132,6 +135,26 @@ class News extends Component {
 
         {this.state.loader == false && (
           <View>
+            <View
+              style={{
+                alignItems: 'center',
+                paddingHorizontal: 20,
+                marginBottom: 20,
+              }}>
+              <TouchableOpacity
+                activeOpacity={1}
+                style={[
+                  Styles.btnHome2,
+                  {
+                    width: '30%',
+                    height: 40,
+                    borderRadius: 10,
+                  },
+                ]}
+                onPress={() => {}}>
+                <Text style={Styles.catBtnText}>{ArabicText?.news}</Text>
+              </TouchableOpacity>
+            </View>
             <Ads />
             <FlatList
               contentContainerStyle={{paddingBottom: width * 0.3}}

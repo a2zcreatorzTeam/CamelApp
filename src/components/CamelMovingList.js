@@ -16,6 +16,8 @@ import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import Header from './Header';
+import {Styles} from '../styles/globlestyle';
+import { TouchableOpacity } from 'react-native';
 
 class CamelMovingList extends Component {
   constructor(props) {
@@ -93,7 +95,6 @@ class CamelMovingList extends Component {
     this.focusListener();
   }
   render() {
-    
     const {key, filterPosts, searchedItem} = this.state;
     const renderItem = ({item}) => {
       return (
@@ -171,7 +172,29 @@ class CamelMovingList extends Component {
 
         {this.state.loader == false && (
           <View>
-            <AddButton onPress={() => onAddButtonClick()} />
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingHorizontal: 20,
+              }}>
+              <TouchableOpacity
+                activeOpacity={1}
+                style={[
+                  Styles.btnHome2,
+                  {
+                    width: '30%',
+                    height: 40,
+                    borderRadius: 10,
+                  },
+                ]}
+                onPress={() => {}}>
+                <Text style={Styles.catBtnText}>{ArabicText?.MovingCamel}</Text>
+              </TouchableOpacity>
+              <AddButton onPress={() => onAddButtonClick()} />
+            </View>
+            {/* <AddButton onPress={() => onAddButtonClick()} /> */}
             <FlatList
               ListEmptyComponent={() => <EmptyComponent />}
               key={key}

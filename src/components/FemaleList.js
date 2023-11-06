@@ -18,6 +18,8 @@ import {bindActionCreators} from 'redux';
 import Loader from './PleaseWait';
 import Header from '../components/Header';
 import EmptyComponent from './EmptyComponent';
+import {Styles} from '../styles/globlestyle';
+import {TouchableOpacity} from 'react-native';
 
 class CamelFemaleList extends Component {
   constructor(props) {
@@ -180,9 +182,29 @@ class CamelFemaleList extends Component {
         )}
 
         {this.state.loader == false && (
-          <View>
-            <AddButton onPress={() => onAddButtonClick()} />
-
+          <View style={{flex: 1}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingHorizontal: 20,
+              }}>
+              <TouchableOpacity
+                activeOpacity={1}
+                style={[
+                  Styles.btnHome2,
+                  {
+                    width: '30%',
+                    height: 40,
+                    borderRadius: 10,
+                  },
+                ]}
+                onPress={() => {}}>
+                <Text style={Styles.catBtnText}>{ArabicText?.FemaleCamel}</Text>
+              </TouchableOpacity>
+              <AddButton onPress={() => onAddButtonClick()} />
+            </View>
             <FlatList
               ListEmptyComponent={() => <EmptyComponent />}
               key={key}

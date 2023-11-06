@@ -1332,4 +1332,6 @@ export const Styles = StyleSheet.create({
     color: 'red',
     marginRight: 200,
   },
+
+  catBtnText: {color: '#D2691Eff', fontWeight: 'bold', fontSize: 15},
 });

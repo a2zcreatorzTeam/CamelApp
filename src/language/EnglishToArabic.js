@@ -373,3 +373,6 @@ export const TakeaSurvey = 'قم باستطلاع';
 export const Createdat = 'أنشئت في';
 export const Nodatafound = 'لاتوجد بيانات';
 
+export const news = 'الاخبار';
+export const FemaleCamel = 'تسبيل الفحول';
+export const MovingCamel = 'نقل الابل';

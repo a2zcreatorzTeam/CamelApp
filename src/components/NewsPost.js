@@ -17,8 +17,9 @@ const NewsPost = ({
   userProfile,
   date,
   rating_count,
+  catagoryName,
 }) => {
-  let initialCount = (rating / rating_count).toFixed(2);
+  console.log(catagoryName, 'catagoryName');
   return (
     <View style={Styles.containerNews}>
       <TouchableOpacity onPress={() => onItemClick()}>

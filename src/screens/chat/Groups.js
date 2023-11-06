@@ -17,6 +17,7 @@ import * as userActions from '../../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import {useIsFocused} from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
+import EmptyComponent from '../../components/EmptyComponent';
 
 const {width} = Dimensions.get('screen');
 
@@ -128,11 +129,7 @@ const Groups = prop => {
           alignSelf: 'center',
           flex: 1,
         }}
-        ListEmptyComponent={() => {
-          return (
-            <Text style={{color: 'black', fontSize: 15}}>No data found </Text>
-          );
-        }}
+        ListEmptyComponent={() => <EmptyComponent />}
         renderItem={({item}) => {
           console.log(item?.data?.downloadURL, 'IYRREEEEM');
           return (

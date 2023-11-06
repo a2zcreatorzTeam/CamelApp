@@ -19,6 +19,7 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import Toast from 'react-native-toast-message';
+import * as ArabicText from '../../language/EnglishToArabic';
 
 const width = Dimensions.get('screen').width;
 
@@ -75,9 +76,7 @@ const CreateGroup = props => {
   const getFriendlist = async () => {
     try {
       // userID user id statc
-      console.log(userID, 'GJGJG');
       const fetchfriendlist = await camelapp.get('/friendlist/' + userID);
-      console.log(fetchfriendlist?.data, 'fetchfriendlist');
       setFriendList(fetchfriendlist?.data);
     } catch (error) {
       console.log(error?.response, '=====ERROR OF FRIEND LIST API===');
@@ -85,6 +84,7 @@ const CreateGroup = props => {
   };
 
   const createGroup = async () => {
+    console.log('helloo');
     let {userID, refreshGrouplist} = props.route.params;
     let tempArrayForUserDetails = [];
     tempArrayForUserDetails.push({id: userID, message: ''});

@@ -9,9 +9,8 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
-import {Card, Searchbar} from 'react-native-paper';
+import {Card} from 'react-native-paper';
 import {Dimensions} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import camelapp from '../api/camelapp';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
@@ -21,6 +20,7 @@ const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 import firestore from '@react-native-firebase/firestore';
 import {RefreshControl} from 'react-native';
+
 class Messages extends Component {
   constructor(props) {
     super(props);
@@ -50,7 +50,7 @@ class Messages extends Component {
       .where(`members.${currentUser}`, '==', true);
     const unsubscribe = chatRoomsRef.onSnapshot(async querySnapshot => {
       const usersData = [];
-      for (const doc of querySnapshot.docs) {
+      for (const doc of querySnapshot?.docs) {
         const chatRoomData = doc.data();
         const otherUserId = Object.keys(chatRoomData.members).find(
           userId => userId != currentUser,
@@ -58,25 +58,33 @@ class Messages extends Component {
         // Query the messages subcollection to get the last message
         const lastMessageQuery = await firestore()
           .collection('chats')
-          .doc(doc.id)
+          .doc(doc?.id)
           .collection('messages')
           .orderBy('timestamp', 'desc')
           .limit(1)
           .get();
-        const lastMessageDoc = lastMessageQuery.docs[0];
-        const lastMessageData = lastMessageDoc ? lastMessageDoc.data() : null;
-        // Fetch user details for the other user
-        if (lastMessageData && user_id) {
-          const userWithLastMessage = {
-            id: otherUserId,
-            message: lastMessageData?.text ? lastMessageData?.text : '',
-            timestamp: lastMessageData.timestamp,
-            location:
-              lastMessageData?.latitude && lastMessageData?.longitude
-                ? true
-                : false,
-          };
-          usersData.push(userWithLastMessage);
+        if (!lastMessageQuery.empty) {
+          const lastMessageDoc = lastMessageQuery?.docs[0];
+          const lastMessageData = lastMessageDoc
+            ? lastMessageDoc?.data()
+            : null;
+          // Fetch user details for the other user
+          if (lastMessageData && user_id) {
+            const userWithLastMessage = {
+              id: otherUserId,
+              message: lastMessageData?.text ? lastMessageData?.text : '',
+              timestamp: lastMessageData.timestamp,
+              location:
+                lastMessageData?.latitude && lastMessageData?.longitude
+                  ? true
+                  : false,
+            };
+            usersData.push(userWithLastMessage);
+          }
+          // The rest of your code to process the last message data...
+        } else {
+          console.log('noDataaOfUser');
+          // Handle the case when no messages are found for this chat room.
         }
       }
       usersData.sort((a, b) => b.timestamp - a.timestamp);
@@ -90,9 +98,9 @@ class Messages extends Component {
   }
   checkUserLogedIn() {
     let {user} = this.props;
-    if (user.user.user != undefined) {
+    if (user?.user?.user != undefined) {
       this.setState({loader: true});
-      this.getUserDropList(user.user.user.id);
+      this.getUserDropList(user?.user?.user?.id);
     } else {
       this.setState({loader: false});
       clearInterval(this.interval);

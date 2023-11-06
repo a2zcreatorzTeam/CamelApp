@@ -38,6 +38,7 @@ import moment from 'moment';
 import FastImage from 'react-native-fast-image';
 import RNFS from 'react-native-fs';
 import Toast from 'react-native-toast-message';
+import EmptyComponent from '../../components/EmptyComponent';
 const GroupChat = props => {
   const flatListRef = useRef();
   const storageRef = storage().ref();
@@ -513,13 +514,12 @@ const GroupChat = props => {
         </TouchableOpacity>
       </View>
       <FlatList
-        // ref={flatListRef}
+        ListEmptyComponent={() => <EmptyComponent />}
         inverted
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingTop: width * 0.2}}
         data={groupChat}
         renderItem={({item, index}) => {
-          console.log(item, 'HjjjHHHJJJJHHH');
           return (
             <View>
               {/* Right side messages */}
@@ -634,7 +634,6 @@ const GroupChat = props => {
                       </TouchableOpacity>
                     </View>
                   ) : null}
-
                   {item?.location && (
                     <>
                       {/* <Text

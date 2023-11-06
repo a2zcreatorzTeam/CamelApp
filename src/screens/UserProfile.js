@@ -122,7 +122,6 @@ class UserProfile extends Component {
     user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
       if (user?.id != this.props.route.params.userProfile.user_id) {
-        let phone = this.props.route.params.userProfile?.user_phone;
         if (
           this?.state?.OtherUserDetail?.phone_status == true ||
           this?.state?.OtherUserDetail?.phone_status == 'True' ||

@@ -19,12 +19,11 @@ const NewsPost = ({
   rating_count,
 }) => {
   let initialCount = (rating / rating_count).toFixed(2);
-  console.log(initialCount, 'initialCount');
   return (
     <View style={Styles.containerNews}>
       <TouchableOpacity onPress={() => onItemClick()}>
-        <View style={[Styles.newsbox1, {flex: 1, flexDirection: 'column'}]}>
-          <View
+        <View style={[Styles.newsbox1, {flexDirection: 'row'}]}>
+          {/* <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
@@ -51,25 +50,53 @@ const NewsPost = ({
               }}
               resizeMode="cover"
             />
-          </View>
-
-          <View style={{flexDirection: 'row', flex: 1}}>
-            <Text
-              style={{
-                width: '55%',
-                fontSize: 14,
-                fontWeight: '700',
-                textAlign: 'right',
-                marginRight: 10,
-                color: 'black',
-              }}
-              numberOfLines={4}>
-              {titleOfArticle}
-            </Text>
-
+          </View> */}
+          {/* <View
+            style={{
+              flexDirection: 'row',
+              marginLeft: 'auto',
+              width: '100%',
+              backgroundColor: 'red',
+            }}> */}
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+              width: '100%',
+              paddingVertical: 5,
+              // alignItems: 'center',
+            }}>
+            <View style={{width: '60%', alignItems: 'flex-end'}}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: '700',
+                  marginRight: 10,
+                  color: 'black',
+                }}
+                // numberOfLines={4}
+              >
+                {titleOfArticle?.length > 150
+                  ? titleOfArticle?.slice(0, 150)
+                  : titleOfArticle}
+              </Text>
+              <Text
+                style={{
+                  color: 'grey',
+                  fontSize: 10,
+                  marginHorizontal: 20,
+                  marginVertical: 10,
+                  marginTop: 'auto',
+                }}>
+                {date}
+              </Text>
+            </View>
             <TouchableOpacity
               onPress={() => onItemClick()}
-              style={{marginTop: -50}}>
+              style={{
+                // marginTop: -50,
+                alignSelf: 'center',
+              }}>
               <Image
                 source={{
                   uri: 'http://www.tasdeertech.com/public/images/news/' + image,
@@ -77,16 +104,16 @@ const NewsPost = ({
                 style={Styles.imageNews}
                 resizeMode="cover"></Image>
             </TouchableOpacity>
-            <View style={{left: 5, position: 'absolute', bottom: 2}}>
+            {/* <View style={{left: 5, position: 'absolute', bottom: 2}}>
               <Ionicons
                 name="arrow-back-sharp"
                 size={22}
                 color="brown"
                 style={Styles.arrow}
               />
-            </View>
+            </View> */}
 
-            <View
+            {/* <View
               style={{
                 flexDirection: 'row',
                 right: width / 2 - 40,
@@ -106,8 +133,9 @@ const NewsPost = ({
                 ratingBackgroundColor={'black'}
                 tintColor="white"
               />
-            </View>
+            </View> */}
           </View>
+          {/* </View> */}
         </View>
       </TouchableOpacity>
     </View>

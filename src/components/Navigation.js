@@ -70,6 +70,7 @@ import UserProfile from '../screens/UserProfile';
 import detailCompetition from './detailCompetition';
 import CreateProfile from '../screens/CreateProfile';
 import ChangePassword from '../screens/ChangePassword';
+import FollowingList from '../screens/FollowingList.js';
 const Stack = createNativeStackNavigator();
 export default function Navigation() {
   return (
@@ -320,7 +321,6 @@ export default function Navigation() {
           // }}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name="Profile"
           component={Footer}
@@ -336,7 +336,6 @@ export default function Navigation() {
           component={Whatsapp}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name="BeautyCompetition"
           component={BeautyCompetition}
@@ -417,23 +416,23 @@ export default function Navigation() {
           component={detailCompetition}
           options={{headerShown: false}}
         />
-
         <Stack.Screen name="ChatTopTab" component={ChatTopTab} />
-
         <Stack.Screen name="Groups" component={Groups} />
-
         <Stack.Screen name="FriendList" component={FriendList} />
-
         <Stack.Screen
           name="GroupChat"
           component={GroupChat}
           options={{headerShown: false}}
         />
-
         <Stack.Screen name="CreateGroup" component={CreateGroup} />
         <Stack.Screen
           name="ChangePassword"
           component={ChangePassword}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="FollowingList"
+          component={FollowingList}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

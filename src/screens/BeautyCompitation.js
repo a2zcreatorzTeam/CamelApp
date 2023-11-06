@@ -16,7 +16,6 @@ const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 export default function App() {
   const navigation = useNavigation();
-
   return (
     <View style={Styles.container}>
       <View style={Styles.top}>

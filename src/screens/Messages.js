@@ -44,26 +44,36 @@ class Messages extends Component {
     }
   };
   getUserDropList(user_id) {
+    console.log('user_oddd');
     const currentUser = user_id; // Replace with the logged-in user's ID
     const chatRoomsRef = firestore()
       .collection('chats')
       .where(`members.${currentUser}`, '==', true);
+    console.log('heloo');
     const unsubscribe = chatRoomsRef.onSnapshot(async querySnapshot => {
-      const usersData = [];
-      for (const doc of querySnapshot?.docs) {
-        const chatRoomData = doc.data();
-        const otherUserId = Object.keys(chatRoomData.members).find(
-          userId => userId != currentUser,
-        );
-        // Query the messages subcollection to get the last message
-        const lastMessageQuery = await firestore()
-          .collection('chats')
-          .doc(doc?.id)
-          .collection('messages')
-          .orderBy('timestamp', 'desc')
-          .limit(1)
-          .get();
-        if (!lastMessageQuery.empty) {
+      if (querySnapshot.docs.length !== 0) {
+        // Handle the case when no documents match the query.
+        // Set a message or state to indicate no data.
+        console.log('No matching documents in Firestore');
+
+        const usersData = [];
+        console.log('insideUnsubb');
+        for (const doc of querySnapshot?.docs) {
+          console.log('5777');
+          const chatRoomData = doc.data();
+          const otherUserId = Object.keys(chatRoomData.members).find(
+            userId => userId != currentUser,
+          );
+          console.log(otherUserId, 'otherUserId');
+          // Query the messages subcollection to get the last message
+          const lastMessageQuery = await firestore()
+            .collection('chats')
+            .doc(doc.id)
+            .collection('messages')
+            .orderBy('timestamp', 'desc')
+            .limit(1)
+            .get();
+          // if (!lastMessageQuery.empty) {
           const lastMessageDoc = lastMessageQuery?.docs[0];
           const lastMessageData = lastMessageDoc
             ? lastMessageDoc?.data()
@@ -81,15 +91,13 @@ class Messages extends Component {
             };
             usersData.push(userWithLastMessage);
           }
-          // The rest of your code to process the last message data...
-        } else {
-          console.log('noDataaOfUser');
-          // Handle the case when no messages are found for this chat room.
+          usersData.sort((a, b) => b.timestamp - a.timestamp);
+          this.getUsersDetails(usersData);
+          this.setState({getUserDropList: usersData});
         }
+      } else {
+        this.setState({loader: false});
       }
-      usersData.sort((a, b) => b.timestamp - a.timestamp);
-      this.getUsersDetails(usersData);
-      this.setState({getUserDropList: usersData});
     });
     return () => {
       // Unsubscribe the listener when the component unmounts

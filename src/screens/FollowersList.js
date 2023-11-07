@@ -16,12 +16,11 @@ import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import EmptyComponent from '../components/EmptyComponent';
 import BackBtnHeader from '../components/headerWithBackBtn';
-import * as ArabicText from '../language/EnglishToArabic';
-
 const width = Dimensions.get('screen').width;
+import * as ArabicText from '../language/EnglishToArabic';
 const hight = Dimensions.get('screen').height;
 
-class Following extends Component {
+class FollowersList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,13 +33,11 @@ class Following extends Component {
     let itemUser = item?.user;
     itemUser['user_images'] = item?.user?.image;
     itemUser['user_name'] = item?.user?.name;
-    itemUser['user_id'] = item?.item?.user_id;
-    console.log(item?.user?.id);
+    itemUser['user_id'] = item?.user?.id;
     let {user} = this.props;
     user = user?.user?.user;
-    console.log(user?.id, 'userr', item?.user?.id);
     if (user != undefined) {
-      if (item?.item?.user_id == user?.id) {
+      if (item?.item?.id == user?.id) {
         this.props?.navigation.navigate('Profile', {screen: 'حسابي'});
       } else {
         this.props?.navigation?.navigate('UserProfile', {
@@ -61,7 +58,7 @@ class Following extends Component {
     let {id} = this.props?.route?.params;
     this.setState({loader: true});
     try {
-      return await camelapp.get('/getfollowing/' + id).then(res => {
+      return await camelapp.get('/getAllFollowers/' + id).then(res => {
         this.setState({userList: res?.data[0]});
         this.setState({loader: false});
       });
@@ -76,7 +73,6 @@ class Following extends Component {
   componentDidMount = () => {
     this.getData();
   };
-
   render() {
     const {userList} = this.state;
     const Item = ({userName, userImage, onUserMessageClick}) => (
@@ -129,7 +125,6 @@ class Following extends Component {
       </Card>
     );
     const renderItem = ({item}) => {
-      console.log(item?.user, 'uerrrrrrrr');
       return (
         <Item
           item={item}
@@ -144,7 +139,7 @@ class Following extends Component {
     return (
       <View
         style={{flex: 1, backgroundColor: '#fff', width: width, height: hight}}>
-        <BackBtnHeader title={ArabicText?.followinglist} />
+        <BackBtnHeader title={ArabicText?.followerslist} />
         <ActivityIndicator
           size="large"
           color="#D2691Eff"
@@ -188,4 +183,4 @@ const styles = StyleSheet.create({
     left: 0,
   },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(Following);
+export default connect(mapStateToProps, mapDispatchToProps)(FollowersList);

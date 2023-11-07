@@ -172,7 +172,6 @@ class CamelSellingList extends Component {
     console.log('====================================');
     console.log('IS THIS IS CAMEL SELLEING POST SCREEN?');
     const renderItem = ({item}) => {
-      console.log(item, 'itemmmm');
       return (
         <Post
           item={item}

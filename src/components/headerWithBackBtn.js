@@ -55,6 +55,28 @@ const BackBtnHeader = props => {
           />
         </View>
       )}
+      {props?.title && (
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '90%',
+            marginLeft: 'auto',
+          }}>
+          <Text
+            style={{
+              color: '#fff',
+              fontWeight: 'bold',
+              fontSize: 20,
+              marginHorizontal: 5,
+            }}>
+            {props?.title?.length > 25
+              ? props?.title?.slice(0, 25)
+              : props?.title}
+          </Text>
+
+        </View>
+      )}
       {props?.showToolTip && (
         <>
           <Tooltip
@@ -81,7 +103,7 @@ const BackBtnHeader = props => {
             withPointer={false}
             backgroundColor={'#fff'}></Tooltip>
           <TouchableOpacity
-            style={{width: 40, marginLeft:5}}
+            style={{width: 40, marginLeft: 5}}
             onPress={() => {
               tooltipRef.current.toggleTooltip();
             }}>

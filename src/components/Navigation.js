@@ -1,5 +1,4 @@
 import React from 'react';
-import NewSatck from './Stack';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import Login from '../screens/Login';
@@ -9,7 +8,6 @@ import MissingCamelForm from '../screens/MissingCamelForm.js';
 import CamelClub from '../screens/CamelClub';
 import MovingCamelForm from '../screens/MovingCamelForm';
 import Forgetpass from '../screens/ForgetPassword';
-import Profile from '../screens/Profile';
 import Notification from '../screens/Notification';
 import Whatsapp from '../screens/Whatsappshare';
 import BeautyCompetition from '../screens/BeautyCompitation';
@@ -71,6 +69,7 @@ import detailCompetition from './detailCompetition';
 import CreateProfile from '../screens/CreateProfile';
 import ChangePassword from '../screens/ChangePassword';
 import FollowingList from '../screens/FollowingList.js';
+import FollowersList from '../screens/FollowersList.js';
 const Stack = createNativeStackNavigator();
 export default function Navigation() {
   return (
@@ -433,6 +432,11 @@ export default function Navigation() {
         <Stack.Screen
           name="FollowingList"
           component={FollowingList}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="FollowersList"
+          component={FollowersList}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

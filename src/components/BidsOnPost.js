@@ -40,6 +40,7 @@ class Bids extends Component {
       return await camelapp
         .get(`/get/bids/${user?.user?.user?.id}`)
         .then(res => {
+          console.log(res, "responsee");
           this.setState({
             posts: res?.data,
             key: !key,
@@ -108,7 +109,6 @@ class Bids extends Component {
     }
   }
   onWithdrawBid(item) {
-    console.log('itemmmmmm', item);
     const {key} = this.state;
     withdrawBid(item?.bid_id).then(res => {
       if (res?.status == 'Successfully Delete') {
@@ -188,13 +188,11 @@ class Bids extends Component {
           </Text>
         </View>
         <View style={{flexDirection: 'column', justifyContent: 'space-around'}}>
-          {item?.post?.bit_closed == 1 ? (
+          {item?.item?.post?.bid_status == 1 ? (
             <TouchableOpacity
               activeOpacity={0.99}
               style={Styles.bidsButtonAccept}
-              onPress={() => {
-                
-              }}>
+              onPress={() => {}}>
               <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
                 {ArabicText?.bidClosed}
               </Text>

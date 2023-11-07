@@ -48,7 +48,7 @@ class Profile extends Component {
     this.state = {
       modal: false,
       modalFollowing: false,
-      rating: 1,
+      rating: 0,
       loader: false,
       posts: [],
       whatsappNumber: '',
@@ -320,6 +320,7 @@ class Profile extends Component {
           const length = parseInt(res?.data?.posts?.length);
           let rating = 0;
           if (length > 30 && length < 100) {
+            console.log("ratigggg");
             rating = 1;
           } else if (length >= 100 && length < 150) {
             rating = 2;
@@ -477,6 +478,8 @@ class Profile extends Component {
     });
   };
   render() {
+    let {user} = this.props;
+    user = user?.user?.user;
     const {key, filterPosts, posts, searchedItem, searchText} = this.state;
     const sharePosts = item => {
       this.setState({loading: true});
@@ -796,7 +799,13 @@ class Profile extends Component {
                       name="checkcircle"
                       size={14}
                       color={
-                        this.state?.rating <= 1
+                        user?.subscription
+                          ? user?.subscription == 'normal'
+                            ? 'blue'
+                            : user?.subscription == 'famous'
+                            ? 'orange'
+                            : '#e50000'
+                          : this.state?.rating <= 1
                           ? 'blue'
                           : this.state?.rating <= 3
                           ? 'orange'
@@ -805,17 +814,24 @@ class Profile extends Component {
                     />
                     <Text
                       style={{
-                        color:
-                          this.state?.rating <= 1
+                        color: user?.subscription
+                          ? user?.subscription == 'normal'
                             ? 'blue'
-                            : this.state?.rating <= 3
+                            : user?.subscription == 'famous'
                             ? 'orange'
-                            : '#e50000',
+                            : '#e50000'
+                          : this.state?.rating <= 1
+                          ? 'blue'
+                          : this.state?.rating <= 3
+                          ? 'orange'
+                          : '#e50000',
                         fontSize: 12,
                         textAlign: 'right',
                         marginRight: 4,
                       }}>
-                      {this.state?.rating <= 1
+                      {user?.subscription?.length
+                        ? user?.subscription
+                        : this.state?.rating <= 1
                         ? 'Normal'
                         : this.state?.rating <= 3
                         ? 'Special'
@@ -848,10 +864,12 @@ class Profile extends Component {
 
               <View style={styles.headerContainer}>
                 <View style={styles.row}>
+                  {/* FOLLOWING LIST  */}
                   <TouchableOpacity
                     onPress={() => {
-                      this.props.navigation.navigate('FollowingList');
-                      console.log('tttttt');
+                      this.props.navigation.navigate('FollowingList', {
+                        id: this.props?.user?.user?.user?.id,
+                      });
                     }}
                     style={styles.video}>
                     <Text style={styles.textcolor}>
@@ -859,25 +877,31 @@ class Profile extends Component {
                     </Text>
                     <Text style={styles.textcolor}>{ArabicText.Followers}</Text>
                   </TouchableOpacity>
-
+                  {/* OR  */}
                   <Text
                     style={{fontSize: 30, fontWeight: '400', color: '#fff'}}>
                     |
                   </Text>
-
+                  {/* NO OF POSTS  */}
                   <View style={styles.video}>
                     <Text style={styles.textcolor}>
                       {this.props?.user?.user?.posts?.length}
                     </Text>
                     <Text style={styles.textcolor}>{ArabicText.posts}</Text>
                   </View>
-
+                  {/* OR  */}
                   <Text
                     style={{fontSize: 30, fontWeight: '400', color: '#fff'}}>
                     |
                   </Text>
-
-                  <TouchableOpacity style={styles.video}>
+                  {/* FOLLOWERS LIST  */}
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.props.navigation.navigate('FollowersList', {
+                        id: this.props?.user?.user?.user?.id,
+                      });
+                    }}
+                    style={styles.video}>
                     <Text style={styles.textcolor}>
                       {this.props?.user?.user?.following}
                     </Text>

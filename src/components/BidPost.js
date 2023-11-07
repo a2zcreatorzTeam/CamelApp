@@ -46,10 +46,9 @@ class Bids extends Component {
           });
         });
     } catch (error) {
-      Toast.show({
-        text1: ArabicText?.Noonehasparticipatedyet,
-        type: 'error',
-        visibilityTime: 3000,
+      this.setState({
+        posts: [],
+        loader: false,
       });
     }
   }
@@ -150,7 +149,6 @@ class Bids extends Component {
           marginTop: 10,
           marginBottom: 10,
         }}>
-          {console.log(item?.item?.post?.bid_status)}
         <FastImage
           style={{
             width: 80,

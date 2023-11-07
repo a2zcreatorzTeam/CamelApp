@@ -26,47 +26,91 @@ const PostItem = ({
         width: width / 2 - 20,
         alignSelf: 'center',
         justifyContent: 'space-evenly',
+        borderRadius: 10,
+        backgroundColor: '#e7e7e7',
       }}>
-      <View style={Styles.BeautyOpacity}>
-        {image ? (
-          <FastImage
-            style={Styles.BeautyImages}
-            source={{
-              uri: 'http://www.tasdeertech.com/images/posts/' + image,
-            }}
-          />
-        ) : (
-          <View style={{backgroundColor: '#ededed'}}>
-            {
-              <Image
-                activeOpacity={0.2}
-                source={require('../../assets/camel.png')}
-                resizeMode={'cover'}
-                style={Styles.BeautyImages}
-              />
-            }
-            <TouchableOpacity
-              onPress={() => onClickItem(viewCount, setViewCount)}
-              style={{
-                height: 70,
-                width: 70,
-                justifyContent: 'center',
-                alignItems: 'center',
-                position: 'absolute',
-                elevation: 2,
-                bottom: 136 / 4,
-                left: 160 / 3,
-              }}>
-              <Image
-                activeOpacity={0.4}
-                source={require('../../assets/play.png')}
-                resizeMode={'cover'}
-                style={{width: 50, height: 50}}
-              />
-            </TouchableOpacity>
-          </View>
-        )}
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+          alignItems: 'flex-end',
+          width: width / 2 - 30,
+          marginVertical: 8,
+        }}>
+        <Text style={{color: 'black', marginBottom: 10, marginHorizontal: 10}}>
+          {item?.user_name}
+        </Text>
+        <FastImage
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 40,
+            alignSelf: 'center',
+          }}
+          source={{
+            uri:
+              'https:www.tasdeertech.com/images/profiles/' + item?.user_image,
+          }}
+          resizeMode={FastImage?.resizeMode.cover}
+        />
       </View>
+      <TouchableOpacity onPress={() => onClickItem(viewCount, setViewCount)}>
+        <View
+          style={[
+            Styles.BeautyImages,
+            {
+              borderTopLeftRadius: 0,
+              borderTopRightRadius: 0,
+              width: width / 2 - 20,
+            },
+          ]}>
+          {image ? (
+            <FastImage
+              style={[
+                Styles.BeautyImages,
+                {
+                  borderTopLeftRadius: 0,
+                  borderTopRightRadius: 0,
+                  width: width / 2 - 20,
+                },
+              ]}
+              source={{
+                uri: 'http://www.tasdeertech.com/images/posts/' + image,
+              }}
+            />
+          ) : (
+            <View style={{backgroundColor: '#ededed'}}>
+              {
+                <Image
+                  activeOpacity={0.2}
+                  source={require('../../assets/camel.png')}
+                  resizeMode={'cover'}
+                  style={Styles.BeautyImages}
+                />
+              }
+              <TouchableOpacity
+                onPress={() => onClickItem(viewCount, setViewCount)}
+                style={{
+                  height: 70,
+                  width: 70,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  position: 'absolute',
+                  elevation: 2,
+                  bottom: 136 / 4,
+                  left: 160 / 3,
+                }}>
+                <Image
+                  activeOpacity={0.4}
+                  source={require('../../assets/play.png')}
+                  resizeMode={'cover'}
+                  style={{width: 50, height: 50}}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
+      </TouchableOpacity>
       <View
         style={{
           backgroundColor: '#ffffff',

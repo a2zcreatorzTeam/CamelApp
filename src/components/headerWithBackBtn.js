@@ -68,7 +68,6 @@ const BackBtnHeader = props => {
               color: '#fff',
               fontWeight: 'bold',
               fontSize: 20,
-              marginHorizontal: 5,
             }}>
             {props?.title?.length > 25
               ? props?.title?.slice(0, 25)

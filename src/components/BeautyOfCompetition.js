@@ -27,6 +27,7 @@ import moment from 'moment';
 import Toast from 'react-native-toast-message';
 import {Card} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Header from './Header';
 
 const width = Dimensions.get('screen').width;
 class BeautyOfCompetition extends Component {
@@ -51,6 +52,9 @@ class BeautyOfCompetition extends Component {
       loading: false,
       key: false,
       participantsModal: false,
+      searchedItem: '',
+      filterPosts: [],
+      searchText: '',
     };
   }
   selectedCompetition() {
@@ -123,9 +127,32 @@ class BeautyOfCompetition extends Component {
     this.competitionDetails();
     this.setState({refreshing: false});
   }
+  // SEARCH HANDLER
+  searchHandler = value => {
+    console.log(value, 'valuee');
+    if (!value?.length) {
+      this.setState({filterPosts: this.state.posts});
+    } else {
+      this.setState({searchedItem: value});
+      // Data Filtration
+      const filteredData = this.state.posts.filter(item => {
+        const {user_name} = item;
+        return user_name?.toLowerCase().includes(value.toLowerCase());
+      });
+      console.log(filteredData, 'gggg');
+      if (filteredData.length > 0) {
+        this.setState({filterPosts: filteredData, dataNotFound: false});
+      } else {
+        this.setState({filterPosts: [], dataNotFound: true});
+      }
+    }
+  };
+  search(text) {
+    this.setState({searchText: text});
+  }
   render() {
     const NewDate = moment().format('YYYY-MM-DD');
-    const {key} = this.state;
+    const {key, searchedItem, filterPosts} = this.state;
     const tagsStyles = {
       body: {
         color: 'black',
@@ -328,10 +355,20 @@ class BeautyOfCompetition extends Component {
         />
       );
     };
+
     return (
       <View style={[Styles.containerBeauty, {position: 'relative'}]}>
-        <BackBtnHeader />
-
+        <Header
+          navRoute="Home"
+          onChangeText={text => {
+            if (text) {
+              this.search(text);
+            } else {
+              this.setState({searchedItem: ''});
+            }
+          }}
+          onPressSearch={() => this.searchHandler(this.state?.searchText)}
+        />
         <View
           style={{
             flexDirection: 'row',
@@ -615,7 +652,7 @@ class BeautyOfCompetition extends Component {
               columnWrapperStyle={{
                 justifyContent: 'space-between',
               }}
-              data={this.state.posts}
+              data={searchedItem ? filterPosts : this.state.posts}
               renderItem={renderPostItem}
               numColumns={2}
               initialNumToRender={5}

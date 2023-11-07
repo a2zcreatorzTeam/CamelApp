@@ -40,7 +40,7 @@ class Bids extends Component {
       return await camelapp
         .get(`/get/bids/${user?.user?.user?.id}`)
         .then(res => {
-          console.log(res, "responsee");
+          console.log(res?.data, 'responsee');
           this.setState({
             posts: res?.data,
             key: !key,
@@ -51,11 +51,6 @@ class Bids extends Component {
       this.setState({
         posts: [],
         loader: false,
-      });
-      Toast.show({
-        text1: ArabicText?.Noonehasparticipatedyet,
-        type: 'error',
-        visibilityTime: 3000,
       });
       //console.log("Error Message--- view post", error.response);
     }
@@ -188,7 +183,7 @@ class Bids extends Component {
           </Text>
         </View>
         <View style={{flexDirection: 'column', justifyContent: 'space-around'}}>
-          {item?.item?.post?.bid_status == 1 ? (
+          {item?.bid_status == 1 || item?.bid_status == 'TRUE' ? (
             <TouchableOpacity
               activeOpacity={0.99}
               style={Styles.bidsButtonAccept}
@@ -218,6 +213,7 @@ class Bids extends Component {
       </View>
     );
     const renderBidItem = ({item}) => {
+      console.log(item?.bid_status, 'itemmmmmm');
       return (
         <BidsItem
           item={item}

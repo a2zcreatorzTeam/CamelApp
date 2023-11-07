@@ -376,3 +376,5 @@ export const Nodatafound = 'لاتوجد بيانات';
 export const news = 'الاخبار';
 export const FemaleCamel = 'تسبيل الفحول';
 export const MovingCamel = 'نقل الابل';
+export const followerslist = 'قائمة المتابعين';
+export const followinglist = 'القائمة التالية';

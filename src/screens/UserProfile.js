@@ -69,7 +69,6 @@ class UserProfile extends Component {
   sendWhatsAppMessage() {
     const {OtherUserDetail} = this.state;
     let {user} = this.props;
-    console.log(OtherUserDetail?.whatsapp_status);
     user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
       if (
@@ -82,9 +81,7 @@ class UserProfile extends Component {
           if (msg) {
             let url = 'whatsapp://send?text=' + msg + '&phone=' + mobile;
             Linking.openURL(url)
-              .then(data => {
-                console.log(data, 'dataaaa');
-              })
+              .then(data => {})
               .catch(error => {
                 Toast.show({
                   text1: ArabicText?.MakesureWhatsAppinstalledonyourdevice,
@@ -195,7 +192,6 @@ class UserProfile extends Component {
   userProfile = async () => {
     const {key} = this.state;
     const item = this.props.route?.params;
-    console.log(item?.user_id);
     this.setState({loading: true});
     let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
@@ -205,17 +201,10 @@ class UserProfile extends Component {
       })
       .then(response => {
         const data = response.data;
-        console.log('dsdsd', data, 'hyjhjjhghgjjj');
         if (data) {
-          // let tempObjOfUserProfile = data;
-          // let tempArrayOfUserPosts = [];
-          // for (let i = 0; i < tempObjOfUserProfile.posts.length; i++) {
-          //   tempArrayOfUserPosts.push(tempObjOfUserProfile.posts[i].post);
-          // }
           var arrayPosts = response?.data?.posts;
           arrayPosts?.map((item, index) => {
             let array = item?.img;
-            console.log('arrayPosts', arrayPosts?.length);
             let imagesArray = [];
             array[0] !== '' &&
               array?.forEach(element => {
@@ -223,14 +212,11 @@ class UserProfile extends Component {
               });
             item?.video !== null &&
               imagesArray?.push({type: 'video', source: item?.video});
-            console.log('206666', imagesArray);
             item['imagesArray'] = imagesArray;
             arrayPosts[index] = item;
           });
-          console.log(data?.user, 'userere');
           this.setState({
             postData: arrayPosts,
-
             following: data?.following,
             followers: data?.follwers,
             user: data?.user[0],
@@ -250,7 +236,12 @@ class UserProfile extends Component {
       });
   };
   componentDidMount() {
-    this?.userProfile();
+    this.focusListener = this.props.navigation.addListener('focus', () => {
+      this?.userProfile();
+    });
+  }
+  componentWillUnmount() {
+    this.focusListener();
   }
   followRequest(followRequest) {
     const follower_id = this.props.route?.params?.user_id;
@@ -333,13 +324,11 @@ class UserProfile extends Component {
           post_id: post_id,
         })
         .then(response => {
-          console.log(response, 'responsesese');
           if (response?.data?.message !== 'Already Viewed') {
             setViewCount(viewCount + 1);
           }
         })
         .catch(error => {
-          console.log('error', error);
           this.setState({loading: false});
         });
     } else {
@@ -372,7 +361,6 @@ class UserProfile extends Component {
           user_phone?.includes(value)
         );
       });
-      console.log(filteredData, 'foilteredDdataa');
       if (filteredData?.length > 0) {
         this.setState({filterPosts: filteredData, key: !key});
       } else {
@@ -425,12 +413,10 @@ class UserProfile extends Component {
           itemFromDetails: item,
         });
       } else if (item.category_id == '6') {
-        console.log('iddd66666');
         this.props.navigation.navigate('DetailsComponentWithPrice', {
           itemFromDetails: item,
         });
       } else if (item.category_id == '8') {
-        console.log('iddd888888');
         this.props.navigation.navigate('DetailsComponentWithPrice', {
           itemFromDetails: item,
         });
@@ -600,17 +586,6 @@ class UserProfile extends Component {
       }
     };
     const renderItem = ({item}) => {
-      // console.log(item?.imagesArray);
-      // let array = item?.img;
-      // let imagesArray = [];
-      // array?.forEach(element => {
-      //   if (element) {
-      //     imagesArray.push({type: 'image', source: element});
-      //   }
-      // });
-      // if (item?.video !== null) {
-      //   imagesArray.push({type: 'video', source: item.video});
-      // }
       return (
         <Item
           date={item?.date}
@@ -646,164 +621,6 @@ class UserProfile extends Component {
         />
       );
     };
-    // const Item = ({
-    //   userName,
-    //   userCity,
-    //   image,
-    //   likes,
-    //   comments,
-    //   shares,
-    //   views,
-    //   userImage,
-    //   category,
-    //   date,
-    // }) => (
-    //   <Card
-    //     style={{
-    //       marginBottom: 5,
-    //       marginTop: 5,
-    //       elevation: 2,
-    //     }}>
-    //     <View
-    //       style={{
-    //         backgroundColor: '#fff',
-    //         alignItems: 'center',
-    //         justifyContent: 'space-between',
-    //         width: width,
-    //         height: 60,
-    //         flexDirection: 'row',
-    //       }}>
-    //       <TouchableOpacity style={{marginLeft: 10}}>
-    //         <View style={Styles.btnHome2}>
-    //           <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
-    //             {category}
-    //           </Text>
-    //         </View>
-    //       </TouchableOpacity>
-
-    //       <View
-    //         style={{
-    //           alignItems: 'center',
-    //           flexDirection: 'row',
-    //           justifyContent: 'space-between',
-    //           marginRight: 10,
-    //         }}>
-    //         <View
-    //           style={{
-    //             justifyContent: 'center',
-    //             marginHorizontal: 10,
-    //             width: 100,
-    //             height: 50,
-    //           }}>
-    //           <Text
-    //             style={{color: 'black', textAlign: 'right'}}
-    //             numberOfLines={1}>
-    //             {userName + 'hello'}
-    //           </Text>
-    //           <Text
-    //             style={{
-    //               fontSize: 9,
-    //               paddingRight: 5,
-    //               color: 'black',
-    //               textAlign: 'right',
-    //             }}>
-    //             {date}
-    //           </Text>
-    //           <Text
-    //             style={{color: 'black', textAlign: 'right'}}
-    //             numberOfLines={1}>
-    //             {userCity}
-    //           </Text>
-    //         </View>
-
-    //         <Image
-    //           source={{
-    //             uri:
-    //               'http://www.tasdeertech.com/public/images/profiles/' +
-    //               userImage,
-    //           }}
-    //           style={{
-    //             width: 50,
-    //             height: 50,
-    //             borderRadius: 50 / 2,
-    //           }}></Image>
-    //       </View>
-    //     </View>
-    //     <TouchableOpacity
-    //     //  onPress={() => navigation.navigate({navigation})}
-    //     >
-    //       <Card.Cover
-    //         source={{uri: 'http://www.tasdeertech.com/images/posts/' + image}}
-    //         resizeMode="cover"
-    //         style={Styles.image}
-    //       />
-    //     </TouchableOpacity>
-
-    //     {/* Post social icons */}
-    //     <View
-    //       style={{
-    //         backgroundColor: '#fff',
-    //         height: 50,
-    //         width: width,
-    //         justifyContent: 'center',
-    //       }}>
-    //       <Text
-    //         style={{
-    //           right: 160,
-    //           position: 'absolute',
-    //         }}>
-    //         {views}
-    //       </Text>
-    //       <View style={{right: 138, position: 'absolute', color: 'black'}}>
-    //         <Ionicons name="ios-eye-sharp" size={18} color="#cd853f" />
-    //       </View>
-    //       <Text style={{right: 120, position: 'absolute', color: 'black'}}>
-    //         {shares}
-    //       </Text>
-    //       <TouchableOpacity style={{right: 98, position: 'absolute'}}>
-    //         <Ionicons name="share-social-sharp" size={18} color="#cd853f" />
-    //       </TouchableOpacity>
-    //       <Text style={{right: 77, position: 'absolute', color: 'black'}}>
-    //         {comments}
-    //       </Text>
-    //       <TouchableOpacity style={{right: 55, position: 'absolute'}}>
-    //         <Feather name="message-square" size={18} color="#cd853f" />
-    //       </TouchableOpacity>
-    //       <Text style={{right: 33, position: 'absolute', color: 'black'}}>
-    //         {likes}
-    //       </Text>
-    //       <TouchableOpacity style={{right: 10, position: 'absolute'}}>
-    //         <AntDesign name="hearto" size={18} color="#cd853f" />
-    //       </TouchableOpacity>
-    //       <TouchableOpacity style={{left: 5, position: 'absolute'}}>
-    //         <View style={Styles.btnHome}>
-    //           <Text style={{color: '#fff', fontWeight: 'bold'}}>
-    //             {ArabicText.Details}
-    //           </Text>
-    //         </View>
-    //       </TouchableOpacity>
-    //       <Text style={{right: 120, position: 'absolute'}}>{}</Text>
-    //     </View>
-    //   </Card>
-    // );
-    // const renderItem = ({item}) => {
-    //   return (
-    //     <Item
-    //       item={item}
-    //       image={item.image}
-    //       likes={item.like_count}
-    //       comments={item.comment_count}
-    //       shares={item.share_count}
-    //       views={item.view_count}
-    //       userName={item.user.name}
-    //       userCity={item.location}
-    //       userImage={item.user.image}
-    //       category={item.category.name}
-    //       date={item?.date}
-    //       postViewed={item => postViewed(item)}
-    //     />
-    //   );
-    // };
     const FriendshipStatusBTN = () => {
       const user = this.props.user.user.user;
       if (
@@ -932,7 +749,7 @@ class UserProfile extends Component {
                 source={{
                   uri:
                     'http://www.tasdeertech.com/public/images/profiles/' +
-                    this.state.user.image,
+                    this.state?.user?.image,
                 }}
                 style={styles.userImageStyle}
               />
@@ -987,7 +804,13 @@ class UserProfile extends Component {
         </View>
 
         <View style={Styles.textinfo}>
-          <View
+          {/* FOLLOWERS  */}
+          <TouchableOpacity
+            onPress={() => {
+              this.props.navigation.navigate('FollowingList', {
+                id: this.state?.user?.Uid,
+              });
+            }}
             style={{
               left: 50,
               top: 0,
@@ -997,8 +820,8 @@ class UserProfile extends Component {
             }}>
             <Text style={{color: '#fff'}}>{this.state.followers}</Text>
             <Text style={{color: '#fff'}}>{ArabicText.Followers}</Text>
-          </View>
-
+          </TouchableOpacity>
+          {/* OR  */}
           <Text
             style={{
               left: 130,
@@ -1011,12 +834,12 @@ class UserProfile extends Component {
             }}>
             |
           </Text>
-
+          {/* NO OF POSTS  */}
           <View style={{alignItems: 'center'}}>
             <Text style={{color: '#fff'}}>{this.state.noOfPosts}</Text>
             <Text style={{color: '#fff'}}>{ArabicText.posts}</Text>
           </View>
-
+          {/* OR  */}
           <Text
             style={{
               right: 130,
@@ -1029,8 +852,13 @@ class UserProfile extends Component {
             }}>
             |
           </Text>
-
-          <View
+          {/* FOLLOWING  */}
+          <TouchableOpacity
+            onPress={() => {
+              this.props.navigation.navigate('FollowersList', {
+                id: this.state?.user?.Uid,
+              });
+            }}
             style={{
               right: 50,
               top: 0,
@@ -1040,7 +868,7 @@ class UserProfile extends Component {
             }}>
             <Text style={{color: '#fff'}}>{this.state.following}</Text>
             <Text style={{color: '#fff'}}>{ArabicText.Following}</Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <Loader loading={this.state.loading} />
 
@@ -1226,7 +1054,6 @@ const Item = ({
   bid_price,
   postViewed = () => {},
 }) => {
-  console.log(price, bid_price, 'priceeee');
   const [pausedCheck, setpausedCheck] = useState(true);
   const [load, setLoad] = useState(false);
   const [modal, setModal] = useState(false);

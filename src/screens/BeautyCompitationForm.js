@@ -206,7 +206,6 @@ class participateInCompetition extends Component {
             type: 'success',
             visibilityTime: 3000,
           });
-          // alert(ArabicText.Post_added_successfully + '');
           this.setState({
             title: '',
             description: '',
@@ -219,7 +218,6 @@ class participateInCompetition extends Component {
         })
         .catch(error => {
           this.setState({loading: false});
-          console.log(error?.response, 'errror234');
         });
     } else {
       return Toast.show({
@@ -227,7 +225,6 @@ class participateInCompetition extends Component {
         type: 'error',
         visibilityTime: 3000,
       });
-      // alert(ArabicText.Please_complete_the_fields + '');
     }
   };
 

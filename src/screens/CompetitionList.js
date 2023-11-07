@@ -366,7 +366,6 @@ class CamelClubList extends Component {
   }
   render() {
     const onItemClick = async item => {
-      console.log(item?.id, "itemmmid");
       try {
         await camelapp
           .post('get/competition_details', {

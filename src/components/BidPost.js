@@ -150,6 +150,7 @@ class Bids extends Component {
           marginTop: 10,
           marginBottom: 10,
         }}>
+          {console.log(item?.item?.post?.bid_status)}
         <FastImage
           style={{
             width: 80,
@@ -189,7 +190,7 @@ class Bids extends Component {
           </Text>
         </View>
         <View style={{flexDirection: 'column', justifyContent: 'space-around'}}>
-          {item?.bit_closed == 1 ? (
+          {item?.item?.post?.bid_status == 1 ? (
             <TouchableOpacity
               activeOpacity={0.99}
               style={Styles.bidsButtonAccept}
@@ -219,7 +220,6 @@ class Bids extends Component {
       </View>
     );
     const renderBidItem = item => {
-      console.log(item?.item?.post?.bid_status, 'itemmm');
       return (
         <BidsItem
           item={item}

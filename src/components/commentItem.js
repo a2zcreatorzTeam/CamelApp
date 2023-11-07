@@ -292,7 +292,6 @@ const Item = ({
             showsVerticalScrollIndicator={false}
             data={item?.comment_reply}
             renderItem={({item}) => {
-              console.log(item, 'itemmm');
               return (
                 <View
                   style={{

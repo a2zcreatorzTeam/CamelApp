@@ -16,6 +16,8 @@ import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import EmptyComponent from '../components/EmptyComponent';
 import BackBtnHeader from '../components/headerWithBackBtn';
+import * as ArabicText from '../language/EnglishToArabic';
+
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 
@@ -24,31 +26,57 @@ class Following extends Component {
     super(props);
     this.state = {
       modal: false,
-      userList: [
-        {id: 1, name: 'joti'},
-        {id: 2, name: 'joti'},
-      ],
+      userList: [],
       loader: false,
     };
   }
+  userProfileClick = item => {
+    let itemUser = item?.user;
+    itemUser['user_images'] = item?.user?.image;
+    itemUser['user_name'] = item?.user?.name;
+    itemUser['user_id'] = item?.item?.user_id;
+    console.log(item?.user?.id);
+    let {user} = this.props;
+    user = user?.user?.user;
+    console.log(user?.id, 'userr', item?.user?.id);
+    if (user != undefined) {
+      if (item?.item?.user_id == user?.id) {
+        this.props?.navigation.navigate('Profile', {screen: 'حسابي'});
+      } else {
+        this.props?.navigation?.navigate('UserProfile', {
+          user_id: item?.user?.id,
+          userProfile: itemUser,
+        });
+      }
+    } else {
+      this.props?.navigation?.navigate('UserProfile', {
+        user_id: item?.user?.id,
+        userProfile: itemUser,
+      });
+    }
+  };
   async getData() {
     let {user} = this.props;
     user = user?.user?.user;
+    let {id} = this.props?.route?.params;
+    this.setState({loader: true});
     try {
-      return await camelapp;
-      // .post('/get/news', {
-      //   user_id: user?.id,
-      // })
-      // .then(res => {
-      //   console.log(res?.data, 'reponseeee');
-      // });
+      return await camelapp.get('/getfollowing/' + id).then(res => {
+        this.setState({userList: res?.data[0]});
+        this.setState({loader: false});
+      });
     } catch (error) {
-      //console.log("Error Message News List", error);
+      this.setState({loader: false});
     }
+  }
+  ScrollToRefresh() {
+    this.getData();
+    this.setState({loader: false});
   }
   componentDidMount = () => {
     this.getData();
   };
+
   render() {
     const {userList} = this.state;
     const Item = ({userName, userImage, onUserMessageClick}) => (
@@ -101,19 +129,22 @@ class Following extends Component {
       </Card>
     );
     const renderItem = ({item}) => {
+      console.log(item?.user, 'uerrrrrrrr');
       return (
         <Item
           item={item}
-          userName={item?.user_name}
-          userImage={item?.user_image}
-          onUserMessageClick={() => {}}
+          userName={item?.user?.name}
+          userImage={item?.user?.image}
+          onUserMessageClick={() => {
+            this.userProfileClick(item);
+          }}
         />
       );
     };
     return (
       <View
         style={{flex: 1, backgroundColor: '#fff', width: width, height: hight}}>
-        <BackBtnHeader />
+        <BackBtnHeader title={ArabicText?.followinglist} />
         <ActivityIndicator
           size="large"
           color="#D2691Eff"
@@ -125,7 +156,7 @@ class Following extends Component {
             initialNumToRender={userList?.length}
             refreshControl={
               <RefreshControl
-                refreshing={this.state.refreshing}
+                refreshing={this.state.loader}
                 onRefresh={() => this.ScrollToRefresh()}
               />
             }
@@ -134,7 +165,7 @@ class Following extends Component {
             ListEmptyComponent={() => <EmptyComponent />}
             data={userList}
             renderItem={renderItem}
-            keyExtractor={item => item.id.toString()}
+            keyExtractor={item => item?.item?.id?.toString()}
           />
         )}
       </View>

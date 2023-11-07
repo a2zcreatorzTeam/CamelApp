@@ -39,6 +39,7 @@ const Post = ({
   category,
   postViewed = () => {},
 }) => {
+  console.log(item, "itmmmm");
   const user = useSelector(state => state?.user?.user?.user);
   const navigation = useNavigation();
   const [modal, setModal] = useState(false);

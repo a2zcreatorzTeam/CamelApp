@@ -38,7 +38,7 @@ class Following extends Component {
     console.log(item?.user?.id);
     let {user} = this.props;
     user = user?.user?.user;
-    console.log(user?.id, 'userr', item?.user?.id);
+    console.log(item?.item?.user_id, 'userr', item?.user?.id);
     if (user != undefined) {
       if (item?.item?.user_id == user?.id) {
         this.props?.navigation.navigate('Profile', {screen: 'حسابي'});
@@ -74,9 +74,13 @@ class Following extends Component {
     this.setState({loader: false});
   }
   componentDidMount = () => {
-    this.getData();
+    this.focusListener = this.props.navigation.addListener('focus', () => {
+      this.getData();
+    });
   };
-
+  componentWillUnmount() {
+    this.focusListener();
+  }
   render() {
     const {userList} = this.state;
     const Item = ({userName, userImage, onUserMessageClick}) => (

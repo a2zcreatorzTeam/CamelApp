@@ -36,8 +36,16 @@ class FollowersList extends Component {
     itemUser['user_id'] = item?.user?.id;
     let {user} = this.props;
     user = user?.user?.user;
+    console.log(
+      item?.item?.id,
+      'item?.item?.id',
+      'item?.user?.id',
+      item?.user?.id,
+      'item',
+      item,
+    );
     if (user != undefined) {
-      if (item?.item?.id == user?.id) {
+      if (item?.user?.id == user?.id) {
         this.props?.navigation.navigate('Profile', {screen: 'حسابي'});
       } else {
         this.props?.navigation?.navigate('UserProfile', {
@@ -71,8 +79,13 @@ class FollowersList extends Component {
     this.setState({loader: false});
   }
   componentDidMount = () => {
-    this.getData();
+    this.focusListener = this.props.navigation.addListener('focus', () => {
+      this.getData();
+    });
   };
+  componentWillUnmount() {
+    this.focusListener();
+  }
   render() {
     const {userList} = this.state;
     const Item = ({userName, userImage, onUserMessageClick}) => (

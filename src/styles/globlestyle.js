@@ -390,7 +390,7 @@ export const Styles = StyleSheet.create({
     width: 160,
     height: 136,
     borderRadius: 10,
-    padding: 10,
+    // padding: 10,
     // borderWidth: 1,
     // borderColor: '#ffffff',
     // backgroundColor: '#ffffff'

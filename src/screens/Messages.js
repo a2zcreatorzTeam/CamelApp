@@ -8,18 +8,20 @@ import {
   Pressable,
   StyleSheet,
   ActivityIndicator,
+  TouchableOpacity,
+  RefreshControl,
+  Dimensions,
 } from 'react-native';
 import {Card} from 'react-native-paper';
-import {Dimensions} from 'react-native';
-import camelapp from '../api/camelapp';
 import {connect} from 'react-redux';
-import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import firestore from '@react-native-firebase/firestore';
+import camelapp from '../api/camelapp';
+import * as userActions from '../redux/actions/user_actions';
 import EmptyComponent from '../components/EmptyComponent';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
-import firestore from '@react-native-firebase/firestore';
-import {RefreshControl} from 'react-native';
 
 class Messages extends Component {
   constructor(props) {
@@ -220,6 +222,12 @@ class Messages extends Component {
             keyExtractor={item => item.id.toString()}
           />
         )}
+
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate('MyFriendList')}
+          style={{marginTop: 'auto', margin: 30}}>
+          <AntDesign name="pluscircle" size={50} color="#D2691Eff" />
+        </TouchableOpacity>
       </View>
     );
   }

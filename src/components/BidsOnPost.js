@@ -40,7 +40,6 @@ class Bids extends Component {
       return await camelapp
         .get(`/get/bids/${user?.user?.user?.id}`)
         .then(res => {
-          console.log(res?.data, 'responsee');
           this.setState({
             posts: res?.data,
             key: !key,
@@ -122,7 +121,6 @@ class Bids extends Component {
         });
         // alert('Error in withdrawing bid!');
       }
-      console.log('response', res);
     });
   }
   render() {
@@ -183,7 +181,7 @@ class Bids extends Component {
           </Text>
         </View>
         <View style={{flexDirection: 'column', justifyContent: 'space-around'}}>
-          {item?.bid_status == 1 || item?.bid_status == 'TRUE' ? (
+          {item?.post?.bid_status == 1 || item?.post?.bid_status == 'TRUE' ? (
             <TouchableOpacity
               activeOpacity={0.99}
               style={Styles.bidsButtonAccept}
@@ -213,7 +211,6 @@ class Bids extends Component {
       </View>
     );
     const renderBidItem = ({item}) => {
-      console.log(item?.bid_status, 'itemmmmmm');
       return (
         <BidsItem
           item={item}
@@ -244,18 +241,8 @@ class Bids extends Component {
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(Bids);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

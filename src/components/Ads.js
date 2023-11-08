@@ -10,6 +10,7 @@ const Ads = () => {
   const viewAds = async () => {
     try {
       return await camelapp.get('/get-advertisement').then(res => {
+        console.log(res?.data, "rs[pi");
         setAdsData(res?.data?.advertisement);
       });
     } catch (error) {

@@ -8,7 +8,6 @@ import {Text} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Tooltip} from 'react-native-elements';
 import {useRef} from 'react';
-import {useState} from 'react';
 const BackBtnHeader = props => {
   let {style} = props;
   const tooltipRef = useRef(null);
@@ -73,7 +72,6 @@ const BackBtnHeader = props => {
               ? props?.title?.slice(0, 25)
               : props?.title}
           </Text>
-
         </View>
       )}
       {props?.showToolTip && (

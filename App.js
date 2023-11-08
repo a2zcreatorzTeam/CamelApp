@@ -2,7 +2,14 @@ import firebase from '@react-native-firebase/app';
 import React, {Component} from 'react';
 import Navigation from './src/components/Navigation';
 import SplashScreen from 'react-native-splash-screen';
-import {StatusBar, LogBox, Platform, PermissionsAndroid} from 'react-native';
+import {
+  StatusBar,
+  LogBox,
+  Platform,
+  PermissionsAndroid,
+  ActivityIndicator,
+  View,
+} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import camelapp from './src/api/camelapp';
 import {bindActionCreators} from 'redux';
@@ -52,9 +59,14 @@ const toastConfig = {
   ),
 };
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      updateProcess: false,
+    };
+  }
   // CODE PUSH FUNCTIONS
   syncImmediate = () => {
-    // this.setState({updateProcess: true});
     codePush.sync(
       {
         installMode: codePush.InstallMode.IMMEDIATE,
@@ -71,6 +83,7 @@ class App extends Component {
     );
   };
   codePushDownloadDidProgress = progress => {
+    this.setState({updateProcess: true});
     const downloaded = Math.round(
       (progress?.receivedBytes / progress?.totalBytes) * 100,
     );
@@ -120,6 +133,8 @@ class App extends Component {
         console.log('=================UP_TO_DATE===================');
         console.log(codePush.SyncStatus.UP_TO_DATE);
         console.log('====================================');
+        this.setState({updateProcess: false});
+
         // setTimeout(() => {
         //   this.setState({
         //     syncMessage: 'Your app is upto-date',
@@ -129,15 +144,13 @@ class App extends Component {
         // }, 100);
         break;
       case codePush.SyncStatus.UPDATE_IGNORED:
-        // setTimeout(() => {
-        //   this.setState({syncMessage: 'User ignored the update'}, () => {
-        //     BackHandler.exitApp();
-        //   });
-        // }, 100);
+        this.setState({updateProcess: false});
         break;
       case codePush.SyncStatus.UPDATE_INSTALLED:
+        this.setState({updateProcess: false});
         break;
       case codePush.SyncStatus.UNKNOWN_ERROR:
+        this.setState({updateProcess: false});
         break;
     }
   };
@@ -175,7 +188,19 @@ class App extends Component {
     return (
       <SafeAreaProvider>
         <StatusBar barStyle="default" backgroundColor="#d2691e" />
-        <Navigation />
+        {this.state.updateProcess ? (
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#fff',
+              flex: 1,
+            }}>
+            <ActivityIndicator />
+          </View>
+        ) : (
+          <Navigation />
+        )}
         <Toast config={toastConfig} />
       </SafeAreaProvider>
     );

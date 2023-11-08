@@ -355,7 +355,7 @@ class BeautyOfCompetition extends Component {
         />
       );
     };
-
+    console.log(competition[0]?.end_date, competition[0]?.start_date, NewDate);
     return (
       <View style={[Styles.containerBeauty, {position: 'relative'}]}>
         <Header

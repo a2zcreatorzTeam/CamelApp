@@ -14,6 +14,7 @@ import firebaseConfig from './src/components/firebase';
 import {getStorage} from 'firebase/storage';
 import {notificationListener} from './src/services/Helper';
 import DeviceInfo from 'react-native-device-info';
+import codePush from 'react-native-code-push';
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(['Remote debugger']);
 const toastConfig = {
@@ -51,6 +52,96 @@ const toastConfig = {
   ),
 };
 class App extends Component {
+  // CODE PUSH FUNCTIONS
+  syncImmediate = () => {
+    // this.setState({updateProcess: true});
+    codePush.sync(
+      {
+        installMode: codePush.InstallMode.IMMEDIATE,
+        updateDialog: {
+          appendReleaseDescription: false,
+          optionalIgnoreButtonLabel: 'Close',
+          optionalInstallButtonLabel: 'Install',
+          optionalUpdateMessage: 'New update available. Install update',
+          title: 'Update Required',
+        },
+      },
+      this.codePushStatusDidChange.bind(this),
+      this.codePushDownloadDidProgress.bind(this),
+    );
+  };
+  codePushDownloadDidProgress = progress => {
+    const downloaded = Math.round(
+      (progress?.receivedBytes / progress?.totalBytes) * 100,
+    );
+    console.log('downloaded', downloaded);
+    // this.setState({progress, downloading: true, downloaded: downloaded});
+  };
+  codePushStatusDidChange = syncStatus => {
+    switch (syncStatus) {
+      case codePush.SyncStatus.CHECKING_FOR_UPDATE:
+        console.log('==================CHECKING_FOR_UPDATE==================');
+        console.log(codePush.SyncStatus.CHECKING_FOR_UPDATE);
+        console.log('====================================');
+        // setTimeout(() => {
+        //   this.setState({syncMessage: 'Checking For Update'});
+        // }, 100);
+        break;
+      case codePush.SyncStatus.DOWNLOADING_PACKAGE:
+        // alert("Please wait few minutes while the update is installed")
+        // setTimeout(() => {
+        //   this.setState({
+        //     update: true,
+        //     syncMessage: 'Downloading updates',
+        //     downloading: true,
+        //   });
+        // }, 100);
+        break;
+      case codePush.SyncStatus.AWAITING_USER_ACTION:
+        // setTimeout(() => {
+        //   this.setState({
+        //     syncMessage: 'Waiting for user action to accept',
+        //     downloading: false,
+        //   });
+        // }, 100);
+        break;
+      case codePush.SyncStatus.INSTALLING_UPDATE:
+        console.log('================INSTALLING_UPDATE====================');
+        console.log(codePush.SyncStatus.INSTALLING_UPDATE);
+        console.log('====================================');
+        // setTimeout(() => {
+        //   this.setState({
+        //     syncMessage: 'Kindly wait, update is being install',
+        //     downloading: true,
+        //   });
+        // }, 100);
+        break;
+      case codePush.SyncStatus.UP_TO_DATE:
+        console.log('=================UP_TO_DATE===================');
+        console.log(codePush.SyncStatus.UP_TO_DATE);
+        console.log('====================================');
+        // setTimeout(() => {
+        //   this.setState({
+        //     syncMessage: 'Your app is upto-date',
+        //     updateProcess: false,
+        //     downloading: false,
+        //   });
+        // }, 100);
+        break;
+      case codePush.SyncStatus.UPDATE_IGNORED:
+        // setTimeout(() => {
+        //   this.setState({syncMessage: 'User ignored the update'}, () => {
+        //     BackHandler.exitApp();
+        //   });
+        // }, 100);
+        break;
+      case codePush.SyncStatus.UPDATE_INSTALLED:
+        break;
+      case codePush.SyncStatus.UNKNOWN_ERROR:
+        break;
+    }
+  };
+
   takePermission = async () => {
     // NO NEED TO ASK PERMISSION FOR LESS THAN 33 APILEVEL
     if (Platform.OS == 'android' && DeviceInfo.getApiLevelSync() >= 33) {
@@ -68,6 +159,7 @@ class App extends Component {
     }
   };
   componentDidMount() {
+    this.syncImmediate();
     this.takePermission();
     notificationListener();
     SplashScreen.hide();

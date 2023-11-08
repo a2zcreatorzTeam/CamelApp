@@ -70,6 +70,7 @@ import CreateProfile from '../screens/CreateProfile';
 import ChangePassword from '../screens/ChangePassword';
 import FollowingList from '../screens/FollowingList.js';
 import FollowersList from '../screens/FollowersList.js';
+import MyFriendList from '../screens/MyFriendList.js';
 const Stack = createNativeStackNavigator();
 export default function Navigation() {
   return (
@@ -437,6 +438,11 @@ export default function Navigation() {
         <Stack.Screen
           name="FollowersList"
           component={FollowersList}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="MyFriendList"
+          component={MyFriendList}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

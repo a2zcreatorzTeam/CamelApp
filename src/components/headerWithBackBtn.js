@@ -16,7 +16,13 @@ const BackBtnHeader = props => {
     navigation.goBack();
   };
   return (
-    <View style={[Styles.header, style]}>
+    <View
+      style={[
+        Styles.header,
+        Styles?.subHeaderView,
+        style,
+        {paddingBottom: 10},
+      ]}>
       {props?.reciever_data && (
         <View
           style={{

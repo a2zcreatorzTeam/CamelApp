@@ -155,7 +155,7 @@ class News extends Component {
                 <Text style={Styles.catBtnText}>{ArabicText?.news}</Text>
               </TouchableOpacity>
             </View>
-            <Ads />
+            {/* <Ads /> */}
             <FlatList
               contentContainerStyle={{paddingBottom: width * 0.3}}
               ListEmptyComponent={() => <EmptyComponent />}

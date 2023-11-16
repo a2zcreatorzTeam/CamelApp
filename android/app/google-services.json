@@ -1,26 +1,36 @@
 {
   "project_info": {
-    "project_number": "1093363753866",
-    "project_id": "camelapplication-f93a0",
-    "storage_bucket": "camelapplication-f93a0.appspot.com"
+    "project_number": "550076269173",
+    "project_id": "al-syahd-chatapp",
+    "storage_bucket": "al-syahd-chatapp.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1093363753866:android:0da83e8422a946853c5e73",
+        "mobilesdk_app_id": "1:550076269173:android:83e04305f053f70e412e3c",
         "android_client_info": {
           "package_name": "com.alsyahd"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "550076269173-1e6h2ubeieql926dle26nt930220eufp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyATO6VEMOukTusN9R5w4SdLVpZvUSpCeyU"
+          "current_key": "AIzaSyBoQGDEoED5cH7xcsMoUWSWA64WrtSyu2U"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "550076269173-1e6h2ubeieql926dle26nt930220eufp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

@@ -18,8 +18,10 @@ const MovingPost = ({
   color,
   price,
   image,
+  locationTo,
   onDetailsClick = () => {},
 }) => {
+  console.log(location, 'locvation');
   const [viewCount, setViewCount] = useState(item?.view_count);
   return (
     <Card>
@@ -27,7 +29,7 @@ const MovingPost = ({
         <View style={Styles.newsbox1}>
           <FastImage
             style={{
-              height: height / 6,
+              height: height / 5,
               width: width / 3,
               right: 10,
               position: 'absolute',
@@ -41,21 +43,7 @@ const MovingPost = ({
             }
             resizeMode={FastImage?.resizeMode.cover}
           />
-          {/* <Image
-            resizeMode="cover"
-            source={
-              image
-                ? {
-                    uri: `http://www.tasdeertech.com/images/posts/${image}`,
-                  }
-                : require('../../assets/dummyImage.jpeg')
-            }
-            style={{
-              height: height / 6,
-              width: width / 3,
-              right: 10,
-              position: 'absolute',
-            }}></Image> */}
+
           <View
             style={{
               top: 5,
@@ -70,8 +58,13 @@ const MovingPost = ({
             <Text style={styles.text}>
               {ArabicText.Type}: {type}
             </Text>
+
             <Text style={styles.text}>
-              {ArabicText.Location}:{location}
+              {ArabicText.Location_From}:{location}
+            </Text>
+
+            <Text style={styles.text}>
+              {ArabicText.Location_To}:{locationTo}
             </Text>
             {price ? (
               <Text style={styles.text}>

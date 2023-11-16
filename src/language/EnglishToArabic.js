@@ -378,3 +378,5 @@ export const FemaleCamel = 'تسبيل الفحول';
 export const MovingCamel = 'نقل الابل';
 export const followerslist = 'قائمة المتابعين';
 export const followinglist = 'القائمة التالية';
+export const Location_From = 'الموقع من';
+export const Location_To = 'الموقع إلى';

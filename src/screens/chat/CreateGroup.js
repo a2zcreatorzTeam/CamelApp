@@ -74,9 +74,12 @@ const CreateGroup = props => {
 
   // // FETCH Friendlist Data
   const getFriendlist = async () => {
+
+    console.log(userID, "USER ID")
     try {
       // userID user id statc
       const fetchfriendlist = await camelapp.get('/friendlist/' + userID);
+      console.log(fetchfriendlist?.data , "fetchfriendlist")
       setFriendList(fetchfriendlist?.data);
     } catch (error) {
       console.log(error?.response, '=====ERROR OF FRIEND LIST API===');

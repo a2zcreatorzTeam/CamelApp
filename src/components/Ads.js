@@ -3,6 +3,8 @@ import {Text, View, Image, Dimensions, FlatList} from 'react-native';
 import camelapp from '../api/camelapp';
 import Toast from 'react-native-toast-message';
 import * as ArabicText from '../language/EnglishToArabic';
+import {TouchableOpacity} from 'react-native';
+import {Linking} from 'react-native';
 
 const width = Dimensions.get('screen').width;
 const Ads = () => {
@@ -10,7 +12,7 @@ const Ads = () => {
   const viewAds = async () => {
     try {
       return await camelapp.get('/get-advertisement').then(res => {
-        console.log(res?.data, "rs[pi");
+        console.log(res?.data?.advertisement, 'adsssss');
         setAdsData(res?.data?.advertisement);
       });
     } catch (error) {
@@ -41,7 +43,10 @@ const Ads = () => {
 export default Ads;
 const AdsComp = ({item}) => {
   return (
-    <View
+    <TouchableOpacity
+      onPress={() => {
+        Linking.openURL(item?.url);
+      }}
       style={{
         width: width,
         height: 110,
@@ -94,6 +99,6 @@ const AdsComp = ({item}) => {
           </Text>
         </View> */}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };

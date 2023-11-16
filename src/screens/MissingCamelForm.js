@@ -247,7 +247,7 @@ class MissingCamelForm extends Component {
     return (
       <ScrollView style={{backgroundColor: '#ffffff'}}>
         <BackBtnHeader />
-        <Ads />
+        {/* <Ads /> */}
         <View style={Styles.containerScroll}>
           <Text style={[Styles.headingPostText, {marginTop: 30}]}>
             {ArabicText.Missing_Camel}

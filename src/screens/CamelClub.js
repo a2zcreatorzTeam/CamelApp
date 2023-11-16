@@ -267,7 +267,7 @@ class CamelClub extends Component {
     return (
       <View style={{backgroundColor: '#ffffff'}}>
         <BackBtnHeader />
-        <Ads />
+        {/* <Ads /> */}
         <ScrollView contentContainerStyle={{paddingBottom: 200}}>
           <View style={Styles.containerScroll}>
             <Text style={Styles.headingPostText}>{ArabicText.Camel_Club}</Text>

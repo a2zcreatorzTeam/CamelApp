@@ -226,7 +226,7 @@ class Surveyform extends Component {
                           }}>
                           <Text
                             style={{
-                              color: val.flag === true ? '#fff' : 'black',
+                              color: val.flag === true ? '#fff' : '#d2691e',
                               fontSize: 18,
                               marginRight: 10,
                               alignSelf: 'flex-end',
@@ -234,7 +234,7 @@ class Surveyform extends Component {
                             }}>
                             {val?.answer}
                           </Text>
-                          {/* {val?.flag === true && (
+                          {val?.flag === true && (
                             <Text
                               style={{
                                 color: val.flag === true ? '#fff' : '#d2691e',
@@ -247,7 +247,7 @@ class Surveyform extends Component {
                                   (item.total_count + 1),
                               ).toFixed(2) *
                                 100 ==
-                              NaN
+                                ( NaN || 0)
                                 ? 0
                                 : parseFloat(
                                     (
@@ -257,11 +257,12 @@ class Surveyform extends Component {
                                   ) * 100}
                               %
                             </Text>
-                          )} */}
-                          {/* {val?.flagForCount === true && (
+                          )}
+                         
+                          {val?.flagForCount === true && (
                             <Text
                               style={{
-                                color: item.flag === false ? '#d2691e' : '#fff',
+                                color: item.flag === false ? '#d2691e' : '#d2691e',
                                 fontSize: 16,
                                 marginRight: 10,
                                 marginLeft: 10,
@@ -273,17 +274,16 @@ class Surveyform extends Component {
                                 ).toFixed(2),
                               ) *
                                 100 ==
-                              NaN
+                             ( NaN || 0)
                                 ? 0
                                 : parseFloat(
                                     (
                                       val?.answer[i]?.answer_count /
                                       (item.total_count + 1)
                                     ).toFixed(2),
-                                  ) * 100}
-                              %
+                                  ) * 100} %
                             </Text>
-                          )} */}
+                          )}
                         </TouchableOpacity>
                       );
                     })}

@@ -236,7 +236,7 @@ class CamelClub extends Component {
     return (
       <ScrollView style={{backgroundColor: '#ffffff'}}>
         <BackBtnHeader />
-        <Ads />
+        {/* <Ads /> */}
         <View style={Styles.containerScroll}>
           <Text style={Styles.headingPostText}>عروض الاء سواق</Text>
           <HorizontalCarousel

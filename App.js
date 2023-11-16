@@ -9,6 +9,7 @@ import {
   PermissionsAndroid,
   ActivityIndicator,
   View,
+  Text
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import camelapp from './src/api/camelapp';
@@ -197,6 +198,12 @@ class App extends Component {
               flex: 1,
             }}>
             <ActivityIndicator />
+            <Text 
+            
+            style={{
+              color:'black', fontSize:20
+            }}
+            >App is Updating, Please Wait ...</Text>
           </View>
         ) : (
           <Navigation />

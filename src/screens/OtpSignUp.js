@@ -88,6 +88,7 @@ class App extends Component {
     }
   };
   submitOTP = async () => {
+    console.log(this.props.route)
     this.setState({btnPressed: true, loader: true});
     const deviceToken = await AsyncStorage?.getItem('fcmToken');
     let number =

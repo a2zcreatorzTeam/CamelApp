@@ -33,9 +33,9 @@ import CookieManager from '@react-native-cookies/cookies';
 const width = Dimensions.get('screen').width;
 
 RNTwitterSignIn.init(
-  'WW08tCdnwdVjaEwHkRUJsKyXK',
-  'QJKZDX6neisbF6pKB3rNuL1CkYoIPRErRDJX5mcXa4Sg0bK0KU',
-).then(() => console.log('Twitter SDK initialized'));
+  'd54gxJM3NnqwXH8o78faUOJ7H',
+  'Q2g56EkAlC4JGWKRLoo0ZJkRMQowMDZKF0ssjkBEhJlqCt1rd3',
+).then((res) => console.log('Twitter SDK initialized', res));
 
 class Login extends Component {
   constructor(props) {
@@ -146,23 +146,29 @@ class Login extends Component {
   signInWithTwitter = async () => {
     try {
       const loginData = await RNTwitterSignIn.logIn();
+      console.log(loginData,"In UYerer")
+      
       const {authToken, authTokenSecret} = loginData;
       console.log(authToken, 'authToken', authTokenSecret);
       if (authToken && authTokenSecret) {
       }
     } catch (error) {
+
       try {
         const message = error?.message;
-        console.log(error, 'error');
-        const startIndex = message.indexOf('{"email":');
+     console.log("messagdsdsdsde", message )
+
+        const startIndex = message.indexOf('{ NativeMap: ');
         const endIndex = message.lastIndexOf('"}');
         console.log(startIndex, endIndex);
         if (startIndex !== -1 && endIndex !== -1) {
-          const innerJsonString = message.slice(startIndex, endIndex + 2); // Include the closing double quote and curly brace
+          const innerJsonString = message.slice(12, endIndex + 2); // Include the closing double quote and curly brace
+         console.log(innerJsonString,"innerJsonStringinnerJsonStringinnerJsonString")
           try {
-            const data = JSON.parse(innerJsonString);
+            const data =JSON.parse(innerJsonString);
+            console.log('innerJsonString', data , data?.NativeMap)
             const {email, userName, userID, name, authToken, authTokenSecret} =
-              data;
+            data;
             this.setIgToken({
               access_token: authToken,
               user_id: userID,
@@ -523,8 +529,8 @@ class Login extends Component {
 
         <InstagramLogin
           ref={ref => (this.instagramLogin = ref)}
-          appId="1337858990436785"
-          appSecret="7515c4a451f66cc42943205054700db2"
+          appId="1623382674858969"
+          appSecret="7e912ae51583adeba9a174b5c468aba2"
           redirectUrl="https://com.alsyahd.camel/redirect"
           incognito={false}
           // scopes={['user_profile', 'user_media']}

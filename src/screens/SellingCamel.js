@@ -355,7 +355,7 @@ class SellingCamelForm extends React.Component {
           showsHorizontalScrollIndicator={false}
           style={{backgroundColor: 'white'}}>
           <BackBtnHeader />
-          <Ads />
+          {/* <Ads /> */}
           <View style={Styles.containerSellingCamel}>
             <Text style={[Styles.headingPostText, {marginTop: 30}]}>
               بيع الحلال

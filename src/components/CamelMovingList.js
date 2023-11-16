@@ -17,7 +17,7 @@ import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import Header from './Header';
 import {Styles} from '../styles/globlestyle';
-import { TouchableOpacity } from 'react-native';
+import {TouchableOpacity} from 'react-native';
 
 class CamelMovingList extends Component {
   constructor(props) {
@@ -31,6 +31,8 @@ class CamelMovingList extends Component {
       refreshing: false,
       searchedItem: '',
       key: false,
+      To: '',
+      From: '',
     };
 
     this.viewPosts();
@@ -56,6 +58,23 @@ class CamelMovingList extends Component {
             ?.includes(searchtext.toLowerCase()) ||
           item?.price?.toLowerCase()?.includes(searchtext.toLowerCase()) ||
           item?.type?.toLowerCase()?.includes(searchtext.toLowerCase())
+        );
+      });
+      this.setState({filterPosts: tempPost, key: !key});
+    }
+  }
+  searchLocationFunction(To, From) {
+    const {key} = this.state;
+    if (
+      To != undefined &&
+      From != undefined &&
+      To?.length != 0 &&
+      From?.length != 0
+    ) {
+      let tempPost = this.state?.posts.filter(item => {
+        return (
+          item?.location?.toLowerCase().includes(From.toLowerCase()) &&
+          item?.to_location?.toLowerCase().includes(To.toLowerCase())
         );
       });
       this.setState({filterPosts: tempPost, key: !key});
@@ -95,7 +114,7 @@ class CamelMovingList extends Component {
     this.focusListener();
   }
   render() {
-    const {key, filterPosts, searchedItem} = this.state;
+    const {key, filterPosts, searchedItem, To, From} = this.state;
     const renderItem = ({item}) => {
       return (
         <Post
@@ -104,7 +123,8 @@ class CamelMovingList extends Component {
           title={item?.title}
           type={item?.car_type}
           price={item?.price}
-          location={item.user_location}
+          location={item?.location}
+          locationTo={item?.to_location}
           color={item?.color}
           image={item?.img[0]}
           detailBUTTON={ArabicText.PLACEHOLDER_DETAIL}
@@ -150,17 +170,35 @@ class CamelMovingList extends Component {
     return (
       <View style={styles.container}>
         <Header
+          filterIcon
           onChangeText={text => {
-            console.log(text, 'texttttt');
             if (text) {
               this.search(text);
             } else {
               this.setState({searchedItem: '', searchText: ''});
             }
           }}
-          onPressSearch={() => this.searchFunction(this.state.searchText)}
+          onChangeTo={text => {
+            if (text) {
+              this.setState({To: text});
+            } else {
+              this.setState({To: '', searchedItem: ''});
+            }
+          }}
+          onChangeFrom={text => {
+            if (text) {
+              console.log(text, 'textt');
+              this.setState({From: text});
+            } else {
+              this.setState({From: '', searchedItem: ''});
+            }
+          }}
+          onPressSearch={() => {
+            To?.length && From?.length
+              ? this.searchLocationFunction(To, From)
+              : this.searchFunction(this.state.searchText);
+          }}
         />
-
         {this.state.loader && (
           <ActivityIndicator
             size="large"
@@ -169,7 +207,6 @@ class CamelMovingList extends Component {
             style={{marginTop: 20}}
           />
         )}
-
         {this.state.loader == false && (
           <View>
             <View
@@ -199,7 +236,9 @@ class CamelMovingList extends Component {
               ListEmptyComponent={() => <EmptyComponent />}
               key={key}
               contentContainerStyle={{paddingBottom: '20%'}}
-              data={searchedItem ? filterPosts : this.state?.posts}
+              data={
+                searchedItem || (To && From) ? filterPosts : this.state?.posts
+              }
               renderItem={renderItem}
               keyExtractor={item => item.id}
               refreshControl={

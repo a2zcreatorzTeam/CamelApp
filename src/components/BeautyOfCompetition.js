@@ -43,6 +43,7 @@ class BeautyOfCompetition extends Component {
       competition_winner:
         props.route.params.competition_item[0]?.competition_winner,
       sponsors: props.route.params.competition_item[0]?.sponsors,
+      filteredSponsors: [],
       competition_participants:
         props.route.params.competition_item[0]?.competition_participant,
       modal: false,
@@ -139,7 +140,13 @@ class BeautyOfCompetition extends Component {
         const {user_name} = item;
         return user_name?.toLowerCase().includes(value.toLowerCase());
       });
-      console.log(filteredData, 'gggg');
+      const filteredSponsers = this.state.sponsors.filter(item => {
+        console.log(item, 'itemmmmm');
+        const {name} = item;
+        return name?.toLowerCase().includes(value.toLowerCase());
+      });
+      this.setState({filteredSponsers: filteredSponsers});
+      console.log(filteredSponsers, 'gggg');
       if (filteredData.length > 0) {
         this.setState({filterPosts: filteredData, dataNotFound: false});
       } else {
@@ -151,8 +158,9 @@ class BeautyOfCompetition extends Component {
     this.setState({searchText: text});
   }
   render() {
+    const sponsors = this.props.route.params.competition_item[0]?.sponsors;
     const NewDate = moment().format('YYYY-MM-DD');
-    const {key, searchedItem, filterPosts} = this.state;
+    const {key, searchedItem, filterPosts, filteredSponsers} = this.state;
     const tagsStyles = {
       body: {
         color: 'black',
@@ -355,11 +363,10 @@ class BeautyOfCompetition extends Component {
         />
       );
     };
-    console.log(competition[0]?.end_date, competition[0]?.start_date, NewDate);
     return (
       <View style={[Styles.containerBeauty, {position: 'relative'}]}>
         <Header
-          navRoute="Home"
+          navRoute="CamelClubList"
           onChangeText={text => {
             if (text) {
               this.search(text);
@@ -618,15 +625,16 @@ class BeautyOfCompetition extends Component {
             </View>
           </View>
         </Modal>
-
-        <View style={Styles.BeautyOfComp}>
-          <FlatList
-            showsHorizontalScrollIndicator={false}
-            data={this.state.sponsors}
-            renderItem={renderSponserItem}
-            horizontal={true}
-          />
-        </View>
+        {(searchedItem ? filteredSponsers?.length : sponsors?.length) && (
+          <View style={Styles.BeautyOfComp}>
+            <FlatList
+              showsHorizontalScrollIndicator={false}
+              data={searchedItem ? filteredSponsers : sponsors}
+              renderItem={renderSponserItem}
+              horizontal={true}
+            />
+          </View>
+        )}
 
         {NewDate >= competition[0]?.start_date &&
           NewDate <= competition[0]?.end_date && (

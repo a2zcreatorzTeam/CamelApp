@@ -1,11 +1,30 @@
 import React from 'react';
-import {View, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {useState} from 'react';
+import * as ArabicText from '../language/EnglishToArabic';
 
+const {width} = Dimensions.get('screen');
 const Header = props => {
-  let {navRoute, onChangeText, onPressSearch} = props;
+  let {
+    navRoute,
+    onChangeText,
+    onPressSearch,
+    filterIcon,
+    onChangeTo,
+    onChangeFrom,
+    searchLocationFunction = () => {},
+  } = props;
+  const [locationInput, setLocationInput] = useState(false);
   const navigation = useNavigation(0);
   const goBack = () => {
     navigation.goBack();
@@ -14,23 +33,77 @@ const Header = props => {
     navigation.navigate('Whatsapp');
   };
   return (
-    <View style={Styles.header}>
-      <CircularBTN iconName="arrow-back-sharp" onPress={onPressSearch} />
+    <View style={[Styles.header, {paddingVertical: 10}]}>
+      <View style={Styles.subHeaderView}>
+        {filterIcon && (
+          <TouchableOpacity
+            onPress={() => setLocationInput(!locationInput)}
+            style={[styles.btnContainer, {marginLeft: 10, marginRight: 0}]}>
+            <FontAwesome name={'filter'} size={24} color="brown" />
+          </TouchableOpacity>
+        )}
+        <CircularBTN iconName="arrow-back-sharp" onPress={onPressSearch} />
+        {locationInput ? (
+          <View
+            style={{
+              flexDirection: 'row',
+              width: '60%',
+              justifyContent: 'space-between',
+            }}>
+            <View
+              style={[Styles.searchbar, {width: '49%', paddingHorizontal: 5}]}>
+              <TextInput
+                style={[
+                  styles.searchInput,
+                  {
+                    width: '100%',
+                    position: 'relative',
+                  },
+                ]}
+                placeholder={ArabicText.To}
+                placeholderTextColor="#000000"
+                onChangeText={text => {
+                  onChangeTo(text);
+                  console.log(text, 'textttt');
+                }}
+              />
+            </View>
+            <View
+              style={[Styles.searchbar, {width: '49%', paddingHorizontal: 5}]}>
+              <TextInput
+                style={[
+                  styles.searchInput,
+                  {
+                    width: '100%',
+                    position: 'relative',
+                  },
+                ]}
+                placeholder={ArabicText.From}
+                placeholderTextColor="#000000"
+                onChangeText={text => {
+                  onChangeFrom(text);
+                  console.log(text, 'textttt123');
+                }}
+              />
+            </View>
+          </View>
+        ) : (
+          <View style={[Styles.searchbar, {width: filterIcon ? '60%' : '70%'}]}>
+            <TextInput
+              placeholder="البحث"
+              value={props.onChangeText}
+              style={styles.searchInput}
+              placeholderTextColor={'#919191'}
+              onChangeText={onChangeText}
+            />
+          </View>
+        )}
 
-      <View style={Styles.searchbar}>
-        <TextInput
-          placeholder="البحث"
-          value={props.onChangeText}
-          style={styles.searchInput}
-          placeholderTextColor={'#919191'}
-          onChangeText={onChangeText}
+        <CircularBTN
+          iconName="md-arrow-redo"
+          onPress={navRoute === 'Home' ? whatsApp : goBack}
         />
       </View>
-
-      <CircularBTN
-        iconName="md-arrow-redo"
-        onPress={navRoute === 'Home' ? whatsApp : goBack}
-      />
     </View>
   );
 };

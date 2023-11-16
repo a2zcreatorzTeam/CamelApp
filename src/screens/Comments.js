@@ -115,12 +115,17 @@ class Comments extends Component {
   getCommentsOnPost = async () => {
     let {user} = this.props?.route.params;
     const {searchedItem, dataNotFound} = this.state;
+    console.log(
+      this.props.route.params?.post?.id,
+      user?.id, "user?.iduser?.idss"
+    )
     await camelapp
       .post('/get/comment', {
         post_id: this.props.route.params?.post?.id,
         user_id: user?.id,
       })
       .then(res => {
+        console.log("RES?/ssssssdsd".res?.data)
         this.setState({
           commentsList: res?.data,
           loader: false,
@@ -252,7 +257,10 @@ class Comments extends Component {
             onPressSearch={() => this?.searchHandler(this.state.searchText)}
           />
         )}
-
+{
+  console.log(
+    commentsList , 'commentsListcommentsList')
+}
         {this.state.commentsList?.length && loader == false ? (
           <FlatList
             showsVerticalScrollIndicator={false}
@@ -326,7 +334,15 @@ class Comments extends Component {
 
             <TextInput
               style={Styles.forminputs}
-              onChangeText={text => this.setState({newReply: text})}
+              onChangeText={text =>
+                {
+                  console.log(
+                    this.state?.newReply, "COMMENT REPLY ARRABIC TEXT"
+                  )
+                 this.setState({newReply: text})
+                }
+                
+                }
               placeholder={ArabicText.Reply}
               placeholderTextColor="#b0b0b0"
               value={this?.state?.newReply}></TextInput>

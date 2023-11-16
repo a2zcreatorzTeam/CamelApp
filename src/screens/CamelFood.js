@@ -327,13 +327,15 @@ class CamelFood extends React.Component {
         name: ArabicText?.fiveDays,
       },
     ];
+    
+    
     return (
       <View style={{flex: 1}}>
         <ScrollView
           showsHorizontalScrollIndicator={false}
           style={{backgroundColor: 'white'}}>
           <BackBtnHeader />
-          <Ads />
+          {/* <Ads /> */}
 
           <View style={Styles.container}>
             <Text style={Styles.headingPostText}>بيع الأعلاف</Text>

@@ -342,7 +342,7 @@ class SellingEquipmentForm extends React.Component {
           showsHorizontalScrollIndicator={false}
           style={{backgroundColor: 'white'}}>
           <BackBtnHeader />
-          <Ads />
+          {/* <Ads /> */}
           <View style={Styles.container}>
             <Text style={Styles.headingPostText}>بيع المعدات</Text>
             <HorizontalCarousel

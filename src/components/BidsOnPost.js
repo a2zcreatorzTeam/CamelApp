@@ -40,6 +40,8 @@ class Bids extends Component {
       return await camelapp
         .get(`/get/bids/${user?.user?.user?.id}`)
         .then(res => {
+
+          console.log(res?.data,"databdOnPst");
           this.setState({
             posts: res?.data,
             key: !key,
@@ -55,6 +57,7 @@ class Bids extends Component {
     }
   }
   onViewPostClick(item) {
+    console.log(item, 'posttttt');
     if (item.post.category_id == '1') {
       this.props.navigation.navigate('CamelClubDetailsComponent', {
         itemFromDetails: item.post,
@@ -71,16 +74,19 @@ class Bids extends Component {
       });
     }
     if (item.post.category_id == '2') {
+      console.log('id222');
       this.props.navigation.navigate('DetailsSellingCamel', {
         itemFromDetails: item.post,
       });
     }
     if (item.post.category_id == '6') {
+      console.log('id6666');
       this.props.navigation.navigate('DetailsComponentWithPrice', {
         itemFromDetails: item.post,
       });
     }
     if (item.post.category_id == '8') {
+      console.log('id888');
       this.props.navigation.navigate('DetailsComponentWithPrice', {
         itemFromDetails: item.post,
       });
@@ -211,6 +217,7 @@ class Bids extends Component {
       </View>
     );
     const renderBidItem = ({item}) => {
+      console.log(item, "itmmmm");
       return (
         <BidsItem
           item={item}
@@ -222,6 +229,7 @@ class Bids extends Component {
         />
       );
     };
+    console.log('BIDONPOST');
     return (
       <View style={Styles.containerBids}>
         <FlatList

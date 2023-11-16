@@ -19,7 +19,7 @@ const Item = ({
 }) => {
   const [isLiked, setIsLiked] = useState();
   const [likeCount, setLikeCount] = useState(commentsCount);
-  console.log(item?.reply, 'item?.reply !==nullitem?.reply !==null');
+  console.log(item, 'item?.reply !==nullitem?.reply !==null');
   return (
     <>
       {/* {item?.reply !==null ? (

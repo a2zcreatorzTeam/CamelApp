@@ -107,9 +107,12 @@ const GroupChat = props => {
       timeout: 15000,
     })
       .then(location => {
-        setlat(location?.latitude);
-        setlong(location?.longitude);
-        setModalVisible(false);
+    if(location){
+
+      setlat(location?.latitude);
+      setlong(location?.longitude);
+    }
+      setModalVisible(false);
         postLocation();
       })
       .catch(error => {
@@ -167,6 +170,7 @@ const GroupChat = props => {
     // setModalVisible(false)
   };
   const proceed = async item => {
+    console.log(item, 'LOGIN ITEEMME')
     var newItem = item.split(',');
 
     var lat = newItem[0];
@@ -514,12 +518,18 @@ const GroupChat = props => {
         </TouchableOpacity>
       </View>
       <FlatList
-        ListEmptyComponent={() => <EmptyComponent />}
+        ListEmptyComponent={() => <EmptyComponent 
+        
+        textStyle={{
+          transform: [{rotateX: '-180deg'}]
+        }}
+        />}
         inverted
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingTop: width * 0.2}}
         data={groupChat}
         renderItem={({item, index}) => {
+          console.log("Checkimg ityem", item)
           return (
             <View>
               {/* Right side messages */}

@@ -7,9 +7,7 @@ export const Styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
     alignItems: 'center',
-    // justifyContent: 'center',
     width: width,
-    // backgroundColor:'red'
   },
   headingPostText: {
     marginTop: 5,
@@ -172,8 +170,9 @@ export const Styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: width,
+  },
+  subHeaderView: {
     flexDirection: 'row',
-    height: 60,
     top: 0,
     marginTop: Platform.OS === 'ios' ? 35 : 0,
   },
@@ -1081,7 +1080,7 @@ export const Styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row', //remved for news screen
     width: width - 20,
-    height: 160,
+    height: 190,
     alignSelf: 'center',
     marginBottom: 10,
     elevation: 5,

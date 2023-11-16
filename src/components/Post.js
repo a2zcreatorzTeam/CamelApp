@@ -115,7 +115,6 @@ const Post = ({
     };
   }, [item]);
   // =====Memoized Props====
-
   const {
     price,
     title,
@@ -183,6 +182,7 @@ const Post = ({
       // alert(error.message);
     }
   };
+
   return (
     <View style={styles.main}>
       {/*Post Header*/}

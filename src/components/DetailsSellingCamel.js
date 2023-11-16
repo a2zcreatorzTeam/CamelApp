@@ -65,10 +65,6 @@ class DetailsComponent extends Component {
   }
 
   componentDidMount() {
-    console.log(
-      this.props.route.params.itemFromDetails.price_type,
-      'this.props.route.params.itemFromDetails.price_type',
-    );
     const bid = this.props.route.param?.bid;
     this.checkBidStatus();
     let {user} = this.props;
@@ -243,7 +239,6 @@ class DetailsComponent extends Component {
           post_id: itemFromDetails?.id,
         })
         .then(response => {
-          console.log(response?.data, 'responseeee');
           if (response?.data?.success == true) {
             this.setState({closeOffer: true});
             Toast.show({
@@ -415,6 +410,7 @@ class DetailsComponent extends Component {
       closeOffer,
       load,
     } = this.state;
+    console.log(itemFromDetails,"itemFromDetails?.bid_priceitemFromDetails?.bid_price");
     return (
       <ScrollView style={{backgroundColor: '#fff'}}>
         <BackBtnHeader />

@@ -49,7 +49,6 @@ export default function App() {
           <TouchableOpacity onPress={() => navigation.navigate('Winner')}>
             <View style={Styles.underTopview}></View>
           </TouchableOpacity>
-
           <View style={Styles.underTopview}></View>
         </View>
       </View>

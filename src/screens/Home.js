@@ -119,7 +119,6 @@ class Home extends Component {
     const {key} = this.state;
     let {user} = this.props;
     user = user.user.user;
-    console.log(user, 'userer');
     try {
       return await camelapp
         .post('/view/post', {
@@ -178,34 +177,6 @@ class Home extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-  // async checkUser() {
-  //   const userPhone = await AsyncStorage.getItem('@UserPhone');
-  //   const userPass = await AsyncStorage.getItem('@UserPassword');
-  //   try {
-  //     camelapp
-  //       .post('/login', {
-  //         phone: userPhone,
-  //         password: userPass,
-  //       })
-  //       .then(res => {
-  //         let response = res.data;
-  //         if (response.status == true) {
-  //           let {actions} = this.props;
-  //           actions.userData(response);
-  //         } else {
-  //           let {user, actions} = this.props;
-  //           actions.userData({});
-  //           AsyncStorage.removeItem('@UserPhone');
-  //           AsyncStorage.removeItem('@UserPassword');
-  //         }
-  //       })
-  //       .catch(error => {
-  //         console.log('Error Message--- signin', error);
-  //       });
-  //   } catch (error) {
-  //     console.log('Error Message--- signin', error);
-  //   }
-  // }
   scrollToEnd = () => {
     this.scrollRef.current.scrollToEnd({animated: false});
   };
@@ -703,7 +674,6 @@ class Home extends Component {
                       rotate: '180deg',
                     },
                   ],
-                  // flexDirection: 'row-reverse'
                 }}>
                 <View
                   style={{
@@ -910,6 +880,7 @@ class Home extends Component {
                 </View>
               </ScrollView>
             </View>
+
             {/* POST FLATLIST */}
             <Loader loading={this.state.loading} />
             <FlatList

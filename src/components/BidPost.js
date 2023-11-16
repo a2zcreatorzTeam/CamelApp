@@ -40,6 +40,7 @@ class Bids extends Component {
           user_id: user.user.user.id,
         })
         .then(res => {
+          console.log(res?.data?.bids,"BidPOst");
           this.setState({
             posts: res?.data?.bids,
             key: !key,

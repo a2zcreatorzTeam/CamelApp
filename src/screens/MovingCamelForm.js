@@ -348,8 +348,8 @@ class SellingCamel extends React.Component {
     return (
       <SafeAreaView style={Styles.container}>
         <BackBtnHeader />
-        <Ads />
-        <ScrollView style={{backgroundColor: 'red'}}>
+        {/* <Ads /> */}
+        <ScrollView style={{backgroundColor: 'white'}}>
           <View style={Styles.container}>
             <Text style={[Styles.headingPostText, {marginTop: 30}]}>
               {ArabicText?.Movingcamel}
@@ -604,7 +604,9 @@ class SellingCamel extends React.Component {
                 marginTop: 10,
               }}>
               <Text style={{margin: 3, fontWeight: 'bold', color: 'black'}}>
-                {ArabicText.I_am_registered_to_ministry_of_articulator}
+                {/* {ArabicText.I_am_registered_to_ministry_of_articulator}
+                 */}
+                 I accept terms and conditions
               </Text>
 
               <Switch

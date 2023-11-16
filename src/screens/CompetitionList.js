@@ -277,10 +277,8 @@
 
 import React, {Component} from 'react';
 import {
-  Text,
   View,
   Image,
-  TouchableOpacity,
   StyleSheet,
   FlatList,
   ActivityIndicator,
@@ -290,8 +288,6 @@ import camelapp from '../api/camelapp';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
-import {Styles} from '../styles/globlestyle';
-import {Card} from 'react-native-paper';
 import {Dimensions} from 'react-native';
 import Header from '../components/Header';
 import Item from '../components/CompetitionItem';
@@ -309,7 +305,6 @@ class CamelClubList extends Component {
       filterPosts: [],
       key: false,
     };
-    this.viewPosts();
   }
   async viewPosts() {
     const {key} = this.state;
@@ -372,7 +367,6 @@ class CamelClubList extends Component {
             competition_id: item?.id,
           })
           .then(res => {
-            // console.log(res?.data, "responseeeeee");
             if (res) {
               let temp = res?.data;
               this.props.navigation.navigate('BeautyOfCompetition', {
@@ -384,7 +378,15 @@ class CamelClubList extends Component {
         console.log('Error Message get competition List', error?.response);
       }
     };
-    const {posts, filterPosts, searchedItem, loader, key} = this.state;
+    const {
+      posts,
+      filterPosts,
+      searchedItem,
+      loader,
+      key,
+      isRefreshing,
+      searchText,
+    } = this.state;
     const renderItem = ({item}) => {
       return (
         <Item
@@ -409,19 +411,19 @@ class CamelClubList extends Component {
               this.setState({searchedItem: '', searchText: ''});
             }
           }}
-          onPressSearch={() => this.searchHandler(this.state.searchText)}
+          onPressSearch={() => this.searchHandler(searchText)}
         />
 
-        {this.state.loader && (
+        {loader && (
           <ActivityIndicator
             size="large"
             color="#D2691Eff"
-            animating={this.state.loader}
+            animating={loader}
             style={{marginTop: 20}}
           />
         )}
 
-        {this.state.loader == false && (
+        {loader == false && (
           <View>
             <FlatList
               ListEmptyComponent={() => <EmptyComponent />}
@@ -432,7 +434,7 @@ class CamelClubList extends Component {
               numColumns={2}
               refreshControl={
                 <RefreshControl
-                  refreshing={this.state.isRefreshing}
+                  refreshing={isRefreshing}
                   onRefresh={() => this.ScrollToRefresh()}
                 />
               }
@@ -454,18 +456,14 @@ class CamelClubList extends Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(CamelClubList);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

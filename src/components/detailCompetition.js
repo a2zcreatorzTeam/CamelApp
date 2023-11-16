@@ -10,8 +10,6 @@ import {
   Dimensions,
   Linking,
 } from 'react-native';
-import Video from 'react-native-video';
-import Carousel from 'react-native-snap-carousel';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -21,7 +19,6 @@ import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import {Styles} from '../styles/globlestyle';
 const width = Dimensions.get('screen').width;
-const hight = Dimensions.get('screen').height;
 import * as ArabicText from '../language/EnglishToArabic';
 import VideoModal from './VideoModal';
 import HorizontalCarousel from './HorizontalCarousel';

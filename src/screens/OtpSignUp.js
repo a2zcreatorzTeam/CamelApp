@@ -88,15 +88,12 @@ class App extends Component {
     }
   };
   submitOTP = async () => {
-    console.log(this.props.route)
     this.setState({btnPressed: true, loader: true});
     const deviceToken = await AsyncStorage?.getItem('fcmToken');
     let number =
       this.state.one + this.state.two + this.state.three + this.state.four;
     let user_data = this.state.sign_up_data;
     let {screenType} = this.props.route.params?.sign_up;
-    console.log(this.props.route.params?.sign_up);
-    console.log(screenType, 'numveer', user_data?.phone);
     if (number != '') {
       camelapp
         .post('/check/otp', {

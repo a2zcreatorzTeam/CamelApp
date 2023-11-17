@@ -66,6 +66,7 @@ import ChangePassword from '../screens/ChangePassword.js';
 import FollowingList from '../screens/FollowingList.js';
 import FollowersList from '../screens/FollowersList.js';
 import MyFriendList from '../screens/MyFriendList.js';
+import CreateProfile from '../screens/CreateProfile.js';
 const Stack = createNativeStackNavigator();
 export default function Navigation() {
   return (
@@ -99,6 +100,11 @@ export default function Navigation() {
         <Stack.Screen
           name="Forgetpass"
           component={Forgetpass}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CreateProfile"
+          component={CreateProfile}
           options={{headerShown: false}}
         />
         <Stack.Screen

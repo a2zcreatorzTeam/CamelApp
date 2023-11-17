@@ -9,7 +9,8 @@ import CamelClubForm from '../screens/CamelClubForm.js';
 import MovingCamelForm from '../screens/MovingCamelForm.js';
 import Forgetpass from '../screens/ForgetPassword.js';
 import Notification from '../screens/Notification.js';
-import Whatsapp from '../screens/Whatsappshare.js';
+// import Whatsapp from '../screens/Whatsappshare.js';
+import AppDetails from '../screens/AppDetails.js';
 import BeautyCompetition from '../screens/BeautyCompitation.js';
 import Survey from '../screens/Surveyform.js';
 import Header from '../components/Header.js';
@@ -303,8 +304,8 @@ export default function Navigation() {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Whatsapp"
-          component={Whatsapp}
+          name="AppDetails"
+          component={AppDetails}
           options={{headerShown: false}}
         />
         <Stack.Screen

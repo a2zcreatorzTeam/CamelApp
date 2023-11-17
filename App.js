@@ -1,6 +1,6 @@
 import firebase from '@react-native-firebase/app';
 import React, {Component} from 'react';
-import Navigation from './src/components/Navigation';
+import Navigation from './src/routes/Navigation';
 import SplashScreen from 'react-native-splash-screen';
 import {
   StatusBar,
@@ -9,7 +9,7 @@ import {
   PermissionsAndroid,
   ActivityIndicator,
   View,
-  Text
+  Text,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import camelapp from './src/api/camelapp';
@@ -198,12 +198,13 @@ class App extends Component {
               flex: 1,
             }}>
             <ActivityIndicator />
-            <Text 
-            
-            style={{
-              color:'black', fontSize:20
-            }}
-            >App is Updating, Please Wait ...</Text>
+            <Text
+              style={{
+                color: 'black',
+                fontSize: 20,
+              }}>
+              App is Updating, Please Wait ...
+            </Text>
           </View>
         ) : (
           <Navigation />

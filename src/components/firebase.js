@@ -15,5 +15,3 @@ const firebaseConfig = {
 };
 export default firebaseConfig;
 
-
-// firebase.initializeApp(firebaseConfig);

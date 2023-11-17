@@ -30,7 +30,7 @@ import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
 
-class SellingCamel extends React.Component {
+class MovingCamelForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -341,10 +341,8 @@ class SellingCamel extends React.Component {
     });
     this.setState({mixed: filteredList});
   };
-
   render() {
     const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
-
     return (
       <SafeAreaView style={Styles.container}>
         <BackBtnHeader />
@@ -375,78 +373,6 @@ class SellingCamel extends React.Component {
                 this.setState({pausedCheck: true});
               }}
             />
-            {/* <Carousel
-              keyExtractor={this.state.mixed.fileName}
-              data={this.state.mixed}
-              layout={'default'}
-              scrollEnabled={true}
-              onScroll={() => this.setState({pausedCheck: true})}
-              renderItem={({item, index}) => {
-                return (
-                  <View style={Styles.imageCarousal}>
-                    {item.mime != undefined && item.mime.includes('image') && (
-                      <Image
-                        source={{uri: item.path}}
-                        key={String(index)}
-                        resizeMode={'cover'}
-                        style={{width: '100%', height: '100%'}}
-                      />
-                    )}
-
-                    {item.mime.includes('video') && (
-                      <View style={{flex: 1, backgroundColor: '#ededed'}}>
-                        {pausedCheck && (
-                          <Image
-                            activeOpacity={0.4}
-                            source={require('../../assets/camel.png')}
-                            resizeMode={'cover'}
-                            style={[
-                              Styles.image,
-                              {
-                                backgroundColor: 'rgba(0,0,0,0.5)',
-                                opacity: 0.3,
-                              },
-                            ]}
-                          />
-                        )}
-                        <TouchableOpacity
-                          style={{
-                            height: 70,
-                            width: 70,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            position: 'absolute',
-                            elevation: 2,
-                            bottom: height / 6,
-                            left: width / 2.3,
-                          }}
-                          onPress={() => {
-                            this.setState({
-                              pausedCheck: false,
-                              videoModal: true,
-                              modalItem: {uri: item.path},
-                            });
-                          }}>
-                          <Image
-                            activeOpacity={0.4}
-                            source={
-                              pausedCheck
-                                ? require('../../assets/play.png')
-                                : require('../../assets/pause.png')
-                            }
-                            resizeMode={'cover'}
-                            style={{width: 70, height: 70}}
-                          />
-                        </TouchableOpacity>
-                      </View>
-                    )}
-                  </View>
-                );
-              }}
-              sliderWidth={width}
-              itemWidth={width}
-            /> */}
-
             <View style={{flexDirection: 'row', marginTop: 10}}>
               <View style={Styles.cameraview}>
                 <TouchableOpacity onPress={() => this.videoPicker()}>
@@ -604,9 +530,7 @@ class SellingCamel extends React.Component {
                 marginTop: 10,
               }}>
               <Text style={{margin: 3, fontWeight: 'bold', color: 'black'}}>
-                {/* {ArabicText.I_am_registered_to_ministry_of_articulator}
-                 */}
-                 I accept terms and conditions
+                {ArabicText?.Iaccepttermsandconditions}
               </Text>
 
               <Switch
@@ -776,41 +700,11 @@ class SellingCamel extends React.Component {
     );
   }
 }
-const styles = StyleSheet.create({
-  modalContainer: {
-    height: '100%',
-    width: width,
-    backgroundColor: '#000000db',
-    justifyContent: 'center',
-  },
-  modalCloseBTN: {top: 10, right: 15, position: 'absolute'},
-  modalMediaWrpr: {
-    width: width,
-    height: 60,
-    flexDirection: 'row-reverse',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    position: 'absolute',
-    bottom: 10,
-  },
-  video: {width: '100%', height: 400, borderWidth: 1, backgroundColor: 'black'},
-  imageCarousal: {
-    width: width,
-    height: height / 2.5,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-    // overflow: 'hidden',
-  },
-});
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
-export default connect(mapStateToProps, mapDispatchToProps)(SellingCamel);
+export default connect(mapStateToProps, mapDispatchToProps)(MovingCamelForm);

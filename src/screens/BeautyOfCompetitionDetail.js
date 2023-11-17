@@ -262,7 +262,7 @@ class BeautyOfCompetition extends Component {
       }
     };
     onClickItem = async (item, viewCount, setViewCount) => {
-      this.props.navigation.navigate('CompetitionDetail', {
+      this.props.navigation.navigate('CompetitionPostDetail', {
         itemFromDetails: item,
       });
       postViewed(item, viewCount, setViewCount);

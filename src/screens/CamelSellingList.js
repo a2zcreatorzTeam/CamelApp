@@ -69,7 +69,6 @@ class CamelSellingList extends Component {
         .then(res => {
           var arrayPosts = res?.data?.Posts;
           arrayPosts.map((item, index) => {
-            console.log('indexex', index);
             let array = item?.img;
             let imagesArray = [];
             array[0] !== '' &&
@@ -294,23 +293,21 @@ class CamelSellingList extends Component {
       }
     };
     const onDetailsClick = (item, viewCount, setViewCount) => {
+      console.log(item?.category_id, 'idddd');
       if (user != undefined) {
+        this.props.navigation.navigate('DetailsSellingCamel', {
+          itemFromDetails: item,
+          userId: this?.state?.userId,
+        });
         this.postViewed(item, viewCount, setViewCount);
-        this.props.navigation.navigate('DetailsSellingCamel', {
-          itemFromDetails: item,
-          userId: this?.state?.userId,
-        });
       } else {
-        this.props.navigation.navigate('DetailsSellingCamel', {
-          itemFromDetails: item,
-          userId: this?.state?.userId,
-        });
+        this.props.navigation.navigate('Login');
       }
     };
     const onAddButtonClick = () => {
       let {user} = this.props;
       if (user.user.status == true) {
-        this.props.navigation.navigate('SellingCamel');
+        this.props.navigation.navigate('SellingCamelForm');
       } else {
         this.props.navigation.navigate('Login');
       }

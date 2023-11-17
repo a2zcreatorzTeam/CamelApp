@@ -21,7 +21,6 @@ const MovingPost = ({
   locationTo,
   onDetailsClick = () => {},
 }) => {
-  console.log(location, 'locvation');
   const [viewCount, setViewCount] = useState(item?.view_count);
   return (
     <Card>

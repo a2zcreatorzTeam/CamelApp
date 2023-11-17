@@ -138,9 +138,7 @@ class DetailsComponent extends Component {
   // WHATSAPP
   sendWhatsAppMessage() {
     let otherUser = this.props.route.params.itemFromDetails;
-    console.log(otherUser, 'profileee');
     let {user} = this.props;
-    console.log(otherUser?.whatsapp_status);
     user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
       if (
@@ -154,7 +152,6 @@ class DetailsComponent extends Component {
             let url = 'whatsapp://send?text=' + msg + '&phone=' + mobile;
             Linking.openURL(url)
               .then(data => {
-                console.log(data, 'dataaaa');
                 //console.log("WhatsApp Opened successfully " + data);
               })
               .catch(error => {

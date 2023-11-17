@@ -96,6 +96,29 @@ class CamelMovingList extends Component {
       //console.log("Error Message camel Moving List", error.response);
     }
   }
+  postViewed = async (item, viewCount, setViewCount) => {
+    this.setState({loading: false});
+    let {user} = this.props;
+    user = user?.user?.user;
+    let post_id = item?.id;
+    if (user != undefined) {
+      await camelapp
+        .post('/add/view', {
+          user_id: user?.id,
+          post_id: post_id,
+        })
+        .then(response => {
+          if (response?.data?.message !== 'Already Viewed') {
+            setViewCount(viewCount + 1);
+          }
+        })
+        .catch(error => {
+          this.setState({loading: false});
+        });
+    } else {
+      this.props.navigation.navigate('Login');
+    }
+  };
   ScrollToRefresh() {
     this.viewPosts();
     this.setState({refreshing: false});
@@ -141,11 +164,13 @@ class CamelMovingList extends Component {
       );
     };
     const onDetailsClick = (item, viewCount, setViewCount) => {
-      if (user != undefined) {
-        this.props.navigation.navigate('DetailsMovingCamel', {
-          itemFromDetails: item,
-        });
-      }
+      // if (user != undefined) {
+      this.props.navigation.navigate('DetailsMovingCamel', {
+        itemFromDetails: item,
+      });
+      // } else {
+      //   this.props.navigation.navigate('Login');
+      // }
     };
     const onAddButtonClick = () => {
       let {user} = this.props;
@@ -155,6 +180,7 @@ class CamelMovingList extends Component {
         this.props.navigation.navigate('Login');
       }
     };
+    console.log('CAMELMOVINGLIST');
     return (
       <View style={styles.container}>
         <Header

@@ -270,6 +270,10 @@ class CamelMarketingList extends Component {
           itemFromDetails: item,
         });
         this.postViewed(item, viewCount, setViewCount);
+      } else {
+        this.props.navigation.navigate('DetailsMarketingCamel', {
+          itemFromDetails: item,
+        });
       }
     };
     const onAddButtonClick = () => {

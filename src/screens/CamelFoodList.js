@@ -218,11 +218,16 @@ class CamelFoodList extends Component {
       }
     };
     const onDetailsClick = (item, viewCount, setViewCount) => {
+      console.log(item?.category_id, 'itemmid');
       if (user != undefined) {
         this.props.navigation.navigate('DetailsComponentWithPrice', {
           itemFromDetails: item,
         });
         this.postViewed(item, viewCount, setViewCount);
+      } else {
+        this.props.navigation.navigate('DetailsComponentWithPrice', {
+          itemFromDetails: item,
+        });
       }
     };
     const sharePosts = item => {

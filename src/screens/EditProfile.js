@@ -32,7 +32,7 @@ class EditProfile extends Component {
     let {user} = props;
     user = user.user.user;
     this.state = {
-      user: user,
+      user: user ? user : {},
       firstName: '',
       lastName: '',
       userName: user?.name ? user?.name : null,

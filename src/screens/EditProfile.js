@@ -35,10 +35,10 @@ class EditProfile extends Component {
       user: user,
       firstName: '',
       lastName: '',
-      userName: user?.name,
+      userName: user?.name ? user?.name : null,
       phone: {},
       image: '',
-      location: user?.location,
+      location: user?.location ? user?.location : null,
       imageShow: undefined,
       imageFlage: true,
       flagforImagePicker: false,
@@ -47,7 +47,7 @@ class EditProfile extends Component {
       modalVisible: false,
       optVal: {},
       btnLoader: false,
-      email: user?.email,
+      email: user?.email ? user?.email : null,
       loading: false,
     };
   }
@@ -140,21 +140,23 @@ class EditProfile extends Component {
     this.otpInput.setValue('1234');
   };
   updateProfile = async () => {
-    const {image} = this.props.user.user.user;
+    const image = this.props.user.user.user?.image;
     const {email, location, pickedImage, userName} = this.state;
-    if (!pickedImage && !image) {
-      Toast.show({
-        text1: ArabicText.ImageCantBeEmpty,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-    } else if (!userName) {
-      Toast.show({
-        text1: ArabicText.UsernameCantBeEmpty,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-    } else if (!email) {
+    // if (!pickedImage && !image) {
+    //   Toast.show({
+    //     text1: ArabicText.ImageCantBeEmpty,
+    //     type: 'error',
+    //     visibilityTime: 3000,
+    //   });
+    // }
+    //  else if (!userName) {
+    //   Toast.show({
+    //     text1: ArabicText.UsernameCantBeEmpty,
+    //     type: 'error',
+    //     visibilityTime: 3000,
+    //   });
+    // }
+    if (!email) {
       Toast.show({
         text1: ArabicText.EmailFieldCantBeEmpty,
         type: 'error',
@@ -166,13 +168,15 @@ class EditProfile extends Component {
         type: 'error',
         visibilityTime: 3000,
       });
-    } else if (!location) {
-      Toast.show({
-        text1: ArabicText.LocationFieldCantBeEmpty,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-    } else {
+    }
+    // else if (!location) {
+    //   Toast.show({
+    //     text1: ArabicText.LocationFieldCantBeEmpty,
+    //     type: 'error',
+    //     visibilityTime: 3000,
+    //   });
+    // }
+    else {
       this.setState({
         btnLoader: true,
       });
@@ -183,12 +187,14 @@ class EditProfile extends Component {
           .post('/update', {
             user_id: this.props.user.user.user.id,
             name: userName,
-            location: location,
-            email: email,
+            location: location ? location : null,
+            email: email ? email : null,
             image:
               pickedImage !== undefined
                 ? pickedImage
-                : this.props.user.user.user?.image,
+                : image?.length
+                ? image
+                : null,
           })
           .then(res => {
             console.log(res?.data, 'dtaaresponseee');
@@ -323,7 +329,9 @@ class EditProfile extends Component {
               animating={this.state.btnLoader}
             />
           ) : (
-            <Text style={{color: '#fff', fontSize: 16}}>{ArabicText?.UpdateProfile}</Text>
+            <Text style={{color: '#fff', fontSize: 16}}>
+              {ArabicText?.UpdateProfile}
+            </Text>
           )}
         </TouchableOpacity>
 

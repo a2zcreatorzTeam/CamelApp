@@ -70,9 +70,7 @@ class CreateProfile extends Component {
   createProfile = async () => {
     console.log(this.props.route.params.response, 'rrespkneee');
     const {pickedImage, location, email, userName, phoneNumber} = this.state;
-    console.log(this.state, 'this.statethis.state');
     const {screen, response} = this.props.route?.params;
-
     if (screen == 'socialLogin' && !phoneNumber) {
       Toast.show({
         text1: ArabicText.phonenumbercantbeempty,
@@ -91,21 +89,22 @@ class CreateProfile extends Component {
         type: 'error',
         visibilityTime: 3000,
       });
-    } else if (!email) {
-      Toast.show({
-        text1: ArabicText.EmailFieldCantBeEmpty,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-      // alert(ArabicText?.EmailFieldCantBeEmpty);
-    } else if (!EmailValidator.validate(email)) {
-      Toast.show({
-        text1: ArabicText.EmailIsNotValid,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-      // alert(ArabicText?.EmailIsNotValid);
     }
+    //  else if (!email) {
+    //   Toast.show({
+    //     text1: ArabicText.EmailFieldCantBeEmpty,
+    //     type: 'error',
+    //     visibilityTime: 3000,
+    //   });
+    //   // alert(ArabicText?.EmailFieldCantBeEmpty);
+    // } else if (!EmailValidator.validate(email)) {
+    //   Toast.show({
+    //     text1: ArabicText.EmailIsNotValid,
+    //     type: 'error',
+    //     visibilityTime: 3000,
+    //   });
+    //   // alert(ArabicText?.EmailIsNotValid);
+    // }
     // else if (!location) {
     //   Toast.show({
     //     text1: ArabicText.LocationFieldCantBeEmpty,

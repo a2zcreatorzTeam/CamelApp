@@ -35,7 +35,7 @@ const width = Dimensions.get('screen').width;
 RNTwitterSignIn.init(
   'd54gxJM3NnqwXH8o78faUOJ7H',
   'Q2g56EkAlC4JGWKRLoo0ZJkRMQowMDZKF0ssjkBEhJlqCt1rd3',
-).then((res) => console.log('Twitter SDK initialized', res));
+).then(res => console.log('Twitter SDK initialized', res));
 
 class Login extends Component {
   constructor(props) {
@@ -61,8 +61,6 @@ class Login extends Component {
   saveData() {
     let phone = this.state.contactNumber;
     let password = this.state.password;
-    AsyncStorage.setItem('@UserPhone', phone);
-    AsyncStorage.setItem('@UserPassword', password);
   }
   userlogin = async () => {
     try {
@@ -146,29 +144,31 @@ class Login extends Component {
   signInWithTwitter = async () => {
     try {
       const loginData = await RNTwitterSignIn.logIn();
-      console.log(loginData,"In UYerer")
-      
+      console.log(loginData, 'In UYerer');
+
       const {authToken, authTokenSecret} = loginData;
       console.log(authToken, 'authToken', authTokenSecret);
       if (authToken && authTokenSecret) {
       }
     } catch (error) {
-
       try {
         const message = error?.message;
-     console.log("messagdsdsdsde", message )
+        console.log('messagdsdsdsde', message);
 
         const startIndex = message.indexOf('{ NativeMap: ');
         const endIndex = message.lastIndexOf('"}');
         console.log(startIndex, endIndex);
         if (startIndex !== -1 && endIndex !== -1) {
           const innerJsonString = message.slice(12, endIndex + 2); // Include the closing double quote and curly brace
-         console.log(innerJsonString,"innerJsonStringinnerJsonStringinnerJsonString")
+          console.log(
+            innerJsonString,
+            'innerJsonStringinnerJsonStringinnerJsonString',
+          );
           try {
-            const data =JSON.parse(innerJsonString);
-            console.log('innerJsonString', data , data?.NativeMap)
+            const data = JSON.parse(innerJsonString);
+            console.log('innerJsonString', data, data?.NativeMap);
             const {email, userName, userID, name, authToken, authTokenSecret} =
-            data;
+              data;
             this.setIgToken({
               access_token: authToken,
               user_id: userID,
@@ -195,6 +195,7 @@ class Login extends Component {
 
   render() {
     const authentication = async () => {
+      const {contactNumber, password} = this.state;
       this.setState({loader: true});
       await getFCMToken();
       const deviceToken = await AsyncStorage?.getItem('fcmToken');
@@ -208,15 +209,14 @@ class Login extends Component {
         try {
           camelapp
             .post('/login', {
-              phone: this.state.contactNumber,
-              password: this.state.password,
+              phone: contactNumber,
+              password: password,
               device_type: Platform?.OS,
               device_token: deviceToken,
             })
             .then(res => {
               response = res.data;
               if (response.status == true) {
-                console.log(response, 'dataaaaaaaa');
                 this.setState({loader: false});
                 if (
                   response?.data?.is_complete == 1 ||
@@ -224,8 +224,8 @@ class Login extends Component {
                 ) {
                   let {actions} = this.props;
                   actions.userData(response);
-                  this.saveData();
-                  this.userlogin();
+                  AsyncStorage.setItem('@UserPhone', contactNumber);
+                  AsyncStorage.setItem('@UserPassword', password);
                   this.props.navigation.navigate('Home');
                 } else {
                   this.props.navigation.navigate('CreateProfile', {

@@ -32,24 +32,36 @@ class EditProfile extends Component {
     let {user} = props;
     user = user.user.user;
     this.state = {
-      user: user ? user : {},
-      firstName: '',
-      lastName: '',
       userName: user?.name ? user?.name : null,
-      phone: {},
       image: '',
       location: user?.location ? user?.location : null,
       imageShow: undefined,
-      imageFlage: true,
-      flagforImagePicker: false,
-      imageForUpdate: undefined,
       pickedImage: '',
-      modalVisible: false,
-      optVal: {},
       btnLoader: false,
       email: user?.email ? user?.email : null,
       loading: false,
     };
+  }
+  componentDidMount() {
+    this.focusListener = this.props.navigation.addListener('focus', () => {
+      const user = this.props.user?.user?.user;
+      this.setState({
+        userName: user?.name ? user?.name : null,
+        email: user?.email ? user?.email : null,
+        location: user?.location ? user?.location : null,
+        user: user,
+      });
+      console.log(this.props.user?.user, 'usere');
+    });
+  }
+  componentWillUnmount() {
+    this.setState({
+      user: null,
+      userName: null,
+      location: null,
+      email: null,
+    });
+    this.focusListener();
   }
 
   // clearAll COOKIES
@@ -68,7 +80,7 @@ class EditProfile extends Component {
         .get('/logout/' + id)
         .then(
           (response = async () => {
-            console.log(response, 'responseee');
+            console.log(response, 'responseeeLogouttttt');
             if (userdetail?.socialType == 'instagram') {
               console.log('instagrammm');
               this.onClear();
@@ -76,11 +88,13 @@ class EditProfile extends Component {
               console.log('twitter');
               await RNTwitterSignIn.logOut();
             }
-            actions?.userLogout({});
+            console.log('logouttttt successsss');
+            actions?.userLogout();
             AsyncStorage.removeItem('@UserPassword');
             AsyncStorage.removeItem('@UserPhone');
             AsyncStorage.removeItem('fcmToken');
             this.setState({loading: false});
+            console.log(this.props.user, 'userFromedittttt');
             this.props.navigation.replace('Home');
             Toast.show({
               text1: ArabicText.logoutsuccessfully,
@@ -102,11 +116,6 @@ class EditProfile extends Component {
       console.log('error', error);
     }
   };
-  componentDidMount() {
-    let {user} = this.props;
-    user = user.user.user;
-    this.setState({user: user, userName: user?.name, location: user.location});
-  }
   openGallery() {
     ImageCropPicker.openPicker({
       mediaType: 'photo',
@@ -156,19 +165,19 @@ class EditProfile extends Component {
     //     visibilityTime: 3000,
     //   });
     // }
-    if (!email) {
-      Toast.show({
-        text1: ArabicText.EmailFieldCantBeEmpty,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-    } else if (!EmailValidator.validate(email)) {
-      Toast.show({
-        text1: ArabicText.EmailIsNotValid,
-        type: 'error',
-        visibilityTime: 3000,
-      });
-    }
+    // if (!email) {
+    //   Toast.show({
+    //     text1: ArabicText.EmailFieldCantBeEmpty,
+    //     type: 'error',
+    //     visibilityTime: 3000,
+    //   });
+    // } else if (!EmailValidator.validate(email)) {
+    //   Toast.show({
+    //     text1: ArabicText.EmailIsNotValid,
+    //     type: 'error',
+    //     visibilityTime: 3000,
+    //   });
+    // }
     // else if (!location) {
     //   Toast.show({
     //     text1: ArabicText.LocationFieldCantBeEmpty,
@@ -176,52 +185,52 @@ class EditProfile extends Component {
     //     visibilityTime: 3000,
     //   });
     // }
-    else {
-      this.setState({
-        btnLoader: true,
-      });
-      let {actions} = this.props;
-      if (this.state.imageShow == undefined) {
-        console.log('99999');
-        await camelapp
-          .post('/update', {
-            user_id: this.props.user.user.user.id,
-            name: userName,
-            location: location ? location : null,
-            email: email ? email : null,
-            image:
-              pickedImage !== undefined
-                ? pickedImage
-                : image?.length
-                ? image
-                : null,
-          })
-          .then(res => {
-            console.log(res?.data, 'dtaaresponseee');
-            if (res.data.status == true) {
-              this.setState({
-                btnLoader: false,
-              });
-              actions.userData(res?.data);
-              this.props.navigation.replace('Profile', {
-                screen: ArabicText.profilee,
-              });
-            } else {
-              this.setState({
-                btnLoader: false,
-              });
-              this.props.navigation.replace('Profile', {
-                screen: ArabicText.profilee,
-              });
-            }
-          })
-          .catch(error => {
-            console.log(error, 'errorr');
+    // else {
+    this.setState({
+      btnLoader: true,
+    });
+    let {actions} = this.props;
+    if (this.state.imageShow == undefined) {
+      console.log('99999');
+      await camelapp
+        .post('/update', {
+          user_id: this.props.user.user.user.id,
+          name: userName,
+          location: location ? location : null,
+          email: email ? email : null,
+          image:
+            pickedImage !== undefined
+              ? pickedImage
+              : image?.length
+              ? image
+              : null,
+        })
+        .then(res => {
+          console.log(res?.data, 'dtaaresponseee');
+          if (res.data.status == true) {
             this.setState({
               btnLoader: false,
             });
+            actions.userData(res?.data);
+            this.props.navigation.replace('Profile', {
+              screen: ArabicText.profilee,
+            });
+          } else {
+            this.setState({
+              btnLoader: false,
+            });
+            this.props.navigation.replace('Profile', {
+              screen: ArabicText.profilee,
+            });
+          }
+        })
+        .catch(error => {
+          console.log(error, 'errorr');
+          this.setState({
+            btnLoader: false,
           });
-      }
+        });
+      // }
     }
   };
   render() {
@@ -264,8 +273,6 @@ class EditProfile extends Component {
               bottom: 0,
               borderRadius: 100,
               backgroundColor: 'orange',
-              // borderColor: Colors.color1,
-              // borderWidth: 4,
               alignContent: 'center',
               alignSelf: 'center',
               padding: 10,

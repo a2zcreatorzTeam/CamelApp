@@ -66,6 +66,7 @@ class Home extends Component {
     this.debouncedSearchHandler = debounce(this.searchHandler, 300);
   }
   componentDidMount() {
+    console.log(this.props.user, 'FromHomeeeee');
     this.viewPosts();
     // this.checkUser();
   }
@@ -334,7 +335,6 @@ class Home extends Component {
         });
       }
     }
-
   };
   sharePosts = async item => {
     this.setState({loading: true});

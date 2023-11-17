@@ -71,7 +71,7 @@ class AddNew extends Component {
           }}>
           <View style={Styles.viewimg}>
             <TouchableOpacity
-              onPress={() => onAddButtonClick('CamelClub')}
+              onPress={() => onAddButtonClick('CamelClubForm')}
               style={Styles.OpacityAddnew}>
               <Image
                 source={require('../../assets/group_839_480.png')}
@@ -80,7 +80,7 @@ class AddNew extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => onAddButtonClick('TreatingCamel')}
+              onPress={() => onAddButtonClick('TreatingCamelForm')}
               style={Styles.OpacityAddnew}>
               <Image
                 source={require('../../assets/ilaj.png')}
@@ -99,7 +99,7 @@ class AddNew extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => onAddButtonClick('SellingCamel')}
+              onPress={() => onAddButtonClick('SellingCamelForm')}
               style={Styles.OpacityAddnew}>
               <Image
                 source={require('../../assets/group_838.png')}
@@ -156,7 +156,7 @@ class AddNew extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => onAddButtonClick('CamelFemale')}
+              onPress={() => onAddButtonClick('CamelFemaleForm')}
               style={Styles.OpacityAddnew}>
               <Image
                 source={require('../../assets/femaleCamel.png')}

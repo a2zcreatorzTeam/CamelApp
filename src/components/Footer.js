@@ -10,7 +10,7 @@ import Notification from '../screens/Notification';
 import Header from './Header';
 import Addnew from '../screens/Addnew';
 import Profile from '../screens/Profile';
-import Stack from './Stack';
+import Stack from '../routes/Stack';
 import * as ArabicText from '../language/EnglishToArabic';
 
 import ChatTopTab from '../screens/chat/ChatTopTab';

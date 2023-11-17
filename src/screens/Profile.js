@@ -602,7 +602,7 @@ class Profile extends Component {
             itemFromDetails: item,
           });
         } else if (item.category_id == '7') {
-          this.props.navigation.navigate('DetailsComponent', {
+          this.props.navigation.navigate('CompetitionPostDetail', {
             itemFromDetails: item,
           });
         }
@@ -654,7 +654,7 @@ class Profile extends Component {
           });
         }
         if (item.category_id == '7') {
-          this.props.navigation.navigate('DetailsComponent', {
+          this.props.navigation.navigate('CompetitionPostDetail', {
             itemFromDetails: item,
           });
         }

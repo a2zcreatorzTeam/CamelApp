@@ -26,7 +26,7 @@ import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
 
-class CamelClub extends Component {
+class LiveMarketingForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -398,4 +398,4 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CamelClub);
+export default connect(mapStateToProps, mapDispatchToProps)(LiveMarketingForm);

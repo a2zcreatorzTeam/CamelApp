@@ -207,7 +207,9 @@ class Bids extends Component {
     };
     return (
       <View style={Styles.containerBids}>
-        <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>{ArabicText?.MyBids1}</Text>
+        <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
+          {ArabicText?.MyBids1}
+        </Text>
         <FlatList
           ListEmptyComponent={() => <EmptyComponent />}
           data={this.state.posts}

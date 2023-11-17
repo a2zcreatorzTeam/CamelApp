@@ -251,6 +251,7 @@ class CamelTreatmentList extends Component {
       }
     };
     const onDetailsClick = (item, viewCount, setViewCount) => {
+      console.log('itemmid', item?.category_id);
       let {user} = this.props;
       user = user.user.user;
       if (user != undefined) {
@@ -258,12 +259,16 @@ class CamelTreatmentList extends Component {
           itemFromDetails: item,
         });
         this.postViewed(item, viewCount, setViewCount);
+      } else {
+        this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
+          itemFromDetails: item,
+        });
       }
     };
     const onAddButtonClick = () => {
       let {user} = this.props;
       if (user.user.status == true) {
-        this.props.navigation.navigate('TreatingCamel');
+        this.props.navigation.navigate('TreatingCamelForm');
       } else {
         this.props.navigation.navigate('Login');
       }

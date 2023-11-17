@@ -80,7 +80,6 @@ class CamelFoodList extends Component {
         .then(res => {
           var arrayPosts = res?.data?.Posts;
           arrayPosts.map((item, index) => {
-            console.log('index', index);
             let array = item?.img;
             let imagesArray = [];
             array[0] !== '' &&
@@ -260,6 +259,10 @@ class CamelFoodList extends Component {
           itemFromDetails: item,
         });
         this.postViewed(item, viewCount, setViewCount);
+      } else {
+        this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
+          itemFromDetails: item,
+        });
       }
     };
     const onAddButtonClick = () => {

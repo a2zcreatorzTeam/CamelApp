@@ -36,7 +36,7 @@ import Header from '../components/Header';
 import FastImage from 'react-native-fast-image';
 import {Share} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import { Rating } from 'react-native-ratings';
+import {Rating} from 'react-native-ratings';
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
 
@@ -62,7 +62,6 @@ class UserProfile extends Component {
       OtherUserDetail: '',
       loader: false,
       rating: 0,
-
     };
   }
   ScrollToRefresh() {
@@ -218,32 +217,32 @@ class UserProfile extends Component {
             item['imagesArray'] = imagesArray;
             arrayPosts[index] = item;
           });
-             // RATING
-             const length = data?.posts?.length;
-             console.log(data?.posts?.length, length, length > 30 || length < 100 , "LENGTH CHECKING ")
-             let rating = 1;
-             if (length > 30 || length < 100) {
-               console.log("ratigggg");
-              //  rating = 1;
-             this.setState({rating: 1});
-
-             } else if (length >= 100 && length < 150) {
-              //  rating = 2;
-             this.setState({rating: 2});
-
-             } else if (length >= 150 && length < 200) {
-              //  rating = 3;
-             this.setState({rating: 3});
-
-             } else if (length >= 200 && length < 250) {
-              //  rating = 4;
-             this.setState({rating: 4});
-
-             } else if (length > 250) {
-              //  rating = 5;
-             this.setState({rating: 5});
-
-             }
+          // RATING
+          const length = data?.posts?.length;
+          console.log(
+            data?.posts?.length,
+            length,
+            length > 30 || length < 100,
+            'LENGTH CHECKING ',
+          );
+          let rating = 1;
+          if (length > 30 || length < 100) {
+            console.log('ratigggg');
+            //  rating = 1;
+            this.setState({rating: 1});
+          } else if (length >= 100 && length < 150) {
+            //  rating = 2;
+            this.setState({rating: 2});
+          } else if (length >= 150 && length < 200) {
+            //  rating = 3;
+            this.setState({rating: 3});
+          } else if (length >= 200 && length < 250) {
+            //  rating = 4;
+            this.setState({rating: 4});
+          } else if (length > 250) {
+            //  rating = 5;
+            this.setState({rating: 5});
+          }
           this.setState({
             postData: arrayPosts,
             following: data?.following,
@@ -253,8 +252,12 @@ class UserProfile extends Component {
             key: !key,
             OtherUserDetail: data?.user[0],
           });
-          console.log("RATING COUNT  LENGTH",length, typeof  this.state?.rating, this.state?.rating)
-
+          console.log(
+            'RATING COUNT  LENGTH',
+            length,
+            typeof this.state?.rating,
+            this.state?.rating,
+          );
         }
         this.setState({loading: false});
         if (user !== undefined) {
@@ -310,7 +313,11 @@ class UserProfile extends Component {
     const user_friend = this.props.route?.params;
     let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
-    console.log(user?.id , user_friend?.user_id, " user?.id + '/' + user_friend?.user_id")
+    console.log(
+      user?.id,
+      user_friend?.user_id,
+      " user?.id + '/' + user_friend?.user_id",
+    );
     camelapp
       .get('/friendshipstatus/' + user?.id + '/' + user_friend?.user_id)
       .then(res => {
@@ -465,69 +472,66 @@ class UserProfile extends Component {
           itemFromDetails: item,
         });
       } else if (item.category_id == '7') {
-        this.props.navigation.navigate('DetailsComponent', {
+        this.props.navigation.navigate('CompetitionPostDetail', {
           itemFromDetails: item,
         });
       }
       this.postViewed(item, viewCount, setViewCount);
     } else {
-      // if (item.category_id == '1') {
-      //   this.props.navigation.navigate('CamelClubDetailsComponent', {
-      //     itemFromDetails: item,
-      //   });
-      // }
-      // if (item.category_id == '4') {
-      //   this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
-      //     itemFromDetails: item,
-      //   });
-      // }
-      // if (item.category_id == '3') {
-      //   this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
-      //     itemFromDetails: item,
-      //   });
-      // }
-      // if (item.category_id == '2') {
-      //   this.props.navigation.navigate('DetailsSellingCamel', {
-      //     itemFromDetails: item,
-      //   });
-      // }
-      // if (item.category_id == '6') {
-      //   console.log('id6666');
-      //   this.props.navigation.navigate('DetailsComponentWithPrice', {
-      //     itemFromDetails: item,
-      //   });
-      // }
-      // if (item.category_id == '8') {
-      //   console.log('id88888');
-      //   this.props.navigation.navigate('DetailsComponentWithPrice', {
-      //     itemFromDetails: item,
-      //   });
-      // }
-      // if (item.category_id == '5') {
-      //   this.props.navigation.navigate('DetailsMovingCamel', {
-      //     itemFromDetails: item,
-      //   });
-      // }
-      // if (item.category_id == '9') {
-      //   this.props.navigation.navigate('DetailsMarketingCamel', {
-      //     itemFromDetails: item,
-      //   });
-      // }
+      if (item.category_id == '1') {
+        this.props.navigation.navigate('CamelClubDetailsComponent', {
+          itemFromDetails: item,
+        });
+      }
+      if (item.category_id == '4') {
+        this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
+          itemFromDetails: item,
+        });
+      }
+      if (item.category_id == '3') {
+        this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
+          itemFromDetails: item,
+        });
+      }
+      if (item.category_id == '2') {
+        this.props.navigation.navigate('DetailsSellingCamel', {
+          itemFromDetails: item,
+        });
+      }
+      if (item.category_id == '6') {
+        console.log('id6666');
+        this.props.navigation.navigate('DetailsComponentWithPrice', {
+          itemFromDetails: item,
+        });
+      }
+      if (item.category_id == '8') {
+        console.log('id88888');
+        this.props.navigation.navigate('DetailsComponentWithPrice', {
+          itemFromDetails: item,
+        });
+      }
+      if (item.category_id == '5') {
+        this.props.navigation.navigate('DetailsMovingCamel', {
+          itemFromDetails: item,
+        });
+      }
+      if (item.category_id == '9') {
+        this.props.navigation.navigate('DetailsMarketingCamel', {
+          itemFromDetails: item,
+        });
+      }
 
-      // if (item.category_id == '11') {
-      //   this.props.navigation.navigate('DetailsFemaleCamel', {
-      //     itemFromDetails: item,
-      //   });
-      // }
-      // if (item.category_id == '7') {
-      //   this.props.navigation.navigate('DetailsComponent', {
-      //     itemFromDetails: item,
-      //   });
-      // }
-      this.props.navigation.navigate('Login');
+      if (item.category_id == '11') {
+        this.props.navigation.navigate('DetailsFemaleCamel', {
+          itemFromDetails: item,
+        });
+      }
+      if (item.category_id == '7') {
+        this.props.navigation.navigate('CompetitionPostDetail', {
+          itemFromDetails: item,
+        });
+      }
     }
-
-    // this.props.navigation.navigate("DetailsComponent", { itemFromDetails: item })
   };
   render() {
     const {
@@ -738,11 +742,7 @@ class UserProfile extends Component {
         </TouchableOpacity>
       );
     };
-  console.log(
-
-
-    this.state.friendshipStatus,"this.state.friendshipStatus"
-  )
+    console.log(this.state.friendshipStatus, 'this.state.friendshipStatus');
     return (
       <View style={styles.container}>
         <Header
@@ -805,55 +805,54 @@ class UserProfile extends Component {
             </Text>
 
             <View
-                    style={{
-                      flexDirection: 'row-reverse',
-                      alignItems: 'center',
-                      alignSelf:'center'
-
-                    }}>
-                    <AntDesign
-                      name="checkcircle"
-                      size={14}
-                      color={
-                        user?.subscription
-                          ? user?.subscription == 'normal'
-                            ? 'blue'
-                            : user?.subscription == 'famous'
-                            ? 'orange'
-                            : '#e50000'
-                          : this.state?.rating <= 1
-                          ? 'blue'
-                          : this.state?.rating <= 3
-                          ? 'orange'
-                          : '#e50000'
-                      }
-                    />
-                    <Text
-                      style={{
-                        color: user?.subscription
-                          ? user?.subscription == 'normal'
-                            ? 'blue'
-                            : user?.subscription == 'famous'
-                            ? 'orange'
-                            : '#e50000'
-                          : this.state?.rating <= 1
-                          ? 'blue'
-                          : this.state?.rating <= 3
-                          ? 'orange'
-                          : '#e50000',
-                        fontSize: 12,
-                        // textAlign: '',
-                        marginRight: 4,
-                      }}>
-                      {user?.subscription?.length
-                        ? user?.subscription
-                        : this.state?.rating <= 1
-                        ? 'Normal'
-                        : this.state?.rating <= 3
-                        ? 'Special'
-                        : 'Famous'}
-                    </Text>
-                  </View>
+              style={{
+                flexDirection: 'row-reverse',
+                alignItems: 'center',
+                alignSelf: 'center',
+              }}>
+              <AntDesign
+                name="checkcircle"
+                size={14}
+                color={
+                  user?.subscription
+                    ? user?.subscription == 'normal'
+                      ? 'blue'
+                      : user?.subscription == 'famous'
+                      ? 'orange'
+                      : '#e50000'
+                    : this.state?.rating <= 1
+                    ? 'blue'
+                    : this.state?.rating <= 3
+                    ? 'orange'
+                    : '#e50000'
+                }
+              />
+              <Text
+                style={{
+                  color: user?.subscription
+                    ? user?.subscription == 'normal'
+                      ? 'blue'
+                      : user?.subscription == 'famous'
+                      ? 'orange'
+                      : '#e50000'
+                    : this.state?.rating <= 1
+                    ? 'blue'
+                    : this.state?.rating <= 3
+                    ? 'orange'
+                    : '#e50000',
+                  fontSize: 12,
+                  // textAlign: '',
+                  marginRight: 4,
+                }}>
+                {user?.subscription?.length
+                  ? user?.subscription
+                  : this.state?.rating <= 1
+                  ? 'Normal'
+                  : this.state?.rating <= 3
+                  ? 'Special'
+                  : 'Famous'}
+              </Text>
+            </View>
             <View style={styles.icons}>
               <TouchableOpacity
                 onPress={() => this.sendWhatsAppMessage()}
@@ -888,24 +887,23 @@ class UserProfile extends Component {
                 <Feather name="message-square" size={20} color="#CD853F" />
               </TouchableOpacity>
             </View>
-            
           </View>
-          <View style={{position: 'absolute', right: 15, bottom: 5,}}>
-                  {/* Rating */}
-                  <Rating
-                    ratingCount={5}
-                    jumpValue={4}
-                    imageSize={16}
-                    readonly={true}
-                    startingValue={this.state?.rating}
-                    ratingBackgroundColor={'#aaa'}
-                    style={{paddingVertical: 10}}
-                    ratingColor={'crimson'}
-                    tintColor="white"
-                    type="custom"
-                  />
-                  {/* Rating */}
-                </View>
+          <View style={{position: 'absolute', right: 15, bottom: 5}}>
+            {/* Rating */}
+            <Rating
+              ratingCount={5}
+              jumpValue={4}
+              imageSize={16}
+              readonly={true}
+              startingValue={this.state?.rating}
+              ratingBackgroundColor={'#aaa'}
+              style={{paddingVertical: 10}}
+              ratingColor={'crimson'}
+              tintColor="white"
+              type="custom"
+            />
+            {/* Rating */}
+          </View>
         </View>
 
         <View style={Styles.textinfo}>
@@ -975,7 +973,7 @@ class UserProfile extends Component {
             <Text style={{color: '#fff'}}>{ArabicText.Following}</Text>
           </TouchableOpacity>
         </View>
-     
+
         <Loader loading={this.state.loading} />
 
         <FlatList

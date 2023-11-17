@@ -72,7 +72,6 @@ class CamelClubList extends Component {
         arrayPosts.map((item, index) => {
           let array = item?.img;
           let imagesArray = [];
-          console.log(array, 'arayyy');
           array[0] !== '' &&
             array?.forEach(element => {
               imagesArray?.push({type: 'image', source: element});
@@ -286,17 +285,22 @@ class CamelClubList extends Component {
       }
     };
     const onDetailsClick = (item, viewCount, setViewCount) => {
+      console.log('itemmid', item?.category_id);
       if (user != undefined) {
         this.props.navigation.navigate('CamelClubDetailsComponent', {
           itemFromDetails: item,
         });
         this.postViewed(item, viewCount, setViewCount);
+      } else {
+        this.props.navigation.navigate('CamelClubDetailsComponent', {
+          itemFromDetails: item,
+        });
       }
     };
     const onAddButtonClick = () => {
       let {user} = this.props;
       if (user.user.status == true) {
-        this.props.navigation.navigate('CamelClub');
+        this.props.navigation.navigate('CamelClubForm');
       } else {
         this.props.navigation.navigate('Login');
       }

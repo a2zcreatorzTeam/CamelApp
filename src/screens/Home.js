@@ -14,7 +14,6 @@ import {
   Share,
 } from 'react-native';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import camelapp from '../api/camelapp';
 import {I18nManager} from 'react-native';
 I18nManager.forceRTL(false);
@@ -27,8 +26,6 @@ import {bindActionCreators} from 'redux';
 import Header from '../components/Header';
 import Loader from '../components/PleaseWait';
 import Ads from '../components/Ads';
-import NotFound from '../components/NotFound';
-import Toast from 'react-native-toast-message';
 
 const {width, height} = Dimensions.get('screen');
 const debounce = (func, delay) => {
@@ -180,12 +177,6 @@ class Home extends Component {
   scrollToEnd = () => {
     this.scrollRef.current.scrollToEnd({animated: false});
   };
-  playVideo(item) {
-    // let {filterPosts} = this.state;
-    //   // let index = filterPosts.indexOf(item);
-    //   // filterPosts[index].flagForVideo = !filterPosts[index].flagForVideo;
-    // this.setState({filterPosts: filterPosts});
-  }
   onCategoryClick = async item => {
     if (item.category_id == '1') {
       this.props.navigation.navigate('CamelClubList');
@@ -266,19 +257,23 @@ class Home extends Component {
           itemFromDetails: item,
         });
       } else if (item.category_id == '5') {
+        console.log('5');
         this.props.navigation.navigate('DetailsMovingCamel', {
           itemFromDetails: item,
         });
       } else if (item.category_id == '9') {
+        console.log('9');
         this.props.navigation.navigate('DetailsMarketingCamel', {
           itemFromDetails: item,
         });
       } else if (item.category_id == '11') {
+        console.log('111111');
         this.props.navigation.navigate('DetailsFemaleCamel', {
           itemFromDetails: item,
         });
       } else if (item.category_id == '7') {
-        this.props.navigation.navigate('DetailsComponent', {
+        console.log('777 food feattt');
+        this.props.navigation.navigate('CompetitionPostDetail', {
           itemFromDetails: item,
         });
       }
@@ -290,11 +285,13 @@ class Home extends Component {
         });
       }
       if (item.category_id == '4') {
+        // TREATING CAMEL
         this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
           itemFromDetails: item,
         });
       }
       if (item.category_id == '3') {
+        // MISSING CAMEL
         this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
           itemFromDetails: item,
         });
@@ -305,13 +302,13 @@ class Home extends Component {
         });
       }
       if (item.category_id == '6') {
-        console.log('id6666');
+        console.log('FOOD DETAILS');
         this.props.navigation.navigate('DetailsComponentWithPrice', {
           itemFromDetails: item,
         });
       }
       if (item.category_id == '8') {
-        console.log('id88888');
+        console.log('EQUIPMENT DETAILS');
         this.props.navigation.navigate('DetailsComponentWithPrice', {
           itemFromDetails: item,
         });
@@ -326,20 +323,18 @@ class Home extends Component {
           itemFromDetails: item,
         });
       }
-
       if (item.category_id == '11') {
         this.props.navigation.navigate('DetailsFemaleCamel', {
           itemFromDetails: item,
         });
       }
       if (item.category_id == '7') {
-        this.props.navigation.navigate('DetailsComponent', {
+        this.props.navigation.navigate('CompetitionPostDetail', {
           itemFromDetails: item,
         });
       }
     }
 
-    // this.props.navigation.navigate("DetailsComponent", { itemFromDetails: item })
   };
   sharePosts = async item => {
     this.setState({loading: true});

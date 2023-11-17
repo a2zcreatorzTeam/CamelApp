@@ -30,7 +30,7 @@ const Header = props => {
     navigation.goBack();
   };
   const whatsApp = () => {
-    navigation.navigate('Whatsapp');
+    navigation.navigate('AppDetails');
   };
   return (
     <View style={[Styles.header, {paddingVertical: 10}]}>

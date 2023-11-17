@@ -14,7 +14,7 @@ import * as ArabicText from '../language/EnglishToArabic';
 import Toast from 'react-native-toast-message';
 const width = Dimensions.get('screen').width;
 
-export default function App() {
+export default function AppDetails() {
   const openWhatsApp = () => {
     let msg = 'Hello';
     let mobile = '6531301053';

@@ -229,7 +229,7 @@ const Item = ({
   todaysDate,
 }) => (
   <Card>
-    <TouchableOpacity onPress={onItemClick}>
+    <TouchableOpacity activeOpacity={0.9} onPress={onItemClick}>
       <View
         style={[
           Styles.newsbox1,
@@ -241,7 +241,6 @@ const Item = ({
             paddingHorizontal: 10,
           },
         ]}>
-        {console.log(item?.survey_end_status, 'survey_end_status')}
         <View
           style={{
             // position: 'absolute',

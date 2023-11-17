@@ -154,10 +154,17 @@ class Notification extends Component {
 
         {this.state.loader == false && (
           <FlatList
+            style={{
+              flex: 1,
+              width: '100%',
+            }}
             key={key}
             ListEmptyComponent={() => <EmptyComponent />}
             data={searchedItem ? filterPosts : posts}
-            contentContainerStyle={{paddingBottom: '10%'}}
+            contentContainerStyle={{
+              paddingBottom: '10%',
+              flexGrow: 1,
+            }}
             renderItem={renderItem}
             keyExtractor={item => item.id}
             initialNumToRender={10}

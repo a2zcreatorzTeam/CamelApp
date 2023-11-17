@@ -23,10 +23,9 @@ import Ads from '../components/Ads';
 import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
-import {Image as ImageCompressor} from 'react-native-compressor';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
-
+const {width, height} = Dimensions.get('screen');
 class CamelClubForm extends Component {
   constructor(props) {
     super(props);
@@ -265,10 +264,14 @@ class CamelClubForm extends Component {
   render() {
     const {pausedCheck, loadVideo, videoModal, modalItem, mixed} = this.state;
     return (
-      <View style={{backgroundColor: '#ffffff'}}>
+      <View style={{backgroundColor: 'blue', flex: 1}}>
         <BackBtnHeader />
         {/* <Ads /> */}
-        <ScrollView contentContainerStyle={{paddingBottom: 200}}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{flex: 1}}
+          contentContainerStyle={{minHeight: '100%'}}
+          alwaysBounceVertical={false}>
           <View style={Styles.containerScroll}>
             <Text style={Styles.headingPostText}>{ArabicText.Camel_Club}</Text>
             {/* IMAGES CAROUSAL */}
@@ -368,6 +371,7 @@ class CamelClubForm extends Component {
               }}></TextInput>
 
             <TextInput
+              textAlignVertical="top"
               style={[Styles.inputdecrp, {marginTop: 20}]}
               placeholder={ArabicText.Description}
               placeholderTextColor="#b0b0b0"

@@ -44,7 +44,6 @@ import DetailsSellingCamel from '../screens/DetailsSellingCamel.js';
 import DetailsMovingCamel from '../screens/DetailsMovingCamel.js';
 import DetailsMarketingCamel from '../screens/DetailsMarketingCamel.js';
 import DetailsFemaleCamel from '../screens/DetailsFemaleCamel.js';
-import Bids from '../screens/Bids.js';
 import BeautyOfCompetition from '../screens/BeautyOfCompetitionDetail.js';
 import WinnerBeauty from '../screens/WinnerBeauty.js';
 import AboutUs from '../screens/AboutUs.js';
@@ -110,11 +109,6 @@ export default function Navigation() {
         <Stack.Screen
           name="MessageViewScreen"
           component={MessageView}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Bids"
-          component={Bids}
           options={{headerShown: false}}
         />
         <Stack.Screen

@@ -25,9 +25,7 @@ import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
-
-const width = Dimensions.get('screen').width;
-
+const {width} = Dimensions.get('screen');
 class MissingCamelForm extends Component {
   constructor(props) {
     super(props);
@@ -242,7 +240,15 @@ class MissingCamelForm extends Component {
   render() {
     const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
     return (
-      <ScrollView style={{backgroundColor: '#ffffff'}}>
+      <ScrollView
+        style={{flex: 1}}
+        contentContainerStyle={{
+          minHeight: '100%',
+          paddingBottom: width * 0.1,
+          backgroundColor: '#fff',
+        }}
+        alwaysBounceVertical={false}
+        showsVerticalScrollIndicator={false}>
         <BackBtnHeader />
         {/* <Ads /> */}
         <View style={Styles.containerScroll}>
@@ -270,52 +276,13 @@ class MissingCamelForm extends Component {
               this.setState({pausedCheck: true});
             }}
           />
-          {/* <Carousel
-            keyExtractor={this.state.mixed.fileName}
-            data={this.state.mixed}
-            layout={'default'}
-            scrollEnabled={true}
-            onScroll={() => this.setState({pauseVideo: true})}
-            renderItem={({item, index}) => {
-              return (
-                <View style={Styles.imageCarousal}>
-                  {item.mime != undefined && item.mime.includes('image') && (
-                    <Image
-                      source={{uri: item.path}}
-                      key={String(index)}
-                      resizeMode={'cover'}
-                      style={{width: '100%', height: '100%'}}
-                    />
-                  )}
-                  {item.mime != undefined && item.mime.includes('video') && (
-                    <Video
-                      onTouchStart={() => {
-                        this.setState({pauseVideo: !this.state.pauseVideo});
-                      }}
-                      source={{uri: item.path}}
-                      key={String(index)}
-                      resizeMode="stretch"
-                      repeat
-                      controls={false}
-                      paused={this.state.pauseVideo}
-                      style={Styles.video}
-                    />
-                  )}
-                </View>
-              );
-            }}
-            sliderWidth={width}
-            itemWidth={width}
-          /> */}
 
           {this.state.imageFlage && (
             <Image
               source={{
                 uri: this.state.image,
               }}
-              style={Styles.image}
-              // style={{ width: 320, height: 200 }}
-            ></Image>
+              style={Styles.image}></Image>
           )}
 
           <View style={{flexDirection: 'row', marginTop: 10}}>
@@ -405,6 +372,7 @@ class MissingCamelForm extends Component {
             }}></TextInput>
 
           <TextInput
+            textAlignVertical="top"
             style={[Styles.inputdecrp, {marginTop: 20}]}
             placeholder={ArabicText.Description}
             placeholderTextColor="#b0b0b0"

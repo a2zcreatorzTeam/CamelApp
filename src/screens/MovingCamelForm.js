@@ -347,7 +347,15 @@ class MovingCamelForm extends React.Component {
       <SafeAreaView style={Styles.container}>
         <BackBtnHeader />
         {/* <Ads /> */}
-        <ScrollView style={{backgroundColor: 'white'}}>
+        <ScrollView
+          style={{flex: 1}}
+          contentContainerStyle={{
+            minHeight: '100%',
+            paddingBottom: width * 0.1,
+            backgroundColor: '#fff',
+          }}
+          alwaysBounceVertical={false}
+          showsVerticalScrollIndicator={false}>
           <View style={Styles.container}>
             <Text style={[Styles.headingPostText, {marginTop: 30}]}>
               {ArabicText?.Movingcamel}
@@ -505,6 +513,7 @@ class MovingCamelForm extends React.Component {
             </View>
 
             <TextInput
+              textAlignVertical="top"
               style={[Styles.inputdecrp, {marginTop: 20}]}
               placeholder={ArabicText.Description}
               placeholderTextColor="#b0b0b0"

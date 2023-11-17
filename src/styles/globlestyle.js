@@ -10,7 +10,7 @@ export const Styles = StyleSheet.create({
     width: width,
   },
   headingPostText: {
-    marginTop: 5,
+    marginBottom: 20,
     fontSize: 18,
     fontWeight: 'bold',
     color: '#D2691Eff',
@@ -99,10 +99,10 @@ export const Styles = StyleSheet.create({
   containerScroll: {
     flex: 1,
     backgroundColor: '#ffffff',
-    // marginTop: 50,
+    paddingTop: 50,
     width: width,
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
   containerDetails: {
     flex: 1,
@@ -584,6 +584,7 @@ export const Styles = StyleSheet.create({
     justifyContent: 'center',
     margin: 10,
     alignSelf: 'center',
+    marginTop: 20,
   },
   mforminputs: {
     height: 40,

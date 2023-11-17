@@ -251,9 +251,17 @@ class TreatingCamelForm extends Component {
     this.setState({mixed: filteredList});
   };
   render() {
-    const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
+    const {pausedCheck, loadVideo, videoModal, modalItem, mixed} = this.state;
     return (
-      <ScrollView style={{backgroundColor: '#ffffff'}}>
+      <ScrollView
+        style={{flex: 1}}
+        contentContainerStyle={{
+          minHeight: '100%',
+          paddingBottom: width * 0.1,
+          backgroundColor: '#fff',
+        }}
+        alwaysBounceVertical={false}
+        showsVerticalScrollIndicator={false}>
         <BackBtnHeader />
         {/* <Ads /> */}
         <View style={Styles.containerScroll}>
@@ -266,65 +274,28 @@ class TreatingCamelForm extends Component {
             }}>
             علاج الحلال
           </Text>
-          <HorizontalCarousel
-            // removeItem={index => this.removeItem(index)}
-            CustomUrl
-            price={
-              this.state.itemFromDetails?.price
-                ? this.state.itemFromDetails?.price
-                : ''
-            }
-            imagesArray={this.state.mixed}
-            onPress={mediaSource => {
-              this.setState({
-                pausedCheck: false,
-                videoModal: true,
-                modalItem: mediaSource,
-              });
-            }}
-            pausedCheck={pausedCheck}
-            pauseVideo={() => {
-              this.setState({pausedCheck: true});
-            }}
-          />
-          {/* <Carousel
-            keyExtractor={this.state.mixed.fileName}
-            data={this.state.mixed}
-            layout={'default'}
-            scrollEnabled={true}
-            onScroll={() => this.setState({pauseVideo: true})}
-            renderItem={({item, index}) => {
-              return (
-                <View style={Styles.imageCarousal}>
-                  {item?.mime != undefined && item.mime.includes('image') && (
-                    <Image
-                      source={{uri: item.path}}
-                      key={String(index)}
-                      resizeMode={'cover'}
-                      style={{width: '100%', height: '100%'}}
-                    />
-                  )}
-                  {item?.mime != undefined && item.mime.includes('video') && (
-                    <Video
-                      onTouchStart={() => {
-                        this.setState({pauseVideo: !this.state.pauseVideo});
-                      }}
-                      source={{uri: item.path}}
-                      key={String(index)}
-                      resizeMode="stretch"
-                      repeat
-                      controls={false}
-                      paused={this.state.pauseVideo}
-                      style={Styles.video}
-                    />
-                  )}
-                </View>
-              );
-            }}
-            sliderWidth={width}
-            itemWidth={width}
-          /> */}
-
+          {mixed?.length ? (
+            <HorizontalCarousel
+              CustomUrl
+              price={
+                this.state.itemFromDetails?.price
+                  ? this.state.itemFromDetails?.price
+                  : ''
+              }
+              imagesArray={mixed}
+              onPress={mediaSource => {
+                this.setState({
+                  pausedCheck: false,
+                  videoModal: true,
+                  modalItem: mediaSource,
+                });
+              }}
+              pausedCheck={pausedCheck}
+              pauseVideo={() => {
+                this.setState({pausedCheck: true});
+              }}
+            />
+          ) : null}
           {this.state.imageFlage && (
             <Image
               source={{

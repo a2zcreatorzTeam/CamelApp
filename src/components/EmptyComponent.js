@@ -4,13 +4,20 @@ import * as ArabicText from '../language/EnglishToArabic';
 
 const EmptyComponent = ({text, textStyle}) => {
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
       <Text
-        style={[{
-          color: 'black',
-          textAlign: 'center',
-          
-        }, textStyle]}>
+        style={[
+          {
+            color: 'black',
+            textAlign: 'center',
+          },
+          textStyle,
+        ]}>
         {ArabicText?.Nodatafound}
       </Text>
     </View>

@@ -6,6 +6,7 @@ import {
   Image,
   TextInput,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import 'react-native-gesture-handler';
@@ -24,7 +25,7 @@ import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
-
+const {width} = Dimensions.get('screen');
 class CamelFemaleForm extends Component {
   constructor(props) {
     super(props);
@@ -264,7 +265,16 @@ class CamelFemaleForm extends Component {
     console.log('====================================');
     const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
     return (
-      <ScrollView style={{backgroundColor: '#ffffff'}}>
+      <ScrollView
+        style={{flex: 1}}
+        contentContainerStyle={{
+          minHeight: '100%',
+          paddingBottom: width * 0.1,
+          backgroundColor: '#fff',
+        }}
+        alwaysBounceVertical={false}
+        showsVerticalScrollIndicator={false}
+        >
         <BackBtnHeader />
         {/* <Ads /> */}
         <View style={Styles.containerScroll}>
@@ -389,6 +399,7 @@ class CamelFemaleForm extends Component {
             }}></TextInput>
 
           <TextInput
+            textAlignVertical="top"
             style={[Styles.inputdecrp, {marginTop: 20}]}
             placeholder={ArabicText.Description}
             placeholderTextColor="#b0b0b0"

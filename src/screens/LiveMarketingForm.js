@@ -6,7 +6,7 @@ import {
   Image,
   TextInput,
   ScrollView,
-  StyleSheet,
+  Dimensions,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import 'react-native-gesture-handler';
@@ -25,7 +25,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
-
+const {width} = Dimensions.get('screen');
 class LiveMarketingForm extends Component {
   constructor(props) {
     super(props);
@@ -232,36 +232,50 @@ class LiveMarketingForm extends Component {
   };
 
   render() {
-    const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
+    const {pausedCheck, loadVideo, videoModal, modalItem, mixed} = this.state;
     return (
-      <ScrollView style={{backgroundColor: '#ffffff'}}>
+      <ScrollView
+        style={{flex: 1}}
+        contentContainerStyle={{
+          minHeight: '100%',
+          paddingBottom: width * 0.1,
+          backgroundColor: '#fff',
+        }}
+        alwaysBounceVertical={false}
+        showsVerticalScrollIndicator={false}>
         <BackBtnHeader />
         {/* <Ads /> */}
         <View style={Styles.containerScroll}>
           <Text style={Styles.headingPostText}>عروض الاء سواق</Text>
-          <HorizontalCarousel
-            removeItem={index => this.removeItem(index)}
-            price={
-              this.state.itemFromDetails?.price
-                ? this.state.itemFromDetails?.price
-                : ''
-            }
-            CustomUrl
-            imagesArray={this.state.mixed}
-            onPress={mediaSource => {
-              this.setState({
-                pausedCheck: false,
-                videoModal: true,
-                modalItem: mediaSource,
-              });
-            }}
-            pausedCheck={pausedCheck}
-            pauseVideo={() => {
-              this.setState({pausedCheck: true});
-            }}
-          />
+          {mixed?.length ? (
+            <HorizontalCarousel
+              removeItem={index => this.removeItem(index)}
+              price={
+                this.state.itemFromDetails?.price
+                  ? this.state.itemFromDetails?.price
+                  : ''
+              }
+              CustomUrl
+              imagesArray={this.state.mixed}
+              onPress={mediaSource => {
+                this.setState({
+                  pausedCheck: false,
+                  videoModal: true,
+                  modalItem: mediaSource,
+                });
+              }}
+              pausedCheck={pausedCheck}
+              pauseVideo={() => {
+                this.setState({pausedCheck: true});
+              }}
+            />
+          ) : null}
 
-          <View style={{flexDirection: 'row', marginTop: 10}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: 10,
+            }}>
             <View style={Styles.cameraview}>
               <TouchableOpacity onPress={() => this.videoPicker()}>
                 <FontAwesome name="video-camera" size={30} color="#D2691Eff" />
@@ -340,6 +354,7 @@ class LiveMarketingForm extends Component {
             }}></TextInput>
 
           <TextInput
+            textAlignVertical="top"
             style={[Styles.inputdecrp, {marginTop: 20}]}
             placeholder={ArabicText.Description}
             placeholderTextColor="#b0b0b0"

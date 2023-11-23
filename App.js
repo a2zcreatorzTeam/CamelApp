@@ -23,6 +23,7 @@ import {getStorage} from 'firebase/storage';
 import {notificationListener} from './src/services/Helper';
 import DeviceInfo from 'react-native-device-info';
 import codePush from 'react-native-code-push';
+import {ProgressBar} from 'react-native-paper';
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(['Remote debugger']);
 const toastConfig = {
@@ -64,6 +65,7 @@ class App extends Component {
     super();
     this.state = {
       updateProcess: false,
+      downloaded: 0,
     };
   }
   // CODE PUSH FUNCTIONS
@@ -88,6 +90,7 @@ class App extends Component {
     const downloaded = Math.round(
       (progress?.receivedBytes / progress?.totalBytes) * 100,
     );
+    this.setState({downloaded: downloaded});
     console.log('downloaded', downloaded);
     // this.setState({progress, downloading: true, downloaded: downloaded});
   };
@@ -205,6 +208,33 @@ class App extends Component {
               }}>
               App is Updating, Please Wait ...
             </Text>
+
+            <View
+              style={{
+                width: '100%',
+                marginBottom: 40,
+              }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: 'black',
+                  alignSelf: 'center',
+                  marginVertical: 10,
+                }}>
+                {this.state.downloaded}%
+              </Text>
+              <ProgressBar
+                progress={0.01 * this.state.downloaded}
+                color="#61CE70"
+                style={{
+                  height: 30,
+                  width: '90%',
+                  alignSelf: 'center',
+                  borderRadius: 10,
+                  backgroundColor: '#EBECED',
+                }}
+              />
+            </View>
           </View>
         ) : (
           <Navigation />

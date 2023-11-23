@@ -63,7 +63,7 @@ const AdsComp = ({item}) => {
           alignItems: 'center',
           justifyContent: 'space-between',
           flexDirection: 'row',
-          aspectRatio: 1,
+          // aspectRatio: 1,
         }}>
         <Image
           resizeMode="contain"
@@ -72,10 +72,10 @@ const AdsComp = ({item}) => {
               'http://www.tasdeertech.com/images/advertisement/' + item?.image,
           }}
           style={{
-            width:'100%',
+            width: '100%',
             height: '100%',
             borderRadius: 7,
-            flex: 1,
+            // flex: 1,
           }}
         />
 

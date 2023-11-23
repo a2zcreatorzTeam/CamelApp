@@ -6,7 +6,7 @@ import * as ArabicText from '../language/EnglishToArabic';
 import {TouchableOpacity} from 'react-native';
 import {Linking} from 'react-native';
 
-const width = Dimensions.get('screen').width;
+const width = Dimensions.get('window').width;
 const Ads = () => {
   const [adsData, setAdsData] = useState([]);
   const viewAds = async () => {
@@ -63,6 +63,7 @@ const AdsComp = ({item}) => {
           alignItems: 'center',
           justifyContent: 'space-between',
           flexDirection: 'row',
+          aspectRatio: 1,
         }}>
         <Image
           resizeMode="contain"
@@ -71,10 +72,10 @@ const AdsComp = ({item}) => {
               'http://www.tasdeertech.com/images/advertisement/' + item?.image,
           }}
           style={{
-            width: '100%',
+            width:'100%',
             height: '100%',
             borderRadius: 7,
-            // resizeMode: 'contain',
+            flex: 1,
           }}
         />
 

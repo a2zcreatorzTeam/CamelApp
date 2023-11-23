@@ -65,6 +65,7 @@ const AdsComp = ({item}) => {
           flexDirection: 'row',
           // aspectRatio: 1,
         }}>
+          
         <Image
           resizeMode="contain"
           source={{

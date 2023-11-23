@@ -10,6 +10,7 @@ import camelapp from '../../api/camelapp';
 import {Dimensions} from 'react-native';
 import Toast from 'react-native-toast-message';
 import EmptyComponent from '../../components/EmptyComponent';
+import {ActivityIndicator} from 'react-native';
 const width = Dimensions.get('screen').width;
 
 class Bids extends Component {
@@ -25,6 +26,7 @@ class Bids extends Component {
     this.viewPosts();
   }
   async viewPosts() {
+    this.setState({loader: true});
     try {
       const {key} = this.state;
       let {user} = this.props;
@@ -35,6 +37,7 @@ class Bids extends Component {
           this.setState({
             posts: res?.data,
             key: !key,
+            loader: false,
           });
         });
     } catch (error) {
@@ -115,7 +118,7 @@ class Bids extends Component {
     });
   }
   render() {
-    const {key} = this.state;
+    const {key, loader} = this.state;
     const BidsItem = ({
       item,
       userName,
@@ -215,15 +218,25 @@ class Bids extends Component {
     };
     return (
       <View style={Styles.containerBids}>
-        <FlatList
-          ListEmptyComponent={() => <EmptyComponent />}
-          key={key}
-          style={{flex: 1}}
-          contentContainerStyle={{paddingBottom: width * 0.5, flexGrow: 1}}
-          data={this.state.posts}
-          renderItem={renderBidItem}
-          refeshing={this.state.refreshing}
-        />
+        {loader && (
+          <ActivityIndicator
+            size="large"
+            color="#D2691Eff"
+            animating={loader}
+            style={{marginTop: 20}}
+          />
+        )}
+        {!loader && (
+          <FlatList
+            ListEmptyComponent={() => <EmptyComponent />}
+            key={key}
+            style={{flex: 1}}
+            contentContainerStyle={{paddingBottom: width * 0.5, flexGrow: 1}}
+            data={this.state.posts}
+            renderItem={renderBidItem}
+            refeshing={this.state.refreshing}
+          />
+        )}
       </View>
     );
   }

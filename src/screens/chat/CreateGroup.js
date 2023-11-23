@@ -74,12 +74,11 @@ const CreateGroup = props => {
 
   // // FETCH Friendlist Data
   const getFriendlist = async () => {
-
-    console.log(userID, "USER ID")
+    console.log(userID, 'USER ID');
     try {
       // userID user id statc
       const fetchfriendlist = await camelapp.get('/friendlist/' + userID);
-      console.log(fetchfriendlist?.data , "fetchfriendlist")
+      console.log(fetchfriendlist?.data, 'fetchfriendlist');
       setFriendList(fetchfriendlist?.data);
     } catch (error) {
       console.log(error?.response, '=====ERROR OF FRIEND LIST API===');
@@ -124,15 +123,19 @@ const CreateGroup = props => {
       try {
         setGroupLoader(true);
         var localImageoUri = image?.imageShow;
+        console.log(image?.imageName, 'localImageoUri');
         const response = await fetch(localImageoUri);
         const blob = await response.blob();
+        console.log(blob,"blobbbbb");
         const storageRef = storage().ref(
           `Create_Group_Images/${image?.imageName}`,
         );
         await storageRef.put(blob);
+        console.log("stoarahe135555");
 
         // Get the download URL of the uploaded video
         const downloadURL = await storageRef.getDownloadURL();
+        console.log(downloadURL, 'downloadURL');
         const collectionRef = firestore().collection('groupChat'); // Replace with your actual collection name
         const documentData = {
           lastUpdated: Date.now(),
@@ -151,7 +154,7 @@ const CreateGroup = props => {
         setGroupLoader(false);
         Toast.show({
           text1: ArabicText?.Groupcreatedsuccessfully,
-          type: 'error',
+          type: 'success',
           visibilityTime: 3000,
         });
         // alert('Group created successfully');

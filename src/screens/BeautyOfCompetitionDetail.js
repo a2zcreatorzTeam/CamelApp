@@ -132,7 +132,7 @@ class BeautyOfCompetition extends Component {
       this.setState({filterPosts: posts});
     } else {
       this.setState({searchedItem: value});
-      // Data Filtration
+      // // Data Filtration
       const filteredData = posts.filter(item => {
         const {user_name} = item;
         return user_name?.toLowerCase().includes(value.toLowerCase());
@@ -142,7 +142,7 @@ class BeautyOfCompetition extends Component {
         return name?.toLowerCase().includes(value.toLowerCase());
       });
       this.setState({filteredSponsers: filteredSponsers});
-      if (filteredData.length > 0) {
+      if (filteredData?.length > 0) {
         this.setState({filterPosts: filteredData, dataNotFound: false});
       } else {
         this.setState({filterPosts: [], dataNotFound: true});
@@ -302,7 +302,7 @@ class BeautyOfCompetition extends Component {
             marginBottom: 10,
             color: 'black',
           }}>
-          {name}
+          {name ? name : ''}
         </Text>
       </View>
     );
@@ -376,7 +376,7 @@ class BeautyOfCompetition extends Component {
             if (text) {
               this.search(text);
             } else {
-              this.setState({searchedItem: ''});
+              this.setState({searchedItem: '', searchText: ''});
             }
           }}
           onPressSearch={() => this.searchHandler(searchText)}
@@ -624,9 +624,11 @@ class BeautyOfCompetition extends Component {
             </View>
           </View>
         </Modal>
-        {(searchedItem
-          ? filteredSponsers?.length
-          : competition_item?.sponsors?.length) && (
+        {(
+          searchedItem
+            ? filteredSponsers?.length
+            : competition_item?.sponsors?.length
+        ) ? (
           <View style={Styles.BeautyOfComp}>
             <FlatList
               showsHorizontalScrollIndicator={false}
@@ -637,7 +639,7 @@ class BeautyOfCompetition extends Component {
               horizontal={true}
             />
           </View>
-        )}
+        ) : null}
 
         {NewDate >= competition[0]?.start_date &&
           NewDate <= competition[0]?.end_date && (
@@ -651,7 +653,7 @@ class BeautyOfCompetition extends Component {
           )}
 
         <View style={{flex: 1}}>
-          {posts?.length && (
+          {posts?.length ? (
             <FlatList
               key={key}
               style={{flex: 1, flexGrow: 1}}
@@ -666,8 +668,8 @@ class BeautyOfCompetition extends Component {
               data={searchedItem ? filterPosts : posts}
               renderItem={renderPostItem}
               numColumns={2}
-              initialNumToRender={5}
-              maxToRenderPerBatch={5}
+              // initialNumToRender={5}
+              // maxToRenderPerBatch={5}
               refreshControl={
                 <RefreshControl
                   refreshing={refreshing}
@@ -675,7 +677,7 @@ class BeautyOfCompetition extends Component {
                 />
               }
             />
-          )}
+          ) : null}
         </View>
       </View>
     );

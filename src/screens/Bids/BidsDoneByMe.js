@@ -124,6 +124,25 @@ class Bids extends Component {
       }
     });
   }
+  onProfileClick = item => {
+    let {user} = this.props;
+    user = user?.user?.user;
+    if (user != undefined) {
+      if (item?.user_id == user?.id) {
+        this.props.navigation.navigate('Profile', {screen: 'حسابي'});
+      } else {
+        this.props.navigation?.navigate('UserProfile', {
+          user_id: item?.user_id,
+          userProfile: item,
+        });
+      }
+    } else {
+      this.props.navigation?.navigate('UserProfile', {
+        user_id: item?.user_id,
+        userProfile: item,
+      });
+    }
+  };
 
   render() {
     const {key, posts, refreshing, loader} = this.state;
@@ -146,19 +165,20 @@ class Bids extends Component {
           marginTop: 10,
           marginBottom: 10,
         }}>
-        <FastImage
-          style={{
-            width: 80,
-            height: 80,
-            borderRadius: 40,
-            alignSelf: 'center',
-          }}
-          source={{
-            uri: 'https:www.tasdeertech.com/images/profiles/' + userImage,
-          }}
-          resizeMode={FastImage?.resizeMode.cover}
-        />
-
+        <TouchableOpacity onPress={() => this.onProfileClick(item?.item)}>
+          <FastImage
+            style={{
+              width: 80,
+              height: 80,
+              borderRadius: 40,
+              alignSelf: 'center',
+            }}
+            source={{
+              uri: 'https:www.tasdeertech.com/images/profiles/' + userImage,
+            }}
+            resizeMode={FastImage?.resizeMode.cover}
+          />
+        </TouchableOpacity>
         <View
           style={{
             height: '100%',
@@ -182,6 +202,15 @@ class Bids extends Component {
               color: 'black',
             }}>
             {bidPrice}
+          </Text>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              color: 'black',
+              width: '99%',
+              textAlign: 'center',
+            }}>
+            {item?.item?.post?.title}
           </Text>
         </View>
         <View style={{flexDirection: 'column', justifyContent: 'space-around'}}>

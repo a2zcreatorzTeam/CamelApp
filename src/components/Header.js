@@ -18,13 +18,11 @@ const Header = props => {
   let {
     navRoute,
     onChangeText,
-    onPressSearch,
+    onPressSearch = () => {},
     filterIcon,
     onChangeTo,
     onChangeFrom,
-    searchLocationFunction = () => {},
   } = props;
-  const [locationInput, setLocationInput] = useState(false);
   const navigation = useNavigation(0);
   const goBack = () => {
     navigation.goBack();
@@ -35,19 +33,22 @@ const Header = props => {
   return (
     <View style={[Styles.header, {paddingVertical: 10}]}>
       <View style={Styles.subHeaderView}>
-        {filterIcon && (
+        {/* {filterIcon && (
           <TouchableOpacity
             onPress={() => setLocationInput(!locationInput)}
             style={[styles.btnContainer, {marginLeft: 10, marginRight: 0}]}>
             <FontAwesome name={'filter'} size={24} color="brown" />
           </TouchableOpacity>
-        )}
-        <CircularBTN iconName="arrow-back-sharp" onPress={onPressSearch} />
-        {locationInput ? (
+        )} */}
+        <CircularBTN
+          iconName="arrow-back-sharp"
+          onPress={() => onPressSearch()}
+        />
+        {filterIcon ? (
           <View
             style={{
               flexDirection: 'row',
-              width: '60%',
+              width: '70%',
               justifyContent: 'space-between',
             }}>
             <View

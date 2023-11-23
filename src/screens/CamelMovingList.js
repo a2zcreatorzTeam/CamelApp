@@ -18,6 +18,7 @@ import {bindActionCreators} from 'redux';
 import Header from '../components/Header';
 import {Styles} from '../styles/globlestyle';
 import {TouchableOpacity} from 'react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 class CamelMovingList extends Component {
   constructor(props) {
@@ -33,6 +34,9 @@ class CamelMovingList extends Component {
       key: false,
       To: '',
       From: '',
+      locationInput: false,
+      searchedTo: '',
+      searchedFrom: '',
     };
   }
 
@@ -59,19 +63,19 @@ class CamelMovingList extends Component {
     }
   }
   searchLocationFunction(To, From) {
+    this.setState({searchedTo: To, searchedFrom: From});
+    console.log(To, From, 'jjkjkjkjkjk');
     const {key} = this.state;
-    if (
-      To != undefined &&
-      From != undefined &&
-      To?.length != 0 &&
-      From?.length != 0
-    ) {
-      let tempPost = this.state?.posts.filter(item => {
+    if ((To && To.length > 0) || (From && From.length > 0)) {
+      let tempPost = this.state?.posts?.filter(item => {
+        console.log(item?.location, item?.to_location, 'locationnnn', From);
         return (
-          item?.location?.toLowerCase().includes(From.toLowerCase()) &&
-          item?.to_location?.toLowerCase().includes(To.toLowerCase())
+          (From &&
+            item?.location?.toLowerCase().includes(From.toLowerCase())) ||
+          (To && item?.to_location?.toLowerCase().includes(To.toLowerCase()))
         );
       });
+      console.log(tempPost, 'tempPosttempPost', this.state?.posts?.length);
       this.setState({filterPosts: tempPost, key: !key});
     }
   }
@@ -141,6 +145,7 @@ class CamelMovingList extends Component {
       loader,
       refreshing,
       searchText,
+      locationInput,
     } = this.state;
     let {user} = this.props;
     user = user.user.user;
@@ -184,7 +189,7 @@ class CamelMovingList extends Component {
     return (
       <View style={styles.container}>
         <Header
-          filterIcon
+          filterIcon={locationInput}
           onChangeText={text => {
             if (text) {
               this.search(text);
@@ -196,22 +201,29 @@ class CamelMovingList extends Component {
             if (text) {
               this.setState({To: text});
             } else {
-              this.setState({To: '', searchedItem: ''});
+              this.setState({To: '', searchedItem: '', searchedTo: ''});
             }
           }}
           onChangeFrom={text => {
             if (text) {
               this.setState({From: text});
             } else {
-              this.setState({From: '', searchedItem: ''});
+              this.setState({From: '', searchedItem: '', searchedFrom: ''});
             }
           }}
           onPressSearch={() => {
-            To?.length && From?.length
+            To?.length || From?.length
               ? this.searchLocationFunction(To, From)
               : this.searchFunction(searchText);
           }}
         />
+        {
+          <TouchableOpacity
+            onPress={() => this.setState({locationInput: !locationInput})}
+            style={[styles.btnContainer, {marginLeft: 10, marginRight: 0}]}>
+            <FontAwesome name={'filter'} size={28} color="white" />
+          </TouchableOpacity>
+        }
         {loader && (
           <ActivityIndicator
             size="large"
@@ -221,7 +233,7 @@ class CamelMovingList extends Component {
           />
         )}
         {loader == false && (
-          <View>
+          <View style={{flex: 1, width: '100%'}}>
             <View
               style={{
                 flexDirection: 'row',
@@ -245,11 +257,12 @@ class CamelMovingList extends Component {
               <AddButton onPress={() => onAddButtonClick()} />
             </View>
             <FlatList
+              style={{flex: 1}}
               ListEmptyComponent={() => <EmptyComponent />}
               key={key}
               contentContainerStyle={{paddingBottom: '20%'}}
               data={
-                searchedItem || (To && From) ? filterPosts : this.state?.posts
+                searchedItem || To || From ? filterPosts : this.state?.posts
               }
               renderItem={renderItem}
               keyExtractor={item => item.id}
@@ -284,5 +297,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: '100%',
     backgroundColor: 'white',
+  },
+  btnContainer: {
+    width: 35,
+    height: 35,
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 10,
+    alignSelf: 'flex-start',
+    marginVertical: 20,
+    backgroundColor: '#d2691e',
   },
 });

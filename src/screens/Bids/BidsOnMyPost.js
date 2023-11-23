@@ -33,7 +33,6 @@ class Bids extends Component {
       return await camelapp
         .get(`/get/bids/${user?.user?.user?.id}`)
         .then(res => {
-          console.log(res?.data, 'databdOnPst');
           this.setState({
             posts: res?.data,
             key: !key,
@@ -117,6 +116,25 @@ class Bids extends Component {
       }
     });
   }
+  onProfileClick = item => {
+    let {user} = this.props;
+    user = user?.user?.user;
+    if (user != undefined) {
+      if (item?.user_id == user?.id) {
+        this.props.navigation.navigate('Profile', {screen: 'حسابي'});
+      } else {
+        this.props.navigation?.navigate('UserProfile', {
+          user_id: item?.user_id,
+          userProfile: item,
+        });
+      }
+    } else {
+      this.props.navigation?.navigate('UserProfile', {
+        user_id: item?.user_id,
+        userProfile: item,
+      });
+    }
+  };
   render() {
     const {key, loader} = this.state;
     const BidsItem = ({
@@ -138,17 +156,19 @@ class Bids extends Component {
           marginTop: 10,
           marginBottom: 10,
         }}>
-        <Image
-          source={{
-            uri: 'https:www.tasdeertech.com/images/profiles/' + userImage,
-          }}
-          style={{
-            width: 80,
-            height: 80,
-            borderRadius: 40,
-            alignSelf: 'center',
-          }}
-        />
+        <TouchableOpacity onPress={() => this.onProfileClick(item)}>
+          <Image
+            source={{
+              uri: 'https:www.tasdeertech.com/images/profiles/' + userImage,
+            }}
+            style={{
+              width: 80,
+              height: 80,
+              borderRadius: 40,
+              alignSelf: 'center',
+            }}
+          />
+        </TouchableOpacity>
         <View
           style={{
             height: '100%',
@@ -172,6 +192,17 @@ class Bids extends Component {
               color: 'black',
             }}>
             {bidPrice}
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              // textAlign: 'right',
+              fontWeight: 'bold',
+              color: 'black',
+              width: '99%',
+              textAlign: 'center',
+            }}>
+            {item?.post?.title}
           </Text>
         </View>
         <View style={{flexDirection: 'column', justifyContent: 'space-around'}}>
@@ -205,6 +236,7 @@ class Bids extends Component {
       </View>
     );
     const renderBidItem = ({item}) => {
+      console.log(item, 'itemmmmmm2177');
       return (
         <BidsItem
           item={item}

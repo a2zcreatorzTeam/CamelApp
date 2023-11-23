@@ -93,8 +93,6 @@ const GroupChat = props => {
           type: 'error',
           visibilityTime: 3000,
         });
-
-        console.log('location permission denied');
       }
     } catch (err) {
       console.log(err);
@@ -107,17 +105,15 @@ const GroupChat = props => {
       timeout: 15000,
     })
       .then(location => {
-    if(location){
-
-      setlat(location?.latitude);
-      setlong(location?.longitude);
-    }
-      setModalVisible(false);
+        if (location) {
+          setlat(location?.latitude);
+          setlong(location?.longitude);
+        }
+        setModalVisible(false);
         postLocation();
       })
       .catch(error => {
         const {code, message} = error;
-        console.warn(code, message);
       });
   };
   const postLocation = async () => {
@@ -137,7 +133,6 @@ const GroupChat = props => {
             timestamp: firebase?.firestore?.FieldValue.serverTimestamp(),
           });
 
-        console.log('Message sent successfully');
         setInputValue('');
       }
     } catch (error) {
@@ -170,7 +165,6 @@ const GroupChat = props => {
     // setModalVisible(false)
   };
   const proceed = async item => {
-    console.log(item, 'LOGIN ITEEMME')
     var newItem = item.split(',');
 
     var lat = newItem[0];
@@ -215,7 +209,6 @@ const GroupChat = props => {
         setLoader(false);
         setModalVisible(false);
 
-        console.log('Video uploaded and metadata stored successfully.');
         setModal(false);
         setVideo('');
         setImage('');
@@ -371,20 +364,16 @@ const GroupChat = props => {
     try {
       return await camelapp.post('getMultipleUsersDetails', data).then(res => {
         var arrayOfUserDetails = res?.data;
-        console.log(arrayOfUserDetails, 'arrayOfUserDetails7');
-        const mergedArray = arrayOfUserDetails.flatMap(obj1 => {
-          const matchingObjects2 = msgs.filter(
-            obj2 => obj2.senderId === obj1.id,
+        const mergedArray = msgs.map(msg => {
+          const userDetail = arrayOfUserDetails.find(
+            user => user.id === msg.senderId,
           );
-
-          // Repeat obj1 based on the number of matching objects in array2
-          return matchingObjects2.map(obj2 => ({...obj1, ...obj2}));
+          return {...userDetail, ...msg};
         });
 
         // console.log('mergedArraymergedArrayssssss', mergedArray);
-
         // setGroupChat(newMessages);
-        setGroupChat(mergedArray?.reverse());
+        setGroupChat(mergedArray);
       });
     } catch (error) {
       console.log('Error Message', error?.response);
@@ -443,7 +432,7 @@ const GroupChat = props => {
       .collection('groupChat')
       .doc(groupDocumentId)
       .collection('messages')
-      .orderBy('timestamp', 'asc')
+      .orderBy('timestamp', 'desc')
       .onSnapshot(querySnapshot => {
         const newMessages = [];
         querySnapshot.forEach(doc => {
@@ -459,7 +448,7 @@ const GroupChat = props => {
           }
           return acc;
         }, []);
-
+        console.log(arrayOfUniqueUserIds, 'newMessagesss', newMessages);
         getUsersDetails(arrayOfUniqueUserIds, newMessages);
 
         // setGroupChat(newMessages?.reverse());
@@ -518,18 +507,18 @@ const GroupChat = props => {
         </TouchableOpacity>
       </View>
       <FlatList
-        ListEmptyComponent={() => <EmptyComponent 
-        
-        textStyle={{
-          transform: [{rotateX: '-180deg'}]
-        }}
-        />}
+        ListEmptyComponent={() => (
+          <EmptyComponent
+            textStyle={{
+              transform: [{rotateX: '-180deg'}],
+            }}
+          />
+        )}
         inverted
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingTop: width * 0.2}}
         data={groupChat}
         renderItem={({item, index}) => {
-          console.log("Checkimg ityem", item)
           return (
             <View>
               {/* Right side messages */}
@@ -560,8 +549,6 @@ const GroupChat = props => {
                   {item?.imageName ? (
                     <TouchableOpacity
                       onPress={() => {
-                        console.log('newnew', item?.downloadURL);
-
                         setModalItemForModal(true),
                           setModalItemsData({uri: item?.downloadURL}),
                           setModalItemType('image');
@@ -603,7 +590,6 @@ const GroupChat = props => {
                       <TouchableOpacity
                         style={[styles.rightChatImageContainer]}
                         onPress={() => {
-                          console.log('newnew', item?.downloadURL);
                           setModalItemForModal(true),
                             setModalItemsData({uri: item?.downloadURL}),
                             setModalItemType('video');
@@ -868,128 +854,12 @@ const GroupChat = props => {
                       </TouchableOpacity>
                     </>
                   )}
-
-                  {/* CHAT IMAGE */}
-                  {/* {item?.image ? (
-                    <View style={styles.chatImageContainer}>
-                      <Text
-                        style={{
-                          color: '#d2691e',
-                          fontSize: 13,
-                          fontWeight: '700',
-                          marginBottom: 7,
-                        }}>
-                        {item?.sender}
-                      </Text>
-                      <Image
-                        resizeMode="cover"
-                        source={{
-                          uri: `data:${item?.image?.mediaType};base64,${item?.image?.pickedImage}`,
-                        }}
-                        style={styles.chatImage}
-                      />
-                    </View>
-                  ) : null} */}
-
-                  {/* CHAT VIDEO */}
-                  {/* {item?.file_type == 'video' && (
-                    <View
-                      style={{
-                        flex: 1,
-                        backgroundColor: '#ededed',
-                        width: width,
-                      }}>
-                      {pausedCheck && (
-                        <Image
-                          activeOpacity={0.4}
-                          source={require('../../../assets/camel.png')}
-                          resizeMode={'cover'}
-                          style={[
-                            Styles.image,
-                            {backgroundColor: 'rgba(0,0,0,0.5)', opacity: 0.3},
-                          ]}
-                        />
-                      )}
-                      <TouchableOpacity
-                        style={{
-                          height: 70,
-                          width: 70,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          position: 'absolute',
-                          elevation: 2,
-                          bottom: height / 6,
-                          left: width / 2.3,
-                        }}
-                        onPress={() => {
-                          setPausedCheck(false);
-                          setVideoModal(true);
-                          setModalItem({
-                            uri: `http://www.tasdeertech.com${item.file_url}`,
-                          });
-                        }}>
-                        <Image
-                          activeOpacity={0.4}
-                          source={
-                            pausedCheck
-                              ? require('../../../assets/play.png')
-                              : require('../../../assets/pause.png')
-                          }
-                          resizeMode={'cover'}
-                          style={{width: 70, height: 70}}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                    // <Video
-                    //   onTouchStart={() => onTouchStart(index, item)}
-                    //   // onTouchStart={onTouchStart}
-                    //   paused={item?.flagForVideo}
-                    //   source={{
-                    //     uri: `http://www.tasdeertech.com${item.file_url}`,
-                    //   }} // Can be a URL or a local file.
-                    //   resizeMode="stretch"
-                    //   //  repeat
-                    //   controls={false}
-                    //   style={{
-                    //     backgroundColor: 'grey',
-                    //     width: 200,
-                    //     height: 150,
-                    //     margin: 10,
-                    //     padding: 10,
-                    //     overflow: 'hidden',
-                    //     borderTopStartRadius: 25,
-                    //     borderBottomEndRadius: 25,
-                    //     borderBottomStartRadius: 25,
-                    //     left: width - 220,
-                    //   }}
-                    // />
-                  )} */}
-                  {/* {item?.location == null && (
-                    <>
-           <Text
-                        style={{
-                          color: '#d2691e',
-                          fontSize: 13,
-                          fontWeight: '700',
-                          marginBottom: 7,
-                        }}>
-                        {item?.sender}
-                      </Text> 
-                      <TouchableOpacity
-                        style={styles.chatImageContainer}
-                        onPress={() => proceed(item?.location)}>
-                        <Image
-                          source={require('../../../assets/maps.jpg')}
-                          style={styles.chatImage}
-                        />
-                      </TouchableOpacity>
-                    </>
-                  )} */}
                 </View>
               )}
             </View>
           );
         }}
+        keyExtractor={(item, index) => index.toString()}
       />
 
       <View style={styles.inputContainer}>

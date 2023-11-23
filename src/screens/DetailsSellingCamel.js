@@ -411,7 +411,7 @@ class DetailsComponent extends Component {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'flex-end',
+            justifyContent: 'space-around',
             paddingHorizontal: 20,
             marginTop: 15,
             width: '100%',
@@ -422,6 +422,9 @@ class DetailsComponent extends Component {
               backgroundColor: '#D2691Eff',
               padding: 10,
               borderRadius: 10,
+              width: '20%',
+              marginBottom: 10,
+              alignItems: 'center',
             }}>
             <Text
               style={{

@@ -12,6 +12,7 @@ import {Dimensions} from 'react-native';
 import {RefreshControl} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
+import {ActivityIndicator} from 'react-native';
 const width = Dimensions.get('screen').width;
 class Bids extends Component {
   constructor(props) {
@@ -20,9 +21,11 @@ class Bids extends Component {
       posts: [],
       refreshing: false,
       key: false,
+      loader: false,
     };
   }
   async viewPosts() {
+    this.setState({loader: true});
     try {
       let {user} = this.props;
       const {key} = this.state;
@@ -35,6 +38,7 @@ class Bids extends Component {
           this.setState({
             posts: res?.data?.bids,
             key: !key,
+            loader: false,
           });
         });
     } catch (error) {
@@ -122,7 +126,7 @@ class Bids extends Component {
   }
 
   render() {
-    const {key, posts, refreshing} = this.state;
+    const {key, posts, refreshing, loader} = this.state;
     const BidsItem = ({
       item,
       userName,
@@ -224,20 +228,30 @@ class Bids extends Component {
     };
     return (
       <View style={Styles.containerBids}>
-        <FlatList
-          ListEmptyComponent={() => <EmptyComponent />}
-          key={key}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={() => this.ScrollToRefresh()}
-            />
-          }
-          style={{flex: 1}}
-          contentContainerStyle={{flexGrow: 1, paddingBottom: width * 0.5}}
-          data={posts}
-          renderItem={renderBidItem}
-        />
+        {loader && (
+          <ActivityIndicator
+            size="large"
+            color="#D2691Eff"
+            animating={loader}
+            style={{marginTop: 20}}
+          />
+        )}
+        {!loader && (
+          <FlatList
+            ListEmptyComponent={() => <EmptyComponent />}
+            key={key}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={() => this.ScrollToRefresh()}
+              />
+            }
+            style={{flex: 1}}
+            contentContainerStyle={{flexGrow: 1, paddingBottom: width * 0.5}}
+            data={posts}
+            renderItem={renderBidItem}
+          />
+        )}
       </View>
     );
   }

@@ -161,62 +161,6 @@ class ViewNews extends Component {
       } else {
         this.props.navigation.navigate('Login');
       }
-      // if (item?.user?.name !== undefined) {
-      //   camelapp
-      //     .post('/news-comment-like', {
-      //       news_comment_id: item?.id,
-      //       user_id: item?.user_id,
-      //     })
-      //     .then(res => {
-      //       const likeStatus =
-      //         res?.data?.message == 'Successfully liked' ? true : false;
-
-      //       // {"message": "Successfully Unliked", "status": true}
-      //       if (likeStatus == true) {
-      //         commentList[indexOfItem].comment_like_count =
-      //           commentList[indexOfItem]?.comment_like_count + 1;
-      //         commentList[indexOfItem].flagForLike = true;
-
-      //         this.setState({
-      //           like: item.id,
-      //           userID: item.user_id,
-      //           commentList: commentList,
-      //         });
-
-      //         alert(res?.data?.message);
-      //       } else {
-      //         commentList[indexOfItem].comment_like_count =
-      //           commentList[indexOfItem]?.comment_like_count - 1;
-      //         commentList[indexOfItem].flagForLike = false;
-
-      //         this.setState({
-      //           like: item.id,
-      //           userID: item.user_id,
-      //           commentList: commentList,
-      //         });
-
-      //         alert(res?.data?.message);
-      //       }
-      //       // if (likeStatus === true) {
-
-      //       //     alert("liked")
-
-      //       // }
-
-      //       // if (likeStatus === false) {
-
-      //       //     commentList[indexOfItem].comment_like_count = commentList[indexOfItem]?.comment_like_count - 1;
-      //       //     commentList[indexOfItem].flagForLike = false;
-      //       //     this.setState({ like: item.id, userID: item.user_id, commentList: commentList })
-
-      //       //     this.setState({ userID: item.id })
-
-      //       // }
-      //     })
-      //     .catch(err => {
-      //       console.log(err, '====ERR');
-      //     });
-      // }
     };
     const renderItem = ({item}) => {
       return (

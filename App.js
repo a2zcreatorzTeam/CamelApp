@@ -200,7 +200,7 @@ class App extends Component {
               backgroundColor: '#fff',
               flex: 1,
             }}>
-            <ActivityIndicator />
+            {/* <ActivityIndicator /> */}
             <Text
               style={{
                 color: 'black',

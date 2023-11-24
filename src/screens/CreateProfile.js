@@ -19,6 +19,7 @@ import * as EmailValidator from 'email-validator';
 import {ScrollView} from 'react-native';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import GooglePlaceAutocomplete from '../components/GooglePlaceHolder';
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -169,6 +170,9 @@ class CreateProfile extends Component {
         });
     }
   };
+  callback = (formatted_address, geometry) => {
+    this.setState({location: formatted_address});
+  };
 
   render() {
     const {image, btnLoader, location} = this.state;
@@ -248,7 +252,7 @@ class CreateProfile extends Component {
                   keyboardType="numeric"
                   placeholder={ArabicText.phone}
                   maxLength={10}
-                  placeholderTextColor="#000000"
+                  placeholderTextColor="#b0b0b0"
                   onChangeText={text =>
                     this.setState({phoneNumber: text.replace(/[^0-9]/g, '')})
                   }></TextInput>
@@ -269,12 +273,17 @@ class CreateProfile extends Component {
               placeholderTextColor="#b0b0b0"
               keyboardType="email-address"
             />
-            <TextInput
+            {/* <TextInput
               style={Styles.inputs}
               value={location}
               onChangeText={text => this.setState({location: text})}
               placeholder={ArabicText.Location}
               placeholderTextColor="#b0b0b0"
+            /> */}
+            <GooglePlaceAutocomplete
+              callback={(formatted_address, geometry) => {
+                this.callback(formatted_address, geometry);
+              }}
             />
           </View>
 

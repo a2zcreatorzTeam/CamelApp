@@ -486,8 +486,8 @@ const Item = ({
               uri: 'http://www.tasdeertech.com/images/profiles/' + image,
             }}
             style={{
-              width: 35,
-              height: 35,
+              width: 50,
+              height: 50,
               borderRadius: 30,
             }}></Image>
         </View>

@@ -1244,6 +1244,7 @@ export const Styles = StyleSheet.create({
     borderWidth: 2,
     marginBottom: 10,
     borderColor: 'grey',
+    justifyContent:"center"
   },
 
   user_HomeMessageModal: {

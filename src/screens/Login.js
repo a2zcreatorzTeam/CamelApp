@@ -199,6 +199,7 @@ class Login extends Component {
       this.setState({loader: true});
       await getFCMToken();
       const deviceToken = await AsyncStorage?.getItem('fcmToken');
+      console.log(deviceToken, 'tokennnnn');
       let number = 0;
       do {
         number = Math.floor(Math.random() * 10000) + 1;

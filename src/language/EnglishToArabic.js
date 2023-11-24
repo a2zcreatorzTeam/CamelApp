@@ -381,3 +381,4 @@ export const followinglist = 'القائمة التالية';
 export const Location_From = 'الموقع من';
 export const Location_To = 'الموقع إلى';
 export const Iaccepttermsandconditions = 'أنا أوافق على الأحكام و الشروط';
+export const AddLocation='أضف الموقع'

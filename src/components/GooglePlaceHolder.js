@@ -1,101 +1,104 @@
-// import React from 'react';
-// import {StyleSheet, View, Dimensions, Image, Text} from 'react-native';
-// import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-// import {GEOCODE_API_KEY} from '../config/WebService';
-// import {colors, WP} from '../utils';
+import React, {useRef, useState} from 'react';
+import {StyleSheet, View, Dimensions} from 'react-native';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
+import * as ArabicText from '../language/EnglishToArabic';
 
-// const {width} = Dimensions.get('screen');
+const {width} = Dimensions.get('screen');
 
-// const GooglePlaceAutocomplete = ({
-//   callback,
-//   wrapperStyles,
-//   placeholder,
-//   label,
-//   address,
+const GooglePlaceAutocomplete = ({
+  callback = () => {},
+  wrapperStyles,
+  placeholder,
+  label,
+  address,
+}) => {
+  return (
+    <View style={[styles.geoLocationView, wrapperStyles]}>
+      {/* <GooglePlacesAutocomplete
+        ref={ref}
+        formatted_address={address}
+        enableHighAccuracyLocation
+        fetchDetails
+        enablePoweredByContainer={false}
+        keepResultsAfterBlur={true}
+        listViewDisplayed={false}
+        placeholder={placeholder ? placeholder : ArabicText?.AddLocation}
+        placeholderTextColor={'#b0b0b0'}
+        onPress={(data, details = null) => {
+          const {formatted_address, geometry} = details;
+          callback(formatted_address, geometry, label);
+        }}
+        styles={{
+          textInput: {
+            borderRadius: 10,
+            color: 'black',
+            width: '100%',
+            textAlign: 'right',
+          },
+          description: {color: 'black'},
+        }}
+        textInputProps={{
+          placeholderTextColor: '#b0b0b0',
+          fontSize: 12,
+        }}
+        query={{
+          key: 'AIzaSyBoQGDEoED5cH7xcsMoUWSWA64WrtSyu2U',
+          language: 'ar',
+        }}
+      /> */}
+      <GooglePlacesAutocomplete
+        enableHighAccuracyLocation
+        currentLocation
+        fetchDetails
+        disableScroll
+        enablePoweredByContainer={false}
+        listViewDisplayed={false}
+        placeholder={placeholder ? placeholder : ArabicText?.AddLocation}
+        placeholderTextColor="black"
+        onPress={(data, details = null) => {
+          const {formatted_address, geometry} = details;
+          callback(formatted_address, geometry);
+        }}
+        styles={{
+          textInput: {
+            borderRadius: 10,
+            color: 'black',
+            width: '100%',
+            textAlign: 'right',
+          },
+          description: {color: 'black'},
+        }}
+        textInputProps={{
+          placeholderTextColor: '#b0b0b0',
+          fontSize: 12,
+        }}
+        query={{
+          key: 'AIzaSyBoQGDEoED5cH7xcsMoUWSWA64WrtSyu2U',
+          language: 'en',
+          //   types: 'premise',
+        }}
+        // {...props}
+      />
+    </View>
+  );
+};
 
-//   backgroundColor,
-// }) => {
-//   return (
-//     <View style={[styles.geoLocationView, wrapperStyles]}>
-//       {/* {title && (
-//           <View style={[{}, titleViewstyle]}>
-//             <Text style={{color:'black'}}>
-//               {'titleText'}
-//             </Text>
-//         //   </View>
-//         )} */}
-//       <GooglePlacesAutocomplete
-//         formatted_address={address}
-//         enableHighAccuracyLocation
-//         fetchDetails
-//         disableScroll
-//         backgroundColor
-//         enablePoweredByContainer={false}
-//         keepResultsAfterBlur={true}
-//         listViewDisplayed={false}
-//         placeholder={placeholder ? placeholder : 'Add Location'}
-//         placeholderTextColor={'white'}
-//         onPress={(data, details = null) => {
-//           const {formatted_address, geometry} = details;
-//           callback(formatted_address, geometry, label);
-//         }}
-//         // renderRightButton={() => (
-//         //   <Image
-//         //     source={appIcons.relocator}
-//         //     style={{
-//         //       width: 20,
-//         //       height: 20,
-//         //       resizeMode: 'contain',
-//         //       tintColor: iconColor ? iconColor : colors.primary,
-//         //       alignSelf: 'center',
-//         //       marginBottom: 5,
-//         //       marginLeft: 15,
-//         //       marginRight: 5,
-//         //     }}
-//         //   />
-//         // )}
-//         styles={{
-//           textInput: {
-//             borderRadius: 10,
-//             height: 54,
-//             backgroundColor: backgroundColor,
-//             borderRadius: 10,
-//             color: colors.primary,
-//             width: WP('100%'),
-//             right: 6,
-//           },
-//           description: {color: colors.black},
-//         }}
-//         textInputProps={{
-//           placeholderTextColor: colors.black,
-//           fontSize: 12,
-//         }}
-//         query={{
-//           key: GEOCODE_API_KEY,
-//           language: 'en',
-//         }}
-//       />
-//     </View>
-//   );
-// };
+export default GooglePlaceAutocomplete;
 
-// export default GooglePlaceAutocomplete;
-
-// const styles = StyleSheet.create({
-//   geoLocationView: {
-//     flexDirection: 'row',
-//     paddingHorizontal: 14,
-//     width: WP('90%'),
-//     marginTop: 20,
-//     backgroundColor: colors.card,
-//     borderRadius: 10,
-//   },
-//   textInput: {
-//     // flex: 1,
-//     // height: 55,
-//     // color: colors?.black,
-//     // borderRadius: 10,
-//     // backgroundColor: colors.card,
-//     // width: width,
-//   },
-// });
+const styles = StyleSheet.create({
+  geoLocationView: {
+    flexDirection: 'row',
+    width: '100%',
+    borderBottomColor: '#d2691e',
+    borderBottomWidth: 1,
+    textAlign: 'right',
+  },
+  textInput: {
+    // flex: 1,
+    // height: 55,
+    // color: colors?.black,
+    // borderRadius: 10,
+    // backgroundColor: colors.card,
+    // width: width,
+  },
+});

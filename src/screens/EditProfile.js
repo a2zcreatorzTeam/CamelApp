@@ -23,6 +23,7 @@ import Toast from 'react-native-toast-message';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import CookieManager from '@react-native-cookies/cookies';
 import Loader from '../components/PleaseWait';
+import GooglePlaceAutocomplete from '../components/GooglePlaceHolder';
 
 const {RNTwitterSignIn} = NativeModules;
 
@@ -233,8 +234,16 @@ class EditProfile extends Component {
       // }
     }
   };
+  callback = (formatted_address, geometry) => {
+    this.setState({location: formatted_address});
+    console.log(formatted_address, geometry, 'gejghgh');
+  };
+
   render() {
     const {image, pickedImage} = this.state;
+    let {user} = this.props;
+    user = user.user.user;
+
     return (
       // <ScrollView
       //   showsVerticalScrollIndicator={false}
@@ -309,12 +318,18 @@ class EditProfile extends Component {
             keyboardType="email-address"
           />
 
-          <TextInput
+          {/* <TextInput
             style={Styles.inputs}
             value={this.state.location}
             onChangeText={text => this.setState({location: text})}
             placeholder={ArabicText.Location}
             placeholderTextColor="#b0b0b0"
+          /> */}
+          <GooglePlaceAutocomplete
+            placeholder={user?.location}
+            callback={(formatted_address, geometry) => {
+              this.callback(formatted_address, geometry);
+            }}
           />
         </View>
         {/* Update Profile */}

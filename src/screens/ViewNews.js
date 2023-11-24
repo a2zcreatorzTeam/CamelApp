@@ -52,7 +52,6 @@ class ViewNews extends Component {
         user_id: user?.id,
       })
       .then(res => {
-        console.log(res, 'responseeee');
         this.setState({
           commentList: res?.data,
           loader: false,
@@ -385,109 +384,112 @@ const Item = ({
   return (
     <Card
       style={{
+        width: '100%',
         margintop: 5,
         marginBottom: 5,
-        height: 70,
+        paddingVertical: 5,
         backgroundColor: '#f3f3f3',
       }}>
-      <View>
-        {/* LIKE COMMENT>>>>>>> */}
-        <View
-          style={{
-            position: 'absolute',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            top: 5,
-            left: 8,
-          }}>
-          <TouchableOpacity
-            onPress={() => likeCommentHandler(setIsLiked, setLikeCount)}
-            style={{width: 40}}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <AntDesign
-                name={isLiked == true ? 'heart' : 'hearto'}
-                size={16}
-                color="#CD853F"
-              />
-              <Text
-                style={{
-                  fontSize: 16,
-                  paddingLeft: 5,
-                  fontWeight: 'bold',
-                  textAlign: 'right',
-                  color: 'black',
-                }}>
-                {likeCount}
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          {/* <Text style={{ color: 'black', fontSize: 15, right: -7 }}>
-                        12   {likes}
-                    </Text> */}
-        </View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-          }}>
-          <View
-            style={{
-              alignItems: 'center',
-              right: 60,
-              top: 10,
-              position: 'absolute',
-              marginBottom: 10,
-            }}>
+      {/* LIKE COMMENT>>>>>>> */}
+      <View
+        style={{
+          position: 'absolute',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          top: 5,
+          left: 8,
+        }}>
+        <TouchableOpacity
+          onPress={() => likeCommentHandler(setIsLiked, setLikeCount)}
+          style={{width: 40}}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <AntDesign
+              name={isLiked == true ? 'heart' : 'hearto'}
+              size={16}
+              color="#CD853F"
+            />
             <Text
               style={{
                 fontSize: 16,
-                paddingRight: 5,
+                paddingLeft: 5,
                 fontWeight: 'bold',
                 textAlign: 'right',
                 color: 'black',
               }}>
-              {name}
-            </Text>
-            <Text style={{fontSize: 10, textAlign: 'right', color: 'grey'}}>
-              {moment(date).format('YYYY-MM-DD')}
+              {likeCount}
             </Text>
           </View>
+        </TouchableOpacity>
 
-          <View
+        {/* <Text style={{ color: 'black', fontSize: 15, right: -7 }}>
+                        12   {likes}
+                    </Text> */}
+      </View>
+
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+          width: '100%',
+          paddingRight: 10,
+          paddingVertical: 5,
+        }}>
+        <View
+          style={{
+            width: '70%',
+            overflow: 'hidden',
+          }}>
+          <Text
+            style={{
+              fontSize: 16,
+              paddingRight: 5,
+              fontWeight: 'bold',
+              textAlign: 'right',
+              color: 'black',
+            }}>
+            {name}
+          </Text>
+          <Text
+            style={{
+              fontSize: 10,
+              textAlign: 'right',
+              color: 'grey',
+              marginBottom: 5,
+            }}>
+            {moment(date).format('YYYY-MM-DD')}
+          </Text>
+          <Text
+            numberOfLines={4}
+            style={{
+              // flex: 1,
+              fontSize: 14,
+              paddingRight: 5,
+              textAlign: 'right',
+              color: 'black',
+            }}>
+            {comments}
+          </Text>
+        </View>
+
+        {/* <View
             style={{
               alignItems: 'center',
               right: 60,
-              top: 40,
+              top: 45,
               position: 'absolute',
               marginBottom: 10,
-            }}>
-            <Text
-              numberOfLines={4}
-              style={{
-                flex: 1,
-                fontSize: 14,
-                paddingRight: 5,
-                textAlign: 'right',
-                color: 'black',
-              }}>
-              {comments}
-            </Text>
-          </View>
-          <View style={Styles.user_HomeComment}>
-            <Image
-              source={{
-                uri: 'http://www.tasdeertech.com/images/profiles/' + image,
-              }}
-              style={{
-                width: 35,
-                height: 35,
-                borderRadius: 30,
-              }}></Image>
-          </View>
+            }}></View> */}
+        <View style={[Styles.user_HomeComment]}>
+          <Image
+            source={{
+              uri: 'http://www.tasdeertech.com/images/profiles/' + image,
+            }}
+            style={{
+              width: 35,
+              height: 35,
+              borderRadius: 30,
+            }}></Image>
         </View>
       </View>
     </Card>

@@ -54,9 +54,9 @@ class Home extends Component {
       key: false,
       searchedItem: '',
       viewed: false,
+      scrollOffset: 0,
     };
     this.scrollRef = React.createRef();
-    this.flatlistRef = React.createRef();
     LogBox.ignoreLogs([
       'Got a component with the name',
       'Please report: Excessive number of pending callbacks: ',
@@ -64,11 +64,6 @@ class Home extends Component {
       'VirtualizedLists should never be nested inside plain ScrollViews',
     ]);
     this.debouncedSearchHandler = debounce(this.searchHandler, 300);
-  }
-  componentDidMount() {
-    console.log(this.props.user, 'FromHomeeeee');
-    this.viewPosts();
-    // this.checkUser();
   }
   ScrollToRefresh() {
     this.viewPosts();
@@ -175,6 +170,7 @@ class Home extends Component {
       this.props.navigation.navigate('Login');
     }
   };
+  // FOR HORIZONTAL SCROLL
   scrollToEnd = () => {
     this.scrollRef.current.scrollToEnd({animated: false});
   };
@@ -338,7 +334,6 @@ class Home extends Component {
   };
   sharePosts = async item => {
     this.setState({loading: true});
-
     let {user} = this.props;
     user = user.user.user;
     let post_id = item.id;
@@ -351,14 +346,11 @@ class Home extends Component {
         .then(response => {
           if (response.data) {
             let filterPosts = this.state.filterPosts;
-
             let tempIndex = filterPosts.indexOf(item);
-
             let share_count = item.share_count + 1;
             let tempItem = item;
             tempItem['share_count'] = share_count;
             filterPosts[tempIndex] = tempItem;
-
             this.setState({loading: false, filterPosts: filterPosts});
             this.viewPosts();
           }
@@ -507,6 +499,10 @@ class Home extends Component {
     } else {
       this.viewPosts();
     }
+  };
+  onScroll = event => {
+    // Save the current scroll position in the state
+    this.setState({scrollOffset: event.nativeEvent.contentOffset.y});
   };
   render() {
     const {
@@ -879,6 +875,8 @@ class Home extends Component {
             {/* POST FLATLIST */}
             <Loader loading={this.state.loading} />
             <FlatList
+              onScroll={this.onScroll}
+              scrollEventThrottle={16} // Adjust the scroll event throttle as needed
               style={{flex: 1}}
               scrollsToTop={false}
               key={key}

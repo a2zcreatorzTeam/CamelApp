@@ -1,10 +1,11 @@
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 import {
   View,
   StyleSheet,
   FlatList,
   ActivityIndicator,
   RefreshControl,
+  Dimensions,
 } from 'react-native';
 import Post from '../components/Post';
 import camelapp from '../api/camelapp';
@@ -15,7 +16,7 @@ import {bindActionCreators} from 'redux';
 import Loader from '../components/PleaseWait';
 import Header from '../components/Header';
 import EmptyComponent from '../components/EmptyComponent';
-
+const {height} = Dimensions.get('window');
 class CamelTreatmentList extends Component {
   constructor(props) {
     super(props);
@@ -28,6 +29,7 @@ class CamelTreatmentList extends Component {
       refreshing: false,
       key: false,
       searchedItem: '',
+      scrollOffset: 0,
     };
   }
   searchFunction(searchtext) {
@@ -107,6 +109,10 @@ class CamelTreatmentList extends Component {
       this.viewPosts();
     });
   };
+  componentWillUnmount() {
+    // Remove the event listener when the component is unmounted
+    this.focusListener();
+  }
   postViewed = async (item, viewCount, setViewCount) => {
     let {user} = this.props;
     user = user?.user?.user;
@@ -128,6 +134,11 @@ class CamelTreatmentList extends Component {
     } else {
       this.props.navigation.navigate('Login');
     }
+  };
+  onScroll = event => {
+    console.log(event.nativeEvent.contentOffset.y, 'eventtttttt');
+    // Save the current scroll position in the state
+    this.setState({scrollOffset: event.nativeEvent.contentOffset.y});
   };
   render() {
     let {user} = this.props;
@@ -300,19 +311,29 @@ class CamelTreatmentList extends Component {
             <AddButton onPress={() => onAddButtonClick()} />
             <Loader loading={loading} />
             <FlatList
+              onScroll={this.onScroll}
+              scrollEventThrottle={16} // Adjust the scroll event throttle as needed
+              scrollsToTop={false}
               ListEmptyComponent={() => <EmptyComponent />}
               key={key}
               data={searchedItem ? filterPosts : posts}
               renderItem={renderItem}
               keyExtractor={item => item.id}
-              initialNumToRender={5}
-              maxToRenderPerBatch={5}
+              // initialNumToRender={5}
+              onEndReachedThreshold={0.5}
+              initialNumToRender={1}
+              maxToRenderPerBatch={2}
               refreshControl={
                 <RefreshControl
                   refreshing={refreshing}
                   onRefresh={() => this.ScrollToRefresh()}
                 />
               }
+              getItemLayout={(data, index) => ({
+                length: height / 2,
+                offset: (height / 2) * index,
+                index,
+              })}
             />
             <View style={{marginBottom: 70}}></View>
           </View>
@@ -324,14 +345,11 @@ class CamelTreatmentList extends Component {
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(CamelTreatmentList);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

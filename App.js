@@ -7,12 +7,9 @@ import {
   LogBox,
   Platform,
   PermissionsAndroid,
-  ActivityIndicator,
   View,
   Text,
 } from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import camelapp from './src/api/camelapp';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as userActions from './src/redux/actions/user_actions';

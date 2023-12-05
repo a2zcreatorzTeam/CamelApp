@@ -211,7 +211,6 @@ const Post = ({description, date, item, onPress = () => {}}) => (
           justifyContent: 'center',
         }}>
         {description}
-        {}
       </Text>
       <Text style={{color: 'black', fontSize: 12, width: width - 100}}>
         {date}

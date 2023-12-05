@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View, Image, Dimensions, FlatList} from 'react-native';
 import camelapp from '../api/camelapp';
-import Toast from 'react-native-toast-message';
-import * as ArabicText from '../language/EnglishToArabic';
 import {TouchableOpacity} from 'react-native';
 import {Linking} from 'react-native';
 
@@ -15,11 +13,6 @@ const Ads = () => {
         setAdsData(res?.data?.advertisement);
       });
     } catch (error) {
-      // Toast.show({
-      //   text1: error,
-      //   type: 'error',
-      //   visibilityTime: 3000,
-      // });
       console.log('advertisement:====', error);
     }
   };
@@ -55,17 +48,15 @@ const AdsComp = ({item}) => {
       }}>
       <View
         style={{
-          width: width - 25,
+          width: '100%',
           height: 100,
           backgroundColor: '#fff',
           elevation: 4,
           borderRadius: 7,
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexDirection: 'row',
-          // aspectRatio: 1,
+          // alignItems: 'center',
+          // justifyContent: 'space-between',
+          // flexDirection: 'row',
         }}>
-          
         <Image
           resizeMode="contain"
           source={{

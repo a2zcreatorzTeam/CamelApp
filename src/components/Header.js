@@ -65,7 +65,6 @@ const Header = props => {
                 placeholderTextColor="#000000"
                 onChangeText={text => {
                   onChangeTo(text);
-                  console.log(text, 'textttt');
                 }}
               />
             </View>

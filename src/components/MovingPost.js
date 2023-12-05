@@ -76,7 +76,6 @@ const MovingPost = ({
           <TouchableOpacity
             style={{left: 10, position: 'absolute', bottom: 5}}
             onPress={() => {
-              console.log('gghghgh');
               onDetailsClick(viewCount, setViewCount);
             }}>
             <View style={Styles.btnHome}>

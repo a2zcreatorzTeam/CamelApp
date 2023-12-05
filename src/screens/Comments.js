@@ -336,9 +336,6 @@ class Comments extends Component {
               style={Styles.forminputs}
               onChangeText={text =>
                 {
-                  console.log(
-                    this.state?.newReply, "COMMENT REPLY ARRABIC TEXT"
-                  )
                  this.setState({newReply: text})
                 }
                 

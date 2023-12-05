@@ -52,7 +52,7 @@ export default function AppDetails() {
     const url = 'https://instagram.com/alsyahd?igshid=YmMyMTA2M2Y=';
     Linking.openURL(url)
       .then(data => {
-        alert('Instagram Opened');
+        // alert('Instagram Opened');
       })
       .catch(() => {
         Toast.show({
@@ -77,7 +77,7 @@ export default function AppDetails() {
     const url = 'https://twitter.com/Alsyahdapp';
     Linking.openURL(url)
       .then(data => {
-        alert('Twitter Opened');
+        // alert('Twitter Opened');
       })
       .catch(() => {
         Toast.show({
@@ -95,16 +95,9 @@ export default function AppDetails() {
           fontWeight: 'bold',
           fontSize: 18,
           color: '#d2691e',
-          // position: 'absolute',
-          // top: 40,
         }}>
         نشر الطبيق مع الا صدقاء
       </Text>
-      {/* <TouchableOpacity style={{ top: 80, position: 'absolute' }}>
-        <View style={Styles.sharebtn}>
-          <Ionicons name="md-arrow-redo" size={24} color="#fff" />
-        </View>
-      </TouchableOpacity> */}
       <TouchableOpacity style={{}} onPress={() => navigation.navigate('Home')}>
         <View style={Styles.sharebtn}>
           <Ionicons name="arrow-undo-circle" size={24} color="#fff" />
@@ -173,17 +166,6 @@ export default function AppDetails() {
           </View>
         </TouchableOpacity>
       </TouchableOpacity>
-      {/* <View style={Styles.whtsapp}
-        <TouchableOpacity onPress={() => openWhatsApp()}
-          <Text style={Styles.boxtext} >تحدث معنا</Text
-        </TouchableOpacity
-        <View style={Styles.iconbox}
-          <TouchableOpacity onPress={() => openWhatsApp()}>
-            <FontAwesome5 name="whatsapp-square" size={35} color="#00ff00" />
-          </TouchableOpacity>
-        </View>
-      </View> */}
-
       <Text
         style={{
           fontWeight: '400',

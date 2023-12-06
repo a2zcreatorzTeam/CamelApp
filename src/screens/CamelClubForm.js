@@ -177,7 +177,6 @@ class CamelClubForm extends Component {
   }
   createPostCamelClub = async () => {
     const {imagesForPost, videoForPost} = this.state;
-    console.log('createe');
     var image1 = this.state.imagesForPost;
     var image2 = this.state.cameraimagesForPost;
     var combineImages = [...image1, ...image2];
@@ -185,9 +184,15 @@ class CamelClubForm extends Component {
       (combineImages == undefined || combineImages?.length == 0) &&
       videoForPost == undefined
     ) {
-      console.log('ifff');
       return Toast.show({
         text1: ArabicText?.cannotpostwithoutmedia,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+    }
+    if (combineImages?.length > 4) {
+      return Toast.show({
+        text1: ArabicText?.Only4imagesareallowed,
         type: 'error',
         visibilityTime: 3000,
       });

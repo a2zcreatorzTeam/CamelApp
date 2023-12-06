@@ -33,8 +33,8 @@ import CookieManager from '@react-native-cookies/cookies';
 const width = Dimensions.get('screen').width;
 
 RNTwitterSignIn.init(
-  'd54gxJM3NnqwXH8o78faUOJ7H',
-  'Q2g56EkAlC4JGWKRLoo0ZJkRMQowMDZKF0ssjkBEhJlqCt1rd3',
+  'Pms1jAjrh8BOGg0ejusChoO4m',
+  'JywnRU724s53e1usaWxKdk2Vaf3QXQV2kPZT9ERziaMKIRJOck',
 ).then(res => console.log('Twitter SDK initialized', res));
 
 class Login extends Component {
@@ -98,7 +98,7 @@ class Login extends Component {
 
   // InstagramTwitterLogin
   setIgToken = data => {
-    this.onClear();
+    console.log(data, 'dattattt');
     this.setState({loader: true});
     try {
       camelapp
@@ -152,6 +152,7 @@ class Login extends Component {
       }
     } catch (error) {
       try {
+        console.log(error, 'errorrrrr');
         const message = error?.message;
         console.log('messagdsdsdsde', message);
 
@@ -176,13 +177,28 @@ class Login extends Component {
             });
             console.log(authToken, authTokenSecret, userID, 'idsss tokennnss');
           } catch (e) {
-            console.error('Error parsing inner data:', e);
+            return Toast.show({
+              text1: 'Error parsing inner data',
+              type: 'error',
+              visibilityTime: 3000,
+            });
+            // console.error('Error parsing inner data:', e);
           }
         } else {
-          console.error('Data not found in the string');
+          return Toast.show({
+            text1: 'Data not found in the string',
+            type: 'error',
+            visibilityTime: 3000,
+          });
+          // console.error('Data not found in the string');
         }
       } catch (err) {
-        console.log('errr', err);
+        console.log(err, 'errorrrr');
+        return Toast.show({
+          text1: error + '',
+          type: 'error',
+          visibilityTime: 3000,
+        });
       }
     }
   };
@@ -358,6 +374,7 @@ class Login extends Component {
             style={{flexDirection: 'row', alignSelf: 'center', marginTop: 20}}>
             <TouchableOpacity
               onPress={() => {
+                this.onClear();
                 // this.props.navigation?.navigate('InstagramScreen');
                 this.instagramLogin.show();
               }}
@@ -376,6 +393,7 @@ class Login extends Component {
 
             <TouchableOpacity
               onPress={() => {
+                RNTwitterSignIn.logOut();
                 this.signInWithTwitter();
               }}
               style={{flexDirection: 'row'}}>
@@ -537,7 +555,7 @@ class Login extends Component {
           // scopes={['user_profile', 'user_media']}
           scopes={['user_profile', 'user_email']}
           onLoginSuccess={this.setIgToken}
-          onLoginFailure={data => console.log(data)}
+          onLoginFailure={data => console.log(data, 'falseDataaaa')}
           language="en" //default is 'en' for english
         />
       </View>

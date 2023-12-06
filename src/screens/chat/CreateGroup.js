@@ -90,79 +90,79 @@ const CreateGroup = props => {
     let {userID, refreshGrouplist} = props.route.params;
     let tempArrayForUserDetails = [];
     tempArrayForUserDetails.push({id: userID, message: ''});
-    if (groupName === '') {
+    if (groupName == '') {
       Toast.show({
         text1: ArabicText?.PleaseEnterGroupName,
         type: 'error',
         visibilityTime: 3000,
       });
       // return alert('Please Enter Group Name');
-    }
-    if (!image) {
+    } else if (!image) {
       Toast.show({
         text1: ArabicText?.PleaseEnterGroupImage,
         type: 'error',
         visibilityTime: 3000,
       });
       // return alert('Please Enter Group Image');
-    }
-    if (newParticipant?.length == 0) {
+    } else if (newParticipant?.length == 0) {
       Toast.show({
         text1: ArabicText?.Pleaseselectaparticipant,
         type: 'error',
         visibilityTime: 3000,
       });
       // alert('Please select a participant');
-    }
-    let tempArray = [];
-    newParticipant?.forEach(e => {
-      tempArray.push(e?.firend_id);
-      tempArrayForUserDetails.push({id: e?.firend_id, message: ''});
-    });
-    if (tempArray?.length) {
-      try {
-        setGroupLoader(true);
-        var localImageoUri = image?.imageShow;
-        console.log(image?.imageName, 'localImageoUri');
-        const response = await fetch(localImageoUri);
-        const blob = await response.blob();
-        console.log(blob,"blobbbbb");
-        const storageRef = storage().ref(
-          `Create_Group_Images/${image?.imageName}`,
-        );
-        await storageRef.put(blob);
-        console.log("stoarahe135555");
+    } else {
+      console.log(groupName, 'groupNamegroupName');
+      let tempArray = [];
+      newParticipant?.forEach(e => {
+        tempArray.push(e?.firend_id);
+        tempArrayForUserDetails.push({id: e?.firend_id, message: ''});
+      });
+      if (tempArray?.length) {
+        try {
+          setGroupLoader(true);
+          var localImageoUri = image?.imageShow;
+          console.log(image?.imageName, 'localImageoUri');
+          const response = await fetch(localImageoUri);
+          const blob = await response.blob();
+          console.log(blob, 'blobbbbb');
+          const storageRef = storage().ref(
+            `Create_Group_Images/${image?.imageName}`,
+          );
+          await storageRef.put(blob);
+          console.log('stoarahe135555');
 
-        // Get the download URL of the uploaded video
-        const downloadURL = await storageRef.getDownloadURL();
-        console.log(downloadURL, 'downloadURL');
-        const collectionRef = firestore().collection('groupChat'); // Replace with your actual collection name
-        const documentData = {
-          lastUpdated: Date.now(),
-          users: userID,
-          members: tempArray,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-          messages: [],
-          imageName: image?.imageName,
-          downloadURL,
-          groupUserDetails: tempArrayForUserDetails,
-          groupName: groupName, //TODO admin can set group name
-          // groupAdmins: [auth?.currentUser?.email] //TODO can change group admins later
-        }; // Replace with your actual document data
+          // Get the download URL of the uploaded video
+          const downloadURL = await storageRef.getDownloadURL();
+          console.log(downloadURL, 'downloadURL');
+          const collectionRef = firestore().collection('groupChat'); // Replace with your actual collection name
+          const documentData = {
+            lastUpdated: Date.now(),
+            users: userID,
+            members: tempArray,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            messages: [],
+            imageName: image?.imageName,
+            downloadURL,
+            groupUserDetails: tempArrayForUserDetails,
+            groupName: groupName, //TODO admin can set group name
+            // groupAdmins: [auth?.currentUser?.email] //TODO can change group admins later
+          }; // Replace with your actual document data
 
-        await collectionRef.add(documentData);
-        setGroupLoader(false);
-        Toast.show({
-          text1: ArabicText?.Groupcreatedsuccessfully,
-          type: 'success',
-          visibilityTime: 3000,
-        });
-        // alert('Group created successfully');
-        props.navigation.goBack();
-        //   queryDocumentsInCollection();
-      } catch (error) {
-        setGroupLoader(false);
-        console.error('Error adding document:', error);
+          await collectionRef.add(documentData);
+          setGroupLoader(false);
+          Toast.show({
+            text1: ArabicText?.Groupcreatedsuccessfully,
+            type: 'success',
+            visibilityTime: 3000,
+          });
+          // alert('Group created successfully');
+          props.navigation.goBack();
+          //   queryDocumentsInCollection();
+        } catch (error) {
+          setGroupLoader(false);
+          console.error('Error adding document:', error);
+        }
       }
     }
   };

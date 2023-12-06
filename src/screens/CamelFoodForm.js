@@ -88,9 +88,15 @@ class CamelFood extends React.Component {
       (combineImages == undefined || combineImages?.length == 0) &&
       videoForPost == undefined
     ) {
-      console.log('ifff');
       return Toast.show({
         text1: ArabicText?.cannotpostwithoutmedia,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+    }
+    if (combineImages?.length > 4) {
+      return Toast.show({
+        text1: ArabicText?.Only4imagesareallowed,
         type: 'error',
         visibilityTime: 3000,
       });
@@ -109,7 +115,6 @@ class CamelFood extends React.Component {
         : true)
     ) {
       this.setState({loading: true});
-
       let {user} = this.props;
       let user_id = user.user.user.id;
       camelapp
@@ -303,7 +308,6 @@ class CamelFood extends React.Component {
 
   render() {
     const {checked} = this.state;
-    const {checked_register} = this.state;
     const {
       pausedCheck,
       loadVideo,

@@ -178,9 +178,15 @@ class CamelFemaleForm extends Component {
       (combineImages == undefined || combineImages?.length == 0) &&
       videoForPost == undefined
     ) {
-      console.log('ifff');
       return Toast.show({
         text1: ArabicText?.cannotpostwithoutmedia,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+    }
+    if (combineImages?.length > 4) {
+      return Toast.show({
+        text1: ArabicText?.Only4imagesareallowed,
         type: 'error',
         visibilityTime: 3000,
       });
@@ -273,8 +279,7 @@ class CamelFemaleForm extends Component {
           backgroundColor: '#fff',
         }}
         alwaysBounceVertical={false}
-        showsVerticalScrollIndicator={false}
-        >
+        showsVerticalScrollIndicator={false}>
         <BackBtnHeader />
         {/* <Ads /> */}
         <View style={Styles.containerScroll}>

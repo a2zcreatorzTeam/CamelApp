@@ -3,8 +3,9 @@ import {Text, View, Image, Dimensions, FlatList} from 'react-native';
 import camelapp from '../api/camelapp';
 import {TouchableOpacity} from 'react-native';
 import {Linking} from 'react-native';
+import {ImageBackground} from 'react-native';
 
-const width = Dimensions.get('window').width;
+const {width, height} = Dimensions.get('screen');
 const Ads = () => {
   const [adsData, setAdsData] = useState([]);
   const viewAds = async () => {
@@ -46,32 +47,20 @@ const AdsComp = ({item}) => {
         padding: 5,
         alignItems: 'center',
       }}>
-      <View
+      <Image
+        resizeMode="contain"
+        source={{
+          uri: 'http://www.tasdeertech.com/images/advertisement/' + item?.image,
+        }}
         style={{
+          flex: 1,
           width: '100%',
-          height: 100,
-          backgroundColor: '#fff',
-          elevation: 4,
+          height: undefined,
           borderRadius: 7,
-          // alignItems: 'center',
-          // justifyContent: 'space-between',
-          // flexDirection: 'row',
-        }}>
-        <Image
-          resizeMode="contain"
-          source={{
-            uri:
-              'http://www.tasdeertech.com/images/advertisement/' + item?.image,
-          }}
-          style={{
-            width: '100%',
-            height: '100%',
-            borderRadius: 7,
-            // flex: 1,
-          }}
-        />
+        }}
+      />
 
-        {/* <Image
+      {/* <Image
           source={require('../../assets/star.png')}
           style={{
             width: 20,
@@ -82,7 +71,7 @@ const AdsComp = ({item}) => {
           }}
         /> */}
 
-        {/* <View style={{paddingHorizontal: 10, marginTop: 25}}>
+      {/* <View style={{paddingHorizontal: 10, marginTop: 25}}>
           <Text style={{fontSize: 20, color: '#000', fontWeight: '600'}}>
             {item?.title}
           </Text>
@@ -90,7 +79,7 @@ const AdsComp = ({item}) => {
             {ArabicText?.Createdat}: {item?.created_at.slice(2, 10)}
           </Text>
         </View> */}
-      </View>
+      {/* </View> */}
     </TouchableOpacity>
   );
 };

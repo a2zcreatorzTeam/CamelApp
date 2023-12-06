@@ -330,8 +330,6 @@ export const passwordsuccessfullychanged = 'الرقم السري تغير بن�
 export const Socialmediaaccounts = 'حسابات مواقع التواصل الاجتماعي';
 export const Andfulfillyourcovenant =
   'وأوفوا بعهد الله إذا عاهدتم ولا تنقضوا الأيمان بعد توكيدها';
-export const Ipledgethatalltheinformationthat =
-  '- أتعهد ان جميع المعلومات التي سوف اذكرها . صحيحة ومطابقة لحالة';
 export const Pledge = 'تـعـهــد';
 export const Howtosubscribe = 'طريقة الاشتراك';
 export const GeneralTerms = 'شروط عامة';
@@ -381,4 +379,5 @@ export const followinglist = 'القائمة التالية';
 export const Location_From = 'الموقع من';
 export const Location_To = 'الموقع إلى';
 export const Iaccepttermsandconditions = 'أنا أوافق على الأحكام و الشروط';
-export const AddLocation='أضف الموقع'
+export const AddLocation = 'أضف الموقع';
+export const Only4imagesareallowed = 'Only 4 images are allowed';

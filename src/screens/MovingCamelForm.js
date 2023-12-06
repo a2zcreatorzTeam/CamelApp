@@ -99,6 +99,13 @@ class MovingCamelForm extends React.Component {
         visibilityTime: 3000,
       });
     }
+    if (combineImages?.length > 4) {
+      return Toast.show({
+        text1: ArabicText?.Only4imagesareallowed,
+        type: 'error',
+        visibilityTime: 3000,
+      });
+    }
     if (
       this.state.title != '' &&
       this.state.location != '' &&

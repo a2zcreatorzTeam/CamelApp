@@ -32,6 +32,7 @@ import Video from 'react-native-video';
 import RNFS from 'react-native-fs';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
+import {PermissionsAndroid} from 'react-native';
 const MessageView = ({route}) => {
   const [inputValue, setInputValue] = useState('');
   const [dataSource, setDataSource] = useState([]);
@@ -103,7 +104,7 @@ const MessageView = ({route}) => {
       <View style={{width: '100%'}}>
         {item?.latitude && item?.longitude ? (
           <>
-          {/* C:\Users\joti.kumari\Desktop\CamelApp\assets\maps.jpg */}
+            {/* C:\Users\joti.kumari\Desktop\CamelApp\assets\maps.jpg */}
             <TouchableOpacity
               style={[styles.rightChatImageContainer]}
               onPress={() => proceed(item?.latitude, item?.longitude)}>
@@ -296,7 +297,38 @@ const MessageView = ({route}) => {
       />
     );
   };
+  const requestLocationPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: `Alsyahd Mobile App`,
+          message:
+            ArabicText?.Alsyahdneedslocationaccesstogetyourcurrentlocation,
+          buttonNeutral: ArabicText?.AskMeLater,
+          buttonNegative: ArabicText?.Cancel,
+          buttonPositive: ArabicText?.OK,
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        Toast.show({
+          text1: ArabicText?.Youcanusethelocation,
+          type: 'success',
+          visibilityTime: 3000,
+        });
+      } else {
+        Toast.show({
+          text1: ArabicText?.locationpermissiondenied,
+          type: 'error',
+          visibilityTime: 3000,
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const getLocation = () => {
+    requestLocationPermission();
     GetLocation.getCurrentPosition({
       enableHighAccuracy: true,
       timeout: 15000,
@@ -312,6 +344,11 @@ const MessageView = ({route}) => {
       .catch(error => {
         const {code, message} = error;
         console.warn(code, message);
+        Toast.show({
+          text1: message,
+          type: 'error',
+          visibilityTime: 3000,
+        });
       });
   };
   const openGallery = () => {

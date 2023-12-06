@@ -5,7 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "react-native start",
+    "start": "react-native start -- --host 192.168.0.51",
     "test": "jest",
     "lint": "eslint ."
   },

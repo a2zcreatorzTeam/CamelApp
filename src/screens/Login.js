@@ -145,30 +145,19 @@ class Login extends Component {
   signInWithTwitter = async () => {
     try {
       const loginData = await RNTwitterSignIn.logIn();
-      console.log(loginData, 'In UYerer');
-
       const {authToken, authTokenSecret} = loginData;
       console.log(authToken, 'authToken', authTokenSecret);
       if (authToken && authTokenSecret) {
       }
     } catch (error) {
       try {
-        console.log(error, 'errorrrrr');
         const message = error?.message;
-        console.log('messagdsdsdsde', message);
-
         const startIndex = message.indexOf('{ NativeMap: ');
         const endIndex = message.lastIndexOf('"}');
-        console.log(startIndex, endIndex);
         if (startIndex !== -1 && endIndex !== -1) {
           const innerJsonString = message.slice(12, endIndex + 2); // Include the closing double quote and curly brace
-          console.log(
-            innerJsonString,
-            'innerJsonStringinnerJsonStringinnerJsonString',
-          );
           try {
             const data = JSON.parse(innerJsonString);
-            console.log('innerJsonString', data, data?.NativeMap);
             const {email, userName, userID, name, authToken, authTokenSecret} =
               data;
             this.setIgToken({
@@ -176,21 +165,27 @@ class Login extends Component {
               user_id: userID,
               socialType: 'twitter',
             });
-            console.log(authToken, authTokenSecret, userID, 'idsss tokennnss');
           } catch (e) {
-            console.log(e, 'lohhjhjhjhjh');
             return Toast.show({
-              text1: 'Error parsing inner data',
+              text1: ArabicText.somethingwentwrong,
               type: 'error',
               visibilityTime: 3000,
             });
           }
         } else {
-          return Toast.show({
-            text1: 'Please install twitter app and login your account first',
-            type: 'error',
-            visibilityTime: 3000,
-          });
+          if (message == 'Failed to get request token') {
+            return Toast.show({
+              text1: 'Please install twitter app and login your account first',
+              type: 'error',
+              visibilityTime: 3000,
+            });
+          } else {
+            return Toast.show({
+              text1: ArabicText.somethingwentwrong,
+              type: 'error',
+              visibilityTime: 3000,
+            });
+          }
           // console.error('Data not found in the string');
         }
       } catch (err) {

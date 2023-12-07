@@ -117,7 +117,7 @@ const BackBtnHeader = props => {
       <CircularBTN
         recieverData={props?.reciever_data}
         iconName="md-arrow-redo"
-        onPress={goBack}
+        onPress={props.Nav ? () => props.customNav() : goBack}
       />
     </View>
   );

@@ -68,6 +68,7 @@ import FollowingList from '../screens/FollowingList.js';
 import FollowersList from '../screens/FollowersList.js';
 import MyFriendList from '../screens/MyFriendList.js';
 import CreateProfile from '../screens/CreateProfile.js';
+import BackBtnHeader from '../components/headerWithBackBtn.js';
 const Stack = createNativeStackNavigator();
 export default function Navigation() {
   return (
@@ -86,27 +87,27 @@ export default function Navigation() {
         <Stack.Screen
           name="OtpForgetPassword"
           component={OtpForgetPassword}
-          options={{headerShown: false}}
+          options={{header: () => <BackBtnHeader />}}
         />
         <Stack.Screen
           name="Signup"
           component={Signup}
-          options={{headerShown: false}}
+          options={{header: () => <BackBtnHeader />}}
         />
         <Stack.Screen
           name="OtpSignUp"
           component={OtpSignUp}
-          options={{headerShown: false}}
+          options={{header: () => <BackBtnHeader />}}
         />
         <Stack.Screen
           name="Forgetpass"
           component={Forgetpass}
-          options={{headerShown: false}}
+          options={{header: () => <BackBtnHeader />}}
         />
         <Stack.Screen
           name="CreateProfile"
           component={CreateProfile}
-          options={{headerShown: false}}
+          options={{header: () => <BackBtnHeader />}}
         />
         <Stack.Screen
           name="Messages"

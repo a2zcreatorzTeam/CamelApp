@@ -30,6 +30,7 @@ import {getFCMToken} from '../services/Helper';
 import Toast from 'react-native-toast-message';
 import InstagramLogin from 'react-native-instagram-login';
 import CookieManager from '@react-native-cookies/cookies';
+import BackBtnHeader from '../components/headerWithBackBtn';
 const width = Dimensions.get('screen').width;
 
 RNTwitterSignIn.init(
@@ -177,16 +178,16 @@ class Login extends Component {
             });
             console.log(authToken, authTokenSecret, userID, 'idsss tokennnss');
           } catch (e) {
+            console.log(e, 'lohhjhjhjhjh');
             return Toast.show({
               text1: 'Error parsing inner data',
               type: 'error',
               visibilityTime: 3000,
             });
-            // console.error('Error parsing inner data:', e);
           }
         } else {
           return Toast.show({
-            text1: 'Data not found in the string',
+            text1: 'Please install twitter app and login your account first',
             type: 'error',
             visibilityTime: 3000,
           });
@@ -284,6 +285,12 @@ class Login extends Component {
     };
     return (
       <View style={Styles.container}>
+        <BackBtnHeader
+          Nav={true}
+          customNav={() => {
+            this.props.navigation.navigate('Home', {screen: ArabicText?.home});
+          }}
+        />
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{flex: 1, backgroundColor: '#fff'}}>

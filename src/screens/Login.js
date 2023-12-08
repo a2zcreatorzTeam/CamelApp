@@ -35,7 +35,8 @@ const width = Dimensions.get('screen').width;
 
 RNTwitterSignIn.init(
   'Pms1jAjrh8BOGg0ejusChoO4m',
-  'JywnRU724s53e1usaWxKdk2Vaf3QXQV2kPZT9ERziaMKIRJOck',
+  'JywnRU724s53e1usaWxKdk2Vaf3QXQV2kPZT9ERziaMKIRJOck'
+  // 'twittersdk://',
 ).then(res => console.log('Twitter SDK initialized', res));
 
 class Login extends Component {
@@ -60,8 +61,6 @@ class Login extends Component {
     this.instagramLoginRef = createRef();
   }
   saveData() {
-    let phone = this.state.contactNumber;
-    let password = this.state.password;
   }
   userlogin = async () => {
     try {
@@ -301,8 +300,6 @@ class Login extends Component {
           <Text style={Styles.text}>{ArabicText.login}</Text>
           <View style={Styles.card}>
             <TextInput
-              // placeholder="05xxxxxxxx"
-
               style={Styles.inputs}
               keyboardType="numeric"
               placeholder={ArabicText.phone}
@@ -376,7 +373,7 @@ class Login extends Component {
             style={{flexDirection: 'row', alignSelf: 'center', marginTop: 20}}>
             <TouchableOpacity
               onPress={() => {
-                this.onClear();
+                // this.onClear();
                 // this.props.navigation?.navigate('InstagramScreen');
                 this.instagramLogin.show();
               }}

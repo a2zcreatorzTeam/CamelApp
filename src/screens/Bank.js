@@ -172,7 +172,7 @@ class Bank extends Component {
                         justifyContent: 'center',
                         textAlign: 'right',
                       }}>
-                      {parseFloat(text / 10).toFixed(2)}
+                      {parseFloat((2 / 100) * text).toFixed(2)}
                     </Text>
                     <Text
                       style={{

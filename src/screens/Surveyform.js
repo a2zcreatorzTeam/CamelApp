@@ -127,10 +127,6 @@ class Surveyform extends Component {
     const surveyEndDate = this.props?.route?.params?.surveyId?.end_date;
     const surveyActiveStatus =
       this.props?.route?.params.surveyId?.survey_end_status;
-    console.log(
-      this.props?.route?.params.surveyId?.survey_end_status,
-      'this.props?.route?.params.surveyId?.status',
-    );
     return (
       <View style={{flex: 1, alignItems: 'center', width: '100%'}}>
         <BackBtnHeader style={{marginBottom: 15}} />
@@ -234,6 +230,11 @@ class Surveyform extends Component {
                             }}>
                             {val?.answer}
                           </Text>
+                          {console.log(
+                            parseFloat(
+                              (val?.answer_count + 1) / (item.total_count + 1),
+                            ).toFixed(2) * 100,
+                          )}
                           {val?.flag === true && (
                             <Text
                               style={{
@@ -247,7 +248,7 @@ class Surveyform extends Component {
                                   (item.total_count + 1),
                               ).toFixed(2) *
                                 100 ==
-                                ( NaN || 0)
+                              (NaN || 0)
                                 ? 0
                                 : parseFloat(
                                     (
@@ -258,11 +259,12 @@ class Surveyform extends Component {
                               %
                             </Text>
                           )}
-                         
+
                           {val?.flagForCount === true && (
                             <Text
                               style={{
-                                color: item.flag === false ? '#d2691e' : '#d2691e',
+                                color:
+                                  item.flag === false ? '#d2691e' : '#d2691e',
                                 fontSize: 16,
                                 marginRight: 10,
                                 marginLeft: 10,
@@ -274,14 +276,15 @@ class Surveyform extends Component {
                                 ).toFixed(2),
                               ) *
                                 100 ==
-                             ( NaN || 0)
+                              (NaN || 0)
                                 ? 0
                                 : parseFloat(
                                     (
-                                      val?.answer[i]?.answer_count /
+                                      val?.answer_count /
                                       (item.total_count + 1)
                                     ).toFixed(2),
-                                  ) * 100} %
+                                  ) * 100}
+                              %
                             </Text>
                           )}
                         </TouchableOpacity>
@@ -316,7 +319,6 @@ class Surveyform extends Component {
                     style={{
                       justifyContent: 'flex-end',
                       alignItems: 'center',
-                      // flexDirection: "row",
                       width: '100%',
                     }}>
                     <Text
@@ -356,7 +358,7 @@ class Surveyform extends Component {
                         parseFloat(
                           (val?.answer_count / item?.total_count).toFixed(2),
                         ) * 100;
-
+                      console.log(percentage, 'percentageggggg');
                       return (
                         <View
                           style={{

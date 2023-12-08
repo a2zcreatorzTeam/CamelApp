@@ -22,6 +22,8 @@ const Header = props => {
     filterIcon,
     onChangeTo,
     onChangeFrom,
+    customStyle,
+    hideCircle,
   } = props;
   const navigation = useNavigation(0);
   const goBack = () => {
@@ -31,7 +33,7 @@ const Header = props => {
     navigation.navigate('AppDetails');
   };
   return (
-    <View style={[Styles.header, {paddingVertical: 10}]}>
+    <View style={[Styles.header, {paddingVertical: 10}, customStyle]}>
       <View style={Styles.subHeaderView}>
         {/* {filterIcon && (
           <TouchableOpacity
@@ -40,10 +42,12 @@ const Header = props => {
             <FontAwesome name={'filter'} size={24} color="brown" />
           </TouchableOpacity>
         )} */}
+
         <CircularBTN
           iconName="arrow-back-sharp"
           onPress={() => onPressSearch()}
         />
+
         {filterIcon ? (
           <View
             style={{
@@ -98,11 +102,12 @@ const Header = props => {
             />
           </View>
         )}
-
-        <CircularBTN
-          iconName="md-arrow-redo"
-          onPress={navRoute === 'Home' ? whatsApp : goBack}
-        />
+        {!hideCircle && (
+          <CircularBTN
+            iconName="md-arrow-redo"
+            onPress={navRoute === 'Home' ? whatsApp : goBack}
+          />
+        )}
       </View>
     </View>
   );

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "550076269173",
+    "firebase_url": "https://al-syahd-chatapp-default-rtdb.firebaseio.com",
     "project_id": "al-syahd-chatapp",
     "storage_bucket": "al-syahd-chatapp.appspot.com"
   },

@@ -209,11 +209,14 @@ const MessageView = ({route}) => {
               styles.containerHeight,
               {left: 0},
             ]}
-            // onPress={() => proceed(item?.latitude, item?.longitude)}
-          >
+            onPress={() => {
+              setModal(true),
+                setModalItem({uri: item?.imageUrl}),
+                setModalItemType('image');
+            }}>
             <Image
               source={{
-                uri: item?.imageUrl?.pickedImage,
+                uri: item?.imageUrl,
               }}
               style={styles.chatImage}
             />
@@ -447,6 +450,7 @@ const MessageView = ({route}) => {
       });
   };
   useEffect(() => {
+    console.log(chatRoomId, 'chatRoomIdchatRoomIdchatRoomIdchatRoomId');
     checkOrCreateChatRoom(chatRoomId, user_id, reciever_id);
     const unsubscribe = firestore()
       .collection('chats')

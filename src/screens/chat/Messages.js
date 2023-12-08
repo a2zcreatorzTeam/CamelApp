@@ -59,14 +59,11 @@ class Messages extends Component {
         console.log('No matching documents in Firestore');
 
         const usersData = [];
-        console.log('insideUnsubb');
         for (const doc of querySnapshot?.docs) {
-          console.log('5777');
           const chatRoomData = doc.data();
           const otherUserId = Object.keys(chatRoomData.members).find(
             userId => userId != currentUser,
           );
-          console.log(otherUserId, 'otherUserId');
           // Query the messages subcollection to get the last message
           const lastMessageQuery = await firestore()
             .collection('chats')
@@ -94,9 +91,9 @@ class Messages extends Component {
             usersData.push(userWithLastMessage);
           }
           usersData.sort((a, b) => b.timestamp - a.timestamp);
-          this.getUsersDetails(usersData);
-          this.setState({getUserDropList: usersData});
         }
+        this.getUsersDetails(usersData);
+        this.setState({getUserDropList: usersData});
       } else {
         this.setState({loader: false});
       }

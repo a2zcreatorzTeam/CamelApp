@@ -42,6 +42,10 @@ class BeautyOfCompetition extends Component {
         : [],
       sponsors: competition_item?.sponsors,
       filteredSponsors: [],
+      participants: competition_item?.competition_participant,
+      filteredParticipants: [],
+      searchParticipants: '',
+      searchParticipantsText: '',
       modal: false,
       particpateModal: false,
       generalRulesModal: false,
@@ -149,11 +153,31 @@ class BeautyOfCompetition extends Component {
       }
     }
   };
+  // SEARCH HANDLER
+  searchParticipantsHandler = value => {
+    const {participants, searchParticipants} = this.state;
+    if (!value?.length) {
+      this.setState({searchParticipants: participants});
+    } else {
+      this.setState({searchParticipants: value});
+      // // Data Filtration
+      const filteredData = participants.filter(item => {
+        const {user_name} = item;
+        return user_name?.toLowerCase().includes(value.toLowerCase());
+      });
+      console.log(filteredData, 'filterdataaa');
+      if (filteredData?.length > 0) {
+        this.setState({filteredParticipants: filteredData});
+      } else {
+        this.setState({filteredParticipants: []});
+      }
+    }
+  };
   search(text) {
     this.setState({searchText: text});
   }
   render() {
-    const {competition, posts, refreshing} = this.state;
+    const {competition, posts, refreshing, searchParticipantsText} = this.state;
     const competition_item = this.props.route.params.competition_item[0];
     const NewDate = moment().format('YYYY-MM-DD');
     const {
@@ -166,6 +190,8 @@ class BeautyOfCompetition extends Component {
       generalRulesModal,
       participantsModal,
       particpateModal,
+      searchParticipants,
+      filteredParticipants,
     } = this.state;
     const tagsStyles = {
       body: {
@@ -388,7 +414,10 @@ class BeautyOfCompetition extends Component {
             width: '100%',
             width: '90%',
           }}>
-          <ScrollView horizontal style={styles.scrollView}>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            style={styles.scrollView}>
             {/* Reward MODAL  */}
             <Pressable onPress={() => this.setState({modal: true})}>
               <Text style={Styles.ButtonBeauty}>{ArabicText.Reward}</Text>
@@ -592,7 +621,26 @@ class BeautyOfCompetition extends Component {
             this.setState({participantsModal: false});
           }}>
           <View style={Styles.centeredView}>
-            <View style={[Styles.modalView]}>
+            <View
+              style={[Styles.modalView, {paddingTop: 0, paddingHorizontal: 0}]}>
+              <Header
+                hideCircle
+                customStyle={{width: width - 100}}
+                onChangeText={text => {
+                  if (text) {
+                    // this.search(text);
+                    this.setState({searchParticipantsText: text});
+                  } else {
+                    this.setState({
+                      searchParticipants: '',
+                      searchParticipantsText: '',
+                    });
+                  }
+                }}
+                onPressSearch={() =>
+                  this.searchParticipantsHandler(searchParticipantsText)
+                }
+              />
               {/* <TouchableOpacity
                 style={{marginLeft: 'auto'}}
                 onPress={() => this.setState({participantsModal: false})}>
@@ -609,7 +657,11 @@ class BeautyOfCompetition extends Component {
                   contentContainerStyle={{flexGrow: 1}}
                   style={{height: '70%'}}
                   ListEmptyComponent={() => <EmptyComponent />}
-                  data={competition_item.competition_participant}
+                  data={
+                    searchParticipants
+                      ? filteredParticipants
+                      : competition_item.competition_participant
+                  }
                   renderItem={renderItem}
                   keyExtractor={item => item?.user_id?.toString()}
                 />
@@ -644,7 +696,11 @@ class BeautyOfCompetition extends Component {
         {NewDate >= competition[0]?.start_date &&
           NewDate <= competition[0]?.end_date && (
             <TouchableOpacity
-              style={{justifyContent: 'center', alignItems: 'center'}}
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginVertical: 20,
+              }}
               onPress={() => this.selectedCompetition()}>
               <Text style={[Styles.ButtonBeauty, {width: width - 20}]}>
                 {ArabicText.Click_to_Participate}
@@ -702,5 +758,6 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: '#fff',
     flexDirection: 'row',
+    marginBottom: 10,
   },
 });

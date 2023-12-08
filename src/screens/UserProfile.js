@@ -321,6 +321,7 @@ class UserProfile extends Component {
     camelapp
       .get('/friendshipstatus/' + user?.id + '/' + user_friend?.user_id)
       .then(res => {
+        console.log(res?.data?.status, 'res?.data?.status');
         this.setState({friendshipStatus: res?.data?.status, loading: false});
       })
       .catch(error => {

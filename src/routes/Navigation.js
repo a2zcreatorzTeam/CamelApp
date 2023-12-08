@@ -69,6 +69,7 @@ import FollowersList from '../screens/FollowersList.js';
 import MyFriendList from '../screens/MyFriendList.js';
 import CreateProfile from '../screens/CreateProfile.js';
 import BackBtnHeader from '../components/headerWithBackBtn.js';
+import Sponser from '../screens/SponcersList.js';
 const Stack = createNativeStackNavigator();
 export default function Navigation() {
   return (
@@ -411,6 +412,11 @@ export default function Navigation() {
         <Stack.Screen
           name="MyFriendList"
           component={MyFriendList}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Sponcers"
+          component={Sponser}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

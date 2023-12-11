@@ -107,7 +107,7 @@ class App extends Component {
               screenType == 'update'
                 ? camelapp
                     .post('/update', {
-                      user_id: this.props.user.user.user.id,
+                      user_id: this.props.user?.user?.user.id,
                       phone: user_data?.newphone,
                     })
                     .then(res => {

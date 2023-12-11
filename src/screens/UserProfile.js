@@ -280,7 +280,7 @@ class UserProfile extends Component {
   followRequest(followRequest) {
     const follower_id = this.props.route?.params?.user_id;
     let {user} = this.props;
-    user = user.user.user ? user?.user?.user : user?.user;
+    user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
       camelapp
         .post('/follow', {
@@ -333,7 +333,7 @@ class UserProfile extends Component {
     this.setState({loading: true});
     const friend_id = this.props.route?.params?.user_id;
     let {user} = this.props;
-    user = user.user.user ? user?.user?.user : user?.user;
+    user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
       camelapp
         .post('/manage/friendrequest', {
@@ -433,7 +433,7 @@ class UserProfile extends Component {
   };
   onDetailsClick = async (item, viewCount, setViewCount) => {
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     let post_id = item.id;
     if (user != undefined) {
       if (item.category_id == '1') {
@@ -659,7 +659,7 @@ class UserProfile extends Component {
       );
     };
     const FriendshipStatusBTN = () => {
-      const user = this.props.user.user.user;
+      const user = this.props.user?.user?.user;
       if (
         this.state.friendshipStatus == null
         // this.state.friendshipStatus == 'C' ||

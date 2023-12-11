@@ -89,7 +89,7 @@ class DetailsComponent extends Component {
   onCommentsClick = () => {
     let item = this.props.route.params?.itemFromDetails || {};
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     let post_id = item.id;
     if (user != undefined) {
       camelapp
@@ -216,7 +216,7 @@ class DetailsComponent extends Component {
   checkBidStatus = () => {
     const itemFromDetails = this.props.route.params?.itemFromDetails || {};
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     if (user !== undefined && user?.id != itemFromDetails.user_id) {
       camelapp
         .post('/checkBid', {
@@ -236,7 +236,7 @@ class DetailsComponent extends Component {
     const {price} = this.state;
     const itemFromDetails = this.props.route.params?.itemFromDetails || {};
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     if (user != undefined) {
       if (itemFromDetails.price_type == 'سوم') {
         if (
@@ -293,7 +293,7 @@ class DetailsComponent extends Component {
   closeBid() {
     const itemFromDetails = this.props.route.params?.itemFromDetails || {};
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     if (user != undefined) {
       camelapp
         .post('/closed/bid', {
@@ -323,7 +323,7 @@ class DetailsComponent extends Component {
   chatRequestNotification = item => {
     const itemFromDetails = this.props.route.params?.itemFromDetails || {};
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     if (user != undefined) {
       this.setState({load: true});
       camelapp

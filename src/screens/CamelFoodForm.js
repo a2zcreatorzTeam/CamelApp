@@ -116,7 +116,7 @@ class CamelFood extends React.Component {
     ) {
       this.setState({loading: true});
       let {user} = this.props;
-      let user_id = user.user.user.id;
+      let user_id = user?.user?.user.id;
       camelapp
         .post('/add/food', {
           user_id: user_id,

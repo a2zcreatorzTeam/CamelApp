@@ -232,7 +232,7 @@ class SellingCamelForm extends React.Component {
         : true)
     ) {
       let {user} = this.props;
-      let user_id = user.user.user.id;
+      let user_id = user?.user?.user.id;
       console.log(user?.user?.user, user_id);
       this.setState({loading: true});
       console.log(selectedBidOption?.name, 'jkjkj');

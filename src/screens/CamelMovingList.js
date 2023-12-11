@@ -148,7 +148,7 @@ class CamelMovingList extends Component {
       locationInput,
     } = this.state;
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     const renderItem = ({item}) => {
       return (
         <Post

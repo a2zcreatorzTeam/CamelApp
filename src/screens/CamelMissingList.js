@@ -145,7 +145,7 @@ class CamelFoodList extends Component {
       searchText,
     } = this.state;
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     const renderItem = ({item}) => {
       return (
         <Post

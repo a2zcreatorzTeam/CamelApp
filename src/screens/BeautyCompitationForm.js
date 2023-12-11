@@ -194,7 +194,7 @@ class participateInCompetition extends Component {
     ) {
       this.setState({loading: true});
       let {user} = this.props;
-      let user_id = user.user.user.id;
+      let user_id = user?.user?.user.id;
       let competition_id = this.props.route.params.competitionItem;
       camelapp
         .post('/add/competition', {

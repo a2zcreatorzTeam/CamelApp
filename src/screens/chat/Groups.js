@@ -27,10 +27,10 @@ const Groups = prop => {
   // console.log("****");
 
   // const getGrouplist = async () => {
-  //   // let { id } = prop.user.user.user;
+  //   // let { id } = prop.user?.user?.user;
   //   try {
   //     const fetchData = await camelapp.get(
-  //       '/getgrouplist/' + prop.user.user.user.id,
+  //       '/getgrouplist/' + prop.user?.user?.user.id,
   //     );
   //     setGroupList(fetchData?.data);
   //     console.log('fetchData group list', fetchData.data);
@@ -115,7 +115,7 @@ const Groups = prop => {
         style={styles.createBTN}
         onPress={() =>
           prop.navigation.navigate('CreateGroup', {
-            userID: prop.user.user.user.id,
+            userID: prop.user?.user?.user.id,
             // refreshGrouplist: getGrouplist,
           })
         }>

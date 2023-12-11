@@ -111,7 +111,7 @@ class Home extends Component {
   async viewPosts() {
     const {key} = this.state;
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     try {
       return await camelapp
         .post('/view/post', {
@@ -224,7 +224,7 @@ class Home extends Component {
   };
   onDetailsClick = async (item, viewCount, setViewCount) => {
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     let post_id = item.id;
     if (user != undefined) {
       if (item.category_id == '1') {
@@ -335,7 +335,7 @@ class Home extends Component {
   sharePosts = async item => {
     this.setState({loading: true});
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     let post_id = item.id;
     if (user != undefined) {
       await camelapp
@@ -365,7 +365,7 @@ class Home extends Component {
   };
   onCommentsClick = async item => {
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     let post_id = item.id;
     if (user != undefined) {
       await camelapp
@@ -387,7 +387,7 @@ class Home extends Component {
   onLikesClick = async (item, setIsLiked, setLikeCount) => {
     this.setState({loading: false});
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     let post_id = item.id;
     if (user != undefined) {
       await camelapp
@@ -441,7 +441,7 @@ class Home extends Component {
     this.setState({loading: true});
     let {user} = this.props;
 
-    user = user.user.user;
+    user = user?.user?.user;
 
     if (user != undefined) {
       if (item.user_id === user.id) {
@@ -516,7 +516,7 @@ class Home extends Component {
       postViewed,
     } = this;
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     const {key, filterPosts, searchedItem} = this.state;
     const renderItem = ({item}) => {
       return (

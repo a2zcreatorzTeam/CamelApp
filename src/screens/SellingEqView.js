@@ -108,7 +108,7 @@ const Home = props => {
   const onLikesClick = item => {
     this.setState({loading: true});
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     let post_id = item.id;
     if (user != undefined) {
       camelapp

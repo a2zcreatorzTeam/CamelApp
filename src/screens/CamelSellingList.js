@@ -36,7 +36,7 @@ class CamelSellingList extends Component {
   }
   checkUserLogedIn() {
     let {user} = this.props;
-    if (user.user.user != undefined) {
+    if (user?.user?.user != undefined) {
       this.fetchUser();
     } else {
       this.props.navigation.navigate('Login');
@@ -44,7 +44,7 @@ class CamelSellingList extends Component {
   }
   fetchUser() {
     let {user, actions} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     try {
       camelapp.get('/get/fetchUser/' + user.id).then(res => {
         // console.log('response at fetch', res.data);
@@ -59,7 +59,7 @@ class CamelSellingList extends Component {
   }
   async viewPosts() {
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     const {searchedItem, key} = this.state;
     try {
       return await camelapp
@@ -178,7 +178,7 @@ class CamelSellingList extends Component {
       posts,
     } = this.state;
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     console.log('====================================');
     console.log('IS THIS IS CAMEL SELLEING POST SCREEN?');
     const renderItem = ({item}) => {

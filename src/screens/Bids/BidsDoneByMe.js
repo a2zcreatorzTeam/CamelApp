@@ -31,7 +31,7 @@ class Bids extends Component {
       const {key} = this.state;
       return await camelapp
         .post('/get/bids', {
-          user_id: user.user.user.id,
+          user_id: user?.user?.user.id,
         })
         .then(res => {
           console.log(res?.data?.bids, 'BidPOst');

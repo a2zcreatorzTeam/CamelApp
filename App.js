@@ -68,16 +68,16 @@ class App extends Component {
   // CODE PUSH FUNCTIONS
   syncImmediate = () => {
     codePush.sync(
-      // {
-      //   installMode: codePush.InstallMode.IMMEDIATE,
-      //   updateDialog: {
-      //     appendReleaseDescription: fale,
-      //     optionalIgnoreButtonLabel: 'Close',
-      //     optionalInstallButtonLabel: 'Install',
-      //     optionalUpdateMessage: 'New update available. Install update',
-      //     title: 'Update Required',
-      //   },
-      // },
+      {
+        installMode: codePush.InstallMode.IMMEDIATE,
+        updateDialog: {
+          appendReleaseDescription: false,
+          optionalIgnoreButtonLabel: 'Close',
+          optionalInstallButtonLabel: 'Install',
+          optionalUpdateMessage: 'New update available. Install update',
+          title: 'Update Required',
+        },
+      },
       this.codePushStatusDidChange.bind(this),
       this.codePushDownloadDidProgress.bind(this),
     );

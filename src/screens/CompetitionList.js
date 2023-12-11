@@ -149,6 +149,7 @@ class CamelClubList extends Component {
         {loader == false && (
           <View>
             <FlatList
+              style={{flex: 1}}
               ListEmptyComponent={() => <EmptyComponent />}
               key={key}
               columnWrapperStyle={{

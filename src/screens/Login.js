@@ -35,7 +35,7 @@ const width = Dimensions.get('screen').width;
 
 RNTwitterSignIn.init(
   'Pms1jAjrh8BOGg0ejusChoO4m',
-  'JywnRU724s53e1usaWxKdk2Vaf3QXQV2kPZT9ERziaMKIRJOck'
+  'JywnRU724s53e1usaWxKdk2Vaf3QXQV2kPZT9ERziaMKIRJOck',
   // 'twittersdk://',
 ).then(res => console.log('Twitter SDK initialized', res));
 
@@ -60,8 +60,7 @@ class Login extends Component {
     this.backHandler = null;
     this.instagramLoginRef = createRef();
   }
-  saveData() {
-  }
+  saveData() {}
   userlogin = async () => {
     try {
       let userPhone = await AsyncStorage.getItem('@UserPhone');
@@ -97,8 +96,10 @@ class Login extends Component {
   };
 
   // InstagramTwitterLogin
-  setIgToken = data => {
-    console.log(data, 'dattattt');
+  setIgToken = async data => {
+    await getFCMToken();
+    const deviceToken = await AsyncStorage?.getItem('fcmToken');
+    console.log(deviceToken, 'dattattt');
     this.setState({loader: true});
     try {
       camelapp
@@ -106,7 +107,7 @@ class Login extends Component {
           socialToken: data?.access_token,
           social_id: data?.user_id,
           socialType: data?.socialType ? data?.socialType : 'instagram',
-          device_token: data?.access_token,
+          device_token: deviceToken,
         })
 
         .then(res => {

@@ -113,19 +113,14 @@ class Comments extends Component {
     }
   };
   getCommentsOnPost = async () => {
-    let {user} = this.props?.route.params;
+    let {user, post_id} = this.props?.route.params;
     const {searchedItem, dataNotFound} = this.state;
-    console.log(
-      this.props.route.params?.post?.id,
-      user?.id, "user?.iduser?.idss"
-    )
     await camelapp
       .post('/get/comment', {
-        post_id: this.props.route.params?.post?.id,
+        post_id: post_id ? post_id : this.props.route.params?.post?.id,
         user_id: user?.id,
       })
       .then(res => {
-        console.log("RES?/ssssssdsd".res?.data)
         this.setState({
           commentsList: res?.data,
           loader: false,
@@ -138,12 +133,13 @@ class Comments extends Component {
     this.getCommentsOnPost();
   };
   addNewComment = async () => {
+    let {post_id} = this.props?.route.params;
     if (this.state.newComment != '') {
       this.setState({loading: true});
       camelapp
         .post('/add/comment', {
           user_id: this.state.user_id,
-          post_id: this.state.post.id,
+          post_id: post_id ? post_id : this.state.post.id,
           comment: this.state.newComment,
         })
         .then(response => {
@@ -224,6 +220,8 @@ class Comments extends Component {
       searchedItem,
       newComment,
     } = this.state;
+    let {post_id} = this.props?.route.params;
+
     return (
       <SafeAreaView style={Styles.containerComments}>
         {loader == true && (
@@ -257,10 +255,7 @@ class Comments extends Component {
             onPressSearch={() => this?.searchHandler(this.state.searchText)}
           />
         )}
-{
-  console.log(
-    commentsList , 'commentsListcommentsList')
-}
+        {console.log(commentsList, 'commentsListcommentsList')}
         {this.state.commentsList?.length && loader == false ? (
           <FlatList
             showsVerticalScrollIndicator={false}
@@ -334,12 +329,9 @@ class Comments extends Component {
 
             <TextInput
               style={Styles.forminputs}
-              onChangeText={text =>
-                {
-                 this.setState({newReply: text})
-                }
-                
-                }
+              onChangeText={text => {
+                this.setState({newReply: text});
+              }}
               placeholder={ArabicText.Reply}
               placeholderTextColor="#b0b0b0"
               value={this?.state?.newReply}></TextInput>

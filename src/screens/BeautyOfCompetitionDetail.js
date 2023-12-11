@@ -217,6 +217,7 @@ class BeautyOfCompetition extends Component {
       this.props.navigation.navigate('Comments', {
         user: user,
         post: item,
+        post_id: item?.post_id,
       });
       // this.viewPosts();
       // });

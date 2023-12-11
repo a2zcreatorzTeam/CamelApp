@@ -64,7 +64,7 @@ class CamelTreatmentList extends Component {
   async viewPosts() {
     const {key} = this.state;
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     try {
       return await camelapp
         .post('/get/camel_teatment', {
@@ -140,7 +140,7 @@ class CamelTreatmentList extends Component {
   };
   render() {
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     const {
       key,
       searchedItem,
@@ -262,7 +262,7 @@ class CamelTreatmentList extends Component {
     const onDetailsClick = (item, viewCount, setViewCount) => {
       console.log('itemmid', item?.category_id);
       let {user} = this.props;
-      user = user.user.user;
+      user = user?.user?.user;
       if (user != undefined) {
         this.props.navigation.navigate('DetailsMissingAndTreatingCamel', {
           itemFromDetails: item,

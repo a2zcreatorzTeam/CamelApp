@@ -1,7 +1,7 @@
 import {USER, LOGOUT} from '../constants';
 
 const initialState = {
-  user: {},
+  user: null,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -13,7 +13,7 @@ const userReducer = (state = initialState, action) => {
       };
     case LOGOUT:
       return {
-        user: {},
+        user: null,
       };
     default:
       return state;

@@ -197,7 +197,7 @@ class LiveMarketingForm extends Component {
       // this.state.mixed != []
     ) {
       let {user} = this.props;
-      let user_id = user.user.user.id;
+      let user_id = user?.user?.user.id;
       this.setState({loading: true});
       camelapp
         .post('/add/marketing', {

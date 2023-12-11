@@ -70,7 +70,7 @@ class CamelFemaleList extends Component {
   async viewPosts() {
     const {key} = this.state;
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     try {
       return await camelapp
         .post('/get/camel_female', {
@@ -109,7 +109,7 @@ class CamelFemaleList extends Component {
       searchText,
     } = this.state;
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     const renderItem = ({item}) => {
       return (
         <Post

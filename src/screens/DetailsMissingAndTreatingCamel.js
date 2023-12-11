@@ -73,7 +73,7 @@ class DetailsComponent extends Component {
   onCommentsClick = () => {
     let item = this.props.route.params?.itemFromDetails || {};
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     let post_id = item.id;
     if (user != undefined) {
       camelapp

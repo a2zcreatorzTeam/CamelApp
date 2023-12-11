@@ -130,7 +130,7 @@ class SellingEquipmentForm extends React.Component {
       this.setState({loading: true});
 
       let {user} = this.props;
-      let user_id = user.user.user.id;
+      let user_id = user?.user?.user.id;
       console.log(this.state.register_value, 'this.state.register_value');
       camelapp
         .post('/add/equipment', {

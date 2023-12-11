@@ -201,7 +201,7 @@ class CamelFemaleForm extends Component {
       // this.state.mixed.length != 0
     ) {
       let {user} = this.props;
-      let user_id = user.user.user.id;
+      let user_id = user?.user?.user.id;
       this.setState({loading: true});
       try {
         camelapp

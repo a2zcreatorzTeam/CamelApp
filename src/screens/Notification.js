@@ -39,8 +39,8 @@ class Notification extends Component {
   }
   checkUserLogedIn() {
     let {user} = this.props;
-    // //console.log("user", this.props.user.user.user.id)
-    if (user.user.user != undefined) {
+    // //console.log("user", this.props.user?.user?.user.id)
+    if (user?.user?.user != undefined) {
       this.viewPosts();
     } else {
       this.props.navigation.navigate('Login');
@@ -48,7 +48,7 @@ class Notification extends Component {
   }
   async viewPosts() {
     let {user} = this.props;
-    user = user.user.user.id;
+    user = user?.user?.user.id;
     const {key} = this.state;
     await camelapp
       .get('/notification/' + user)

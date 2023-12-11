@@ -48,7 +48,6 @@ const GooglePlaceAutocomplete = ({
       /> */}
       <GooglePlacesAutocomplete
         enableHighAccuracyLocation
-        currentLocation
         fetchDetails
         disableScroll
         enablePoweredByContainer={false}
@@ -74,9 +73,11 @@ const GooglePlaceAutocomplete = ({
         }}
         query={{
           key: 'AIzaSyBoQGDEoED5cH7xcsMoUWSWA64WrtSyu2U',
-          language: 'en',
+          language: 'ar',
           //   types: 'premise',
         }}
+        // currentLocation
+        // currentLocationLabel='Current location'
         // {...props}
       />
     </View>

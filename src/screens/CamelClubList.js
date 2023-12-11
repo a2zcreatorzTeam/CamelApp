@@ -61,7 +61,7 @@ class CamelClubList extends Component {
   }
   async viewPosts() {
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     const {searchedItem, key} = this.state;
     await camelapp
       .post('/postclub', {
@@ -143,7 +143,7 @@ class CamelClubList extends Component {
       searchText,
     } = this.state;
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     const renderItem = ({item}) => {
       return (
         <Post

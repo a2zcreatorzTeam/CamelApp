@@ -99,7 +99,7 @@ const MessageView = ({route}) => {
   };
   _renderItem = ({item, index}) => {
     const formattedDateTime = moment.unix(item?.timestamp).format('h:mm:a');
-    let sender_id = user.user.user.id;
+    let sender_id = user?.user?.user.id;
     return item?.sender == sender_id ? (
       <View style={{width: '100%'}}>
         {item?.latitude && item?.longitude ? (

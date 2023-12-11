@@ -50,7 +50,6 @@ class Profile extends Component {
       modalFollowing: false,
       rating: 0,
       loader: false,
-      posts: [],
       whatsappNumber: '',
       phoneNumber: '',
       otpValue: '',
@@ -291,13 +290,12 @@ class Profile extends Component {
   };
   fetchUser() {
     const {key} = this.state;
-    this.setState({loader: true});
+    this.setState({loader: true, posts: []});
     let {user, actions} = this.props;
     user = user?.user?.user;
-
     try {
       camelapp.get('/get/fetchUser/' + user.id).then(res => {
-        actions.userData(res?.data);
+        // actions.userData(res?.data);
         const data = res.data;
         if (data) {
           var arrayPosts = res?.data?.posts;
@@ -472,11 +470,14 @@ class Profile extends Component {
     }
   };
   componentDidMount = () => {
-    // this.setState({rating: 0, posts: []});
     this.focusListener = this.props.navigation.addListener('focus', () => {
+      this.setState({rating: 0});
       this.fetchUser();
     });
   };
+  componentWillUnmount() {
+    this.focusListener();
+  }
   render() {
     let {user} = this.props;
     user = user?.user?.user;
@@ -710,7 +711,7 @@ class Profile extends Component {
     };
     return (
       <View style={Styles.containerProfile}>
-        {this.props.user.user.user === undefined ? (
+        {this.props.user?.user?.user === undefined ? (
           this.props.navigation.navigate('Login')
         ) : (
           <>
@@ -783,13 +784,11 @@ class Profile extends Component {
                     source={{
                       uri:
                         'http://www.tasdeertech.com/public/images/profiles/' +
-                        this.props?.user?.user?.user.image,
+                        user.image,
                     }}
                     resizeMode={FastImage?.resizeMode.cover}
                   />
-                  <Text style={styles.name}>
-                    {this.props?.user?.user?.user?.name}
-                  </Text>
+                  <Text style={styles.name}>{user?.name}</Text>
                   <View
                     style={{
                       flexDirection: 'row-reverse',

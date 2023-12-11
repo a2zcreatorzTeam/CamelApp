@@ -66,7 +66,7 @@ class ViewNews extends Component {
     const newsdata = this.props.route.params.newsItem;
     this.setState({loading: true});
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     if (user != undefined) {
       camelapp
         .post('/add/rating', {
@@ -96,7 +96,7 @@ class ViewNews extends Component {
   newComment() {
     const newsdata = this.props.route.params.newsItem;
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     if (user != undefined) {
       if (this.state.newComment != '') {
         camelapp
@@ -137,7 +137,7 @@ class ViewNews extends Component {
     const likeCommentHandler = async (item, setIsLiked, setLikeCount) => {
       this.setState({loading: false});
       let {user} = this.props;
-      user = user.user.user;
+      user = user?.user?.user;
       if (user != undefined) {
         await camelapp
           .post('/news-comment-like', {

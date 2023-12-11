@@ -146,7 +146,7 @@ class CamelMarketingList extends Component {
   };
   render() {
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     const {
       key,
       searchedItem,

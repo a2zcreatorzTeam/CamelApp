@@ -61,7 +61,7 @@ class BeautyOfCompetition extends Component {
   selectedCompetition() {
     const {competition} = this.state;
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
     if (user != undefined) {
       this.props.navigation.navigate('BeautyCompetitionForm', {
         competitionItem: competition[0].id,
@@ -74,7 +74,7 @@ class BeautyOfCompetition extends Component {
     const {key} = this.state;
     try {
       let {user} = this.props;
-      user = user.user.user;
+      user = user?.user?.user;
       return await camelapp
         .post('/get/competition_details', {
           competition_id:
@@ -204,7 +204,7 @@ class BeautyOfCompetition extends Component {
     // COMMENT
     onCommentsClick = async item => {
       let {user} = this.props;
-      user = user.user.user;
+      user = user?.user?.user;
       let post_id = item.id;
       // if (user != undefined) {
       // await camelapp
@@ -230,7 +230,7 @@ class BeautyOfCompetition extends Component {
     onLikesClick = async (item, setIsLiked, setLikeCount) => {
       this.setState({loading: false});
       let {user} = this.props;
-      user = user.user.user;
+      user = user?.user?.user;
       let post_id = item.post_id;
       if (user != undefined) {
         await camelapp

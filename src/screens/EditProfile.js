@@ -31,7 +31,7 @@ class EditProfile extends Component {
   constructor(props) {
     super(props);
     let {user} = props;
-    user = user.user.user;
+    user = user?.user?.user;
     this.state = {
       userName: user?.name ? user?.name : null,
       image: '',
@@ -150,7 +150,7 @@ class EditProfile extends Component {
     this.otpInput.setValue('1234');
   };
   updateProfile = async () => {
-    const image = this.props.user.user.user?.image;
+    const image = this.props.user?.user?.user?.image;
     const {email, location, pickedImage, userName} = this.state;
     // if (!pickedImage && !image) {
     //   Toast.show({
@@ -195,7 +195,7 @@ class EditProfile extends Component {
       console.log('99999');
       await camelapp
         .post('/update', {
-          user_id: this.props.user.user.user.id,
+          user_id: this.props.user?.user?.user.id,
           name: userName,
           location: location ? location : null,
           email: email ? email : null,
@@ -242,7 +242,7 @@ class EditProfile extends Component {
   render() {
     const {image, pickedImage} = this.state;
     let {user} = this.props;
-    user = user.user.user;
+    user = user?.user?.user;
 
     return (
       // <ScrollView
@@ -266,11 +266,11 @@ class EditProfile extends Component {
           source={
             pickedImage?.length
               ? {uri: image}
-              : this.props.user.user.user?.image
+              : this.props.user?.user?.user?.image
               ? {
                   uri:
                     'http://www.tasdeertech.com/public/images/profiles/' +
-                    this.props.user.user.user?.image,
+                    this.props.user?.user?.user?.image,
                 }
               : require('../../assets/dummyImage.jpeg')
           }>

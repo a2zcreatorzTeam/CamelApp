@@ -320,7 +320,7 @@ class Profile extends Component {
           const length = parseInt(res?.data?.posts?.length);
           let rating = 0;
           if (length > 30 && length < 100) {
-            console.log("ratigggg");
+            console.log('ratigggg');
             rating = 1;
           } else if (length >= 100 && length < 150) {
             rating = 2;
@@ -1204,7 +1204,7 @@ class Profile extends Component {
                 data={searchedItem ? filterPosts : posts}
                 renderItem={renderItem}
                 keyExtractor={item_2 => item_2.id}
-                contentContainerStyle={{paddingBottom: 10}}
+                contentContainerStyle={{paddingBottom: width * 0.1}}
                 refreshControl={
                   <RefreshControl
                     refreshing={this.state.refreshing}

@@ -62,6 +62,7 @@ class CompetitionPostDetails extends Component {
   }
   onCommentsClick = () => {
     let item = this.props.route.params.itemFromDetails;
+    console.log(item?.post_id, 'itemitem');
     let {user} = this.props;
     user = user.user.user;
     let post_id = item.id;
@@ -75,6 +76,7 @@ class CompetitionPostDetails extends Component {
             commentsForPost: res,
             user: user,
             post: item,
+            post_id: item?.post_id,
           });
         });
     } else {

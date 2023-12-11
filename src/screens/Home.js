@@ -611,7 +611,7 @@ class Home extends Component {
             <Header
               navRoute="Home"
               onChangeText={text => {
-                this.search(text);
+                // this.search(text);
               }}
               // onPressSearch={
               //   () =>

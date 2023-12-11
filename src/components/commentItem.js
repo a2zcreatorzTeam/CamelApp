@@ -19,7 +19,7 @@ const Item = ({
 }) => {
   const [isLiked, setIsLiked] = useState();
   const [likeCount, setLikeCount] = useState(commentsCount);
-  console.log(item, "itemmmmm");
+  console.log(userImage, 'itemmmmm');
   return (
     <>
       <View
@@ -148,9 +148,15 @@ const Item = ({
                 height: 50,
                 borderRadius: 100,
               }}
-              source={{
-                uri: 'http://www.tasdeertech.com/images/profiles/' + userImage,
-              }}
+              source={
+                userImage
+                  ? {
+                      uri:
+                        'http://www.tasdeertech.com/images/profiles/' +
+                        userImage,
+                    }
+                  : require('../../assets/dummyImage.jpeg')
+              }
               resizeMode={FastImage?.resizeMode.cover}
             />
           </View>

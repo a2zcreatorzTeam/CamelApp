@@ -176,7 +176,9 @@ class CreateProfile extends Component {
 
   render() {
     const {image, btnLoader, location} = this.state;
-    const {screen} = this.props.route?.params;
+    const screen = this.props.route?.params?.screen;
+    const response = this.props.route?.params?.response;
+    let {actions} = this.props;
     return (
       <ScrollView
         // style={{flex: 1}}
@@ -187,6 +189,24 @@ class CreateProfile extends Component {
           flexGrow: 1,
         }}>
         <View style={Styles.container}>
+          <TouchableOpacity
+            onPress={() => {
+              actions.userData(response);
+              this.saveData();
+              this.props.navigation.navigate('Home', {
+                screen: ArabicText?.home,
+              });
+            }}
+            style={{
+              marginLeft: 'auto',
+              backgroundColor: '#8b4513',
+              marginRight: 20,
+              padding: 5,
+              borderRadius: 10,
+            }}>
+            <Text>Skip</Text>
+          </TouchableOpacity>
+          {/* PROFILE IMAGE  */}
           <View
             style={{
               backgroundColor: 'lightgrey',
@@ -243,7 +263,7 @@ class CreateProfile extends Component {
           <Text style={[Styles.text, {marginVertical: 20}]}>
             {ArabicText?.Edit_profile}
           </Text>
-
+          {/* INPUT FIELDS  */}
           <View style={Styles.profileQuestioncard}>
             {screen == 'socialLogin' ? (
               <>

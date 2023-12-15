@@ -23,6 +23,7 @@ import VideoModal from '../components/VideoModal';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Toast from 'react-native-toast-message';
 import {Platform} from 'react-native';
+import {profileBaseUrl, thumbnailBaseUrl} from '../constants/urls';
 
 class DetailsComponent extends Component {
   constructor(props) {
@@ -201,6 +202,8 @@ class DetailsComponent extends Component {
     let user = this.props?.user;
     user = user?.user?.user;
     const itemFromDetails = this.props.route.params?.itemFromDetails || {};
+    const thumbnail = itemFromDetails?.thumbnail?.thumbnail;
+
     return (
       <ScrollView>
         <BackBtnHeader />
@@ -238,9 +241,7 @@ class DetailsComponent extends Component {
             }}>
             <Image
               source={{
-                uri:
-                  'http://www.tasdeertech.com/images/profiles/' +
-                  itemFromDetails?.user_images,
+                uri: profileBaseUrl + itemFromDetails?.user_images,
               }}
               style={{
                 height: 55,
@@ -253,6 +254,7 @@ class DetailsComponent extends Component {
         </View>
         <View style={Styles.containerDetails}>
           <HorizontalCarousel
+            thumbnail={thumbnailBaseUrl + thumbnail}
             price={itemFromDetails?.price ? itemFromDetails?.price : ''}
             imagesArray={imagesArray}
             onPress={mediaSource => {

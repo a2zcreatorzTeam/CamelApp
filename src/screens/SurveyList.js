@@ -8,20 +8,20 @@ import {
   FlatList,
   ActivityIndicator,
   RefreshControl,
+  Dimensions,
 } from 'react-native';
+import {Card} from 'react-native-paper';
+import Toast from 'react-native-toast-message';
+import moment from 'moment';
 import camelapp from '../api/camelapp';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import {Styles} from '../styles/globlestyle';
-import {Card} from 'react-native-paper';
-import {Dimensions} from 'react-native';
 import Header from '../components/Header';
-const width = Dimensions.get('screen').width;
 import EmptyComponent from '../components/EmptyComponent';
-import moment from 'moment';
 import * as ArabicText from '../language/EnglishToArabic';
-import Toast from 'react-native-toast-message';
+const width = Dimensions.get('screen').width;
 
 class SurveyList extends Component {
   constructor(props) {

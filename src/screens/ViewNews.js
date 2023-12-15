@@ -7,24 +7,24 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
-import {Styles} from '../styles/globlestyle';
 import {Card} from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import HTML from 'react-native-render-html';
-import {Dimensions, LogBox} from 'react-native';
-import * as ArabicText from '../language/EnglishToArabic';
-const width = Dimensions.get('screen').width;
-import {Rating} from 'react-native-ratings';
+import {bindActionCreators} from 'redux';
+import Toast from 'react-native-toast-message';
+import moment from 'moment';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
 import camelapp from '../api/camelapp';
-import moment from 'moment';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Loader from '../components/PleaseWait';
-import Toast from 'react-native-toast-message';
+import {profileBaseUrl} from '../constants/urls';
+import * as ArabicText from '../language/EnglishToArabic';
+import {Styles} from '../styles/globlestyle';
+const width = Dimensions.get('screen').width;
 
 class ViewNews extends Component {
   constructor(props) {
@@ -427,7 +427,7 @@ const Item = ({
         <View style={[Styles.user_HomeComment]}>
           <Image
             source={{
-              uri: 'http://www.tasdeertech.com/images/profiles/' + image,
+              uri: profileBaseUrl + image,
             }}
             style={{
               width: 50,

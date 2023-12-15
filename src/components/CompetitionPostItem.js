@@ -6,6 +6,7 @@ import {Styles} from '../styles/globlestyle';
 const {width, height} = Dimensions.get('screen');
 import FastImage from 'react-native-fast-image';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { imageBaseUrl } from '../constants/urls';
 
 const PostItem = ({
   item,
@@ -75,7 +76,7 @@ const PostItem = ({
                 },
               ]}
               source={{
-                uri: 'http://www.tasdeertech.com/images/posts/' + image,
+                uri: imageBaseUrl + image,
               }}
             />
           ) : (

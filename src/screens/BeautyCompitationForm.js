@@ -7,22 +7,23 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import {Styles} from '../styles/globlestyle';
 import 'react-native-gesture-handler';
-import * as ArabicText from '../language/EnglishToArabic';
 import RNFS from 'react-native-fs';
-import camelapp from '../api/camelapp';
 import {connect} from 'react-redux';
-import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-crop-picker';
-import VideoModal from '../components/VideoModal';
-import HorizontalCarousel from '../components/HorizontalCarousel';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Toast from 'react-native-toast-message';
+import {createThumbnail} from 'react-native-create-thumbnail';
+import VideoModal from '../components/VideoModal';
+import * as userActions from '../redux/actions/user_actions';
+import camelapp from '../api/camelapp';
+import HorizontalCarousel from '../components/HorizontalCarousel';
+import {Styles} from '../styles/globlestyle';
+import * as ArabicText from '../language/EnglishToArabic';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Loader from '../components/PleaseWait';
-import Toast from 'react-native-toast-message';
 class participateInCompetition extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +34,6 @@ class participateInCompetition extends Component {
       age: '',
       image: undefined,
       cameraimage: [],
-
       cameraimagesForPost: [],
       imageArray: [],
       imageFlage: false,
@@ -46,12 +46,12 @@ class participateInCompetition extends Component {
       controls: false,
       progress: null,
       competitionItem: props.route.params.competitionItem,
-
       videoModal: false,
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
       loading: false,
+      thumbnail: {},
     };
   }
   videoPicker = async () => {
@@ -66,6 +66,14 @@ class participateInCompetition extends Component {
           visibilityTime: 3000,
         });
       } else {
+        createThumbnail({
+          url: video?.path,
+          timeStamp: 10000,
+        })
+          .then(response => {
+            this.setState({thumbnail: response});
+          })
+          .catch(err => console.log({err}));
         RNFS.readFile(video.path, 'base64')
           .then(res => {
             this.setState({videoForPost: 'data:video/mp4;base64,' + res});
@@ -162,15 +170,25 @@ class participateInCompetition extends Component {
       });
   }
   createPostCamelClub = async () => {
-    const {videoForPost} = this.state;
-    var image1 = this.state.imagesForPost;
-    var image2 = this.state.cameraimagesForPost;
+    const {
+      videoForPost,
+      title,
+      description,
+      location,
+      age,
+      imagesForPost,
+      cameraimagesForPost,
+      thumbnail,
+    } = this.state;
+    var image1 = imagesForPost;
+    var image2 = cameraimagesForPost;
     var combineImages = [...image1, ...image2];
+    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
+    const thumbnailObj = {...thumbnail, path: thumbnailContent};
     if (
       (combineImages == undefined || combineImages?.length == 0) &&
       videoForPost == undefined
     ) {
-      console.log('ifff');
       return Toast.show({
         text1: ArabicText?.cannotpostwithoutmedia,
         type: 'error',
@@ -184,14 +202,7 @@ class participateInCompetition extends Component {
         visibilityTime: 3000,
       });
     }
-    if (
-      this.state.title != '' &&
-      this.state.description != '' &&
-      this.state.location != '' &&
-      this.state.age != ''
-      //  &&
-      // this.state.mixed != []
-    ) {
+    if (title != '' && description != '' && location != '' && age != '') {
       this.setState({loading: true});
       let {user} = this.props;
       let user_id = user?.user?.user.id;
@@ -199,13 +210,14 @@ class participateInCompetition extends Component {
       camelapp
         .post('/add/competition', {
           user_id: user_id,
-          title: this.state.title,
-          location: this.state.location,
-          age: parseInt(this.state.age),
-          description: this.state.description,
+          title: title,
+          location: location,
+          age: parseInt(age),
+          description: description,
           competition_id: competition_id,
           images: combineImages ? combineImages : [],
           video: videoForPost ? videoForPost : null,
+          thumbnail: JSON.stringify(thumbnailObj),
         })
         .then(response => {
           Toast.show({
@@ -236,12 +248,14 @@ class participateInCompetition extends Component {
   };
 
   render() {
-    const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
+    const {pausedCheck, loadVideo, videoModal, modalItem, thumbnail} =
+      this.state;
     return (
       <ScrollView style={{backgroundColor: '#FFFFFF'}}>
         <BackBtnHeader />
         <View style={Styles.containerScroll}>
           <HorizontalCarousel
+            thumbnail={thumbnail?.path}
             CustomUrl
             imagesArray={this.state.mixed?.length ? this.state.mixed : []}
             onPress={mediaSource => {

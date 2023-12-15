@@ -14,18 +14,19 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import camelapp from '../api/camelapp';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
+import Toast from 'react-native-toast-message';
+import camelapp from '../api/camelapp';
 import {Styles} from '../styles/globlestyle';
-const width = Dimensions.get('screen').width;
 import * as ArabicText from '../language/EnglishToArabic';
 import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
-import Toast from 'react-native-toast-message';
+import {profileBaseUrl, thumbnailBaseUrl} from '../constants/urls';
 
+const width = Dimensions.get('screen').width;
 class CamelClubDetailsComponent extends Component {
   constructor(props) {
     super(props);
@@ -204,6 +205,7 @@ class CamelClubDetailsComponent extends Component {
     const loggedUser = this.state.user;
     let user = this.props?.user;
     user = user?.user?.user;
+    const thumbnail = itemFromDetails?.thumbnail?.thumbnail;
 
     return (
       <ScrollView
@@ -243,9 +245,7 @@ class CamelClubDetailsComponent extends Component {
             }}>
             <Image
               source={{
-                uri:
-                  'http://www.tasdeertech.com/images/profiles/' +
-                  itemFromDetails.user_images,
+                uri: profileBaseUrl + itemFromDetails.user_images,
               }}
               style={{
                 height: 55,
@@ -259,6 +259,7 @@ class CamelClubDetailsComponent extends Component {
 
         <View style={Styles.containerDetails}>
           <HorizontalCarousel
+            thumbnail={thumbnailBaseUrl + thumbnail}
             price={itemFromDetails?.price ? itemFromDetails?.price : ''}
             imagesArray={imagesArray}
             onPress={mediaSource => {

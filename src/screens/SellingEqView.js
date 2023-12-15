@@ -15,6 +15,7 @@ import {Card} from 'react-native-paper';
 import {DataContext, likePost} from '../context/DataContext';
 import * as ArabicText from '../language/EnglishToArabic';
 import EmptyComponent from '../components/EmptyComponent';
+import {imageBaseUrl, profileBaseUrl} from '../constants/urls';
 
 const Item = ({
   userName,
@@ -49,7 +50,7 @@ const Item = ({
           source={{
             uri:
               // "https://tasdeertech.com/public/images/posts/profile4ffce04d92a4d6cb21c1494cdfcd6dc1913.jpeg"
-              'http://www.tasdeertech.com/images/profiles/' + userImage,
+              profileBaseUrl +userImage,
           }}
           style={{
             width: 50,
@@ -60,7 +61,7 @@ const Item = ({
     </View>
     <Card.Cover
       // source={require('../../assets/camel.png')}
-      source={{uri: 'http://www.tasdeertech.com/images/posts/' + image}}
+      source={{uri: imageBaseUrl + image}}
       resizeMode="cover"
       style={Styles.image}
     />

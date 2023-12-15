@@ -278,7 +278,7 @@ class CamelMarketingList extends Component {
     };
     const onAddButtonClick = () => {
       let {user} = this.props;
-      if (user.user.status == true) {
+      if (user?.user?.status == true) {
         this.props.navigation.navigate('LiveMarketingForm');
       } else {
         this.props.navigation.navigate('Login');

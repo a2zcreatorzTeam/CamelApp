@@ -152,6 +152,7 @@ class CamelMovingList extends Component {
     const renderItem = ({item}) => {
       return (
         <Post
+          thumbnail={item?.thumbnail}
           date={item?.date}
           item={item}
           title={item?.title}
@@ -179,7 +180,7 @@ class CamelMovingList extends Component {
     };
     const onAddButtonClick = () => {
       let {user} = this.props;
-      if (user.user.status == true) {
+      if (user?.user?.status == true) {
         this.props.navigation.navigate('MovingCamelForm');
       } else {
         this.props.navigation.navigate('Login');

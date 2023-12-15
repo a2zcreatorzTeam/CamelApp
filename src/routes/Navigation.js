@@ -11,7 +11,6 @@ import Forgetpass from '../screens/ForgetPassword.js';
 import Notification from '../screens/Notification.js';
 // import Whatsapp from '../screens/Whatsappshare.js';
 import AppDetails from '../screens/AppDetails.js';
-import BeautyCompetition from '../screens/BeautyCompitation.js';
 import Survey from '../screens/Surveyform.js';
 import Header from '../components/Header.js';
 import SellingCamelForm from '../screens/SellingCamelForm.js';
@@ -308,11 +307,6 @@ export default function Navigation() {
         <Stack.Screen
           name="AppDetails"
           component={AppDetails}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="BeautyCompetition"
-          component={BeautyCompetition}
           options={{headerShown: false}}
         />
         <Stack.Screen

@@ -12,6 +12,8 @@ import {
   Modal,
   Platform,
   RefreshControl,
+  ActivityIndicator,
+  Share,
 } from 'react-native';
 import {Card} from 'react-native-paper';
 import Feather from 'react-native-vector-icons/Feather';
@@ -20,23 +22,21 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {Styles} from '../styles/globlestyle';
-
-import camelapp from '../api/camelapp';
 import {connect, useSelector} from 'react-redux';
-import * as userActions from '../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
-import * as ArabicText from '../language/EnglishToArabic';
 import Toast from 'react-native-toast-message';
 import Carousel from 'react-native-snap-carousel';
-import Video from 'react-native-video';
-import {ActivityIndicator} from 'react-native';
-import Loader from '../components/PleaseWait';
-import Header from '../components/Header';
-import FastImage from 'react-native-fast-image';
-import {Share} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Rating} from 'react-native-ratings';
+import FastImage from 'react-native-fast-image';
+import {bindActionCreators} from 'redux';
+import Video from 'react-native-video';
+import camelapp from '../api/camelapp';
+import * as userActions from '../redux/actions/user_actions';
+import * as ArabicText from '../language/EnglishToArabic';
+import {Styles} from '../styles/globlestyle';
+import Loader from '../components/PleaseWait';
+import Header from '../components/Header';
+import {VideoBaseUrl, imageBaseUrl, profileBaseUrl} from '../constants/urls';
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
 
@@ -551,7 +551,7 @@ class UserProfile extends Component {
       if (user != undefined) {
         camelapp
           .post('/add/sharess', {
-            user_id: user.user_id,
+            user_id: user?.user_id,
             post_id: post_id,
           })
           .then(response => {
@@ -1234,8 +1234,7 @@ const Item = ({
             }}>
             <Image
               source={{
-                uri:
-                  'http://www.tasdeertech.com/images/profiles/' + user_images,
+                uri: profileBaseUrl + user_images,
               }}
               style={{
                 width: 50,
@@ -1260,9 +1259,9 @@ const Item = ({
         renderItem={({item, index}) => {
           const mediaSource =
             item?.type == 'image'
-              ? {uri: 'http://www.tasdeertech.com/images/posts/' + item.source}
+              ? {uri: imageBaseUrl + item.source}
               : item?.type == 'video'
-              ? {uri: 'http://www.tasdeertech.com/videos/' + item.source}
+              ? {uri: VideoBaseUrl + item.source}
               : null;
           return (
             <TouchableOpacity
@@ -1282,8 +1281,7 @@ const Item = ({
                 <FastImage
                   style={Styles.image}
                   source={{
-                    uri:
-                      'http://www.tasdeertech.com/images/posts/' + item?.source,
+                    uri: imageBaseUrl + item?.source,
                     headers: {Authorization: 'someAuthToken'},
                     priority: FastImage.priority.normal,
                   }}
@@ -1295,7 +1293,11 @@ const Item = ({
                   {pausedCheck && (
                     <Image
                       activeOpacity={0.4}
-                      source={require('../../assets/camel.png')}
+                      source={
+                        item?.thumbnail
+                          ? {uri: item?.thumbnail}
+                          : require('../../assets/camel.png')
+                      }
                       resizeMode={'cover'}
                       style={[
                         Styles.image,
@@ -1532,8 +1534,7 @@ const Item = ({
               style={styles.userProfileContainer}>
               <Image
                 source={{
-                  uri:
-                    'http://www.tasdeertech.com/images/profiles/' + user_images,
+                  uri: profileBaseUrl + user_images,
                 }}
                 style={styles.userProfileImage}
               />

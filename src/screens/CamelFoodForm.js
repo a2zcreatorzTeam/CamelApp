@@ -33,6 +33,7 @@ import VideoModal from '../components/VideoModal';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
+import {createThumbnail} from 'react-native-create-thumbnail';
 
 class CamelFood extends React.Component {
   constructor(props) {
@@ -77,12 +78,28 @@ class CamelFood extends React.Component {
       showBidOption: false,
       selectedBidOption: '',
       showOption: false,
+      thumbnail: {},
     };
   }
   createPostCamelFood = async () => {
-    const {selectedBidOption, videoForPost} = this.state;
-    var image1 = this.state.imagesForPost;
-    var image2 = this.state.cameraimagesForPost;
+    const {
+      selectedBidOption,
+      videoForPost,
+      thumbnail,
+      imagesForPost,
+      cameraimagesForPost,
+      title,
+      description,
+      location,
+      color,
+      price,
+      price_type,
+      camel_type,
+    } = this.state;
+    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
+    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+    var image1 = imagesForPost;
+    var image2 = cameraimagesForPost;
     var combineImages = [...image1, ...image2];
     if (
       (combineImages == undefined || combineImages?.length == 0) &&
@@ -102,17 +119,14 @@ class CamelFood extends React.Component {
       });
     }
     if (
-      this.state.title != '' &&
-      this.state.location != '' &&
-      this.state.description != '' &&
-      // this.state.mixed.length != 0 &&
-      this.state.color != '' &&
-      this.state.price != '' &&
-      this.state.price_type != '' &&
-      this.state.camel_type != '' &&
-      (this.state.price_type == ArabicText?.offer_Up
-        ? selectedBidOption !== ''
-        : true)
+      title != '' &&
+      location != '' &&
+      description != '' &&
+      color != '' &&
+      price != '' &&
+      price_type != '' &&
+      camel_type != '' &&
+      (price_type == ArabicText?.offer_Up ? selectedBidOption !== '' : true)
     ) {
       this.setState({loading: true});
       let {user} = this.props;
@@ -120,19 +134,19 @@ class CamelFood extends React.Component {
       camelapp
         .post('/add/food', {
           user_id: user_id,
-          title: this.state.title,
-          location: this.state.location,
-          description: this.state.description,
+          title: title,
+          location: location,
+          description: description,
           images: combineImages ? combineImages : [],
           video: videoForPost ? videoForPost : null,
-          camel_type: this.state.camel_type,
-          color: this.state.color,
-          price: this.state.price,
-          price_type: this.state.price_type,
+          camel_type: camel_type,
+          color: color,
+          price: price,
+          price_type: price_type,
           bid_expired_days: selectedBidOption?.name,
+          thumbnail: JSON.stringify(thumbnailObj),
         })
         .then(response => {
-          console.log(response, 'responseeee');
           this.setState({
             loading: false,
             video: undefined,
@@ -147,7 +161,6 @@ class CamelFood extends React.Component {
             type: 'success',
             visibilityTime: 3000,
           });
-          // alert(ArabicText.Post_added_successfully + '');
           this.setState({
             title: '',
             description: '',
@@ -195,6 +208,12 @@ class CamelFood extends React.Component {
           visibilityTime: 3000,
         });
       } else {
+        createThumbnail({
+          url: video?.path,
+          timeStamp: 10000,
+        })
+          .then(response => this.setState({thumbnail: response}))
+          .catch(err => console.log({err}));
         RNFS.readFile(video.path, 'base64')
           .then(res => {
             this.setState({videoForPost: 'data:video/mp4;base64,' + res});
@@ -316,6 +335,7 @@ class CamelFood extends React.Component {
       showBidOption,
       selectedBidOption,
       price_type,
+      thumbnail,
     } = this.state;
     let ExpireType = [
       {
@@ -348,6 +368,7 @@ class CamelFood extends React.Component {
         <View style={Styles.containerScroll}>
           <Text style={Styles.headingPostText}>بيع الأعلاف</Text>
           <HorizontalCarousel
+            thumbnail={thumbnail?.path}
             removeItem={index => this.removeItem(index)}
             price={
               this.state.itemFromDetails?.price

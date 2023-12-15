@@ -30,6 +30,7 @@ import BackBtnHeader from '../components/headerWithBackBtn';
 import Toast from 'react-native-toast-message';
 import {ActivityIndicator} from 'react-native';
 import {Platform} from 'react-native';
+import {profileBaseUrl, thumbnailBaseUrl} from '../constants/urls';
 class DetailsComponent extends Component {
   constructor(props) {
     super(props);
@@ -404,6 +405,9 @@ class DetailsComponent extends Component {
       modalOffer,
     } = this.state;
     const postOwner = this.state.user;
+
+    const thumbnail = itemFromDetails?.thumbnail?.thumbnail;
+
     return (
       <ScrollView style={{backgroundColor: '#fff'}}>
         <BackBtnHeader />
@@ -482,7 +486,7 @@ class DetailsComponent extends Component {
             <Image
               source={{
                 uri:
-                  'http://www.tasdeertech.com/images/profiles/' +
+                  profileBaseUrl +
                   (itemFromDetails.user_images?.length
                     ? itemFromDetails.user_images
                     : itemFromDetails.user_image),
@@ -499,6 +503,7 @@ class DetailsComponent extends Component {
 
         <View style={[Styles.containerDetails, {paddingBottom: width * 0.1}]}>
           <HorizontalCarousel
+            thumbnail={thumbnailBaseUrl + thumbnail}
             price={itemFromDetails?.price}
             imagesArray={imagesArray}
             onPress={mediaSource => {

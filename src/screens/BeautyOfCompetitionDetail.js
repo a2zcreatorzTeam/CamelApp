@@ -14,19 +14,15 @@ import {
   StyleSheet,
 } from 'react-native';
 import 'react-native-gesture-handler';
-import {Styles} from '../styles/globlestyle';
 import HTML from 'react-native-render-html';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import * as ArabicText from '../language/EnglishToArabic';
-import camelapp from '../api/camelapp';
-import PostItem from '../components/CompetitionPostItem';
-import BackBtnHeader from '../components/headerWithBackBtn';
 import moment from 'moment';
 import Toast from 'react-native-toast-message';
-import {Card} from 'react-native-paper';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import * as ArabicText from '../language/EnglishToArabic';
+import {Styles} from '../styles/globlestyle';
+import camelapp from '../api/camelapp';
+import PostItem from '../components/CompetitionPostItem';
 import Header from '../components/Header';
 import EmptyComponent from '../components/EmptyComponent';
 
@@ -505,7 +501,7 @@ class BeautyOfCompetition extends Component {
             </View>
           </TouchableWithoutFeedback>
         </Modal>
-        {/* particpateModal */}
+        {/* howToparticpateModal */}
         <Modal
           animationType="slide"
           transparent={false}
@@ -523,14 +519,15 @@ class BeautyOfCompetition extends Component {
                     height: '50%',
                     flexGrow: 1,
                   }}>
-                  <Pressable
+                  {/* <Pressable
                     style={{position: 'absolute', top: 0}}
                     onPress={particpateModal =>
-                      this.setState({particpateModal: !particpateModal})
+                      this.setState({particpateModal: false})
                     }>
                     <Ionicons name="close" size={30} color="brown" />
-                  </Pressable>
-                  <Text style={{margin: 5, color: 'black'}}>
+                  </Pressable> */}
+                  <Text
+                    style={{margin: 5, color: 'black', textAlign: 'center'}}>
                     {ArabicText.How_to_Participate}
                   </Text>
                   <View style={{padding: 10}}>
@@ -569,14 +566,14 @@ class BeautyOfCompetition extends Component {
                 <ScrollView
                   contentContainerStyle={{flexGrow: 1}}
                   style={{width: '90%', height: '50%', flexGrow: 1}}>
-                  <Pressable
+                  {/* <Pressable
                     style={{
                       position: 'absolute',
                       top: 0,
                     }}
                     onPress={generalRulesModal =>
                       this.setState({
-                        generalRulesModal: !generalRulesModal,
+                        generalRulesModal: false,
                       })
                     }>
                     <Ionicons
@@ -585,8 +582,9 @@ class BeautyOfCompetition extends Component {
                       color="brown"
                       // style={{ marginLeft: width - 140 }}
                     />
-                  </Pressable>
-                  <Text style={{margin: 5, color: 'black'}}>
+                  </Pressable> */}
+                  <Text
+                    style={{margin: 5, color: 'black', textAlign: 'center'}}>
                     {ArabicText.General_Rule}
                   </Text>
 
@@ -629,7 +627,6 @@ class BeautyOfCompetition extends Component {
                 customStyle={{width: width - 100}}
                 onChangeText={text => {
                   if (text) {
-                    // this.search(text);
                     this.setState({searchParticipantsText: text});
                   } else {
                     this.setState({
@@ -740,21 +737,17 @@ class BeautyOfCompetition extends Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
   user: state.user,
-});
-
+})
 const ActionCreators = Object.assign({});
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(BeautyOfCompetition);
-
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: '#fff',

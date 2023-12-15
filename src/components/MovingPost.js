@@ -7,6 +7,7 @@ import {Dimensions} from 'react-native';
 import * as ArabicText from '../language/EnglishToArabic';
 import {useState} from 'react';
 import FastImage from 'react-native-fast-image';
+import {thumbnailBaseUrl} from '../constants/urls';
 
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
@@ -19,29 +20,89 @@ const MovingPost = ({
   price,
   image,
   locationTo,
+  thumbnail,
   onDetailsClick = () => {},
 }) => {
   const [viewCount, setViewCount] = useState(item?.view_count);
+  console.log(thumbnail);
+
   return (
     <Card>
       <View style={Styles.container}>
         <View style={Styles.newsbox1}>
-          <FastImage
-            style={{
-              height: height / 5,
-              width: width / 3,
-              right: 10,
-              position: 'absolute',
-            }}
-            source={
-              image
-                ? {
-                    uri: `http://www.tasdeertech.com/images/posts/${image}`,
+          {image ? (
+            <FastImage
+              style={{
+                alignSelf: 'flex-end',
+                marginLeft: 'auto',
+                height: 170,
+                width: '45%',
+                alignSelf: 'center',
+                justifyContent: 'center',
+                left: 10,
+                borderRadius: 10,
+              }}
+              source={
+                image
+                  ? {
+                      uri: `http://www.tasdeertech.com/images/posts/${image}`,
+                    }
+                  : require('../../assets/dummyImage.jpeg')
+              }
+              resizeMode={FastImage?.resizeMode.cover}
+            />
+          ) : (
+            <View
+              style={{
+                alignSelf: 'flex-end',
+                marginLeft: 'auto',
+                height: 170,
+                width: '45%',
+                alignSelf: 'center',
+                justifyContent: 'center',
+              }}>
+              {
+                <FastImage
+                  style={{
+                    height: 170,
+                    width: '100%',
+                    left: 10,
+                    borderRadius: 10,
+                    opacity: 0.5,
+                  }}
+                  source={
+                    thumbnail !== null
+                      ? {
+                          uri: thumbnailBaseUrl + thumbnail?.thumbnail,
+                          headers: {Authorization: 'someAuthToken'},
+                          priority: FastImage.priority.normal,
+                        }
+                      : require('../../assets/camel.png')
                   }
-                : require('../../assets/dummyImage.jpeg')
-            }
-            resizeMode={FastImage?.resizeMode.cover}
-          />
+                  resizeMode={FastImage?.resizeMode.cover}
+                />
+              }
+              <TouchableOpacity
+                activeOpacity={0.9}
+                style={{
+                  height: 70,
+                  width: 70,
+                  alignItems: 'center',
+                  position: 'absolute',
+                  elevation: 2,
+                  right: 20,
+                  top: 50,
+                }}
+                onPress={() => {}}>
+                <Image
+                  activeOpacity={0.4}
+                  source={require('../../assets/play.png')}
+                  resizeMode={'cover'}
+                  style={{width: 60, height: 60}}
+                />
+              </TouchableOpacity>
+            </View>
+          )}
 
           <View
             style={{
@@ -50,6 +111,7 @@ const MovingPost = ({
               right: width / 3,
               position: 'absolute',
               padding: 20,
+              marginRight: 15,
             }}>
             <Text style={styles.text}>
               {ArabicText.Title}: {title}{' '}

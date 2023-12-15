@@ -7,15 +7,16 @@ import {
   Dimensions,
   SafeAreaView,
 } from 'react-native';
-import {Styles} from '../styles/globlestyle';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import * as ArabicText from '../language/EnglishToArabic';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
+import {Styles} from '../styles/globlestyle';
+import * as ArabicText from '../language/EnglishToArabic';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 export default function App() {
   const navigation = useNavigation();
+  console.log("beautyyyyy");
   return (
     <View style={Styles.container}>
       <View style={Styles.top}>

@@ -30,6 +30,7 @@ import VideoModal from '../components/VideoModal';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
+import {createThumbnail} from 'react-native-create-thumbnail';
 
 class SellingEquipmentForm extends React.Component {
   constructor(props) {
@@ -78,9 +79,24 @@ class SellingEquipmentForm extends React.Component {
     };
   }
   createPostCamelFood = async () => {
-    const {selectedBidOption, videoForPost} = this.state;
-    var image1 = this.state.imagesForPost;
-    var image2 = this.state.cameraimagesForPost;
+    const {
+      selectedBidOption,
+      videoForPost,
+      thumbnail,
+      imagesForPost,
+      cameraimagesForPost,
+      title,
+      location,
+      description,
+      color,
+      price,
+      price_type,
+      camel_type,
+    } = this.state;
+    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
+    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+    var image1 = imagesForPost;
+    var image2 = cameraimagesForPost;
     var combineImages = [...image1, ...image2];
     if (
       (combineImages == undefined || combineImages?.length == 0) &&
@@ -100,52 +116,34 @@ class SellingEquipmentForm extends React.Component {
         visibilityTime: 3000,
       });
     }
-    // if (combineImages?.length < 4) {
-    //   return Toast.show({
-    //     text1: ArabicText?.UploadMinimum4Images,
-    //     type: 'error',
-    //     visibilityTime: 3000,
-    //   });
-    // }
-    // if (this.state.videoForPost === undefined) {
-    //   return Toast?.show({
-    //     text1: ArabicText?.Cannotpostwithoutvideo,
-    //     type: 'error',
-    //     visibilityTime: 3000,
-    //   });
-    // }
     if (
-      this.state.title != '' &&
-      this.state.location != '' &&
-      this.state.description != '' &&
-      // this.state.mixed?.length != 0 &&
-      this.state.color != '' &&
-      this.state.price != '' &&
-      this.state.price_type != '' &&
-      this.state.camel_type != '' &&
-      (this.state.price_type == ArabicText?.offer_Up
-        ? selectedBidOption !== ''
-        : true)
+      title != '' &&
+      location != '' &&
+      description != '' &&
+      color != '' &&
+      price != '' &&
+      price_type != '' &&
+      camel_type != '' &&
+      (price_type == ArabicText?.offer_Up ? selectedBidOption !== '' : true)
     ) {
       this.setState({loading: true});
-
       let {user} = this.props;
       let user_id = user?.user?.user.id;
       console.log(this.state.register_value, 'this.state.register_value');
       camelapp
         .post('/add/equipment', {
           user_id: user_id,
-          title: this.state.title,
-          location: this.state.location,
-          description: this.state.description,
+          title: title,
+          location: location,
+          description: description,
           images: combineImages ? combineImages : [],
           video: videoForPost ? videoForPost : null,
-          camel_type: this.state.camel_type,
-          color: this.state.color,
-          price: this.state.price,
-          price_type: this.state.price_type,
+          camel_type: camel_type,
+          color: color,
+          price: price,
+          price_type: price_type,
           bid_expired_days: selectedBidOption?.name,
-          // register: this.state.register_value,
+          thumbnail: JSON.stringify(thumbnailObj),
         })
         .then(response => {
           console.log(response?.data, 'response133');
@@ -197,6 +195,12 @@ class SellingEquipmentForm extends React.Component {
           visibilityTime: 3000,
         });
       } else {
+        createThumbnail({
+          url: video?.path,
+          timeStamp: 10000,
+        })
+          .then(response => this.setState({thumbnail: response}))
+          .catch(err => console.log({err}));
         RNFS.readFile(video.path, 'base64')
           .then(res => {
             this.setState({videoForPost: 'data:video/mp4;base64,' + res});
@@ -295,7 +299,6 @@ class SellingEquipmentForm extends React.Component {
         console.log('error', error);
       });
   }
-
   onRegisterSwitchChanged(value) {
     console.log(value, 'valueeeee');
     this.setState({registerSwitch: value});
@@ -329,6 +332,7 @@ class SellingEquipmentForm extends React.Component {
       selectedBidOption,
       price_type,
       mixed,
+      thumbnail,
     } = this.state;
     let ExpireType = [
       {
@@ -360,6 +364,7 @@ class SellingEquipmentForm extends React.Component {
           <Text style={Styles.headingPostText}>بيع المعدات</Text>
           {mixed?.length ? (
             <HorizontalCarousel
+              thumbnail={thumbnail?.path}
               removeItem={index => this.removeItem(index)}
               price={
                 this.state.itemFromDetails?.price

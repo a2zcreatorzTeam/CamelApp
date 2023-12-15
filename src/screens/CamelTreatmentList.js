@@ -276,7 +276,7 @@ class CamelTreatmentList extends Component {
     };
     const onAddButtonClick = () => {
       let {user} = this.props;
-      if (user.user.status == true) {
+      if (user?.user?.status == true) {
         this.props.navigation.navigate('TreatingCamelForm');
       } else {
         this.props.navigation.navigate('Login');

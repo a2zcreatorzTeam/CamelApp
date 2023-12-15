@@ -29,6 +29,7 @@ import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
+import {createThumbnail} from 'react-native-create-thumbnail';
 
 class MovingCamelForm extends React.Component {
   constructor(props) {
@@ -74,20 +75,30 @@ class MovingCamelForm extends React.Component {
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
+      thumbnail: {},
     };
   }
   createPostMovingCamel = async () => {
-    const {videoForPost} = this.state;
-    var image1 = this.state.imagesForPost;
-    var image2 = this.state.cameraimagesForPost;
+    const {
+      videoForPost,
+      thumbnail,
+      imagesForPost,
+      cameraimagesForPost,
+      title,
+      location,
+      description,
+      car_name,
+      car_type,
+      price,
+      to_location,
+      pay,
+      register,
+    } = this.state;
+    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
+    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+    var image1 = imagesForPost;
+    var image2 = cameraimagesForPost;
     var combineImages = [...image1, ...image2];
-    // if (this.state.videoForPost === undefined) {
-    //   return Toast.show({
-    //     text1: ArabicText?.Cannotpostwithoutvideo,
-    //     type: 'error',
-    //     visibilityTime: 3000,
-    //   });
-    // }
     if (
       (combineImages == undefined || combineImages?.length == 0) &&
       videoForPost == undefined
@@ -107,14 +118,13 @@ class MovingCamelForm extends React.Component {
       });
     }
     if (
-      this.state.title != '' &&
-      this.state.location != '' &&
-      this.state.description != '' &&
-      // this.state.combineImages != '' &&
-      this.state.car_name != '' &&
-      this.state.car_type != '' &&
-      this.state.price != '' &&
-      this.state.to_location != ''
+      title != '' &&
+      location != '' &&
+      description != '' &&
+      car_name != '' &&
+      car_type != '' &&
+      price != '' &&
+      to_location != ''
     ) {
       this.setState({loading: true});
       let {user} = this.props;
@@ -122,21 +132,21 @@ class MovingCamelForm extends React.Component {
       camelapp
         .post('/add/camel_moving', {
           user_id: user_id,
-          title: this.state.title,
-          location: this.state.location,
-          description: this.state.description,
+          title: title,
+          location: location,
+          description: description,
           images: combineImages ? combineImages : [],
           video: videoForPost ? videoForPost : null,
-          register: this.state.register,
-          car_model: this.state.car_name,
-          car_type: this.state.car_type,
-          price: this.state.price,
-          to_location: this.state.to_location,
-          account_activity: this.state.pay,
+          register: register,
+          car_model: car_name,
+          car_type: car_type,
+          price: price,
+          to_location: to_location,
+          account_activity: pay,
+          thumbnail: JSON.stringify(thumbnailObj),
         })
         .then(response => {
           console.log(response?.data?.status, 'statusss');
-          // alert("Post Added Successfully");
           this.setState({
             loading: false,
             video: undefined,
@@ -197,6 +207,12 @@ class MovingCamelForm extends React.Component {
           visibilityTime: 3000,
         });
       } else {
+        createThumbnail({
+          url: video?.path,
+          timeStamp: 10000,
+        })
+          .then(response => this.setState({thumbnail: response}))
+          .catch(err => console.log({err}));
         RNFS.readFile(video.path, 'base64')
           .then(res => {
             this.setState({videoForPost: 'data:video/mp4;base64,' + res});
@@ -349,7 +365,8 @@ class MovingCamelForm extends React.Component {
     this.setState({mixed: filteredList});
   };
   render() {
-    const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
+    const {pausedCheck, loadVideo, videoModal, modalItem, thumbnail} =
+      this.state;
     return (
       <SafeAreaView style={Styles.container}>
         <BackBtnHeader />
@@ -368,6 +385,7 @@ class MovingCamelForm extends React.Component {
               {ArabicText?.Movingcamel}
             </Text>
             <HorizontalCarousel
+              thumbnail={thumbnail?.path}
               removeItem={index => this.removeItem(index)}
               price={
                 this.state.itemFromDetails?.price

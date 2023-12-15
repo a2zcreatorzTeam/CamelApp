@@ -41,6 +41,7 @@ import Header from '../components/Header';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {VideoBaseUrl, imageBaseUrl, profileBaseUrl} from '../constants/urls';
 
 class Profile extends Component {
   constructor(props) {
@@ -1339,8 +1340,7 @@ const Item = ({
             }}>
             <Image
               source={{
-                uri:
-                  'http://www.tasdeertech.com/images/profiles/' + user_images,
+                uri: profileBaseUrl + user_images,
               }}
               style={{
                 width: 50,
@@ -1366,9 +1366,9 @@ const Item = ({
         renderItem={({item, index}) => {
           const mediaSource =
             item.type == 'image'
-              ? {uri: 'http://www.tasdeertech.com/images/posts/' + item.source}
+              ? {uri: imageBaseUrl + item.source}
               : item?.type == 'video'
-              ? {uri: 'http://www.tasdeertech.com/videos/' + item.source}
+              ? {uri: VideoBaseUrl+ item.source}
               : null;
           return (
             <TouchableOpacity
@@ -1384,7 +1384,7 @@ const Item = ({
                   style={Styles.image}
                   source={{
                     uri:
-                      'http://www.tasdeertech.com/images/posts/' + item?.source,
+                    imageBaseUrl + item?.source,
                     headers: {Authorization: 'someAuthToken'},
                     priority: FastImage.priority.normal,
                   }}
@@ -1396,7 +1396,11 @@ const Item = ({
                   {pausedCheck && (
                     <Image
                       activeOpacity={0.4}
-                      source={require('../../assets/camel.png')}
+                      source={
+                        item?.thumbnail
+                          ? {uri: item?.thumbnail}
+                          : require('../../assets/camel.png')
+                      }
                       resizeMode={'cover'}
                       style={[
                         Styles.image,
@@ -1637,8 +1641,7 @@ const Item = ({
               style={styles.userProfileContainer}>
               <Image
                 source={{
-                  uri:
-                    'http://www.tasdeertech.com/images/profiles/' + user_images,
+                  uri: profileBaseUrl + user_images,
                 }}
                 style={styles.userProfileImage}
               />

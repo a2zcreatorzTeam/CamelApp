@@ -15,11 +15,9 @@ import {
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Feather from 'react-native-vector-icons/Feather';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import camelapp from '../api/camelapp';
 import Loader from '../components/PleaseWait';
-import {Card} from 'react-native-paper';
 import * as ArabicText from '../language/EnglishToArabic';
 import Header from '../components/Header';
 import Item from '../components/commentItem';

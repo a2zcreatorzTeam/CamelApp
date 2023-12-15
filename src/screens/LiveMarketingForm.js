@@ -26,6 +26,8 @@ import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
 const {width} = Dimensions.get('screen');
+import {createThumbnail} from 'react-native-create-thumbnail';
+
 class LiveMarketingForm extends Component {
   constructor(props) {
     super(props);
@@ -53,6 +55,7 @@ class LiveMarketingForm extends Component {
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
+      thumbnail: {},
     };
   }
   // CAPTURE IMAGE
@@ -104,6 +107,12 @@ class LiveMarketingForm extends Component {
           visibilityTime: 3000,
         });
       } else {
+        createThumbnail({
+          url: video?.path,
+          timeStamp: 10000,
+        })
+          .then(response => this.setState({thumbnail: response}))
+          .catch(err => console.log({err}));
         RNFS.readFile(video.path, 'base64')
           .then(res => {
             this.setState({videoForPost: 'data:video/mp4;base64,' + res});
@@ -165,11 +174,21 @@ class LiveMarketingForm extends Component {
       });
   }
   createPostCamelClub = async () => {
-    const {videoForPost} = this.state;
-    var image1 = this.state.imagesForPost;
-    var image2 = this.state.cameraimagesForPost;
+    const {
+      videoForPost,
+      thumbnail,
+      title,
+      description,
+      imagesForPost,
+      cameraimagesForPost,
+      location,
+      price,
+    } = this.state;
+    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
+    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+    var image1 = imagesForPost;
+    var image2 = cameraimagesForPost;
     var combineImages = [...image1, ...image2];
-
     if (
       (combineImages == undefined || combineImages?.length == 0) &&
       videoForPost == undefined
@@ -188,26 +207,20 @@ class LiveMarketingForm extends Component {
         visibilityTime: 3000,
       });
     }
-    if (
-      this.state.title != '' &&
-      this.state.description != '' &&
-      this.state.location != '' &&
-      this.state.price != ''
-      //  &&
-      // this.state.mixed != []
-    ) {
+    if (title != '' && description != '' && location != '' && price != '') {
       let {user} = this.props;
       let user_id = user?.user?.user.id;
       this.setState({loading: true});
       camelapp
         .post('/add/marketing', {
           user_id: user_id,
-          title: this.state.title,
-          location: this.state.location,
-          description: this.state.description,
-          price: this.state.price,
+          title: title,
+          location: location,
+          description: description,
+          price: price,
           images: combineImages ? combineImages : [],
           video: videoForPost ? videoForPost : null,
+          thumbnail: JSON.stringify(thumbnailObj),
         })
         .then(response => {
           this.setState({loading: false});
@@ -239,7 +252,8 @@ class LiveMarketingForm extends Component {
   };
 
   render() {
-    const {pausedCheck, loadVideo, videoModal, modalItem, mixed} = this.state;
+    const {pausedCheck, loadVideo, videoModal, modalItem, mixed, thumbnail} =
+      this.state;
     return (
       <ScrollView
         style={{flex: 1}}
@@ -256,6 +270,7 @@ class LiveMarketingForm extends Component {
           <Text style={Styles.headingPostText}>عروض الاء سواق</Text>
           {mixed?.length ? (
             <HorizontalCarousel
+              thumbnail={thumbnail?.path}
               removeItem={index => this.removeItem(index)}
               price={
                 this.state.itemFromDetails?.price

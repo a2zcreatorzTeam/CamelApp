@@ -24,6 +24,12 @@ import {Styles} from '../styles/globlestyle';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
+import {
+  VideoBaseUrl,
+  imageBaseUrl,
+  profileBaseUrl,
+  thumbnailBaseUrl,
+} from '../constants/urls';
 const Post = ({
   item,
   onCommentsClick,
@@ -91,8 +97,9 @@ const Post = ({
       category_name,
       flagForVideo,
       bid_price,
+      thumbnail,
     } = item;
-    // console.log(item, "itemmmmm");
+
     // console.log(item,"flagForLikeflagForLike");
     return {
       price,
@@ -112,6 +119,7 @@ const Post = ({
       category_name,
       flagForVideo,
       bid_price,
+      thumbnail,
     };
   }, [item]);
   // =====Memoized Props====
@@ -129,6 +137,7 @@ const Post = ({
     imagesArray,
     category_name,
     bid_price,
+    thumbnail,
   } = memoizedItemProps;
   // =====Memoized Functions====
   const handleCommentsClick = useCallback(() => {
@@ -182,7 +191,15 @@ const Post = ({
       // alert(error.message);
     }
   };
-
+  // console.log(
+  //   'fdsfsd',
+  //   thumbnail?.thumbnail !== null
+  //     ? {
+  //         uri: thumbnailBaseUrl + thumbnail?.thumbnail,
+  //         // thumbnailBaseUrl + item?.thumbnail?.thumbnail,
+  //       }
+  //     : 'kkklklksdadsasdads',
+  // );
   return (
     <View style={styles.main}>
       {/*Post Header*/}
@@ -205,7 +222,7 @@ const Post = ({
           <FastImage
             style={{width: 55, height: 55, borderRadius: 30}}
             source={{
-              uri: 'http://www.tasdeertech.com/images/profiles/' + user_images,
+              uri: profileBaseUrl + user_images,
             }}
             resizeMode={FastImage?.resizeMode.cover}
           />
@@ -221,13 +238,14 @@ const Post = ({
           backgroundColor: '#f3f3f3',
         }}>
         {imagesArray?.map((item, index) => {
+          console.log(thumbnail, 'thumbailll');
           const isImage = item.type === 'image';
           const isVideo = item.type === 'video';
 
           const mediaSource = isImage
-            ? {uri: 'http://www.tasdeertech.com/images/posts/' + item?.source}
+            ? {uri: imageBaseUrl + item?.source}
             : isVideo
-            ? {uri: 'http://www.tasdeertech.com/videos/' + item?.source}
+            ? {uri: VideoBaseUrl + item?.source}
             : null;
           return (
             <TouchableWithoutFeedback
@@ -256,33 +274,58 @@ const Post = ({
                     </Text>
                   </TouchableOpacity>
                 ) : null}
-
                 {isImage && mediaSource && (
                   <FastImage
                     style={Styles.image}
                     source={{
-                      uri:
-                        'http://www.tasdeertech.com/images/posts/' +
-                        item?.source,
+                      uri: imageBaseUrl + item?.source,
                       headers: {Authorization: 'someAuthToken'},
                       priority: FastImage.priority.normal,
                     }}
                     resizeMode={FastImage?.resizeMode.cover}
                   />
                 )}
-
+                {/* {console.log(thumbnailBaseUrl + item?.thumbnail?.thumbnail, 'hj', item?.price)} */}
                 {isVideo && (
                   <View style={{flex: 1, backgroundColor: '#ededed'}}>
                     {pausedCheck && (
-                      <Image
-                        activeOpacity={0.4}
-                        source={require('../../assets/camel.png')}
-                        resizeMode={'cover'}
+                      <FastImage
                         style={[
                           Styles.image,
-                          {backgroundColor: 'rgba(0,0,0,0.5)', opacity: 0.3},
+                          {
+                            opacity: thumbnail ? 0.9 : 0.3,
+                            backgroundColor: 'rgba(0,0,0,0.5)',
+                          },
                         ]}
+                        source={
+                          thumbnail !== null
+                            ? {
+                                uri: thumbnailBaseUrl + thumbnail?.thumbnail,
+                                headers: {Authorization: 'someAuthToken'},
+                                priority: FastImage.priority.normal,
+                              }
+                            : require('../../assets/camel.png')
+                        }
+                        resizeMode={FastImage?.resizeMode.cover}
                       />
+                      // <Image
+                      //   activeOpacity={0.4}
+                      //   source={
+                      //     // item?.thumbnail?.thumbnail !== null
+                      //     //   ?
+                      //     {
+                      //       uri: thumbnailBaseUrl + item?.thumbnail?.thumbnail,
+                      //       // thumbnailBaseUrl + item?.thumbnail?.thumbnail,
+                      //     }
+                      //     // : require('../../assets/camel.png')
+                      //   }
+                      //   // {require('../../assets/camel.png')}
+                      //   resizeMode={'cover'}
+                      //   style={[
+                      //     Styles.image,
+                      //     {opacity: 0.9, backgroundColor: 'red'},
+                      //   ]}
+                      // />
                     )}
                     <TouchableOpacity
                       style={{
@@ -314,7 +357,6 @@ const Post = ({
                     </TouchableOpacity>
                   </View>
                 )}
-
                 {!isImage && !isVideo && (
                   <Text style={{color: '#000'}}>Media not available</Text>
                 )}
@@ -417,8 +459,7 @@ const Post = ({
               style={styles.userProfileContainer}>
               <Image
                 source={{
-                  uri:
-                    'http://www.tasdeertech.com/images/profiles/' + user_images,
+                  uri: profileBaseUrl + user_images,
                 }}
                 style={styles.userProfileImage}
               />

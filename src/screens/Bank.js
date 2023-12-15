@@ -10,10 +10,10 @@ import {
   Dimensions,
   LogBox,
 } from 'react-native';
+import Toast from 'react-native-toast-message';
 import Item from '../components/BankItem';
 import camelapp from '../api/camelapp';
 import BackBtnHeader from '../components/headerWithBackBtn';
-import Toast from 'react-native-toast-message';
 import * as ArabicText from '../language/EnglishToArabic';
 const width = Dimensions.get('screen').width;
 
@@ -80,107 +80,35 @@ class Bank extends Component {
           {loader == false && (
             <View>
               <View style={{marginBottom: 20}}>
-                <View
-                  style={{
-                    alignSelf: 'center',
-                    width: width - 30,
-                    alignItems: 'center',
-                  }}>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      fontWeight: 'bold',
-                      color: '#D2691E',
-                      marginTop: 20,
-                      marginBottom: 20,
-                    }}>
-                    نسبة العمولة
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      color: '#D2691E',
-                      marginTop: 10,
-                      textAlign: 'center',
-                    }}>
+                <View style={styles.textView}>
+                  <Text style={styles.heading}>نسبة العمولة</Text>
+                  <Text style={styles.description}>
                     هي النسبة المطلوب دفعها للتطبيق نظير الاستفادة من بيع الحلال
                     بمقدار 2% من مبلغ البيع وصاحب الحلال له احقية اختيار المسؤول
                     عن دفع المبلغ.
                   </Text>
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      color: '#D2691E',
-                      marginTop: 10,
-                      textAlign: 'center',
-                    }}>
+                  <Text style={styles.description}>
                     كما نود التنويه انه لا يوجد نسبة من الخدمات الأخرى المقدمة
                     الا خدمات الاشتراك في نقل الحلال والاعلانات.
                   </Text>
                 </View>
                 <View style={{marginTop: 25}}>
                   <View style={{alignItems: 'center'}}>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                        color: '#D2691E',
-                        marginTop: 15,
-                        marginBottom: 10,
-                      }}>
-                      لمعرفة نسبة التطبيق
-                    </Text>
+                    <Text style={styles.textHeader}>لمعرفة نسبة التطبيق</Text>
                     <TextInput
-                      style={{
-                        borderColor: '#D2691E',
-                        borderWidth: 3,
-                        borderRadius: 10,
-                        backgroundColor: '#fff',
-                        height: 40,
-                        color: 'black',
-                        width: 270,
-                        textAlign: 'right',
-                      }}
+                      style={styles.textInput}
                       keyboardType={'numeric'}
                       onChangeText={newText => this.setState({text: newText})}
                       value={text}
                     />
                   </View>
                   <View style={{alignItems: 'center'}}>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                        color: '#D2691E',
-                        marginTop: 15,
-                        marginBottom: 10,
-                      }}>
-                      نسبة التطبيق
-                    </Text>
-                    <Text
-                      style={{
-                        borderColor: '#D2691E',
-                        borderWidth: 3,
-                        borderRadius: 10,
-                        backgroundColor: '#fff',
-                        height: 40,
-                        width: 270,
-                        fontSize: 20,
-                        padding: 6,
-                        color: 'black',
-
-                        justifyContent: 'center',
-                        textAlign: 'right',
-                      }}>
+                    <Text style={styles.textHeader}>نسبة التطبيق</Text>
+                    <Text style={styles.ratioText}>
                       {parseFloat((2 / 100) * text).toFixed(2)}
                     </Text>
                     <Text
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                        color: '#D2691E',
-                        marginTop: 15,
-                      }}>
+                      style={styles.textHeader}>
                       الحسابات البنكية:
                     </Text>
                   </View>
@@ -193,7 +121,7 @@ class Bank extends Component {
                 }}
                 data={posts}
                 renderItem={renderItem}
-                keyExtractor={item => item.id}
+                keyExtractor={item => item?.id?.toString()}
               />
             </View>
           )}
@@ -209,5 +137,53 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: '100%',
+  },
+  textView: {
+    alignSelf: 'center',
+    width: width - 30,
+    alignItems: 'center',
+  },
+  heading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#D2691E',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  description: {
+    fontSize: 20,
+    color: '#D2691E',
+    marginTop: 10,
+    textAlign: 'center',
+  },
+  textHeader: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#D2691E',
+    marginTop: 15,
+    marginBottom: 10,
+  },
+  textInput: {
+    borderColor: '#D2691E',
+    borderWidth: 3,
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    height: 40,
+    color: 'black',
+    width: 270,
+    textAlign: 'right',
+  },
+  ratioText: {
+    borderColor: '#D2691E',
+    borderWidth: 3,
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    height: 40,
+    width: 270,
+    fontSize: 20,
+    padding: 6,
+    color: 'black',
+    justifyContent: 'center',
+    textAlign: 'right',
   },
 });

@@ -26,6 +26,8 @@ import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
 const {width} = Dimensions.get('screen');
+import {createThumbnail} from 'react-native-create-thumbnail';
+
 class MissingCamelForm extends Component {
   constructor(props) {
     super(props);
@@ -54,6 +56,7 @@ class MissingCamelForm extends Component {
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
+      thumbnail: {},
     };
   }
   // VIDEO PICKER
@@ -69,6 +72,12 @@ class MissingCamelForm extends Component {
           visibilityTime: 3000,
         });
       } else {
+        createThumbnail({
+          url: video?.path,
+          timeStamp: 10000,
+        })
+          .then(response => this.setState({thumbnail: response}))
+          .catch(err => console.log({err}));
         RNFS.readFile(video.path, 'base64')
           .then(res => {
             this.setState({videoForPost: 'data:video/mp4;base64,' + res});
@@ -160,9 +169,21 @@ class MissingCamelForm extends Component {
       });
   }
   createPostMissingCamelForm = async () => {
-    const {videoForPost} = this.state;
-    var image1 = this.state.imagesForPost;
-    var image2 = this.state.cameraimagesForPost;
+    const {
+      videoForPost,
+      thumbnail,
+      imagesForPost,
+      cameraimagesForPost,
+      title,
+      description,
+      location,
+      color,
+      camel_type,
+    } = this.state;
+    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
+    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+    var image1 = imagesForPost;
+    var image2 = cameraimagesForPost;
     var combineImages = [...image1, ...image2];
     if (
       (combineImages == undefined || combineImages?.length == 0) &&
@@ -183,27 +204,26 @@ class MissingCamelForm extends Component {
       });
     }
     if (
-      this.state.title != '' &&
-      this.state.description != '' &&
-      this.state.location != '' &&
-      this.state.color != '' &&
-      this.state.camel_type != ''
-      // this.state.mixed.length != 0
+      title != '' &&
+      description != '' &&
+      location != '' &&
+      color != '' &&
+      camel_type != ''
     ) {
       let {user} = this.props;
-
       let user_id = user?.user?.user.id;
       this.setState({loading: true});
       camelapp
         .post('/add/missing', {
           user_id: user_id,
-          title: this.state.title,
-          location: this.state.location,
-          description: this.state.description,
-          color: this.state.color,
-          camel_type: this.state.camel_type,
+          title: title,
+          location: location,
+          description: description,
+          color: color,
+          camel_type: camel_type,
           images: combineImages ? combineImages : [],
           video: videoForPost ? videoForPost : null,
+          thumbnail: JSON.stringify(thumbnailObj),
         })
         .then(response => {
           console.log(response, 'resp[onse');
@@ -245,7 +265,8 @@ class MissingCamelForm extends Component {
   };
 
   render() {
-    const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
+    const {pausedCheck, loadVideo, videoModal, modalItem, thumbnail} =
+      this.state;
     return (
       <ScrollView
         style={{flex: 1}}
@@ -263,6 +284,7 @@ class MissingCamelForm extends Component {
             {ArabicText.Missing_Camel}
           </Text>
           <HorizontalCarousel
+            thumbnail={thumbnail?.path}
             removeItem={index => this.removeItem(index)}
             price={
               this.state.itemFromDetails?.price

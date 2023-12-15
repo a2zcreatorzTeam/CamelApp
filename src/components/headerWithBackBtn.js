@@ -8,6 +8,7 @@ import {Text} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Tooltip} from 'react-native-elements';
 import {useRef} from 'react';
+import {profileBaseUrl} from '../constants/urls';
 const BackBtnHeader = props => {
   let {style} = props;
   const tooltipRef = useRef(null);
@@ -52,9 +53,7 @@ const BackBtnHeader = props => {
               marginHorizontal: 5,
             }}
             source={{
-              uri:
-                'http://www.tasdeertech.com/images/profiles/' +
-                props?.reciever_data?.user_image,
+              uri: profileBaseUrl + props?.reciever_data?.user_image,
             }}
             resizeMode={FastImage?.resizeMode.cover}
           />

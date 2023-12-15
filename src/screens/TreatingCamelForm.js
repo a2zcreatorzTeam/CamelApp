@@ -7,11 +7,8 @@ import {
   TextInput,
   ScrollView,
   Dimensions,
-  StyleSheet,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
-import Video from 'react-native-video';
-import Carousel from 'react-native-snap-carousel';
 import 'react-native-gesture-handler';
 import * as ArabicText from '../language/EnglishToArabic';
 import RNFS from 'react-native-fs';
@@ -21,7 +18,6 @@ import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Loader from '../components/PleaseWait';
-import Ads from '../components/Ads';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import VideoModal from '../components/VideoModal';
@@ -29,6 +25,7 @@ import BackBtnHeader from '../components/headerWithBackBtn';
 const width = Dimensions.get('screen').width;
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
+import {createThumbnail} from 'react-native-create-thumbnail';
 
 class TreatingCamelForm extends Component {
   constructor(props) {
@@ -59,6 +56,7 @@ class TreatingCamelForm extends Component {
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
+      thumbnail: {},
     };
   }
   //VIDEO PICKER
@@ -74,6 +72,12 @@ class TreatingCamelForm extends Component {
           visibilityTime: 3000,
         });
       } else {
+        createThumbnail({
+          url: video?.path,
+          timeStamp: 10000,
+        })
+          .then(response => this.setState({thumbnail: response}))
+          .catch(err => console.log({err}));
         RNFS.readFile(video.path, 'base64')
           .then(res => {
             this.setState({videoForPost: 'data:video/mp4;base64,' + res});
@@ -171,11 +175,22 @@ class TreatingCamelForm extends Component {
       });
   }
   createPostTreatingCamels = async () => {
-    const {videoForPost} = this.state;
-
-    var image1 = this.state.imagesForPost;
-    var image2 = this.state.cameraimagesForPost;
-    var combineImages = [...image1, ...image2];
+    const {
+      videoForPost,
+      thumbnail,
+      description,
+      location,
+      color,
+      camel_type,
+      title,
+      imagesForPost,
+      cameraimagesForPost,
+    } = this.state;
+    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
+    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+    let image1 = imagesForPost;
+    let image2 = cameraimagesForPost;
+    let combineImages = [...image1, ...image2];
     if (
       (combineImages == undefined || combineImages?.length == 0) &&
       videoForPost == undefined
@@ -195,11 +210,11 @@ class TreatingCamelForm extends Component {
       });
     }
     if (
-      this.state.title != '' &&
-      this.state.description != '' &&
-      this.state.location != '' &&
-      this.state.color != '' &&
-      this.state.camel_type != ''
+      title != '' &&
+      description != '' &&
+      location != '' &&
+      color != '' &&
+      camel_type != ''
       //  &&
       // this.state.mixed.length != 0
     ) {
@@ -209,13 +224,14 @@ class TreatingCamelForm extends Component {
       camelapp
         .post('/add/treatment', {
           user_id: user_id,
-          title: this.state.title,
-          location: this.state.location,
-          description: this.state.description,
-          color: this.state.color,
-          camel_type: this.state.camel_type,
+          title: title,
+          location: location,
+          description: description,
+          color: color,
+          camel_type: camel_type,
           images: combineImages ? combineImages : [],
           video: videoForPost ? videoForPost : null,
+          thumbnail: JSON.stringify(thumbnailObj),
         })
         .then(response => {
           this.setState({
@@ -258,7 +274,8 @@ class TreatingCamelForm extends Component {
     this.setState({mixed: filteredList});
   };
   render() {
-    const {pausedCheck, loadVideo, videoModal, modalItem, mixed} = this.state;
+    const {pausedCheck, loadVideo, videoModal, modalItem, mixed, thumbnail} =
+      this.state;
     return (
       <ScrollView
         style={{flex: 1}}
@@ -283,6 +300,7 @@ class TreatingCamelForm extends Component {
           </Text>
           {mixed?.length ? (
             <HorizontalCarousel
+              thumbnail={thumbnail?.path}
               CustomUrl
               price={
                 this.state.itemFromDetails?.price
@@ -404,6 +422,7 @@ class TreatingCamelForm extends Component {
             placeholderTextColor="#b0b0b0"
             value={this.state.description}
             multiline
+            textAlignVertical="top"
             onChangeText={text => {
               if (text.length <= 300) {
                 this.setState({description: text});
@@ -445,22 +464,11 @@ class TreatingCamelForm extends Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(TreatingCamelForm);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

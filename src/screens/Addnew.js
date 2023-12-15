@@ -8,23 +8,17 @@ import {
   StyleSheet,
 } from 'react-native';
 import 'react-native-gesture-handler';
-import {Styles} from '../styles/globlestyle';
-import {connect} from 'react-redux';
-import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {Styles} from '../styles/globlestyle';
+import * as userActions from '../redux/actions/user_actions';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import * as ArabicText from '../language/EnglishToArabic';
-
 class AddNew extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   render() {
     const onAddButtonClick = screen => {
       let {user} = this.props;
-      if (user.user.status == true) {
+      if (user?.user?.status == true) {
         this.props.navigation.navigate(screen);
       } else {
         this.props.navigation.navigate('Login');
@@ -34,26 +28,11 @@ class AddNew extends Component {
       <View style={[Styles.containerAddNew, {justifyContent: 'flex-start'}]}>
         <BackBtnHeader />
         <View style={[Styles.OpacityAddnewFirstBlock, {marginTop: 15}]}>
-          <Text
-            style={{
-              alignItems: 'center',
-              color: 'black',
-              fontSize: 18,
-              fontWeight: 'bold',
-              alignSelf: 'center',
-            }}>
+          <Text style={styles.headings}>
             {ArabicText?.Pledge}
             {'\n'}
           </Text>
-          <Text
-            style={{
-              alignItems: 'center',
-              color: 'black',
-              fontSize: 16,
-              fontWeight: 'bold',
-              alignSelf: 'center',
-              textAlign: 'center',
-            }}>
+          <Text style={styles.subHeading}>
             {ArabicText?.Andfulfillyourcovenant}
             {'\n'}
           </Text>
@@ -191,18 +170,30 @@ class AddNew extends Component {
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(AddNew);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  headings: {
+    alignItems: 'center',
+    color: 'black',
+    fontSize: 18,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+  },
+  subHeading: {
+    alignItems: 'center',
+    color: 'black',
+    fontSize: 16,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    textAlign: 'center',
   },
 });

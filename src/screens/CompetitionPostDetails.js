@@ -22,6 +22,7 @@ import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Toast from 'react-native-toast-message';
+import {profileBaseUrl, thumbnailBaseUrl} from '../constants/urls';
 
 class CompetitionPostDetails extends Component {
   constructor(props) {
@@ -195,6 +196,8 @@ class CompetitionPostDetails extends Component {
     const loggedUser = this.state.user;
     let user = this.props?.user;
     user = user?.user?.user;
+    const thumbnail = itemFromDetails?.thumbnail?.thumbnail;
+
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
         <BackBtnHeader />
@@ -233,9 +236,7 @@ class CompetitionPostDetails extends Component {
             }}>
             <Image
               source={{
-                uri:
-                  'http://www.tasdeertech.com/images/profiles/' +
-                  itemFromDetails.user_image,
+                uri: profileBaseUrl + itemFromDetails.user_image,
               }}
               style={{
                 height: 55,
@@ -250,6 +251,7 @@ class CompetitionPostDetails extends Component {
         <View style={Styles.containerDetails}>
           {/* MEDIA DATA  */}
           <HorizontalCarousel
+            thumbnail={thumbnailBaseUrl + thumbnail}
             price={itemFromDetails?.price ? itemFromDetails?.price : ''}
             imagesArray={imagesArray}
             onPress={mediaSource => {

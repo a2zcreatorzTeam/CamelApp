@@ -286,7 +286,7 @@ class CamelEquipmentList extends Component {
     };
     const onAddButtonClick = () => {
       let {user} = this.props;
-      if (user.user.status == true) {
+      if (user?.user?.status == true) {
         this.props.navigation.navigate('SellingEqForm');
       } else {
         this.props.navigation.navigate('Login');

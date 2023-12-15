@@ -12,10 +12,6 @@ class WinnerBeauty extends Component {
     };
   }
   render() {
-    console.log(
-      this.props.route.params.competitionItem,
-      'props.route.params.competitionItem',
-    );
     return (
       <View style={[Styles.container]}>
         <BackBtnHeader />

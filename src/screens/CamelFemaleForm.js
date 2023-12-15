@@ -26,6 +26,8 @@ import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
 const {width} = Dimensions.get('screen');
+import {createThumbnail} from 'react-native-create-thumbnail';
+
 class CamelFemaleForm extends Component {
   constructor(props) {
     super(props);
@@ -54,6 +56,7 @@ class CamelFemaleForm extends Component {
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
+      thumbnail: {},
     };
   }
   // SELECT VIDEO
@@ -69,6 +72,12 @@ class CamelFemaleForm extends Component {
           visibilityTime: 3000,
         });
       } else {
+        createThumbnail({
+          url: video?.path,
+          timeStamp: 10000,
+        })
+          .then(response => this.setState({thumbnail: response}))
+          .catch(err => console.log({err}));
         RNFS.readFile(video.path, 'base64')
           .then(res => {
             this.setState({videoForPost: 'data:video/mp4;base64,' + res});
@@ -170,9 +179,21 @@ class CamelFemaleForm extends Component {
   }
   // POST
   createPostMissingCamelForm = async () => {
-    const {videoForPost} = this.state;
-    var image1 = this.state.imagesForPost;
-    var image2 = this.state.cameraimagesForPost;
+    const {
+      videoForPost,
+      thumbnail,
+      imagesForPost,
+      cameraimagesForPost,
+      title,
+      description,
+      location,
+      color,
+      camel_type,
+    } = this.state;
+    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
+    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+    var image1 = imagesForPost;
+    var image2 = cameraimagesForPost;
     var combineImages = [...image1, ...image2];
     if (
       (combineImages == undefined || combineImages?.length == 0) &&
@@ -192,13 +213,11 @@ class CamelFemaleForm extends Component {
       });
     }
     if (
-      this.state.title != '' &&
-      this.state.description != '' &&
-      this.state.location != '' &&
-      this.state.color != '' &&
-      this.state.camel_type != ''
-      // &&
-      // this.state.mixed.length != 0
+      title != '' &&
+      description != '' &&
+      location != '' &&
+      color != '' &&
+      camel_type != ''
     ) {
       let {user} = this.props;
       let user_id = user?.user?.user.id;
@@ -207,13 +226,14 @@ class CamelFemaleForm extends Component {
         camelapp
           .post('/add/camel_female', {
             user_id: user_id,
-            type: this.state.camel_type,
-            color: this.state.color,
-            location: this.state.location,
-            description: this.state.description,
-            title: this.state.title,
+            type: camel_type,
+            color: color,
+            location: location,
+            description: description,
+            title: title,
             images: combineImages ? combineImages : [],
             video: videoForPost ? videoForPost : null,
+            thumbnail: JSON.stringify(thumbnailObj),
           })
           .then(response => {
             this.setState({
@@ -231,7 +251,6 @@ class CamelFemaleForm extends Component {
               type: 'success',
               visibilityTime: 3000,
             });
-            // alert(ArabicText.Post_added_successfully);
             this.setState({
               title: '',
               description: '',
@@ -269,7 +288,8 @@ class CamelFemaleForm extends Component {
     console.log('====================================');
     console.log('CAMEL FEMALE');
     console.log('====================================');
-    const {pausedCheck, loadVideo, videoModal, modalItem} = this.state;
+    const {pausedCheck, loadVideo, videoModal, modalItem, thumbnail} =
+      this.state;
     return (
       <ScrollView
         style={{flex: 1}}
@@ -287,6 +307,7 @@ class CamelFemaleForm extends Component {
             {ArabicText.Camel_Female}
           </Text>
           <HorizontalCarousel
+            thumbnail={thumbnail?.path}
             CustomUrl
             removeItem={index => this.removeItem(index)}
             price={

@@ -173,6 +173,7 @@ class Login extends Component {
             });
           }
         } else {
+          console.log(error, 'errorerror');
           if (message == 'Failed to get request token') {
             return Toast.show({
               text1: 'Please install twitter app and login your account first',

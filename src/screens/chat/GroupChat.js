@@ -39,6 +39,7 @@ import FastImage from 'react-native-fast-image';
 import RNFS from 'react-native-fs';
 import Toast from 'react-native-toast-message';
 import EmptyComponent from '../../components/EmptyComponent';
+import {profileBaseUrl} from '../../constants/urls';
 const GroupChat = props => {
   const flatListRef = useRef();
   const storageRef = storage().ref();
@@ -673,9 +674,7 @@ const GroupChat = props => {
                     <View>
                       <Image
                         source={{
-                          uri:
-                            'http://www.tasdeertech.com/images/profiles/' +
-                            item?.user_image,
+                          uri: profileBaseUrl + item?.user_image,
                         }}
                         style={{width: 50, height: 50, borderRadius: 100}}
                       />
@@ -1085,9 +1084,7 @@ const GroupChat = props => {
                       </Text>
                       <Image
                         source={{
-                          uri:
-                            'http://www.tasdeertech.com/images/profiles/' +
-                            item?.user_image,
+                          uri: profileBaseUrl + item?.user_image,
                         }}
                         style={{
                           width: 50,

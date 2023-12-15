@@ -6,6 +6,7 @@ import {useState} from 'react';
 import {Styles} from '../styles/globlestyle';
 import FastImage from 'react-native-fast-image';
 import {FlatList} from 'react-native';
+import {profileBaseUrl} from '../constants/urls';
 const Item = ({
   userName,
   item,
@@ -151,9 +152,7 @@ const Item = ({
               source={
                 userImage
                   ? {
-                      uri:
-                        'http://www.tasdeertech.com/images/profiles/' +
-                        userImage,
+                      uri: profileBaseUrl + userImage,
                     }
                   : require('../../assets/dummyImage.jpeg')
               }
@@ -293,9 +292,7 @@ const Item = ({
                         borderRadius: 100,
                       }}
                       source={{
-                        uri:
-                          'http://www.tasdeertech.com/images/profiles/' +
-                          item?.image,
+                        uri: profileBaseUrl + item?.image,
                       }}
                       resizeMode={FastImage?.resizeMode.cover}
                     />

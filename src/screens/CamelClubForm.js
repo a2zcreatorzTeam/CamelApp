@@ -9,23 +9,23 @@ import {
   Dimensions,
   StyleSheet,
 } from 'react-native';
-import {Styles} from '../styles/globlestyle';
-import * as ArabicText from '../language/EnglishToArabic';
 import RNFS from 'react-native-fs';
-import camelapp from '../api/camelapp';
 import {connect} from 'react-redux';
-import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {createThumbnail} from 'react-native-create-thumbnail';
+import Toast from 'react-native-toast-message';
 import Loader from '../components/PleaseWait';
+import {Styles} from '../styles/globlestyle';
+import * as ArabicText from '../language/EnglishToArabic';
+import camelapp from '../api/camelapp';
+import * as userActions from '../redux/actions/user_actions';
 import Ads from '../components/Ads';
 import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Toast from 'react-native-toast-message';
-const {width, height} = Dimensions.get('screen');
 class CamelClubForm extends Component {
   constructor(props) {
     super(props);
@@ -51,9 +51,9 @@ class CamelClubForm extends Component {
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
+      thumbnail: {},
     };
   }
-
   // VIDEO PICKER
   selectOneFile = async () => {
     this.setState({video: {}});
@@ -68,6 +68,14 @@ class CamelClubForm extends Component {
             visibilityTime: 3000,
           });
         } else {
+          createThumbnail({
+            url: video?.path,
+            timeStamp: 10000,
+          })
+            .then(response => {
+              this.setState({thumbnail: response});
+            })
+            .catch(err => console.log({err}));
           RNFS.readFile(video.path, 'base64')
             .then(res => {
               this.setState({videoForPost: 'data:video/mp4;base64,' + res});
@@ -160,7 +168,6 @@ class CamelClubForm extends Component {
             };
           });
         } else {
-          console.log('nolength');
           this.setState({
             imagesForPost: ['data:image/png;base64,' + images?.data],
           });
@@ -176,9 +183,19 @@ class CamelClubForm extends Component {
       });
   }
   createPostCamelClub = async () => {
-    const {imagesForPost, videoForPost} = this.state;
-    var image1 = this.state.imagesForPost;
-    var image2 = this.state.cameraimagesForPost;
+    const {
+      imagesForPost,
+      videoForPost,
+      thumbnail,
+      cameraimagesForPost,
+      title,
+      description,
+      location,
+    } = this.state;
+    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
+    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+    var image1 = imagesForPost;
+    var image2 = cameraimagesForPost;
     var combineImages = [...image1, ...image2];
     if (
       (combineImages == undefined || combineImages?.length == 0) &&
@@ -197,26 +214,31 @@ class CamelClubForm extends Component {
         visibilityTime: 3000,
       });
     }
-    if (
-      this.state.title != '' &&
-      this.state.description != '' &&
-      this.state.location != ''
-      //  &&
-      // this.state.mixed != []
-    ) {
+    if (title != '' && description != '' && location != '') {
       let {user} = this.props;
       let user_id = user?.user?.user.id;
       this.setState({loading: true});
       await camelapp
-        .post('/add/postclub', {
-          user_id: user_id,
-          title: this.state.title,
-          location: this.state.location,
-          description: this.state.description,
-          images: combineImages ? combineImages : [],
-          video: videoForPost ? videoForPost : null,
-        })
+        .post(
+          '/add/postclub',
+          {
+            user_id: user_id,
+            title: title,
+            location: location,
+            description: description,
+            images: combineImages ? combineImages : [],
+            video: videoForPost ? videoForPost : null,
+            thumbnail: JSON.stringify(thumbnailObj),
+          },
+          {
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          },
+        )
         .then(response => {
+          console.log(response, 'responsee');
           if (response.data) {
             this.setState({
               loading: false,
@@ -258,16 +280,12 @@ class CamelClubForm extends Component {
       const filteredList = mixed?.filter((item, index) => {
         return index !== i;
       });
-      console.log(
-        filteredList,
-        'imagesForPostFilter',
-        imagesForPostFilter?.length,
-      );
       this.setState({mixed: filteredList, imagesForPost: imagesForPostFilter});
     }
   };
   render() {
-    const {pausedCheck, loadVideo, videoModal, modalItem, mixed} = this.state;
+    const {pausedCheck, loadVideo, videoModal, modalItem, mixed, thumbnail} =
+      this.state;
     return (
       <View style={{backgroundColor: 'blue', flex: 1}}>
         <BackBtnHeader />
@@ -282,6 +300,7 @@ class CamelClubForm extends Component {
             {/* IMAGES CAROUSAL */}
             {mixed?.length ? (
               <HorizontalCarousel
+                thumbnail={thumbnail?.path}
                 removeItem={(index, type, path) =>
                   this.removeItem(index, type, path)
                 }

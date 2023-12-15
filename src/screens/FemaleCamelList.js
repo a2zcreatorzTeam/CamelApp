@@ -111,6 +111,7 @@ class CamelFemaleList extends Component {
     let {user} = this.props;
     user = user?.user?.user;
     const renderItem = ({item}) => {
+      console.log(item, 'itemmmm');
       return (
         <Post
           date={item?.date}
@@ -120,6 +121,7 @@ class CamelFemaleList extends Component {
           color={item.color}
           type={item.camel_type}
           image={item.img[0]}
+          thumbnail={item?.thumbnail}
           detailBUTTON={ArabicText.PLACEHOLDER_DETAIL}
           onDetailsClick={(viewCount, setViewCount) => {
             console.log('workingggg');
@@ -137,7 +139,7 @@ class CamelFemaleList extends Component {
     };
     const onAddButtonClick = () => {
       let {user} = this.props;
-      if (user.user.status == true) {
+      if (user?.user?.status == true) {
         this.props.navigation.navigate('CamelFemaleForm');
       } else {
         this.props.navigation.navigate('Login');

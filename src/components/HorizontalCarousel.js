@@ -6,8 +6,8 @@ import {Styles} from '../styles/globlestyle';
 import {TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 const {width, height} = Dimensions.get('screen');
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {ImageBackground} from 'react-native';
+import {VideoBaseUrl, imageBaseUrl} from '../constants/urls';
 const HorizontalCarousel = ({
   imagesArray,
   pausedCheck,
@@ -17,6 +17,7 @@ const HorizontalCarousel = ({
   price,
   lastBidPrice,
   removeItem = () => {},
+  thumbnail,
 }) => {
   const ref = useRef(null);
   return (
@@ -30,10 +31,10 @@ const HorizontalCarousel = ({
         const mediaSource =
           item.type == 'image'
             ? {
-                uri: 'http://www.tasdeertech.com/images/posts/' + item.source,
+                uri: imageBaseUrl + item.source,
               }
             : item.type == 'video'
-            ? {uri: 'http://www.tasdeertech.com/videos/' + item?.source}
+            ? {uri: VideoBaseUrl + item?.source}
             : null;
         return (
           <View
@@ -103,9 +104,7 @@ const HorizontalCarousel = ({
                 source={
                   item?.source
                     ? {
-                        uri:
-                          'http://www.tasdeertech.com/images/posts/' +
-                          item?.source,
+                        uri: imageBaseUrl + item?.source,
                         headers: {Authorization: 'someAuthToken'},
                         priority: FastImage.priority.normal,
                       }
@@ -126,7 +125,7 @@ const HorizontalCarousel = ({
                 {pausedCheck && (
                   <ImageBackground
                     imageStyle={{opacity: 0.3}}
-                    source={require('../../assets/camel.png')}
+                    source={{uri: thumbnail}}
                     resizeMode="cover"
                     style={Styles.image}>
                     {/* {CustomUrl && (

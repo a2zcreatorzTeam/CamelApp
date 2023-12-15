@@ -10,29 +10,29 @@ import {
   ScrollView,
   Modal,
   Switch,
+  Dimensions,
 } from 'react-native';
-import {Styles} from '../styles/globlestyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {RadioButton} from 'react-native-paper';
-import * as ArabicText from '../language/EnglishToArabic';
-import camelapp from '../api/camelapp';
 import {connect} from 'react-redux';
-import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import 'react-native-gesture-handler';
-import {Dimensions} from 'react-native';
-import Loader from '../components/PleaseWait';
-import Ads from '../components/Ads';
-import * as ImageCropPicker from 'react-native-image-crop-picker';
-const width = Dimensions.get('screen').width;
-const hight = Dimensions.get('screen').height;
-
-import RNFS from 'react-native-fs';
-import VideoModal from '../components/VideoModal';
-import HorizontalCarousel from '../components/HorizontalCarousel';
-import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
+import {createThumbnail} from 'react-native-create-thumbnail';
+import RNFS from 'react-native-fs';
+import * as ImageCropPicker from 'react-native-image-crop-picker';
+import Loader from '../components/PleaseWait';
+import {Styles} from '../styles/globlestyle';
+import * as ArabicText from '../language/EnglishToArabic';
+import camelapp from '../api/camelapp';
+import * as userActions from '../redux/actions/user_actions';
+import VideoModal from '../components/VideoModal';
+import Ads from '../components/Ads';
+import HorizontalCarousel from '../components/HorizontalCarousel';
+import BackBtnHeader from '../components/headerWithBackBtn';
+const width = Dimensions.get('screen').width;
+const hight = Dimensions.get('screen').height;
 
 class SellingCamelForm extends React.Component {
   constructor(props) {
@@ -81,6 +81,7 @@ class SellingCamelForm extends React.Component {
       showBidOption: false,
       selectedBidOption: '',
       showOption: false,
+      thumbnail: {},
     };
   }
   // SELECT VIDEO
@@ -96,6 +97,14 @@ class SellingCamelForm extends React.Component {
           visibilityTime: 3000,
         });
       } else {
+        createThumbnail({
+          url: video?.path,
+          timeStamp: 10000,
+        })
+          .then(response => {
+            console.log(response?.path), this.setState({thumbnail: response});
+          })
+          .catch(err => console.log({err}));
         RNFS.readFile(video.path, 'base64')
           .then(res => {
             this.setState({videoForPost: 'data:video/mp4;base64,' + res});
@@ -195,9 +204,27 @@ class SellingCamelForm extends React.Component {
       });
   }
   createPostSellingCamel = async () => {
-    const {selectedBidOption, videoForPost} = this.state;
-    var image1 = this.state.imagesForPost;
-    var image2 = this.state.cameraimagesForPost;
+    const {
+      selectedBidOption,
+      videoForPost,
+      thumbnail,
+      title,
+      location,
+      description,
+      color,
+      price,
+      price_type,
+      camel_type,
+      selectedItem,
+      register,
+      imagesForPost,
+      cameraimagesForPost,
+    } = this.state;
+    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
+    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+    console.log(thumbnailObj, 'thumbnailObjthumbnailObj');
+    var image1 = imagesForPost;
+    var image2 = cameraimagesForPost;
     var combineImages = [...image1, ...image2];
     if (
       (combineImages == undefined || combineImages?.length == 0) &&
@@ -218,41 +245,47 @@ class SellingCamelForm extends React.Component {
       });
     }
     if (
-      this.state.title != '' &&
-      this.state.location != '' &&
-      this.state.description != '' &&
-      this.state.color != '' &&
-      this.state.price != '' &&
-      this.state.price_type != '' &&
-      this.state.camel_type != '' &&
-      this.state.selectedItem != '' &&
-      // this.state.mixed.length != 0 &&
-      (this.state.price_type == ArabicText?.offer_Up
-        ? selectedBidOption !== ''
-        : true)
+      title != '' &&
+      location != '' &&
+      description != '' &&
+      color != '' &&
+      price != '' &&
+      price_type != '' &&
+      camel_type != '' &&
+      selectedItem != '' &&
+      (price_type == ArabicText?.offer_Up ? selectedBidOption !== '' : true)
     ) {
       let {user} = this.props;
       let user_id = user?.user?.user.id;
-      console.log(user?.user?.user, user_id);
       this.setState({loading: true});
-      console.log(selectedBidOption?.name, 'jkjkj');
       camelapp
-        .post('/add/selling', {
-          user_id: user_id,
-          title: this.state.title,
-          location: this.state.location,
-          description: this.state.description,
-          camel_type: this.state.camel_type,
-          color: this.state.color,
-          price: this.state.price,
-          price_type: this.state.price_type,
-          commission: this.state.selectedItem.name,
-          register: this.state.register,
-          bid_expired_days: selectedBidOption?.name,
-          images: combineImages ? combineImages : [],
-          video: videoForPost ? videoForPost : null,
-        })
+        .post(
+          '/add/selling',
+          {
+            user_id: user_id,
+            title: title,
+            location: location,
+            description: description,
+            camel_type: camel_type,
+            color: color,
+            price: price,
+            price_type: price_type,
+            commission: selectedItem.name,
+            register: register,
+            bid_expired_days: selectedBidOption?.name,
+            images: combineImages ? combineImages : [],
+            video: videoForPost ? videoForPost : null,
+            thumbnail: JSON.stringify(thumbnailObj),
+          },
+          // {
+          //   headers: {
+          //     Accept: 'application/json',
+          //     'Content-Type': 'application/json',
+          //   },
+          // },
+        )
         .then(response => {
+          console.log(response, 'responseeeee');
           this.setState({
             loading: false,
             video: undefined,
@@ -331,6 +364,7 @@ class SellingCamelForm extends React.Component {
       showBidOption,
       selectedBidOption,
       price_type,
+      thumbnail,
     } = this.state;
     let Period = [
       {
@@ -356,6 +390,7 @@ class SellingCamelForm extends React.Component {
         name: ArabicText?.fiveDays,
       },
     ];
+
     return (
       <ScrollView
         style={{flex: 1}}
@@ -373,6 +408,7 @@ class SellingCamelForm extends React.Component {
             بيع الحلال
           </Text>
           <HorizontalCarousel
+            thumbnail={thumbnail?.path}
             removeItem={index => this.removeItem(index)}
             CustomUrl
             price={

@@ -1,7 +1,13 @@
 import React from 'react';
-import {View, TouchableOpacity, Text, Image, Linking} from 'react-native';
-import {Styles} from '../styles/globlestyle';
-import {Dimensions} from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  Image,
+  Linking,
+  Dimensions,
+  StyleSheet,
+} from 'react-native';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -10,8 +16,9 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
-import * as ArabicText from '../language/EnglishToArabic';
 import Toast from 'react-native-toast-message';
+import * as ArabicText from '../language/EnglishToArabic';
+import {Styles} from '../styles/globlestyle';
 const width = Dimensions.get('screen').width;
 
 export default function AppDetails() {
@@ -90,14 +97,7 @@ export default function AppDetails() {
   const navigation = useNavigation();
   return (
     <View style={[Styles.container, {paddingTop: 100}]}>
-      <Text
-        style={{
-          fontWeight: 'bold',
-          fontSize: 18,
-          color: '#d2691e',
-        }}>
-        نشر الطبيق مع الا صدقاء
-      </Text>
+      <Text style={styles.heading}>نشر الطبيق مع الا صدقاء</Text>
       <TouchableOpacity style={{}} onPress={() => navigation.navigate('Home')}>
         <View style={Styles.sharebtn}>
           <Ionicons name="arrow-undo-circle" size={24} color="#fff" />
@@ -166,25 +166,11 @@ export default function AppDetails() {
           </View>
         </TouchableOpacity>
       </TouchableOpacity>
-      <Text
-        style={{
-          fontWeight: '400',
-          fontSize: 14,
-          color: 'grey',
-          margin: 3,
-          marginVertical: 10,
-        }}>
+      <Text style={styles.socialMediaText}>
         {ArabicText?.Socialmediaaccounts}
       </Text>
       {/* Social Share  */}
-      <View
-        style={{
-          flexDirection: 'row',
-          width: width / 2,
-          alignSelf: 'center',
-          justifyContent: 'space-around',
-          marginTop: 10,
-        }}>
+      <View style={styles.socialMediaView}>
         {/* Twitter  */}
         <TouchableOpacity onPress={() => tweetNow()}>
           <Entypo name="twitter-with-circle" size={45} color="#d2691e" />
@@ -194,40 +180,53 @@ export default function AppDetails() {
           onPress={() => {
             openIstagram();
           }}
-          style={{
-            width: 43,
-            height: 43,
-            borderRadius: 20,
-            backgroundColor: '#d2691e',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+          style={styles.socialIcon}>
           <FontAwesome5 name="instagram" size={28} color="#fff" />
         </TouchableOpacity>
         {/* WhatsApp  */}
         <TouchableOpacity
           onPress={() => openWhatsApp()}
-          style={{
-            width: 43,
-            height: 43,
-            borderRadius: 20,
-            backgroundColor: '#d2691e',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+          style={styles.socialIcon}>
           <Fontisto name="whatsapp" size={28} color="#fff" />
         </TouchableOpacity>
       </View>
       {/* Contact */}
-      <Text style={{fontSize: 12, color: '#d2691e', margin: 3}}>
-        Contact@Alsyahd.com
-      </Text>
-      <Text style={{fontSize: 15, color: '#d2691e', fontWeight: '400'}}>
-        WWW.ALSYAHD.COM
-      </Text>
+      <Text style={styles.email}>Contact@Alsyahd.com</Text>
+      <Text style={styles.website}>WWW.ALSYAHD.COM</Text>
       <Image
         source={require('../../assets/image.png')}
         style={Styles.bottomimg}></Image>
     </View>
   );
 }
+const styles = StyleSheet.create({
+  heading: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    color: '#d2691e',
+  },
+  socialMediaText: {
+    fontWeight: '400',
+    fontSize: 14,
+    color: 'grey',
+    margin: 3,
+    marginVertical: 10,
+  },
+  socialMediaView: {
+    flexDirection: 'row',
+    width: width / 2,
+    alignSelf: 'center',
+    justifyContent: 'space-around',
+    marginTop: 10,
+  },
+  socialIcon: {
+    width: 43,
+    height: 43,
+    borderRadius: 20,
+    backgroundColor: '#d2691e',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  email: {fontSize: 12, color: '#d2691e', margin: 3},
+  website: {fontSize: 15, color: '#d2691e', fontWeight: '400'},
+});

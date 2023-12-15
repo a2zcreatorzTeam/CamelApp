@@ -1,19 +1,22 @@
 import React, {Component} from 'react';
-import {View, Text, ScrollView, ActivityIndicator} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  ActivityIndicator,
+  Dimensions,
+} from 'react-native';
+import HTML from 'react-native-render-html';
+import Toast from 'react-native-toast-message';
 import * as ArabicText from '../language/EnglishToArabic';
 import camelapp from '../api/camelapp';
-import HTML from 'react-native-render-html';
-import {Dimensions} from 'react-native';
-import Toast from 'react-native-toast-message';
 const width = Dimensions.get('screen').width;
 class AboutUs extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      html: '',
-      loader: false,
-    };
-  }
+  state = {
+    html: '',
+    loader: true,
+  };
+
   componentDidMount() {
     this.setState({loader: true});
     async function renderHtml() {

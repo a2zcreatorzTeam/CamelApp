@@ -36,7 +36,12 @@ import * as ArabicText from '../language/EnglishToArabic';
 import {Styles} from '../styles/globlestyle';
 import Loader from '../components/PleaseWait';
 import Header from '../components/Header';
-import {VideoBaseUrl, imageBaseUrl, profileBaseUrl} from '../constants/urls';
+import {
+  VideoBaseUrl,
+  imageBaseUrl,
+  profileBaseUrl,
+  thumbnailBaseUrl,
+} from '../constants/urls';
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
 
@@ -213,7 +218,11 @@ class UserProfile extends Component {
                 imagesArray?.push({type: 'image', source: element});
               });
             item?.video !== null &&
-              imagesArray?.push({type: 'video', source: item?.video});
+              imagesArray?.push({
+                type: 'video',
+                source: item?.video,
+                thumbnail: item?.thumbnail?.thumbnail,
+              });
             item['imagesArray'] = imagesArray;
             arrayPosts[index] = item;
           });
@@ -1133,6 +1142,7 @@ const styles = StyleSheet.create({
   },
 });
 const Item = ({
+  item,
   title,
   user_name,
   user_location,
@@ -1154,7 +1164,6 @@ const Item = ({
   user_images,
   flagForLike,
   likes,
-  item,
   price,
   bid_price,
   postViewed = () => {},
@@ -1169,7 +1178,7 @@ const Item = ({
   const [viewCount, setViewCount] = useState(item?.view_count);
   const user = useSelector(state => state?.user?.user?.user);
   const navigation = useNavigation();
-
+  console.log(item, 'itemmmm');
   return (
     <Card style={{elevation: 5, marginTop: 10}}>
       <View style={Styles.homesec}>
@@ -1291,19 +1300,35 @@ const Item = ({
               {item?.type == 'video' && (
                 <View style={{flex: 1, backgroundColor: '#ededed'}}>
                   {pausedCheck && (
-                    <Image
-                      activeOpacity={0.4}
-                      source={
-                        item?.thumbnail
-                          ? {uri: item?.thumbnail}
-                          : require('../../assets/camel.png')
-                      }
-                      resizeMode={'cover'}
+                    <FastImage
                       style={[
                         Styles.image,
                         {backgroundColor: 'rgba(0,0,0,0.5)', opacity: 0.3},
                       ]}
+                      source={
+                        item?.thumbnail
+                          ? {
+                              uri: thumbnailBaseUrl + item?.thumbnail,
+                              headers: {Authorization: 'someAuthToken'},
+                              priority: FastImage.priority.high,
+                            }
+                          : require('../../assets/camel.png')
+                      }
+                      resizeMode={FastImage?.resizeMode.cover}
                     />
+                    // <Image
+                    //   activeOpacity={0.4}
+                    //   source={
+                    //     item?.thumbnail
+                    //       ? {uri: thumbnailBaseUrl + item?.thumbnail}
+                    //       : require('../../assets/camel.png')
+                    //   }
+                    //   resizeMode={'cover'}
+                    //   style={[
+                    //     Styles.image,
+                    //     {backgroundColor: 'rgba(0,0,0,0.5)', opacity: 0.3},
+                    //   ]}
+                    // />
                   )}
                   <TouchableOpacity
                     style={{

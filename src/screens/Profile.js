@@ -41,7 +41,12 @@ import Header from '../components/Header';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {VideoBaseUrl, imageBaseUrl, profileBaseUrl} from '../constants/urls';
+import {
+  VideoBaseUrl,
+  imageBaseUrl,
+  profileBaseUrl,
+  thumbnailBaseUrl,
+} from '../constants/urls';
 
 class Profile extends Component {
   constructor(props) {
@@ -125,7 +130,6 @@ class Profile extends Component {
   }
   updateNumber = async () => {
     const deviceToken = await AsyncStorage?.getItem('fcmToken');
-    console.log('jkjkjkk');
     this.setState({updateLoader: true});
     if (this.props.user?.user?.user?.phone !== this.state.phoneNumber) {
       let {user, actions} = this.props;
@@ -135,7 +139,6 @@ class Profile extends Component {
           phone: this.props.user?.user?.user?.phone,
         })
         .then(res => {
-          console.log(res?.data, 'respmseeeemasiiiii');
           if (res) {
             this.setState({updateLoader: false});
             let tempSignUpObj = {
@@ -308,7 +311,11 @@ class Profile extends Component {
                 imagesArray?.push({type: 'image', source: element});
               });
             item?.video !== null &&
-              imagesArray?.push({type: 'video', source: item?.video});
+              imagesArray?.push({
+                type: 'video',
+                source: item?.video,
+                thumbnail: item?.thumbnail?.thumbnail,
+              });
             item['imagesArray'] = imagesArray;
             arrayPosts[index] = item;
           });
@@ -1364,11 +1371,12 @@ const Item = ({
         scrollEnabled={true}
         // onScroll={() => this.setState({ pauseVideo: true})}
         renderItem={({item, index}) => {
+          console.log(item, 'utemmmm');
           const mediaSource =
             item.type == 'image'
               ? {uri: imageBaseUrl + item.source}
               : item?.type == 'video'
-              ? {uri: VideoBaseUrl+ item.source}
+              ? {uri: VideoBaseUrl + item.source}
               : null;
           return (
             <TouchableOpacity
@@ -1383,8 +1391,7 @@ const Item = ({
                 <FastImage
                   style={Styles.image}
                   source={{
-                    uri:
-                    imageBaseUrl + item?.source,
+                    uri: imageBaseUrl + item?.source,
                     headers: {Authorization: 'someAuthToken'},
                     priority: FastImage.priority.normal,
                   }}
@@ -1394,18 +1401,21 @@ const Item = ({
               {item?.type == 'video' && (
                 <View style={{flex: 1, backgroundColor: '#ededed'}}>
                   {pausedCheck && (
-                    <Image
-                      activeOpacity={0.4}
-                      source={
-                        item?.thumbnail
-                          ? {uri: item?.thumbnail}
-                          : require('../../assets/camel.png')
-                      }
-                      resizeMode={'cover'}
+                    <FastImage
                       style={[
                         Styles.image,
                         {backgroundColor: 'rgba(0,0,0,0.5)', opacity: 0.3},
                       ]}
+                      source={
+                        item?.thumbnail
+                          ? {
+                              uri: thumbnailBaseUrl + item?.thumbnail,
+                              headers: {Authorization: 'someAuthToken'},
+                              priority: FastImage.priority.high,
+                            }
+                          : require('../../assets/camel.png')
+                      }
+                      resizeMode={FastImage?.resizeMode.cover}
                     />
                   )}
                   <TouchableOpacity

@@ -40,7 +40,7 @@ class Bids extends Component {
           });
         });
     } catch (error) {
-      console.log('errrrr', error);
+      console.log('errrrr43', error);
       this.setState({
         posts: [],
         loader: false,
@@ -236,7 +236,7 @@ class Bids extends Component {
       </View>
     );
     const renderBidItem = ({item}) => {
-      console.log(item, 'itemmmmmm2177');
+      console.log(item?.thumbnail, 'uiui');
       return (
         <BidsItem
           item={item}

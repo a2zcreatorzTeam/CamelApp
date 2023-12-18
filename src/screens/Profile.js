@@ -1275,14 +1275,19 @@ const Item = ({
   return (
     <Card style={{elevation: 5, marginTop: 10}}>
       <View style={Styles.homesec}>
-        <View style={{flexDirection: 'row', textAlign: 'right'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            width: '98%',
+            alignSelf: 'center',
+            height: 60,
+            alignItems: 'center',
+            justifyContent: 'space-around',
+          }}>
           <View
             style={{
               backgroundColor: '#fff',
               width: width / 3,
-              height: 60,
-              flexDirection: 'row',
-              marginTop: 5,
             }}>
             <TouchableOpacity onPress={onCategoryClick} style={Styles.btnHome2}>
               <Text
@@ -1296,9 +1301,6 @@ const Item = ({
             style={{
               backgroundColor: '#fff',
               width: width / 2,
-              height: 60,
-              // flexDirection: 'row',
-              marginTop: 10,
               textAlign: 'right',
             }}>
             <View>
@@ -1340,10 +1342,8 @@ const Item = ({
           <View
             style={{
               backgroundColor: '#fff',
-              width: width / 5,
-              height: 60,
-              flexDirection: 'row',
               marginTop: 5,
+              alignItems: 'flex-end',
             }}>
             <Image
               source={{
@@ -1357,6 +1357,7 @@ const Item = ({
           </View>
         </View>
       </View>
+      {/* PRICE SECTION  */}
       {price?.length ? (
         <TouchableOpacity style={styles.priceContainer}>
           <Text style={styles.priceTxt}> {ArabicText?.Price}</Text>
@@ -1371,7 +1372,6 @@ const Item = ({
         scrollEnabled={true}
         // onScroll={() => this.setState({ pauseVideo: true})}
         renderItem={({item, index}) => {
-          console.log(item, 'utemmmm');
           const mediaSource =
             item.type == 'image'
               ? {uri: imageBaseUrl + item.source}

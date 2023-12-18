@@ -1,5 +1,13 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  RefreshControl,
+  ActivityIndicator,
+  Dimensions,
+} from 'react-native';
 import {Styles} from '../../styles/globlestyle';
 import {withdrawBid} from '../../context/DataContext';
 import * as ArabicText from '../../language/EnglishToArabic';
@@ -8,11 +16,8 @@ import * as userActions from '../../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import camelapp from '../../api/camelapp';
 import EmptyComponent from '../../components/EmptyComponent';
-import {Dimensions} from 'react-native';
-import {RefreshControl} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
-import {ActivityIndicator} from 'react-native';
 const width = Dimensions.get('screen').width;
 class Bids extends Component {
   constructor(props) {
@@ -34,7 +39,6 @@ class Bids extends Component {
           user_id: user?.user?.user.id,
         })
         .then(res => {
-          console.log(res?.data?.bids, 'BidPOst');
           this.setState({
             posts: res?.data?.bids,
             key: !key,

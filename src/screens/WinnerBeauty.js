@@ -3,6 +3,7 @@ import {View, Text, Image} from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import {ProgressBar} from 'react-native-paper';
 import BackBtnHeader from '../components/headerWithBackBtn';
+import FastImage from 'react-native-fast-image';
 class WinnerBeauty extends Component {
   constructor(props) {
     super(props);
@@ -38,19 +39,20 @@ class WinnerBeauty extends Component {
                     alignItems: 'center',
                     top: 5,
                   }}>
-                  <Image
-                    key={el.id}
-                    source={{
-                      uri:
-                        'http://www.tasdeertech.com/public/images/profiles/' +
-                        el?.user_image,
-                    }}
+                  <FastImage
+                    key={el?.id}
                     style={{
                       width: 60,
                       height: 60,
                       borderRadius: 50,
                     }}
-                    resizeMode="cover"></Image>
+                    source={{
+                      uri:
+                        'http://www.tasdeertech.com/public/images/profiles/' +
+                        el?.user_image,
+                    }}
+                    resizeMode={FastImage?.resizeMode.cover}
+                  />
                 </View>
                 <Text
                   style={{

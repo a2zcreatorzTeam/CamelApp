@@ -124,7 +124,7 @@ const HorizontalCarousel = ({
                 }}>
                 {pausedCheck && (
                   <ImageBackground
-                    imageStyle={{opacity: 0.3}}
+                    imageStyle={{opacity: thumbnail ? 0.9 : 0.3}}
                     source={{uri: thumbnail}}
                     resizeMode="cover"
                     style={Styles.image}>

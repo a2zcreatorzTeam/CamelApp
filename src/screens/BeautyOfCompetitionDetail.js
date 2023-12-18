@@ -391,6 +391,10 @@ class BeautyOfCompetition extends Component {
         />
       );
     };
+    console.log(
+      competition_item.competition_winner,
+      'competition_item.competition_winner?.length',
+    );
     return (
       <View style={[Styles.containerBeauty, {position: 'relative'}]}>
         <Header
@@ -739,7 +743,7 @@ class BeautyOfCompetition extends Component {
 }
 const mapStateToProps = state => ({
   user: state.user,
-})
+});
 const ActionCreators = Object.assign({});
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),

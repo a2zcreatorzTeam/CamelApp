@@ -280,7 +280,7 @@ const Post = ({
                     source={{
                       uri: imageBaseUrl + item?.source,
                       headers: {Authorization: 'someAuthToken'},
-                      priority: FastImage.priority.normal,
+                      priority: FastImage.priority.high,
                     }}
                     resizeMode={FastImage?.resizeMode.cover}
                   />
@@ -302,7 +302,7 @@ const Post = ({
                             ? {
                                 uri: thumbnailBaseUrl + thumbnail?.thumbnail,
                                 headers: {Authorization: 'someAuthToken'},
-                                priority: FastImage.priority.normal,
+                                priority: FastImage.priority.high,
                               }
                             : require('../../assets/camel.png')
                         }

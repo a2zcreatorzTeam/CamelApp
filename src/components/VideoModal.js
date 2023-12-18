@@ -43,7 +43,6 @@ const VideoModal = ({
         <View
           style={{
             height: 350,
-            backgroundColor: 'red',
             justifyContent: 'center',
           }}>
           <View style={styles.imageCarousal}>
@@ -66,7 +65,7 @@ const VideoModal = ({
                     styles.image,
                     {
                       width: width,
-                      height: height / 2.5,
+                      height: 350,
                     },
                   ]}
                 />

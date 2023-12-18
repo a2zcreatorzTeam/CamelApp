@@ -27,7 +27,7 @@ import VideoModal from '../components/VideoModal';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Toast from 'react-native-toast-message';
 import {Platform} from 'react-native';
-import {profileBaseUrl} from '../constants/urls';
+import {profileBaseUrl, thumbnailBaseUrl} from '../constants/urls';
 class DetailsComponent extends Component {
   constructor(props) {
     super(props);

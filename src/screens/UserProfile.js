@@ -1303,7 +1303,10 @@ const Item = ({
                     <FastImage
                       style={[
                         Styles.image,
-                        {backgroundColor: 'rgba(0,0,0,0.5)', opacity: 0.3},
+                        {
+                          opacity: item?.thumbnail ? 0.9 : 0.3,
+                          backgroundColor: 'rgba(0,0,0,0.5)',
+                        },
                       ]}
                       source={
                         item?.thumbnail
@@ -1316,19 +1319,6 @@ const Item = ({
                       }
                       resizeMode={FastImage?.resizeMode.cover}
                     />
-                    // <Image
-                    //   activeOpacity={0.4}
-                    //   source={
-                    //     item?.thumbnail
-                    //       ? {uri: thumbnailBaseUrl + item?.thumbnail}
-                    //       : require('../../assets/camel.png')
-                    //   }
-                    //   resizeMode={'cover'}
-                    //   style={[
-                    //     Styles.image,
-                    //     {backgroundColor: 'rgba(0,0,0,0.5)', opacity: 0.3},
-                    //   ]}
-                    // />
                   )}
                   <TouchableOpacity
                     style={{

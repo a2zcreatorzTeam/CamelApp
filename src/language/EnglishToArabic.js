@@ -417,3 +417,4 @@ export const Bankaccounts = 'الحسابات البنكية:';
 export const Sellingcamelsfood = 'بيع الأعلاف';
 export const Skip = 'يتخطى';
 export const Sellingequipment = 'بيع المعدات';
+export const TreatingCamel = 'علاج الحلال';

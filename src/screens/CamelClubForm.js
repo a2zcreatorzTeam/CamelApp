@@ -74,6 +74,7 @@ class CamelClubForm extends Component {
           })
             .then(response => {
               this.setState({thumbnail: response});
+              console.log('thumbnailsuccesss');
             })
             .catch(err => console.log({err}));
           RNFS.readFile(video.path, 'base64')
@@ -101,7 +102,7 @@ class CamelClubForm extends Component {
               }
             })
             .catch(err => {
-              console.log(err.message, err.code);
+              console.log(err.message, err.code, 'errorr');
             });
         }
       } else {

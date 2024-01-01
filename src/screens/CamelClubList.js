@@ -205,17 +205,14 @@ class CamelClubList extends Component {
             post_id: post_id,
           })
           .then(response => {
-            console.log('response.data', response.data);
             if (response.data) {
               let filterPosts = this.state.filterPosts;
-
               let tempIndex = filterPosts.indexOf(item);
               this.viewPosts();
               let share_count = item.share_count + 1;
               let tempItem = item;
               tempItem['share_count'] = share_count;
               filterPosts[tempIndex] = tempItem;
-
               this.setState({loading: false, filterPosts: filterPosts});
             }
           })
@@ -238,7 +235,6 @@ class CamelClubList extends Component {
             type: 'abc',
           })
           .then(response => {
-            console.log('response.data', response.data);
             if (response.data.message == 'Successfully liked') {
               setIsLiked(true);
               setLikeCount(response?.data?.total_likes);
@@ -285,7 +281,6 @@ class CamelClubList extends Component {
       }
     };
     const onDetailsClick = (item, viewCount, setViewCount) => {
-      console.log('itemmid', item?.category_id);
       if (user != undefined) {
         this.props.navigation.navigate('CamelClubDetailsComponent', {
           itemFromDetails: item,

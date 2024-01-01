@@ -106,7 +106,6 @@ const Groups = prop => {
     // getGrouplist();
     getDocumentIdForUserId();
   }, [isFocused]);
-  console.log(groupList, 'groupListgroupList');
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
       {/* Create Group Button*/}
@@ -116,7 +115,6 @@ const Groups = prop => {
         onPress={() =>
           prop.navigation.navigate('CreateGroup', {
             userID: prop.user?.user?.user.id,
-            // refreshGrouplist: getGrouplist,
           })
         }>
         <Ionicons name="add" size={30} color="#fff" />
@@ -131,9 +129,7 @@ const Groups = prop => {
         }}
         ListEmptyComponent={() => <EmptyComponent />}
         renderItem={({item}) => {
-          console.log(item?.data?.downloadURL, 'IYRREEEEM');
           return (
-            // item?.status == 1 && (
             <TouchableWithoutFeedback
               onPress={() =>
                 prop.navigation.navigate('GroupChat', {
@@ -164,19 +160,9 @@ const Groups = prop => {
                       marginLeft: 20,
                     }}
                   />
-
-                  {/* <Text style={styles.userName} >الفو توشوب <Text style={styles.lastMessage}>
-                                        اربك تكست هو اول موقع يسمح لزواره الكرام بتحويل الكتابة العربي
-                                    </Text></Text> */}
                 </View>
-
-                {/* <View style={styles.groupImageContainer}>
-                                    <Image source={require("../../../assets/splashimg.png")}
-                                        style={styles.groupImageStyle} />
-                                </View> */}
               </View>
             </TouchableWithoutFeedback>
-            // )
           );
         }}
         initialNumToRender={5}

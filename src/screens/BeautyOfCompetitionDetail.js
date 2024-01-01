@@ -391,10 +391,7 @@ class BeautyOfCompetition extends Component {
         />
       );
     };
-    console.log(
-      competition_item.competition_winner,
-      'competition_item.competition_winner?.length',
-    );
+
     return (
       <View style={[Styles.containerBeauty, {position: 'relative'}]}>
         <Header

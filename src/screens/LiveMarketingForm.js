@@ -267,7 +267,9 @@ class LiveMarketingForm extends Component {
         <BackBtnHeader />
         {/* <Ads /> */}
         <View style={Styles.containerScroll}>
-          <Text style={Styles.headingPostText}>عروض الاء سواق</Text>
+          <Text style={Styles.headingPostText}>
+            {ArabicText.marketingOffers}
+          </Text>
           {mixed?.length ? (
             <HorizontalCarousel
               thumbnail={thumbnail?.path}

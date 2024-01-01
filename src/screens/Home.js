@@ -741,6 +741,7 @@ class Home extends Component {
                     alignItems: 'center',
                     flexDirection: 'row',
                   }}>
+                  {/* CAMEL FOOD  */}
                   <TouchableOpacity
                     onPress={() => onCamelFoodListClick()}
                     style={{
@@ -755,7 +756,7 @@ class Home extends Component {
                       source={require('../../assets/group_844_480.png')}
                       style={Styles.HomeTopIcons}></Image>
                   </TouchableOpacity>
-
+                  {/* CAMEL EQUIPMENT  */}
                   <TouchableOpacity
                     onPress={() => onCamelEquipmentListClick()}
                     style={{
@@ -770,7 +771,7 @@ class Home extends Component {
                       source={require('../../assets/group_843_480.png')}
                       style={Styles.HomeTopIcons}></Image>
                   </TouchableOpacity>
-
+                  {/* COMPETITION LIST  */}
                   <TouchableOpacity
                     onPress={() => onCamelCompetitionListClick()}
                     style={{
@@ -785,7 +786,7 @@ class Home extends Component {
                       source={require('../../assets/group_845_480.png')}
                       style={Styles.HomeTopIcons}></Image>
                   </TouchableOpacity>
-
+                  {/* CAMEL MOVING  */}
                   <TouchableOpacity
                     onPress={() => onCamelMovingListClick()}
                     style={{
@@ -801,7 +802,6 @@ class Home extends Component {
                       style={Styles.HomeTopIcons}></Image>
                   </TouchableOpacity>
                 </View>
-
                 <View
                   style={{
                     width: width,
@@ -809,6 +809,7 @@ class Home extends Component {
                     alignItems: 'center',
                     flexDirection: 'row',
                   }}>
+                  {/* CAMEL MARKETING  */}
                   <TouchableOpacity
                     onPress={() => onCamelMarketingListClick()}
                     style={{
@@ -823,7 +824,7 @@ class Home extends Component {
                       source={require('../../assets/LiveMarketingLogo.png')}
                       style={Styles.HomeTopIcons}></Image>
                   </TouchableOpacity>
-
+                  {/* CAMEL FEMALE */}
                   <TouchableOpacity
                     onPress={() => onCamelFemaleListClick()}
                     style={{
@@ -838,7 +839,7 @@ class Home extends Component {
                       source={require('../../assets/femaleCamel.png')}
                       style={Styles.HomeTopIcons}></Image>
                   </TouchableOpacity>
-
+                  {/* NEWS  */}
                   <TouchableOpacity
                     onPress={() => onNews()}
                     style={{
@@ -853,7 +854,7 @@ class Home extends Component {
                       source={require('../../assets/news.png')}
                       style={Styles.HomeTopIcons}></Image>
                   </TouchableOpacity>
-
+                  {/* SURVEY  */}
                   <TouchableOpacity
                     onPress={() => onGroupSurvey()}
                     style={{

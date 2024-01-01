@@ -81,20 +81,21 @@ class Bank extends Component {
             <View>
               <View style={{marginBottom: 20}}>
                 <View style={styles.textView}>
-                  <Text style={styles.heading}>نسبة العمولة</Text>
-                  <Text style={styles.description}>
-                    هي النسبة المطلوب دفعها للتطبيق نظير الاستفادة من بيع الحلال
-                    بمقدار 2% من مبلغ البيع وصاحب الحلال له احقية اختيار المسؤول
-                    عن دفع المبلغ.
+                  <Text style={styles.heading}>
+                    {ArabicText.Commissionrate}
                   </Text>
                   <Text style={styles.description}>
-                    كما نود التنويه انه لا يوجد نسبة من الخدمات الأخرى المقدمة
-                    الا خدمات الاشتراك في نقل الحلال والاعلانات.
+                    {ArabicText.bankDescription1}
+                  </Text>
+                  <Text style={styles.description}>
+                    {ArabicText.bankDescription2}
                   </Text>
                 </View>
                 <View style={{marginTop: 25}}>
                   <View style={{alignItems: 'center'}}>
-                    <Text style={styles.textHeader}>لمعرفة نسبة التطبيق</Text>
+                    <Text style={styles.textHeader}>
+                      {ArabicText.Toknowtheapplicationrate}
+                    </Text>
                     <TextInput
                       style={styles.textInput}
                       keyboardType={'numeric'}
@@ -103,13 +104,14 @@ class Bank extends Component {
                     />
                   </View>
                   <View style={{alignItems: 'center'}}>
-                    <Text style={styles.textHeader}>نسبة التطبيق</Text>
+                    <Text style={styles.textHeader}>
+                      {ArabicText.Applicationrate}
+                    </Text>
                     <Text style={styles.ratioText}>
                       {parseFloat((2 / 100) * text).toFixed(2)}
                     </Text>
-                    <Text
-                      style={styles.textHeader}>
-                      الحسابات البنكية:
+                    <Text style={styles.textHeader}>
+                      {ArabicText.Bankaccounts}
                     </Text>
                   </View>
                 </View>

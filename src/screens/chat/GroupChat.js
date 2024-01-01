@@ -30,7 +30,6 @@ import {connect} from 'react-redux';
 import * as userActions from '../../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import GetLocation from 'react-native-get-location';
-const {width, height} = Dimensions.get('window');
 import Video from 'react-native-video';
 import firestore from '@react-native-firebase/firestore';
 import firebase from '@react-native-firebase/app';
@@ -40,9 +39,8 @@ import RNFS from 'react-native-fs';
 import Toast from 'react-native-toast-message';
 import EmptyComponent from '../../components/EmptyComponent';
 import {profileBaseUrl} from '../../constants/urls';
+const {width, height} = Dimensions.get('window');
 const GroupChat = props => {
-  const flatListRef = useRef();
-  const storageRef = storage().ref();
   const [inputValue, setInputValue] = useState('');
   const [groupChat, setGroupChat] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -52,9 +50,6 @@ const GroupChat = props => {
   const [mimeVedio, setMimeVideo] = useState(null);
   const [video, setVideo] = useState(null);
   const [videoName, setVideoName] = useState(null);
-
-  const [flagvideo, setFlagVedio] = useState([]);
-  const [indexx, setIndexx] = useState();
   const [loader, setLoader] = useState(false);
   const [pausedCheck, setPausedCheck] = useState(true);
   const [modal, setModal] = useState(false);
@@ -67,7 +62,6 @@ const GroupChat = props => {
   const [downloadFiles, setdownloadFiles] = useState(false);
 
   const navigation = useNavigation();
-  const {group_id} = props.route.params;
   let {user} = props;
   const requestLocationPermission = async () => {
     try {
@@ -491,7 +485,7 @@ const GroupChat = props => {
             textAlign: 'left',
             fontWeight: '800',
           }}>
-          {groupName ? groupName : 'Group Chat'}
+          {groupName ? groupName : ArabicText.groupChat}
         </Text>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
@@ -904,7 +898,7 @@ const GroupChat = props => {
           <View style={{width: '90%', right: 8, position: 'absolute'}}>
             <TextInput
               style={{width: '100%', textAlign: 'right', color: '#000'}}
-              placeholder={ArabicText?.Message}
+              placeholder={ArabicText?.message}
               placeholderTextColor="#b0b0b0"
               onChangeText={text => setInputValue(text)}
               value={inputValue}
@@ -1059,7 +1053,7 @@ const GroupChat = props => {
                   fontSize: 18,
                   fontWeight: '700',
                 }}>
-                مشارك في المجموعة
+                {ArabicText.Participantinthegroup}
               </Text>
             </View>
             {groupInfoDetails?.length &&

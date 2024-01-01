@@ -361,7 +361,7 @@ class SellingEquipmentForm extends React.Component {
         <BackBtnHeader />
         {/* <Ads /> */}
         <View style={Styles.containerScroll}>
-          <Text style={Styles.headingPostText}>بيع المعدات</Text>
+          <Text style={Styles.headingPostText}>{ArabicText.Sellingequipment}</Text>
           {mixed?.length ? (
             <HorizontalCarousel
               thumbnail={thumbnail?.path}
@@ -428,6 +428,7 @@ class SellingEquipmentForm extends React.Component {
                 });
               }
             }}></TextInput>
+            
           <TextInput
             style={Styles.forminputs}
             placeholderTextColor="#b0b0b0"

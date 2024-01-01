@@ -97,7 +97,7 @@ export default function AppDetails() {
   const navigation = useNavigation();
   return (
     <View style={[Styles.container, {paddingTop: 100}]}>
-      <Text style={styles.heading}>نشر الطبيق مع الا صدقاء</Text>
+      <Text style={styles.heading}>{ArabicText.shareWithYourFriends}</Text>
       <TouchableOpacity style={{}} onPress={() => navigation.navigate('Home')}>
         <View style={Styles.sharebtn}>
           <Ionicons name="arrow-undo-circle" size={24} color="#fff" />
@@ -132,7 +132,7 @@ export default function AppDetails() {
         <TouchableOpacity
           onPress={() => navigation.navigate('Sponcers')}
           style={Styles.aboutUsTouchableOpacity}>
-          <Text style={Styles.boxtext}>شركاء النجام</Text>
+          <Text style={Styles.boxtext}>{ArabicText.start_partner}</Text>
 
           <View style={Styles.iconbox}>
             <FontAwesome5 name="handshake" size={28} color="#deb887" />

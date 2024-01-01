@@ -4,8 +4,6 @@ import {
   View,
   Image,
   FlatList,
-  Modal,
-  Pressable,
   StyleSheet,
   ActivityIndicator,
   TouchableOpacity,
@@ -46,7 +44,6 @@ class Messages extends Component {
     }
   };
   getUserDropList(user_id) {
-    console.log('user_oddd');
     const currentUser = user_id; // Replace with the logged-in user's ID
     const chatRoomsRef = firestore()
       .collection('chats')
@@ -56,8 +53,6 @@ class Messages extends Component {
       if (querySnapshot.docs.length !== 0) {
         // Handle the case when no documents match the query.
         // Set a message or state to indicate no data.
-        console.log('No matching documents in Firestore');
-
         const usersData = [];
         for (const doc of querySnapshot?.docs) {
           const chatRoomData = doc.data();

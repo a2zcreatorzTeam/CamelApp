@@ -3,6 +3,7 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import Messages from './Messages';
 import Groups from './Groups';
 import FriendList from './FriendList';
+import * as ArabicText from '../../language/EnglishToArabic';
 
 const ChatTopTab = prop => {
   const TopTab = createMaterialTopTabNavigator();
@@ -14,12 +15,23 @@ const ChatTopTab = prop => {
         tabBarLabelStyle: {fontWeight: '600'},
       }}
       initialRouteName="Chat">
-      <TopTab.Screen name="Friend list" component={FriendList} />
-      <TopTab.Screen name="Groups" component={Groups} />
-      <TopTab.Screen name="Chat" component={Messages} />
+      <TopTab.Screen
+        options={{tabBarLabel: ArabicText.friendlist}}
+        name="Friend list"
+        component={FriendList}
+      />
+      <TopTab.Screen
+        options={{tabBarLabel: ArabicText.groups}}
+        name="Groups"
+        component={Groups}
+      />
+      <TopTab.Screen
+        options={{tabBarLabel: ArabicText.chat}}
+        name="Chat"
+        component={Messages}
+      />
     </TopTab.Navigator>
   );
 };
 
 export default ChatTopTab;
-

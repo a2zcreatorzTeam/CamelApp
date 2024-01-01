@@ -40,7 +40,6 @@ class Bids extends Component {
           });
         });
     } catch (error) {
-      console.log('errrrr43', error);
       this.setState({
         posts: [],
         loader: false,
@@ -64,19 +63,16 @@ class Bids extends Component {
       });
     }
     if (item.post.category_id == '2') {
-      console.log('id222');
       this.props.navigation.navigate('DetailsSellingCamel', {
         itemFromDetails: item.post,
       });
     }
     if (item.post.category_id == '6') {
-      console.log('id6666');
       this.props.navigation.navigate('DetailsComponentWithPrice', {
         itemFromDetails: item.post,
       });
     }
     if (item.post.category_id == '8') {
-      console.log('id888');
       this.props.navigation.navigate('DetailsComponentWithPrice', {
         itemFromDetails: item.post,
       });
@@ -236,7 +232,6 @@ class Bids extends Component {
       </View>
     );
     const renderBidItem = ({item}) => {
-      console.log(item?.thumbnail, 'uiui');
       return (
         <BidsItem
           item={item}

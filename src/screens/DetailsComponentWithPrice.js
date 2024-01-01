@@ -370,7 +370,6 @@ class DetailsComponent extends Component {
     const loggedUser = this.state.user;
     const itemFromDetails = this.props.route.params?.itemFromDetails || {};
     const thumbnail = itemFromDetails?.thumbnail?.thumbnail;
-    console.log(thumbnail, 'thumbnailthumbnailthumbnailthumbnail');
     return (
       <ScrollView style={{backgroundColor: '#ffff'}}>
         <BackBtnHeader />
@@ -687,7 +686,7 @@ class DetailsComponent extends Component {
                   margin: 8,
                 }}>
                 <FontAwesome name="whatsapp" size={30} color="#CD853F" />
-                <Text style={Styles.fontDetails}>واتساب</Text>
+                <Text style={Styles.fontDetails}>{ArabicText?.whatsapp}</Text>
               </TouchableOpacity>
               {/* CALL USER */}
               <TouchableOpacity

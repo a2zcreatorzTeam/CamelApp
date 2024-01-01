@@ -20,6 +20,7 @@ import storage from '@react-native-firebase/storage';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import Toast from 'react-native-toast-message';
 import * as ArabicText from '../../language/EnglishToArabic';
+import BackBtnHeader from '../../components/headerWithBackBtn';
 
 const width = Dimensions.get('screen').width;
 
@@ -215,7 +216,9 @@ const CreateGroup = props => {
 
   return (
     <View style={{flex: 1}}>
-      <View style={{height: '60%'}}>
+      <BackBtnHeader />
+
+      <View style={{height: '60%', marginTop: 20}}>
         <ScrollView contentContainerStyle={{paddingBottom: 40}}>
           <View
             style={{
@@ -270,7 +273,7 @@ const CreateGroup = props => {
           {/* Create Group Section */}
           <View style={styles.createGroupSection}>
             <TextInput
-              placeholder="Group Name"
+              placeholder={ArabicText.createGroup}
               placeholderTextColor="grey"
               style={styles.inputField}
               onChangeText={e => setGroupName(e)}
@@ -281,7 +284,9 @@ const CreateGroup = props => {
               {groupLoader == true ? (
                 <ActivityIndicator color={'white'} size={'large'} />
               ) : (
-                <Text style={{color: '#fff', fontSize: 15}}>Create Group</Text>
+                <Text style={{color: '#fff', fontSize: 15}}>
+                  {ArabicText.createGroup}
+                </Text>
               )}
             </TouchableOpacity>
           </View>
@@ -290,6 +295,7 @@ const CreateGroup = props => {
           {newParticipant?.length ? (
             <View style={{width: width, alignItems: 'center', marginTop: -40}}>
               <FlatList
+                contentContainerStyle={{marginBottom: width * 0.2}}
                 data={newParticipant}
                 nestedScrollEnabled={true}
                 renderItem={({item}) => (
@@ -359,7 +365,7 @@ const UserComp = ({item, addGroupUser}) => {
             activeOpacity={0.5}
             style={styles.addBTN}
             onPress={() => addGroupUser(item)}>
-            <Text style={{color: '#fff'}}>Add</Text>
+            <Text style={{color: '#fff'}}>{ArabicText.add}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -388,7 +394,7 @@ const NewUserComp = ({item, removeGroupUser}) => {
           activeOpacity={0.5}
           style={styles.addBTN}
           onPress={() => removeGroupUser(item)}>
-          <Text style={{color: '#fff'}}>Remove</Text>
+          <Text style={{color: '#fff'}}>{ArabicText.Remove}</Text>
         </TouchableOpacity>
       </View>
     </View>

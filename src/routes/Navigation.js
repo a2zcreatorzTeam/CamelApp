@@ -387,7 +387,11 @@ export default function Navigation() {
           component={GroupChat}
           options={{headerShown: false}}
         />
-        <Stack.Screen name="CreateGroup" component={CreateGroup} />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="CreateGroup"
+          component={CreateGroup}
+        />
         <Stack.Screen
           name="ChangePassword"
           component={ChangePassword}

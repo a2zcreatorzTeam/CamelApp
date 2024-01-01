@@ -366,7 +366,7 @@ class CamelFood extends React.Component {
         {/* <Ads /> */}
 
         <View style={Styles.containerScroll}>
-          <Text style={Styles.headingPostText}>بيع الأعلاف</Text>
+          <Text style={Styles.headingPostText}>{ArabicText.Sellingcamelsfood}</Text>
           <HorizontalCarousel
             thumbnail={thumbnail?.path}
             removeItem={index => this.removeItem(index)}

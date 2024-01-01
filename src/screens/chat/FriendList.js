@@ -16,6 +16,8 @@ import {bindActionCreators} from 'redux';
 import {useIsFocused} from '@react-navigation/native';
 import {RefreshControl} from 'react-native';
 import EmptyComponent from '../../components/EmptyComponent';
+import * as ArabicText from '../../language/EnglishToArabic';
+
 const {width} = Dimensions.get('screen');
 
 const FriendList = prop => {
@@ -101,7 +103,7 @@ const FriendList = prop => {
                     styles.friendReqBTN,
                     {backgroundColor: '#D2691E', left: 10},
                   ]}>
-                  <Text style={styles.reqBTNtext}>Accept</Text>
+                  <Text style={styles.reqBTNtext}>{ArabicText.accept}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -110,7 +112,9 @@ const FriendList = prop => {
                     styles.friendReqBTN,
                     {backgroundColor: '#ddd', left: 70},
                   ]}>
-                  <Text style={{color: '#000', fontSize: 11}}>Reject</Text>
+                  <Text style={{color: '#000', fontSize: 11}}>
+                    {ArabicText.reject}
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => BlockContact(item)}
@@ -121,7 +125,7 @@ const FriendList = prop => {
                       left: 127,
                     },
                   ]}>
-                  <Text style={styles.reqBTNtext}>Block</Text>
+                  <Text style={styles.reqBTNtext}>{ArabicText.block}</Text>
                 </TouchableOpacity>
 
                 <View style={{justifyContent: 'flex-end'}}>

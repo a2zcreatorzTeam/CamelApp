@@ -62,6 +62,7 @@ class CamelFemaleForm extends Component {
   // SELECT VIDEO
   openCamera = async () => {
     this.setState({video: {}});
+    console.log("6555");
     ImageCropPicker.openPicker({
       mediaType: 'video',
     }).then(async video => {
@@ -76,8 +77,11 @@ class CamelFemaleForm extends Component {
           url: video?.path,
           timeStamp: 10000,
         })
-          .then(response => this.setState({thumbnail: response}))
+          .then(response => {
+            this.setState({thumbnail: response}), console.log('heythumbmaill');
+          })
           .catch(err => console.log({err}));
+        console.log('8333');
         RNFS.readFile(video.path, 'base64')
           .then(res => {
             this.setState({videoForPost: 'data:video/mp4;base64,' + res});

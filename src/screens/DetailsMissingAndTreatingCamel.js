@@ -366,7 +366,7 @@ class DetailsComponent extends Component {
                     margin: 8,
                   }}>
                   <FontAwesome name="whatsapp" size={30} color="#CD853F" />
-                  <Text style={Styles.fontDetails}>واتساب</Text>
+                  <Text style={Styles.fontDetails}>{ArabicText?.whatsapp}</Text>
                 </TouchableOpacity>
                 {/* CALL USER */}
                 <TouchableOpacity

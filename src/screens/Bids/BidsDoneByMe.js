@@ -109,7 +109,6 @@ class Bids extends Component {
   }
   onWithdrawBid(item) {
     withdrawBid(item?.id).then(res => {
-      console.log(res, 'resposennn');
       if (res?.status == 'Successfully Delete') {
         this.viewPosts();
         Toast.show({
@@ -117,14 +116,12 @@ class Bids extends Component {
           type: 'success',
           visibilityTime: 3000,
         });
-        // alert('Bid successfully withdrawn!');
       } else {
         Toast.show({
           text1: ArabicText?.Errorinwithdrawingbid,
           type: 'error',
           visibilityTime: 3000,
         });
-        // alert('Error in withdrawing bid!');
       }
     });
   }

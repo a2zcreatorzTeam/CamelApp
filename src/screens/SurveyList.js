@@ -239,6 +239,7 @@ const Item = ({
             height: 80,
             justifyContent: 'flex-start',
             paddingHorizontal: 10,
+            alignItems: 'center',
           },
         ]}>
         <View
@@ -252,7 +253,6 @@ const Item = ({
           }}>
           <Image
             source={require('../../assets/group-survey.png')}
-            // source={{ uri: "http://www.tasdeertech.com/images/survey/" + image }}
             style={{
               height: 60,
               width: 60,

@@ -301,10 +301,9 @@ class UserProfile extends Component {
           if (res?.status == true) {
             Toast.show({
               type: 'success',
-              text1: `${ArabicText?.Following} + ''`,
+              text1: `${ArabicText?.followed}`,
             });
 
-            // alert(ArabicText.Following + '');
           } else {
             Toast.show({
               type: 'success',
@@ -752,7 +751,6 @@ class UserProfile extends Component {
         </TouchableOpacity>
       );
     };
-    console.log(this.state.friendshipStatus, 'this.state.friendshipStatus');
     return (
       <View style={styles.container}>
         <Header

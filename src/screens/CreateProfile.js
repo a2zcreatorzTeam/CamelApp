@@ -204,7 +204,7 @@ class CreateProfile extends Component {
               padding: 5,
               borderRadius: 10,
             }}>
-            <Text>Skip</Text>
+            <Text>{ArabicText.Skip}</Text>
           </TouchableOpacity>
           {/* PROFILE IMAGE  */}
           <View

@@ -920,7 +920,7 @@ class Profile extends Component {
               </View>
               {/* </> */}
               {/* )} */}
-
+              {/* WHATSAPP MODAL  */}
               <Modal
                 animationType="slide"
                 transparent={true}
@@ -962,8 +962,8 @@ class Profile extends Component {
                             color: 'black',
                           }}>
                           {this.state.registerSwitch == true
-                            ? 'Active'
-                            : 'In Active'}
+                            ? ArabicText?.active
+                            : ArabicText?.disable}
                         </Text>
 
                         <Switch
@@ -990,7 +990,7 @@ class Profile extends Component {
                   </View>
                 </TouchableWithoutFeedback>
               </Modal>
-
+              {/* CHAT MODAL  */}
               <Modal
                 animationType="slide"
                 transparent={true}
@@ -1021,7 +1021,9 @@ class Profile extends Component {
                             fontWeight: 'bold',
                             color: 'black',
                           }}>
-                          {this.state.chatFlag == true ? 'Active' : 'In Active'}
+                          {this.state.chatFlag == true
+                            ? ArabicText?.active
+                            : ArabicText?.disable}
                         </Text>
 
                         <Switch
@@ -1044,7 +1046,7 @@ class Profile extends Component {
                   </View>
                 </TouchableWithoutFeedback>
               </Modal>
-
+              {/* PHONE MODAL  */}
               <Modal
                 animationType="slide"
                 transparent={true}
@@ -1089,8 +1091,8 @@ class Profile extends Component {
                           }}>
                           {this.state.phoneStatusSwitch == true ||
                           this.state.phoneStatusSwitch == 'True'
-                            ? 'Active'
-                            : 'In Active'}
+                            ? ArabicText?.active
+                            : ArabicText?.disable}
                         </Text>
 
                         <Switch

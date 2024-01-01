@@ -7,7 +7,7 @@ import {Dimensions} from 'react-native';
 import * as ArabicText from '../language/EnglishToArabic';
 import {useState} from 'react';
 import FastImage from 'react-native-fast-image';
-import {thumbnailBaseUrl} from '../constants/urls';
+import {imageBaseUrl, thumbnailBaseUrl} from '../constants/urls';
 
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
@@ -45,7 +45,7 @@ const MovingPost = ({
               source={
                 image
                   ? {
-                      uri: `http://www.tasdeertech.com/images/posts/${image}`,
+                      uri: imageBaseUrl + image,
                     }
                   : require('../../assets/dummyImage.jpeg')
               }

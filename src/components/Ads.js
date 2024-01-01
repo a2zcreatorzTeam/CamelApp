@@ -4,6 +4,7 @@ import camelapp from '../api/camelapp';
 import {TouchableOpacity} from 'react-native';
 import {Linking} from 'react-native';
 import {ImageBackground} from 'react-native';
+import {mainImageUrl} from '../constants/urls';
 
 const {width, height} = Dimensions.get('screen');
 const Ads = () => {
@@ -50,7 +51,7 @@ const AdsComp = ({item}) => {
       <Image
         resizeMode="contain"
         source={{
-          uri: 'http://www.tasdeertech.com/images/advertisement/' + item?.image,
+          uri: `${mainImageUrl}advertisement/` + item?.image,
         }}
         style={{
           flex: 1,

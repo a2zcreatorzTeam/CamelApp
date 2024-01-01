@@ -4,6 +4,7 @@ import {Styles} from '../styles/globlestyle';
 import {ProgressBar} from 'react-native-paper';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import FastImage from 'react-native-fast-image';
+import {profileBaseUrl} from '../constants/urls';
 class WinnerBeauty extends Component {
   constructor(props) {
     super(props);
@@ -48,8 +49,8 @@ class WinnerBeauty extends Component {
                     }}
                     source={{
                       uri:
-                        'http://www.tasdeertech.com/public/images/profiles/' +
-                        el?.user_image,
+                        // 'http://www.tasdeertech.com/public/images/profiles/' +
+                        profileBaseUrl + el?.user_image,
                     }}
                     resizeMode={FastImage?.resizeMode.cover}
                   />

@@ -211,8 +211,8 @@ class ViewNews extends Component {
             <Image
               source={{
                 uri:
-                  'http://www.tasdeertech.com/public/images/profiles/' +
-                  newsdata?.user?.image,
+                  // 'http://www.tasdeertech.com/public/images/profiles/' +
+                  profileBaseUrl + newsdata?.user?.image,
               }}
               style={{
                 width: 80,

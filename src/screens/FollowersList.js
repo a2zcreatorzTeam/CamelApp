@@ -18,6 +18,7 @@ import EmptyComponent from '../components/EmptyComponent';
 import BackBtnHeader from '../components/headerWithBackBtn';
 const width = Dimensions.get('screen').width;
 import * as ArabicText from '../language/EnglishToArabic';
+import {profileBaseUrl} from '../constants/urls';
 const hight = Dimensions.get('screen').height;
 
 class FollowersList extends Component {
@@ -125,8 +126,8 @@ class FollowersList extends Component {
             <Image
               source={{
                 uri:
-                  'http://www.tasdeertech.com/public/images/profiles/' +
-                  userImage,
+                  // 'http://www.tasdeertech.com/public/images/profiles/' +
+                  profileBaseUrl + userImage,
               }}
               style={{
                 width: 50,

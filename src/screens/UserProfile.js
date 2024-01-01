@@ -303,7 +303,6 @@ class UserProfile extends Component {
               type: 'success',
               text1: `${ArabicText?.followed}`,
             });
-
           } else {
             Toast.show({
               type: 'success',
@@ -793,8 +792,8 @@ class UserProfile extends Component {
               <Image
                 source={{
                   uri:
-                    'http://www.tasdeertech.com/public/images/profiles/' +
-                    this.state?.user?.image,
+                    // 'http://www.tasdeertech.com/public/images/profiles/' +
+                    profileBaseUrl + this.state?.user?.image,
                 }}
                 style={styles.userImageStyle}
               />
@@ -1042,8 +1041,8 @@ class UserProfile extends Component {
               <Image
                 source={{
                   uri:
-                    'http://www.tasdeertech.com/public/images/profiles/' +
-                    this?.state?.user?.image,
+                    // 'http://www.tasdeertech.com/public/images/profiles/' +
+                    profileBaseUrl + this?.state?.user?.image,
                 }}
                 style={{width: width, aspectRatio: 1}}
               />

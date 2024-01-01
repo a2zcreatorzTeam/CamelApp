@@ -296,7 +296,7 @@ class TreatingCamelForm extends Component {
               fontWeight: 'bold',
               color: '#D2691Eff',
             }}>
-            علاج الحلال
+            {ArabicText.TreatingCamel}{' '}
           </Text>
           {mixed?.length ? (
             <HorizontalCarousel

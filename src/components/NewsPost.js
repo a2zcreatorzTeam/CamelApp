@@ -1,13 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {Styles} from '../styles/globlestyle';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Dimensions} from 'react-native';
-const width = Dimensions.get('screen').width;
-const height = Dimensions.get('screen').height;
-
-import {Rating} from 'react-native-ratings';
-
 const NewsPost = ({
   titleOfArticle,
   image,
@@ -19,7 +13,6 @@ const NewsPost = ({
   rating_count,
   catagoryName,
 }) => {
-  console.log(catagoryName, 'catagoryName');
   return (
     <View style={Styles.containerNews}>
       <TouchableOpacity onPress={() => onItemClick()}>

@@ -7,6 +7,8 @@ import {Styles} from '../styles/globlestyle';
 import FastImage from 'react-native-fast-image';
 import {FlatList} from 'react-native';
 import {profileBaseUrl} from '../constants/urls';
+import * as ArabicText from '../language/EnglishToArabic';
+
 const Item = ({
   userName,
   item,
@@ -20,7 +22,6 @@ const Item = ({
 }) => {
   const [isLiked, setIsLiked] = useState();
   const [likeCount, setLikeCount] = useState(commentsCount);
-  console.log(userImage, 'itemmmmm');
   return (
     <>
       <View
@@ -85,7 +86,9 @@ const Item = ({
             bottom: 10,
             alignItems: 'center',
           }}>
-          <Text style={{color: 'black', fontWeight: 'bold'}}>Reply</Text>
+          <Text style={{color: 'black', fontWeight: 'bold'}}>
+            {ArabicText.Reply}
+          </Text>
         </TouchableOpacity>
 
         <View

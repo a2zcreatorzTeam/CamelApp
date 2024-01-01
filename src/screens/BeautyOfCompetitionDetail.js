@@ -25,6 +25,7 @@ import camelapp from '../api/camelapp';
 import PostItem from '../components/CompetitionPostItem';
 import Header from '../components/Header';
 import EmptyComponent from '../components/EmptyComponent';
+import {mainImageUrl, profileBaseUrl} from '../constants/urls';
 
 const width = Dimensions.get('screen').width;
 class BeautyOfCompetition extends Component {
@@ -370,7 +371,8 @@ class BeautyOfCompetition extends Component {
           <Image
             source={{
               uri:
-                'http://www.tasdeertech.com/public/images/profiles/' +
+                // 'http://www.tasdeertech.com/public/images/profiles/' +
+                profileBaseUrl+
                 userImage,
             }}
             style={{
@@ -486,7 +488,7 @@ class BeautyOfCompetition extends Component {
                     style={{width: 250, height: 250}}
                     source={{
                       uri:
-                        'http://www.tasdeertech.com/images/prizes/' +
+                        `${mainImageUrl}prizes/` +
                         competition_item?.competition_prize[0]?.image,
                     }}
                   />

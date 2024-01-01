@@ -2,6 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import {Dimensions} from 'react-native';
+import FastImage from 'react-native-fast-image';
 const NewsPost = ({
   titleOfArticle,
   image,
@@ -91,12 +92,19 @@ const NewsPost = ({
                 // marginTop: -50,
                 alignSelf: 'center',
               }}>
-              <Image
+              <FastImage
+                style={Styles.imageNews}
                 source={{
                   uri: 'http://www.tasdeertech.com/public/images/news/' + image,
+                  headers: {Authorization: 'someAuthToken'},
+                  priority: FastImage.priority.high,
                 }}
+                resizeMode={FastImage?.resizeMode.cover}
+              />
+              {/* <Image
+               
                 style={Styles.imageNews}
-                resizeMode="cover"></Image>
+                resizeMode="cover"></Image> */}
             </TouchableOpacity>
             {/* <View style={{left: 5, position: 'absolute', bottom: 2}}>
               <Ionicons

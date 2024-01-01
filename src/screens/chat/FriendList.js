@@ -17,6 +17,7 @@ import {useIsFocused} from '@react-navigation/native';
 import {RefreshControl} from 'react-native';
 import EmptyComponent from '../../components/EmptyComponent';
 import * as ArabicText from '../../language/EnglishToArabic';
+import {profileBaseUrl} from '../../constants/urls';
 
 const {width} = Dimensions.get('screen');
 
@@ -138,8 +139,8 @@ const FriendList = prop => {
                   <Image
                     source={{
                       uri:
-                        'http://www.tasdeertech.com/public/images/profiles/' +
-                        item?.friend_image,
+                        // 'http://www.tasdeertech.com/public/images/profiles/' +
+                        profileBaseUrl + item?.friend_image,
                     }}
                     style={styles.groupImageStyle}
                   />

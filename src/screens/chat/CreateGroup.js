@@ -21,6 +21,7 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import Toast from 'react-native-toast-message';
 import * as ArabicText from '../../language/EnglishToArabic';
 import BackBtnHeader from '../../components/headerWithBackBtn';
+import { profileBaseUrl } from '../../constants/urls';
 
 const width = Dimensions.get('screen').width;
 
@@ -351,7 +352,8 @@ const UserComp = ({item, addGroupUser}) => {
           <Image
             source={{
               uri:
-                'http://www.tasdeertech.com/public/images/profiles/' +
+                // 'http://www.tasdeertech.com/public/images/profiles/' +
+                profileBaseUrl+
                 item?.firend_image,
             }}
             style={styles.userImageStyle}
@@ -380,7 +382,8 @@ const NewUserComp = ({item, removeGroupUser}) => {
         <Image
           source={{
             uri:
-              'http://www.tasdeertech.com/public/images/profiles/' +
+              // 'http://www.tasdeertech.com/public/images/profiles/' +
+              profileBaseUrl+
               item?.firend_image,
           }}
           style={styles.userImageStyle}

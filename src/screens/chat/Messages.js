@@ -18,6 +18,7 @@ import firestore from '@react-native-firebase/firestore';
 import camelapp from '../../api/camelapp';
 import * as userActions from '../../redux/actions/user_actions';
 import EmptyComponent from '../../components/EmptyComponent';
+import { profileBaseUrl } from '../../constants/urls';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 
@@ -162,7 +163,8 @@ class Messages extends Component {
             <Image
               source={{
                 uri:
-                  'http://www.tasdeertech.com/public/images/profiles/' +
+                  // 'http://www.tasdeertech.com/public/images/profiles/' +
+                  profileBaseUrl+
                   userImage,
               }}
               style={{

@@ -25,6 +25,7 @@ import {ActivityIndicator} from 'react-native';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import moment from 'moment';
 import Toast from 'react-native-toast-message';
+import {mainImageUrl} from '../constants/urls';
 class Surveyform extends Component {
   constructor(props) {
     super(props);
@@ -186,9 +187,7 @@ class Surveyform extends Component {
                       }}>
                       <Image
                         source={{
-                          uri:
-                            'http://www.tasdeertech.com/images/survey/' +
-                            item.image,
+                          uri: `${mainImageUrl}survey` + item.image,
                         }}
                         style={{
                           width: width - 100,
@@ -340,9 +339,7 @@ class Surveyform extends Component {
                       }}>
                       <Image
                         source={{
-                          uri:
-                            'http://www.tasdeertech.com/images/survey/' +
-                            item?.image,
+                          uri: `${mainImageUrl}survey` + item?.image,
                         }}
                         style={{
                           width: width - 100,

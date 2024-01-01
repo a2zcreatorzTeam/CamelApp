@@ -24,6 +24,7 @@ import BackBtnHeader from '../components/headerWithBackBtn';
 import CookieManager from '@react-native-cookies/cookies';
 import Loader from '../components/PleaseWait';
 import GooglePlaceAutocomplete from '../components/GooglePlaceHolder';
+import {profileBaseUrl} from '../constants/urls';
 
 const {RNTwitterSignIn} = NativeModules;
 
@@ -269,8 +270,8 @@ class EditProfile extends Component {
               : this.props.user?.user?.user?.image
               ? {
                   uri:
-                    'http://www.tasdeertech.com/public/images/profiles/' +
-                    this.props.user?.user?.user?.image,
+                    // 'http://www.tasdeertech.com/public/images/profiles/' +
+                    profileBaseUrl + this.props.user?.user?.user?.image,
                 }
               : require('../../assets/dummyImage.jpeg')
           }>

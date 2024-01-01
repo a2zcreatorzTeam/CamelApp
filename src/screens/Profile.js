@@ -791,8 +791,8 @@ class Profile extends Component {
                     style={styles.img}
                     source={{
                       uri:
-                        'http://www.tasdeertech.com/public/images/profiles/' +
-                        user.image,
+                        // 'http://www.tasdeertech.com/public/images/profiles/' +
+                        profileBaseUrl + user.image,
                     }}
                     resizeMode={FastImage?.resizeMode.cover}
                   />

@@ -17,6 +17,7 @@ import {bindActionCreators} from 'redux';
 import EmptyComponent from '../components/EmptyComponent';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import * as ArabicText from '../language/EnglishToArabic';
+import { profileBaseUrl } from '../constants/urls';
 
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
@@ -120,7 +121,8 @@ class Following extends Component {
             <Image
               source={{
                 uri:
-                  'http://www.tasdeertech.com/public/images/profiles/' +
+                  // 'http://www.tasdeertech.com/public/images/profiles/' +
+                  profileBaseUrl+
                   userImage,
               }}
               style={{

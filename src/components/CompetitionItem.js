@@ -6,6 +6,7 @@ import {Dimensions} from 'react-native';
 const width = Dimensions.get('screen').width;
 import * as ArabicText from '../language/EnglishToArabic';
 import FastImage from 'react-native-fast-image';
+import {mainImageUrl} from '../constants/urls';
 const itemWidth = (width - 15) / 2;
 const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
   <View
@@ -29,7 +30,9 @@ const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
       <FastImage
         style={Styles.BeautyImages}
         source={{
-          uri: 'https:www.tasdeertech.com/images/competition/' + image,
+          uri: `${mainImageUrl}competition/` + image,
+          headers: {Authorization: 'someAuthToken'},
+          priority: FastImage.priority.high,
         }}
         resizeMode={FastImage?.resizeMode.cover}
       />

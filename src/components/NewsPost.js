@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import {Dimensions} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {mainImageUrl} from '../constants/urls';
 const NewsPost = ({
   titleOfArticle,
   image,
@@ -95,7 +96,7 @@ const NewsPost = ({
               <FastImage
                 style={Styles.imageNews}
                 source={{
-                  uri: 'http://www.tasdeertech.com/public/images/news/' + image,
+                  uri: `${mainImageUrl}news/` + image,
                   headers: {Authorization: 'someAuthToken'},
                   priority: FastImage.priority.high,
                 }}

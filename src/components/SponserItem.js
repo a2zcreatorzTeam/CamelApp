@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import * as ArabicText from '../language/EnglishToArabic';
 import {Dimensions} from 'react-native';
+import { profileBaseUrl } from '../constants/urls';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 
@@ -63,7 +64,7 @@ const BankItem = ({name, address, userImage, phone}) => (
       </View>
       <Image
         source={{
-          uri: 'https:www.tasdeertech.com/images/profiles/' + userImage,
+          uri: profileBaseUrl + userImage,
         }}
         resizeMode={'contain'}
         style={{

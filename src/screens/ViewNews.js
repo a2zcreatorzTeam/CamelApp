@@ -21,7 +21,7 @@ import * as userActions from '../redux/actions/user_actions';
 import camelapp from '../api/camelapp';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Loader from '../components/PleaseWait';
-import {profileBaseUrl} from '../constants/urls';
+import {mainImageUrl, profileBaseUrl} from '../constants/urls';
 import * as ArabicText from '../language/EnglishToArabic';
 import {Styles} from '../styles/globlestyle';
 const width = Dimensions.get('screen').width;
@@ -188,6 +188,7 @@ class ViewNews extends Component {
         width: '95%',
       },
     };
+    console.log(newsdata?.user?.image, ' newsdata?.user?.image');
     return (
       <View style={Styles.container}>
         <Loader loading={this.state.loading} />
@@ -228,14 +229,13 @@ class ViewNews extends Component {
               fontWeight: '700',
               color: 'black',
               fontSize: 24,
+              textAlign: 'right',
             }}>
             {newsdata?.title}
           </Text>
           <Image
             source={{
-              uri:
-                'http://www.tasdeertech.com/public/images/news/' +
-                newsdata?.image,
+              uri: `${mainImageUrl}news/` + newsdata?.image,
             }}
             style={Styles.image}
             resizeMode="cover"></Image>

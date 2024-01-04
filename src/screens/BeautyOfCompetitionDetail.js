@@ -314,7 +314,7 @@ class BeautyOfCompetition extends Component {
     const SponsorItem = ({name, image}) => (
       <View style={{alignItems: 'center', width: width - 50, padding: 10}}>
         <Image
-          source={{uri: 'https:www.tasdeertech.com/images/profiles/' + image}}
+          source={{uri: profileBaseUrl + image}}
           style={{width: 200, height: 120}}
         />
         <Text

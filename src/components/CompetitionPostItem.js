@@ -6,7 +6,7 @@ import {Styles} from '../styles/globlestyle';
 const {width, height} = Dimensions.get('screen');
 import FastImage from 'react-native-fast-image';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { imageBaseUrl } from '../constants/urls';
+import {imageBaseUrl, profileBaseUrl} from '../constants/urls';
 
 const PostItem = ({
   item,
@@ -49,8 +49,7 @@ const PostItem = ({
             alignSelf: 'center',
           }}
           source={{
-            uri:
-              'https:www.tasdeertech.com/images/profiles/' + item?.user_image,
+            uri: profileBaseUrl + item?.user_image,
           }}
           resizeMode={FastImage?.resizeMode.cover}
         />

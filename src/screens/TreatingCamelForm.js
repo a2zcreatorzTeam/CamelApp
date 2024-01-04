@@ -56,7 +56,7 @@ class TreatingCamelForm extends Component {
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
-      thumbnail: {},
+      thumbnail: null,
     };
   }
   //VIDEO PICKER
@@ -186,8 +186,15 @@ class TreatingCamelForm extends Component {
       imagesForPost,
       cameraimagesForPost,
     } = this.state;
-    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
-    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+     let thumbnailObj;
+    if (thumbnail && thumbnail != {}) {
+      const thumbnailContent =
+        thumbnail && (await RNFS?.readFile(thumbnail?.path, 'base64'));
+      thumbnailObj = thumbnailContent && {
+        ...thumbnail,
+        path: thumbnailContent,
+      };
+    }
     let image1 = imagesForPost;
     let image2 = cameraimagesForPost;
     let combineImages = [...image1, ...image2];
@@ -231,7 +238,7 @@ class TreatingCamelForm extends Component {
           camel_type: camel_type,
           images: combineImages ? combineImages : [],
           video: videoForPost ? videoForPost : null,
-          thumbnail: JSON.stringify(thumbnailObj),
+          thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null,
         })
         .then(response => {
           this.setState({

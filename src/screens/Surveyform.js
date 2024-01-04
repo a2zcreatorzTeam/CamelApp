@@ -168,6 +168,7 @@ class Surveyform extends Component {
                       alignItems: 'center',
                       width: '100%',
                     }}>
+                    {console.log(item.image, 'imagee')}
                     <Text
                       style={{
                         fontSize: 16,
@@ -187,7 +188,7 @@ class Surveyform extends Component {
                       }}>
                       <Image
                         source={{
-                          uri: `${mainImageUrl}survey` + item.image,
+                          uri: `${mainImageUrl}survey/` + item.image,
                         }}
                         style={{
                           width: width - 100,
@@ -339,7 +340,7 @@ class Surveyform extends Component {
                       }}>
                       <Image
                         source={{
-                          uri: `${mainImageUrl}survey` + item?.image,
+                          uri: `${mainImageUrl}survey/` + item?.image,
                         }}
                         style={{
                           width: width - 100,

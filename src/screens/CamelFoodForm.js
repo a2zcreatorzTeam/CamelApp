@@ -78,7 +78,7 @@ class CamelFood extends React.Component {
       showBidOption: false,
       selectedBidOption: '',
       showOption: false,
-      thumbnail: {},
+      thumbnail: null,
     };
   }
   createPostCamelFood = async () => {
@@ -96,8 +96,15 @@ class CamelFood extends React.Component {
       price_type,
       camel_type,
     } = this.state;
-    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
-    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+     let thumbnailObj;
+    if (thumbnail && thumbnail != {}) {
+      const thumbnailContent =
+        thumbnail && (await RNFS?.readFile(thumbnail?.path, 'base64'));
+      thumbnailObj = thumbnailContent && {
+        ...thumbnail,
+        path: thumbnailContent,
+      };
+    }
     var image1 = imagesForPost;
     var image2 = cameraimagesForPost;
     var combineImages = [...image1, ...image2];
@@ -144,7 +151,9 @@ class CamelFood extends React.Component {
           price: price,
           price_type: price_type,
           bid_expired_days: selectedBidOption?.name,
-          thumbnail: JSON.stringify(thumbnailObj),
+                              thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null
+
+,
         })
         .then(response => {
           this.setState({

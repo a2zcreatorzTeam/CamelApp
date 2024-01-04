@@ -56,7 +56,7 @@ class MissingCamelForm extends Component {
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
-      thumbnail: {},
+      thumbnail: null,
     };
   }
   // VIDEO PICKER
@@ -180,8 +180,15 @@ class MissingCamelForm extends Component {
       color,
       camel_type,
     } = this.state;
-    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
-    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+    let thumbnailObj;
+    if (thumbnail && thumbnail != {}) {
+      const thumbnailContent =
+        thumbnail && (await RNFS?.readFile(thumbnail?.path, 'base64'));
+      thumbnailObj = thumbnailContent && {
+        ...thumbnail,
+        path: thumbnailContent,
+      };
+    }
     var image1 = imagesForPost;
     var image2 = cameraimagesForPost;
     var combineImages = [...image1, ...image2];
@@ -223,7 +230,7 @@ class MissingCamelForm extends Component {
           camel_type: camel_type,
           images: combineImages ? combineImages : [],
           video: videoForPost ? videoForPost : null,
-          thumbnail: JSON.stringify(thumbnailObj),
+          thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null,
         })
         .then(response => {
           console.log(response, 'resp[onse');
@@ -245,9 +252,11 @@ class MissingCamelForm extends Component {
           this.props.navigation.replace('CamelMissingList');
         })
         .catch(error => {
+          this.setState({loading: false});
           console.log('error', error);
         });
     } else {
+      this.setState({loading: false});
       return Toast.show({
         text1: ArabicText.Please_complete_the_fields + '',
         type: 'error',
@@ -267,6 +276,7 @@ class MissingCamelForm extends Component {
   render() {
     const {pausedCheck, loadVideo, videoModal, modalItem, thumbnail} =
       this.state;
+    console.log('missingcamelform');
     return (
       <ScrollView
         style={{flex: 1}}

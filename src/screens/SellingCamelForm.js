@@ -81,7 +81,7 @@ class SellingCamelForm extends React.Component {
       showBidOption: false,
       selectedBidOption: '',
       showOption: false,
-      thumbnail: {},
+      thumbnail: null,
     };
   }
   // SELECT VIDEO
@@ -220,8 +220,15 @@ class SellingCamelForm extends React.Component {
       imagesForPost,
       cameraimagesForPost,
     } = this.state;
-    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
-    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+     let thumbnailObj;
+    if (thumbnail && thumbnail != {}) {
+      const thumbnailContent =
+        thumbnail && (await RNFS?.readFile(thumbnail?.path, 'base64'));
+      thumbnailObj = thumbnailContent && {
+        ...thumbnail,
+        path: thumbnailContent,
+      };
+    }
     console.log(thumbnailObj, 'thumbnailObjthumbnailObj');
     var image1 = imagesForPost;
     var image2 = cameraimagesForPost;
@@ -275,7 +282,9 @@ class SellingCamelForm extends React.Component {
             bid_expired_days: selectedBidOption?.name,
             images: combineImages ? combineImages : [],
             video: videoForPost ? videoForPost : null,
-            thumbnail: JSON.stringify(thumbnailObj),
+                                thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null
+
+,
           },
           // {
           //   headers: {

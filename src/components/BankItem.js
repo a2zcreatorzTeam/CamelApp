@@ -3,6 +3,7 @@ import {View, Text, Image} from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import * as ArabicText from '../language/EnglishToArabic';
 import {Dimensions} from 'react-native';
+import {mainImageUrl} from '../constants/urls';
 const width = Dimensions.get('screen').width;
 const BankItem = ({name, address, userImage, phone}) => (
   <View style={Styles.containerSponsor}>
@@ -52,7 +53,7 @@ const BankItem = ({name, address, userImage, phone}) => (
         </View>
         <Image
           source={{
-            uri: 'https:www.tasdeertech.com/images/bank/' + userImage,
+            uri: `${mainImageUrl}bank/` + userImage,
           }}
           style={{
             width: 145,

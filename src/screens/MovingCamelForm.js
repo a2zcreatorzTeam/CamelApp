@@ -75,7 +75,7 @@ class MovingCamelForm extends React.Component {
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
-      thumbnail: {},
+      thumbnail: null,
     };
   }
   createPostMovingCamel = async () => {
@@ -94,8 +94,15 @@ class MovingCamelForm extends React.Component {
       pay,
       register,
     } = this.state;
-    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
-    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+     let thumbnailObj;
+    if (thumbnail && thumbnail != {}) {
+      const thumbnailContent =
+        thumbnail && (await RNFS?.readFile(thumbnail?.path, 'base64'));
+      thumbnailObj = thumbnailContent && {
+        ...thumbnail,
+        path: thumbnailContent,
+      };
+    }
     var image1 = imagesForPost;
     var image2 = cameraimagesForPost;
     var combineImages = [...image1, ...image2];
@@ -143,7 +150,9 @@ class MovingCamelForm extends React.Component {
           price: price,
           to_location: to_location,
           account_activity: pay,
-          thumbnail: JSON.stringify(thumbnailObj),
+                              thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null
+
+,
         })
         .then(response => {
           console.log(response?.data?.status, 'statusss');

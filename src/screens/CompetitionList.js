@@ -111,6 +111,7 @@ class CamelClubList extends Component {
       searchText,
     } = this.state;
     const renderItem = ({item}) => {
+      console.log(item?.image);
       return (
         <Item
           item={item}

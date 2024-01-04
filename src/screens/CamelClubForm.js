@@ -51,7 +51,7 @@ class CamelClubForm extends Component {
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
-      thumbnail: {},
+      thumbnail: null,
     };
   }
   // VIDEO PICKER
@@ -74,7 +74,6 @@ class CamelClubForm extends Component {
           })
             .then(response => {
               this.setState({thumbnail: response});
-              console.log('thumbnailsuccesss');
             })
             .catch(err => console.log({err}));
           RNFS.readFile(video.path, 'base64')
@@ -193,8 +192,15 @@ class CamelClubForm extends Component {
       description,
       location,
     } = this.state;
-    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
-    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+    let thumbnailObj;
+    if (thumbnail && thumbnail != {}) {
+      const thumbnailContent =
+        thumbnail && (await RNFS?.readFile(thumbnail?.path, 'base64'));
+      thumbnailObj = thumbnailContent && {
+        ...thumbnail,
+        path: thumbnailContent,
+      };
+    }
     var image1 = imagesForPost;
     var image2 = cameraimagesForPost;
     var combineImages = [...image1, ...image2];
@@ -216,6 +222,7 @@ class CamelClubForm extends Component {
       });
     }
     if (title != '' && description != '' && location != '') {
+      console.log('mohdsjhjhdsjh');
       let {user} = this.props;
       let user_id = user?.user?.user.id;
       this.setState({loading: true});
@@ -229,7 +236,8 @@ class CamelClubForm extends Component {
             description: description,
             images: combineImages ? combineImages : [],
             video: videoForPost ? videoForPost : null,
-            thumbnail: JSON.stringify(thumbnailObj),
+                      thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null
+
           },
           {
             headers: {
@@ -265,6 +273,7 @@ class CamelClubForm extends Component {
         visibilityTime: 3000,
       });
     }
+    console.log('errrrrrrr');
   };
   // REMOVE ITEM
   removeItem = (i, type, path) => {

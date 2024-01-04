@@ -93,8 +93,15 @@ class SellingEquipmentForm extends React.Component {
       price_type,
       camel_type,
     } = this.state;
-    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
-    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+    let thumbnailObj;
+    if (thumbnail && thumbnail != {}) {
+      const thumbnailContent =
+        thumbnail && (await RNFS?.readFile(thumbnail?.path, 'base64'));
+      thumbnailObj = thumbnailContent && {
+        ...thumbnail,
+        path: thumbnailContent,
+      };
+    }
     var image1 = imagesForPost;
     var image2 = cameraimagesForPost;
     var combineImages = [...image1, ...image2];
@@ -143,7 +150,7 @@ class SellingEquipmentForm extends React.Component {
           price: price,
           price_type: price_type,
           bid_expired_days: selectedBidOption?.name,
-          thumbnail: JSON.stringify(thumbnailObj),
+          thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null,
         })
         .then(response => {
           console.log(response?.data, 'response133');
@@ -173,9 +180,11 @@ class SellingEquipmentForm extends React.Component {
           this.props.navigation.replace('CamelEquipmentList');
         })
         .catch(error => {
+          this.setState({loading: false});
           console.log('error', error.response);
         });
     } else {
+      this.setState({loading: false});
       return Toast.show({
         text1: ArabicText.Please_complete_the_fields + '',
         type: 'error',
@@ -361,7 +370,9 @@ class SellingEquipmentForm extends React.Component {
         <BackBtnHeader />
         {/* <Ads /> */}
         <View style={Styles.containerScroll}>
-          <Text style={Styles.headingPostText}>{ArabicText.Sellingequipment}</Text>
+          <Text style={Styles.headingPostText}>
+            {ArabicText.Sellingequipment}
+          </Text>
           {mixed?.length ? (
             <HorizontalCarousel
               thumbnail={thumbnail?.path}
@@ -428,7 +439,7 @@ class SellingEquipmentForm extends React.Component {
                 });
               }
             }}></TextInput>
-            
+
           <TextInput
             style={Styles.forminputs}
             placeholderTextColor="#b0b0b0"

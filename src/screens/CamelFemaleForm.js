@@ -56,7 +56,7 @@ class CamelFemaleForm extends Component {
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
-      thumbnail: {},
+      thumbnail: null,
     };
   }
   // SELECT VIDEO
@@ -194,8 +194,15 @@ class CamelFemaleForm extends Component {
       color,
       camel_type,
     } = this.state;
-    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
-    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+     let thumbnailObj;
+    if (thumbnail && thumbnail != {}) {
+      const thumbnailContent =
+        thumbnail && (await RNFS?.readFile(thumbnail?.path, 'base64'));
+      thumbnailObj = thumbnailContent && {
+        ...thumbnail,
+        path: thumbnailContent,
+      };
+    }
     var image1 = imagesForPost;
     var image2 = cameraimagesForPost;
     var combineImages = [...image1, ...image2];
@@ -237,7 +244,9 @@ class CamelFemaleForm extends Component {
             title: title,
             images: combineImages ? combineImages : [],
             video: videoForPost ? videoForPost : null,
-            thumbnail: JSON.stringify(thumbnailObj),
+                                thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null
+
+,
           })
           .then(response => {
             this.setState({

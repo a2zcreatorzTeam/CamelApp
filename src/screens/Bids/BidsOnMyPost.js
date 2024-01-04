@@ -11,6 +11,8 @@ import {Dimensions} from 'react-native';
 import Toast from 'react-native-toast-message';
 import EmptyComponent from '../../components/EmptyComponent';
 import {ActivityIndicator} from 'react-native';
+import {profileBaseUrl} from '../../constants/urls';
+import FastImage from 'react-native-fast-image';
 const width = Dimensions.get('screen').width;
 
 class Bids extends Component {
@@ -151,18 +153,22 @@ class Bids extends Component {
           alignContent: 'center',
           marginTop: 10,
           marginBottom: 10,
+          alignItems: 'center',
         }}>
         <TouchableOpacity onPress={() => this.onProfileClick(item)}>
-          <Image
-            source={{
-              uri: 'https:www.tasdeertech.com/images/profiles/' + userImage,
-            }}
+          <FastImage
             style={{
               width: 80,
               height: 80,
               borderRadius: 40,
               alignSelf: 'center',
             }}
+            source={{
+              uri: profileBaseUrl + userImage,
+              headers: {Authorization: 'someAuthToken'},
+              priority: FastImage.priority.high,
+            }}
+            resizeMode={FastImage?.resizeMode.cover}
           />
         </TouchableOpacity>
         <View
@@ -201,7 +207,7 @@ class Bids extends Component {
             {item?.post?.title}
           </Text>
         </View>
-        <View style={{flexDirection: 'column', justifyContent: 'space-around'}}>
+        <View style={{}}>
           {item?.post?.bid_status == 1 || item?.post?.bid_status == 'TRUE' ? (
             <TouchableOpacity
               activeOpacity={0.99}

@@ -18,6 +18,7 @@ import camelapp from '../../api/camelapp';
 import EmptyComponent from '../../components/EmptyComponent';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
+import {profileBaseUrl} from '../../constants/urls';
 const width = Dimensions.get('screen').width;
 class Bids extends Component {
   constructor(props) {
@@ -165,6 +166,7 @@ class Bids extends Component {
           alignContent: 'center',
           marginTop: 10,
           marginBottom: 10,
+          alignItems:'center'
         }}>
         <TouchableOpacity onPress={() => this.onProfileClick(item?.item)}>
           <FastImage
@@ -175,7 +177,9 @@ class Bids extends Component {
               alignSelf: 'center',
             }}
             source={{
-              uri: 'https:www.tasdeertech.com/images/profiles/' + userImage,
+              uri: profileBaseUrl + userImage,
+              headers: {Authorization: 'someAuthToken'},
+              priority: FastImage.priority.high,
             }}
             resizeMode={FastImage?.resizeMode.cover}
           />

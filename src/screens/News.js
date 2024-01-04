@@ -43,7 +43,6 @@ class News extends Component {
           user_id: user?.id,
         })
         .then(res => {
-          console.log(res?.data?.news, 'reponseeee');
           this.setState({
             posts: res.data.news,
             loader: false,

@@ -295,6 +295,7 @@ export const Styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#D2691Eff',
     alignItems: 'center',
+    marginVertical:5
     // justifyContent: 'center',
   },
   bidsButtonAcceptGray: {

@@ -51,7 +51,7 @@ class participateInCompetition extends Component {
       modalItem: '',
       loadVideo: false,
       loading: false,
-      thumbnail: {},
+      thumbnail: null,
     };
   }
   videoPicker = async () => {
@@ -183,8 +183,11 @@ class participateInCompetition extends Component {
     var image1 = imagesForPost;
     var image2 = cameraimagesForPost;
     var combineImages = [...image1, ...image2];
-    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
-    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+    let thumbnailObj;
+    if (thumbnail) {
+      const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
+      thumbnailObj = {...thumbnail, path: thumbnailContent};
+    }
     if (
       (combineImages == undefined || combineImages?.length == 0) &&
       videoForPost == undefined
@@ -217,7 +220,8 @@ class participateInCompetition extends Component {
           competition_id: competition_id,
           images: combineImages ? combineImages : [],
           video: videoForPost ? videoForPost : null,
-          thumbnail: JSON.stringify(thumbnailObj),
+                    thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null
+
         })
         .then(response => {
           Toast.show({

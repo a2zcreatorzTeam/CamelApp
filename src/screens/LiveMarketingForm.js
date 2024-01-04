@@ -55,7 +55,7 @@ class LiveMarketingForm extends Component {
       pausedCheck: true,
       modalItem: '',
       loadVideo: false,
-      thumbnail: {},
+      thumbnail: null,
     };
   }
   // CAPTURE IMAGE
@@ -184,8 +184,15 @@ class LiveMarketingForm extends Component {
       location,
       price,
     } = this.state;
-    const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
-    const thumbnailObj = {...thumbnail, path: thumbnailContent};
+    let thumbnailObj;
+    if (thumbnail && thumbnail != {}) {
+      const thumbnailContent =
+        thumbnail && (await RNFS?.readFile(thumbnail?.path, 'base64'));
+      thumbnailObj = thumbnailContent && {
+        ...thumbnail,
+        path: thumbnailContent,
+      };
+    }
     var image1 = imagesForPost;
     var image2 = cameraimagesForPost;
     var combineImages = [...image1, ...image2];
@@ -220,7 +227,7 @@ class LiveMarketingForm extends Component {
           price: price,
           images: combineImages ? combineImages : [],
           video: videoForPost ? videoForPost : null,
-          thumbnail: JSON.stringify(thumbnailObj),
+          thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null,
         })
         .then(response => {
           this.setState({loading: false});
@@ -232,6 +239,7 @@ class LiveMarketingForm extends Component {
           this.props.navigation.replace('CamelMarketingList');
         })
         .catch(error => {
+          this.setState({loading: false});
           console.log('error', error.response);
         });
     } else {

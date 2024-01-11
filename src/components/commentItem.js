@@ -20,6 +20,7 @@ const Item = ({
   date,
   Reply = () => {},
 }) => {
+  console.log(item?.comment_reply);
   const [isLiked, setIsLiked] = useState();
   const [likeCount, setLikeCount] = useState(commentsCount);
   return (
@@ -59,7 +60,11 @@ const Item = ({
             }}>
             <AntDesign
               name={
-                (isLiked !== undefined ? isLiked == true : item?.flagForLike)
+                (
+                  isLiked !== undefined
+                    ? isLiked == true
+                    : item?.flagForLike || item?.flagForLike == 1
+                )
                   ? 'heart'
                   : 'hearto'
               }
@@ -68,7 +73,7 @@ const Item = ({
                 (
                   isLiked !== undefined
                     ? isLiked == true
-                    : item?.flagForLike == true
+                    : item?.flagForLike == true || item.flagForLike == 1
                 )
                   ? 'red'
                   : '#CD853F'

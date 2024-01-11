@@ -71,7 +71,7 @@ const BottomTab = () => {
               color="#D2691E"
             />
           ),
-          header: () => <Header />,
+          headerShown: false,
           tabBarInactiveTintColor: '#D2691E',
           unmountOnBlur: true,
         }}

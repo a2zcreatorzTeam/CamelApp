@@ -21,7 +21,7 @@ import camelapp from '../api/camelapp';
 import * as userActions from '../redux/actions/user_actions';
 import EmptyComponent from '../components/EmptyComponent';
 import Header from '../components/Header';
-import { profileBaseUrl } from '../constants/urls';
+import {profileBaseUrl} from '../constants/urls';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 
@@ -41,7 +41,6 @@ class MyFriendList extends Component {
   getUsersDetails = async data => {
     let {user} = this.props;
     user = user?.user?.user;
-    console.log(user, 'useer67rer');
     try {
       return await camelapp.get('/friendlist/' + user?.id).then(res => {
         console.log(res?.data, 'dataaaa');
@@ -125,8 +124,7 @@ class MyFriendList extends Component {
               source={{
                 uri:
                   // 'http://www.tasdeertech.com/public/images/profiles/' +
-                  profileBaseUrl+
-                  userImage,
+                  profileBaseUrl + userImage,
               }}
               style={{
                 width: 50,

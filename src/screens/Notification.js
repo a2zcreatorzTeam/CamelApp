@@ -18,6 +18,7 @@ import {RefreshControl} from 'react-native';
 import {TouchableOpacity} from 'react-native';
 import Toast from 'react-native-toast-message';
 import * as ArabicText from '../language/EnglishToArabic';
+import BackBtnHeader from '../components/headerWithBackBtn';
 
 const width = Dimensions.get('screen').width;
 
@@ -119,6 +120,7 @@ class Notification extends Component {
   render() {
     const {filterPosts, key, searchedItem, posts} = this.state;
     const renderItem = ({item}) => {
+      console.log(item, 'decccc');
       let d = new Date(item.created_at);
       return (
         <Post
@@ -128,12 +130,14 @@ class Notification extends Component {
           item={item}
           description={item.description}
           date={d.toLocaleString()}
+          name={item?.sender_name}
         />
       );
     };
     return (
       <View style={styles.container}>
-        <Header
+        <BackBtnHeader />
+        {/* <Header
           onChangeText={text => {
             if (text) {
               this.search(text);
@@ -142,7 +146,7 @@ class Notification extends Component {
             }
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}
-        />
+        /> */}
         {this.state.loader && (
           <ActivityIndicator
             size="large"
@@ -182,7 +186,7 @@ class Notification extends Component {
   }
 }
 
-const Post = ({description, date, item, onPress = () => {}}) => (
+const Post = ({description, date, item, onPress = () => {}, name}) => (
   <TouchableOpacity
     onPress={() => onPress(item)}
     style={{
@@ -193,25 +197,35 @@ const Post = ({description, date, item, onPress = () => {}}) => (
       alignItems: 'center',
       justifyContent: 'space-around',
       flexDirection: 'row',
+      paddingHorizontal: 10,
     }}>
     <View
       style={{
         width: width - 60,
-        flexDirection: 'column',
         justifyContent: 'space-around',
         height: '70%',
         alignSelf: 'center',
       }}>
-      <Text
-        style={{
-          color: 'black',
-          fontSize: 18,
-          fontWeight: 'bold',
-          textAlign: 'right',
-          justifyContent: 'center',
-        }}>
-        {description}
-      </Text>
+      <View style={{flexDirection: 'row', alignSelf: 'flex-end'}}>
+        <Text
+          style={{
+            color: 'black',
+            fontSize: 16,
+            textAlign: 'right',
+            fontWeight: '700',
+          }}>
+          {description}
+        </Text>
+        <Text
+          style={{
+            color: 'black',
+            fontSize: 16,
+            textAlign: 'right',
+            fontWeight: '700',
+          }}>
+          {' ' + name + ' '}
+        </Text>
+      </View>
       <Text style={{color: 'black', fontSize: 12, width: width - 100}}>
         {date}
       </Text>

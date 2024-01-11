@@ -53,12 +53,21 @@ class Comments extends Component {
     this.getCommentsOnPost();
   }
   addReplyToComment = () => {
+    let {post_id} = this.props?.route.params;
+    console.log(
+      this.state.commentId,
+      'this.state.commentIdthis.state.commentId',
+      this.state.newReply,
+      post_id ? post_id : this.props.route.params?.post?.id,
+      this.state.user_id,
+    );
     if (this.state.newReply != '') {
       camelapp
         .post('/add/reply', {
           user_id: this.state.user_id,
           comment_id: this.state.commentId,
           reply: this.state.newReply,
+          post_id: post_id ? post_id : this.props.route.params?.post?.id,
         })
         .then(response => {
           this.setState({

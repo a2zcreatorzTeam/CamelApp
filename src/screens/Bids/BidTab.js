@@ -100,7 +100,7 @@ export default class BidTab extends Component {
                         fontWeight: 'bold',
                         alignSelf: 'center',
                       }}>
-                      {ArabicText?.offer_Up}
+                      {ArabicText?.offer_Up_bid}
                     </Text>
                   ),
                 }}

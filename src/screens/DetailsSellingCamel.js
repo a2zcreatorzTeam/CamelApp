@@ -65,6 +65,7 @@ class DetailsComponent extends Component {
   componentDidMount() {
     const bid = this.props.route.params?.bid;
     let itemFromDetails = this.props.route.params.itemFromDetails;
+    console.log(itemFromDetails.price_type, 'priveeee');
     this.checkBidStatus();
     if (
       itemFromDetails.price_type == 'سوم' ||

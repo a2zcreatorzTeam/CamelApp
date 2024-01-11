@@ -99,7 +99,6 @@ class ChangePassword extends Component {
               });
               this.props.navigation.navigate('Profile');
             }
-            console.log(res?.data, 'dtaaresponseee');
           })
           .catch(error => {
             console.log(error, 'errorrr');

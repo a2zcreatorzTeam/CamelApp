@@ -210,17 +210,28 @@ class CompetitionPostDetails extends Component {
             paddingHorizontal: 20,
             marginTop: 15,
           }}>
-          <View style={{alignItems: 'flex-end'}}>
+          <View
+            style={{
+              alignItems: 'flex-end',
+              width: '90%',
+            }}>
             <Text
               style={{
                 color: '#000',
                 fontSize: 20,
                 fontWeight: '700',
                 marginRight: 20,
+                textAlign: 'right',
               }}>
               {itemFromDetails.user_name}
             </Text>
-            <Text style={{color: '#000', fontSize: 14, marginRight: 20}}>
+            <Text
+              style={{
+                color: '#000',
+                fontSize: 14,
+                marginRight: 20,
+                textAlign: 'right',
+              }}>
               {itemFromDetails.location}
             </Text>
           </View>

@@ -181,7 +181,7 @@ class SellingEquipmentForm extends React.Component {
         })
         .catch(error => {
           this.setState({loading: false});
-          console.log('error', error.response);
+          console.log('error', error);
         });
     } else {
       this.setState({loading: false});

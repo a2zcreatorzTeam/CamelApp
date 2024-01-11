@@ -82,9 +82,7 @@ class EditProfile extends Component {
         .get('/logout/' + id)
         .then(
           (response = async () => {
-            console.log(response, 'responseeeLogouttttt');
             if (userdetail?.socialType == 'instagram') {
-              console.log('instagrammm');
               this.onClear();
             } else if (userdetail?.socialType == 'twitter') {
               console.log('twitter');
@@ -208,7 +206,6 @@ class EditProfile extends Component {
               : null,
         })
         .then(res => {
-          console.log(res?.data, 'dtaaresponseee');
           if (res.data.status == true) {
             this.setState({
               btnLoader: false,

@@ -222,10 +222,17 @@ class CamelClubForm extends Component {
       });
     }
     if (title != '' && description != '' && location != '') {
-      console.log('mohdsjhjhdsjh');
       let {user} = this.props;
       let user_id = user?.user?.user.id;
       this.setState({loading: true});
+      console.log(
+        thumbnailObj,
+        videoForPost,
+        description,
+        location,
+        title,
+        user_id,
+      );
       await camelapp
         .post(
           '/add/postclub',
@@ -236,8 +243,7 @@ class CamelClubForm extends Component {
             description: description,
             images: combineImages ? combineImages : [],
             video: videoForPost ? videoForPost : null,
-                      thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null
-
+            thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null,
           },
           {
             headers: {
@@ -263,7 +269,7 @@ class CamelClubForm extends Component {
           }
         })
         .catch(error => {
-          console.log('error', error);
+          console.log(error.response, 'error', error);
           this.setState({loading: false});
         });
     } else {

@@ -298,12 +298,20 @@ class UserProfile extends Component {
         })
         .then(response => {
           let res = response?.data;
-          if (res?.status == true) {
+          console.log(res, 'res');
+          if (res?.message == 'Successfully unFollowed') {
+            Toast.show({
+              type: 'success',
+              text1: `${ArabicText?.unfollowed}`,
+            });
+          }
+          else if (res?.message == 'Successfully Followed') {
             Toast.show({
               type: 'success',
               text1: `${ArabicText?.followed}`,
             });
-          } else {
+          }
+          else {
             Toast.show({
               type: 'success',
               text1: `${ArabicText.Error} + ''`,

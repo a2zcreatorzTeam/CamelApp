@@ -101,7 +101,7 @@ class App extends Component {
           phone: user_data?.phone,
         })
         .then(response => {
-          console.log(response?.data, 'responseeeee');
+          console.log(response, 'resp[oonseee');
           if (response?.data?.success == true) {
             {
               screenType == 'update'
@@ -110,9 +110,7 @@ class App extends Component {
                       user_id: this.props.user?.user?.user.id,
                       phone: user_data?.newphone,
                     })
-                    .then(res => {
-                      console.log(res?.data, 'responseeeeeeee');
-                    })
+                    .then(res => {})
                     .catch(error => {
                       console.log(error, 'errorerror');
                     })

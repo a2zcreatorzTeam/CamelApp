@@ -127,10 +127,10 @@ class SignUp extends Component {
       await getFCMToken();
       const deviceToken = await AsyncStorage?.getItem('fcmToken');
       this.setState({btnPressed: true, loader: true});
+      console.log('workinggg');
       camelapp
         .get('checkemail?phone=' + this.state.phone)
         .then(response => {
-          console.log(response?.data?.message, 'responsee');
           if (response.data?.message != 'Phone Already exists!') {
             this.setState({loader: false});
             camelapp
@@ -139,7 +139,6 @@ class SignUp extends Component {
               })
               .then(res => {
                 if (res) {
-                  console.log(response, 'responseeee154');
                   let tempSignUpObj = {
                     name: this.state.name,
                     phone: this.state.phone,
@@ -174,6 +173,7 @@ class SignUp extends Component {
           }
         })
         .catch(error => {
+          console.log(error, 'errorrrr');
           Toast.show({
             text1: ArabicText?.phoneNumberAlreadyExist,
             type: 'error',

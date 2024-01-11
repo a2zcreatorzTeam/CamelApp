@@ -238,7 +238,6 @@ const Post = ({
           backgroundColor: '#f3f3f3',
         }}>
         {imagesArray?.map((item, index) => {
-          console.log(thumbnail, 'thumbailll');
           const isImage = item.type === 'image';
           const isVideo = item.type === 'video';
 

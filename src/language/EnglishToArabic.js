@@ -109,7 +109,8 @@ export const Payment_Types = 'طريقة البيع';
 export const Is_it_register_on_ministry_of_articulator =
   'هل تم وضع الشرائح الالكترونية؟';
 export const fixed = 'حد';
-export const offer_Up = 'السوم';
+export const offer_Up_bid = 'السوم';
+export const offer_Up = 'سوم';
 export const Add_Title = 'العنوان';
 export const Add_Location = 'الموقع';
 export const Add_color = 'اللون';
@@ -213,6 +214,7 @@ export const Followers = 'متابع';
 export const posts = 'الإضافات';
 export const Following = 'متابعون';
 export const followed = 'متابعة';
+export const unfollowed = 'غير متابع';
 export const View_Post = 'مشاهدة الإضافات';
 export const Confirm = 'تأكيد ';
 export const Reject = 'رفض';

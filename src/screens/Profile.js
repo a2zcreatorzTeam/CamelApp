@@ -942,7 +942,7 @@ class Profile extends Component {
                         maxLength={10}
                         value={this.state.whatsappNumber}
                         style={Styles.forminputsPrice}
-                        placeholder={ArabicText?.WhatsAppNumber}
+                        placeholder={ArabicText?.AddWhatsappnumber}
                         keyboardType="numeric"
                         onChangeText={text =>
                           this.setState({whatsappNumber: text})

@@ -62,7 +62,7 @@ class CamelFemaleForm extends Component {
   // SELECT VIDEO
   openCamera = async () => {
     this.setState({video: {}});
-    console.log("6555");
+    console.log('6555');
     ImageCropPicker.openPicker({
       mediaType: 'video',
     }).then(async video => {
@@ -194,7 +194,7 @@ class CamelFemaleForm extends Component {
       color,
       camel_type,
     } = this.state;
-     let thumbnailObj;
+    let thumbnailObj;
     if (thumbnail && thumbnail != {}) {
       const thumbnailContent =
         thumbnail && (await RNFS?.readFile(thumbnail?.path, 'base64'));
@@ -244,9 +244,7 @@ class CamelFemaleForm extends Component {
             title: title,
             images: combineImages ? combineImages : [],
             video: videoForPost ? videoForPost : null,
-                                thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null
-
-,
+            thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null,
           })
           .then(response => {
             this.setState({
@@ -274,11 +272,11 @@ class CamelFemaleForm extends Component {
             this.props.navigation.replace('FemaleList');
           })
           .catch(error => {
-            console.log('error', error.response);
+            console.log('error', error);
             this.setState({loading: false});
           });
       } catch (error) {
-        console.log('error', error.response);
+        console.log('error', error);
         this.setState({loading: false});
       }
     } else {

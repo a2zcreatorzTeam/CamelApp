@@ -220,7 +220,7 @@ class SellingCamelForm extends React.Component {
       imagesForPost,
       cameraimagesForPost,
     } = this.state;
-     let thumbnailObj;
+    let thumbnailObj;
     if (thumbnail && thumbnail != {}) {
       const thumbnailContent =
         thumbnail && (await RNFS?.readFile(thumbnail?.path, 'base64'));
@@ -251,6 +251,7 @@ class SellingCamelForm extends React.Component {
         visibilityTime: 3000,
       });
     }
+    console.log(price_type, 'price_typeprice_type');
     if (
       title != '' &&
       location != '' &&
@@ -282,9 +283,7 @@ class SellingCamelForm extends React.Component {
             bid_expired_days: selectedBidOption?.name,
             images: combineImages ? combineImages : [],
             video: videoForPost ? videoForPost : null,
-                                thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null
-
-,
+            thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null,
           },
           // {
           //   headers: {
@@ -294,7 +293,6 @@ class SellingCamelForm extends React.Component {
           // },
         )
         .then(response => {
-          console.log(response, 'responseeeee');
           this.setState({
             loading: false,
             video: undefined,

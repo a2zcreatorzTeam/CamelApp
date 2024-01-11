@@ -299,11 +299,11 @@ export default function Navigation() {
           component={Footer}
           options={{headerShown: false}}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Notification"
           component={Notification}
           options={{headerShown: false}}
-        />
+        /> */}
         <Stack.Screen
           name="AppDetails"
           component={AppDetails}
@@ -379,7 +379,11 @@ export default function Navigation() {
           component={detailCompetition}
           options={{headerShown: false}}
         />
-        <Stack.Screen name="ChatTopTab" component={ChatTopTab} />
+        <Stack.Screen
+          options={{headerShown: false}}
+          name="ChatTopTab"
+          component={ChatTopTab}
+        />
         <Stack.Screen name="Groups" component={Groups} />
         <Stack.Screen name="FriendList" component={FriendList} />
         <Stack.Screen

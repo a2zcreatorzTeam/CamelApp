@@ -172,23 +172,26 @@ class CreateProfile extends Component {
   };
   callback = (formatted_address, geometry) => {
     this.setState({location: formatted_address});
+    console.log(formatted_address, geometry, 'gejghgh');
   };
-
   render() {
     const {image, btnLoader, location} = this.state;
     const screen = this.props.route?.params?.screen;
     const response = this.props.route?.params?.response;
     let {actions} = this.props;
     return (
-      <ScrollView
-        // style={{flex: 1}}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingTop: 10,
-          backgroundColor: '#fff',
-          flexGrow: 1,
-        }}>
-        <View style={Styles.container}>
+      <View style={Styles.container}>
+        <ScrollView
+          nestedScrollEnabled={true}
+          keyboardShouldPersistTaps="handled"
+          style={{flex: 1}}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingTop: 10,
+            backgroundColor: '#fff',
+            flexGrow: 1,
+            alignItems: 'center',
+          }}>
           <TouchableOpacity
             onPress={() => {
               actions.userData(response);
@@ -333,8 +336,8 @@ class CreateProfile extends Component {
               </Text>
             )}
           </TouchableOpacity>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     );
   }
 }

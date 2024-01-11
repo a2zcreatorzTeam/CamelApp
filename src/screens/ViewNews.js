@@ -237,8 +237,9 @@ class ViewNews extends Component {
             source={{
               uri: `${mainImageUrl}news/` + newsdata?.image,
             }}
-            style={Styles.image}
-            resizeMode="cover"></Image>
+            style={[Styles.image, {backgroundColor: '#D3D3D3'}]}
+            resizeMode="contain"
+          />
           <View style={{padding: 10}}>
             <HTML
               tagsStyles={tagsStyles}
@@ -246,25 +247,6 @@ class ViewNews extends Component {
               contentWidth={width}
             />
           </View>
-          {/* <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'flex-end',
-              justifyContent: 'center',
-            }}>
-            {user != undefined && rated == false && (
-              <Rating
-                onFinishRating={rating => this.rating(rating)}
-                ratingCount={5}
-                startingValue={this.state.rating}
-                imageSize={20}
-                style={{paddingVertical: 10}}
-                ratingColor={'crimson'}
-                type="custom"
-                ratingBackgroundColor={'black'}
-              />
-            )}
-          </View> */}
           <View
             style={{
               alignItems: 'center',
@@ -365,10 +347,6 @@ const Item = ({
             </Text>
           </View>
         </TouchableOpacity>
-
-        {/* <Text style={{ color: 'black', fontSize: 15, right: -7 }}>
-                        12   {likes}
-                    </Text> */}
       </View>
 
       <View

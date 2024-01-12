@@ -81,22 +81,41 @@ class App extends Component {
       downloaded: 0,
     };
   }
+  componentDidMount() {
+    this.syncImmediate();
+    this.takePermission();
+    notificationListener();
+    SplashScreen.hide();
+    let app;
+    if (firebase.apps.length === 0) {
+      app = firebase.initializeApp(firebaseConfig);
+      const storage = getStorage(app);
+    } else {
+      app = firebase.app();
+    }
+  }
   // CODE PUSH FUNCTIONS
-  syncImmediate = () => {
-    codePush.sync(
-      {
-        installMode: codePush.InstallMode.IMMEDIATE,
-        updateDialog: {
-          appendReleaseDescription: false,
-          optionalIgnoreButtonLabel: 'Close',
-          optionalInstallButtonLabel: 'Install',
-          optionalUpdateMessage: 'New update available. Install update',
-          title: 'Update Required',
+  syncImmediate = async () => {
+    const update = await codePush.checkForUpdate();
+    if (update) {
+      codePush.sync(
+        {
+          installMode: codePush.InstallMode.IMMEDIATE,
+          updateDialog: {
+            appendReleaseDescription: false,
+            optionalIgnoreButtonLabel: null,
+            optionalInstallButtonLabel: 'Install',
+            optionalUpdateMessage: 'New update available. Install update',
+            title: 'Update Required',
+            modal: false,
+          },
         },
-      },
-      this.codePushStatusDidChange.bind(this),
-      this.codePushDownloadDidProgress.bind(this),
-    );
+        this.codePushStatusDidChange.bind(this),
+        this.codePushDownloadDidProgress.bind(this),
+      );
+    } else {
+      console.log('elseee');
+    }
   };
   codePushDownloadDidProgress = progress => {
     this.setState({updateProcess: true});
@@ -111,11 +130,8 @@ class App extends Component {
     switch (syncStatus) {
       case codePush.SyncStatus.CHECKING_FOR_UPDATE:
         console.log('==================CHECKING_FOR_UPDATE==================');
-        console.log(codePush.SyncStatus.CHECKING_FOR_UPDATE);
+        console.log(codePush.SyncStatus);
         console.log('====================================');
-        // setTimeout(() => {
-        //   this.setState({syncMessage: 'Checking For Update'});
-        // }, 100);
         break;
       case codePush.SyncStatus.DOWNLOADING_PACKAGE:
         // alert("Please wait few minutes while the update is installed")
@@ -171,7 +187,6 @@ class App extends Component {
         break;
     }
   };
-
   takePermission = async () => {
     // NO NEED TO ASK PERMISSION FOR LESS THAN 33 APILEVEL
     if (Platform.OS == 'android' && DeviceInfo.getApiLevelSync() >= 33) {
@@ -188,19 +203,7 @@ class App extends Component {
       }
     }
   };
-  componentDidMount() {
-    this.syncImmediate();
-    this.takePermission();
-    notificationListener();
-    SplashScreen.hide();
-    let app;
-    if (firebase.apps.length === 0) {
-      app = firebase.initializeApp(firebaseConfig);
-      const storage = getStorage(app);
-    } else {
-      app = firebase.app();
-    }
-  }
+
   render() {
     return (
       <SafeAreaProvider>

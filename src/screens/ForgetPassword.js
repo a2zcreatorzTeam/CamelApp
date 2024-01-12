@@ -37,14 +37,15 @@ class ForgetPassword extends Component {
       camelapp.get('checkemail?phone=' + this.state.phone).then(response => {
         if (response.data?.message == 'Phone Already exists!') {
           console.log('response', response?.data);
-          this.setState({otp: true, loader: false});
+          this.setState({otp: true});
           camelapp
             .post('/reset/otp', {
               phone: this.state.phone,
             })
             .then(response => {
+              this.setState({btnPressed: false, loader: false});
               console.log(response?.data, 'respnesse4888');
-              if (response.data?.message == 'Success') {
+              if (response) {
                 Toast.show({
                   text1: ArabicText.OTPsenttoyourPhoneNumber,
                   type: 'success',
@@ -64,6 +65,7 @@ class ForgetPassword extends Component {
               }
             })
             .catch(error => {
+              this.setState({btnPressed: false, loader: false});
               Toast.show({
                 text1: ArabicText?.somethingwentwrong,
                 type: 'error',

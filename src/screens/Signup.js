@@ -94,12 +94,10 @@ class SignUp extends Component {
       this.setState({
         flagpassword: false,
       });
-      flagpassword = false;
     } else {
       this.setState({
         flagpassword: true,
       });
-      flagpassword = true;
     }
     // check password
     if (password === confirm_password && confirm_password.length != 0) {
@@ -123,21 +121,28 @@ class SignUp extends Component {
         flag_termsCondition: false,
       });
     }
-    if (name && phone && confirm_password && password && isChecked == true) {
+    if (
+      name?.length >= 4 &&
+      phone?.length == 10 &&
+      confirm_password &&
+      password &&
+      password == confirm_password &&
+      isChecked == true
+    ) {
+      this.setState({btnPressed: true, loader: true});
       await getFCMToken();
       const deviceToken = await AsyncStorage?.getItem('fcmToken');
-      this.setState({btnPressed: true, loader: true});
-      console.log('workinggg');
       camelapp
         .get('checkemail?phone=' + this.state.phone)
         .then(response => {
           if (response.data?.message != 'Phone Already exists!') {
-            this.setState({loader: false});
             camelapp
               .post('sendsms', {
                 phone: this.state.phone,
               })
               .then(res => {
+                console.log(res, 'responseee');
+                this.setState({loader: false});
                 if (res) {
                   let tempSignUpObj = {
                     name: this.state.name,
@@ -168,7 +173,6 @@ class SignUp extends Component {
               type: 'error',
               visibilityTime: 3000,
             });
-            // alert(response?.data?.message);
             this.setState({btnPressed: false, loader: false});
           }
         })
@@ -179,7 +183,6 @@ class SignUp extends Component {
             type: 'error',
             visibilityTime: 3000,
           });
-          // alert(ArabicText?.phoneNumberAlreadyExist);
           this.setState({loader: false, btnPressed: false});
         });
     } else {
@@ -190,30 +193,18 @@ class SignUp extends Component {
           type: 'error',
           visibilityTime: 3000,
         });
-        // alert('الرجاء تحديد الشروط والأحكام');
       } else {
         Toast.show({
           text1: ArabicText?.PleaseCompleteThefields,
           type: 'error',
           visibilityTime: 3000,
         });
-        // alert(ArabicText?.PleaseCompleteThefields);
       }
     }
   };
 
   render() {
-    let {
-      name,
-      phone,
-      password,
-      confirm_password,
-      flagname,
-      flagphone,
-      flagpassword,
-      flag_confirm_password,
-      flag_termsCondition,
-    } = this.state;
+    let {flagname, flagphone, flagpassword, flag_confirm_password} = this.state;
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -231,10 +222,19 @@ class SignUp extends Component {
 
           <View style={Styles.cardsignup}>
             <TextInput
+              maxLength={30}
+              value={this.state.name}
               style={Styles.inputs}
               placeholder={ArabicText.Name}
               placeholderTextColor="#000000"
-              onChangeText={text => this.setState({name: text})}></TextInput>
+              onChangeText={text => {
+                const isArabic = Array.from(text).every(char =>
+                  /^[\u0600-\u06FF\s]+$/.test(char),
+                );
+                if (isArabic) {
+                  this.setState({name: text});
+                }
+              }}></TextInput>
             {flagname == true && (
               <Text
                 style={{

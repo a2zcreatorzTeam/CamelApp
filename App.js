@@ -1,3 +1,4 @@
+// appcenter codepush release-react -a a2zcreatorzz-gmail.com/Camel -d Staging
 import firebase from '@react-native-firebase/app';
 import React, {Component} from 'react';
 import Navigation from './src/routes/Navigation';
@@ -27,16 +28,28 @@ const toastConfig = {
   success: props => (
     <BaseToast
       {...props}
-      text1NumberOfLines={5}
+      text1NumberOfLines={1}
+      contentContainerStyle
       style={{
-        borderLeftColor: 'green',
         maxHeight: 120,
         height: '100%',
         paddingVertical: 20,
+        borderRightColor: 'green',
+        borderRightWidth: 5,
+        borderLeftWidth: 0,
+        flexDirection: 'row',
       }}
       text1Style={{
         fontSize: 14,
         color: 'black',
+        textAlign: 'right',
+        writingDirection: 'rtl',
+      }}
+      text2Style={{
+        fontSize: 14,
+        color: 'black',
+        textAlign: 'right',
+        writingDirection: 'rtl',
       }}
     />
   ),
@@ -45,14 +58,17 @@ const toastConfig = {
       {...props}
       text1NumberOfLines={5}
       style={{
-        borderLeftColor: 'red',
         maxHeight: 120,
         height: '100%',
         paddingVertical: 20,
+        borderRightColor: 'red',
+        borderRightWidth: 5,
+        borderLeftWidth: 0,
       }}
       text1Style={{
         fontSize: 14,
         color: 'black',
+        textAlign: 'right',
       }}
     />
   ),

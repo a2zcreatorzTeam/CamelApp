@@ -39,6 +39,7 @@ const AdsComp = ({item}) => {
   return (
     <TouchableOpacity
       onPress={() => {
+        console.log("wokinghgg");
         Linking.openURL(item?.url);
       }}
       style={{

@@ -172,7 +172,6 @@ class CreateProfile extends Component {
   };
   callback = (formatted_address, geometry) => {
     this.setState({location: formatted_address});
-    console.log(formatted_address, geometry, 'gejghgh');
   };
   render() {
     const {image, btnLoader, location} = this.state;
@@ -280,9 +279,17 @@ class CreateProfile extends Component {
                     this.setState({phoneNumber: text.replace(/[^0-9]/g, '')})
                   }></TextInput>
                 <TextInput
+                  maxLength={30}
                   style={Styles.inputs}
                   value={this?.state?.userName}
-                  onChangeText={text => this.setState({userName: text})}
+                  onChangeText={text => {
+                    const isArabic = Array.from(text).every(char =>
+                      /^[\u0600-\u06FF\s]+$/.test(char),
+                    );
+                    if (isArabic) {
+                      this.setState({userName: text});
+                    }
+                  }}
                   placeholder={ArabicText.name}
                   placeholderTextColor="#b0b0b0"
                 />

@@ -48,20 +48,16 @@ export const notificationListener = async () => {
     console.log('Background Notification===>>', item);
   };
   messaging().onNotificationOpenedApp(remoteMessage => {
-    console.log("remote openedapp", remoteMessage);
     Toast.show({
       text1: remoteMessage?.notification?.body,
       type: 'success',
       visibilityTime: 5000,
       onPress: () => handleOnClick(remoteMessage?.notification),
     });
-    // alert(remoteMessage?.notification?.title);
   });
 
   // Forground
   messaging().onMessage(async remoteMessage => {
-    console.log('Forground Notification===>>', remoteMessage);
-    // alert()
     Toast.show({
       text1: remoteMessage?.notification?.body,
       type: 'success',
@@ -74,7 +70,7 @@ export const notificationListener = async () => {
   messaging()
     .getInitialNotification()
     .then(remoteMessage => {
-      console.log(remoteMessage,"remoteMessageee");
+      console.log(remoteMessage, 'remoteMessageee');
       if (remoteMessage) {
         Toast.show({
           text1: remoteMessage?.notification?.body,

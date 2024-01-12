@@ -74,6 +74,7 @@ class Profile extends Component {
       searchText: '',
       searchedItem: '',
       filterPosts: [],
+      userData: null,
     };
   }
   // ==========NEW============
@@ -139,6 +140,7 @@ class Profile extends Component {
           phone: this.props.user?.user?.user?.phone,
         })
         .then(res => {
+          console.log(res, 'updateOTPPpp');
           if (res) {
             this.setState({updateLoader: false});
             let tempSignUpObj = {
@@ -339,15 +341,15 @@ class Profile extends Component {
           }
           this.setState({rating: rating});
           this.setState({
-            phoneStatusSwitch: this.props?.user?.user?.user?.phone_status,
+            phoneStatusSwitch: res?.data?.user?.phone_status,
             loader: false,
-            whatsappNumber: this.props?.user?.user?.user?.whatsapp_no,
-            phoneNumber: this.props.user?.user?.user?.phone,
-            chatFlag:
-              this?.props?.user?.user?.user?.chat_status == 0 ? false : true,
+            whatsappNumber: res?.data?.user?.whatsapp_no,
+            phoneNumber: res?.data?.user?.phone,
+            chatFlag: res?.data?.user?.chat_status == 0 ? false : true,
             registerSwitch:
-              this.props.user?.user?.user?.whatsapp_status == 0 ? false : true,
+              res?.data?.user?.whatsapp_status == 0 ? false : true,
             key: !key,
+            userData: res?.data,
           });
         }
       });
@@ -489,7 +491,8 @@ class Profile extends Component {
   render() {
     let {user} = this.props;
     user = user?.user?.user;
-    const {key, filterPosts, posts, searchedItem, searchText} = this.state;
+    const {key, filterPosts, posts, searchedItem, searchText, userData} =
+      this.state;
     const sharePosts = item => {
       this.setState({loading: true});
       let {user} = this.props;
@@ -880,7 +883,7 @@ class Profile extends Component {
                     }}
                     style={styles.video}>
                     <Text style={styles.textcolor}>
-                      {this.props?.user?.user?.follwers}
+                      {userData?.follwers > 0 ? userData?.follwers : 0}
                     </Text>
                     <Text style={styles.textcolor}>{ArabicText.Followers}</Text>
                   </TouchableOpacity>
@@ -910,7 +913,7 @@ class Profile extends Component {
                     }}
                     style={styles.video}>
                     <Text style={styles.textcolor}>
-                      {this.props?.user?.user?.following}
+                      {userData?.following > 0 ? userData?.following : 0}
                     </Text>
                     <Text style={styles.textcolor}>
                       {ArabicText?.Following}

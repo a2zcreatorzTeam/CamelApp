@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   ImageBackground,
   NativeModules,
+  ScrollView,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -244,133 +245,142 @@ class EditProfile extends Component {
     user = user?.user?.user;
 
     return (
-      // <ScrollView
-      //   showsVerticalScrollIndicator={false}
-      //   contentContainerStyle={{ paddingTop: 10, backgroundColor: "#fff" }}>
-      <View style={Styles.container}>
-        <BackBtnHeader showToolTip style={{justifyContent: 'space-around'}} />
-        <ImageBackground
-          imageStyle={{
-            borderRadius: 100,
-            borderColor: 'orange',
-            borderWidth: 2,
-          }}
-          style={{
-            width: 150,
-            height: 150,
-            borderRadius: 100,
-            alignSelf: 'center',
-            marginTop: 30,
-          }}
-          source={
-            pickedImage?.length
-              ? {uri: image}
-              : this.props.user?.user?.user?.image
-              ? {
-                  uri:
-                    // 'http://www.tasdeertech.com/public/images/profiles/' +
-                    profileBaseUrl + this.props.user?.user?.user?.image,
-                }
-              : require('../../assets/dummyImage.jpeg')
-          }>
-          <TouchableOpacity
-            onPress={() => this.openGallery()}
-            style={{
-              marginTop: -30,
-              position: 'absolute',
-              bottom: 0,
+      <ScrollView
+        nestedScrollEnabled={true}
+        keyboardShouldPersistTaps="handled"
+        style={{flex: 1}}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          backgroundColor: '#fff',
+          flexGrow: 1,
+          alignItems: 'center',
+        }}>
+        <View style={Styles.container}>
+          <BackBtnHeader showToolTip style={{justifyContent: 'space-around'}} />
+          <ImageBackground
+            imageStyle={{
               borderRadius: 100,
-              backgroundColor: 'orange',
-              alignContent: 'center',
-              alignSelf: 'center',
-              padding: 10,
-            }}>
-            <Image
-              source={require('../../assets/edit.png')}
-              resizeMode="contain"
-              style={{
-                tintColor: 'white',
-                width: 20,
-                height: 20,
-              }}
-              name="upload"
-            />
-          </TouchableOpacity>
-        </ImageBackground>
-        <Loader loading={this.state.loading} />
-        <Text style={Styles.text}>{ArabicText.Edit_profile}</Text>
-
-        <View style={Styles.profileQuestioncard}>
-          <TextInput
-            maxLength={30}
-            style={Styles.inputs}
-            value={this.state.userName}
-            onChangeText={text => {
-              const isInitiallyEnglish = /^[a-zA-Z]+/.test(this.state.userName);
-              const isArabicOnly = /^[\u0600-\u06FF\s]*$/.test(text);
-              if (isInitiallyEnglish || isArabicOnly) {
-                this.setState({userName: text});
-              }
+              borderColor: 'orange',
+              borderWidth: 2,
             }}
-            placeholder={ArabicText.Name}
-            placeholderTextColor="#b0b0b0"
-          />
-          <TextInput
-            style={Styles.inputs}
-            value={this?.state?.email}
-            onChangeText={text => this.setState({email: text})}
-            placeholder={ArabicText.EMAIL}
-            placeholderTextColor="#b0b0b0"
-            keyboardType="email-address"
-          />
+            style={{
+              width: 150,
+              height: 150,
+              borderRadius: 100,
+              alignSelf: 'center',
+              marginTop: 30,
+            }}
+            source={
+              pickedImage?.length
+                ? {uri: image}
+                : this.props.user?.user?.user?.image
+                ? {
+                    uri:
+                      // 'http://www.tasdeertech.com/public/images/profiles/' +
+                      profileBaseUrl + this.props.user?.user?.user?.image,
+                  }
+                : require('../../assets/dummyImage.jpeg')
+            }>
+            <TouchableOpacity
+              onPress={() => this.openGallery()}
+              style={{
+                marginTop: -30,
+                position: 'absolute',
+                bottom: 0,
+                borderRadius: 100,
+                backgroundColor: 'orange',
+                alignContent: 'center',
+                alignSelf: 'center',
+                padding: 10,
+              }}>
+              <Image
+                source={require('../../assets/edit.png')}
+                resizeMode="contain"
+                style={{
+                  tintColor: 'white',
+                  width: 20,
+                  height: 20,
+                }}
+                name="upload"
+              />
+            </TouchableOpacity>
+          </ImageBackground>
+          <Loader loading={this.state.loading} />
+          <Text style={Styles.text}>{ArabicText.Edit_profile}</Text>
 
-          {/* <TextInput
+          <View style={Styles.profileQuestioncard}>
+            <TextInput
+              maxLength={30}
+              style={Styles.inputs}
+              value={this.state.userName}
+              onChangeText={text => {
+                const isInitiallyEnglish = /^[a-zA-Z]+/.test(
+                  this.state.userName,
+                );
+                const isArabicOnly = /^[\u0600-\u06FF\s]*$/.test(text);
+                if (isInitiallyEnglish || isArabicOnly) {
+                  this.setState({userName: text});
+                }
+              }}
+              placeholder={ArabicText.Name}
+              placeholderTextColor="#b0b0b0"
+            />
+            <TextInput
+              style={Styles.inputs}
+              value={this?.state?.email}
+              onChangeText={text => this.setState({email: text})}
+              placeholder={ArabicText.EMAIL}
+              placeholderTextColor="#b0b0b0"
+              keyboardType="email-address"
+            />
+
+            {/* <TextInput
             style={Styles.inputs}
             value={this.state.location}
             onChangeText={text => this.setState({location: text})}
             placeholder={ArabicText.Location}
             placeholderTextColor="#b0b0b0"
           /> */}
-          <GooglePlaceAutocomplete
-            placeholder={user?.location}
-            callback={(formatted_address, geometry) => {
-              this.callback(formatted_address, geometry);
-            }}
-          />
-        </View>
-        {/* Update Profile */}
-        <TouchableOpacity
-          onPress={this.updateProfile}
-          style={{
-            backgroundColor: '#8b4513',
-            width: 200,
-            height: 40,
-            borderRadius: 7,
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginVertical: 20,
-          }}>
-          {this.state.btnLoader ? (
-            <ActivityIndicator
-              size="large"
-              color="white"
-              animating={this.state.btnLoader}
+            <GooglePlaceAutocomplete
+              placeholder={user?.location}
+              callback={(formatted_address, geometry) => {
+                this.callback(formatted_address, geometry);
+              }}
             />
-          ) : (
-            <Text style={{color: '#fff', fontSize: 16}}>
-              {ArabicText?.UpdateProfile}
-            </Text>
-          )}
-        </TouchableOpacity>
+          </View>
+          {/* Update Profile */}
+          <TouchableOpacity
+            onPress={this.updateProfile}
+            style={{
+              backgroundColor: '#8b4513',
+              width: 200,
+              height: 40,
+              borderRadius: 7,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginVertical: 20,
+            }}>
+            {this.state.btnLoader ? (
+              <ActivityIndicator
+                size="large"
+                color="white"
+                animating={this.state.btnLoader}
+              />
+            ) : (
+              <Text style={{color: '#fff', fontSize: 16}}>
+                {ArabicText?.UpdateProfile}
+              </Text>
+            )}
+          </TouchableOpacity>
 
-        {/* logout button */}
-        <TouchableOpacity
-          onPress={() => this.logOut()}
-          style={{alignSelf: 'center', marginBottom: 20, marginTop: 10}}>
-          <AntDesign name="poweroff" size={25} color="red" />
-        </TouchableOpacity>
-      </View>
-
+          {/* logout button */}
+          <TouchableOpacity
+            onPress={() => this.logOut()}
+            style={{alignSelf: 'center', marginBottom: 20, marginTop: 10}}>
+            <AntDesign name="poweroff" size={25} color="red" />
+          </TouchableOpacity>
+        </View>
+        {/* 
       // <Modal
       //   animationType="slide"
       //   visible={this.state.modalVisible}
@@ -406,9 +416,8 @@ class EditProfile extends Component {
       //       containerStyle={{ width: "90%", alignSelf: "center", bottom: 10 }}
       //       handleTextChange={(e) => this.setState({ optVal: e })} />
       //   </View>
-      // </Modal>
-
-      // </ScrollView>
+      // </Modal> */}
+      </ScrollView>
     );
   }
 }

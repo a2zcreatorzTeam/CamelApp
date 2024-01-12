@@ -118,7 +118,7 @@ const FriendList = prop => {
                     {ArabicText.reject}
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   onPress={() => BlockContact(item)}
                   style={[
                     styles.friendReqBTN,
@@ -128,7 +128,7 @@ const FriendList = prop => {
                     },
                   ]}>
                   <Text style={styles.reqBTNtext}>{ArabicText.block}</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <View style={{justifyContent: 'flex-end'}}>
                   <Text style={styles.groupName} numberOfLines={2}>

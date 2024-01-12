@@ -34,9 +34,8 @@ import BackBtnHeader from '../components/headerWithBackBtn';
 const width = Dimensions.get('screen').width;
 
 RNTwitterSignIn.init(
-  'Pms1jAjrh8BOGg0ejusChoO4m',
-  'JywnRU724s53e1usaWxKdk2Vaf3QXQV2kPZT9ERziaMKIRJOck',
-  // 'twittersdk://',
+  'ss6WPZy3wAQXXSRdci89Hwjwd',
+  'MggWb6ZXkPN19emSBEMt9yDi1tNf5sIF22eeaSh7O3L83c2NDv',
 ).then(res => console.log('Twitter SDK initialized', res));
 
 class Login extends Component {
@@ -97,6 +96,7 @@ class Login extends Component {
 
   // InstagramTwitterLogin
   setIgToken = async data => {
+    console.log(data, 'dattaaaa');
     await getFCMToken();
     const deviceToken = await AsyncStorage?.getItem('fcmToken');
     console.log(deviceToken, 'dattattt');
@@ -143,13 +143,16 @@ class Login extends Component {
   };
   // TWITTERLOGIN
   signInWithTwitter = async () => {
+    console.log('jeytyyyy');
     try {
       const loginData = await RNTwitterSignIn.logIn();
+      console.log(loginData, 'loginnn');
       const {authToken, authTokenSecret} = loginData;
       console.log(authToken, 'authToken', authTokenSecret);
       if (authToken && authTokenSecret) {
       }
     } catch (error) {
+      console.log(error, 'errr');
       try {
         const message = error?.message;
         const startIndex = message.indexOf('{ NativeMap: ');
@@ -166,6 +169,7 @@ class Login extends Component {
               socialType: 'twitter',
             });
           } catch (e) {
+            console.log(e, 'eeeeee');
             return Toast.show({
               text1: ArabicText.somethingwentwrong,
               type: 'error',
@@ -553,8 +557,8 @@ class Login extends Component {
           appSecret="7e912ae51583adeba9a174b5c468aba2"
           redirectUrl="https://com.alsyahd.camel/redirect"
           incognito={false}
-          // scopes={['user_profile', 'user_media']}
-          scopes={['user_profile', 'user_email']}
+          // scopes={['user_profile', 'user_email']}
+          scopes={['user_profile', 'user_media']}
           onLoginSuccess={this.setIgToken}
           onLoginFailure={data => console.log(data, 'falseDataaaa')}
           language="en" //default is 'en' for english

@@ -104,7 +104,7 @@ export default class App extends Component {
         .then(response => {
           console.log(response, 'response1066666');
           if (response?.data?.success == true) {
-            console.log("1077777");
+            console.log('1077777');
             setTimeout(() => {
               this.first.current.focus();
               this.setState({
@@ -164,6 +164,7 @@ export default class App extends Component {
             password: this.state.password,
           })
           .then(response => {
+            this.setState({loader: false});
             if (response.data.status === true) {
               Toast.show({
                 text1: response?.data?.message,
@@ -172,10 +173,11 @@ export default class App extends Component {
               });
               setTimeout(() => {
                 this.props.navigation.navigate('Login');
-              }, 1000);
+              }, 500);
             }
           })
           .catch(error => {
+            this.setState({loader: false});
             //console.log("error", error)
           });
       } else {

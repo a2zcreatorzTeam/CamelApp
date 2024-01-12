@@ -82,6 +82,7 @@ class EditProfile extends Component {
         .get('/logout/' + id)
         .then(
           (response = async () => {
+            console.log(response, 'responsee');
             if (userdetail?.socialType == 'instagram') {
               this.onClear();
             } else if (userdetail?.socialType == 'twitter') {
@@ -301,9 +302,16 @@ class EditProfile extends Component {
 
         <View style={Styles.profileQuestioncard}>
           <TextInput
+            maxLength={30}
             style={Styles.inputs}
             value={this.state.userName}
-            onChangeText={text => this.setState({userName: text})}
+            onChangeText={text => {
+              const isInitiallyEnglish = /^[a-zA-Z]+/.test(this.state.userName);
+              const isArabicOnly = /^[\u0600-\u06FF\s]*$/.test(text);
+              if (isInitiallyEnglish || isArabicOnly) {
+                this.setState({userName: text});
+              }
+            }}
             placeholder={ArabicText.Name}
             placeholderTextColor="#b0b0b0"
           />

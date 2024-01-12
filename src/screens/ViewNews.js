@@ -188,7 +188,6 @@ class ViewNews extends Component {
         width: '95%',
       },
     };
-    console.log(newsdata?.user?.image, ' newsdata?.user?.image');
     return (
       <View style={Styles.container}>
         <Loader loading={this.state.loading} />
@@ -258,9 +257,9 @@ class ViewNews extends Component {
             <Text style={{color: 'black'}}>{ArabicText?.comments}</Text>
           </View>
           <FlatList
+            keyExtractor={item => item.id}
             key={key}
             style={{flex: 1}}
-            // inverted
             data={this.state.commentList}
             renderItem={renderItem}
             // initialNumToRender={5}
@@ -290,7 +289,6 @@ class ViewNews extends Component {
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),

@@ -720,6 +720,7 @@ class Profile extends Component {
         />
       );
     };
+    console.log(userData?.posts?.length);
     return (
       <View style={Styles.containerProfile}>
         {this.props.user?.user?.user === undefined ? (
@@ -895,7 +896,7 @@ class Profile extends Component {
                   {/* NO OF POSTS  */}
                   <View style={styles.video}>
                     <Text style={styles.textcolor}>
-                      {this.props?.user?.user?.posts?.length}
+                      {userData?.posts?.length ? userData?.posts?.length : 0}
                     </Text>
                     <Text style={styles.textcolor}>{ArabicText.posts}</Text>
                   </View>

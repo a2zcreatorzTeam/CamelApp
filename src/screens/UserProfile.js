@@ -177,7 +177,7 @@ class UserProfile extends Component {
           this.props.route.params.userProfile.user?.chat_status == '1'
         ) {
           this.props.navigation.navigate('MessageViewScreen', {
-            messageData: this.state.user,
+            messageData: this.state.OtherUserDetail,
           });
         } else {
           Toast.show({
@@ -261,12 +261,7 @@ class UserProfile extends Component {
             key: !key,
             OtherUserDetail: data?.user[0],
           });
-          console.log(
-            'RATING COUNT  LENGTH',
-            length,
-            typeof this.state?.rating,
-            this.state?.rating,
-          );
+          console.log(noOfPosts, 'noOfPosts');
         }
         this.setState({loading: false});
         if (user !== undefined) {
@@ -304,14 +299,12 @@ class UserProfile extends Component {
               type: 'success',
               text1: `${ArabicText?.unfollowed}`,
             });
-          }
-          else if (res?.message == 'Successfully Followed') {
+          } else if (res?.message == 'Successfully Followed') {
             Toast.show({
               type: 'success',
               text1: `${ArabicText?.followed}`,
             });
-          }
-          else {
+          } else {
             Toast.show({
               type: 'success',
               text1: `${ArabicText.Error} + ''`,
@@ -816,7 +809,7 @@ class UserProfile extends Component {
                 textAlign: 'center',
                 justifyContent: 'center',
               }}>
-              {this.state.user.name}
+              {OtherUserDetail?.name}
             </Text>
 
             <View

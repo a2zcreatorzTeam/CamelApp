@@ -378,7 +378,7 @@ class Home extends Component {
             user: user,
             post: item,
           });
-          this.viewPosts();
+          // this.viewPosts();
         });
     } else {
       this.props.navigation.navigate('Login');

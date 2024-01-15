@@ -81,7 +81,6 @@ const NewsPost = ({
                   color: 'grey',
                   fontSize: 10,
                   marginHorizontal: 20,
-                  marginVertical: 10,
                   marginTop: 'auto',
                 }}>
                 {date}

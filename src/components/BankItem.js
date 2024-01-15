@@ -4,6 +4,7 @@ import {Styles} from '../styles/globlestyle';
 import * as ArabicText from '../language/EnglishToArabic';
 import {Dimensions} from 'react-native';
 import {mainImageUrl} from '../constants/urls';
+import FastImage from 'react-native-fast-image';
 const width = Dimensions.get('screen').width;
 const BankItem = ({name, address, userImage, phone}) => (
   <View style={Styles.containerSponsor}>
@@ -51,16 +52,14 @@ const BankItem = ({name, address, userImage, phone}) => (
             {ArabicText.phone}:{phone?.slice(8, 11)}********
           </Text>
         </View>
-        <Image
+        <FastImage
+          style={{width: 145, height: 145, marginRight: 10, borderRadius: 18}}
           source={{
             uri: `${mainImageUrl}bank/` + userImage,
+            headers: {Authorization: 'someAuthToken'},
+            priority: FastImage.priority.high,
           }}
-          style={{
-            width: 145,
-            height: 145,
-            marginRight: 10,
-            borderRadius: 18,
-          }}></Image>
+        />
       </View>
     </View>
   </View>

@@ -26,6 +26,7 @@ import BackBtnHeader from '../components/headerWithBackBtn';
 import moment from 'moment';
 import Toast from 'react-native-toast-message';
 import {mainImageUrl} from '../constants/urls';
+import FastImage from 'react-native-fast-image';
 class Surveyform extends Component {
   constructor(props) {
     super(props);
@@ -186,15 +187,19 @@ class Surveyform extends Component {
                         backgroundColor: 'black',
                         overflow: 'hidden',
                       }}>
-                      <Image
-                        source={{
-                          uri: `${mainImageUrl}survey/` + item.image,
-                        }}
+                      <FastImage
                         style={{
                           width: width - 100,
                           height: 200,
                           backgroundColor: 'black',
-                        }}></Image>
+                        }}
+                        source={{
+                          uri: `${mainImageUrl}survey/` + item.image,
+                          headers: {Authorization: 'someAuthToken'},
+                          priority: FastImage.priority.high,
+                        }}
+                        resizeMode={FastImage?.resizeMode.cover}
+                      />
                     </View>
                   </View>
 

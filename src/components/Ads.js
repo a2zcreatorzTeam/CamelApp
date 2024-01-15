@@ -5,6 +5,7 @@ import {TouchableOpacity} from 'react-native';
 import {Linking} from 'react-native';
 import {ImageBackground} from 'react-native';
 import {mainImageUrl} from '../constants/urls';
+import FastImage from 'react-native-fast-image';
 
 const {width, height} = Dimensions.get('screen');
 const Ads = () => {
@@ -39,7 +40,7 @@ const AdsComp = ({item}) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        console.log("wokinghgg");
+        console.log('wokinghgg');
         Linking.openURL(item?.url);
       }}
       style={{
@@ -49,39 +50,16 @@ const AdsComp = ({item}) => {
         padding: 5,
         alignItems: 'center',
       }}>
-      <Image
-        resizeMode="contain"
+      <FastImage
+        style={{flex: 1, width: '100%', height: undefined, borderRadius: 7}}
         source={{
           uri: `${mainImageUrl}advertisement/` + item?.image,
+
+          headers: {Authorization: 'someAuthToken'},
+          priority: FastImage.priority.high,
         }}
-        style={{
-          flex: 1,
-          width: '100%',
-          height: undefined,
-          borderRadius: 7,
-        }}
+        resizeMode={FastImage?.resizeMode.contain}
       />
-
-      {/* <Image
-          source={require('../../assets/star.png')}
-          style={{
-            width: 20,
-            height: 20,
-            position: 'absolute',
-            top: 6,
-            right: 6,
-          }}
-        /> */}
-
-      {/* <View style={{paddingHorizontal: 10, marginTop: 25}}>
-          <Text style={{fontSize: 20, color: '#000', fontWeight: '600'}}>
-            {item?.title}
-          </Text>
-          <Text style={{color: '#000', fontSize: 12, fontWeight: '300'}}>
-            {ArabicText?.Createdat}: {item?.created_at.slice(2, 10)}
-          </Text>
-        </View> */}
-      {/* </View> */}
     </TouchableOpacity>
   );
 };

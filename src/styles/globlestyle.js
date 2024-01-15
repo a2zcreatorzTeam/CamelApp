@@ -1078,7 +1078,7 @@ export const Styles = StyleSheet.create({
   newsbox1: {
     // flex:1, //used in news screen
     backgroundColor: '#fff',
-    // alignItems: 'center',
+    alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row', //remved for news screen
     width: width - 20,

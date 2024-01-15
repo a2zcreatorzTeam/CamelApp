@@ -2,6 +2,7 @@ export const imageBaseUrl = 'https://www.tasdeertech.com/images/posts/';
 export const VideoBaseUrl = 'https://www.tasdeertech.com/videos/';
 export const profileBaseUrl = 'https://www.tasdeertech.com/images/profiles/';
 export const mainImageUrl = 'https://tasdeertech.com/public/images/';
+export const mainCompImageUrl = 'https://tasdeertech.com/images/';
 export const thumbnailBaseUrl =
   'https://www.tasdeertech.com/public/images/thumbnail/';
 

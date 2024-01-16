@@ -25,7 +25,11 @@ import camelapp from '../api/camelapp';
 import PostItem from '../components/CompetitionPostItem';
 import Header from '../components/Header';
 import EmptyComponent from '../components/EmptyComponent';
-import {mainCompImageUrl, mainImageUrl, profileBaseUrl} from '../constants/urls';
+import {
+  mainCompImageUrl,
+  mainImageUrl,
+  profileBaseUrl,
+} from '../constants/urls';
 
 const width = Dimensions.get('screen').width;
 class BeautyOfCompetition extends Component {
@@ -710,31 +714,31 @@ class BeautyOfCompetition extends Component {
           )}
 
         <View style={{flex: 1}}>
-          {posts?.length ? (
-            <FlatList
-              key={key}
-              style={{flex: 1, flexGrow: 1}}
-              contentContainerStyle={{
-                flexGrow: 1,
-                alignItems: 'flex-end',
-                width: width,
-              }}
-              columnWrapperStyle={{
-                justifyContent: 'space-between',
-              }}
-              data={searchedItem ? filterPosts : posts}
-              renderItem={renderPostItem}
-              numColumns={2}
-              // initialNumToRender={5}
-              // maxToRenderPerBatch={5}
-              refreshControl={
-                <RefreshControl
-                  refreshing={refreshing}
-                  onRefresh={() => this.ScrollToRefresh()}
-                />
-              }
-            />
-          ) : null}
+          {/* {posts?.length && ( */}
+          <FlatList
+            key={key}
+            style={{flex: 1, flexGrow: 1}}
+            contentContainerStyle={{
+              flexGrow: 1,
+              alignItems: 'flex-end',
+              width: width,
+            }}
+            columnWrapperStyle={{
+              justifyContent: 'space-between',
+            }}
+            data={searchedItem ? filterPosts : posts ? posts : []}
+            renderItem={renderPostItem}
+            numColumns={2}
+            // initialNumToRender={5}
+            // maxToRenderPerBatch={5}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={() => this.ScrollToRefresh()}
+              />
+            }
+          />
+          {/* )} */}
         </View>
       </View>
     );

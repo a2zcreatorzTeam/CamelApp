@@ -1,6 +1,6 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from '../screens/Home';
-import News from '../screens/News';
+import News from '../screens/NewsList';
 
 const NewStack = createNativeStackNavigator();
 export default function NewSatck() {

@@ -18,6 +18,7 @@ import {RefreshControl} from 'react-native';
 import EmptyComponent from '../../components/EmptyComponent';
 import * as ArabicText from '../../language/EnglishToArabic';
 import {profileBaseUrl} from '../../constants/urls';
+import FastImage from 'react-native-fast-image';
 
 const {width} = Dimensions.get('screen');
 
@@ -137,13 +138,18 @@ const FriendList = prop => {
                 </View>
 
                 <View style={styles.groupImageContainer}>
-                  <Image
-                    source={{
-                      uri:
-                        // 'http://www.tasdeertech.com/public/images/profiles/' +
-                        profileBaseUrl + item?.friend_image,
-                    }}
+                  <FastImage
                     style={styles.groupImageStyle}
+                    source={
+                      item?.data?.downloadURL
+                        ? {
+                            uri: profileBaseUrl + item?.friend_image,
+                            headers: {Authorization: 'someAuthToken'},
+                            priority: FastImage.priority.normal,
+                          }
+                        : require('../../../assets/image.png')
+                    }
+                    resizeMode={FastImage?.resizeMode.cover}
                   />
                 </View>
               </View>

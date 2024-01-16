@@ -116,12 +116,13 @@ const PostItem = ({
           backgroundColor: '#ffffff',
           position: 'absolute',
           alignItems: 'center',
-          bottom: 5,
+          bottom: 8,
           width: 140,
           padding: 10,
           borderRadius: 15,
           flexDirection: 'row',
           justifyContent: 'space-between',
+          left:5
         }}>
         <TouchableOpacity
           style={{

@@ -90,6 +90,7 @@ const Item = ({
             position: 'absolute',
             bottom: 10,
             alignItems: 'center',
+            width: 30,
           }}>
           <Text style={{color: 'black', fontWeight: 'bold'}}>
             {ArabicText.Reply}

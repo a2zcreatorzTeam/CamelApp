@@ -18,7 +18,8 @@ import firestore from '@react-native-firebase/firestore';
 import camelapp from '../../api/camelapp';
 import * as userActions from '../../redux/actions/user_actions';
 import EmptyComponent from '../../components/EmptyComponent';
-import { profileBaseUrl } from '../../constants/urls';
+import {profileBaseUrl} from '../../constants/urls';
+import FastImage from 'react-native-fast-image';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 
@@ -111,10 +112,13 @@ class Messages extends Component {
     }
   }
   componentDidMount() {
-    this.checkUserLogedIn();
+    this.focusListener = this.props.navigation.addListener('focus', () => {
+      this.checkUserLogedIn();
+    });
   }
   componentWillUnmount() {
     clearInterval(this.interval);
+    this.focusListener();
   }
   navigateToMessages = item => {
     this.props.navigation.navigate('MessageViewScreen', {messageData: item});
@@ -160,17 +164,17 @@ class Messages extends Component {
               overflow: 'hidden',
               marginBottom: 5,
             }}>
-            <Image
-              source={{
-                uri:
-                  // 'http://www.tasdeertech.com/public/images/profiles/' +
-                  profileBaseUrl+
-                  userImage,
-              }}
+            <FastImage
               style={{
                 width: 50,
                 height: 50,
               }}
+              source={{
+                uri: profileBaseUrl + userImage,
+                headers: {Authorization: 'someAuthToken'},
+                priority: FastImage.priority.normal,
+              }}
+              resizeMode={FastImage?.resizeMode.cover}
             />
           </View>
         </View>

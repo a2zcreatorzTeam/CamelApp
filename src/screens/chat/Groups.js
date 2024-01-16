@@ -18,6 +18,7 @@ import {bindActionCreators} from 'redux';
 import {useIsFocused} from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import EmptyComponent from '../../components/EmptyComponent';
+import FastImage from 'react-native-fast-image';
 
 const {width} = Dimensions.get('screen');
 
@@ -42,62 +43,63 @@ const Groups = prop => {
   // Function to get the document ID for a specific user ID
   const getDocumentIdForUserId = async () => {
     const userId = prop?.user?.user?.user?.id;
-
     console.log(userId, 'userIduserIduserId');
-    try {
-      let data = null;
-      //where('users','==',userId)
-      const querySnapshot1 = await firestore()
-        .collection('groupChat')
-        .where('users', '==', userId)
-        .get();
-      const querySnapshot2 = await firestore()
-        .collection('groupChat')
-        .where('members', 'array-contains', userId)
-        .get();
-      if (querySnapshot1?.docs?.length) {
-        data = querySnapshot1.docs.map(doc => ({
-          id: doc.id,
-          data: doc.data(),
-        }));
-        console.log('first', querySnapshot1?.docs);
-        setGroupList(data);
-      }
-      if (querySnapshot2?.docs?.length) {
-        data = querySnapshot2.docs.map(doc => ({
-          id: doc.id,
-          data: doc.data(),
-        }));
-        console.log('second', querySnapshot2?.docs);
-        setGroupList(data);
-      }
-      var temData = [];
-      if (querySnapshot2?.docs?.length && querySnapshot1?.docs?.length) {
-        var temData = querySnapshot1.docs.map(doc => ({
-          id: doc.id,
-          data: doc.data(),
-        }));
-        data = querySnapshot2.docs.map(doc => ({
-          id: doc.id,
-          data: doc.data(),
-        }));
-        const newData = temData.concat(data);
+    if (userId) {
+      try {
+        let data = null;
+        //where('users','==',userId)
+        const querySnapshot1 = await firestore()
+          .collection('groupChat')
+          .where('users', '==', userId)
+          .get();
+        const querySnapshot2 = await firestore()
+          .collection('groupChat')
+          .where('members', 'array-contains', userId)
+          .get();
+        if (querySnapshot1?.docs?.length) {
+          data = querySnapshot1.docs.map(doc => ({
+            id: doc.id,
+            data: doc.data(),
+          }));
+          console.log('first', querySnapshot1?.docs);
+          setGroupList(data);
+        }
+        if (querySnapshot2?.docs?.length) {
+          data = querySnapshot2.docs.map(doc => ({
+            id: doc.id,
+            data: doc.data(),
+          }));
+          console.log('second', querySnapshot2?.docs);
+          setGroupList(data);
+        }
+        var temData = [];
+        if (querySnapshot2?.docs?.length && querySnapshot1?.docs?.length) {
+          var temData = querySnapshot1.docs.map(doc => ({
+            id: doc.id,
+            data: doc.data(),
+          }));
+          data = querySnapshot2.docs.map(doc => ({
+            id: doc.id,
+            data: doc.data(),
+          }));
+          const newData = temData.concat(data);
 
-        setGroupList(newData);
-      }
+          setGroupList(newData);
+        }
 
-      // if (!querySnapshot.empty) {
-      //   // Assuming there is only one matching document
-      //   const documentId = querySnapshot.docs[0].id;
-      //   console.log('Document ID:', documentId);
-      //   return documentId;
-      // } else {
-      //   console.error('User not found in the collection');
-      //   return null;
-      // }
-    } catch (error) {
-      console.error('Error getting document ID:', error);
-      return null;
+        // if (!querySnapshot.empty) {
+        //   // Assuming there is only one matching document
+        //   const documentId = querySnapshot.docs[0].id;
+        //   console.log('Document ID:', documentId);
+        //   return documentId;
+        // } else {
+        //   console.error('User not found in the collection');
+        //   return null;
+        // }
+      } catch (error) {
+        console.error('Error getting document ID:', error);
+        return null;
+      }
     }
   };
 
@@ -147,18 +149,23 @@ const Groups = prop => {
                     alignItems: 'center',
                   }}>
                   <Text style={styles.groupName}>{item?.data?.groupName}</Text>
-                  <Image
-                    source={
-                      item?.data?.downloadURL
-                        ? {uri: item?.data?.downloadURL}
-                        : require('../../../assets/image.png')
-                    }
+                  <FastImage
                     style={{
                       width: 60,
                       height: 60,
                       borderRadius: 100,
                       marginLeft: 20,
                     }}
+                    source={
+                      item?.data?.downloadURL
+                        ? {
+                            uri: item?.data?.downloadURL,
+                            headers: {Authorization: 'someAuthToken'},
+                            priority: FastImage.priority.normal,
+                          }
+                        : require('../../../assets/image.png')
+                    }
+                    resizeMode={FastImage?.resizeMode.cover}
                   />
                 </View>
               </View>

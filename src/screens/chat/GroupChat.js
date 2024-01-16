@@ -375,6 +375,7 @@ const GroupChat = props => {
     }
   };
   getUsersDetailInfo = async () => {
+    console.log(props?.route?.params?.groupUserData,"props?.route?.params?.groupUserData");
     const data = props?.route?.params?.groupUserData;
 
     try {

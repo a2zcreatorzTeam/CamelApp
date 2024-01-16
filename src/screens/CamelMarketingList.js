@@ -102,17 +102,6 @@ class CamelMarketingList extends Component {
       console.log('Error Message--- view post', error);
     }
   }
-  playVideo(item) {
-    let {filterPosts} = this.state;
-
-    let index = filterPosts.indexOf(item);
-
-    console.log('index', index);
-
-    filterPosts[index].flagForVideo = !filterPosts[index].flagForVideo;
-
-    this.setState({filterPosts: filterPosts});
-  }
   ScrollToRefresh() {
     this.viewPosts();
     this.setState({refreshing: false});
@@ -330,18 +319,14 @@ class CamelMarketingList extends Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(CamelMarketingList);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

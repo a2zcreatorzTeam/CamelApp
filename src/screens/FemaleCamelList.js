@@ -62,9 +62,6 @@ class CamelFemaleList extends Component {
     }
   }
   search(text) {
-    //console.log("post[0]", this.state.posts[0])
-
-    //console.log("text", text);
     this.setState({searchText: text});
   }
   async viewPosts() {

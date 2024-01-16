@@ -58,12 +58,6 @@ class CamelFoodList extends Component {
   search(text) {
     this.setState({searchText: text});
   }
-  playVideo(item) {
-    let {filterPosts} = this.state;
-    let index = filterPosts.indexOf(item);
-    filterPosts[index].flagForVideo = !filterPosts[index].flagForVideo;
-    this.setState({filterPosts: filterPosts});
-  }
   ScrollToRefresh() {
     this.viewPosts();
     this.setState({refreshing: false});

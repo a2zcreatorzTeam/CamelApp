@@ -133,11 +133,6 @@ class CamelTreatmentList extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-  onScroll = event => {
-    console.log(event.nativeEvent.contentOffset.y, 'eventtttttt');
-    // Save the current scroll position in the state
-    this.setState({scrollOffset: event.nativeEvent.contentOffset.y});
-  };
   render() {
     let {user} = this.props;
     user = user?.user?.user;

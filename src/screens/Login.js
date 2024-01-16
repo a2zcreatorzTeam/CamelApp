@@ -96,11 +96,11 @@ class Login extends Component {
 
   // InstagramTwitterLogin
   setIgToken = async data => {
+    this.setState({loader: true});
     console.log(data, 'dattaaaa');
     await getFCMToken();
     const deviceToken = await AsyncStorage?.getItem('fcmToken');
     console.log(deviceToken, 'dattattt');
-    this.setState({loader: true});
     try {
       camelapp
         .post('/social/login', {

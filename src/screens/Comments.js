@@ -12,6 +12,7 @@ import {
   ActivityIndicator,
   StyleSheet,
   Dimensions,
+  Keyboard,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Feather from 'react-native-vector-icons/Feather';
@@ -52,15 +53,25 @@ class Comments extends Component {
   componentDidMount() {
     this.getCommentsOnPost();
   }
+  getCommentsOnPost = async () => {
+    let {user, post_id} = this.props?.route.params;
+    const {searchedItem, dataNotFound} = this.state;
+    await camelapp
+      .post('/get/comment', {
+        post_id: post_id ? post_id : this.props.route.params?.post?.id,
+        user_id: user?.id,
+      })
+      .then(res => {
+        this.setState({
+          commentsList: res?.data,
+          loader: false,
+          dataNotFound: !dataNotFound,
+        });
+        searchedItem && this.searchHandler(searchedItem);
+      });
+  };
   addReplyToComment = () => {
     let {post_id} = this.props?.route.params;
-    console.log(
-      this.state.commentId,
-      'this.state.commentIdthis.state.commentId',
-      this.state.newReply,
-      post_id ? post_id : this.props.route.params?.post?.id,
-      this.state.user_id,
-    );
     if (this.state.newReply != '') {
       camelapp
         .post('/add/reply', {
@@ -118,23 +129,6 @@ class Comments extends Component {
     } else {
       this.props.navigation.navigate('Login');
     }
-  };
-  getCommentsOnPost = async () => {
-    let {user, post_id} = this.props?.route.params;
-    const {searchedItem, dataNotFound} = this.state;
-    await camelapp
-      .post('/get/comment', {
-        post_id: post_id ? post_id : this.props.route.params?.post?.id,
-        user_id: user?.id,
-      })
-      .then(res => {
-        this.setState({
-          commentsList: res?.data,
-          loader: false,
-          dataNotFound: !dataNotFound,
-        });
-        searchedItem && this.searchHandler(searchedItem);
-      });
   };
   onRefresh = () => {
     this.getCommentsOnPost();
@@ -206,11 +200,11 @@ class Comments extends Component {
           }}
           item={item}
           date={item?.created_at?.slice(0, 9)}
-          comment={item.comment}
-          userImage={item.image}
-          userName={item.name}
+          comment={item?.comment}
+          userImage={item?.image}
+          userName={item?.name}
           time={item?.created_at}
-          commentsCount={item.total_likes}
+          commentsCount={item?.total_likes}
           onCommentsClick={() => this.onCommentsClick(item)}
           onLikesClick={(setIsLiked, setLikeCount) =>
             this.onLikesClick(item, setIsLiked, setLikeCount)
@@ -262,7 +256,6 @@ class Comments extends Component {
             onPressSearch={() => this?.searchHandler(this.state.searchText)}
           />
         )}
-        {console.log(commentsList, 'commentsListcommentsList')}
         {this.state.commentsList?.length && loader == false ? (
           <FlatList
             showsVerticalScrollIndicator={false}

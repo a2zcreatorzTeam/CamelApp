@@ -118,21 +118,7 @@ class CamelSellingList extends Component {
       this.setState({filterPosts: tempPost});
     }
   }
-  playVideo(item) {
-    let {filterPosts} = this.state;
-
-    let index = filterPosts.indexOf(item);
-
-    // console.log('index', index);
-
-    filterPosts[index].flagForVideo = !filterPosts[index].flagForVideo;
-
-    this.setState({filterPosts: filterPosts});
-  }
   search(text) {
-    //console.log("post[0]", this.state.posts[0])
-
-    //console.log("text", text);
     this.setState({searchText: text});
   }
   ScrollToRefresh() {

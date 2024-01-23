@@ -10,15 +10,15 @@ import {
   Modal,
   Pressable,
 } from 'react-native';
-import {Styles} from '../styles/globlestyle';
+import { Styles } from '../styles/globlestyle';
 import camelapp from '../api/camelapp';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ArabicText from '../language/EnglishToArabic';
-import {Dimensions} from 'react-native';
-import {RadioButton} from 'react-native-paper';
+import { Dimensions } from 'react-native';
+import { RadioButton } from 'react-native-paper';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 import RNFS from 'react-native-fs';
@@ -30,7 +30,7 @@ import VideoModal from '../components/VideoModal';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
-import {createThumbnail} from 'react-native-create-thumbnail';
+import { createThumbnail } from 'react-native-create-thumbnail';
 
 class SellingEquipmentForm extends React.Component {
   constructor(props) {
@@ -52,7 +52,7 @@ class SellingEquipmentForm extends React.Component {
       register: false,
       checked_register: 'first',
       register_value: 0,
-      images: {uri: '', name: '', type: ''},
+      images: { uri: '', name: '', type: '' },
       localUrii: '',
       fileName: '',
       user: '',
@@ -130,11 +130,12 @@ class SellingEquipmentForm extends React.Component {
       color != '' &&
       price != '' &&
       price_type != '' &&
-      camel_type != '' &&
-      (price_type == ArabicText?.offer_Up ? selectedBidOption !== '' : true)
+      camel_type != ''
+      //  &&
+      // (price_type == ArabicText?.offer_Up ? selectedBidOption !== '' : true)
     ) {
-      this.setState({loading: true});
-      let {user} = this.props;
+      this.setState({ loading: true });
+      let { user } = this.props;
       let user_id = user?.user?.user.id;
       console.log(this.state.register_value, 'this.state.register_value');
       camelapp
@@ -149,7 +150,7 @@ class SellingEquipmentForm extends React.Component {
           color: color,
           price: price,
           price_type: price_type,
-          bid_expired_days: selectedBidOption?.name,
+          // bid_expired_days: selectedBidOption?.name,
           thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null,
         })
         .then(response => {
@@ -180,11 +181,11 @@ class SellingEquipmentForm extends React.Component {
           this.props.navigation.replace('CamelEquipmentList');
         })
         .catch(error => {
-          this.setState({loading: false});
+          this.setState({ loading: false });
           console.log('error', error);
         });
     } else {
-      this.setState({loading: false});
+      this.setState({ loading: false });
       return Toast.show({
         text1: ArabicText.Please_complete_the_fields + '',
         type: 'error',
@@ -193,7 +194,7 @@ class SellingEquipmentForm extends React.Component {
     }
   };
   videoPicker = async () => {
-    this.setState({video: {}});
+    this.setState({ video: {} });
     ImageCropPicker.openPicker({
       mediaType: 'video',
     }).then(async video => {
@@ -208,11 +209,11 @@ class SellingEquipmentForm extends React.Component {
           url: video?.path,
           timeStamp: 10000,
         })
-          .then(response => this.setState({thumbnail: response}))
-          .catch(err => console.log({err}));
+          .then(response => this.setState({ thumbnail: response }))
+          .catch(err => console.log({ err }));
         RNFS.readFile(video.path, 'base64')
           .then(res => {
-            this.setState({videoForPost: 'data:video/mp4;base64,' + res});
+            this.setState({ videoForPost: 'data:video/mp4;base64,' + res });
             let tempMixed = this.state.mixed;
             let mixed = this.state.mixed;
             let videoFlag = false;
@@ -228,10 +229,10 @@ class SellingEquipmentForm extends React.Component {
               if (videoFlag === false) {
                 mixed.push(video);
               }
-              this.setState({mixed: mixed, video: video});
+              this.setState({ mixed: mixed, video: video });
             } else {
               tempMixed.push(video);
-              this.setState({mixed: tempMixed, video: video});
+              this.setState({ mixed: tempMixed, video: video });
             }
           })
           .catch(err => {
@@ -256,9 +257,9 @@ class SellingEquipmentForm extends React.Component {
           bse64images.push('data:image/png;base64,' + images[i].data);
           mixedTemp.push(tempImage[i]);
         }
-        this.setState({imagesForPost: bse64images, image: tempImage});
+        this.setState({ imagesForPost: bse64images, image: tempImage });
         this.setState(previousState => {
-          return {mixed: [...previousState?.mixed, ...mixedTemp]};
+          return { mixed: [...previousState?.mixed, ...mixedTemp] };
         });
         // } else {
         //   alert('Only 4 images allowed');
@@ -271,7 +272,7 @@ class SellingEquipmentForm extends React.Component {
   }
   //  CAPTURE IMAGE
   openCameraForCapture() {
-    const {cameraimagesForPost, mixed} = this.state;
+    const { cameraimagesForPost, mixed } = this.state;
     ImageCropPicker.openCamera({
       mediaType: 'photo',
       includeBase64: true,
@@ -310,25 +311,25 @@ class SellingEquipmentForm extends React.Component {
   }
   onRegisterSwitchChanged(value) {
     console.log(value, 'valueeeee');
-    this.setState({registerSwitch: value});
+    this.setState({ registerSwitch: value });
     if (value === false) {
-      this.setState({register_value: 0});
+      this.setState({ register_value: 0 });
     }
     if (value === true) {
-      this.setState({register_value: 1});
+      this.setState({ register_value: 1 });
     }
   }
   // REMOVE ITEM
   removeItem = i => {
-    const {mixed} = this.state;
+    const { mixed } = this.state;
     const filteredList = mixed?.filter((item, index) => {
       return index !== i;
     });
-    this.setState({mixed: filteredList});
+    this.setState({ mixed: filteredList });
   };
   onBidExpireOption(val) {
-    this.setState({showBidOption: false});
-    this.setState({selectedBidOption: val});
+    this.setState({ showBidOption: false });
+    this.setState({ selectedBidOption: val });
   }
   render() {
     const {
@@ -359,7 +360,7 @@ class SellingEquipmentForm extends React.Component {
     ];
     return (
       <ScrollView
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         contentContainerStyle={{
           minHeight: '100%',
           paddingBottom: width * 0.1,
@@ -393,7 +394,7 @@ class SellingEquipmentForm extends React.Component {
               }}
               pausedCheck={pausedCheck}
               pauseVideo={() => {
-                this.setState({pausedCheck: true});
+                this.setState({ pausedCheck: true });
               }}
             />
           ) : null}
@@ -404,7 +405,7 @@ class SellingEquipmentForm extends React.Component {
               }}
               style={Styles.image}></Image>
           )}
-          <View style={{flexDirection: 'row', marginTop: 10}}>
+          <View style={{ flexDirection: 'row', marginTop: 10 }}>
             <View style={Styles.cameraview}>
               <TouchableOpacity onPress={() => this.videoPicker()}>
                 <FontAwesome name="video-camera" size={30} color="#D2691Eff" />
@@ -430,7 +431,7 @@ class SellingEquipmentForm extends React.Component {
             value={this.state.title}
             onChangeText={text => {
               if (text.length <= 24) {
-                this.setState({title: text});
+                this.setState({ title: text });
               } else {
                 Toast.show({
                   text1: ArabicText?.limitCharacters,
@@ -447,7 +448,7 @@ class SellingEquipmentForm extends React.Component {
             value={this.state.color}
             onChangeText={text => {
               if (text.length <= 24) {
-                this.setState({color: text});
+                this.setState({ color: text });
               } else {
                 Toast.show({
                   text1: ArabicText?.limitCharacters,
@@ -464,7 +465,7 @@ class SellingEquipmentForm extends React.Component {
             value={this.state.camel_type}
             onChangeText={text => {
               if (text.length <= 24) {
-                this.setState({camel_type: text});
+                this.setState({ camel_type: text });
               } else {
                 Toast.show({
                   text1: ArabicText?.limitCharacters,
@@ -481,7 +482,7 @@ class SellingEquipmentForm extends React.Component {
             value={this.state.location}
             onChangeText={text => {
               if (text.length <= 24) {
-                this.setState({location: text});
+                this.setState({ location: text });
               } else {
                 Toast.show({
                   text1: ArabicText?.limitCharacters,
@@ -500,15 +501,15 @@ class SellingEquipmentForm extends React.Component {
             }}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Pressable onPress={modal => this.setState({modal: !modal})}>
+                <Pressable onPress={modal => this.setState({ modal: !modal })}>
                   <Ionicons
                     name="close"
                     size={30}
                     color="brown"
-                    style={{marginLeft: width - 140}}
+                    style={{ marginLeft: width - 140 }}
                   />
                 </Pressable>
-                <Text style={{color: 'black', fontSize: 20}}>
+                <Text style={{ color: 'black', fontSize: 20 }}>
                   {ArabicText.fixed}
                 </Text>
                 <TextInput
@@ -517,11 +518,11 @@ class SellingEquipmentForm extends React.Component {
                   placeholderTextColor="#b0b0b0"
                   keyboardType="numeric"
                   onChangeText={text =>
-                    this.setState({price: text.replace(/[^0-9]/g, '')})
+                    this.setState({ price: text.replace(/[^0-9]/g, '') })
                   }></TextInput>
                 <TouchableOpacity
                   onPress={() => {
-                    this.setState({modal: false});
+                    this.setState({ modal: false });
                   }}>
                   <View style={Styles.btnform}>
                     <Text style={Styles.textbtn}>{ArabicText.fixed}</Text>
@@ -538,16 +539,16 @@ class SellingEquipmentForm extends React.Component {
               <View style={styles.modalView}>
                 <Pressable
                   onPress={modalOffer =>
-                    this.setState({modalOffer: !modalOffer})
+                    this.setState({ modalOffer: !modalOffer })
                   }>
                   <Ionicons
                     name="close"
                     size={30}
                     color="brown"
-                    style={{marginLeft: width - 140}}
+                    style={{ marginLeft: width - 140 }}
                   />
                 </Pressable>
-                <Text style={{color: 'black', fontSize: 20}}>
+                <Text style={{ color: 'black', fontSize: 20 }}>
                   {ArabicText.offer_Up}
                 </Text>
                 <TextInput
@@ -556,10 +557,10 @@ class SellingEquipmentForm extends React.Component {
                   placeholderTextColor="#b0b0b0"
                   placeholder={ArabicText.Price}
                   onChangeText={text =>
-                    this.setState({price: text.replace(/[^0-9]/g, '')})
+                    this.setState({ price: text.replace(/[^0-9]/g, '') })
                   }></TextInput>
                 <TouchableOpacity
-                  onPress={() => this.setState({modalOffer: false})}>
+                  onPress={() => this.setState({ modalOffer: false })}>
                   <View style={Styles.btnform}>
                     <Text style={Styles.textbtn}>{ArabicText.fixed}</Text>
                   </View>
@@ -583,12 +584,12 @@ class SellingEquipmentForm extends React.Component {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text style={{color: 'black', alignSelf: 'center', fontSize: 16}}>
+            <Text style={{ color: 'black', alignSelf: 'center', fontSize: 16 }}>
               {ArabicText.fixed}
             </Text>
 
             <RadioButton
-              style={{margin: 3, marginTop: 10}}
+              style={{ margin: 3, marginTop: 10 }}
               value={ArabicText.fixed}
               status={checked === 'first' ? 'checked' : 'unchecked'}
               onPress={() => {
@@ -601,12 +602,12 @@ class SellingEquipmentForm extends React.Component {
               }}
             />
 
-            <Text style={{color: 'black', alignSelf: 'center', fontSize: 16}}>
+            <Text style={{ color: 'black', alignSelf: 'center', fontSize: 16 }}>
               {ArabicText.offer_Up}
             </Text>
 
             <RadioButton
-              style={{margin: 3, marginTop: 5}}
+              style={{ margin: 3, marginTop: 5 }}
               value={ArabicText.offer_Up}
               status={checked === 'second' ? 'checked' : 'unchecked'}
               onPress={() => {
@@ -621,14 +622,14 @@ class SellingEquipmentForm extends React.Component {
           </View>
 
           {/* //SELECT BID EXPIRE DAYS */}
-          {price_type == ArabicText.offer_Up && (
+          {/* {price_type == ArabicText.offer_Up && (
             <View
               style={{
                 flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <View style={{alignItems: 'center'}}>
+              <View style={{ alignItems: 'center' }}>
                 <View
                   style={{
                     width: '45%',
@@ -666,7 +667,7 @@ class SellingEquipmentForm extends React.Component {
                   ]}
                   activeOpacity={0.8}
                   onPress={() =>
-                    this.setState({showBidOption: !showBidOption})
+                    this.setState({ showBidOption: !showBidOption })
                   }>
                   <Text
                     style={{
@@ -681,7 +682,7 @@ class SellingEquipmentForm extends React.Component {
                   </Text>
                   <Image
                     style={{
-                      transform: [{rotate: showBidOption ? '180deg' : '0deg'}],
+                      transform: [{ rotate: showBidOption ? '180deg' : '0deg' }],
                       width: 20,
                       height: 20,
                       marginLeft: 10,
@@ -705,7 +706,6 @@ class SellingEquipmentForm extends React.Component {
                       marginTop: 65,
                       zIndex: 80,
                     }}>
-                    {/* DROP DOWN */}
                     {ExpireType?.map((val, i) => {
                       console.log(val);
                       return (
@@ -742,17 +742,17 @@ class SellingEquipmentForm extends React.Component {
                 )}
               </View>
             </View>
-          )}
+          )} */}
           {/* SECTION BID EXPIRE END  */}
 
           <TextInput
             textAlignVertical="top"
-            style={[Styles.inputdecrp, {marginTop: 20}]}
+            style={[Styles.inputdecrp, { marginTop: 20 }]}
             placeholderTextColor="#b0b0b0"
             placeholder={ArabicText.Description}
             multiline
             onChangeText={text =>
-              this.setState({description: text})
+              this.setState({ description: text })
             }></TextInput>
           <TouchableOpacity onPress={() => this.createPostCamelFood()}>
             <View style={Styles.btnform}>
@@ -763,16 +763,16 @@ class SellingEquipmentForm extends React.Component {
         {/* VIDEO MODAL */}
         <VideoModal
           onLoadStart={() => {
-            this.setState({loadVideo: true});
+            this.setState({ loadVideo: true });
           }}
           onReadyForDisplay={() => {
-            this.setState({loadVideo: false});
+            this.setState({ loadVideo: false });
           }}
           onPress={() => {
-            !loadVideo && this.setState({pausedCheck: !pausedCheck});
+            !loadVideo && this.setState({ pausedCheck: !pausedCheck });
           }}
           closeModal={() => {
-            this.setState({videoModal: false, pausedCheck: true});
+            this.setState({ videoModal: false, pausedCheck: true });
           }}
           pausedCheck={pausedCheck}
           loadVideo={loadVideo}

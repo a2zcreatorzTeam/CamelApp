@@ -1,13 +1,13 @@
 import React from 'react';
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-import {Styles} from '../styles/globlestyle';
-import {Card} from 'react-native-paper';
-import {Dimensions} from 'react-native';
+import { Styles } from '../styles/globlestyle';
+import { Card } from 'react-native-paper';
+import { Dimensions } from 'react-native';
 import * as ArabicText from '../language/EnglishToArabic';
-import {useState} from 'react';
+import { useState } from 'react';
 import FastImage from 'react-native-fast-image';
-import {imageBaseUrl, thumbnailBaseUrl} from '../constants/urls';
+import { imageBaseUrl, thumbnailBaseUrl } from '../constants/urls';
 
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
@@ -21,10 +21,10 @@ const MovingPost = ({
   image,
   locationTo,
   thumbnail,
-  onDetailsClick = () => {},
+  onDetailsClick = () => { },
 }) => {
   const [viewCount, setViewCount] = useState(item?.view_count);
-  console.log(thumbnail);
+  console.log(item, "movingCamelll");
 
   return (
     <Card>
@@ -45,8 +45,8 @@ const MovingPost = ({
               source={
                 image
                   ? {
-                      uri: imageBaseUrl + image,
-                    }
+                    uri: imageBaseUrl + image,
+                  }
                   : require('../../assets/dummyImage.jpeg')
               }
               resizeMode={FastImage?.resizeMode.cover}
@@ -73,10 +73,10 @@ const MovingPost = ({
                   source={
                     thumbnail !== null
                       ? {
-                          uri: thumbnailBaseUrl + thumbnail?.thumbnail,
-                          headers: {Authorization: 'someAuthToken'},
-                          priority: FastImage.priority.normal,
-                        }
+                        uri: thumbnailBaseUrl + thumbnail?.thumbnail,
+                        headers: { Authorization: 'someAuthToken' },
+                        priority: FastImage.priority.normal,
+                      }
                       : require('../../assets/camel.png')
                   }
                   resizeMode={FastImage?.resizeMode.cover}
@@ -93,12 +93,12 @@ const MovingPost = ({
                   right: 20,
                   top: 50,
                 }}
-                onPress={() => {}}>
+                onPress={() => { }}>
                 <Image
                   activeOpacity={0.4}
                   source={require('../../assets/play.png')}
                   resizeMode={'cover'}
-                  style={{width: 60, height: 60}}
+                  style={{ width: 60, height: 60 }}
                 />
               </TouchableOpacity>
             </View>
@@ -119,14 +119,20 @@ const MovingPost = ({
             <Text style={styles.text}>
               {ArabicText.Type}: {type}
             </Text>
+            {
+              item?.category_name == 'تسبيل الفحول' ? <Text style={styles.text}>
+                {ArabicText.Location}:{location}
+              </Text> :
+                <><Text style={styles.text}>
+                  {ArabicText.Location_From}:{location}
+                </Text>
 
-            <Text style={styles.text}>
-              {ArabicText.Location_From}:{location}
-            </Text>
+                  <Text style={styles.text}>
+                    {ArabicText.Location_To}:{locationTo}
+                  </Text>
+                </>
+            }
 
-            <Text style={styles.text}>
-              {ArabicText.Location_To}:{locationTo}
-            </Text>
             {price ? (
               <Text style={styles.text}>
                 {' '}
@@ -136,7 +142,7 @@ const MovingPost = ({
           </View>
 
           <TouchableOpacity
-            style={{left: 10, position: 'absolute', bottom: 5}}
+            style={{ left: 10, position: 'absolute', bottom: 5 }}
             onPress={() => {
               onDetailsClick(viewCount, setViewCount);
             }}>

@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, { Component, useState } from 'react';
 import {
   Text,
   View,
@@ -16,7 +16,7 @@ import {
   Share,
   Platform,
 } from 'react-native';
-import {Styles} from '../styles/globlestyle';
+import { Styles } from '../styles/globlestyle';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -24,15 +24,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Foundation from 'react-native-vector-icons/Foundation';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as ArabicText from '../language/EnglishToArabic';
-import {Dimensions} from 'react-native';
-import {Card} from 'react-native-paper';
+import { Dimensions } from 'react-native';
+import { Card } from 'react-native-paper';
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
-import {Rating} from 'react-native-ratings';
+import { Rating } from 'react-native-ratings';
 import camelapp from '../api/camelapp';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import Video from 'react-native-video';
 import Carousel from 'react-native-snap-carousel';
 import Loader from '../components/PleaseWait';
@@ -79,7 +79,7 @@ class Profile extends Component {
   }
   // ==========NEW============
   checkUserLogedIn() {
-    const {user} = this.props;
+    const { user } = this.props;
     if (user?.user?.user) {
       this.fetchUser();
     } else {
@@ -88,7 +88,7 @@ class Profile extends Component {
     }
   }
   saveChat() {
-    let {user, actions} = this.props;
+    let { user, actions } = this.props;
     user = user?.user?.user;
     try {
       camelapp
@@ -96,14 +96,14 @@ class Profile extends Component {
           chat_status: this?.state?.chatFlag == true ? 1 : 0,
         })
         .then(res => {
-          this.setState({modalChat: false});
+          this.setState({ modalChat: false });
         });
     } catch (error) {
       //console.log("error at fetch user", error.response)
     }
   }
   saveWhatsApp() {
-    let {user, actions} = this.props;
+    let { user, actions } = this.props;
     user = user?.user?.user;
     //console.log("this.state.registerSwitch", this.state.registerSwitch)
     if (this.state?.whatsappNumber?.length == 10) {
@@ -114,7 +114,7 @@ class Profile extends Component {
             whatsapp_status: this.state.registerSwitch,
           })
           .then(res => {
-            this.setState({modal: false});
+            this.setState({ modal: false });
             //console.log("response at fetch", res.data);
           });
       } catch (error) {
@@ -131,9 +131,9 @@ class Profile extends Component {
   }
   updateNumber = async () => {
     const deviceToken = await AsyncStorage?.getItem('fcmToken');
-    this.setState({updateLoader: true});
+    this.setState({ updateLoader: true });
     if (this.props.user?.user?.user?.phone !== this.state.phoneNumber) {
-      let {user, actions} = this.props;
+      let { user, actions } = this.props;
       user = user?.user?.user;
       camelapp
         .post('/reset/otp', {
@@ -142,7 +142,7 @@ class Profile extends Component {
         .then(res => {
           console.log(res, 'updateOTPPpp');
           if (res) {
-            this.setState({updateLoader: false});
+            this.setState({ updateLoader: false });
             let tempSignUpObj = {
               newphone: this.state.phoneNumber,
               phone: this.props.user?.user?.user?.phone,
@@ -157,17 +157,17 @@ class Profile extends Component {
             this.props.navigation.navigate('OtpSignUp', {
               sign_up: tempSignUpObj,
             });
-            this.setState({loader: false, btnPressed: false});
+            this.setState({ loader: false, btnPressed: false });
           }
         })
         .catch(error => {
-          this.setState({updateLoader: false});
+          this.setState({ updateLoader: false });
           console.log(error, 'errroro');
-          this.setState({loader: false, btnPressed: false});
+          this.setState({ loader: false, btnPressed: false });
         });
     } else {
       console.log('helllloooooo');
-      let {user, actions} = this.props;
+      let { user, actions } = this.props;
       user = user?.user?.user;
       camelapp
         .post('/update', {
@@ -177,11 +177,11 @@ class Profile extends Component {
         })
         .then(res => {
           // console.log('res number3232', res.data);
-          this.setState({updateLoader: false});
+          this.setState({ updateLoader: false });
 
           if (res?.data?.status == true) {
             actions.userData(res.data);
-            this.setState({modalOtp: false, modalPhone: false});
+            this.setState({ modalOtp: false, modalPhone: false });
             Toast.show({
               text1: ArabicText?.PhoneUpdatedSuccessfully,
               type: 'success',
@@ -200,7 +200,7 @@ class Profile extends Component {
     }
   };
   verifiedSms() {
-    let {actions} = this.props;
+    let { actions } = this.props;
 
     camelapp
       .post('/update', {
@@ -212,7 +212,7 @@ class Profile extends Component {
 
         if (res?.data?.status == true) {
           actions.userData(res.data);
-          this.setState({modalOtp: false, modalPhone: false});
+          this.setState({ modalOtp: false, modalPhone: false });
           Toast.show({
             text1: ArabicText?.PhoneUpdatedSuccessfully,
             type: 'success',
@@ -231,14 +231,14 @@ class Profile extends Component {
   }
   chatflag(value) {
     //console.log("value", value)
-    this.setState({chatFlag: value});
+    this.setState({ chatFlag: value });
   }
   onRegisterSwitchChanged(value) {
     //console.log("value", value)
-    this.setState({registerSwitch: value});
+    this.setState({ registerSwitch: value });
   }
   phoneStatusSwitch(value) {
-    this.setState({phoneStatusSwitch: value});
+    this.setState({ phoneStatusSwitch: value });
   }
   // onCategoryClick = async item => {
   //   if (item.category_id == '1') {
@@ -295,9 +295,9 @@ class Profile extends Component {
     }
   };
   fetchUser() {
-    const {key} = this.state;
-    this.setState({loader: true, posts: []});
-    let {user, actions} = this.props;
+    const { key } = this.state;
+    this.setState({ loader: true, posts: [] });
+    let { user, actions } = this.props;
     user = user?.user?.user;
     try {
       camelapp.get('/get/fetchUser/' + user.id).then(res => {
@@ -310,7 +310,7 @@ class Profile extends Component {
             let imagesArray = [];
             array[0] !== '' &&
               array?.forEach(element => {
-                imagesArray?.push({type: 'image', source: element});
+                imagesArray?.push({ type: 'image', source: element });
               });
             item?.video !== null &&
               imagesArray?.push({
@@ -325,21 +325,28 @@ class Profile extends Component {
             posts: arrayPosts,
           });
           // RATING
+
           const length = parseInt(res?.data?.posts?.length);
+          console.log(length,"lengthlength");
+          const subscription = res?.data?.user?.subscription
           let rating = 0;
-          if (length > 30 && length < 100) {
-            console.log('ratigggg');
-            rating = 1;
-          } else if (length >= 100 && length < 150) {
-            rating = 2;
-          } else if (length >= 150 && length < 200) {
-            rating = 3;
-          } else if (length >= 200 && length < 250) {
-            rating = 4;
-          } else if (length > 250) {
-            rating = 5;
+          if (subscription?.length && (subscription == 'famous' || subscription == 'عضو مميز' || subscription == 'vip' || subscription == 'عضو مهم')) {
+            rating = 5
           }
-          this.setState({rating: rating});
+          else {
+            if (length >= 25 && length < 50) {
+              rating = 1;
+            } else if (length >= 50 && length < 75) {
+              rating = 2;
+            } else if (length >= 75 && length < 100) {
+              rating = 3;
+            } else if (length >= 100 && length < 125) {
+              rating = 4;
+            } else if (length > 125) {
+              rating = 5;
+            }
+          }
+          this.setState({ rating: rating });
           this.setState({
             phoneStatusSwitch: res?.data?.user?.phone_status,
             loader: false,
@@ -359,18 +366,18 @@ class Profile extends Component {
   }
   VideoPlay = item => {
     if (item?.source == 'UOmNlxYosf.mp4') {
-      this.setState({pausedCheck: true});
+      this.setState({ pausedCheck: true });
     }
   };
   filterPostOnDelete = item => {
-    const {posts} = this.state;
+    const { posts } = this.state;
     const filteredPosts = posts?.filter(val => {
       return val?.id !== item?.id;
     });
-    this.setState({posts: filteredPosts});
+    this.setState({ posts: filteredPosts });
   };
   onPostDelete(item) {
-    this.setState({loader: true});
+    this.setState({ loader: true });
     camelapp
       .post('delete/post', {
         post_id: item.id,
@@ -380,23 +387,23 @@ class Profile extends Component {
           this.filterPostOnDelete(item);
           // this.fetchUser();
           this.checkUserLogedIn();
-          this.setState({loader: false});
+          this.setState({ loader: false });
         }
       });
   }
   openFollowersModal() {
-    this.setState({modal: true});
+    this.setState({ modal: true });
   }
   openFollowingModal() {
-    this.setState({modalFollowing: true});
+    this.setState({ modalFollowing: true });
   }
   ScrollToRefresh() {
     this.fetchUser();
-    this.setState({refreshing: false});
+    this.setState({ refreshing: false });
   }
   postViewed = async (item, viewCount, setViewCount) => {
-    this.setState({loading: false});
-    let {user} = this.props;
+    this.setState({ loading: false });
+    let { user } = this.props;
     user = user?.user?.user;
     let post_id = item?.id;
     if (user != undefined) {
@@ -412,7 +419,7 @@ class Profile extends Component {
         })
         .catch(error => {
           console.log('error', error);
-          this.setState({loading: false});
+          this.setState({ loading: false });
         });
     } else {
       this.props.navigation.navigate('Login');
@@ -420,11 +427,11 @@ class Profile extends Component {
   };
   // =============NEW Updated Search Handler==============
   searchHandler = value => {
-    const {key, posts} = this.state;
+    const { key, posts } = this.state;
     if (!value) {
-      this.setState({filterPosts: this.state.commentsList, searchedItem: ''});
+      this.setState({ filterPosts: this.state.commentsList, searchedItem: '' });
     } else {
-      this.setState({searchedItem: value});
+      this.setState({ searchedItem: value });
       // Data Filtration
       const filteredData = posts?.filter(item => {
         const {
@@ -445,14 +452,14 @@ class Profile extends Component {
         );
       });
       if (filteredData?.length > 0) {
-        this.setState({filterPosts: filteredData, key: !key});
+        this.setState({ filterPosts: filteredData, key: !key });
       } else {
-        this.setState({filterPosts: [], key: !key});
+        this.setState({ filterPosts: [], key: !key });
       }
     }
   };
   search(text) {
-    this.setState({searchText: text});
+    this.setState({ searchText: text });
   }
   onShare = async () => {
     try {
@@ -481,7 +488,7 @@ class Profile extends Component {
   };
   componentDidMount = () => {
     this.focusListener = this.props.navigation.addListener('focus', () => {
-      this.setState({rating: 0});
+      this.setState({ rating: 0 });
       this.fetchUser();
     });
   };
@@ -489,13 +496,14 @@ class Profile extends Component {
     this.focusListener();
   }
   render() {
-    let {user} = this.props;
+    let { user } = this.props;
     user = user?.user?.user;
-    const {key, filterPosts, posts, searchedItem, searchText, userData} =
+    const { key, filterPosts, posts, searchedItem, searchText, userData } =
       this.state;
+    const subscription = userData?.user?.subscription
     const sharePosts = item => {
-      this.setState({loading: true});
-      let {user} = this.props;
+      this.setState({ loading: true });
+      let { user } = this.props;
       user = user?.user?.user;
       let post_id = item?.id;
       if (user != undefined) {
@@ -512,19 +520,19 @@ class Profile extends Component {
               let tempItem = item;
               tempItem['share_count'] = share_count;
               filterPosts[tempIndex] = tempItem;
-              this.setState({loading: false, filterPosts: filterPosts});
+              this.setState({ loading: false, filterPosts: filterPosts });
             }
           })
           .catch(error => {
             console.log('error', error);
-            this.setState({loading: false});
+            this.setState({ loading: false });
           });
       } else {
         this.props.navigation.navigate('Login');
       }
     };
     const onCommentsClick = item => {
-      let {user} = this.props;
+      let { user } = this.props;
       user = user?.user?.user;
       let post_id = item?.id;
       if (user != undefined) {
@@ -544,8 +552,8 @@ class Profile extends Component {
       }
     };
     const onLikesClick = (item, setIsLiked, setLikeCount) => {
-      this.setState({loading: false});
-      let {user} = this.props;
+      this.setState({ loading: false });
+      let { user } = this.props;
       user = user?.user?.user;
       let post_id = item?.id;
       if (user != undefined) {
@@ -567,14 +575,14 @@ class Profile extends Component {
           })
           .catch(error => {
             console.log('error', error);
-            this.setState({loading: false});
+            this.setState({ loading: false });
           });
       } else {
         this.props.navigation.navigate('Login');
       }
     };
     onDetailsClick = async (item, viewCount, setViewCount) => {
-      const {user} = this.props;
+      const { user } = this.props;
       const post_id = item?.id;
       if (user != undefined) {
         if (item.category_id == '1') {
@@ -672,7 +680,7 @@ class Profile extends Component {
         }
       }
     };
-    const renderItem = ({item}) => {
+    const renderItem = ({ item }) => {
       // let array = item?.img;
       // let imagesArray = [];
       // console.log(array?.length);
@@ -709,7 +717,7 @@ class Profile extends Component {
           sharePost={() => this.onShare()}
           onVideoPlay={item => this.VideoPlay(item)}
           pausedCheck={this.state.pausedCheck}
-          pauseCheckHandler={txt => this.setState({pausedCheck: txt})}
+          pauseCheckHandler={txt => this.setState({ pausedCheck: txt })}
           flagForLike={item?.flagForLike}
           postViewed={(viewCount, setViewCount) =>
             this.postViewed(item, viewCount, setViewCount)
@@ -720,7 +728,6 @@ class Profile extends Component {
         />
       );
     };
-    console.log(userData?.posts?.length);
     return (
       <View style={Styles.containerProfile}>
         {this.props.user?.user?.user === undefined ? (
@@ -732,7 +739,7 @@ class Profile extends Component {
                 if (text) {
                   this.search(text);
                 } else {
-                  this.setState({searchedItem: '', searchText: ''});
+                  this.setState({ searchedItem: '', searchText: '' });
                 }
               }}
               onPressSearch={() => this.searchHandler(searchText)}
@@ -767,7 +774,7 @@ class Profile extends Component {
                 </View>
                 {/* Edit & Cart Icons Profile */}
 
-                <View style={{position: 'absolute', right: 15, bottom: 5}}>
+                <View style={{ position: 'absolute', right: 15, bottom: 5 }}>
                   {/* Rating */}
                   <Rating
                     ratingCount={5}
@@ -776,7 +783,7 @@ class Profile extends Component {
                     readonly={true}
                     startingValue={this.state.rating}
                     ratingBackgroundColor={'#aaa'}
-                    style={{paddingVertical: 10}}
+                    style={{ paddingVertical: 10 }}
                     ratingColor={'crimson'}
                     tintColor="white"
                     type="custom"
@@ -810,61 +817,61 @@ class Profile extends Component {
                       name="checkcircle"
                       size={14}
                       color={
-                        user?.subscription
-                          ? user?.subscription == 'normal'
+                        subscription
+                          ? subscription == 'normal'
                             ? 'blue'
-                            : user?.subscription == 'famous'
-                            ? 'orange'
-                            : '#e50000'
+                            : subscription == 'famous'
+                              ? 'orange'
+                              : '#e50000'
                           : this.state?.rating <= 1
-                          ? 'blue'
-                          : this.state?.rating <= 3
-                          ? 'orange'
-                          : '#e50000'
+                            ? 'blue'
+                            : this.state?.rating <= 3
+                              ? 'orange'
+                              : '#e50000'
                       }
                     />
                     <Text
                       style={{
-                        color: user?.subscription
-                          ? user?.subscription == 'normal'
+                        color: subscription
+                          ? subscription == 'normal'
                             ? 'blue'
-                            : user?.subscription == 'famous'
-                            ? 'orange'
-                            : '#e50000'
+                            : subscription == 'famous'
+                              ? 'orange'
+                              : '#e50000'
                           : this.state?.rating <= 1
-                          ? 'blue'
-                          : this.state?.rating <= 3
-                          ? 'orange'
-                          : '#e50000',
+                            ? 'blue'
+                            : this.state?.rating <= 3
+                              ? 'orange'
+                              : '#e50000',
                         fontSize: 12,
                         textAlign: 'right',
                         marginRight: 4,
                       }}>
-                      {user?.subscription?.length
-                        ? user?.subscription
+                      {subscription?.length
+                        ? subscription
                         : this.state?.rating <= 1
-                        ? ArabicText.User
-                        : this.state?.rating <= 3
-                        ? ArabicText.VIP
-                        : ArabicText.famous}
+                          ? ArabicText.User
+                          : this.state?.rating <= 3
+                            ? ArabicText.VIP
+                            : ArabicText.famous}
                     </Text>
                   </View>
                   {/* my contacts */}
                   <View style={styles.icons}>
                     <TouchableOpacity
-                      onPress={() => this.setState({modal: true})}
+                      onPress={() => this.setState({ modal: true })}
                       style={Styles.detailsIcons}>
                       <FontAwesome name="whatsapp" size={20} color="#CD853F" />
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                      onPress={() => this.setState({modalPhone: true})}
+                      onPress={() => this.setState({ modalPhone: true })}
                       style={Styles.detailsIcons}>
                       <AntDesign name="mobile1" size={20} color="#CD853F" />
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                      onPress={() => this.setState({modalChat: true})}
+                      onPress={() => this.setState({ modalChat: true })}
                       style={Styles.detailsIcons}>
                       <AntDesign name="message1" size={20} color="#CD853F" />
                     </TouchableOpacity>
@@ -890,7 +897,7 @@ class Profile extends Component {
                   </TouchableOpacity>
                   {/* OR  */}
                   <Text
-                    style={{fontSize: 30, fontWeight: '400', color: '#fff'}}>
+                    style={{ fontSize: 30, fontWeight: '400', color: '#fff' }}>
                     |
                   </Text>
                   {/* NO OF POSTS  */}
@@ -902,7 +909,7 @@ class Profile extends Component {
                   </View>
                   {/* OR  */}
                   <Text
-                    style={{fontSize: 30, fontWeight: '400', color: '#fff'}}>
+                    style={{ fontSize: 30, fontWeight: '400', color: '#fff' }}>
                     |
                   </Text>
                   {/* FOLLOWERS LIST  */}
@@ -935,10 +942,10 @@ class Profile extends Component {
                   <View style={Styles.centeredView}>
                     <View style={Styles.modalView}>
                       <Pressable
-                        onPress={modalOffer => this.setState({modal: false})}>
+                        onPress={modalOffer => this.setState({ modal: false })}>
                         <Ionicons name="close" size={30} color="brown" />
                       </Pressable>
-                      <Text style={{margin: 5, color: 'black'}}>
+                      <Text style={{ margin: 5, color: 'black' }}>
                         {ArabicText?.AddWhatsappnumber}
                       </Text>
 
@@ -949,7 +956,7 @@ class Profile extends Component {
                         placeholder={ArabicText?.AddWhatsappnumber}
                         keyboardType="numeric"
                         onChangeText={text =>
-                          this.setState({whatsappNumber: text})
+                          this.setState({ whatsappNumber: text })
                         }
                         placeholderTextColor="#b0b0b0"></TextInput>
                       <View
@@ -971,7 +978,7 @@ class Profile extends Component {
                         </Text>
 
                         <Switch
-                          trackColor={{false: '#767577', true: '#D2691Eff'}}
+                          trackColor={{ false: '#767577', true: '#D2691Eff' }}
                           thumbColor={
                             this.state.registerSwitch == true
                               ? '#f5dd4b'
@@ -1005,10 +1012,10 @@ class Profile extends Component {
                   <View style={Styles.centeredView}>
                     <View style={Styles.modalView}>
                       <Pressable
-                        onPress={() => this.setState({modalChat: false})}>
+                        onPress={() => this.setState({ modalChat: false })}>
                         <Ionicons name="close" size={30} color="brown" />
                       </Pressable>
-                      <Text style={{margin: 5, color: 'black'}}>
+                      <Text style={{ margin: 5, color: 'black' }}>
                         {ArabicText?.Enable_dissableChat}
                       </Text>
 
@@ -1031,7 +1038,7 @@ class Profile extends Component {
                         </Text>
 
                         <Switch
-                          trackColor={{false: '#767577', true: '#D2691Eff'}}
+                          trackColor={{ false: '#767577', true: '#D2691Eff' }}
                           thumbColor={
                             this.state.chatFlag == true ? '#f5dd4b' : '#f4f3f4'
                           }
@@ -1062,11 +1069,11 @@ class Profile extends Component {
                     <View style={Styles.modalView}>
                       <Pressable
                         onPress={modalOffer =>
-                          this.setState({modalPhone: false})
+                          this.setState({ modalPhone: false })
                         }>
                         <Ionicons name="close" size={30} color="brown" />
                       </Pressable>
-                      <Text style={{margin: 5, color: 'black'}}>
+                      <Text style={{ margin: 5, color: 'black' }}>
                         {ArabicText?.UpdatePhone}
                       </Text>
 
@@ -1077,7 +1084,7 @@ class Profile extends Component {
                         placeholder={ArabicText?.PhoneNumber}
                         keyboardType="numeric"
                         onChangeText={text =>
-                          this.setState({phoneNumber: text})
+                          this.setState({ phoneNumber: text })
                         }
                         placeholderTextColor="#b0b0b0"></TextInput>
                       <View
@@ -1094,16 +1101,16 @@ class Profile extends Component {
                             color: 'black',
                           }}>
                           {this.state.phoneStatusSwitch == true ||
-                          this.state.phoneStatusSwitch == 'True'
+                            this.state.phoneStatusSwitch == 'True'
                             ? ArabicText?.active
                             : ArabicText?.disable}
                         </Text>
 
                         <Switch
-                          trackColor={{false: '#767577', true: '#D2691Eff'}}
+                          trackColor={{ false: '#767577', true: '#D2691Eff' }}
                           thumbColor={
                             this.state.phoneStatusSwitch == true ||
-                            this.state.phoneStatusSwitch == 'True'
+                              this.state.phoneStatusSwitch == 'True'
                               ? '#f5dd4b'
                               : '#f4f3f4'
                           }
@@ -1111,7 +1118,7 @@ class Profile extends Component {
                           onValueChange={value => this.phoneStatusSwitch(value)}
                           value={
                             this.state.phoneStatusSwitch == true ||
-                            this.state.phoneStatusSwitch == 'True'
+                              this.state.phoneStatusSwitch == 'True'
                               ? true
                               : false
                           }
@@ -1135,11 +1142,11 @@ class Profile extends Component {
                 animationType="slide"
                 visible={this.state.modalOtp}
                 transparent={true}
-                onRequestClose={() => this.setState({modalOtp: false})}>
+                onRequestClose={() => this.setState({ modalOtp: false })}>
                 <TouchableOpacity
                   activeOpacity={1}
-                  style={{height: height}}
-                  onPress={() => this.setState({modalOtp: false})}
+                  style={{ height: height }}
+                  onPress={() => this.setState({ modalOtp: false })}
                 />
                 <View
                   style={{
@@ -1194,7 +1201,7 @@ class Profile extends Component {
                   size="large"
                   color="#D2691Eff"
                   animating={this.state.loader}
-                  style={{marginTop: 20}}
+                  style={{ marginTop: 20 }}
                 />
               )}
 
@@ -1217,7 +1224,7 @@ class Profile extends Component {
                 data={searchedItem ? filterPosts : posts}
                 renderItem={renderItem}
                 keyExtractor={item_2 => item_2.id}
-                contentContainerStyle={{paddingBottom: width * 0.1}}
+                contentContainerStyle={{ paddingBottom: width * 0.1 }}
                 refreshControl={
                   <RefreshControl
                     refreshing={this.state.refreshing}
@@ -1255,10 +1262,10 @@ const Item = ({
   shares,
   category,
   onPostDelete,
-  onDetailsClick = () => {},
+  onDetailsClick = () => { },
   onCommentsClick,
   onCategoryClick,
-  onLikesClick = () => {},
+  onLikesClick = () => { },
   imagesArray,
   sharePost,
   user_images,
@@ -1268,7 +1275,7 @@ const Item = ({
   date,
   price,
   bid_price,
-  postViewed = () => {},
+  postViewed = () => { },
 }) => {
   const [pausedCheck, setpausedCheck] = useState(true);
   const [load, setLoad] = useState(false);
@@ -1279,7 +1286,7 @@ const Item = ({
   const [likeCount, setLikeCount] = useState(likes ? likes : 0);
   const [viewCount, setViewCount] = useState(item?.view_count);
   return (
-    <Card style={{elevation: 5, marginTop: 10}}>
+    <Card style={{ elevation: 5, marginTop: 10 }}>
       <View style={Styles.homesec}>
         <View
           style={{
@@ -1297,7 +1304,7 @@ const Item = ({
             }}>
             <TouchableOpacity onPress={onCategoryClick} style={Styles.btnHome2}>
               <Text
-                style={{color: '#D2691Eff', fontWeight: 'bold', fontSize: 15}}>
+                style={{ color: '#D2691Eff', fontWeight: 'bold', fontSize: 15 }}>
                 {category}
               </Text>
             </TouchableOpacity>
@@ -1377,13 +1384,13 @@ const Item = ({
         layout={'default'}
         scrollEnabled={true}
         // onScroll={() => this.setState({ pauseVideo: true})}
-        renderItem={({item, index}) => {
+        renderItem={({ item, index }) => {
           const mediaSource =
             item.type == 'image'
-              ? {uri: imageBaseUrl + item.source}
+              ? { uri: imageBaseUrl + item.source }
               : item?.type == 'video'
-              ? {uri: VideoBaseUrl + item.source}
-              : null;
+                ? { uri: VideoBaseUrl + item.source }
+                : null;
           return (
             <TouchableOpacity
               onPress={() => {
@@ -1398,14 +1405,14 @@ const Item = ({
                   style={Styles.image}
                   source={{
                     uri: imageBaseUrl + item?.source,
-                    headers: {Authorization: 'someAuthToken'},
+                    headers: { Authorization: 'someAuthToken' },
                     priority: FastImage.priority.normal,
                   }}
                   resizeMode={FastImage?.resizeMode.cover}
                 />
               )}
               {item?.type == 'video' && (
-                <View style={{flex: 1, backgroundColor: '#ededed'}}>
+                <View style={{ flex: 1, backgroundColor: '#ededed' }}>
                   {pausedCheck && (
                     <FastImage
                       style={[
@@ -1418,10 +1425,10 @@ const Item = ({
                       source={
                         item?.thumbnail
                           ? {
-                              uri: thumbnailBaseUrl + item?.thumbnail,
-                              headers: {Authorization: 'someAuthToken'},
-                              priority: FastImage.priority.high,
-                            }
+                            uri: thumbnailBaseUrl + item?.thumbnail,
+                            headers: { Authorization: 'someAuthToken' },
+                            priority: FastImage.priority.high,
+                          }
                           : require('../../assets/camel.png')
                       }
                       resizeMode={FastImage?.resizeMode.cover}
@@ -1452,7 +1459,7 @@ const Item = ({
                           : require('../../assets/pause.png')
                       }
                       resizeMode={'cover'}
-                      style={{width: 70, height: 70}}
+                      style={{ width: 70, height: 70 }}
                     />
                   </TouchableOpacity>
                 </View>
@@ -1488,7 +1495,7 @@ const Item = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
             {' '}
             {viewCount}
           </Text>
@@ -1503,7 +1510,7 @@ const Item = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
             {shares}
           </Text>
           <Ionicons name="share-social-sharp" size={20} color="#CD853F" />
@@ -1517,7 +1524,7 @@ const Item = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
             {comments}
           </Text>
           <Feather name="message-square" size={18} color="#CD853F" />
@@ -1530,7 +1537,7 @@ const Item = ({
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
             {likeCount}
           </Text>
           {isLiked == 'true' || isLiked == true ? (
@@ -1541,21 +1548,21 @@ const Item = ({
         </TouchableOpacity>
       </View>
 
-      <View style={{width: width, height: 50}}>
+      <View style={{ width: width, height: 50 }}>
         <TouchableOpacity
-          style={{position: 'absolute', left: 10, top: 5}}
+          style={{ position: 'absolute', left: 10, top: 5 }}
           onPress={() => {
             onDetailsClick(viewCount, setViewCount);
           }}>
           <View style={Styles.btnHome}>
-            <Text style={{color: '#fff', fontWeight: 'bold'}}>
+            <Text style={{ color: '#fff', fontWeight: 'bold' }}>
               {ArabicText.Details}
             </Text>
           </View>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={{position: 'absolute', left: 100, top: 12, zIndex: 999}}
+          style={{ position: 'absolute', left: 100, top: 12, zIndex: 999 }}
           onPress={onPostDelete}>
           <AntDesign name="delete" size={19} color="#cd853f" />
         </TouchableOpacity>
@@ -1590,7 +1597,7 @@ const Item = ({
             <AntDesign name="closecircle" size={35} color="#fff" />
           </TouchableOpacity>
 
-          <View style={{height: 300, backgroundColor: 'red'}}>
+          <View style={{ height: 300, backgroundColor: 'red' }}>
             <View style={Styles.imageCarousal}>
               {modalItemType === 'image' && (
                 <FastImage
@@ -1600,7 +1607,7 @@ const Item = ({
                 />
               )}
               {modalItemType == 'video' && (
-                <View style={{flex: 1, backgroundColor: '#ededed'}}>
+                <View style={{ flex: 1, backgroundColor: '#ededed' }}>
                   <Video
                     onLoadStart={() => setLoad(true)}
                     onReadyForDisplay={() => setLoad(false)}
@@ -1644,7 +1651,7 @@ const Item = ({
                             : require('../../assets/pause.png')
                         }
                         resizeMode={'cover'}
-                        style={{width: 70, height: 70}}
+                        style={{ width: 70, height: 70 }}
                       />
                     )}
                   </TouchableOpacity>
@@ -1656,7 +1663,7 @@ const Item = ({
           <View style={styles.modalMediaWrpr}>
             <TouchableOpacity
               activeOpacity={0.99}
-              onPress={() => {}}
+              onPress={() => { }}
               style={styles.userProfileContainer}>
               <Image
                 source={{
@@ -1666,10 +1673,10 @@ const Item = ({
               />
             </TouchableOpacity>
             <View style={styles.userInfoContainer}>
-              <Text style={[styles.userName, {color: '#fff'}]}>
+              <Text style={[styles.userName, { color: '#fff' }]}>
                 {user_name}
               </Text>
-              <Text style={[styles.userLocation, {color: '#fff'}]}>
+              <Text style={[styles.userLocation, { color: '#fff' }]}>
                 {user_location}
               </Text>
             </View>
@@ -1703,7 +1710,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  textcolor: {color: '#fff', fontWeight: '600'},
+  textcolor: { color: '#fff', fontWeight: '600' },
 
   headerContainer: {
     backgroundColor: '#d2691e',
@@ -1751,7 +1758,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000db',
     justifyContent: 'center',
   },
-  modalCloseBTN: {top: 10, right: 15, position: 'absolute'},
+  modalCloseBTN: { top: 10, right: 15, position: 'absolute' },
   modalMediaWrpr: {
     width: width,
     height: 60,
@@ -1770,7 +1777,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 30,
   },
-  titleContainer: {position: 'absolute', right: 5, width: 220},
+  titleContainer: { position: 'absolute', right: 5, width: 220 },
   titleText: {
     color: '#fff',
     fontSize: 15,

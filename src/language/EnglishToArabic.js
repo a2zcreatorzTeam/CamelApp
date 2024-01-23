@@ -423,4 +423,3 @@ export const TreatingCamel = 'علاج الحلال';
 export const User = 'عضو';
 export const VIP = 'عضو مهم';
 export const famous='عضو مميز'
-

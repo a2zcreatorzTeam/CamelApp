@@ -30,6 +30,7 @@ import {
   mainImageUrl,
   profileBaseUrl,
 } from '../constants/urls';
+import PaginationDots from '../components/pagination';
 
 const width = Dimensions.get('screen').width;
 class BeautyOfCompetition extends Component {
@@ -57,6 +58,9 @@ class BeautyOfCompetition extends Component {
       searchedItem: '',
       filterPosts: [],
       searchText: '',
+
+      activeSlide: 0,
+      flatListRef: React.createRef(),
     };
   }
   selectedCompetition() {
@@ -178,7 +182,8 @@ class BeautyOfCompetition extends Component {
     this.setState({ searchText: text });
   }
   render() {
-    const { competition, posts, refreshing, searchParticipantsText } = this.state;
+    const { competition, posts, refreshing, searchParticipantsText, activeSlide,
+      flatListRef, } = this.state;
     const competition_item = this.props.route.params.competition_item[0];
     const NewDate = moment().format('YYYY-MM-DD');
     const {
@@ -316,18 +321,17 @@ class BeautyOfCompetition extends Component {
       );
     };
     const SponsorItem = ({ name, image }) => (
-      <View style={{ alignItems: 'center', width: width - 50, padding: 10 }}>
+      <View style={{ alignItems: 'center', width: width - 10, padding: 10 }}>
         <Image
+          resizeMode='contain'
           source={{ uri: profileBaseUrl + image }}
-          style={{ width: 200, height: 120 }}
+          style={{ width: width - 10, height: 120, }}
         />
         <Text
           style={{
             fontSize: 18,
-            textAlign: 'right',
             fontWeight: 'bold',
             marginTop: 10,
-            marginBottom: 10,
             color: 'black',
           }}>
           {name ? name : ''}
@@ -418,6 +422,7 @@ class BeautyOfCompetition extends Component {
             width: '100%',
             width: '90%',
           }}>
+
           <ScrollView
             showsHorizontalScrollIndicator={false}
             horizontal
@@ -680,16 +685,40 @@ class BeautyOfCompetition extends Component {
             ? filteredSponsers?.length
             : competition_item?.sponsors?.length
         ) ? (
-          <View style={Styles.BeautyOfComp}>
-            <FlatList
-              showsHorizontalScrollIndicator={false}
-              data={
-                searchedItem ? filteredSponsers : competition_item?.sponsors
-              }
-              renderItem={renderSponserItem}
-              horizontal={true}
-            />
-          </View>
+          <>
+            <View style={Styles.BeautyOfComp}>
+              <FlatList
+                style={{ width: '100%', flex: 1, }}
+                contentContainerStyle={{ alignContent: "center", alignItems: 'center', flexGrow: 1, justifyContent: 'center' }}
+                ref={flatListRef}
+                data={
+                  searchedItem ? filteredSponsers : competition_item?.sponsors
+                }
+                inverted={true}
+                renderItem={renderSponserItem}
+                horizontal={true}
+                pagingEnabled
+                snapToAlignment='center'
+                showsHorizontalScrollIndicator={false}
+                onMomentumScrollEnd={(event) => {
+                  const slideWidth = Dimensions.get('window').width;
+                  const currentIndex = Math.round(event.nativeEvent.contentOffset.x / slideWidth);
+                  console.log(currentIndex, "indexxx");
+                  console.log(currentIndex, slideWidth);
+                  this.setState({ activeSlide: currentIndex });
+                }}
+              />
+            </View>
+            {competition_item?.sponsors?.length > 1 && (
+              <PaginationDots
+                totalItems={competition_item?.sponsors?.length}
+                activeIndex={activeSlide}
+                onPressDot={(index) =>
+                  flatListRef.current.scrollToIndex({ index, animated: true })
+                }
+              />
+            )}
+          </>
         ) : null}
 
         {NewDate >= competition[0]?.start_date &&

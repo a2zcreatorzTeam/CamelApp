@@ -1,15 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import {Text, View, Image, Dimensions, FlatList} from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Text, View, Image, Dimensions, FlatList } from 'react-native';
 import camelapp from '../api/camelapp';
-import {TouchableOpacity} from 'react-native';
-import {Linking} from 'react-native';
-import {ImageBackground} from 'react-native';
-import {mainImageUrl} from '../constants/urls';
+import { TouchableOpacity } from 'react-native';
+import { Linking } from 'react-native';
+import { ImageBackground } from 'react-native';
+import { mainImageUrl } from '../constants/urls';
 import FastImage from 'react-native-fast-image';
+import PaginationDots from './pagination';
 
-const {width, height} = Dimensions.get('screen');
+const { width, height } = Dimensions.get('screen');
 const Ads = () => {
   const [adsData, setAdsData] = useState([]);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const flatListRef = useRef(null);
   const viewAds = async () => {
     try {
       return await camelapp.get('/get-advertisement').then(res => {
@@ -23,7 +26,7 @@ const Ads = () => {
     viewAds();
   }, []);
   return (
-    <View style={{height: 115}}>
+    <View style={{ height: 130, backgroundColor: 'white', paddingBottom: 10 }}>
       <FlatList
         data={adsData}
         pagingEnabled
@@ -31,12 +34,31 @@ const Ads = () => {
         renderItem={AdsComp}
         horizontal={true}
         inverted={true}
+
+        snapToAlignment='center'
+        showsHorizontalScrollIndicator={false}
+        onMomentumScrollEnd={(event) => {
+          const slideWidth = Dimensions.get('window').width;
+          const currentIndex = Math.round(event.nativeEvent.contentOffset.x / slideWidth);
+          console.log(currentIndex, "indexxx");
+          console.log(currentIndex, slideWidth);
+          setActiveSlide(currentIndex);
+        }}
       />
+      {adsData?.length > 1 && (
+        <PaginationDots
+          totalItems={adsData?.length}
+          activeIndex={activeSlide}
+          onPressDot={(index) =>
+            flatListRef.current.scrollToIndex({ index, animated: true })
+          }
+        />
+      )}
     </View>
   );
 };
 export default Ads;
-const AdsComp = ({item}) => {
+const AdsComp = ({ item }) => {
   return (
     <TouchableOpacity
       onPress={() => {
@@ -51,11 +73,11 @@ const AdsComp = ({item}) => {
         alignItems: 'center',
       }}>
       <FastImage
-        style={{flex: 1, width: '100%', height: undefined, borderRadius: 7}}
+        style={{ flex: 1, width: '100%', height: undefined, borderRadius: 7 }}
         source={{
           uri: `${mainImageUrl}advertisement/` + item?.image,
 
-          headers: {Authorization: 'someAuthToken'},
+          headers: { Authorization: 'someAuthToken' },
           priority: FastImage.priority.high,
         }}
         resizeMode={FastImage?.resizeMode.contain}

@@ -843,10 +843,10 @@ class Profile extends Component {
                       {user?.subscription?.length
                         ? user?.subscription
                         : this.state?.rating <= 1
-                        ? 'Normal'
+                        ? ArabicText.User
                         : this.state?.rating <= 3
-                        ? 'Special'
-                        : 'Famous'}
+                        ? ArabicText.VIP
+                        : ArabicText.famous}
                     </Text>
                   </View>
                   {/* my contacts */}

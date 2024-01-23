@@ -220,7 +220,7 @@ class participateInCompetition extends Component {
           competition_id: competition_id,
           images: combineImages ? combineImages : [],
           video: videoForPost ? videoForPost : null,
-                    thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null
+          thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null
 
         })
         .then(response => {

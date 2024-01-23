@@ -420,3 +420,7 @@ export const Sellingcamelsfood = 'بيع الأعلاف';
 export const Skip = 'يتخطى';
 export const Sellingequipment = 'بيع المعدات';
 export const TreatingCamel = 'علاج الحلال';
+export const User = 'عضو';
+export const VIP = 'عضو مهم';
+export const famous='عضو مميز'
+

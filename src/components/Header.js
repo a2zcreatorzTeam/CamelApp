@@ -6,19 +6,19 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import {Styles} from '../styles/globlestyle';
+import { Styles } from '../styles/globlestyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {useState} from 'react';
+import { useState } from 'react';
 import * as ArabicText from '../language/EnglishToArabic';
 
-const {width} = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 const Header = props => {
   let {
     navRoute,
     onChangeText,
-    onPressSearch = () => {},
+    onPressSearch = () => { },
     filterIcon,
     onChangeTo,
     onChangeFrom,
@@ -33,7 +33,7 @@ const Header = props => {
     navigation.navigate('AppDetails');
   };
   return (
-    <View style={[Styles.header, {paddingVertical: 10}, customStyle]}>
+    <View style={[Styles.header, { paddingVertical: 10 }, customStyle]}>
       <View style={Styles.subHeaderView}>
         {/* {filterIcon && (
           <TouchableOpacity
@@ -42,57 +42,14 @@ const Header = props => {
             <FontAwesome name={'filter'} size={24} color="brown" />
           </TouchableOpacity>
         )} */}
-
         <CircularBTN
           iconName="arrow-back-sharp"
           onPress={() => onPressSearch()}
         />
-
         {filterIcon ? (
-          <View
-            style={{
-              flexDirection: 'row',
-              width: '70%',
-              justifyContent: 'space-between',
-            }}>
-            <View
-              style={[Styles.searchbar, {width: '49%', paddingHorizontal: 5}]}>
-              <TextInput
-                style={[
-                  styles.searchInput,
-                  {
-                    width: '100%',
-                    position: 'relative',
-                  },
-                ]}
-                placeholder={ArabicText.To}
-                placeholderTextColor="#000000"
-                onChangeText={text => {
-                  onChangeTo(text);
-                }}
-              />
-            </View>
-            <View
-              style={[Styles.searchbar, {width: '49%', paddingHorizontal: 5}]}>
-              <TextInput
-                style={[
-                  styles.searchInput,
-                  {
-                    width: '100%',
-                    position: 'relative',
-                  },
-                ]}
-                placeholder={ArabicText.From}
-                placeholderTextColor="#000000"
-                onChangeText={text => {
-                  onChangeFrom(text);
-                  console.log(text, 'textttt123');
-                }}
-              />
-            </View>
-          </View>
+          null
         ) : (
-          <View style={[Styles.searchbar, {width: filterIcon ? '60%' : '70%'}]}>
+          <View style={[Styles.searchbar, { width: filterIcon ? '60%' : '70%' }]}>
             <TextInput
               placeholder="البحث"
               value={props.onChangeText}
@@ -115,7 +72,7 @@ const Header = props => {
 
 export default Header;
 
-const CircularBTN = ({onPress, iconName}) => (
+const CircularBTN = ({ onPress, iconName }) => (
   <TouchableOpacity onPress={onPress} style={styles.btnContainer}>
     <Ionicons name={iconName} size={24} color="brown" />
   </TouchableOpacity>

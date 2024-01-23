@@ -7,6 +7,7 @@ import {
   Linking,
   Dimensions,
   StyleSheet,
+  Share,
 } from 'react-native';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -15,10 +16,12 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import * as ArabicText from '../language/EnglishToArabic';
-import {Styles} from '../styles/globlestyle';
+import { Styles } from '../styles/globlestyle';
+import BackBtnHeader from '../components/headerWithBackBtn';
+
 const width = Dimensions.get('screen').width;
 
 export default function AppDetails() {
@@ -94,14 +97,33 @@ export default function AppDetails() {
         });
       });
   };
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        title: 'SHARE POST',
+        message: `URL`,
+        url: `www.google.com`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
   const navigation = useNavigation();
   return (
-    <View style={[Styles.container, {paddingTop: 100}]}>
+    <View style={Styles.container}>
+      <BackBtnHeader />
       <Text style={styles.heading}>{ArabicText.shareWithYourFriends}</Text>
-      <TouchableOpacity style={{}} onPress={() => navigation.navigate('Home')}>
-        <View style={Styles.sharebtn}>
-          <Ionicons name="arrow-undo-circle" size={24} color="#fff" />
-        </View>
+      <TouchableOpacity style={Styles.sharebtn} onPress={() => { onShare() }}>
+        <Ionicons name="arrow-undo-circle" size={24} color="#fff" />
       </TouchableOpacity>
       {/* ABOUT US  */}
       <View style={Styles.quesmark}>
@@ -120,7 +142,7 @@ export default function AppDetails() {
               name="questioncircle"
               size={26}
               color="#8b4513"
-              style={{position: 'absolute', left: -13, top: -12}}
+              style={{ position: 'absolute', left: -13, top: -12 }}
             />
           </TouchableOpacity>
         </View>
@@ -204,6 +226,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
     color: '#d2691e',
+    marginTop: 100
   },
   socialMediaText: {
     fontWeight: '400',
@@ -227,6 +250,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  email: {fontSize: 12, color: '#d2691e', margin: 3},
-  website: {fontSize: 15, color: '#d2691e', fontWeight: '400'},
+  email: { fontSize: 12, color: '#d2691e', margin: 3 },
+  website: { fontSize: 15, color: '#d2691e', fontWeight: '400' },
 });

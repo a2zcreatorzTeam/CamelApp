@@ -1,5 +1,5 @@
-import {StyleSheet, Platform, StatusBar} from 'react-native';
-import {Dimensions} from 'react-native';
+import { StyleSheet, Platform, StatusBar } from 'react-native';
+import { Dimensions } from 'react-native';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 export const Styles = StyleSheet.create({
@@ -15,7 +15,7 @@ export const Styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#D2691Eff',
   },
-  video: {width: '100%', height: 400, borderWidth: 1, backgroundColor: 'black'},
+  video: { width: '100%', height: 400, borderWidth: 1, backgroundColor: 'black' },
   imageCarousal: {
     width: width,
     height: hight / 2.5,
@@ -140,7 +140,7 @@ export const Styles = StyleSheet.create({
   },
   card: {
     shadowColor: 'black',
-    shadowOffset: {width: 0, height: 7},
+    shadowOffset: { width: 0, height: 7 },
     shadowOpacity: 0.27,
     shadowRadius: 25,
     backgroundColor: 'white',
@@ -295,7 +295,7 @@ export const Styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#D2691Eff',
     alignItems: 'center',
-    marginVertical:5
+    marginVertical: 5
     // justifyContent: 'center',
   },
   bidsButtonAcceptGray: {
@@ -333,9 +333,6 @@ export const Styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 25,
-    // borderWidth: 1,
-    // borderColor: '#ffffff',
-    // backgroundColor: '#ffffff'
   },
   BeautyOfComp: {
     backgroundColor: '#dcdcdc',
@@ -344,6 +341,7 @@ export const Styles = StyleSheet.create({
     height: 170,
     borderRadius: 10,
     width: width - 20,
+    // width: '95%'
   },
   OpacityAddnewFirstBlock: {
     backgroundColor: '#FFFFFF',
@@ -601,7 +599,7 @@ export const Styles = StyleSheet.create({
   },
   cardsignup: {
     shadowColor: 'black',
-    shadowOffset: {width: 0, height: 7},
+    shadowOffset: { width: 0, height: 7 },
     shadowOpacity: 0.27,
     shadowRadius: 25,
     backgroundColor: 'white',
@@ -1099,7 +1097,7 @@ export const Styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#f0f8ff',
     shadowColor: 'black',
-    shadowOffset: {width: 0, height: 7},
+    shadowOffset: { width: 0, height: 7 },
     shadowOpacity: 0.27,
     shadowRadius: 25,
     margin: 15,
@@ -1128,7 +1126,7 @@ export const Styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#f0f8ff',
     shadowColor: 'black',
-    shadowOffset: {width: 0, height: 7},
+    shadowOffset: { width: 0, height: 7 },
     shadowOpacity: 0.27,
     shadowRadius: 25,
     margin: 15,
@@ -1148,7 +1146,7 @@ export const Styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#f0f8ff',
     shadowColor: 'black',
-    shadowOffset: {width: 0, height: 7},
+    shadowOffset: { width: 0, height: 7 },
     shadowOpacity: 0.27,
     shadowRadius: 25,
     margin: 15,
@@ -1245,7 +1243,7 @@ export const Styles = StyleSheet.create({
     borderWidth: 2,
     marginBottom: 10,
     borderColor: 'grey',
-    justifyContent:"center"
+    justifyContent: "center"
   },
 
   user_HomeMessageModal: {
@@ -1331,5 +1329,5 @@ export const Styles = StyleSheet.create({
     marginRight: 200,
   },
 
-  catBtnText: {color: '#D2691Eff', fontWeight: 'bold', fontSize: 15},
+  catBtnText: { color: '#D2691Eff', fontWeight: 'bold', fontSize: 15 },
 });

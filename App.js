@@ -1,6 +1,6 @@
 // appcenter codepush release-react -a a2zcreatorzz-gmail.com/Camel -d Staging
 import firebase from '@react-native-firebase/app';
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Navigation from './src/routes/Navigation';
 import SplashScreen from 'react-native-splash-screen';
 import {
@@ -11,17 +11,19 @@ import {
   View,
   Text,
 } from 'react-native';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import * as userActions from './src/redux/actions/user_actions';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 import firebaseConfig from './src/components/firebase';
-import {getStorage} from 'firebase/storage';
-import {notificationListener} from './src/services/Helper';
+import { getStorage } from 'firebase/storage';
+import { notificationListener } from './src/services/Helper';
 import DeviceInfo from 'react-native-device-info';
 import codePush from 'react-native-code-push';
-import {ProgressBar} from 'react-native-paper';
+import { ProgressBar } from 'react-native-paper';
+import { setCustomText } from 'react-native-global-props';
+import fontFamily from './assets/fonts/NeoSansArabicMedium.ttf'
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(['Remote debugger']);
 const toastConfig = {
@@ -82,6 +84,12 @@ class App extends Component {
     };
   }
   componentDidMount() {
+    const customTextProps = {
+      style: {
+        fontFamily: fontFamily,
+      },
+    };
+    setCustomText(customTextProps);
     this.syncImmediate();
     this.takePermission();
     notificationListener();
@@ -118,11 +126,11 @@ class App extends Component {
     }
   };
   codePushDownloadDidProgress = progress => {
-    this.setState({updateProcess: true});
+    this.setState({ updateProcess: true });
     const downloaded = Math.round(
       (progress?.receivedBytes / progress?.totalBytes) * 100,
     );
-    this.setState({downloaded: downloaded});
+    this.setState({ downloaded: downloaded });
     console.log('downloaded', downloaded);
     // this.setState({progress, downloading: true, downloaded: downloaded});
   };
@@ -166,7 +174,7 @@ class App extends Component {
         console.log('=================UP_TO_DATE===================');
         console.log(codePush.SyncStatus.UP_TO_DATE);
         console.log('====================================');
-        this.setState({updateProcess: false});
+        this.setState({ updateProcess: false });
 
         // setTimeout(() => {
         //   this.setState({
@@ -177,13 +185,13 @@ class App extends Component {
         // }, 100);
         break;
       case codePush.SyncStatus.UPDATE_IGNORED:
-        this.setState({updateProcess: false});
+        this.setState({ updateProcess: false });
         break;
       case codePush.SyncStatus.UPDATE_INSTALLED:
-        this.setState({updateProcess: false});
+        this.setState({ updateProcess: false });
         break;
       case codePush.SyncStatus.UNKNOWN_ERROR:
-        this.setState({updateProcess: false});
+        this.setState({ updateProcess: false });
         break;
     }
   };
@@ -199,7 +207,7 @@ class App extends Component {
           if (granted === PermissionsAndroid?.RESULTS?.GRANTED) {
           } else {
           }
-        } catch (err) {}
+        } catch (err) { }
       }
     }
   };

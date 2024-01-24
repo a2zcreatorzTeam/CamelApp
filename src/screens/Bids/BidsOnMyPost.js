@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, Image, FlatList} from 'react-native';
-import {Styles} from '../../styles/globlestyle';
-import {withdrawBid} from '../../context/DataContext';
+import React, { Component } from 'react';
+import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
+import { Styles } from '../../styles/globlestyle';
+import { withdrawBid } from '../../context/DataContext';
 import * as ArabicText from '../../language/EnglishToArabic';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import camelapp from '../../api/camelapp';
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 import Toast from 'react-native-toast-message';
 import EmptyComponent from '../../components/EmptyComponent';
-import {ActivityIndicator} from 'react-native';
-import {profileBaseUrl} from '../../constants/urls';
+import { ActivityIndicator } from 'react-native';
+import { profileBaseUrl } from '../../constants/urls';
 import FastImage from 'react-native-fast-image';
 const width = Dimensions.get('screen').width;
 
@@ -28,10 +28,10 @@ class Bids extends Component {
     this.viewPosts();
   }
   async viewPosts() {
-    this.setState({loader: true});
+    this.setState({ loader: true });
     try {
-      const {key} = this.state;
-      let {user} = this.props;
+      const { key } = this.state;
+      let { user } = this.props;
       return await camelapp
         .get(`/get/bids/${user?.user?.user?.id}`)
         .then(res => {
@@ -115,11 +115,11 @@ class Bids extends Component {
     });
   }
   onProfileClick = item => {
-    let {user} = this.props;
+    let { user } = this.props;
     user = user?.user?.user;
     if (user != undefined) {
       if (item?.user_id == user?.id) {
-        this.props.navigation.navigate('Profile', {screen: 'حسابي'});
+        this.props.navigation.navigate('Profile', { screen: 'حسابي' });
       } else {
         this.props.navigation?.navigate('UserProfile', {
           user_id: item?.user_id,
@@ -134,7 +134,7 @@ class Bids extends Component {
     }
   };
   render() {
-    const {key, loader} = this.state;
+    const { key, loader } = this.state;
     const BidsItem = ({
       item,
       userName,
@@ -149,7 +149,7 @@ class Bids extends Component {
           justifyContent: 'space-around',
           width: width,
           backgroundColor: '#eee',
-          height: 100,
+          height: 140,
           alignContent: 'center',
           marginTop: 10,
           marginBottom: 10,
@@ -165,7 +165,7 @@ class Bids extends Component {
             }}
             source={{
               uri: profileBaseUrl + userImage,
-              headers: {Authorization: 'someAuthToken'},
+              headers: { Authorization: 'someAuthToken' },
               priority: FastImage.priority.high,
             }}
             resizeMode={FastImage?.resizeMode.cover}
@@ -212,8 +212,8 @@ class Bids extends Component {
             <TouchableOpacity
               activeOpacity={0.99}
               style={Styles.bidsButtonAccept}
-              onPress={() => {}}>
-              <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
+              onPress={() => { }}>
+              <Text style={{ color: '#D2691Eff', fontWeight: 'bold' }}>
                 {ArabicText?.bidClosed}
               </Text>
             </TouchableOpacity>
@@ -221,23 +221,30 @@ class Bids extends Component {
             <TouchableOpacity
               style={Styles.bidsButtonAccept}
               onPress={onWithdrawBid}>
-              <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
+              <Text style={{ color: '#D2691Eff', fontWeight: 'bold' }}>
                 {ArabicText.WithDraw}
               </Text>
             </TouchableOpacity>
           )}
-
+          <TouchableOpacity
+            activeOpacity={0.99}
+            style={Styles.bidsButtonAccept}
+            onPress={() => { }}>
+            <Text style={{ color: '#D2691Eff', fontWeight: 'bold' }}>
+              {ArabicText?.bidClosed}
+            </Text>
+          </TouchableOpacity>
           <TouchableOpacity
             style={Styles.bidsButtonAccept}
             onPress={onViewPost}>
-            <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
-              {ArabicText.View_Post}
+            <Text style={{ color: '#D2691Eff', fontWeight: 'bold' }}>
+              {ArabicText.accept}
             </Text>
           </TouchableOpacity>
         </View>
       </View>
     );
-    const renderBidItem = ({item}) => {
+    const renderBidItem = ({ item }) => {
       return (
         <BidsItem
           item={item}
@@ -256,15 +263,15 @@ class Bids extends Component {
             size="large"
             color="#D2691Eff"
             animating={loader}
-            style={{marginTop: 20}}
+            style={{ marginTop: 20 }}
           />
         )}
         {!loader && (
           <FlatList
             ListEmptyComponent={() => <EmptyComponent />}
             key={key}
-            style={{flex: 1}}
-            contentContainerStyle={{paddingBottom: width * 0.5, flexGrow: 1}}
+            style={{ flex: 1 }}
+            contentContainerStyle={{ paddingBottom: width * 0.5, flexGrow: 1 }}
             data={this.state.posts}
             renderItem={renderBidItem}
             refeshing={this.state.refreshing}

@@ -1,10 +1,11 @@
-import React, {Component} from 'react';
-import {View, Text, Image} from 'react-native';
-import {Styles} from '../styles/globlestyle';
-import {ProgressBar} from 'react-native-paper';
+import React, { Component } from 'react';
+import { View, Text, Image } from 'react-native';
+import { Styles } from '../styles/globlestyle';
+import { ProgressBar } from 'react-native-paper';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import FastImage from 'react-native-fast-image';
-import {profileBaseUrl} from '../constants/urls';
+import { profileBaseUrl } from '../constants/urls';
+import { family } from '../constants/Family';
 class WinnerBeauty extends Component {
   constructor(props) {
     super(props);
@@ -17,9 +18,9 @@ class WinnerBeauty extends Component {
     return (
       <View style={[Styles.container]}>
         <BackBtnHeader />
-        <View style={{marginTop: 30, justifyContent: 'center'}}>
+        <View style={{ marginTop: 30, justifyContent: 'center' }}>
           {this.state.winnerList.map((el, i) => (
-            <View style={[Styles.WinnerIcon, {marginBottom: 20}]}>
+            <View style={[Styles.WinnerIcon, { marginBottom: 20 }]}>
               <View style={Styles.winnerBeauty}>
                 <ProgressBar
                   key={i}
@@ -61,6 +62,7 @@ class WinnerBeauty extends Component {
                     top: 10,
                     right: 100,
                     color: '#D2691E',
+                    fontFamily: family.Neo_Regular
                   }}>
                   {el.user_name}
                 </Text>
@@ -70,6 +72,7 @@ class WinnerBeauty extends Component {
                     left: 15,
                     top: 10,
                     color: '#D2691E',
+                    fontFamily: family.Neo_Regular
                   }}>
                   {el.like_count}
                 </Text>

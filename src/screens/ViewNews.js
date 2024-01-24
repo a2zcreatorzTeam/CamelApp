@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, { Component, useState } from 'react';
 import {
   View,
   TextInput,
@@ -9,21 +9,22 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import {Card} from 'react-native-paper';
+import { Card } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import HTML from 'react-native-render-html';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import Toast from 'react-native-toast-message';
 import moment from 'moment';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import camelapp from '../api/camelapp';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Loader from '../components/PleaseWait';
-import {mainImageUrl, profileBaseUrl} from '../constants/urls';
+import { mainImageUrl, profileBaseUrl } from '../constants/urls';
 import * as ArabicText from '../language/EnglishToArabic';
-import {Styles} from '../styles/globlestyle';
+import { Styles } from '../styles/globlestyle';
+import { family } from '../constants/Family';
 const width = Dimensions.get('screen').width;
 
 class ViewNews extends Component {
@@ -42,9 +43,9 @@ class ViewNews extends Component {
   }
 
   getComments = async () => {
-    const {key} = this.state;
+    const { key } = this.state;
     const newsdata = this.props.route.params.newsItem;
-    let {user} = this.props;
+    let { user } = this.props;
     user = user?.user?.user;
     await camelapp
       .post('/get/news_comments_like', {
@@ -64,8 +65,8 @@ class ViewNews extends Component {
   };
   rating = rating => {
     const newsdata = this.props.route.params.newsItem;
-    this.setState({loading: true});
-    let {user} = this.props;
+    this.setState({ loading: true });
+    let { user } = this.props;
     user = user?.user?.user;
     if (user != undefined) {
       camelapp
@@ -81,7 +82,7 @@ class ViewNews extends Component {
               type: 'success',
               visibilityTime: 3000,
             });
-            this.setState({rated: true});
+            this.setState({ rated: true });
             // alert(response?.data?.message);
           }
           // if (response.data.status == true) {
@@ -91,11 +92,11 @@ class ViewNews extends Component {
           // }
         });
     }
-    this.setState({loading: false});
+    this.setState({ loading: false });
   };
   newComment() {
     const newsdata = this.props.route.params.newsItem;
-    let {user} = this.props;
+    let { user } = this.props;
     user = user?.user?.user;
     if (user != undefined) {
       if (this.state.newComment != '') {
@@ -112,7 +113,7 @@ class ViewNews extends Component {
             //   visibilityTime: 3000,
             // });
             // alert(ArabicText.Comment_Added + '');
-            this.setState({newComment: ''});
+            this.setState({ newComment: '' });
             this.getComments();
           });
       } else {
@@ -130,13 +131,13 @@ class ViewNews extends Component {
     this.getComments();
   }
   render() {
-    const {key, rated} = this.state;
+    const { key, rated } = this.state;
     const newsdata = this.props.route.params.newsItem;
-    let {user} = this.props;
+    let { user } = this.props;
     user = user?.user?.user;
     const likeCommentHandler = async (item, setIsLiked, setLikeCount) => {
-      this.setState({loading: false});
-      let {user} = this.props;
+      this.setState({ loading: false });
+      let { user } = this.props;
       user = user?.user?.user;
       if (user != undefined) {
         await camelapp
@@ -156,13 +157,13 @@ class ViewNews extends Component {
           })
           .catch(error => {
             console.log('error', error);
-            this.setState({loading: false});
+            this.setState({ loading: false });
           });
       } else {
         this.props.navigation.navigate('Login');
       }
     };
-    const renderItem = ({item}) => {
+    const renderItem = ({ item }) => {
       return (
         <Item
           item={item}
@@ -192,7 +193,7 @@ class ViewNews extends Component {
       <View style={Styles.container}>
         <Loader loading={this.state.loading} />
         <BackBtnHeader />
-        <ScrollView style={{alignSelf: 'center'}}>
+        <ScrollView style={{ alignSelf: 'center' }}>
           <View
             style={{
               flexDirection: 'row',
@@ -201,10 +202,11 @@ class ViewNews extends Component {
               marginHorizontal: 10,
             }}>
             <View>
-              <Text style={{color: 'black', fontWeight: 'bold', fontSize: 17}}>
+
+              <Text style={{ color: 'black', fontSize: 17, fontFamily: family.Neo_Bold }}>
                 {newsdata?.user?.name}
               </Text>
-              <Text style={{color: 'grey', fontSize: 10}}>
+              <Text style={{ color: 'grey', fontSize: 10, fontFamily: family.Neo_Regular }}>
                 {newsdata?.date}
               </Text>
             </View>
@@ -225,10 +227,10 @@ class ViewNews extends Component {
           <Text
             style={{
               margin: 10,
-              fontWeight: '700',
               color: 'black',
-              fontSize: 24,
+              fontSize: 20,
               textAlign: 'right',
+              fontFamily: family.Neo_Bold
             }}>
             {newsdata?.title}
           </Text>
@@ -236,10 +238,10 @@ class ViewNews extends Component {
             source={{
               uri: `${mainImageUrl}news/` + newsdata?.image,
             }}
-            style={[Styles.image, {backgroundColor: '#D3D3D3'}]}
+            style={[Styles.image, { backgroundColor: '#D3D3D3' }]}
             resizeMode="contain"
           />
-          <View style={{padding: 10}}>
+          <View style={{ padding: 10 }}>
             <HTML
               tagsStyles={tagsStyles}
               source={source}
@@ -254,22 +256,22 @@ class ViewNews extends Component {
               marginBottom: 10,
               color: 'black',
             }}>
-            <Text style={{color: 'black'}}>{ArabicText?.comments}</Text>
+            <Text style={{ color: 'black', fontFamily: family.Neo_Regular }}>{ArabicText?.comments}</Text>
           </View>
           <FlatList
             keyExtractor={item => item.id}
             key={key}
-            style={{flex: 1}}
+            style={{ flex: 1 }}
             data={this.state.commentList}
             renderItem={renderItem}
-            // initialNumToRender={5}
-            // maxToRenderPerBatch={5}
+          // initialNumToRender={5}
+          // maxToRenderPerBatch={5}
           />
         </ScrollView>
 
         <View style={Styles.msgbar}>
           <TouchableOpacity
-            style={{transform: [{rotate: '180deg'}]}}
+            style={{ transform: [{ rotate: '180deg' }] }}
             onPress={() => {
               this.newComment();
             }}>
@@ -279,7 +281,7 @@ class ViewNews extends Component {
             value={this.state.newComment}
             style={Styles.inputNews}
             placeholderTextColor="#b0b0b0"
-            onChangeText={text => this.setState({newComment: text})}
+            onChangeText={text => this.setState({ newComment: text })}
             placeholder={ArabicText.comments}></TextInput>
         </View>
       </View>
@@ -300,7 +302,7 @@ const Item = ({
   image,
   comments,
   date,
-  likeCommentHandler = () => {},
+  likeCommentHandler = () => { },
   likesCount,
 }) => {
   const [isLiked, setIsLiked] = useState(item?.flagForLike);
@@ -326,8 +328,8 @@ const Item = ({
         }}>
         <TouchableOpacity
           onPress={() => likeCommentHandler(setIsLiked, setLikeCount)}
-          style={{width: 40}}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          style={{ width: 40 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <AntDesign
               name={isLiked == true ? 'heart' : 'hearto'}
               size={16}
@@ -340,6 +342,7 @@ const Item = ({
                 fontWeight: 'bold',
                 textAlign: 'right',
                 color: 'black',
+                fontFamily: family.Neo_Regular
               }}>
               {likeCount}
             </Text>
@@ -364,9 +367,9 @@ const Item = ({
             style={{
               fontSize: 16,
               paddingRight: 5,
-              fontWeight: 'bold',
               textAlign: 'right',
               color: 'black',
+              fontFamily: family.Neo_Regular
             }}>
             {name}
           </Text>
@@ -376,6 +379,7 @@ const Item = ({
               textAlign: 'right',
               color: 'grey',
               marginBottom: 5,
+              fontFamily: family.Neo_Regular
             }}>
             {moment(date).format('YYYY-MM-DD')}
           </Text>
@@ -387,6 +391,7 @@ const Item = ({
               paddingRight: 5,
               textAlign: 'right',
               color: 'black',
+              fontFamily: family.Neo_Regular
             }}>
             {comments}
           </Text>

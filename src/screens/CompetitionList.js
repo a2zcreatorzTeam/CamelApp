@@ -91,7 +91,7 @@ class CamelClubList extends Component {
           })
           .then(res => {
             if (res) {
-              console.log(res, 'response');
+              console.log(res, 'response2345');
               let temp = res?.data;
               this.props.navigation.navigate('BeautyOfCompetition', {
                 competition_item: [temp],
@@ -99,7 +99,7 @@ class CamelClubList extends Component {
             }
           });
       } catch (error) {
-        console.log('Error Message get competition List', error?.response);
+        console.log('Error Message get competition List', error);
       }
     };
     const {

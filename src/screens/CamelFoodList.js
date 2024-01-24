@@ -218,7 +218,6 @@ class CamelFoodList extends Component {
       }
     };
     const onDetailsClick = (item, viewCount, setViewCount) => {
-      console.log(item?.category_id, 'itemmid');
       if (user != undefined) {
         this.props.navigation.navigate('DetailsComponentWithPrice', {
           itemFromDetails: item,

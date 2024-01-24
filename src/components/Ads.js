@@ -69,7 +69,7 @@ const AdsComp = ({ item }) => {
         width: width,
         height: 110,
         backgroundColor: '#fff',
-        padding: 5,
+        padding: 2,
         alignItems: 'center',
       }}>
       <FastImage
@@ -80,7 +80,7 @@ const AdsComp = ({ item }) => {
           headers: { Authorization: 'someAuthToken' },
           priority: FastImage.priority.high,
         }}
-        resizeMode={FastImage?.resizeMode.contain}
+      resizeMode={FastImage?.resizeMode.contain}
       />
     </TouchableOpacity>
   );

@@ -47,7 +47,7 @@ import {
   profileBaseUrl,
   thumbnailBaseUrl,
 } from '../constants/urls';
-
+import { family } from '../constants/Family';
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -327,7 +327,7 @@ class Profile extends Component {
           // RATING
 
           const length = parseInt(res?.data?.posts?.length);
-          console.log(length,"lengthlength");
+          console.log(length, "lengthlength");
           const subscription = res?.data?.user?.subscription
           let rating = 0;
           if (subscription?.length && (subscription == 'famous' || subscription == 'عضو مميز' || subscription == 'vip' || subscription == 'عضو مهم')) {
@@ -501,6 +501,7 @@ class Profile extends Component {
     const { key, filterPosts, posts, searchedItem, searchText, userData } =
       this.state;
     const subscription = userData?.user?.subscription
+    console.log(subscription, "subscriptionsubscriptionsubscription");
     const sharePosts = item => {
       this.setState({ loading: true });
       let { user } = this.props;
@@ -846,6 +847,7 @@ class Profile extends Component {
                         fontSize: 12,
                         textAlign: 'right',
                         marginRight: 4,
+                        fontFamily: family.Neo_Medium
                       }}>
                       {subscription?.length
                         ? subscription

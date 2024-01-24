@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -9,18 +9,18 @@ import {
 } from 'react-native';
 import 'react-native-gesture-handler';
 import RNFS from 'react-native-fs';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
-import {createThumbnail} from 'react-native-create-thumbnail';
+import { createThumbnail } from 'react-native-create-thumbnail';
 import VideoModal from '../components/VideoModal';
 import * as userActions from '../redux/actions/user_actions';
 import camelapp from '../api/camelapp';
 import HorizontalCarousel from '../components/HorizontalCarousel';
-import {Styles} from '../styles/globlestyle';
+import { Styles } from '../styles/globlestyle';
 import * as ArabicText from '../language/EnglishToArabic';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Loader from '../components/PleaseWait';
@@ -55,7 +55,7 @@ class participateInCompetition extends Component {
     };
   }
   videoPicker = async () => {
-    this.setState({video: {}});
+    this.setState({ video: {} });
     ImagePicker.openPicker({
       mediaType: 'video',
     }).then(async video => {
@@ -71,12 +71,12 @@ class participateInCompetition extends Component {
           timeStamp: 10000,
         })
           .then(response => {
-            this.setState({thumbnail: response});
+            this.setState({ thumbnail: response });
           })
-          .catch(err => console.log({err}));
+          .catch(err => console.log({ err }));
         RNFS.readFile(video.path, 'base64')
           .then(res => {
-            this.setState({videoForPost: 'data:video/mp4;base64,' + res});
+            this.setState({ videoForPost: 'data:video/mp4;base64,' + res });
             let tempMixed = this.state.mixed;
             let mixed = this.state.mixed;
             let videoFlag = false;
@@ -92,10 +92,10 @@ class participateInCompetition extends Component {
               if (videoFlag === false) {
                 mixed.push(video);
               }
-              this.setState({mixed: mixed, video: video});
+              this.setState({ mixed: mixed, video: video });
             } else {
               tempMixed.push(video);
-              this.setState({mixed: tempMixed, video: video});
+              this.setState({ mixed: tempMixed, video: video });
             }
           })
           .catch(err => {
@@ -106,7 +106,7 @@ class participateInCompetition extends Component {
   };
   // CAPTURE IMAGE
   openCameraForCapture() {
-    const {cameraimagesForPost, mixed} = this.state;
+    const { cameraimagesForPost, mixed } = this.state;
     ImagePicker.openCamera({
       mediaType: 'photo',
       includeBase64: true,
@@ -156,9 +156,9 @@ class participateInCompetition extends Component {
           bse64images.push('data:image/png;base64,' + images[i].data);
           mixedTemp.push(tempImage[i]);
         }
-        this.setState({imagesForPost: bse64images, image: tempImage});
+        this.setState({ imagesForPost: bse64images, image: tempImage });
         this.setState(previousState => {
-          return {mixed: [...previousState?.mixed, ...mixedTemp]};
+          return { mixed: [...previousState?.mixed, ...mixedTemp] };
         });
         // } else {
         //   alert('Only 4 images allowed');
@@ -183,10 +183,15 @@ class participateInCompetition extends Component {
     var image1 = imagesForPost;
     var image2 = cameraimagesForPost;
     var combineImages = [...image1, ...image2];
+
     let thumbnailObj;
-    if (thumbnail) {
-      const thumbnailContent = await RNFS.readFile(thumbnail?.path, 'base64');
-      thumbnailObj = {...thumbnail, path: thumbnailContent};
+    if (thumbnail && thumbnail != {}) {
+      const thumbnailContent =
+        thumbnail && (await RNFS?.readFile(thumbnail?.path, 'base64'));
+      thumbnailObj = thumbnailContent && {
+        ...thumbnail,
+        path: thumbnailContent,
+      };
     }
     if (
       (combineImages == undefined || combineImages?.length == 0) &&
@@ -206,8 +211,8 @@ class participateInCompetition extends Component {
       });
     }
     if (title != '' && description != '' && location != '' && age != '') {
-      this.setState({loading: true});
-      let {user} = this.props;
+      this.setState({ loading: true });
+      let { user } = this.props;
       let user_id = user?.user?.user.id;
       let competition_id = this.props.route.params.competitionItem;
       camelapp
@@ -220,7 +225,7 @@ class participateInCompetition extends Component {
           competition_id: competition_id,
           images: combineImages ? combineImages : [],
           video: videoForPost ? videoForPost : null,
-          thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null
+          thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null,
 
         })
         .then(response => {
@@ -240,7 +245,7 @@ class participateInCompetition extends Component {
           this.props.navigation.goBack();
         })
         .catch(error => {
-          this.setState({loading: false});
+          this.setState({ loading: false });
         });
     } else {
       return Toast.show({
@@ -250,12 +255,11 @@ class participateInCompetition extends Component {
       });
     }
   };
-
   render() {
-    const {pausedCheck, loadVideo, videoModal, modalItem, thumbnail} =
+    const { pausedCheck, loadVideo, videoModal, modalItem, thumbnail } =
       this.state;
     return (
-      <ScrollView style={{backgroundColor: '#FFFFFF'}}>
+      <ScrollView style={{ backgroundColor: '#FFFFFF' }}>
         <BackBtnHeader />
         <View style={Styles.containerScroll}>
           <HorizontalCarousel
@@ -271,10 +275,10 @@ class participateInCompetition extends Component {
             }}
             pausedCheck={pausedCheck}
             pauseVideo={() => {
-              this.setState({pausedCheck: true});
+              this.setState({ pausedCheck: true });
             }}
           />
-          <View style={{flexDirection: 'row', marginTop: 10}}>
+          <View style={{ flexDirection: 'row', marginTop: 10 }}>
             <View style={Styles.cameraview}>
               <TouchableOpacity onPress={() => this.videoPicker()}>
                 <FontAwesome name="video-camera" size={30} color="#D2691Eff" />
@@ -299,7 +303,7 @@ class participateInCompetition extends Component {
             value={this.state.title}
             onChangeText={text => {
               if (text?.length <= 24) {
-                this.setState({title: text});
+                this.setState({ title: text });
               } else {
                 Toast.show({
                   text1: ArabicText?.limitCharacters,
@@ -318,7 +322,7 @@ class participateInCompetition extends Component {
             value={this.state.location}
             onChangeText={text => {
               if (text?.length <= 24) {
-                this.setState({location: text});
+                this.setState({ location: text });
               } else {
                 Toast.show({
                   text1: ArabicText?.limitCharacters,
@@ -337,7 +341,7 @@ class participateInCompetition extends Component {
             value={this.state.age}
             onChangeText={text => {
               if (text?.length <= 3) {
-                this.setState({age: text});
+                this.setState({ age: text });
               } else {
                 Toast.show({
                   text1: ArabicText?.ageLimit,
@@ -348,14 +352,14 @@ class participateInCompetition extends Component {
               }
             }}></TextInput>
           <TextInput
-            style={[Styles.inputdecrp, {marginTop: 20}]}
+            style={[Styles.inputdecrp, { marginTop: 20 }]}
             placeholder={ArabicText.Description}
             placeholderTextColor="#b0b0b0"
             value={this.state.description}
             multiline
             onChangeText={text => {
               if (text?.length <= 300) {
-                this.setState({description: text});
+                this.setState({ description: text });
               } else {
                 Toast.show({
                   text1: ArabicText?.description,
@@ -375,16 +379,16 @@ class participateInCompetition extends Component {
         {/* VIDEO MODAL */}
         <VideoModal
           onLoadStart={() => {
-            this.setState({loadVideo: true});
+            this.setState({ loadVideo: true });
           }}
           onReadyForDisplay={() => {
-            this.setState({loadVideo: false});
+            this.setState({ loadVideo: false });
           }}
           onPress={() => {
-            !loadVideo && this.setState({pausedCheck: !pausedCheck});
+            !loadVideo && this.setState({ pausedCheck: !pausedCheck });
           }}
           closeModal={() => {
-            this.setState({videoModal: false, pausedCheck: true});
+            this.setState({ videoModal: false, pausedCheck: true });
           }}
           pausedCheck={pausedCheck}
           loadVideo={loadVideo}

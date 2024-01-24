@@ -1,5 +1,6 @@
 import { StyleSheet, Platform, StatusBar } from 'react-native';
 import { Dimensions } from 'react-native';
+import { family } from '../constants/Family';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 export const Styles = StyleSheet.create({
@@ -164,6 +165,7 @@ export const Styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
+    fontFamily: family.Neo_Regular
   },
   header: {
     backgroundColor: '#d2691e',
@@ -465,6 +467,8 @@ export const Styles = StyleSheet.create({
     textAlign: 'right',
     borderRadius: 20,
     color: 'black',
+    fontFamily: family.Neo_Regular
+
   },
   forminputsPrice: {
     height: 40,
@@ -569,6 +573,7 @@ export const Styles = StyleSheet.create({
     textAlign: 'right',
     borderRadius: 6,
     color: 'black',
+    fontFamily: family.Neo_Regular
   },
   fontDetails: {
     fontSize: 10,
@@ -1037,6 +1042,7 @@ export const Styles = StyleSheet.create({
     borderBottomWidth: 1,
     textAlign: 'right',
     color: 'black',
+    fontFamily: family.Neo_Regular
   },
   paragraph: {
     width: width - 140,

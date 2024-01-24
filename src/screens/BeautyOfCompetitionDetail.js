@@ -87,6 +87,7 @@ class BeautyOfCompetition extends Component {
           user_id: user?.id,
         })
         .then(res => {
+          console.log(res,"detailsssss");
           const arrayPosts = res?.data?.competition_posts;
           arrayPosts?.map((item, index) => {
             let array = item?.img;
@@ -738,7 +739,7 @@ class BeautyOfCompetition extends Component {
 
         <View style={{ flex: 1 }}>
           {/* {posts?.length && ( */}
-          <FlatList
+          {/* <FlatList
             key={key}
             style={{ flex: 1, flexGrow: 1 }}
             contentContainerStyle={{
@@ -760,7 +761,7 @@ class BeautyOfCompetition extends Component {
                 onRefresh={() => this.ScrollToRefresh()}
               />
             }
-          />
+          /> */}
           {/* )} */}
         </View>
       </View>

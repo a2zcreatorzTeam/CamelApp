@@ -255,7 +255,6 @@ class CamelTreatmentList extends Component {
       }
     };
     const onDetailsClick = (item, viewCount, setViewCount) => {
-      console.log('itemmid', item?.category_id);
       let {user} = this.props;
       user = user?.user?.user;
       if (user != undefined) {

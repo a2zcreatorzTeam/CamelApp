@@ -1,21 +1,22 @@
-import React, {memo, useState} from 'react';
-import {Image, Text, View, TouchableOpacity, Dimensions} from 'react-native';
+import React, { memo, useState } from 'react';
+import { Image, Text, View, TouchableOpacity, Dimensions } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Styles} from '../styles/globlestyle';
-const {width, height} = Dimensions.get('screen');
+import { Styles } from '../styles/globlestyle';
+const { width, height } = Dimensions.get('screen');
 import FastImage from 'react-native-fast-image';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {imageBaseUrl, profileBaseUrl} from '../constants/urls';
+import { imageBaseUrl, profileBaseUrl, thumbnailBaseUrl } from '../constants/urls';
 
 const PostItem = ({
   item,
   image,
   commentCount,
-  postLike = () => {},
-  postComment = () => {},
-  onClickItem = () => {},
+  postLike = () => { },
+  postComment = () => { },
+  onClickItem = () => { },
 }) => {
+  // console.log(item?.thumbnail,"rthumkbghhh");
   const [isLiked, setIsLiked] = useState();
   const [likeCount, setLikeCount] = useState(item?.like_count);
   const [viewCount, setViewCount] = useState(item?.view_count);
@@ -38,7 +39,7 @@ const PostItem = ({
           width: width / 2 - 30,
           marginVertical: 8,
         }}>
-        <Text style={{color: 'black', marginBottom: 10, marginHorizontal: 10}}>
+        <Text style={{ color: 'black', marginBottom: 10, marginHorizontal: 10 }}>
           {item?.user_name}
         </Text>
         <FastImage
@@ -79,14 +80,28 @@ const PostItem = ({
               }}
             />
           ) : (
-            <View style={{backgroundColor: '#ededed'}}>
+            <View style={{ backgroundColor: '#ededed' }}>
               {
+
                 <Image
                   activeOpacity={0.2}
                   source={require('../../assets/camel.png')}
                   resizeMode={'cover'}
                   style={Styles.BeautyImages}
                 />
+                // <FastImage
+                //   style={Styles.BeautyImages}
+                //   source={
+                //     item?.thumbnail !== null
+                //       ? {
+                //         uri: thumbnailBaseUrl + item?.thumbnail?.thumbnail,
+                //         headers: { Authorization: 'someAuthToken' },
+                //         priority: FastImage.priority.high,
+                //       }
+                //       : require('../../assets/camel.png')
+                //   }
+                //   resizeMode={FastImage?.resizeMode.cover}
+                // />
               }
               <TouchableOpacity
                 onPress={() => onClickItem(viewCount, setViewCount)}
@@ -104,7 +119,7 @@ const PostItem = ({
                   activeOpacity={0.4}
                   source={require('../../assets/play.png')}
                   resizeMode={'cover'}
-                  style={{width: 50, height: 50}}
+                  style={{ width: 50, height: 50 }}
                 />
               </TouchableOpacity>
             </View>
@@ -122,7 +137,7 @@ const PostItem = ({
           borderRadius: 15,
           flexDirection: 'row',
           justifyContent: 'space-between',
-          left:5
+          left: 5
         }}>
         <TouchableOpacity
           style={{
@@ -131,7 +146,7 @@ const PostItem = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
             {viewCount}
           </Text>
           <Ionicons name="ios-eye-sharp" size={20} color="#CD853F" />
@@ -140,16 +155,16 @@ const PostItem = ({
           onPress={() => {
             postComment();
           }}
-          style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Text style={{marginRight: 5, color: 'black'}}>{commentCount}</Text>
+          style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={{ marginRight: 5, color: 'black' }}>{commentCount}</Text>
           <Feather name="message-square" size={16} color="#CD853F" />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             postLike(item, setIsLiked, setLikeCount);
           }}
-          style={{flexDirection: 'row', alignItems: 'center'}}>
-          <Text style={{marginRight: 5, color: 'black'}}>{likeCount}</Text>
+          style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Text style={{ marginRight: 5, color: 'black' }}>{likeCount}</Text>
           {(
             isLiked !== undefined ? isLiked == true : item?.flagForLike == true
           ) ? (

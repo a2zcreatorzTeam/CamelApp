@@ -108,7 +108,6 @@ class CamelFemaleList extends Component {
     let {user} = this.props;
     user = user?.user?.user;
     const renderItem = ({item}) => {
-      console.log(item, 'itemmmm');
       return (
         <Post
           date={item?.date}

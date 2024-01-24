@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -8,14 +8,14 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-import {Styles} from '../styles/globlestyle';
+import { Styles } from '../styles/globlestyle';
 import 'react-native-gesture-handler';
 import * as ArabicText from '../language/EnglishToArabic';
 import RNFS from 'react-native-fs';
 import camelapp from '../api/camelapp';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Loader from '../components/PleaseWait';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
@@ -25,7 +25,8 @@ import BackBtnHeader from '../components/headerWithBackBtn';
 const width = Dimensions.get('screen').width;
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
-import {createThumbnail} from 'react-native-create-thumbnail';
+import { createThumbnail } from 'react-native-create-thumbnail';
+import { family } from '../constants/Family';
 
 class TreatingCamelForm extends Component {
   constructor(props) {
@@ -61,7 +62,7 @@ class TreatingCamelForm extends Component {
   }
   //VIDEO PICKER
   videoPicker = async () => {
-    this.setState({video: {}});
+    this.setState({ video: {} });
     ImageCropPicker.openPicker({
       mediaType: 'video',
     }).then(async video => {
@@ -76,11 +77,11 @@ class TreatingCamelForm extends Component {
           url: video?.path,
           timeStamp: 10000,
         })
-          .then(response => this.setState({thumbnail: response}))
-          .catch(err => console.log({err}));
+          .then(response => this.setState({ thumbnail: response }))
+          .catch(err => console.log({ err }));
         RNFS.readFile(video.path, 'base64')
           .then(res => {
-            this.setState({videoForPost: 'data:video/mp4;base64,' + res});
+            this.setState({ videoForPost: 'data:video/mp4;base64,' + res });
             let tempMixed = this.state.mixed;
             let mixed = this.state.mixed;
             let videoFlag = false;
@@ -96,10 +97,10 @@ class TreatingCamelForm extends Component {
               if (videoFlag === false) {
                 mixed.push(video);
               }
-              this.setState({mixed: mixed, video: video});
+              this.setState({ mixed: mixed, video: video });
             } else {
               tempMixed.push(video);
-              this.setState({mixed: tempMixed, video: video});
+              this.setState({ mixed: tempMixed, video: video });
             }
           })
           .catch(err => {
@@ -125,9 +126,9 @@ class TreatingCamelForm extends Component {
           bse64images.push('data:image/png;base64,' + images[i].data);
           mixedTemp.push(tempImage[i]);
         }
-        this.setState({imagesForPost: bse64images, image: tempImage});
+        this.setState({ imagesForPost: bse64images, image: tempImage });
         this.setState(previousState => {
-          return {mixed: [...previousState?.mixed, ...mixedTemp]};
+          return { mixed: [...previousState?.mixed, ...mixedTemp] };
         });
         // } else {
         //   alert('Only 4 images allowed');
@@ -140,7 +141,7 @@ class TreatingCamelForm extends Component {
   }
   // CAPTURE IMAGE FROM CAMERA
   openCameraForCapture() {
-    const {cameraimagesForPost, mixed} = this.state;
+    const { cameraimagesForPost, mixed } = this.state;
     ImageCropPicker.openCamera({
       mediaType: 'photo',
       includeBase64: true,
@@ -186,7 +187,7 @@ class TreatingCamelForm extends Component {
       imagesForPost,
       cameraimagesForPost,
     } = this.state;
-     let thumbnailObj;
+    let thumbnailObj;
     if (thumbnail && thumbnail != {}) {
       const thumbnailContent =
         thumbnail && (await RNFS?.readFile(thumbnail?.path, 'base64'));
@@ -225,9 +226,9 @@ class TreatingCamelForm extends Component {
       //  &&
       // this.state.mixed.length != 0
     ) {
-      let {user} = this.props;
+      let { user } = this.props;
       let user_id = user?.user?.user.id;
-      this.setState({loading: true});
+      this.setState({ loading: true });
       camelapp
         .post('/add/treatment', {
           user_id: user_id,
@@ -259,7 +260,7 @@ class TreatingCamelForm extends Component {
         })
         .catch(error => {
           console.log('error', error);
-          this.setState({loading: false});
+          this.setState({ loading: false });
         });
     } else {
       return Toast.show({
@@ -274,18 +275,18 @@ class TreatingCamelForm extends Component {
   }
   // REMOVE ITEM
   removeItem = i => {
-    const {mixed} = this.state;
+    const { mixed } = this.state;
     const filteredList = mixed?.filter((item, index) => {
       return index !== i;
     });
-    this.setState({mixed: filteredList});
+    this.setState({ mixed: filteredList });
   };
   render() {
-    const {pausedCheck, loadVideo, videoModal, modalItem, mixed, thumbnail} =
+    const { pausedCheck, loadVideo, videoModal, modalItem, mixed, thumbnail } =
       this.state;
     return (
       <ScrollView
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         contentContainerStyle={{
           minHeight: '100%',
           paddingBottom: width * 0.1,
@@ -302,6 +303,7 @@ class TreatingCamelForm extends Component {
               fontSize: 18,
               fontWeight: 'bold',
               color: '#D2691Eff',
+              fontFamily: family.Neo_Regular
             }}>
             {ArabicText.TreatingCamel}{' '}
           </Text>
@@ -324,7 +326,7 @@ class TreatingCamelForm extends Component {
               }}
               pausedCheck={pausedCheck}
               pauseVideo={() => {
-                this.setState({pausedCheck: true});
+                this.setState({ pausedCheck: true });
               }}
             />
           ) : null}
@@ -336,7 +338,7 @@ class TreatingCamelForm extends Component {
               style={Styles.image}></Image>
           )}
 
-          <View style={{flexDirection: 'row', marginTop: 10}}>
+          <View style={{ flexDirection: 'row', marginTop: 10 }}>
             <View style={Styles.cameraview}>
               <TouchableOpacity onPress={() => this.videoPicker()}>
                 <FontAwesome name="video-camera" size={30} color="#D2691Eff" />
@@ -362,7 +364,7 @@ class TreatingCamelForm extends Component {
             value={this.state.title}
             onChangeText={text => {
               if (text.length <= 24) {
-                this.setState({title: text});
+                this.setState({ title: text });
               } else {
                 Toast.show({
                   text1: ArabicText?.limitCharacters,
@@ -379,7 +381,7 @@ class TreatingCamelForm extends Component {
             value={this.state.color}
             onChangeText={text => {
               if (text.length <= 24) {
-                this.setState({color: text});
+                this.setState({ color: text });
               } else {
                 Toast.show({
                   text1: ArabicText?.limitCharacters,
@@ -396,7 +398,7 @@ class TreatingCamelForm extends Component {
             value={this.state.camel_type}
             onChangeText={text => {
               if (text.length <= 24) {
-                this.setState({camel_type: text});
+                this.setState({ camel_type: text });
               } else {
                 Toast.show({
                   text1: ArabicText?.limitCharacters,
@@ -413,7 +415,7 @@ class TreatingCamelForm extends Component {
             value={this.state.location}
             onChangeText={text => {
               if (text.length <= 24) {
-                this.setState({location: text});
+                this.setState({ location: text });
               } else {
                 Toast.show({
                   text1: ArabicText?.limitCharacters,
@@ -424,7 +426,7 @@ class TreatingCamelForm extends Component {
             }}></TextInput>
 
           <TextInput
-            style={[Styles.inputdecrp, {marginTop: 20}]}
+            style={[Styles.inputdecrp, { marginTop: 20 }]}
             placeholder={ArabicText.Description}
             placeholderTextColor="#b0b0b0"
             value={this.state.description}
@@ -432,7 +434,7 @@ class TreatingCamelForm extends Component {
             textAlignVertical="top"
             onChangeText={text => {
               if (text.length <= 300) {
-                this.setState({description: text});
+                this.setState({ description: text });
               } else {
                 Toast.show({
                   text1: ArabicText?.description,
@@ -451,16 +453,16 @@ class TreatingCamelForm extends Component {
         {/* VIDEO MODAL */}
         <VideoModal
           onLoadStart={() => {
-            this.setState({loadVideo: true});
+            this.setState({ loadVideo: true });
           }}
           onReadyForDisplay={() => {
-            this.setState({loadVideo: false});
+            this.setState({ loadVideo: false });
           }}
           onPress={() => {
-            !loadVideo && this.setState({pausedCheck: !pausedCheck});
+            !loadVideo && this.setState({ pausedCheck: !pausedCheck });
           }}
           closeModal={() => {
-            this.setState({videoModal: false, pausedCheck: true});
+            this.setState({ videoModal: false, pausedCheck: true });
           }}
           pausedCheck={pausedCheck}
           loadVideo={loadVideo}

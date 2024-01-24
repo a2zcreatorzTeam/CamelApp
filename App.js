@@ -84,12 +84,7 @@ class App extends Component {
     };
   }
   componentDidMount() {
-    const customTextProps = {
-      style: {
-        fontFamily: fontFamily,
-      },
-    };
-    setCustomText(customTextProps);
+
     this.syncImmediate();
     this.takePermission();
     notificationListener();

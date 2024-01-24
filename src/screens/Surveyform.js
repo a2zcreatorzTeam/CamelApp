@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -8,25 +8,26 @@ import {
   Image,
 } from 'react-native';
 import camelapp from '../api/camelapp';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
-import {Styles} from '../styles/globlestyle';
+import { bindActionCreators } from 'redux';
+import { Styles } from '../styles/globlestyle';
 // import {CheckBox} from "@react-native-community/checkbox"
-import {RadioButton} from 'react-native-paper';
+import { RadioButton } from 'react-native-paper';
 import * as ArabicText from '../language/EnglishToArabic';
-import {DataContext} from '../context/DataContext';
-import {Dimensions} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
+import { DataContext } from '../context/DataContext';
+import { Dimensions } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 import Loader from '../components/PleaseWait';
-import {ActivityIndicator} from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import moment from 'moment';
 import Toast from 'react-native-toast-message';
-import {mainImageUrl} from '../constants/urls';
+import { mainImageUrl } from '../constants/urls';
 import FastImage from 'react-native-fast-image';
+import { family } from '../constants/Family';
 class Surveyform extends Component {
   constructor(props) {
     super(props);
@@ -44,7 +45,7 @@ class Surveyform extends Component {
   }
 
   submitSurvey = item => {
-    let {user} = this.props;
+    let { user } = this.props;
     user = user?.user?.user;
     const data = {
       user_id: user?.id,
@@ -53,9 +54,9 @@ class Surveyform extends Component {
     console.log(data, 'dattatata');
     if (user != undefined) {
       if (this?.state?.arrayForSubmit?.length !== 0) {
-        this.setState({loader: true});
+        this.setState({ loader: true });
         camelapp
-          .post('/add/survey', {data: data})
+          .post('/add/survey', { data: data })
           .then(res => {
             if (res?.data?.message === 'Already Submitted') {
               Toast.show({
@@ -64,7 +65,7 @@ class Surveyform extends Component {
                 visibilityTime: 3000,
               });
               // alert('You have already submitted survey');
-              this.setState({loader: false});
+              this.setState({ loader: false });
             } else {
               if (res?.data) {
                 Toast.show({
@@ -74,12 +75,12 @@ class Surveyform extends Component {
                 });
                 // alert('تم إرسال الاستبيان بنجاح');
                 this.props.navigation.pop();
-                this.setState({loader: false});
+                this.setState({ loader: false });
               }
             }
           })
           .catch(err => {
-            this.setState({loader: false});
+            this.setState({ loader: false });
             console.log(err, 'ererrererer');
           });
       } else {
@@ -95,7 +96,7 @@ class Surveyform extends Component {
     }
   };
   selectedAnswer(item, i, index) {
-    let {user} = this.props;
+    let { user } = this.props;
     user = user?.user?.user;
     let survey = this?.props?.route?.params?.surveyId;
     for (let j = 0; j < survey?.survey_details[index]['answer']?.length; j++) {
@@ -104,7 +105,7 @@ class Surveyform extends Component {
     }
     survey.survey_details[index]['answer'][i]['flag'] = true;
     survey.survey_details[index]['answer'][i]['flagForCount'] = false;
-    this.setState({selectedAnswer: survey.survey_details[index]});
+    this.setState({ selectedAnswer: survey.survey_details[index] });
     let tempsubmitArray = this.state.arrayForSubmit;
     console.log(tempsubmitArray, 'tempsubmitArraytempsubmitArray');
     let tempObj = {
@@ -121,7 +122,7 @@ class Surveyform extends Component {
       });
     }
     tempsubmitArray.push(tempObj);
-    this.setState({arrayForSubmit: tempsubmitArray});
+    this.setState({ arrayForSubmit: tempsubmitArray });
   }
   render() {
     const todaysData = moment().format('YYYY-MM-DD');
@@ -130,14 +131,14 @@ class Surveyform extends Component {
     const surveyActiveStatus =
       this.props?.route?.params.surveyId?.survey_end_status;
     return (
-      <View style={{flex: 1, alignItems: 'center', width: '100%'}}>
-        <BackBtnHeader style={{marginBottom: 15}} />
+      <View style={{ flex: 1, alignItems: 'center', width: '100%' }}>
+        <BackBtnHeader style={{ marginBottom: 15 }} />
         <Text
           style={{
             fontSize: 30,
             fontWeight: 'bold',
             color: '#d2691e',
-            fontFamily: 'centaur',
+            fontFamily: family.Neo_Regular,
             marginBottom: 5,
             textAlign: 'center',
           }}>
@@ -145,7 +146,7 @@ class Surveyform extends Component {
         </Text>
 
         {!this.state.status && (
-          <View style={{width: width, height: hight / 1.5}}>
+          <View style={{ width: width, height: hight / 1.5 }}>
             <FlatList
               horizontal={false}
               key={item => item?.survey_details?.answer}
@@ -154,7 +155,7 @@ class Surveyform extends Component {
                 width: '100%',
                 paddingBottom: '20%',
               }}
-              renderItem={({item, index}) => (
+              renderItem={({ item, index }) => (
                 <View
                   style={{
                     marginTop: 10,
@@ -177,6 +178,7 @@ class Surveyform extends Component {
                         fontWeight: 'bold',
                         color: 'black',
                         marginBottom: 10,
+                        fontFamily: family.Neo_Regular,
                       }}>
                       {item?.question}
                     </Text>
@@ -195,7 +197,7 @@ class Surveyform extends Component {
                         }}
                         source={{
                           uri: `${mainImageUrl}survey/` + item.image,
-                          headers: {Authorization: 'someAuthToken'},
+                          headers: { Authorization: 'someAuthToken' },
                           priority: FastImage.priority.high,
                         }}
                         resizeMode={FastImage?.resizeMode.cover}
@@ -203,7 +205,7 @@ class Surveyform extends Component {
                     </View>
                   </View>
 
-                  <View style={{width: '100%'}}>
+                  <View style={{ width: '100%' }}>
                     {item?.answer?.map((val, i) => {
                       return (
                         <TouchableOpacity
@@ -212,7 +214,7 @@ class Surveyform extends Component {
                           onPress={() => {
                             todaysData <= surveyEndDate &&
                               this.selectedAnswer(val, i, index),
-                              this.setState({showPercents: true});
+                              this.setState({ showPercents: true });
                           }}
                           style={{
                             backgroundColor:
@@ -232,6 +234,7 @@ class Surveyform extends Component {
                               marginRight: 10,
                               alignSelf: 'flex-end',
                               padding: 10,
+                              fontFamily: family.Neo_Regular,
                             }}>
                             {val?.answer}
                           </Text>
@@ -247,20 +250,21 @@ class Surveyform extends Component {
                                 fontSize: 16,
                                 marginRight: 10,
                                 marginLeft: 10,
+                                fontFamily: family.Neo_Regular,
                               }}>
                               {parseFloat(
                                 (val?.answer_count + 1) /
-                                  (item.total_count + 1),
+                                (item.total_count + 1),
                               ).toFixed(2) *
                                 100 ==
-                              (NaN || 0)
+                                (NaN || 0)
                                 ? 0
                                 : parseFloat(
-                                    (
-                                      (val?.answer_count + 1) /
-                                      (item.total_count + 1)
-                                    ).toFixed(2),
-                                  ) * 100}
+                                  (
+                                    (val?.answer_count + 1) /
+                                    (item.total_count + 1)
+                                  ).toFixed(2),
+                                ) * 100}
                               %
                             </Text>
                           )}
@@ -273,6 +277,7 @@ class Surveyform extends Component {
                                 fontSize: 16,
                                 marginRight: 10,
                                 marginLeft: 10,
+                                fontFamily: family.Neo_Regular,
                               }}>
                               {parseFloat(
                                 (
@@ -281,14 +286,14 @@ class Surveyform extends Component {
                                 ).toFixed(2),
                               ) *
                                 100 ==
-                              (NaN || 0)
+                                (NaN || 0)
                                 ? 0
                                 : parseFloat(
-                                    (
-                                      val?.answer_count /
-                                      (item.total_count + 1)
-                                    ).toFixed(2),
-                                  ) * 100}
+                                  (
+                                    val?.answer_count /
+                                    (item.total_count + 1)
+                                  ).toFixed(2),
+                                ) * 100}
                               %
                             </Text>
                           )}
@@ -302,7 +307,7 @@ class Surveyform extends Component {
           </View>
         )}
         {this.state.status && (
-          <View style={{width: width}}>
+          <View style={{ width: width }}>
             <FlatList
               horizontal={false}
               key={item => item?.survey_details?.id}
@@ -311,7 +316,7 @@ class Surveyform extends Component {
                 width: '100%',
                 paddingBottom: '20%',
               }}
-              renderItem={({item, index}) => (
+              renderItem={({ item, index }) => (
                 <View
                   style={{
                     marginTop: 10,
@@ -333,6 +338,7 @@ class Surveyform extends Component {
                         fontWeight: 'bold',
                         color: 'black',
                         marginBottom: 10,
+                        fontFamily: family.Neo_Regular,
                       }}>
                       {item?.question}
                     </Text>
@@ -355,7 +361,7 @@ class Surveyform extends Component {
                     </View>
                   </View>
 
-                  <View style={{width: '100%'}}>
+                  <View style={{ width: '100%' }}>
                     {item?.answer?.map((val, i) => {
                       var percentage =
                         parseFloat(
@@ -387,6 +393,7 @@ class Surveyform extends Component {
                               marginRight: 10,
                               alignSelf: 'flex-end',
                               padding: 10,
+                              fontFamily: family.Neo_Regular,
                             }}>
                             {val.answer}
                           </Text>
@@ -399,6 +406,7 @@ class Surveyform extends Component {
                               fontSize: 16,
                               marginRight: 10,
                               marginLeft: 10,
+                              fontFamily: family.Neo_Regular,
                             }}>
                             {isNaN(percentage) ? 0 : percentage}%
                           </Text>
@@ -412,10 +420,10 @@ class Surveyform extends Component {
           </View>
         )}
         {surveyActiveStatus == 0 &&
-        todaysData <= surveyEndDate &&
-        submitStatus == false ? (
+          todaysData <= surveyEndDate &&
+          submitStatus == false ? (
           <TouchableOpacity
-            style={[Styles.btn, {position: 'absolute', bottom: 10}]}
+            style={[Styles.btn, { position: 'absolute', bottom: 10 }]}
             onPress={() => this.submitSurvey()}>
             {this.state.loader == true ? (
               <ActivityIndicator

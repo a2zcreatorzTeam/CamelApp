@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -10,17 +10,18 @@ import {
   RefreshControl,
   Dimensions,
 } from 'react-native';
-import {Card} from 'react-native-paper';
+import { Card } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
 import moment from 'moment';
 import camelapp from '../api/camelapp';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
-import {Styles} from '../styles/globlestyle';
+import { bindActionCreators } from 'redux';
+import { Styles } from '../styles/globlestyle';
 import Header from '../components/Header';
 import EmptyComponent from '../components/EmptyComponent';
 import * as ArabicText from '../language/EnglishToArabic';
+import { family } from '../constants/Family';
 const width = Dimensions.get('screen').width;
 
 class SurveyList extends Component {
@@ -39,9 +40,9 @@ class SurveyList extends Component {
   }
 
   async viewPosts() {
-    let {user} = this.props;
+    let { user } = this.props;
     user = user?.user?.user;
-    const {key} = this.state;
+    const { key } = this.state;
     await camelapp
       .post('/get/survey', {
         user_id: user?.id,
@@ -60,7 +61,7 @@ class SurveyList extends Component {
       });
   }
   onItemClick = async item => {
-    let {user} = this.props;
+    let { user } = this.props;
     user = user?.user?.user;
     if (user != undefined) {
       if (item?.survey_end_status == 0) {
@@ -100,30 +101,30 @@ class SurveyList extends Component {
   };
   searchHandler = value => {
     if (!value?.length) {
-      this.setState({filterPosts: this.state.posts});
+      this.setState({ filterPosts: this.state.posts });
     } else {
-      this.setState({searchedItem: value});
+      this.setState({ searchedItem: value });
       // Data Filtration
       const filteredData = this.state.posts.filter(item => {
-        const {title} = item;
+        const { title } = item;
         return title?.toLowerCase().includes(value.toLowerCase());
       });
       if (filteredData?.length > 0) {
-        this.setState({filterPosts: filteredData});
+        this.setState({ filterPosts: filteredData });
       } else {
-        this.setState({filterPosts: []});
+        this.setState({ filterPosts: [] });
       }
     }
   };
   search(text) {
-    this.setState({searchText: text});
+    this.setState({ searchText: text });
   }
   ScrollToRefresh() {
     this.viewPosts();
-    this.setState({isRefreshing: false});
+    this.setState({ isRefreshing: false });
   }
   componentDidMount() {
-    const {navigation} = this.props;
+    const { navigation } = this.props;
     this.focusListener = navigation.addListener('focus', () => {
       this.viewPosts();
     });
@@ -132,8 +133,8 @@ class SurveyList extends Component {
     this.focusListener();
   }
   render() {
-    const {posts, filterPosts, searchedItem, key} = this.state;
-    const renderItem = ({item}) => {
+    const { posts, filterPosts, searchedItem, key } = this.state;
+    const renderItem = ({ item }) => {
       return (
         <Item
           item={item}
@@ -154,7 +155,7 @@ class SurveyList extends Component {
             if (text) {
               this.search(text);
             } else {
-              this.setState({searchedItem: '', searchText: ''});
+              this.setState({ searchedItem: '', searchText: '' });
             }
           }}
           onPressSearch={() => this.searchHandler(this.state.searchText)}
@@ -165,14 +166,14 @@ class SurveyList extends Component {
             size="large"
             color="#D2691Eff"
             animating={this.state.loader}
-            style={{marginTop: 20}}
+            style={{ marginTop: 20 }}
           />
         )}
 
         {this.state.loader == false && (
           <View>
             <FlatList
-              style={{flex: 1}}
+              style={{ flex: 1 }}
               ListEmptyComponent={() => <EmptyComponent />}
               key={key}
               refreshControl={
@@ -262,13 +263,11 @@ const Item = ({
         <Text
           numberOfLines={2}
           style={{
-            // width: width - 170,
-            // textAlign: 'right',
-            fontWeight: '500',
             fontSize: 16,
             color: 'black',
             marginHorizontal: 10,
-            // marginLeft:'auto',
+            fontFamily: family.Neo_Medium,
+            // fontWeight: '600',
           }}>
           {question?.length > 30 ? question?.slice(0, 30) : question}
         </Text>
@@ -282,12 +281,13 @@ const Item = ({
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={{color: '#fff'}}>
+
+          <Text style={{ color: '#fff', fontFamily: family.Neo_Regular, }}>
             {item?.survey_end_status == 1
               ? 'غير نشط'
               : todaysDate <= end_date
-              ? ArabicText?.Started
-              : ArabicText?.Ended}
+                ? ArabicText?.Started
+                : ArabicText?.Ended}
           </Text>
         </View>
       </View>

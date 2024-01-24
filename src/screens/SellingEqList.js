@@ -7,15 +7,16 @@ import {
   SafeAreaView,
   FlatList,
 } from 'react-native';
-import {Styles} from '../styles/globlestyle';
+import { Styles } from '../styles/globlestyle';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
-import {Card} from 'react-native-paper';
-import {DataContext, likePost} from '../context/DataContext';
+import { Card } from 'react-native-paper';
+import { DataContext, likePost } from '../context/DataContext';
 import * as ArabicText from '../language/EnglishToArabic';
 import EmptyComponent from '../components/EmptyComponent';
-import {imageBaseUrl, profileBaseUrl} from '../constants/urls';
+import { imageBaseUrl, profileBaseUrl } from '../constants/urls';
+import { family } from '../constants/Family';
 
 const Item = ({
   userName,
@@ -33,16 +34,16 @@ const Item = ({
 }) => (
   <Card>
     <View style={Styles.homesec}>
-      <View style={{left: 5, position: 'absolute'}}>
+      <View style={{ left: 5, position: 'absolute' }}>
         <View style={Styles.btnHome2}>
-          <Text style={{color: '#D2691Eff', fontWeight: 'bold'}}>
+          <Text style={{ color: '#D2691Eff', fontWeight: 'bold', fontFamily: family.Neo_Regular, }}>
             {category}
           </Text>
         </View>
       </View>
       <View style={Styles.user_detail}>
-        <Text style={{fontSize: 18, paddingRight: 5}}>{userName}</Text>
-        <Text style={{fontSize: 15, paddingRight: 5}}>{userCity}</Text>
+        <Text style={{ fontSize: 18, paddingRight: 5, fontFamily: family.Neo_Regular, }}>{userName}</Text>
+        <Text style={{ fontSize: 15, paddingRight: 5, fontFamily: family.Neo_Regular, }}>{userCity}</Text>
       </View>
       <View style={Styles.user_Home}>
         {/* <FontAwesome name="user-o" lineBreakMode='middle' size={24} color="#D2691Eff" /> */}
@@ -50,7 +51,7 @@ const Item = ({
           source={{
             uri:
               // "https://tasdeertech.com/public/images/posts/profile4ffce04d92a4d6cb21c1494cdfcd6dc1913.jpeg"
-              profileBaseUrl +userImage,
+              profileBaseUrl + userImage,
           }}
           style={{
             width: 50,
@@ -61,13 +62,13 @@ const Item = ({
     </View>
     <Card.Cover
       // source={require('../../assets/camel.png')}
-      source={{uri: imageBaseUrl + image}}
+      source={{ uri: imageBaseUrl + image }}
       resizeMode="cover"
       style={Styles.image}
     />
     <View style={Styles.pricetag}>
-      <Text style={{color: '#ffffff'}}>{ArabicText.Price}</Text>
-      <Text style={{color: '#FFFFFF'}}>{price}</Text>
+      <Text style={{ color: '#ffffff', fontFamily: family.Neo_Regular, }}>{ArabicText.Price}</Text>
+      <Text style={{ color: '#FFFFFF', fontFamily: family.Neo_Regular, }}>{price}</Text>
     </View>
 
     <Card.Actions style={Styles.posticon}>
@@ -75,25 +76,26 @@ const Item = ({
         style={{
           right: 155,
           position: 'absolute',
+          fontFamily: family.Neo_Regular,
         }}>
         {views}
       </Text>
-      <View style={{right: 133, position: 'absolute'}}>
+      <View style={{ right: 133, position: 'absolute' }}>
         <Ionicons name="ios-eye-sharp" size={18} color="#cd853f" />
       </View>
-      <Text style={{right: 120, position: 'absolute'}}>{shares}</Text>
-      <TouchableOpacity style={{right: 98, position: 'absolute'}}>
+      <Text style={{ right: 120, position: 'absolute', fontFamily: family.Neo_Regular, }}>{shares}</Text>
+      <TouchableOpacity style={{ right: 98, position: 'absolute' }}>
         <Ionicons name="share-social-sharp" size={18} color="#cd853f" />
       </TouchableOpacity>
-      <Text style={{right: 85, position: 'absolute'}}>{comments}</Text>
+      <Text style={{ right: 85, position: 'absolute', fontFamily: family.Neo_Regular, }}>{comments}</Text>
       <TouchableOpacity
-        style={{right: 60, position: 'absolute'}}
+        style={{ right: 60, position: 'absolute' }}
         onPress={onCommentsClick}>
         <Feather name="message-square" size={18} color="#cd853f" />
       </TouchableOpacity>
-      <Text style={{right: 45, position: 'absolute'}}>{likes}</Text>
+      <Text style={{ right: 45, position: 'absolute', fontFamily: family.Neo_Regular, }}>{likes}</Text>
       <TouchableOpacity
-        style={{right: 20, position: 'absolute'}}
+        style={{ right: 20, position: 'absolute' }}
         onPress={onLikesClick}>
         <AntDesign name="hearto" size={18} color="#cd853f" />
       </TouchableOpacity>
@@ -107,8 +109,8 @@ const Home = props => {
   };
 
   const onLikesClick = item => {
-    this.setState({loading: true});
-    let {user} = this.props;
+    this.setState({ loading: true });
+    let { user } = this.props;
     user = user?.user?.user;
     let post_id = item.id;
     if (user != undefined) {
@@ -157,14 +159,14 @@ const Home = props => {
         })
         .catch(error => {
           console.log('error', error);
-          this.setState({loading: false});
+          this.setState({ loading: false });
         });
     } else {
       this.props.navigation.navigate('Login');
     }
   };
 
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     return (
       <Item
         item={item}

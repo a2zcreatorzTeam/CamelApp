@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -10,23 +10,24 @@ import {
   Modal,
   Linking,
 } from 'react-native';
-import {Styles} from '../styles/globlestyle';
+import { Styles } from '../styles/globlestyle';
 import camelapp from '../api/camelapp';
 import * as ArabicText from '../language/EnglishToArabic';
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import OTPTextView from 'react-native-otp-textinput';
 const width = Dimensions.get('screen').width;
 
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
-import {Checkbox} from 'react-native-paper';
-import {Platform} from 'react-native';
-import {ScrollView} from 'react-native';
+import { bindActionCreators } from 'redux';
+import { Checkbox } from 'react-native-paper';
+import { Platform } from 'react-native';
+import { ScrollView } from 'react-native';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getFCMToken} from '../services/Helper';
+import { getFCMToken } from '../services/Helper';
+import { family } from '../constants/Family';
 
 class SignUp extends Component {
   constructor(props) {
@@ -129,7 +130,7 @@ class SignUp extends Component {
       password == confirm_password &&
       isChecked == true
     ) {
-      this.setState({btnPressed: true, loader: true});
+      this.setState({ btnPressed: true, loader: true });
       await getFCMToken();
       const deviceToken = await AsyncStorage?.getItem('fcmToken');
       camelapp
@@ -142,7 +143,7 @@ class SignUp extends Component {
               })
               .then(res => {
                 console.log(res, 'responseee');
-                this.setState({loader: false});
+                this.setState({ loader: false });
                 if (res) {
                   let tempSignUpObj = {
                     name: this.state.name,
@@ -160,12 +161,12 @@ class SignUp extends Component {
                   this.props.navigation.navigate('OtpSignUp', {
                     sign_up: tempSignUpObj,
                   });
-                  this.setState({loader: false, btnPressed: false});
+                  this.setState({ loader: false, btnPressed: false });
                 }
               })
               .catch(error => {
                 console.log('error', error);
-                this.setState({loader: false, btnPressed: false});
+                this.setState({ loader: false, btnPressed: false });
               });
           } else {
             Toast.show({
@@ -173,7 +174,7 @@ class SignUp extends Component {
               type: 'error',
               visibilityTime: 3000,
             });
-            this.setState({btnPressed: false, loader: false});
+            this.setState({ btnPressed: false, loader: false });
           }
         })
         .catch(error => {
@@ -183,10 +184,10 @@ class SignUp extends Component {
             type: 'error',
             visibilityTime: 3000,
           });
-          this.setState({loader: false, btnPressed: false});
+          this.setState({ loader: false, btnPressed: false });
         });
     } else {
-      this.setState({loader: false, btnPressed: false});
+      this.setState({ loader: false, btnPressed: false });
       if (name && phone && confirm_password && password && !isChecked) {
         Toast.show({
           text1: 'الرجاء تحديد الشروط والأحكام',
@@ -204,11 +205,11 @@ class SignUp extends Component {
   };
 
   render() {
-    let {flagname, flagphone, flagpassword, flag_confirm_password} = this.state;
+    let { flagname, flagphone, flagpassword, flag_confirm_password } = this.state;
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingTop: 10, backgroundColor: '#fff'}}>
+        contentContainerStyle={{ paddingTop: 10, backgroundColor: '#fff' }}>
         <View style={Styles.container}>
           <Text style={Styles.text}>إنشاء حساب</Text>
           <Image
@@ -232,7 +233,7 @@ class SignUp extends Component {
                   /^[\u0600-\u06FF\s]+$/.test(char),
                 );
                 if (isArabic) {
-                  this.setState({name: text});
+                  this.setState({ name: text });
                 }
               }}></TextInput>
             {flagname == true && (
@@ -241,6 +242,7 @@ class SignUp extends Component {
                   color: 'crimson',
                   fontSize: 12,
                   textAlign: 'right',
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {ArabicText?.Thenamemustcontainatleast3letters}
               </Text>
@@ -253,7 +255,7 @@ class SignUp extends Component {
               maxLength={10}
               placeholderTextColor="#000000"
               onChangeText={text =>
-                this.setState({phone: text.replace(/[^0-9]/g, '')})
+                this.setState({ phone: text.replace(/[^0-9]/g, '') })
               }></TextInput>
             {flagphone == true && (
               <Text
@@ -261,6 +263,7 @@ class SignUp extends Component {
                   color: 'crimson',
                   fontSize: 12,
                   textAlign: 'right',
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {ArabicText?.Thephonenumbermustonlyhavenumbers}
               </Text>
@@ -280,22 +283,22 @@ class SignUp extends Component {
                   name="eye"
                   size={18}
                   color="brown"
-                  onPress={() => this.setState({hidePassword: false})}
+                  onPress={() => this.setState({ hidePassword: false })}
                 />
               ) : (
                 <Ionicons
                   name="eye-off"
                   size={18}
                   color="brown"
-                  onPress={() => this.setState({hidePassword: true})}
+                  onPress={() => this.setState({ hidePassword: true })}
                 />
               )}
 
               <TextInput
-                style={{textAlign: 'right', color: 'black'}}
+                style={{ textAlign: 'right', color: 'black', fontFamily: family.Neo_Regular, }}
                 placeholderTextColor="#000000"
                 placeholder={ArabicText.passwords}
-                onChangeText={text => this.setState({password: text})}
+                onChangeText={text => this.setState({ password: text })}
                 secureTextEntry={this.state.hidePassword}
               />
             </View>
@@ -306,6 +309,7 @@ class SignUp extends Component {
                   color: 'crimson',
                   fontSize: 12,
                   textAlign: 'right',
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {ArabicText?.Thenamemustcontainatleast6letters}
               </Text>
@@ -325,22 +329,22 @@ class SignUp extends Component {
                   name="eye"
                   size={18}
                   color="brown"
-                  onPress={() => this.setState({hideConfirmPassword: false})}
+                  onPress={() => this.setState({ hideConfirmPassword: false })}
                 />
               ) : (
                 <Ionicons
                   name="eye-off"
                   size={18}
                   color="brown"
-                  onPress={() => this.setState({hideConfirmPassword: true})}
+                  onPress={() => this.setState({ hideConfirmPassword: true })}
                 />
               )}
 
               <TextInput
-                style={{textAlign: 'right', color: 'black'}}
+                style={{ textAlign: 'right', color: 'black', fontFamily: family.Neo_Regular, }}
                 placeholderTextColor="#000000"
                 placeholder={ArabicText.confirm_password}
-                onChangeText={text => this.setState({confirm_password: text})}
+                onChangeText={text => this.setState({ confirm_password: text })}
                 secureTextEntry={this.state.hideConfirmPassword}
               />
             </View>
@@ -351,19 +355,21 @@ class SignUp extends Component {
                   color: 'crimson',
                   fontSize: 12,
                   textAlign: 'right',
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {ArabicText?.Thenamemustcontainatleast6letters}
               </Text>
             )}
           </View>
 
-          <TouchableOpacity style={{alignSelf: 'flex-end'}}>
+          <TouchableOpacity style={{ alignSelf: 'flex-end' }}>
             <Text
               style={{
                 color: '#d2691e',
-                fontSize: 12,
+                fontSize: 14,
                 margin: 5,
                 marginRight: 25,
+                fontFamily: family.Neo_Regular,
               }}
               onPress={() => this.props.navigation.navigate('Login')}>
               {ArabicText.Already_an_account}
@@ -378,7 +384,7 @@ class SignUp extends Component {
                 console.log('Waiting For Response');
               }
             }}
-            style={{alignSelf: 'center', margin: 10}}>
+            style={{ alignSelf: 'center', margin: 10 }}>
             <View
               style={[
                 Styles.btn,
@@ -405,23 +411,24 @@ class SignUp extends Component {
               alignSelf: 'center',
               alignItems: 'center',
             }}>
-            <Text style={{color: 'black', fontSize: 14}}>
+            <Text style={{ color: 'black', fontSize: 14, fontFamily: family.Neo_Regular, }}>
               {ArabicText?.Iagreetothetermsandconditions}
             </Text>
             <Checkbox
               color="#D2691Eff"
-              onPress={() => this.setState({isChecked: !this.state?.isChecked})}
+              onPress={() => this.setState({ isChecked: !this.state?.isChecked })}
               status={this.state?.isChecked ? 'checked' : 'unchecked'}
             />
           </View>
           <TouchableOpacity
-            style={{marginBottom: 10}}
+            style={{ marginBottom: 10 }}
             onPress={() => Linking.openURL('https://www.google.com')}>
             <Text
               style={{
                 textDecorationLine: 'underline',
                 color: '#D2691Eff',
                 fontSize: 14,
+                fontFamily: family.Neo_Regular,
               }}>
               {ArabicText?.Learnmoreabouttermsandconditions}
             </Text>
@@ -431,10 +438,10 @@ class SignUp extends Component {
             transparent={true}
             visible={this.state.modalVisible}
             onRequestClose={() => {
-              this.setState({modalVisible: false});
+              this.setState({ modalVisible: false });
             }}>
             {this.state.otp === true && (
-              <View style={{flex: 1}}>
+              <View style={{ flex: 1 }}>
                 <View
                   style={{
                     flex: 1,
@@ -455,10 +462,10 @@ class SignUp extends Component {
                     handleTextChange={e => {
                       if (parseInt(e) == this.state.randomIndex) {
                         // setTimeout(() => {
-                        this.setState({otp: false, loader: true});
+                        this.setState({ otp: false, loader: true });
 
                         setTimeout(() => {
-                          this.setState({checked: true, loader: false});
+                          this.setState({ checked: true, loader: false });
 
                           setTimeout(() => {
                             this.setState({

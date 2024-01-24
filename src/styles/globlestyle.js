@@ -15,6 +15,7 @@ export const Styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#D2691Eff',
+    fontFamily: family.Neo_Regular,
   },
   video: { width: '100%', height: 400, borderWidth: 1, backgroundColor: 'black' },
   imageCarousal: {
@@ -120,6 +121,7 @@ export const Styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#d2691e',
     alignSelf: 'center',
+    fontFamily: family.Neo_Regular,
   },
   inputs: {
     height: 40,
@@ -128,6 +130,7 @@ export const Styles = StyleSheet.create({
     borderBottomWidth: 1,
     textAlign: 'right',
     color: 'black',
+    fontFamily: family.Neo_Regular,
   },
   inputsign: {
     margin: 5,

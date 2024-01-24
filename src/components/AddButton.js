@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
 import * as ArabicText from '../language/EnglishToArabic';
 import {Styles} from '../styles/globlestyle';
+import { family } from '../constants/Family';
 
 const AddButton = ({onPress}) => (
   <TouchableOpacity
@@ -23,6 +24,7 @@ const AddButton = ({onPress}) => (
           paddingBottom: 5,
           paddingLeft: 20,
           paddingRight: 20,
+          fontFamily:family.Neo_Regular
         },
       ]}>
       {ArabicText.add}

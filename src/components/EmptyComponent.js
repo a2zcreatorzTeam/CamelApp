@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import * as ArabicText from '../language/EnglishToArabic';
+import { family } from '../constants/Family';
 
 const EmptyComponent = ({text, textStyle}) => {
   return (
@@ -15,6 +16,7 @@ const EmptyComponent = ({text, textStyle}) => {
           {
             color: 'black',
             textAlign: 'center',
+            fontFamily:family.Neo_Regular
           },
           textStyle,
         ]}>

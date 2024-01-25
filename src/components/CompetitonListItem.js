@@ -4,6 +4,7 @@ import {Text, View, Image, TouchableOpacity} from 'react-native';
 import * as ArabicText from '../language/EnglishToArabic';
 import {mainImageUrl} from '../constants/urls';
 import FastImage from 'react-native-fast-image';
+import { family } from '../constants/Family';
 
 export const Item = ({name, start_date, end_date, onItemClick, image}) => (
   <View>
@@ -26,19 +27,20 @@ export const Item = ({name, start_date, end_date, onItemClick, image}) => (
             textAlign: 'right',
             fontWeight: 'bold',
             fontSize: 14,
+            fontFamily:family.Neo_Regular
           }}>
           {' '}
           {name}
         </Text>
       </View>
       <View style={{flexDirection: 'row', alignSelf: 'flex-end'}}>
-        <Text style={{textAlign: 'right', fontWeight: 'bold', fontSize: 12}}>
+        <Text style={{textAlign: 'right', fontWeight: 'bold', fontSize: 12, fontFamily:family.Neo_Regular}}>
           {' '}
           {end_date}
         </Text>
       </View>
       <View style={{flexDirection: 'row', alignSelf: 'flex-end'}}>
-        <Text style={{textAlign: 'right', fontWeight: 'bold', fontSize: 12}}>
+        <Text style={{textAlign: 'right', fontWeight: 'bold', fontSize: 12, fontFamily:family.Neo_Regular}}>
           {' '}
           {start_date}
         </Text>

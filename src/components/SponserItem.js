@@ -4,6 +4,7 @@ import {Styles} from '../styles/globlestyle';
 import * as ArabicText from '../language/EnglishToArabic';
 import {Dimensions} from 'react-native';
 import { profileBaseUrl } from '../constants/urls';
+import { family } from '../constants/Family';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 
@@ -38,6 +39,7 @@ const BankItem = ({name, address, userImage, phone}) => (
             fontWeight: '600',
             color: '#D2691E',
             fontSize: 16,
+            fontFamily:family.Neo_Regular
           }}>
           {ArabicText.Title}:{name}{' '}
         </Text>
@@ -48,6 +50,7 @@ const BankItem = ({name, address, userImage, phone}) => (
             fontWeight: '600',
             fontSize: 16,
             color: '#D2691E',
+            fontFamily:family.Neo_Regular
           }}>
           {ArabicText.phone}:{phone}
         </Text>
@@ -58,6 +61,7 @@ const BankItem = ({name, address, userImage, phone}) => (
             fontWeight: '600',
             fontSize: 16,
             color: '#D2691E',
+            fontFamily:family.Neo_Regular
           }}>
           {ArabicText.Address}:{address}
         </Text>

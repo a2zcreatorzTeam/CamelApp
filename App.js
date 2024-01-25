@@ -24,6 +24,7 @@ import codePush from 'react-native-code-push';
 import { ProgressBar } from 'react-native-paper';
 import { setCustomText } from 'react-native-global-props';
 import fontFamily from './assets/fonts/NeoSansArabicMedium.ttf'
+import { family } from './src/constants/Family';
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(['Remote debugger']);
 const toastConfig = {
@@ -46,12 +47,14 @@ const toastConfig = {
         color: 'black',
         textAlign: 'right',
         writingDirection: 'rtl',
+        fontFamily:family.Neo_Regular
       }}
       text2Style={{
         fontSize: 14,
         color: 'black',
         textAlign: 'right',
         writingDirection: 'rtl',
+        fontFamily:family.Neo_Regular
       }}
     />
   ),
@@ -71,6 +74,7 @@ const toastConfig = {
         fontSize: 14,
         color: 'black',
         textAlign: 'right',
+        fontFamily:family.Neo_Regular
       }}
     />
   ),
@@ -224,6 +228,7 @@ class App extends Component {
               style={{
                 color: 'black',
                 fontSize: 20,
+                fontFamily: family.Neo_Regular
               }}>
               App is Updating, Please Wait ...
             </Text>
@@ -239,6 +244,7 @@ class App extends Component {
                   color: 'black',
                   alignSelf: 'center',
                   marginVertical: 10,
+                  fontFamily: family.Neo_Regular
                 }}>
                 {this.state.downloaded}%
               </Text>

@@ -12,6 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useState } from 'react';
 import * as ArabicText from '../language/EnglishToArabic';
+import { family } from '../constants/Family';
 
 const { width } = Dimensions.get('screen');
 const Header = props => {
@@ -96,5 +97,6 @@ const styles = StyleSheet.create({
     height: '100%',
     zIndex: 20,
     position: 'absolute',
+    fontFamily:family.Neo_Regular
   },
 });

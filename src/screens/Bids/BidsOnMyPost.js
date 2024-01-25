@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, Image, FlatList, RefreshControl } from 'react-native';
 import { Styles } from '../../styles/globlestyle';
 import { withdrawBid } from '../../context/DataContext';
 import * as ArabicText from '../../language/EnglishToArabic';
@@ -149,6 +149,10 @@ class Bids extends Component {
       });
     }
   };
+  ScrollToRefresh() {
+    this.viewPosts();
+    this.setState({ refreshing: false });
+  }
   render() {
     const { key, loader } = this.state;
     const BidsItem = ({
@@ -295,6 +299,12 @@ class Bids extends Component {
             data={this.state.posts}
             renderItem={renderBidItem}
             refeshing={this.state.refreshing}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={() => this.ScrollToRefresh()}
+              />
+            }
           />
         )}
       </View>

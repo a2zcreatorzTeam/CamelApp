@@ -401,7 +401,7 @@ class BeautyOfCompetition extends Component {
         />
       );
     };
-    console.log(competition_item?.competition_prize[0]?.image);
+    console.log(competition_item?.competition_posts,"competition_itemcompetition_item");
 
     return (
       <View style={[Styles.containerBeauty, { position: 'relative' }]}>
@@ -739,7 +739,7 @@ class BeautyOfCompetition extends Component {
 
         <View style={{ flex: 1 }}>
           {/* {posts?.length && ( */}
-          {/* <FlatList
+          <FlatList
             key={key}
             style={{ flex: 1, flexGrow: 1 }}
             contentContainerStyle={{
@@ -761,7 +761,7 @@ class BeautyOfCompetition extends Component {
                 onRefresh={() => this.ScrollToRefresh()}
               />
             }
-          /> */}
+          />
           {/* )} */}
         </View>
       </View>

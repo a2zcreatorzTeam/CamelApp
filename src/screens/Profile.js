@@ -501,7 +501,6 @@ class Profile extends Component {
     const { key, filterPosts, posts, searchedItem, searchText, userData } =
       this.state;
     const subscription = userData?.user?.subscription
-    console.log(subscription, "subscriptionsubscriptionsubscription");
     const sharePosts = item => {
       this.setState({ loading: true });
       let { user } = this.props;
@@ -947,7 +946,7 @@ class Profile extends Component {
                         onPress={modalOffer => this.setState({ modal: false })}>
                         <Ionicons name="close" size={30} color="brown" />
                       </Pressable>
-                      <Text style={{ margin: 5, color: 'black' }}>
+                      <Text style={{ margin: 5, color: 'black', fontFamily: family.Neo_Regular }}>
                         {ArabicText?.AddWhatsappnumber}
                       </Text>
 
@@ -973,6 +972,7 @@ class Profile extends Component {
                             margin: 3,
                             fontWeight: 'bold',
                             color: 'black',
+                            fontFamily: family.Neo_Regular
                           }}>
                           {this.state.registerSwitch == true
                             ? ArabicText?.active
@@ -1017,7 +1017,8 @@ class Profile extends Component {
                         onPress={() => this.setState({ modalChat: false })}>
                         <Ionicons name="close" size={30} color="brown" />
                       </Pressable>
-                      <Text style={{ margin: 5, color: 'black' }}>
+
+                      <Text style={{ margin: 5, color: 'black', fontFamily: family.Neo_Regular }}>
                         {ArabicText?.Enable_dissableChat}
                       </Text>
 
@@ -1033,6 +1034,7 @@ class Profile extends Component {
                             margin: 3,
                             fontWeight: 'bold',
                             color: 'black',
+                            fontFamily: family.Neo_Regular
                           }}>
                           {this.state.chatFlag == true
                             ? ArabicText?.active
@@ -1075,7 +1077,7 @@ class Profile extends Component {
                         }>
                         <Ionicons name="close" size={30} color="brown" />
                       </Pressable>
-                      <Text style={{ margin: 5, color: 'black' }}>
+                      <Text style={{ margin: 5, color: 'black', fontFamily: family.Neo_Regular }}>
                         {ArabicText?.UpdatePhone}
                       </Text>
 
@@ -1101,6 +1103,7 @@ class Profile extends Component {
                             margin: 3,
                             fontWeight: 'bold',
                             color: 'black',
+                            fontFamily: family.Neo_Regular
                           }}>
                           {this.state.phoneStatusSwitch == true ||
                             this.state.phoneStatusSwitch == 'True'
@@ -1174,6 +1177,7 @@ class Profile extends Component {
                         color: '#8b4513',
                         fontSize: 15,
                         fontWeight: '600',
+                        fontFamily: family.Neo_Regular
                       }}>
                       {ArabicText?.EnterOTPHere}
                     </Text>
@@ -1218,6 +1222,7 @@ class Profile extends Component {
                       alignContent: 'center',
                       textAlign: 'center',
                       marginVertical: 30,
+                      fontFamily: family.Neo_Regular
                     }}>
                     {' '}
                     {ArabicText?.NoPostFound}
@@ -1306,7 +1311,7 @@ const Item = ({
             }}>
             <TouchableOpacity onPress={onCategoryClick} style={Styles.btnHome2}>
               <Text
-                style={{ color: '#D2691Eff', fontWeight: 'bold', fontSize: 15 }}>
+                style={{ color: '#D2691Eff', fontWeight: 'bold', fontSize: 15, fontFamily: family.Neo_Regular }}>
                 {category}
               </Text>
             </TouchableOpacity>
@@ -1325,6 +1330,7 @@ const Item = ({
                   paddingRight: 5,
                   color: 'black',
                   textAlign: 'right',
+                  fontFamily: family.Neo_Regular
                 }}>
                 {user_name}
               </Text>
@@ -1336,6 +1342,7 @@ const Item = ({
                     paddingRight: 5,
                     color: 'black',
                     textAlign: 'right',
+                    fontFamily: family.Neo_Regular
                   }}>
                   {user_location}
                 </Text>
@@ -1348,6 +1355,7 @@ const Item = ({
                     paddingRight: 5,
                     color: 'black',
                     textAlign: 'right',
+                    fontFamily: family.Neo_Regular
                   }}>
                   {date}
                 </Text>
@@ -1497,7 +1505,8 @@ const Item = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3, fontFamily: family.Neo_Regular }}>
             {' '}
             {viewCount}
           </Text>
@@ -1512,7 +1521,7 @@ const Item = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3, fontFamily: family.Neo_Regular }}>
             {shares}
           </Text>
           <Ionicons name="share-social-sharp" size={20} color="#CD853F" />
@@ -1526,7 +1535,7 @@ const Item = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3, fontFamily: family.Neo_Regular }}>
             {comments}
           </Text>
           <Feather name="message-square" size={18} color="#CD853F" />
@@ -1539,7 +1548,7 @@ const Item = ({
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3, fontFamily: family.Neo_Regular }}>
             {likeCount}
           </Text>
           {isLiked == 'true' || isLiked == true ? (
@@ -1557,7 +1566,7 @@ const Item = ({
             onDetailsClick(viewCount, setViewCount);
           }}>
           <View style={Styles.btnHome}>
-            <Text style={{ color: '#fff', fontWeight: 'bold' }}>
+            <Text style={{ color: '#fff', fontFamily: family.Neo_Regular }}>
               {ArabicText.Details}
             </Text>
           </View>
@@ -1575,7 +1584,8 @@ const Item = ({
             right: 10,
             top: 12,
             color: '#000',
-            fontWeight: '600',
+            // fontWeight: '600',
+            fontFamily: family.Neo_Regular
           }}>
           {title}
         </Text>
@@ -1712,18 +1722,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  textcolor: { color: '#fff', fontWeight: '600' },
+
+  textcolor: { color: '#fff', fontFamily: family.Neo_Medium },
 
   headerContainer: {
     backgroundColor: '#d2691e',
     alignItems: 'center',
     justifyContent: 'center',
     width: width,
-    flexDirection: 'row',
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
     textAlign: 'center',
-    height: 45,
+    height: 50,
   },
   row: {
     flexDirection: 'row',
@@ -1748,6 +1758,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
+    fontFamily: family.Neo_Medium
   },
   icons: {
     flexDirection: 'row',
@@ -1783,7 +1794,9 @@ const styles = StyleSheet.create({
   titleText: {
     color: '#fff',
     fontSize: 15,
-    fontWeight: '600',
+    // fontWeight: '600',
+    fontFamily: family.Neo_Regular
+
   },
   priceContainer: {
     position: 'absolute',
@@ -1804,11 +1817,14 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '800',
     fontSize: 14,
+    fontFamily: family.Neo_Regular
   },
   bidPrice: {
     textAlign: 'center',
     color: 'white',
     fontWeight: '500',
     fontSize: 13,
+    fontFamily: family.Neo_Regular
+
   },
 });

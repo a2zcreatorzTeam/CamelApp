@@ -114,6 +114,22 @@ class Bids extends Component {
       }
     });
   }
+  onAcceptBid = async (item) => {
+    try {
+      return await camelapp
+        .post(`/accept/bid/${item?.bid_id}`)
+        .then(res => {
+          this.viewPosts();
+          Toast.show({
+            text1: res?.data?.message,
+            type: 'success',
+            visibilityTime: 3000,
+          });
+        });
+    } catch (error) {
+
+    }
+  }
   onProfileClick = item => {
     let { user } = this.props;
     user = user?.user?.user;
@@ -142,6 +158,7 @@ class Bids extends Component {
       bidPrice,
       onViewPost,
       onWithdrawBid,
+      onAcceptBid
     }) => (
       <View
         style={{
@@ -218,27 +235,29 @@ class Bids extends Component {
               </Text>
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity
-              style={Styles.bidsButtonAccept}
-              onPress={onWithdrawBid}>
-              <Text style={{ color: '#D2691Eff', fontWeight: 'bold' }}>
-                {ArabicText.WithDraw}
-              </Text>
-            </TouchableOpacity>
+            <>
+              <TouchableOpacity
+                style={Styles.bidsButtonAccept}
+                onPress={onWithdrawBid}>
+                <Text style={{ color: '#D2691Eff', fontWeight: 'bold' }}>
+                  {ArabicText.WithDraw}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={Styles.bidsButtonAccept}
+                onPress={onAcceptBid}>
+                <Text style={{ color: '#D2691Eff', fontWeight: 'bold' }}>
+                  {ArabicText.accept}
+                </Text>
+              </TouchableOpacity>
+            </>
           )}
-          <TouchableOpacity
-            activeOpacity={0.99}
-            style={Styles.bidsButtonAccept}
-            onPress={() => { }}>
-            <Text style={{ color: '#D2691Eff', fontWeight: 'bold' }}>
-              {ArabicText?.bidClosed}
-            </Text>
-          </TouchableOpacity>
+          {/* View POst  */}
           <TouchableOpacity
             style={Styles.bidsButtonAccept}
             onPress={onViewPost}>
             <Text style={{ color: '#D2691Eff', fontWeight: 'bold' }}>
-              {ArabicText.accept}
+              {ArabicText.View_Post}
             </Text>
           </TouchableOpacity>
         </View>
@@ -253,6 +272,7 @@ class Bids extends Component {
           bidPrice={item?.price}
           onViewPost={() => this.onViewPostClick(item)}
           onWithdrawBid={() => this.onWithdrawBid(item)}
+          onAcceptBid={() => this.onAcceptBid(item)}
         />
       );
     };

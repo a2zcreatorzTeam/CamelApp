@@ -18,6 +18,7 @@ import camelapp from '../api/camelapp';
 import {Platform} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
+import { family } from '../constants/Family';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -198,6 +199,7 @@ class App extends Component {
               color: 'black',
               width: '80%',
               textAlign: 'center',
+              fontFamily:family.Neo_Regular
             }}
             numberOfLines={3}>
             {ArabicText?.EntertheOTPSenttoYourMobile}
@@ -342,5 +344,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
     width: '12%',
     color: 'black',
+    fontFamily:family.Neo_Regular
   },
 });

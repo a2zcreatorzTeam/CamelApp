@@ -22,6 +22,7 @@ import * as userActions from '../redux/actions/user_actions';
 import EmptyComponent from '../components/EmptyComponent';
 import Header from '../components/Header';
 import {profileBaseUrl} from '../constants/urls';
+import { family } from '../constants/Family';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 
@@ -108,6 +109,7 @@ class MyFriendList extends Component {
               fontWeight: '700',
               marginRight: 10,
               marginBottom: 5,
+              fontFamily: family.Neo_Regular
             }}>
             {userName}
           </Text>

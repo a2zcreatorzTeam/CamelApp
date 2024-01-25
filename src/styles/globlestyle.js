@@ -483,7 +483,7 @@ export const Styles = StyleSheet.create({
     textAlign: 'right',
     borderRadius: 6,
     color: 'black',
-    fontFamily: family.Neo_Regular 
+    fontFamily: family.Neo_Regular
   },
   centeredView: {
     flex: 1,
@@ -720,6 +720,7 @@ export const Styles = StyleSheet.create({
     marginLeft: 50,
     marginRight: 10,
     color: 'black',
+    fontFamily: family.Neo_Regular
   },
   sendbtn: {
     padding: 14,
@@ -1339,5 +1340,5 @@ export const Styles = StyleSheet.create({
     marginRight: 200,
   },
 
-  catBtnText: { color: '#D2691Eff', fontWeight: 'bold', fontSize: 15 },
+  catBtnText: { color: '#D2691Eff', fontSize: 15, fontFamily: family.Neo_Medium },
 });

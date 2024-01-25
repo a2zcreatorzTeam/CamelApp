@@ -1,4 +1,4 @@
-import React, {Component, createRef} from 'react';
+import React, { Component, createRef } from 'react';
 import {
   View,
   Text,
@@ -13,24 +13,25 @@ import {
   BackHandler,
   NativeModules,
 } from 'react-native';
-const {RNTwitterSignIn} = NativeModules;
+const { RNTwitterSignIn } = NativeModules;
 import * as ArabicText from '../language/EnglishToArabic';
-import {Styles} from '../styles/globlestyle';
+import { Styles } from '../styles/globlestyle';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Feather from 'react-native-vector-icons/Feather';
 import camelapp from '../api/camelapp';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
-import {Dimensions} from 'react-native';
+import { bindActionCreators } from 'redux';
+import { Dimensions } from 'react-native';
 import OTPTextView from 'react-native-otp-textinput';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {getFCMToken} from '../services/Helper';
+import { getFCMToken } from '../services/Helper';
 import Toast from 'react-native-toast-message';
 import InstagramLogin from 'react-native-instagram-login';
 import CookieManager from '@react-native-cookies/cookies';
 import BackBtnHeader from '../components/headerWithBackBtn';
+import { family } from '../constants/Family';
 const width = Dimensions.get('screen').width;
 
 RNTwitterSignIn.init(
@@ -59,7 +60,7 @@ class Login extends Component {
     this.backHandler = null;
     this.instagramLoginRef = createRef();
   }
-  saveData() {}
+  saveData() { }
   userlogin = async () => {
     try {
       let userPhone = await AsyncStorage.getItem('@UserPhone');
@@ -83,7 +84,7 @@ class Login extends Component {
       this.backHandler = BackHandler.addEventListener(
         'hardwareBackPress',
         () => {
-          this.props.navigation.navigate('Home', {screen: ArabicText?.home});
+          this.props.navigation.navigate('Home', { screen: ArabicText?.home });
           return true; // or false based on your requirements
         },
       );
@@ -96,7 +97,7 @@ class Login extends Component {
 
   // InstagramTwitterLogin
   setIgToken = async data => {
-    this.setState({loader: true});
+    this.setState({ loader: true });
     console.log(data, 'dattaaaa');
     await getFCMToken();
     const deviceToken = await AsyncStorage?.getItem('fcmToken');
@@ -114,7 +115,7 @@ class Login extends Component {
           console.log(data?.user_id, 'data?.user_iddata?.user_id');
           console.log(res?.data?.user, 'responsesocial');
           if (res?.data?.user?.is_complete == 1) {
-            let {actions} = this.props;
+            let { actions } = this.props;
             actions.userData(res?.data);
             this.saveData();
             this.props.navigation.navigate('Home');
@@ -124,14 +125,14 @@ class Login extends Component {
               screen: 'socialLogin',
             });
           }
-          this.setState({loader: false});
+          this.setState({ loader: false });
         })
         .catch(error => {
           console.log(error, 'errorr');
-          this.setState({loader: false});
+          this.setState({ loader: false });
         });
     } catch (error) {
-      this.setState({loader: false});
+      this.setState({ loader: false });
       Toast.show({
         text1: error?.response + '',
         type: 'error',
@@ -147,7 +148,7 @@ class Login extends Component {
     try {
       const loginData = await RNTwitterSignIn.logIn();
       console.log(loginData, 'loginnn');
-      const {authToken, authTokenSecret} = loginData;
+      const { authToken, authTokenSecret } = loginData;
       console.log(authToken, 'authToken', authTokenSecret);
       if (authToken && authTokenSecret) {
       }
@@ -161,7 +162,7 @@ class Login extends Component {
           const innerJsonString = message.slice(12, endIndex + 2); // Include the closing double quote and curly brace
           try {
             const data = JSON.parse(innerJsonString);
-            const {email, userName, userID, name, authToken, authTokenSecret} =
+            const { email, userName, userID, name, authToken, authTokenSecret } =
               data;
             this.setIgToken({
               access_token: authToken,
@@ -212,8 +213,8 @@ class Login extends Component {
 
   render() {
     const authentication = async () => {
-      const {contactNumber, password} = this.state;
-      this.setState({loader: true});
+      const { contactNumber, password } = this.state;
+      this.setState({ loader: true });
       await getFCMToken();
       const deviceToken = await AsyncStorage?.getItem('fcmToken');
       console.log(deviceToken, 'tokennnnn');
@@ -221,7 +222,7 @@ class Login extends Component {
       do {
         number = Math.floor(Math.random() * 10000) + 1;
       } while (number < 1000 || number > 10000);
-      this.setState({randomIndex: number});
+      this.setState({ randomIndex: number });
       if (this.state.contactNumber.length >= 10 && this.state.password != '') {
         var response = null;
         try {
@@ -235,12 +236,12 @@ class Login extends Component {
             .then(res => {
               response = res.data;
               if (response.status == true) {
-                this.setState({loader: false});
+                this.setState({ loader: false });
                 if (
                   response?.data?.is_complete == 1 ||
                   response?.user?.is_complete == 1
                 ) {
-                  let {actions} = this.props;
+                  let { actions } = this.props;
                   actions.userData(response);
                   AsyncStorage.setItem('@UserPhone', contactNumber);
                   AsyncStorage.setItem('@UserPassword', password);
@@ -259,12 +260,12 @@ class Login extends Component {
                   type: 'error',
                   visibilityTime: 3000,
                 });
-                this.setState({loader: false});
+                this.setState({ loader: false });
               }
             })
-            .catch(error => {});
+            .catch(error => { });
         } catch (error) {
-          this.setState({loader: false});
+          this.setState({ loader: false });
           Toast.show({
             text1: error?.response + '',
             type: 'error',
@@ -274,7 +275,7 @@ class Login extends Component {
           console.log('Error Message--- signin', error);
         }
       } else {
-        this.setState({loader: false});
+        this.setState({ loader: false });
         Toast.show({
           text1: ArabicText.Please_complete_the_fields + '',
           type: 'error',
@@ -288,12 +289,12 @@ class Login extends Component {
         <BackBtnHeader
           Nav={true}
           customNav={() => {
-            this.props.navigation.navigate('Home', {screen: ArabicText?.home});
+            this.props.navigation.navigate('Home', { screen: ArabicText?.home });
           }}
         />
         <ScrollView
           showsVerticalScrollIndicator={false}
-          style={{flex: 1, backgroundColor: '#fff'}}>
+          style={{ flex: 1, backgroundColor: '#fff' }}>
           <Image
             source={require('../../assets/logo-camel.png')}
             style={{
@@ -312,10 +313,10 @@ class Login extends Component {
               maxLength={11}
               placeholderTextColor="#000000"
               onChangeText={text =>
-                this.setState({contactNumber: text.replace(/[^0-9]/g, '')})
+                this.setState({ contactNumber: text.replace(/[^0-9]/g, '') })
               }></TextInput>
 
-            <Text style={{color: 'red', marginRight: 200}}>
+            <Text style={{ color: 'red', marginRight: 200, fontFamily: family.Neo_Regular, }}>
               {this.state.contactNumberError}
             </Text>
 
@@ -333,65 +334,65 @@ class Login extends Component {
                   name="eye"
                   size={18}
                   color="brown"
-                  onPress={() => this.setState({hidePassword: false})}
+                  onPress={() => this.setState({ hidePassword: false })}
                 />
               ) : (
                 <Ionicons
                   name="eye-off"
                   size={18}
                   color="brown"
-                  onPress={() => this.setState({hidePassword: true})}
+                  onPress={() => this.setState({ hidePassword: true })}
                 />
               )}
               <TextInput
-                style={{textAlign: 'right', color: 'black'}}
+                style={{ textAlign: 'right', color: 'black', fontFamily: family.Neo_Regular }}
                 placeholder={ArabicText.passwords}
                 secureTextEntry={this.state.hidePassword}
                 placeholderTextColor="#000000"
-                onChangeText={text => this.setState({password: text})}
+                onChangeText={text => this.setState({ password: text })}
               />
             </View>
 
-            <Text style={{color: 'red', marginRight: 160}}>
+            <Text style={{ color: 'red', marginRight: 160, fontFamily: family.Neo_Regular }}>
               {this.state.passwordError}
             </Text>
 
             <TouchableOpacity
-              style={{alignSelf: 'flex-end', marginRight: 15}}
+              style={{ alignSelf: 'flex-end', marginRight: 15 }}
               onPress={() => this.props.navigation.navigate('Forgetpass')}>
               <Text
-                style={{color: '#d2691e', fontWeight: 'bold', fontSize: 14}}>
+                style={{ color: '#d2691e', fontFamily: family.Neo_Medium, fontSize: 14, fontWeight: '700' }}>
                 {ArabicText.forget_Password}
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={{alignSelf: 'flex-end', marginRight: 15, marginTop: 20}}
+              style={{ alignSelf: 'flex-end', marginRight: 15, marginTop: 20 }}
               onPress={() => this.props.navigation.navigate('Signup')}>
               <Text
-                style={{color: '#d2691e', fontWeight: 'bold', fontSize: 14}}>
+                style={{ color: '#d2691e', fontFamily: family.Neo_Regular, fontSize: 14, fontWeight: '700' }}>
                 {ArabicText.Create_an_account}
               </Text>
             </TouchableOpacity>
           </View>
 
           <View
-            style={{flexDirection: 'row', alignSelf: 'center', marginTop: 20}}>
+            style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 20 }}>
             <TouchableOpacity
               onPress={() => {
                 // this.onClear();
                 // this.props.navigation?.navigate('InstagramScreen');
                 this.instagramLogin.show();
               }}
-              style={{flexDirection: 'row'}}>
+              style={{ flexDirection: 'row' }}>
               <Fontisto
                 name="instagram"
                 size={24}
                 color="#d2691e"
-                style={{margin: 5}}
+                style={{ margin: 5 }}
               />
 
-              <Text style={{margin: 5, color: '#d2691e'}}>
+              <Text style={{ margin: 5, color: '#d2691e', fontFamily: family.Neo_Regular, fontWeight: '700' }}>
                 {ArabicText?.Instagram}
               </Text>
             </TouchableOpacity>
@@ -401,15 +402,15 @@ class Login extends Component {
                 RNTwitterSignIn.logOut();
                 this.signInWithTwitter();
               }}
-              style={{flexDirection: 'row'}}>
+              style={{ flexDirection: 'row' }}>
               <Feather
                 name="twitter"
                 size={24}
                 color="#d2691e"
-                style={{margin: 5}}
+                style={{ margin: 5 }}
               />
 
-              <Text style={{margin: 5, color: '#d2691e'}}>
+              <Text style={{ margin: 5, color: '#d2691e', fontFamily: family.Neo_Regular, fontWeight: '700' }}>
                 {ArabicText?.Twitter}
               </Text>
             </TouchableOpacity>
@@ -417,7 +418,7 @@ class Login extends Component {
 
           <TouchableOpacity
             onPress={() => authentication()}
-            style={{alignSelf: 'center'}}>
+            style={{ alignSelf: 'center' }}>
             <View
               style={[
                 Styles.btn,
@@ -445,10 +446,10 @@ class Login extends Component {
           transparent={true}
           visible={this.state.modalVisible}
           onRequestClose={() => {
-            this.setState({modalVisible: false});
+            this.setState({ modalVisible: false });
           }}>
           {this.state.otp === true && (
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
               <View
                 style={{
                   flex: 1,
@@ -469,13 +470,13 @@ class Login extends Component {
                   handleTextChange={e => {
                     if (parseInt(e) == this.state.randomIndex) {
                       // setTimeout(() => {
-                      this.setState({otp: false, loader: true});
+                      this.setState({ otp: false, loader: true });
 
                       setTimeout(() => {
-                        this.setState({checked: true, loader: false});
+                        this.setState({ checked: true, loader: false });
 
                         setTimeout(() => {
-                          this.setState({checked: false, modalVisible: false});
+                          this.setState({ checked: false, modalVisible: false });
                           this.props.navigation.navigate('Home');
                         }, 1000);
                       }, 1000);

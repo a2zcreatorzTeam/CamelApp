@@ -30,6 +30,7 @@ import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
 import {createThumbnail} from 'react-native-create-thumbnail';
+import { family } from '../constants/Family';
 
 class MovingCamelForm extends React.Component {
   constructor(props) {
@@ -572,7 +573,7 @@ class MovingCamelForm extends React.Component {
                 alignItems: 'center',
                 marginTop: 10,
               }}>
-              <Text style={{margin: 3, fontWeight: 'bold', color: 'black'}}>
+              <Text style={{margin: 3, color: 'black', fontFamily: family.Neo_Medium}}>
                 {ArabicText?.Iaccepttermsandconditions}
               </Text>
 
@@ -593,7 +594,7 @@ class MovingCamelForm extends React.Component {
                 alignItems: 'center',
                 marginTop: 10,
               }}>
-              <Text style={{margin: 3, fontWeight: 'bold', color: 'black'}}>
+              <Text style={{margin: 3,fontFamily: family.Neo_Medium, color: 'black'}}>
                 {ArabicText.In_order_to_activity_your_account_pay}
               </Text>
               <Switch
@@ -644,7 +645,7 @@ class MovingCamelForm extends React.Component {
                     alignItems: 'center',
                   }}>
                   <Text
-                    style={{color: '#8b4513', fontSize: 15, fontWeight: '600'}}>
+                    style={{color: '#8b4513', fontSize: 15, ffontFamily: family.Neo_Medium}}>
                     {ArabicText?.EnterBankDetails}
                   </Text>
                 </View>
@@ -653,8 +654,8 @@ class MovingCamelForm extends React.Component {
                     Styles.forminputs,
                     {justifyContent: 'space-between'},
                   ]}>
-                  <Text style={{color: '#000', fontSize: 15}}>
-                    <Text style={{color: 'grey', fontSize: 13}}>
+                  <Text style={{color: '#000', fontSize: 15, fontFamily: family.Neo_Medium}}>
+                    <Text style={{color: 'grey', fontSize: 13, fontFamily: family.Neo_Medium}}>
                       {ArabicText?.AccountTitle}:{' '}
                     </Text>
                     Mansoor Akhter
@@ -665,8 +666,8 @@ class MovingCamelForm extends React.Component {
                     Styles.forminputs,
                     {justifyContent: 'space-between'},
                   ]}>
-                  <Text style={{color: '#000', fontSize: 15}}>
-                    <Text style={{color: 'grey', fontSize: 13}}>
+                  <Text style={{color: '#000', fontSize: 15, fontFamily: family.Neo_Medium}}>
+                    <Text style={{color: 'grey', fontSize: 13, fontFamily: family.Neo_Medium}}>
                       {ArabicText?.AccountNumber}:{' '}
                     </Text>
                     0000-1111-2222-33
@@ -677,8 +678,8 @@ class MovingCamelForm extends React.Component {
                     Styles.forminputs,
                     {justifyContent: 'space-between'},
                   ]}>
-                  <Text style={{color: '#000', fontSize: 15}}>
-                    <Text style={{color: 'grey', fontSize: 13}}>
+                  <Text style={{color: '#000', fontSize: 15, fontFamily: family.Neo_Medium}}>
+                    <Text style={{color: 'grey', fontSize: 13, fontFamily: family.Neo_Medium}}>
                       {ArabicText?.BranchCode}:{' '}
                     </Text>
                     SC7512

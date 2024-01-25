@@ -13,6 +13,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ArabicText from '../language/EnglishToArabic';
 import camelapp from '../api/camelapp';
 import Toast from 'react-native-toast-message';
+import { family } from '../constants/Family';
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -227,6 +228,7 @@ export default class App extends Component {
                 justifyContent: 'center',
                 fontSize: 22,
                 fontWeight: '600',
+                fontFamily:family.Neo_Regular
               }}
               numberOfLines={3}>
               {ArabicText?.EntertheOTPSenttoYourMobile}
@@ -348,7 +350,8 @@ export default class App extends Component {
                 textAlign: 'center',
                 justifyContent: 'center',
                 fontSize: 22,
-                fontWeight: '600',
+                // fontWeight: '600',
+                fontFamily:family.Neo_Regular
               }}
               numberOfLines={3}>
               {ArabicText?.EnterYourNewPassword}
@@ -475,5 +478,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
     width: '12%',
     color: 'black',
+    fontFamily:family.Neo_Regular
   },
 });

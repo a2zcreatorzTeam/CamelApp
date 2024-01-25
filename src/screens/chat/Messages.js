@@ -20,6 +20,7 @@ import * as userActions from '../../redux/actions/user_actions';
 import EmptyComponent from '../../components/EmptyComponent';
 import {profileBaseUrl} from '../../constants/urls';
 import FastImage from 'react-native-fast-image';
+import { family } from '../../constants/Family';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 
@@ -152,6 +153,7 @@ class Messages extends Component {
               fontWeight: '700',
               marginRight: 10,
               marginBottom: 5,
+              fontFamily:family.Neo_Regular
             }}>
             {userName}
           </Text>

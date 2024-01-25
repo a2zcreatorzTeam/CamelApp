@@ -14,6 +14,7 @@ import {Styles} from '../styles/globlestyle';
 import * as userActions from '../redux/actions/user_actions';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import * as ArabicText from '../language/EnglishToArabic';
+import { family } from '../constants/Family';
 class AddNew extends Component {
   render() {
     const onAddButtonClick = screen => {
@@ -37,7 +38,7 @@ class AddNew extends Component {
             {'\n'}
           </Text>
 
-          <Text style={{fontSize: 14, textAlign: 'right', color: 'black'}}>
+          <Text style={{fontSize: 14, textAlign: 'right', color: 'black', fontFamily: family.Neo_Regular}}>
             أتعهد ان جميع المعلومات التي سوف اذكرها صحيحة ومطابقة لحالة السلعة
             الحالية - اتعهد بفحص السلعة ومعاينتها قبل الشراء - أتعهد بأتباع شروط
             التطبيق
@@ -187,6 +188,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     alignSelf: 'center',
+    fontFamily: family.Neo_Regular
   },
   subHeading: {
     alignItems: 'center',
@@ -195,5 +197,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'center',
     textAlign: 'center',
+    fontFamily: family.Neo_Regular
   },
 });

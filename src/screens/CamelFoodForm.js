@@ -34,6 +34,7 @@ import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
 import { createThumbnail } from 'react-native-create-thumbnail';
+import { family } from '../constants/Family';
 
 class CamelFood extends React.Component {
   constructor(props) {
@@ -507,7 +508,7 @@ class CamelFood extends React.Component {
                     style={{ marginLeft: width - 140 }}
                   />
                 </Pressable>
-                <Text style={{ color: 'black', fontSize: 20 }}>
+                <Text style={{ color: 'black', fontSize: 20, fontFamily: family.Neo_Regular }}>
                   {ArabicText.fixed}
                 </Text>
                 <TextInput
@@ -543,7 +544,7 @@ class CamelFood extends React.Component {
                     style={{ marginLeft: width - 140 }}
                   />
                 </Pressable>
-                <Text style={{ color: 'black', fontSize: 20 }}>
+                <Text style={{ color: 'black', fontSize: 20, fontFamily: family.Neo_Regular }}>
                   {ArabicText.offer_Up}
                 </Text>
                 <TextInput
@@ -571,6 +572,7 @@ class CamelFood extends React.Component {
               marginTop: 50,
               color: 'black',
               fontSize: 18,
+              fontFamily: family.Neo_Regular
             }}>
             {ArabicText.Please_select_price_type}
           </Text>
@@ -581,7 +583,7 @@ class CamelFood extends React.Component {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text style={{ color: 'black', alignSelf: 'center', fontSize: 16 }}>
+            <Text style={{ color: 'black', alignSelf: 'center', fontSize: 16, fontFamily: family.Neo_Regular }}>
               {ArabicText.fixed}
             </Text>
 
@@ -599,7 +601,7 @@ class CamelFood extends React.Component {
               }}
             />
 
-            <Text style={{ color: 'black', alignSelf: 'center', fontSize: 16 }}>
+            <Text style={{ color: 'black', alignSelf: 'center', fontSize: 16, fontFamily: family.Neo_Regular }}>
               {ArabicText.offer_Up}
             </Text>
 

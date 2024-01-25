@@ -31,6 +31,7 @@ import {
   profileBaseUrl,
 } from '../constants/urls';
 import PaginationDots from '../components/pagination';
+import { family } from '../constants/Family';
 
 const width = Dimensions.get('screen').width;
 class BeautyOfCompetition extends Component {
@@ -87,7 +88,7 @@ class BeautyOfCompetition extends Component {
           user_id: user?.id,
         })
         .then(res => {
-          console.log(res,"detailsssss");
+          console.log(res, "detailsssss");
           const arrayPosts = res?.data?.competition_posts;
           arrayPosts?.map((item, index) => {
             let array = item?.img;
@@ -334,6 +335,7 @@ class BeautyOfCompetition extends Component {
             fontWeight: 'bold',
             marginTop: 10,
             color: 'black',
+            fontFamily: family.Neo_Regular
           }}>
           {name ? name : ''}
         </Text>
@@ -365,6 +367,7 @@ class BeautyOfCompetition extends Component {
             fontWeight: '700',
             marginRight: 10,
             marginBottom: 5,
+            fontFamily: family.Neo_Regular
           }}>
           {userName}
         </Text>
@@ -401,7 +404,7 @@ class BeautyOfCompetition extends Component {
         />
       );
     };
-    console.log(competition_item?.competition_posts,"competition_itemcompetition_item");
+    console.log(competition_item?.competition_posts, "competition_itemcompetition_item");
 
     return (
       <View style={[Styles.containerBeauty, { position: 'relative' }]}>
@@ -491,7 +494,7 @@ class BeautyOfCompetition extends Component {
           <TouchableWithoutFeedback>
             <View style={Styles.centeredView}>
               <View style={Styles.modalView}>
-                <Text style={{ margin: 5, color: 'black' }}>
+                <Text style={{ margin: 5, color: 'black', fontFamily: family.Neo_Regular }}>
                   {ArabicText.Reward}
                 </Text>
                 {competition_item?.competition_prize && (
@@ -591,7 +594,7 @@ class BeautyOfCompetition extends Component {
                     />
                   </Pressable> */}
                   <Text
-                    style={{ margin: 5, color: 'black', textAlign: 'center' }}>
+                    style={{ margin: 5, color: 'black', textAlign: 'center', fontFamily: family.Neo_Regular }}>
                     {ArabicText.General_Rule}
                   </Text>
 

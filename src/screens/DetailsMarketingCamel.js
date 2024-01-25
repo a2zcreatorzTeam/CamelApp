@@ -24,6 +24,7 @@ import VideoModal from '../components/VideoModal';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Toast from 'react-native-toast-message';
 import {profileBaseUrl, thumbnailBaseUrl} from '../constants/urls';
+import { family } from '../constants/Family';
 class DetailsMarketingCamel extends Component {
   constructor(props) {
     super(props);
@@ -224,6 +225,7 @@ class DetailsMarketingCamel extends Component {
                 color: 'white',
                 fontWeight: '800',
                 fontSize: 14,
+                fontFamily: family.Neo_Regular
               }}>
               {' '}
               {ArabicText?.Price}
@@ -235,6 +237,7 @@ class DetailsMarketingCamel extends Component {
                 color: 'white',
                 fontWeight: '500',
                 fontSize: 13,
+                fontFamily: family.Neo_Regular
               }}>
               {itemFromDetails?.bid_price > 0
                 ? itemFromDetails?.bid_price
@@ -253,10 +256,11 @@ class DetailsMarketingCamel extends Component {
                 fontSize: 20,
                 fontWeight: '700',
                 marginRight: 20,
+                fontFamily: family.Neo_Regular
               }}>
               {itemFromDetails.name}
             </Text>
-            <Text style={{color: '#000', fontSize: 14, marginRight: 20}}>
+            <Text style={{color: '#000', fontSize: 14, marginRight: 20, fontFamily: family.Neo_Regular}}>
               {itemFromDetails.user_location}
             </Text>
           </View>

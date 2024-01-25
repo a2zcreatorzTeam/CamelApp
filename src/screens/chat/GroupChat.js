@@ -39,6 +39,7 @@ import RNFS from 'react-native-fs';
 import Toast from 'react-native-toast-message';
 import EmptyComponent from '../../components/EmptyComponent';
 import {profileBaseUrl} from '../../constants/urls';
+import { family } from '../../constants/Family';
 const {width, height} = Dimensions.get('window');
 const GroupChat = props => {
   const [inputValue, setInputValue] = useState('');
@@ -485,6 +486,7 @@ const GroupChat = props => {
             fontSize: 19,
             textAlign: 'left',
             fontWeight: '800',
+            fontFamily:family.Neo_Regular
           }}>
           {groupName ? groupName : ArabicText.groupChat}
         </Text>
@@ -527,6 +529,7 @@ const GroupChat = props => {
                           color: '#fff',
                           textAlign: 'left',
                           fontSize: 14,
+                          fontFamily:family.Neo_Regular
                         }}>
                         {item?.message}
                       </Text>
@@ -535,6 +538,7 @@ const GroupChat = props => {
                           color: '#eee',
                           fontSize: 10,
                           textAlign: 'left',
+                          fontFamily:family.Neo_Regular
                         }}>
                         {moment(item.timestamp?.toDate())?.format('h:mm a')}
                       </Text>
@@ -576,6 +580,7 @@ const GroupChat = props => {
                           color: '#eee',
                           fontSize: 10,
                           textAlign: 'left',
+                          fontFamily:family.Neo_Regular
                         }}>
                         {moment(item.timestamp?.toDate())?.format('h:mm a')}
                       </Text>
@@ -620,6 +625,7 @@ const GroupChat = props => {
                             color: '#eee',
                             fontSize: 10,
                             textAlign: 'left',
+                            fontFamily:family.Neo_Regular
                           }}>
                           {moment(item.timestamp?.toDate())?.format('h:mm a')}
                         </Text>
@@ -652,6 +658,7 @@ const GroupChat = props => {
                             color: '#eee',
                             fontSize: 10,
                             textAlign: 'left',
+                            fontFamily:family.Neo_Regular
                           }}>
                           {moment(item.timestamp?.toDate())?.format('h:mm a')}
                         </Text>
@@ -682,6 +689,7 @@ const GroupChat = props => {
                           color: '#d2691e',
                           fontSize: 13,
                           fontWeight: '700',
+                          fontFamily:family.Neo_Regular
                         }}>
                         {item?.user_name}
                       </Text>
@@ -690,6 +698,7 @@ const GroupChat = props => {
                           color: '#000',
                           fontSize: 14,
                           marginVertical: 5,
+                          fontFamily:family.Neo_Regular
                         }}>
                         {item?.message}
                       </Text>
@@ -698,6 +707,7 @@ const GroupChat = props => {
                           color: '#eee',
                           textAlign: 'left',
                           fontSize: 10,
+                          fontFamily:family.Neo_Regular
                         }}>
                         {moment(item.timestamp?.toDate())?.format('h:mm a')}
                       </Text>
@@ -717,6 +727,7 @@ const GroupChat = props => {
                           fontSize: 13,
                           fontWeight: '700',
                           marginBottom: 5,
+                          fontFamily:family.Neo_Regular
                         }}>
                         {item?.user_name}
                       </Text>
@@ -742,6 +753,7 @@ const GroupChat = props => {
                           color: '#eee',
                           fontSize: 10,
                           textAlign: 'right',
+                          fontFamily:family.Neo_Regular
                         }}>
                         {moment(item?.timestamp?.toDate())?.format('h:mm a')}
                       </Text>
@@ -762,6 +774,7 @@ const GroupChat = props => {
                             fontSize: 13,
                             fontWeight: '700',
                             marginBottom: 5,
+                            fontFamily:family.Neo_Regular
                           }}>
                           {item?.user_name}
                         </Text>
@@ -795,6 +808,7 @@ const GroupChat = props => {
                             color: '#eee',
                             fontSize: 10,
                             textAlign: 'left',
+                            fontFamily:family.Neo_Regular
                           }}>
                           {moment(item.timestamp?.toDate())?.format('h:mm a')}
                         </Text>
@@ -822,6 +836,7 @@ const GroupChat = props => {
                             fontSize: 13,
                             fontWeight: '700',
                             marginBottom: 5,
+                            fontFamily:family.Neo_Regular
                           }}>
                           {item?.user_name}
                         </Text>
@@ -842,6 +857,7 @@ const GroupChat = props => {
                             color: '#eee',
                             fontSize: 10,
                             textAlign: 'left',
+                            fontFamily:family.Neo_Regular
                           }}>
                           {moment(item.timestamp?.toDate())?.format('h:mm a')}
                         </Text>
@@ -898,7 +914,7 @@ const GroupChat = props => {
 
           <View style={{width: '90%', right: 8, position: 'absolute'}}>
             <TextInput
-              style={{width: '100%', textAlign: 'right', color: '#000'}}
+              style={{width: '100%', textAlign: 'right', color: '#000', fontFamily:family.Neo_Regular}}
               placeholder={ArabicText?.message}
               placeholderTextColor="#b0b0b0"
               onChangeText={text => setInputValue(text)}
@@ -1050,7 +1066,7 @@ const GroupChat = props => {
                 style={{
                   paddingHorizontal: 10,
                   color: 'black',
-
+                  fontFamily:family.Neo_Regular,
                   fontSize: 18,
                   fontWeight: '700',
                 }}>
@@ -1074,6 +1090,7 @@ const GroupChat = props => {
                           color: 'black',
                           fontSize: 18,
                           fontWeight: '700',
+                          fontFamily:family.Neo_Regular
                         }}>
                         {item?.user_name}
                       </Text>

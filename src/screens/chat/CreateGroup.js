@@ -22,6 +22,7 @@ import Toast from 'react-native-toast-message';
 import * as ArabicText from '../../language/EnglishToArabic';
 import BackBtnHeader from '../../components/headerWithBackBtn';
 import { profileBaseUrl } from '../../constants/urls';
+import { family } from '../../constants/Family';
 
 const width = Dimensions.get('screen').width;
 
@@ -285,7 +286,7 @@ const CreateGroup = props => {
               {groupLoader == true ? (
                 <ActivityIndicator color={'white'} size={'large'} />
               ) : (
-                <Text style={{color: '#fff', fontSize: 15}}>
+                <Text style={{color: '#fff', fontSize: 15, fontFamily: family.Neo_Regular}}>
                   {ArabicText.createGroup}
                 </Text>
               )}
@@ -367,7 +368,7 @@ const UserComp = ({item, addGroupUser}) => {
             activeOpacity={0.5}
             style={styles.addBTN}
             onPress={() => addGroupUser(item)}>
-            <Text style={{color: '#fff'}}>{ArabicText.add}</Text>
+            <Text style={{color: '#fff', fontFamily: family.Neo_Regular}}>{ArabicText.add}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -425,6 +426,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     color: '#000',
     marginBottom: 30,
+    fontFamily: family.Neo_Regular
   },
   createGroupBTN: {
     width: 150,
@@ -448,6 +450,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 17,
     textAlign: 'right',
+    fontFamily: family.Neo_Regular
   },
   userImageContainer: {
     width: 60,

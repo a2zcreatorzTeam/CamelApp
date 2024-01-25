@@ -23,6 +23,7 @@ import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Toast from 'react-native-toast-message';
 import {profileBaseUrl, thumbnailBaseUrl} from '../constants/urls';
+import { family } from '../constants/Family';
 
 class CompetitionPostDetails extends Component {
   constructor(props) {
@@ -222,6 +223,7 @@ class CompetitionPostDetails extends Component {
                 fontWeight: '700',
                 marginRight: 20,
                 textAlign: 'right',
+                fontFamily: family.Neo_Regular
               }}>
               {itemFromDetails.user_name}
             </Text>
@@ -231,6 +233,7 @@ class CompetitionPostDetails extends Component {
                 fontSize: 14,
                 marginRight: 20,
                 textAlign: 'right',
+                fontFamily: family.Neo_Regular
               }}>
               {itemFromDetails.location}
             </Text>

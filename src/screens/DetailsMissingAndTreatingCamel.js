@@ -24,6 +24,7 @@ import BackBtnHeader from '../components/headerWithBackBtn';
 import Toast from 'react-native-toast-message';
 import {Platform} from 'react-native';
 import {profileBaseUrl, thumbnailBaseUrl} from '../constants/urls';
+import { family } from '../constants/Family';
 
 class DetailsComponent extends Component {
   constructor(props) {
@@ -222,10 +223,11 @@ class DetailsComponent extends Component {
                 fontSize: 20,
                 fontWeight: '700',
                 marginRight: 20,
+                fontFamily: family.Neo_Regular
               }}>
               {itemFromDetails?.name}
             </Text>
-            <Text style={{color: '#000', fontSize: 14, marginRight: 20}}>
+            <Text style={{color: '#000', fontSize: 14, marginRight: 20, fontFamily: family.Neo_Regular}}>
               {itemFromDetails?.user_location}
             </Text>
           </View>

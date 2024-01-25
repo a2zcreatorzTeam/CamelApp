@@ -22,6 +22,7 @@ import Loader from '../components/PleaseWait';
 import * as ArabicText from '../language/EnglishToArabic';
 import Header from '../components/Header';
 import Item from '../components/commentItem';
+import { family } from '../constants/Family';
 const {width} = Dimensions.get('screen');
 class Comments extends Component {
   constructor(props) {
@@ -274,7 +275,7 @@ class Comments extends Component {
         ) : (
           <View
             style={{flex: 1, alignSelf: 'center', justifyContent: 'center'}}>
-            <Text style={{color: 'black', alignSelf: 'center'}}>
+            <Text style={{color: 'black', alignSelf: 'center', fontFamily: family.Neo_Regular}}>
               {ArabicText?.NoCommentFound}
             </Text>
           </View>

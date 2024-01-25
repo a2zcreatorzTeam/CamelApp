@@ -483,6 +483,7 @@ export const Styles = StyleSheet.create({
     textAlign: 'right',
     borderRadius: 6,
     color: 'black',
+    fontFamily: family.Neo_Regular 
   },
   centeredView: {
     flex: 1,

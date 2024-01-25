@@ -81,28 +81,21 @@ const PostItem = ({
             />
           ) : (
             <View style={{ backgroundColor: '#ededed' }}>
-              {
 
-                <Image
-                  activeOpacity={0.2}
-                  source={require('../../assets/camel.png')}
-                  resizeMode={'cover'}
-                  style={Styles.BeautyImages}
-                />
-                // <FastImage
-                //   style={Styles.BeautyImages}
-                //   source={
-                //     item?.thumbnail !== null
-                //       ? {
-                //         uri: thumbnailBaseUrl + item?.thumbnail?.thumbnail,
-                //         headers: { Authorization: 'someAuthToken' },
-                //         priority: FastImage.priority.high,
-                //       }
-                //       : require('../../assets/camel.png')
-                //   }
-                //   resizeMode={FastImage?.resizeMode.cover}
-                // />
-              }
+              <FastImage
+                style={Styles.BeautyImages}
+                source={
+                  item?.thumbnail !== null
+                    ? {
+                      uri: thumbnailBaseUrl + item?.thumbnail?.thumbnail,
+                      headers: { Authorization: 'someAuthToken' },
+                      priority: FastImage.priority.high,
+                    }
+                    : require('../../assets/camel.png')
+                }
+                resizeMode={FastImage?.resizeMode.cover}
+              />
+
               <TouchableOpacity
                 onPress={() => onClickItem(viewCount, setViewCount)}
                 style={{

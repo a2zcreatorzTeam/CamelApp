@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -8,16 +8,17 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
-import {Card} from 'react-native-paper';
-import {Dimensions} from 'react-native';
+import { Card } from 'react-native-paper';
+import { Dimensions } from 'react-native';
 import camelapp from '../api/camelapp';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import EmptyComponent from '../components/EmptyComponent';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import * as ArabicText from '../language/EnglishToArabic';
 import { profileBaseUrl } from '../constants/urls';
+import { family } from '../constants/Family';
 
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
@@ -37,12 +38,12 @@ class Following extends Component {
     itemUser['user_name'] = item?.user?.name;
     itemUser['user_id'] = item?.item?.user_id;
     console.log(item?.user?.id);
-    let {user} = this.props;
+    let { user } = this.props;
     user = user?.user?.user;
     console.log(item?.item?.user_id, 'userr', item?.user?.id);
     if (user != undefined) {
       if (item?.item?.user_id == user?.id) {
-        this.props?.navigation.navigate('Profile', {screen: 'حسابي'});
+        this.props?.navigation.navigate('Profile', { screen: 'حسابي' });
       } else {
         this.props?.navigation?.navigate('UserProfile', {
           user_id: item?.user?.id,
@@ -57,22 +58,22 @@ class Following extends Component {
     }
   };
   async getData() {
-    let {user} = this.props;
+    let { user } = this.props;
     user = user?.user?.user;
-    let {id} = this.props?.route?.params;
-    this.setState({loader: true});
+    let { id } = this.props?.route?.params;
+    this.setState({ loader: true });
     try {
       return await camelapp.get('/getfollowing/' + id).then(res => {
-        this.setState({userList: res?.data[0]});
-        this.setState({loader: false});
+        this.setState({ userList: res?.data[0] });
+        this.setState({ loader: false });
       });
     } catch (error) {
-      this.setState({loader: false});
+      this.setState({ loader: false });
     }
   }
   ScrollToRefresh() {
     this.getData();
-    this.setState({loader: false});
+    this.setState({ loader: false });
   }
   componentDidMount = () => {
     this.focusListener = this.props.navigation.addListener('focus', () => {
@@ -83,8 +84,8 @@ class Following extends Component {
     this.focusListener();
   }
   render() {
-    const {userList} = this.state;
-    const Item = ({userName, userImage, onUserMessageClick}) => (
+    const { userList } = this.state;
+    const Item = ({ userName, userImage, onUserMessageClick }) => (
       <Card onPress={onUserMessageClick}>
         <View
           style={{
@@ -103,9 +104,9 @@ class Following extends Component {
               fontSize: 18,
               textAlign: 'right',
               color: '#565756',
-              fontWeight: '700',
               marginRight: 10,
               marginBottom: 5,
+              fontFamily: family.Neo_Medium,
             }}>
             {userName}
           </Text>
@@ -122,7 +123,7 @@ class Following extends Component {
               source={{
                 uri:
                   // 'http://www.tasdeertech.com/public/images/profiles/' +
-                  profileBaseUrl+
+                  profileBaseUrl +
                   userImage,
               }}
               style={{
@@ -134,7 +135,7 @@ class Following extends Component {
         </View>
       </Card>
     );
-    const renderItem = ({item}) => {
+    const renderItem = ({ item }) => {
       console.log(item?.user, 'uerrrrrrrr');
       return (
         <Item
@@ -149,7 +150,7 @@ class Following extends Component {
     };
     return (
       <View
-        style={{flex: 1, backgroundColor: '#fff', width: width, height: hight}}>
+        style={{ flex: 1, backgroundColor: '#fff', width: width, height: hight }}>
         <BackBtnHeader title={ArabicText?.followinglist} />
         <ActivityIndicator
           size="large"
@@ -166,8 +167,8 @@ class Following extends Component {
                 onRefresh={() => this.ScrollToRefresh()}
               />
             }
-            contentContainerStyle={{flexGrow: 1}}
-            style={{flex: 1}}
+            contentContainerStyle={{ flexGrow: 1 }}
+            style={{ flex: 1 }}
             ListEmptyComponent={() => <EmptyComponent />}
             data={userList}
             renderItem={renderItem}

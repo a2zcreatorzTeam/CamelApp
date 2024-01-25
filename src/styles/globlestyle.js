@@ -517,6 +517,7 @@ export const Styles = StyleSheet.create({
     marginTop: 2,
     right: 0,
     color: 'black',
+    fontFamily: family.Neo_Regular
   },
   forminputsDetails: {
     padding: 10,
@@ -582,6 +583,7 @@ export const Styles = StyleSheet.create({
   fontDetails: {
     fontSize: 10,
     color: 'black',
+    fontFamily: family.Neo_Regular
   },
   btnform: {
     height: hight / 20,

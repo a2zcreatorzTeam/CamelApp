@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   TextInput,
@@ -10,29 +10,30 @@ import {
   NativeModules,
   ScrollView,
 } from 'react-native';
-import {Styles} from '../styles/globlestyle';
+import { Styles } from '../styles/globlestyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ArabicText from '../language/EnglishToArabic';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import camelapp from '../api/camelapp';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import * as EmailValidator from 'email-validator';
 import Toast from 'react-native-toast-message';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import CookieManager from '@react-native-cookies/cookies';
 import Loader from '../components/PleaseWait';
 import GooglePlaceAutocomplete from '../components/GooglePlaceHolder';
-import {profileBaseUrl} from '../constants/urls';
+import { profileBaseUrl } from '../constants/urls';
+import { family } from '../constants/Family';
 
-const {RNTwitterSignIn} = NativeModules;
+const { RNTwitterSignIn } = NativeModules;
 
 class EditProfile extends Component {
   constructor(props) {
     super(props);
-    let {user} = props;
+    let { user } = props;
     user = user?.user?.user;
     this.state = {
       userName: user?.name ? user?.name : null,
@@ -75,10 +76,10 @@ class EditProfile extends Component {
   };
   logOut = async () => {
     try {
-      let {user, actions} = this.props;
+      let { user, actions } = this.props;
       let id = user?.user?.user?.id;
       let userdetail = user?.user?.user;
-      this.setState({loading: true});
+      this.setState({ loading: true });
       await camelapp
         .get('/logout/' + id)
         .then(
@@ -95,7 +96,7 @@ class EditProfile extends Component {
             AsyncStorage.removeItem('@UserPassword');
             AsyncStorage.removeItem('@UserPhone');
             AsyncStorage.removeItem('fcmToken');
-            this.setState({loading: false});
+            this.setState({ loading: false });
             console.log(this.props.user, 'userFromedittttt');
             this.props.navigation.replace('Home');
             Toast.show({
@@ -106,7 +107,7 @@ class EditProfile extends Component {
           }),
         )
         .catch(error => {
-          this.setState({loading: false});
+          this.setState({ loading: false });
           Toast.show({
             text1: ArabicText.somethingwentwrong,
             type: 'error',
@@ -152,7 +153,7 @@ class EditProfile extends Component {
   };
   updateProfile = async () => {
     const image = this.props.user?.user?.user?.image;
-    const {email, location, pickedImage, userName} = this.state;
+    const { email, location, pickedImage, userName } = this.state;
     // if (!pickedImage && !image) {
     //   Toast.show({
     //     text1: ArabicText.ImageCantBeEmpty,
@@ -191,7 +192,7 @@ class EditProfile extends Component {
     this.setState({
       btnLoader: true,
     });
-    let {actions} = this.props;
+    let { actions } = this.props;
     if (this.state.imageShow == undefined) {
       console.log('99999');
       await camelapp
@@ -204,8 +205,8 @@ class EditProfile extends Component {
             pickedImage !== undefined
               ? pickedImage
               : image?.length
-              ? image
-              : null,
+                ? image
+                : null,
         })
         .then(res => {
           if (res.data.status == true) {
@@ -235,20 +236,20 @@ class EditProfile extends Component {
     }
   };
   callback = (formatted_address, geometry) => {
-    this.setState({location: formatted_address});
+    this.setState({ location: formatted_address });
     console.log(formatted_address, geometry, 'gejghgh');
   };
 
   render() {
-    const {image, pickedImage} = this.state;
-    let {user} = this.props;
+    const { image, pickedImage } = this.state;
+    let { user } = this.props;
     user = user?.user?.user;
 
     return (
       <ScrollView
         nestedScrollEnabled={true}
         keyboardShouldPersistTaps="handled"
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           backgroundColor: '#fff',
@@ -256,7 +257,7 @@ class EditProfile extends Component {
           alignItems: 'center',
         }}>
         <View style={Styles.container}>
-          <BackBtnHeader showToolTip style={{justifyContent: 'space-around'}} />
+          <BackBtnHeader showToolTip style={{ justifyContent: 'space-around' }} />
           <ImageBackground
             imageStyle={{
               borderRadius: 100,
@@ -272,14 +273,14 @@ class EditProfile extends Component {
             }}
             source={
               pickedImage?.length
-                ? {uri: image}
+                ? { uri: image }
                 : this.props.user?.user?.user?.image
-                ? {
+                  ? {
                     uri:
                       // 'http://www.tasdeertech.com/public/images/profiles/' +
                       profileBaseUrl + this.props.user?.user?.user?.image,
                   }
-                : require('../../assets/dummyImage.jpeg')
+                  : require('../../assets/dummyImage.jpeg')
             }>
             <TouchableOpacity
               onPress={() => this.openGallery()}
@@ -319,7 +320,7 @@ class EditProfile extends Component {
                 );
                 const isArabicOnly = /^[\u0600-\u06FF\s]*$/.test(text);
                 if (isInitiallyEnglish || isArabicOnly) {
-                  this.setState({userName: text});
+                  this.setState({ userName: text });
                 }
               }}
               placeholder={ArabicText.Name}
@@ -328,7 +329,7 @@ class EditProfile extends Component {
             <TextInput
               style={Styles.inputs}
               value={this?.state?.email}
-              onChangeText={text => this.setState({email: text})}
+              onChangeText={text => this.setState({ email: text })}
               placeholder={ArabicText.EMAIL}
               placeholderTextColor="#b0b0b0"
               keyboardType="email-address"
@@ -367,7 +368,7 @@ class EditProfile extends Component {
                 animating={this.state.btnLoader}
               />
             ) : (
-              <Text style={{color: '#fff', fontSize: 16}}>
+              <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold', fontFamily: family.Neo_Regular, }}>
                 {ArabicText?.UpdateProfile}
               </Text>
             )}
@@ -376,7 +377,7 @@ class EditProfile extends Component {
           {/* logout button */}
           <TouchableOpacity
             onPress={() => this.logOut()}
-            style={{alignSelf: 'center', marginBottom: 20, marginTop: 10}}>
+            style={{ alignSelf: 'center', marginBottom: 20, marginTop: 10 }}>
             <AntDesign name="poweroff" size={25} color="red" />
           </TouchableOpacity>
         </View>

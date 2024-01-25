@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -8,17 +8,18 @@ import {
   ActivityIndicator,
   RefreshControl,
 } from 'react-native';
-import {Card} from 'react-native-paper';
-import {Dimensions} from 'react-native';
+import { Card } from 'react-native-paper';
+import { Dimensions } from 'react-native';
 import camelapp from '../api/camelapp';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import EmptyComponent from '../components/EmptyComponent';
 import BackBtnHeader from '../components/headerWithBackBtn';
 const width = Dimensions.get('screen').width;
 import * as ArabicText from '../language/EnglishToArabic';
-import {profileBaseUrl} from '../constants/urls';
+import { profileBaseUrl } from '../constants/urls';
+import { family } from '../constants/Family';
 const hight = Dimensions.get('screen').height;
 
 class FollowersList extends Component {
@@ -35,7 +36,7 @@ class FollowersList extends Component {
     itemUser['user_images'] = item?.user?.image;
     itemUser['user_name'] = item?.user?.name;
     itemUser['user_id'] = item?.user?.id;
-    let {user} = this.props;
+    let { user } = this.props;
     user = user?.user?.user;
     console.log(
       item?.item?.id,
@@ -47,7 +48,7 @@ class FollowersList extends Component {
     );
     if (user != undefined) {
       if (item?.user?.id == user?.id) {
-        this.props?.navigation.navigate('Profile', {screen: 'حسابي'});
+        this.props?.navigation.navigate('Profile', { screen: 'حسابي' });
       } else {
         this.props?.navigation?.navigate('UserProfile', {
           user_id: item?.user?.id,
@@ -62,22 +63,22 @@ class FollowersList extends Component {
     }
   };
   async getData() {
-    let {user} = this.props;
+    let { user } = this.props;
     user = user?.user?.user;
-    let {id} = this.props?.route?.params;
-    this.setState({loader: true});
+    let { id } = this.props?.route?.params;
+    this.setState({ loader: true });
     try {
       return await camelapp.get('/getAllFollowers/' + id).then(res => {
-        this.setState({userList: res?.data[0]});
-        this.setState({loader: false});
+        this.setState({ userList: res?.data[0] });
+        this.setState({ loader: false });
       });
     } catch (error) {
-      this.setState({loader: false});
+      this.setState({ loader: false });
     }
   }
   ScrollToRefresh() {
     this.getData();
-    this.setState({loader: false});
+    this.setState({ loader: false });
   }
   componentDidMount = () => {
     this.focusListener = this.props.navigation.addListener('focus', () => {
@@ -88,8 +89,8 @@ class FollowersList extends Component {
     this.focusListener();
   }
   render() {
-    const {userList} = this.state;
-    const Item = ({userName, userImage, onUserMessageClick}) => (
+    const { userList } = this.state;
+    const Item = ({ userName, userImage, onUserMessageClick }) => (
       <Card onPress={onUserMessageClick}>
         <View
           style={{
@@ -108,9 +109,9 @@ class FollowersList extends Component {
               fontSize: 18,
               textAlign: 'right',
               color: '#565756',
-              fontWeight: '700',
               marginRight: 10,
               marginBottom: 5,
+              fontFamily: family.Neo_Medium,
             }}>
             {userName}
           </Text>
@@ -138,7 +139,7 @@ class FollowersList extends Component {
         </View>
       </Card>
     );
-    const renderItem = ({item}) => {
+    const renderItem = ({ item }) => {
       return (
         <Item
           item={item}
@@ -152,7 +153,7 @@ class FollowersList extends Component {
     };
     return (
       <View
-        style={{flex: 1, backgroundColor: '#fff', width: width, height: hight}}>
+        style={{ flex: 1, backgroundColor: '#fff', width: width, height: hight }}>
         <BackBtnHeader title={ArabicText?.followerslist} />
         <ActivityIndicator
           size="large"
@@ -169,8 +170,8 @@ class FollowersList extends Component {
                 onRefresh={() => this.ScrollToRefresh()}
               />
             }
-            contentContainerStyle={{flexGrow: 1}}
-            style={{flex: 1}}
+            contentContainerStyle={{ flexGrow: 1 }}
+            style={{ flex: 1 }}
             ListEmptyComponent={() => <EmptyComponent />}
             data={userList}
             renderItem={renderItem}

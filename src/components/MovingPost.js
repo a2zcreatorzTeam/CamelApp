@@ -8,6 +8,7 @@ import * as ArabicText from '../language/EnglishToArabic';
 import { useState } from 'react';
 import FastImage from 'react-native-fast-image';
 import { imageBaseUrl, thumbnailBaseUrl } from '../constants/urls';
+import { family } from '../constants/Family';
 
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
@@ -169,5 +170,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     padding: 5,
     color: 'black',
+    fontFamily:family.Neo_Regular
   },
 });

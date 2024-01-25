@@ -9,6 +9,7 @@ import FastImage from 'react-native-fast-image';
 import {Tooltip} from 'react-native-elements';
 import {useRef} from 'react';
 import {profileBaseUrl} from '../constants/urls';
+import { family } from '../constants/Family';
 const BackBtnHeader = props => {
   let {style} = props;
   const tooltipRef = useRef(null);
@@ -39,6 +40,7 @@ const BackBtnHeader = props => {
               fontWeight: 'bold',
               fontSize: 20,
               marginHorizontal: 5,
+              fontFamily:family.Neo_Regular
             }}>
             {props?.reciever_data?.user_name?.length > 25
               ? props?.reciever_data?.user_name?.slice(0, 25)
@@ -72,6 +74,7 @@ const BackBtnHeader = props => {
               color: '#fff',
               fontWeight: 'bold',
               fontSize: 20,
+              fontFamily:family.Neo_Regular
             }}>
             {props?.title?.length > 25
               ? props?.title?.slice(0, 25)
@@ -177,5 +180,6 @@ const styles = StyleSheet.create({
 
   tooltipTitle: {
     color: 'black',
+    fontFamily:family.Neo_Regular
   },
 });

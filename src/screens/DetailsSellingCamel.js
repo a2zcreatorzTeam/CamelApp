@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
@@ -17,20 +17,21 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {Styles} from '../styles/globlestyle';
+import { Styles } from '../styles/globlestyle';
 import camelapp from '../api/camelapp';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 const width = Dimensions.get('screen').width;
 import * as ArabicText from '../language/EnglishToArabic';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import VideoModal from '../components/VideoModal';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Toast from 'react-native-toast-message';
-import {ActivityIndicator} from 'react-native';
-import {Platform} from 'react-native';
-import {profileBaseUrl, thumbnailBaseUrl} from '../constants/urls';
+import { ActivityIndicator } from 'react-native';
+import { Platform } from 'react-native';
+import { profileBaseUrl, thumbnailBaseUrl } from '../constants/urls';
+import { family } from '../constants/Family';
 class DetailsComponent extends Component {
   constructor(props) {
     super(props);
@@ -71,7 +72,7 @@ class DetailsComponent extends Component {
       itemFromDetails.price_type == 'سوم' ||
       itemFromDetails.price_type == 'موس'
     ) {
-      this.setState({flagForBid: true});
+      this.setState({ flagForBid: true });
     }
     let array = itemFromDetails?.img;
     let imagesArray = [];
@@ -87,11 +88,11 @@ class DetailsComponent extends Component {
         type: 'video',
         source: itemFromDetails?.video,
       });
-    this.setState({imagesArray: imagesArray});
+    this.setState({ imagesArray: imagesArray });
   }
   onCommentsClick = () => {
     let item = this.state.itemFromDetails;
-    let {user} = this.props;
+    let { user } = this.props;
     user = user?.user?.user;
     let post_id = item.id;
     if (user != undefined) {
@@ -111,9 +112,9 @@ class DetailsComponent extends Component {
     }
   };
   sendMessage() {
-    const {itemFromDetails} = this.state;
+    const { itemFromDetails } = this.state;
     const loggedUser = this.state.user;
-    let {user} = this.props;
+    let { user } = this.props;
     user = user?.user?.user;
     if (user != undefined) {
       if (user.id != itemFromDetails?.user_id) {
@@ -143,8 +144,8 @@ class DetailsComponent extends Component {
     }
   }
   checkBidStatus = () => {
-    const {itemFromDetails} = this.props.route.params;
-    let {user} = this.props;
+    const { itemFromDetails } = this.props.route.params;
+    let { user } = this.props;
     user = user?.user?.user;
     if (user !== undefined && user?.id != itemFromDetails?.user_id) {
       camelapp
@@ -154,16 +155,16 @@ class DetailsComponent extends Component {
         })
         .then(response => {
           if (response.data.status == 'Not Exists') {
-            this.setState({bidStatus: false});
+            this.setState({ bidStatus: false });
           } else {
-            this.setState({bidStatus: true});
+            this.setState({ bidStatus: true });
           }
         });
     }
   };
   placeBid() {
-    const {itemFromDetails, price} = this.state;
-    let {user} = this.props;
+    const { itemFromDetails, price } = this.state;
+    let { user } = this.props;
     user = user?.user?.user;
     if (user != undefined) {
       if (itemFromDetails.price_type == 'سوم') {
@@ -190,8 +191,8 @@ class DetailsComponent extends Component {
                     visibilityTime: 3000,
                   });
                   // alert(response?.data?.message);
-                  this.setState({bidStatus: true});
-                  this.setState({modalOffer: false});
+                  this.setState({ bidStatus: true });
+                  this.setState({ modalOffer: false });
                 } else {
                   Toast.show({
                     type: 'error',
@@ -223,8 +224,8 @@ class DetailsComponent extends Component {
     }
   }
   closeBid() {
-    const {itemFromDetails} = this.state;
-    let {user} = this.props;
+    const { itemFromDetails } = this.state;
+    let { user } = this.props;
     user = user?.user?.user;
     if (user != undefined) {
       camelapp
@@ -234,7 +235,7 @@ class DetailsComponent extends Component {
         })
         .then(response => {
           if (response?.data?.success == true) {
-            this.setState({closeOffer: true});
+            this.setState({ closeOffer: true });
             Toast.show({
               text1: response?.data?.message,
               type: 'success',
@@ -253,11 +254,11 @@ class DetailsComponent extends Component {
     }
   }
   chatRequestNotification = item => {
-    const {itemFromDetails} = this.state;
-    let {user} = this.props;
+    const { itemFromDetails } = this.state;
+    let { user } = this.props;
     user = user?.user?.user;
     if (user != undefined) {
-      this.setState({load: true});
+      this.setState({ load: true });
       camelapp
         .post('/chat/request/notification', {
           user_id: user?.id,
@@ -266,7 +267,7 @@ class DetailsComponent extends Component {
           type: 'CHAT',
         })
         .then(response => {
-          this.setState({load: false});
+          this.setState({ load: false });
           if (response?.data?.success == true) {
             Toast.show({
               text1: ArabicText.Yourrequesthasbeensenttotheseller + '',
@@ -274,7 +275,7 @@ class DetailsComponent extends Component {
               visibilityTime: 3000,
             });
           } else {
-            this.setState({load: false});
+            this.setState({ load: false });
             console.log('error');
           }
         });
@@ -285,7 +286,7 @@ class DetailsComponent extends Component {
 
   // DAIL NUMBER
   audioCall() {
-    let {user} = this.props;
+    let { user } = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
     let otherUser = this.props.route.params.itemFromDetails;
     if (user != undefined) {
@@ -337,7 +338,7 @@ class DetailsComponent extends Component {
   // WHATSAPP
   sendWhatsAppMessage() {
     let otherUser = this.props.route.params.itemFromDetails;
-    let {user} = this.props;
+    let { user } = this.props;
     console.log(otherUser?.whatsapp_status);
     user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
@@ -410,7 +411,7 @@ class DetailsComponent extends Component {
     const thumbnail = itemFromDetails?.thumbnail?.thumbnail;
 
     return (
-      <ScrollView style={{backgroundColor: '#fff'}}>
+      <ScrollView style={{ backgroundColor: '#fff' }}>
         <BackBtnHeader />
         <View
           style={{
@@ -436,6 +437,7 @@ class DetailsComponent extends Component {
                 color: 'white',
                 fontWeight: '800',
                 fontSize: 14,
+                fontFamily: family.Neo_Regular
               }}>
               {' '}
               {ArabicText?.Price}
@@ -447,6 +449,7 @@ class DetailsComponent extends Component {
                 color: 'white',
                 fontWeight: '500',
                 fontSize: 13,
+                fontFamily: family.Neo_Regular
               }}>
               {itemFromDetails?.bid_price > 0
                 ? itemFromDetails?.bid_price
@@ -464,12 +467,13 @@ class DetailsComponent extends Component {
                 fontSize: 20,
                 fontWeight: '700',
                 marginRight: 20,
+                fontFamily: family.Neo_Regular
               }}>
               {itemFromDetails.name
                 ? itemFromDetails?.name
                 : itemFromDetails?.user_name}
             </Text>
-            <Text style={{color: '#000', fontSize: 14, marginRight: 20}}>
+            <Text style={{ color: '#000', fontSize: 14, marginRight: 20, fontFamily: family.Neo_Regular }}>
               {itemFromDetails?.location
                 ? itemFromDetails?.location
                 : itemFromDetails?.user_location}
@@ -502,7 +506,7 @@ class DetailsComponent extends Component {
           </View>
         </View>
 
-        <View style={[Styles.containerDetails, {paddingBottom: width * 0.1}]}>
+        <View style={[Styles.containerDetails, { paddingBottom: width * 0.1 }]}>
           <HorizontalCarousel
             thumbnail={thumbnailBaseUrl + thumbnail}
             price={itemFromDetails?.price}
@@ -516,10 +520,10 @@ class DetailsComponent extends Component {
             }}
             pausedCheck={pausedCheck}
             pauseVideo={() => {
-              this.setState({pausedCheck: true});
+              this.setState({ pausedCheck: true });
             }}
           />
-          <View style={{textAlign: 'right'}}>
+          <View style={{ textAlign: 'right' }}>
             <Text style={Styles.textHeadingg}>{ArabicText.Title}</Text>
             <TextInput
               value={itemFromDetails.title}
@@ -582,18 +586,18 @@ class DetailsComponent extends Component {
                 <View style={Styles.modalView}>
                   <Pressable
                     onPress={modalOffer =>
-                      this.setState({modalOffer: !modalOffer})
+                      this.setState({ modalOffer: !modalOffer })
                     }>
                     <Ionicons name="close" size={30} color="brown" />
                   </Pressable>
-                  <Text style={{margin: 5}}>{ArabicText.offer_Up}</Text>
+                  <Text style={{ margin: 5, fontFamily: family.Neo_Regular }}>{ArabicText.offer_Up}</Text>
                   <TextInput
                     keyboardType="numeric"
                     value={price}
                     style={Styles.forminputsPrice}
                     placeholder={ArabicText.offer_Up_placeholder}
                     onChangeText={text =>
-                      this.setState({price: text.replace(/[^0-9]/g, '')})
+                      this.setState({ price: text.replace(/[^0-9]/g, '') })
                     }
                     placeholderTextColor="#b0b0b0"></TextInput>
                   <TouchableOpacity onPress={() => this.placeBid()}>
@@ -615,8 +619,8 @@ class DetailsComponent extends Component {
             flagForBid &&
             user?.id !== postOwner?.id && (
               <TouchableOpacity
-                style={{marginBottom: 20, marginTop: 20}}
-                onPress={() => this.setState({modalOffer: true})}>
+                style={{ marginBottom: 20, marginTop: 20 }}
+                onPress={() => this.setState({ modalOffer: true })}>
                 <View style={Styles.btnform}>
                   {load ? (
                     <ActivityIndicator size="small" />
@@ -635,18 +639,18 @@ class DetailsComponent extends Component {
             !flagForBid &&
             user?.id !== postOwner?.id && (
               <TouchableOpacity
-                style={{marginBottom: 20, marginTop: 20}}
+                style={{ marginBottom: 20, marginTop: 20 }}
                 onPress={() => {
                   itemFromDetails?.chat_status == 1 ||
-                  itemFromDetails?.chat_status == 'true' ||
-                  itemFromDetails?.chat_status == true
+                    itemFromDetails?.chat_status == 'true' ||
+                    itemFromDetails?.chat_status == true
                     ? this.props.navigation.navigate('MessageViewScreen', {
-                        messageData: {
-                          id: postOwner?.id,
-                          user_name: itemFromDetails?.name,
-                          user_image: itemFromDetails.user_images,
-                        },
-                      })
+                      messageData: {
+                        id: postOwner?.id,
+                        user_name: itemFromDetails?.name,
+                        user_image: itemFromDetails.user_images,
+                      },
+                    })
                     : this.chatRequestNotification();
                 }}>
                 <View style={Styles.btnform}>
@@ -666,12 +670,12 @@ class DetailsComponent extends Component {
             closeOffer == 0 &&
             user?.id == postOwner?.id && (
               <TouchableOpacity
-                style={{marginBottom: 20, marginTop: 20}}
+                style={{ marginBottom: 20, marginTop: 20 }}
                 onPress={() => {
                   this.closeBid();
                 }}>
-                <View style={[Styles.btnform, {width: width / 3}]}>
-                  <Text style={[Styles.textbtn, {marginHorizontal: 10}]}>
+                <View style={[Styles.btnform, { width: width / 3 }]}>
+                  <Text style={[Styles.textbtn, { marginHorizontal: 10 }]}>
                     {load ? (
                       <ActivityIndicator size="small" />
                     ) : (
@@ -694,20 +698,20 @@ class DetailsComponent extends Component {
               <TouchableOpacity
                 onPress={() => {
                   itemFromDetails?.chat_status == 1 ||
-                  itemFromDetails?.chat_status == 'true' ||
-                  itemFromDetails?.chat_status == true
+                    itemFromDetails?.chat_status == 'true' ||
+                    itemFromDetails?.chat_status == true
                     ? this.props.navigation.navigate('MessageViewScreen', {
-                        messageData: {
-                          id: this?.state?.user?.id,
-                          user_name: itemFromDetails?.name,
-                          user_image: itemFromDetails.user_images,
-                        },
-                      })
+                      messageData: {
+                        id: this?.state?.user?.id,
+                        user_name: itemFromDetails?.name,
+                        user_image: itemFromDetails.user_images,
+                      },
+                    })
                     : Toast.show({
-                        text1: ArabicText?.Thisuserhasdisabledchat,
-                        type: 'error',
-                        visibilityTime: 3000,
-                      });
+                      text1: ArabicText?.Thisuserhasdisabledchat,
+                      type: 'error',
+                      visibilityTime: 3000,
+                    });
                   //  this.chatRequestNotification();
                 }}
                 style={{
@@ -757,16 +761,16 @@ class DetailsComponent extends Component {
         {/* VIDEO MODAL */}
         <VideoModal
           onLoadStart={() => {
-            this.setState({loadVideo: true});
+            this.setState({ loadVideo: true });
           }}
           onReadyForDisplay={() => {
-            this.setState({loadVideo: false});
+            this.setState({ loadVideo: false });
           }}
           onPress={() => {
-            !loadVideo && this.setState({pausedCheck: !pausedCheck});
+            !loadVideo && this.setState({ pausedCheck: !pausedCheck });
           }}
           closeModal={() => {
-            this.setState({videoModal: false, pausedCheck: true});
+            this.setState({ videoModal: false, pausedCheck: true });
           }}
           pausedCheck={pausedCheck}
           loadVideo={loadVideo}

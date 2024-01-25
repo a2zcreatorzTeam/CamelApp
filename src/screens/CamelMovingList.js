@@ -22,6 +22,7 @@ import { TouchableOpacity } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import shadows from '../helper/shadows';
+import { family } from '../constants/Family';
 class CamelMovingList extends Component {
   constructor(props) {
     super(props);
@@ -389,5 +390,6 @@ const styles = StyleSheet.create({
     height: '100%',
     zIndex: 20,
     position: 'absolute',
+    fontFamily: family.Neo_Regular
   },
 });

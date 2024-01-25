@@ -410,6 +410,7 @@ export const Styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 0.5,
     color: '#fff',
+    fontFamily: family.Neo_Regular
   },
 
   containerAddNew: {
@@ -471,7 +472,6 @@ export const Styles = StyleSheet.create({
     borderRadius: 20,
     color: 'black',
     fontFamily: family.Neo_Regular
-
   },
   forminputsPrice: {
     height: 40,
@@ -906,6 +906,7 @@ export const Styles = StyleSheet.create({
     fontSize: 16,
     color: '#fff',
     marginRight: 10,
+    fontFamily: family.Neo_Regular
   },
   sharebtn: {
     width: 43,

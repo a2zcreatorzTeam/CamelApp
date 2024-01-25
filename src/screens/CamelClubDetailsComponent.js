@@ -25,6 +25,7 @@ import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import {profileBaseUrl, thumbnailBaseUrl} from '../constants/urls';
+import { family } from '../constants/Family';
 
 const width = Dimensions.get('screen').width;
 class CamelClubDetailsComponent extends Component {
@@ -226,10 +227,11 @@ class CamelClubDetailsComponent extends Component {
                 fontSize: 20,
                 fontWeight: '700',
                 marginRight: 20,
+                fontFamily: family.Neo_Regular
               }}>
               {itemFromDetails.name}
             </Text>
-            <Text style={{color: '#000', fontSize: 14, marginRight: 20}}>
+            <Text style={{color: '#000', fontSize: 14, marginRight: 20, fontFamily: family.Neo_Regular}}>
               {itemFromDetails.user_location}
             </Text>
           </View>

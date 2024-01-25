@@ -19,6 +19,7 @@ import {useIsFocused} from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import EmptyComponent from '../../components/EmptyComponent';
 import FastImage from 'react-native-fast-image';
+import { family } from '../../constants/Family';
 
 const {width} = Dimensions.get('screen');
 
@@ -218,6 +219,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 17,
     textAlign: 'right',
+    fontFamily:family.Neo_Regular
   },
   userName: {
     color: '#000',

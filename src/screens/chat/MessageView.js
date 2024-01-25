@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -11,29 +11,30 @@ import {
   ImageBackground,
   ActivityIndicator,
 } from 'react-native';
-import {Styles} from '../../styles/globlestyle';
-import {Card} from 'react-native-paper';
+import { Styles } from '../../styles/globlestyle';
+import { Card } from 'react-native-paper';
 import Feather from 'react-native-vector-icons/Feather';
 import * as ArabicText from '../../language/EnglishToArabic';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
-import {useSelector} from 'react-redux';
-import {checkOrCreateChatRoom, sendMessage} from '../../services';
+import { useSelector } from 'react-redux';
+import { checkOrCreateChatRoom, sendMessage } from '../../services';
 import firestore from '@react-native-firebase/firestore';
 import moment from 'moment';
 import BackBtnHeader from '../../components/headerWithBackBtn';
 import Entypo from 'react-native-vector-icons/Entypo';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
 import GetLocation from 'react-native-get-location';
-import {Modal} from 'react-native';
+import { Modal } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Linking} from 'react-native';
+import { Linking } from 'react-native';
 import Video from 'react-native-video';
 import RNFS from 'react-native-fs';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
-import {PermissionsAndroid} from 'react-native';
-const MessageView = ({route}) => {
+import { PermissionsAndroid } from 'react-native';
+import { family } from '../../constants/Family';
+const MessageView = ({ route }) => {
   const [inputValue, setInputValue] = useState('');
   const [dataSource, setDataSource] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -97,11 +98,11 @@ const MessageView = ({route}) => {
       await Linking.openURL(url);
     }
   };
-  _renderItem = ({item, index}) => {
+  _renderItem = ({ item, index }) => {
     const formattedDateTime = moment.unix(item?.timestamp).format('h:mm:a');
     let sender_id = user?.user?.user.id;
     return item?.sender == sender_id ? (
-      <View style={{width: '100%'}}>
+      <View style={{ width: '100%' }}>
         {item?.latitude && item?.longitude ? (
           <>
             {/* C:\Users\joti.kumari\Desktop\CamelApp\assets\maps.jpg */}
@@ -120,7 +121,7 @@ const MessageView = ({route}) => {
             style={[styles.rightChatImageContainer]}
             onPress={() => {
               setModal(true),
-                setModalItem({uri: item?.imageUrl}),
+                setModalItem({ uri: item?.imageUrl }),
                 setModalItemType('image');
             }}>
             <Image
@@ -137,7 +138,7 @@ const MessageView = ({route}) => {
               style={[styles.rightChatImageContainer]}
               onPress={() => {
                 setModal(true),
-                  setModalItem({uri: item?.videoUrl}),
+                  setModalItem({ uri: item?.videoUrl }),
                   setModalItemType('video');
               }}>
               <ImageBackground
@@ -159,7 +160,7 @@ const MessageView = ({route}) => {
                   tintColor="#fff"
                   source={require('../../../assets/play.png')}
                   resizeMode={'cover'}
-                  style={{width: 70, height: 70}}
+                  style={{ width: 70, height: 70 }}
                 />
               </ImageBackground>
               <Text style={styles.formattedDateText}>{formattedDateTime}</Text>
@@ -168,10 +169,10 @@ const MessageView = ({route}) => {
         ) : (
           <>
             <Card style={Styles.text_send}>
-              <Text style={{color: '#fff', textAlign: 'right', fontSize: 14}}>
+              <Text style={{ color: '#fff', textAlign: 'right', fontSize: 14, fontFamily: family.Neo_Regular }}>
                 {item.text}
               </Text>
-              <Text style={{color: 'white', fontSize: 10}}>
+              <Text style={{ color: 'white', fontSize: 10, fontFamily: family.Neo_Regular }}>
                 {formattedDateTime}
               </Text>
             </Card>
@@ -186,7 +187,7 @@ const MessageView = ({route}) => {
               style={[
                 styles.rightChatImageContainer,
                 styles.containerHeight,
-                {left: 0},
+                { left: 0 },
               ]}
               onPress={() => proceed(item?.latitude, item?.longitude)}>
               <Image
@@ -196,7 +197,7 @@ const MessageView = ({route}) => {
               <Text
                 style={[
                   styles.formattedDateText,
-                  {textAlign: 'right', marginRight: 20},
+                  { textAlign: 'right', marginRight: 20 },
                 ]}>
                 {formattedDateTime}
               </Text>
@@ -207,11 +208,11 @@ const MessageView = ({route}) => {
             style={[
               styles.rightChatImageContainer,
               styles.containerHeight,
-              {left: 0},
+              { left: 0 },
             ]}
             onPress={() => {
               setModal(true),
-                setModalItem({uri: item?.imageUrl}),
+                setModalItem({ uri: item?.imageUrl }),
                 setModalItemType('image');
             }}>
             <Image
@@ -223,7 +224,7 @@ const MessageView = ({route}) => {
             <Text
               style={[
                 styles.formattedDateText,
-                {textAlign: 'right', marginRight: 20},
+                { textAlign: 'right', marginRight: 20 },
               ]}>
               {formattedDateTime}
             </Text>
@@ -233,15 +234,15 @@ const MessageView = ({route}) => {
             <TouchableOpacity
               onPress={() => {
                 setModal(true),
-                  setModalItem({uri: item?.videoUrl}),
+                  setModalItem({ uri: item?.videoUrl }),
                   setModalItemType('video');
               }}
               style={[
                 styles.rightChatImageContainer,
                 styles.containerHeight,
-                {left: 0},
+                { left: 0 },
               ]}
-              // onPress={() => proceed(item?.latitude, item?.longitude)}
+            // onPress={() => proceed(item?.latitude, item?.longitude)}
             >
               <ImageBackground
                 imageStyle={{
@@ -262,13 +263,13 @@ const MessageView = ({route}) => {
                   tintColor="#fff"
                   source={require('../../../assets/play.png')}
                   resizeMode={'cover'}
-                  style={{width: 70, height: 70}}
+                  style={{ width: 70, height: 70 }}
                 />
               </ImageBackground>
               <Text
                 style={[
                   styles.formattedDateText,
-                  {textAlign: 'right', marginRight: 20},
+                  { textAlign: 'right', marginRight: 20 },
                 ]}>
                 {formattedDateTime}
               </Text>
@@ -276,10 +277,10 @@ const MessageView = ({route}) => {
           </>
         ) : (
           <Card style={Styles.text_send_right}>
-            <Text style={{color: '#fff', textAlign: 'right', fontSize: 14}}>
+            <Text style={{ color: '#fff', textAlign: 'right', fontSize: 14, fontFamily: family.Neo_Regular }}>
               {item.text}
             </Text>
-            <Text style={{color: 'white', fontSize: 10}}>
+            <Text style={{ color: 'white', fontSize: 10, fontFamily: family.Neo_Regular }}>
               {formattedDateTime}
             </Text>
           </Card>
@@ -290,8 +291,8 @@ const MessageView = ({route}) => {
   RenderList = () => {
     return (
       <FlatList
-        style={{marginTop: 10, backgroundColor: '#fff'}}
-        contentContainerStyle={{paddingTop: 10, overflow: 'hidden'}}
+        style={{ marginTop: 10, backgroundColor: '#fff' }}
+        contentContainerStyle={{ paddingTop: 10, overflow: 'hidden' }}
         inverted
         initialNumToRender={dataSource?.length}
         data={dataSource}
@@ -345,7 +346,7 @@ const MessageView = ({route}) => {
         handlePress();
       })
       .catch(error => {
-        const {code, message} = error;
+        const { code, message } = error;
         console.warn(code, message);
         Toast.show({
           text1: message,
@@ -471,7 +472,7 @@ const MessageView = ({route}) => {
     };
   }, []);
   return (
-    <View style={{flex: 1, width: width, height: hight}}>
+    <View style={{ flex: 1, width: width, height: hight }}>
       <BackBtnHeader reciever_data={reciever_data} />
       <RenderList />
       <View style={styles.inputContainer}>
@@ -494,7 +495,7 @@ const MessageView = ({route}) => {
                 size={30}
                 color="#D2691E"
                 style={{
-                  transform: [{rotate: '225deg'}],
+                  transform: [{ rotate: '225deg' }],
                 }}
               />
             )}
@@ -513,7 +514,7 @@ const MessageView = ({route}) => {
           }}>
           <TouchableOpacity
             onPress={() => setModalVisible(true)}
-            style={{width: '15%'}}>
+            style={{ width: '15%' }}>
             <Entypo name="attachment" size={18} color="#bbb" style={{}} />
           </TouchableOpacity>
           <TextInput
@@ -522,6 +523,7 @@ const MessageView = ({route}) => {
               textAlign: 'right',
               color: '#000',
               marginRight: 10,
+              fontFamily: family.Neo_Regular
             }}
             placeholder={ArabicText?.Message}
             placeholderTextColor="#b0b0b0"
@@ -579,15 +581,15 @@ const MessageView = ({route}) => {
             {image ? (
               <Image
                 resizeMode="contain"
-                source={{uri: image?.imageShow}}
-                style={{width: width, height: hight * 0.6, marginBottom: '20%'}}
+                source={{ uri: image?.imageShow }}
+                style={{ width: width, height: hight * 0.6, marginBottom: '20%' }}
               />
             ) : null}
             {video ? (
               <Image
                 resizeMode="contain"
                 source={require('../../../assets/videoImage.png')}
-                style={{width: width, height: hight * 0.7}}
+                style={{ width: width, height: hight * 0.7 }}
               />
             ) : null}
             <View
@@ -621,7 +623,7 @@ const MessageView = ({route}) => {
                       size={28}
                       color="white"
                       style={{
-                        transform: [{rotate: '225deg'}],
+                        transform: [{ rotate: '225deg' }],
                       }}
                     />
                   )}
@@ -650,7 +652,7 @@ const MessageView = ({route}) => {
             <AntDesign name="closecircle" size={35} color="#fff" />
           </TouchableOpacity>
 
-          <View style={{height: 300}}>
+          <View style={{ height: 300 }}>
             <View style={Styles.imageCarousal}>
               {modalItemType === 'image' && (
                 <FastImage
@@ -660,7 +662,7 @@ const MessageView = ({route}) => {
                 />
               )}
               {modalItemType == 'video' && (
-                <View style={{flex: 1, backgroundColor: '#ededed'}}>
+                <View style={{ flex: 1, backgroundColor: '#ededed' }}>
                   <Video
                     onError={error => console.error('Video error:', error)}
                     onLoadStart={() => {
@@ -709,7 +711,7 @@ const MessageView = ({route}) => {
                             : require('../../../assets/pause.png')
                         }
                         resizeMode={'cover'}
-                        style={{width: 70, height: 70}}
+                        style={{ width: 70, height: 70 }}
                       />
                     )}
                   </TouchableOpacity>
@@ -757,7 +759,7 @@ const PickerModal = prop => {
         onRequestClose={() => prop.setModalVisible(false)}>
         <TouchableOpacity
           activeOpacity={1}
-          style={{height: '100%'}}
+          style={{ height: '100%' }}
           onPress={() => prop.setModalVisible(false)}
         />
 
@@ -784,19 +786,19 @@ const PickerModal = prop => {
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => prop.openGallery()}
-              style={[styles.pickerBTNs, {backgroundColor: '#BF026D'}]}>
+              style={[styles.pickerBTNs, { backgroundColor: '#BF026D' }]}>
               <Entypo name="image-inverted" size={26} color="#fff" />
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={() => prop.selectOneFile()}
-              style={[styles.pickerBTNs, {backgroundColor: '#8031A7'}]}>
+              style={[styles.pickerBTNs, { backgroundColor: '#8031A7' }]}>
               <Entypo name="video" size={26} color="#fff" />
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={() => prop.getLocation()}
-              style={[styles.pickerBTNs, {backgroundColor: '#00873E'}]}>
+              style={[styles.pickerBTNs, { backgroundColor: '#00873E' }]}>
               <Entypo name="location-pin" size={26} color="#fff" />
             </TouchableOpacity>
           </View>
@@ -866,7 +868,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000db',
     justifyContent: 'center',
   },
-  modalCloseBTN: {top: 10, right: 15, position: 'absolute'},
+  modalCloseBTN: { top: 10, right: 15, position: 'absolute' },
   containerHeight: {
     borderRadius: 25,
     borderTopStartRadius: 0,
@@ -877,6 +879,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     width: '100%',
     marginLeft: 10,
+    fontFamily: family.Neo_Regular
   },
 });
 

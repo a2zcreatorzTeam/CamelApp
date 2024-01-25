@@ -8,19 +8,20 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import camelapp from '../../api/camelapp';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
-import {useIsFocused} from '@react-navigation/native';
-import {RefreshControl} from 'react-native';
+import { bindActionCreators } from 'redux';
+import { useIsFocused } from '@react-navigation/native';
+import { RefreshControl } from 'react-native';
 import EmptyComponent from '../../components/EmptyComponent';
 import * as ArabicText from '../../language/EnglishToArabic';
-import {profileBaseUrl} from '../../constants/urls';
+import { profileBaseUrl } from '../../constants/urls';
 import FastImage from 'react-native-fast-image';
+import { family } from '../../constants/Family';
 
-const {width} = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
 const FriendList = prop => {
   const [friendRequest, setFriendRequest] = useState([]);
@@ -80,12 +81,12 @@ const FriendList = prop => {
   }, [isFocused]);
 
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <FlatList
         ListEmptyComponent={() => <EmptyComponent />}
         key={key}
-        style={{flex: 1}}
-        contentContainerStyle={{flexGrow: 1}}
+        style={{ flex: 1 }}
+        contentContainerStyle={{ flexGrow: 1 }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -93,7 +94,7 @@ const FriendList = prop => {
           />
         }
         data={friendRequest}
-        renderItem={({item}) => {
+        renderItem={({ item }) => {
           return (
             <TouchableWithoutFeedback
             // onPress={() => prop.navigation.navigate("GroupChat", { group_id: item?.id })}
@@ -103,7 +104,7 @@ const FriendList = prop => {
                   onPress={() => friendRequestHandler(item, 'A')}
                   style={[
                     styles.friendReqBTN,
-                    {backgroundColor: '#D2691E', left: 10},
+                    { backgroundColor: '#D2691E', left: 10 },
                   ]}>
                   <Text style={styles.reqBTNtext}>{ArabicText.accept}</Text>
                 </TouchableOpacity>
@@ -112,9 +113,9 @@ const FriendList = prop => {
                   onPress={() => friendRequestHandler(item, 'R')}
                   style={[
                     styles.friendReqBTN,
-                    {backgroundColor: '#ddd', left: 70},
+                    { backgroundColor: '#ddd', left: 70 },
                   ]}>
-                  <Text style={{color: '#000', fontSize: 11}}>
+                  <Text style={{ color: '#000', fontSize: 11, fontFamily: family.Neo_Regular }}>
                     {ArabicText.reject}
                   </Text>
                 </TouchableOpacity>
@@ -130,7 +131,7 @@ const FriendList = prop => {
                   <Text style={styles.reqBTNtext}>{ArabicText.block}</Text>
                 </TouchableOpacity> */}
 
-                <View style={{justifyContent: 'flex-end'}}>
+                <View style={{ justifyContent: 'flex-end' }}>
                   <Text style={styles.groupName} numberOfLines={2}>
                     {item?.friend_name}
                   </Text>
@@ -142,10 +143,10 @@ const FriendList = prop => {
                     source={
                       item?.data?.downloadURL
                         ? {
-                            uri: profileBaseUrl + item?.friend_image,
-                            headers: {Authorization: 'someAuthToken'},
-                            priority: FastImage.priority.normal,
-                          }
+                          uri: profileBaseUrl + item?.friend_image,
+                          headers: { Authorization: 'someAuthToken' },
+                          priority: FastImage.priority.normal,
+                        }
                         : require('../../../assets/image.png')
                     }
                     resizeMode={FastImage?.resizeMode.cover}
@@ -186,7 +187,8 @@ const styles = StyleSheet.create({
     color: '#000',
     fontWeight: '700',
     fontSize: 17,
-    textAlign: 'center',
+    textAlign: 'center', 
+    fontFamily: family.Neo_Regular
   },
   userName: {
     color: '#000',
@@ -219,5 +221,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 999,
   },
-  reqBTNtext: {color: '#fff', fontSize: 11},
+  reqBTNtext: { color: '#fff', fontSize: 11, fontFamily: family.Neo_Regular },
 });

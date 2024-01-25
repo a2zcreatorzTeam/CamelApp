@@ -9,6 +9,7 @@ const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 const Tab = createMaterialTopTabNavigator();
 import * as ArabicText from '../../language/EnglishToArabic';
+import { family } from '../../constants/Family';
 export default class BidTab extends Component {
   render() {
     return (
@@ -30,6 +31,7 @@ export default class BidTab extends Component {
                 fontWeight: 'bold',
                 alignSelf: 'center',
                 fontSize: 35,
+                fontFamily:family.Neo_Regular
               }}>
               {ArabicText?.Bids}
             </Text>
@@ -82,6 +84,7 @@ export default class BidTab extends Component {
                         color: '#D2691Eff',
                         fontWeight: 'bold',
                         alignSelf: 'center',
+                        fontFamily:family.Neo_Regular
                       }}>
                       {ArabicText?.Bids_on_my_posts}
                     </Text>
@@ -99,6 +102,7 @@ export default class BidTab extends Component {
                         color: '#D2691Eff',
                         fontWeight: 'bold',
                         alignSelf: 'center',
+                        fontFamily:family.Neo_Regular
                       }}>
                       {ArabicText?.offer_Up_bid}
                     </Text>

@@ -28,6 +28,7 @@ import BackBtnHeader from '../components/headerWithBackBtn';
 import Toast from 'react-native-toast-message';
 import { Platform } from 'react-native';
 import { profileBaseUrl, thumbnailBaseUrl } from '../constants/urls';
+import { family } from '../constants/Family';
 class DetailsComponent extends Component {
   constructor(props) {
     super(props);
@@ -395,6 +396,7 @@ class DetailsComponent extends Component {
                 color: 'white',
                 fontWeight: '800',
                 fontSize: 14,
+                fontFamily: family.Neo_Regular
               }}>
               {' '}
               {ArabicText?.Price}
@@ -406,6 +408,7 @@ class DetailsComponent extends Component {
                 color: 'white',
                 fontWeight: '500',
                 fontSize: 13,
+                fontFamily: family.Neo_Regular
               }}>
               {itemFromDetails?.bid_price > 0
                 ? itemFromDetails?.bid_price
@@ -420,10 +423,11 @@ class DetailsComponent extends Component {
                 fontSize: 20,
                 fontWeight: '700',
                 marginRight: 20,
+                fontFamily: family.Neo_Regular
               }}>
               {itemFromDetails?.name}
             </Text>
-            <Text style={{ color: '#000', fontSize: 14, marginRight: 20 }}>
+            <Text style={{ color: '#000', fontSize: 14, marginRight: 20,fontFamily: family.Neo_Regular }}>
               {itemFromDetails?.location
                 ? itemFromDetails?.location
                 : itemFromDetails?.user_location}
@@ -532,7 +536,7 @@ class DetailsComponent extends Component {
                   // style={{ marginLeft: width - 140 }}
                   />
                 </Pressable>
-                <Text style={{ margin: 5 }}>{ArabicText.offer_Up}</Text>
+                <Text style={{ margin: 5, fontFamily: family.Neo_Regular }}>{ArabicText.offer_Up}</Text>
 
                 <TextInput
                   value={price}

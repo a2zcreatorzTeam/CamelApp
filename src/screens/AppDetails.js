@@ -21,6 +21,7 @@ import Toast from 'react-native-toast-message';
 import * as ArabicText from '../language/EnglishToArabic';
 import { Styles } from '../styles/globlestyle';
 import BackBtnHeader from '../components/headerWithBackBtn';
+import { family } from '../constants/Family';
 
 const width = Dimensions.get('screen').width;
 
@@ -226,7 +227,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
     color: '#d2691e',
-    marginTop: 100
+    marginTop: 100,
+    fontFamily: family.Neo_Regular
   },
   socialMediaText: {
     fontWeight: '400',
@@ -234,6 +236,7 @@ const styles = StyleSheet.create({
     color: 'grey',
     margin: 3,
     marginVertical: 10,
+    fontFamily: family.Neo_Regular
   },
   socialMediaView: {
     flexDirection: 'row',
@@ -250,6 +253,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  email: { fontSize: 12, color: '#d2691e', margin: 3 },
-  website: { fontSize: 15, color: '#d2691e', fontWeight: '400' },
+  email: { fontSize: 12, color: '#d2691e', margin: 3, fontFamily: family.Neo_Regular },
+  website: { fontSize: 15, color: '#d2691e', fontWeight: '400', fontFamily: family.Neo_Regular },
 });

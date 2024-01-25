@@ -128,7 +128,11 @@ class Bids extends Component {
           });
         });
     } catch (error) {
-
+      Toast.show({
+        text1: ArabicText.somethingwentwrong,
+        type: 'error',
+        visibilityTime: 3000,
+      });
     }
   }
   onProfileClick = item => {

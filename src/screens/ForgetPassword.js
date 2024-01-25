@@ -36,7 +36,7 @@ class ForgetPassword extends Component {
     if (this.state.phone.length > 9) {
       this.setState({ btnPressed: true, loader: true });
       camelapp.get('checkemail?phone=' + this.state.phone).then(response => {
-        if (response.data?.message == 'Phone Already exists!') {
+        if (response.data?.message == 'الهاتف موجود بالفعل') {
           console.log('response', response?.data);
           this.setState({ otp: true });
           camelapp

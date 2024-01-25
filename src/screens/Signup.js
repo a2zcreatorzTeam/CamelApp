@@ -136,7 +136,7 @@ class SignUp extends Component {
       camelapp
         .get('checkemail?phone=' + this.state.phone)
         .then(response => {
-          if (response.data?.message != 'Phone Already exists!') {
+          if (response.data?.message != 'الهاتف موجود بالفعل') {
             camelapp
               .post('sendsms', {
                 phone: this.state.phone,

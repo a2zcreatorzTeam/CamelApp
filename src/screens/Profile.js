@@ -140,7 +140,6 @@ class Profile extends Component {
           phone: this.props.user?.user?.user?.phone,
         })
         .then(res => {
-          console.log(res, 'updateOTPPpp');
           if (res) {
             this.setState({ updateLoader: false });
             let tempSignUpObj = {
@@ -327,7 +326,6 @@ class Profile extends Component {
           // RATING
 
           const length = parseInt(res?.data?.posts?.length);
-          console.log(length, "lengthlength");
           const subscription = res?.data?.user?.subscription
           let rating = 0;
           if (subscription?.length && (subscription == 'famous' || subscription == 'عضو مميز' || subscription == 'vip' || subscription == 'عضو مهم')) {
@@ -1754,11 +1752,11 @@ const styles = StyleSheet.create({
   name: {
     margin: 3,
     color: '#D2691Eff',
-    fontWeight: '500',
+    fontWeight: '700',
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    fontFamily: family.Neo_Medium
+    fontFamily: family.Neo_Regular
   },
   icons: {
     flexDirection: 'row',

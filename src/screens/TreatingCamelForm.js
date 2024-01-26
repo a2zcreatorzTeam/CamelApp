@@ -287,25 +287,15 @@ class TreatingCamelForm extends Component {
     return (
       <ScrollView
         style={{ flex: 1 }}
-        contentContainerStyle={{
-          minHeight: '100%',
-          paddingBottom: width * 0.1,
-          backgroundColor: '#fff',
-        }}
+        contentContainerStyle={Styles.scrollContentContainer}
         alwaysBounceVertical={false}
         showsVerticalScrollIndicator={false}>
         <BackBtnHeader />
         {/* <Ads /> */}
         <View style={Styles.containerScroll}>
           <Text
-            style={{
-              marginTop: 5,
-              fontSize: 18,
-              fontWeight: 'bold',
-              color: '#D2691Eff',
-              fontFamily: family.Neo_Regular
-            }}>
-            {ArabicText.TreatingCamel}{' '}
+            style={Styles.headingPostText}>
+            {ArabicText.TreatingCamel}
           </Text>
           {mixed?.length ? (
             <HorizontalCarousel

@@ -362,11 +362,7 @@ class SellingEquipmentForm extends React.Component {
     return (
       <ScrollView
         style={{ flex: 1 }}
-        contentContainerStyle={{
-          minHeight: '100%',
-          paddingBottom: width * 0.1,
-          backgroundColor: '#fff',
-        }}
+        contentContainerStyle={Styles.scrollContentContainer}
         alwaysBounceVertical={false}
         showsVerticalScrollIndicator={false}>
         <BackBtnHeader />

@@ -213,7 +213,6 @@ const Post = ({ description, date, item, onPress = () => { }, name }) => (
             color: 'black',
             fontSize: 16,
             textAlign: 'right',
-            // fontWeight: '700',
             fontFamily: family.Neo_Medium
           }}>
           {description}
@@ -223,8 +222,7 @@ const Post = ({ description, date, item, onPress = () => { }, name }) => (
             color: 'black',
             fontSize: 16,
             textAlign: 'right',
-            // fontWeight: '700',
-            ffontFamily: family.Neo_Medium
+            fontFamily: family.Neo_Medium
           }}>
           {' ' + name + ' '}
         </Text>

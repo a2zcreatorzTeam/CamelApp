@@ -414,80 +414,39 @@ class DetailsComponent extends Component {
       <ScrollView style={{ backgroundColor: '#fff' }}>
         <BackBtnHeader />
         <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-around',
-            paddingHorizontal: 20,
-            marginTop: 15,
-            width: '100%',
-          }}>
+          style={Styles.firstView}>
           {/* PRICE SECTION */}
           <View
-            style={{
-              backgroundColor: '#D2691Eff',
-              padding: 10,
-              borderRadius: 10,
-              width: '20%',
-              marginBottom: 10,
-              alignItems: 'center',
-            }}>
+            style={Styles.priceView}>
             <Text
-              style={{
-                color: 'white',
-                fontWeight: '800',
-                fontSize: 14,
-                fontFamily: family.Neo_Regular
-              }}>
+              style={Styles.priceTag}>
               {' '}
               {ArabicText?.Price}
             </Text>
             <Text
               numberOfLines={2}
-              style={{
-                textAlign: 'center',
-                color: 'white',
-                fontWeight: '500',
-                fontSize: 13,
-                fontFamily: family.Neo_Regular
-              }}>
+              style={Styles.price}>
               {itemFromDetails?.bid_price > 0
                 ? itemFromDetails?.bid_price
                 : itemFromDetails?.price}
             </Text>
           </View>
           <View
-            style={{
-              alignItems: 'flex-end',
-              width: '70%',
-            }}>
+            style={Styles.userDetailView}>
             <Text
-              style={{
-                color: '#000',
-                fontSize: 20,
-                fontWeight: '700',
-                marginRight: 20,
-                fontFamily: family.Neo_Regular
-              }}>
+              style={Styles.userName}>
               {itemFromDetails.name
                 ? itemFromDetails?.name
                 : itemFromDetails?.user_name}
             </Text>
-            <Text style={{ color: '#000', fontSize: 14, marginRight: 20, fontFamily: family.Neo_Regular }}>
+            <Text style={Styles.userLocation}>
               {itemFromDetails?.location
                 ? itemFromDetails?.location
                 : itemFromDetails?.user_location}
             </Text>
           </View>
           <View
-            style={{
-              height: 63,
-              width: 63,
-              borderRadius: 50,
-              backgroundColor: '#f3f3f3',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+            style={Styles.imageView}>
             <Image
               source={{
                 uri:
@@ -496,12 +455,7 @@ class DetailsComponent extends Component {
                     ? itemFromDetails.user_images
                     : itemFromDetails.user_image),
               }}
-              style={{
-                height: 55,
-                width: 55,
-                resizeMode: 'center',
-                borderRadius: 50,
-              }}
+              style={Styles.profileImage}
             />
           </View>
         </View>
@@ -590,7 +544,7 @@ class DetailsComponent extends Component {
                     }>
                     <Ionicons name="close" size={30} color="brown" />
                   </Pressable>
-                  <Text style={{ margin: 5, fontFamily: family.Neo_Regular , marginBottom:0}}>{ArabicText.offer_Up}</Text>
+                  <Text style={{ margin: 5, fontFamily: family.Neo_Regular, marginBottom: 0 }}>{ArabicText.offer_Up}</Text>
                   <TextInput
                     keyboardType="numeric"
                     value={price}
@@ -688,12 +642,7 @@ class DetailsComponent extends Component {
           {/* SOCIAL ICONS */}
           {user?.id !== undefined && user?.id !== postOwner?.id && (
             <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 20,
-                justifyContent: 'center',
-              }}>
+              style={Styles.socialIconView}>
               {/* CHAT ICON  */}
               <TouchableOpacity
                 onPress={() => {
@@ -714,44 +663,28 @@ class DetailsComponent extends Component {
                     });
                   //  this.chatRequestNotification();
                 }}
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  margin: 8,
-                }}>
+                style={Styles.socialIcon}>
                 <Feather name="send" size={30} color="#CD853F" />
                 <Text style={Styles.fontDetails}>{ArabicText.message}</Text>
               </TouchableOpacity>
               {/* COMMENT ICON */}
               <TouchableOpacity
                 onPress={() => this.onCommentsClick()}
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  margin: 8,
-                }}>
+                style={Styles.socialIcon}>
                 <Feather name="message-square" size={30} color="#CD853F" />
                 <Text style={Styles.fontDetails}>{ArabicText.comments}</Text>
               </TouchableOpacity>
               {/* WhatsApp */}
               <TouchableOpacity
                 onPress={() => this.sendWhatsAppMessage()}
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  margin: 8,
-                }}>
+                style={Styles.socialIcon}>
                 <FontAwesome name="whatsapp" size={30} color="#CD853F" />
                 <Text style={Styles.fontDetails}>{ArabicText?.whatsapp}</Text>
               </TouchableOpacity>
               {/* CALL USER */}
               <TouchableOpacity
                 onPress={() => this.audioCall()}
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  margin: 8,
-                }}>
+                style={Styles.socialIcon}>
                 <AntDesign name="mobile1" size={30} color="#CD853F" />
                 <Text style={Styles.fontDetails}>{ArabicText.phone}</Text>
               </TouchableOpacity>

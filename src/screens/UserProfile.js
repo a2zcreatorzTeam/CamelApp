@@ -549,7 +549,6 @@ class UserProfile extends Component {
       OtherUserDetail,
     } = this.state;
     const subscription = OtherUserDetail?.subscription
-
     const sharePosts = item => {
       const user = this.props.route?.params;
       this.setState({ loading: true });

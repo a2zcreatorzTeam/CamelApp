@@ -309,7 +309,7 @@ class CamelClubForm extends Component {
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{flex: 1}}
-          contentContainerStyle={{minHeight: '100%'}}
+          contentContainerStyle={Styles.scrollContentContainer}
           alwaysBounceVertical={false}>
           <View style={Styles.containerScroll}>
             <Text style={Styles.headingPostText}>{ArabicText.Camel_Club}</Text>

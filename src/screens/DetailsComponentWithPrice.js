@@ -377,57 +377,30 @@ class DetailsComponent extends Component {
       <ScrollView style={{ backgroundColor: '#ffff' }}>
         <BackBtnHeader />
         <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            paddingHorizontal: 20,
-            marginTop: 15,
-          }}>
+          style={Styles.firstView}>
           {/* PRICE SECTION */}
           <View
-            style={{
-              backgroundColor: '#D2691Eff',
-              padding: 10,
-              borderRadius: 10,
-            }}>
+            style={Styles.priceView}>
             <Text
-              style={{
-                color: 'white',
-                fontWeight: '800',
-                fontSize: 14,
-                fontFamily: family.Neo_Regular
-              }}>
+              style={Styles.priceTag}>
               {' '}
               {ArabicText?.Price}
             </Text>
             <Text
               numberOfLines={2}
-              style={{
-                textAlign: 'center',
-                color: 'white',
-                fontWeight: '500',
-                fontSize: 13,
-                fontFamily: family.Neo_Regular
-              }}>
+              style={Styles.price}>
               {itemFromDetails?.bid_price > 0
                 ? itemFromDetails?.bid_price
                 : itemFromDetails?.price}
             </Text>
           </View>
           {/* PROFILE VIEW */}
-          <View style={{ alignItems: 'flex-end', width: '70%' }}>
+          <View style={Styles.userDetailView}>
             <Text
-              style={{
-                color: '#000',
-                fontSize: 20,
-                fontWeight: '700',
-                marginRight: 20,
-                fontFamily: family.Neo_Regular
-              }}>
+              style={Styles.userName}>
               {itemFromDetails?.name}
             </Text>
-            <Text style={{ color: '#000', fontSize: 14, marginRight: 20,fontFamily: family.Neo_Regular }}>
+            <Text style={Styles.userLocation}>
               {itemFromDetails?.location
                 ? itemFromDetails?.location
                 : itemFromDetails?.user_location}
@@ -435,24 +408,12 @@ class DetailsComponent extends Component {
           </View>
 
           <View
-            style={{
-              height: 63,
-              width: 63,
-              borderRadius: 50,
-              backgroundColor: '#f3f3f3',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+            style={Styles.imageView}>
             <Image
               source={{
                 uri: profileBaseUrl + itemFromDetails.user_images,
               }}
-              style={{
-                height: 55,
-                width: 55,
-                resizeMode: 'center',
-                borderRadius: 50,
-              }}
+              style={Styles.profileImage}
             />
           </View>
         </View>
@@ -636,12 +597,7 @@ class DetailsComponent extends Component {
           {/* SOCIAL ICONS */}
           {user?.id !== undefined && user?.id !== loggedUser?.id && (
             <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 20,
-                justifyContent: 'center',
-              }}>
+              style={Styles.socialIconView}>
               {/* CHAT ICON  */}
               <TouchableOpacity
                 onPress={() => {
@@ -662,44 +618,28 @@ class DetailsComponent extends Component {
                     });
                   //  this.chatRequestNotification();
                 }}
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  margin: 8,
-                }}>
+                style={Styles.socialIcon}>
                 <Feather name="send" size={30} color="#CD853F" />
                 <Text style={Styles.fontDetails}>{ArabicText.message}</Text>
               </TouchableOpacity>
               {/* COMMENT ICON */}
               <TouchableOpacity
                 onPress={() => this.onCommentsClick()}
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  margin: 8,
-                }}>
+                style={Styles.socialIcon}>
                 <Feather name="message-square" size={30} color="#CD853F" />
                 <Text style={Styles.fontDetails}>{ArabicText.comments}</Text>
               </TouchableOpacity>
               {/* WhatsApp */}
               <TouchableOpacity
                 onPress={() => this.sendWhatsAppMessage()}
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  margin: 8,
-                }}>
+                style={Styles.socialIcon}>
                 <FontAwesome name="whatsapp" size={30} color="#CD853F" />
                 <Text style={Styles.fontDetails}>{ArabicText?.whatsapp}</Text>
               </TouchableOpacity>
               {/* CALL USER */}
               <TouchableOpacity
                 onPress={() => this.audioCall()}
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  margin: 8,
-                }}>
+                style={Styles.socialIcon}>
                 <AntDesign name="mobile1" size={30} color="#CD853F" />
                 <Text style={Styles.fontDetails}>{ArabicText.phone}</Text>
               </TouchableOpacity>

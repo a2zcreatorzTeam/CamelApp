@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
@@ -14,14 +14,14 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {Styles} from '../styles/globlestyle';
+import { Styles } from '../styles/globlestyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Video from 'react-native-video';
 import Carousel from 'react-native-snap-carousel';
 import camelapp from '../api/camelapp';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 import * as ArabicText from '../language/EnglishToArabic';
@@ -29,8 +29,8 @@ import HorizontalCarousel from '../components/HorizontalCarousel';
 import VideoModal from '../components/VideoModal';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Toast from 'react-native-toast-message';
-import {Platform} from 'react-native';
-import {profileBaseUrl, thumbnailBaseUrl} from '../constants/urls';
+import { Platform } from 'react-native';
+import { profileBaseUrl, thumbnailBaseUrl } from '../constants/urls';
 import { family } from '../constants/Family';
 class DetailsComponent extends Component {
   constructor(props) {
@@ -66,18 +66,18 @@ class DetailsComponent extends Component {
     let imagesArray = [];
     array[0] !== '' &&
       array.forEach(element => {
-        imagesArray.push({type: 'image', source: element});
+        imagesArray.push({ type: 'image', source: element });
       });
     itemFromDetails?.video !== null &&
       imagesArray.push({
         type: 'video',
         source: itemFromDetails?.video,
       });
-    this.setState({imagesArray: imagesArray});
+    this.setState({ imagesArray: imagesArray });
   }
   onCommentsClick = () => {
     const item = this.props.route.params?.itemFromDetails || {};
-    let {user} = this.props;
+    let { user } = this.props;
     user = user?.user?.user;
     let post_id = item.id;
     if (user != undefined) {
@@ -98,7 +98,7 @@ class DetailsComponent extends Component {
   };
   // DAIL NUMBER
   audioCall() {
-    let {user} = this.props;
+    let { user } = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
     let otherUser = this.props.route.params.itemFromDetails;
     if (user != undefined) {
@@ -151,7 +151,7 @@ class DetailsComponent extends Component {
   sendWhatsAppMessage() {
     let otherUser = this.props.route.params.itemFromDetails;
     console.log(otherUser, 'profileee');
-    let {user} = this.props;
+    let { user } = this.props;
     console.log(otherUser?.whatsapp_status);
     user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
@@ -202,58 +202,34 @@ class DetailsComponent extends Component {
     }
   }
   render() {
-    const {pausedCheck, loadVideo, videoModal, modalItem, imagesArray} =
+    const { pausedCheck, loadVideo, videoModal, modalItem, imagesArray } =
       this.state;
     const itemFromDetails = this.props.route.params?.itemFromDetails || {};
     let user = this.props?.user;
     user = user?.user?.user;
     const thumbnail = itemFromDetails?.thumbnail?.thumbnail;
     return (
-      <ScrollView style={{backgroundColor: '#ffff'}}>
+      <ScrollView style={{ backgroundColor: '#ffff' }}>
         <BackBtnHeader />
         <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            paddingHorizontal: 20,
-            marginTop: 15,
-          }}>
-          <View style={{alignItems: 'flex-end'}}>
+          style={Styles.firstView}>
+          <View style={Styles.userDetailView}>
             <Text
-              style={{
-                color: '#000',
-                fontSize: 20,
-                fontWeight: '700',
-                marginRight: 20,
-                fontFamily: family.Neo_Regular
-              }}>
+              style={Styles.userName}>
               {itemFromDetails.name}
             </Text>
-            <Text style={{color: '#000', fontSize: 14, marginRight: 20, fontFamily: family.Neo_Regular}}>
+            <Text style={Styles.userLocation}>
               {itemFromDetails?.user_location}
             </Text>
           </View>
 
           <View
-            style={{
-              height: 63,
-              width: 63,
-              borderRadius: 50,
-              backgroundColor: '#f3f3f3',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+            style={Styles.imageView}>
             <Image
               source={{
                 uri: profileBaseUrl + itemFromDetails.user_images,
               }}
-              style={{
-                height: 55,
-                width: 55,
-                resizeMode: 'center',
-                borderRadius: 50,
-              }}
+              style={Styles.profileImage}
             />
           </View>
         </View>
@@ -271,10 +247,10 @@ class DetailsComponent extends Component {
             }}
             pausedCheck={pausedCheck}
             pauseVideo={() => {
-              this.setState({pausedCheck: true});
+              this.setState({ pausedCheck: true });
             }}
           />
-          <View style={{textAlign: 'right'}}>
+          <View style={{ textAlign: 'right' }}>
             <Text style={Styles.textHeadingg}>{ArabicText.Title}</Text>
             <TextInput
               value={itemFromDetails.title}
@@ -316,70 +292,49 @@ class DetailsComponent extends Component {
           {/* SOCIAL ICONS */}
           {user !== undefined && user?.id !== this?.state?.user?.id && (
             <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 20,
-                justifyContent: 'center',
-              }}>
+              style={Styles.socialIconView}>
               {/* CHAT ICON  */}
               <TouchableOpacity
                 onPress={() => {
                   itemFromDetails?.chat_status == 1 ||
-                  itemFromDetails?.chat_status == 'true' ||
-                  itemFromDetails?.chat_status == true
+                    itemFromDetails?.chat_status == 'true' ||
+                    itemFromDetails?.chat_status == true
                     ? this.props.navigation.navigate('MessageViewScreen', {
-                        messageData: {
-                          id: this?.state?.user?.id,
-                          user_name: itemFromDetails?.name,
-                          user_image: itemFromDetails.user_images,
-                        },
-                      })
+                      messageData: {
+                        id: this?.state?.user?.id,
+                        user_name: itemFromDetails?.name,
+                        user_image: itemFromDetails.user_images,
+                      },
+                    })
                     : Toast.show({
-                        text1: ArabicText?.Thisuserhasdisabledchat,
-                        type: 'error',
-                        visibilityTime: 3000,
-                      });
+                      text1: ArabicText?.Thisuserhasdisabledchat,
+                      type: 'error',
+                      visibilityTime: 3000,
+                    });
                   //  this.chatRequestNotification();
                 }}
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  margin: 8,
-                }}>
+                style={Styles.socialIcon}>
                 <Feather name="send" size={30} color="#CD853F" />
                 <Text style={Styles.fontDetails}>{ArabicText.message}</Text>
               </TouchableOpacity>
               {/* COMMENT ICON */}
               <TouchableOpacity
                 onPress={() => this.onCommentsClick()}
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  margin: 8,
-                }}>
+                style={Styles.socialIcon}>
                 <Feather name="message-square" size={30} color="#CD853F" />
                 <Text style={Styles.fontDetails}>{ArabicText.comments}</Text>
               </TouchableOpacity>
               {/* WhatsApp */}
               <TouchableOpacity
                 onPress={() => this.sendWhatsAppMessage()}
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  margin: 8,
-                }}>
+                style={Styles.socialIcon}>
                 <FontAwesome name="whatsapp" size={30} color="#CD853F" />
                 <Text style={Styles.fontDetails}>{ArabicText?.whatsapp}</Text>
               </TouchableOpacity>
               {/* CALL USER */}
               <TouchableOpacity
                 onPress={() => this.audioCall()}
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  margin: 8,
-                }}>
+                style={Styles.socialIcon}>
                 <AntDesign name="mobile1" size={30} color="#CD853F" />
                 <Text style={Styles.fontDetails}>{ArabicText.phone}</Text>
               </TouchableOpacity>
@@ -389,16 +344,16 @@ class DetailsComponent extends Component {
         {/* VIDEO MODAL */}
         <VideoModal
           onLoadStart={() => {
-            this.setState({loadVideo: true});
+            this.setState({ loadVideo: true });
           }}
           onReadyForDisplay={() => {
-            this.setState({loadVideo: false});
+            this.setState({ loadVideo: false });
           }}
           onPress={() => {
-            !loadVideo && this.setState({pausedCheck: !pausedCheck});
+            !loadVideo && this.setState({ pausedCheck: !pausedCheck });
           }}
           closeModal={() => {
-            this.setState({videoModal: false, pausedCheck: true});
+            this.setState({ videoModal: false, pausedCheck: true });
           }}
           pausedCheck={pausedCheck}
           loadVideo={loadVideo}

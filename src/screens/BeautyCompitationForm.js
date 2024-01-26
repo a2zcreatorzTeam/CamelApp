@@ -259,7 +259,9 @@ class participateInCompetition extends Component {
     const { pausedCheck, loadVideo, videoModal, modalItem, thumbnail } =
       this.state;
     return (
-      <ScrollView style={{ backgroundColor: '#FFFFFF' }}>
+      <ScrollView
+        contentContainerStyle={Styles.scrollContentContainer}
+        style={{ backgroundColor: '#FFFFFF', flex: 1 }}>
         <BackBtnHeader />
         <View style={Styles.containerScroll}>
           <HorizontalCarousel

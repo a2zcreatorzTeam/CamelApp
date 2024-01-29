@@ -22,9 +22,9 @@ import { notificationListener } from './src/services/Helper';
 import DeviceInfo from 'react-native-device-info';
 import codePush from 'react-native-code-push';
 import { ProgressBar } from 'react-native-paper';
-import { setCustomText } from 'react-native-global-props';
-import fontFamily from './assets/fonts/NeoSansArabicMedium.ttf'
 import { family } from './src/constants/Family';
+import * as ArabicText from './src/language/EnglishToArabic';
+
 LogBox.ignoreAllLogs(true);
 LogBox.ignoreLogs(['Remote debugger']);
 const toastConfig = {
@@ -47,14 +47,14 @@ const toastConfig = {
         color: 'black',
         textAlign: 'right',
         writingDirection: 'rtl',
-        fontFamily:family.Neo_Regular
+        fontFamily: family.Neo_Regular
       }}
       text2Style={{
         fontSize: 14,
         color: 'black',
         textAlign: 'right',
         writingDirection: 'rtl',
-        fontFamily:family.Neo_Regular
+        fontFamily: family.Neo_Regular
       }}
     />
   ),
@@ -74,7 +74,7 @@ const toastConfig = {
         fontSize: 14,
         color: 'black',
         textAlign: 'right',
-        fontFamily:family.Neo_Regular
+        fontFamily: family.Neo_Regular
       }}
     />
   ),
@@ -230,7 +230,7 @@ class App extends Component {
                 fontSize: 20,
                 fontFamily: family.Neo_Regular
               }}>
-              App is Updating, Please Wait ...
+              {ArabicText.AppisUpdatingPleaseWait}
             </Text>
 
             <View

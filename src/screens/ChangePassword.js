@@ -1,6 +1,6 @@
 import React from 'react';
 import {Component} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Platform} from 'react-native';
 import {connect} from 'react-redux';
 import {Styles} from '../styles/globlestyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -126,7 +126,7 @@ class ChangePassword extends Component {
               fontSize: 22,
               fontWeight: '600',
               marginBottom: 20,
-              fontFamily: family.Neo_Regular
+               fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
             }}
             numberOfLines={3}>
             {ArabicText?.Changepassword}

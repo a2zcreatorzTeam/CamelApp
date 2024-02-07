@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Platform} from 'react-native';
 import * as ArabicText from '../language/EnglishToArabic';
 import { family } from '../constants/Family';
 
@@ -16,7 +16,7 @@ const EmptyComponent = ({text, textStyle}) => {
           {
             color: 'black',
             textAlign: 'center',
-            fontFamily:family.Neo_Regular
+            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
           },
           textStyle,
         ]}>

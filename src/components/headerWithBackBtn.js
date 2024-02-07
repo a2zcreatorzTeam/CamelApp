@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TextInput, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, TextInput, TouchableOpacity, StyleSheet, Platform} from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -40,7 +40,7 @@ const BackBtnHeader = props => {
               fontWeight: 'bold',
               fontSize: 20,
               marginHorizontal: 5,
-              fontFamily:family.Neo_Regular
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
             }}>
             {props?.reciever_data?.user_name?.length > 25
               ? props?.reciever_data?.user_name?.slice(0, 25)
@@ -74,7 +74,7 @@ const BackBtnHeader = props => {
               color: '#fff',
               fontWeight: 'bold',
               fontSize: 20,
-              fontFamily:family.Neo_Regular
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
             }}>
             {props?.title?.length > 25
               ? props?.title?.slice(0, 25)
@@ -180,6 +180,6 @@ const styles = StyleSheet.create({
 
   tooltipTitle: {
     color: 'black',
-    fontFamily:family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
 });

@@ -227,11 +227,11 @@ class CamelClubDetailsComponent extends Component {
                 fontSize: 20,
                 fontWeight: '700',
                 marginRight: 20,
-                fontFamily: family.Neo_Regular
+                 fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
               }}>
               {itemFromDetails.name}
             </Text>
-            <Text style={{color: '#000', fontSize: 14, marginRight: 20, fontFamily: family.Neo_Regular}}>
+            <Text style={{color: '#000', fontSize: 14, marginRight: 20,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular}}>
               {itemFromDetails.user_location}
             </Text>
           </View>

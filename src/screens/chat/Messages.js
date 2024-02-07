@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   RefreshControl,
   Dimensions,
+  Platform,
 } from 'react-native';
 import {Card} from 'react-native-paper';
 import {connect} from 'react-redux';
@@ -153,7 +154,7 @@ class Messages extends Component {
               fontWeight: '700',
               marginRight: 10,
               marginBottom: 5,
-              fontFamily:family.Neo_Regular
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
             }}>
             {userName}
           </Text>

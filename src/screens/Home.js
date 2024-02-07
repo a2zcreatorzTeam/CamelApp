@@ -660,11 +660,12 @@ class Home extends Component {
                 pagingEnabled={true}
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{
-                  transform: [
-                    {
-                      rotate: '180deg',
-                    },
-                  ],
+                  flexDirection: 'row-reverse',
+                  // transform: [
+                  //   {
+                  //     rotate: '180deg',
+                  //   },
+                  // ],
                 }}>
                 <View
                   style={{
@@ -676,11 +677,11 @@ class Home extends Component {
                   <TouchableOpacity
                     onPress={() => onCamelClubListClick()}
                     style={{
-                      transform: [
-                        {
-                          rotate: '180deg',
-                        },
-                      ],
+                      // transform: [
+                      //   {
+                      //     rotate: '180deg',
+                      //   },
+                      // ],
                       padding: 10,
                     }}>
                     <Image
@@ -691,11 +692,11 @@ class Home extends Component {
                   <TouchableOpacity
                     onPress={() => onCamelTreatingListClick()}
                     style={{
-                      transform: [
-                        {
-                          rotate: '180deg',
-                        },
-                      ],
+                      // transform: [
+                      //   {
+                      //     rotate: '180deg',
+                      //   },
+                      // ],
                       padding: 10,
                     }}>
                     <Image
@@ -706,11 +707,11 @@ class Home extends Component {
                   <TouchableOpacity
                     onPress={() => onCamelMissingListClick()}
                     style={{
-                      transform: [
-                        {
-                          rotate: '180deg',
-                        },
-                      ],
+                      // transform: [
+                      //   {
+                      //     rotate: '180deg',
+                      //   },
+                      // ],
                       padding: 10,
                     }}>
                     <Image
@@ -721,11 +722,11 @@ class Home extends Component {
                   <TouchableOpacity
                     onPress={() => onCamelSellingListClick()}
                     style={{
-                      transform: [
-                        {
-                          rotate: '180deg',
-                        },
-                      ],
+                      // transform: [
+                      //   {
+                      //     rotate: '180deg',
+                      //   },
+                      // ],
                       padding: 10,
                     }}>
                     <Image
@@ -733,7 +734,6 @@ class Home extends Component {
                       style={Styles.HomeTopIcons}></Image>
                   </TouchableOpacity>
                 </View>
-
                 <View
                   style={{
                     width: width,
@@ -745,11 +745,11 @@ class Home extends Component {
                   <TouchableOpacity
                     onPress={() => onCamelFoodListClick()}
                     style={{
-                      transform: [
-                        {
-                          rotate: '180deg',
-                        },
-                      ],
+                      // transform: [
+                      //   {
+                      //     rotate: '180deg',
+                      //   },
+                      // ],
                       padding: 10,
                     }}>
                     <Image
@@ -760,11 +760,11 @@ class Home extends Component {
                   <TouchableOpacity
                     onPress={() => onCamelEquipmentListClick()}
                     style={{
-                      transform: [
-                        {
-                          rotate: '180deg',
-                        },
-                      ],
+                      // transform: [
+                      //   {
+                      //     rotate: '180deg',
+                      //   },
+                      // ],
                       padding: 10,
                     }}>
                     <Image
@@ -775,11 +775,11 @@ class Home extends Component {
                   <TouchableOpacity
                     onPress={() => onCamelCompetitionListClick()}
                     style={{
-                      transform: [
-                        {
-                          rotate: '180deg',
-                        },
-                      ],
+                      // transform: [
+                      //   {
+                      //     rotate: '180deg',
+                      //   },
+                      // ],
                       padding: 10,
                     }}>
                     <Image
@@ -790,11 +790,11 @@ class Home extends Component {
                   <TouchableOpacity
                     onPress={() => onCamelMovingListClick()}
                     style={{
-                      transform: [
-                        {
-                          rotate: '180deg',
-                        },
-                      ],
+                      // transform: [
+                      //   {
+                      //     rotate: '180deg',
+                      //   },
+                      // ],
                       padding: 10,
                     }}>
                     <Image
@@ -813,11 +813,11 @@ class Home extends Component {
                   <TouchableOpacity
                     onPress={() => onCamelMarketingListClick()}
                     style={{
-                      transform: [
-                        {
-                          rotate: '180deg',
-                        },
-                      ],
+                      // transform: [
+                      //   {
+                      //     rotate: '180deg',
+                      //   },
+                      // ],
                       padding: 10,
                     }}>
                     <Image
@@ -828,11 +828,11 @@ class Home extends Component {
                   <TouchableOpacity
                     onPress={() => onCamelFemaleListClick()}
                     style={{
-                      transform: [
-                        {
-                          rotate: '180deg',
-                        },
-                      ],
+                      // transform: [
+                      //   {
+                      //     rotate: '180deg',
+                      //   },
+                      // ],
                       padding: 10,
                     }}>
                     <Image
@@ -843,11 +843,11 @@ class Home extends Component {
                   <TouchableOpacity
                     onPress={() => onNews()}
                     style={{
-                      transform: [
-                        {
-                          rotate: '180deg',
-                        },
-                      ],
+                      // transform: [
+                      //   {
+                      //     rotate: '180deg',
+                      //   },
+                      // ],
                       padding: 10,
                     }}>
                     <Image
@@ -858,11 +858,11 @@ class Home extends Component {
                   <TouchableOpacity
                     onPress={() => onGroupSurvey()}
                     style={{
-                      transform: [
-                        {
-                          rotate: '180deg',
-                        },
-                      ],
+                      // transform: [
+                      //   {
+                      //     rotate: '180deg',
+                      //   },
+                      // ],
                       padding: 10,
                     }}>
                     <Image

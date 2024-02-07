@@ -8,6 +8,7 @@ import {
   Image,
   ScrollView,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import { Styles } from '../styles/globlestyle';
 import camelapp from '../api/camelapp';
@@ -111,7 +112,7 @@ class ForgetPassword extends Component {
               source={require('../../assets/password.png')}
               style={styles.image}></Image>
 
-            <Text style={{ fontSize: 22, fontFamily: family.Neo_Regular, }}>
+            <Text style={{ fontSize: 22,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, }}>
               {ArabicText.Enter_Phone_Number}
             </Text>
 
@@ -121,7 +122,7 @@ class ForgetPassword extends Component {
                 // fontWeight: '300',
                 color: 'grey',
                 marginTop: 70,
-                fontFamily: family.Neo_Regular,
+                 fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
               }}>
               {ArabicText.We_will_send_you_a_code_to_reset}
             </Text>

@@ -221,6 +221,8 @@ class CamelFoodList extends Component {
       }
     };
     const onLikesClick = (item, setIsLiked, setLikeCount) => {
+      console.log(item,"itmmm");
+      let post_id = item.id;
       this.setState({loading: false});
       if (user != undefined) {
         camelapp

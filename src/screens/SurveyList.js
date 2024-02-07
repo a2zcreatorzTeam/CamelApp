@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   RefreshControl,
   Dimensions,
+  Platform,
 } from 'react-native';
 import { Card } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
@@ -266,7 +267,7 @@ const Item = ({
             fontSize: 16,
             color: 'black',
             marginHorizontal: 10,
-            fontFamily: family.Neo_Medium,
+            fontFamily: Platform.OS == 'ios' ? null: family.Neo_Medium,
             // fontWeight: '600',
           }}>
           {question?.length > 30 ? question?.slice(0, 30) : question}
@@ -282,7 +283,7 @@ const Item = ({
             justifyContent: 'center',
           }}>
 
-          <Text style={{ color: '#fff', fontFamily: family.Neo_Regular, }}>
+          <Text style={{ color: '#fff',  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, }}>
             {item?.survey_end_status == 1
               ? 'غير نشط'
               : todaysDate <= end_date

@@ -5,6 +5,7 @@ import {
   StyleSheet,
   FlatList,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import camelapp from '../api/camelapp';
 import { connect } from 'react-redux';
@@ -213,7 +214,7 @@ const Post = ({ description, date, item, onPress = () => { }, name }) => (
             color: 'black',
             fontSize: 16,
             textAlign: 'right',
-            fontFamily: family.Neo_Medium
+             fontFamily: Platform.OS == 'ios' ? null: family.Neo_Medium
           }}>
           {description}
         </Text>
@@ -222,12 +223,12 @@ const Post = ({ description, date, item, onPress = () => { }, name }) => (
             color: 'black',
             fontSize: 16,
             textAlign: 'right',
-            fontFamily: family.Neo_Medium
+             fontFamily: Platform.OS == 'ios' ? null: family.Neo_Medium
           }}>
           {' ' + name + ' '}
         </Text>
       </View>
-      <Text style={{ color: 'black', fontSize: 12, width: width - 100, fontFamily: family.Neo_Regular }}>
+      <Text style={{ color: 'black', fontSize: 12, width: width - 100,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>
         {date}
       </Text>
 

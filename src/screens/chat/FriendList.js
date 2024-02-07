@@ -7,6 +7,7 @@ import {
   Dimensions,
   FlatList,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import camelapp from '../../api/camelapp';
@@ -115,7 +116,7 @@ const FriendList = prop => {
                     styles.friendReqBTN,
                     { backgroundColor: '#ddd', left: 70 },
                   ]}>
-                  <Text style={{ color: '#000', fontSize: 11, fontFamily: family.Neo_Regular }}>
+                  <Text style={{ color: '#000', fontSize: 11,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>
                     {ArabicText.reject}
                   </Text>
                 </TouchableOpacity>
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 17,
     textAlign: 'center', 
-    fontFamily: family.Neo_Regular
+     fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
   },
   userName: {
     color: '#000',
@@ -221,5 +222,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 999,
   },
-  reqBTNtext: { color: '#fff', fontSize: 11, fontFamily: family.Neo_Regular },
+  reqBTNtext: { color: '#fff', fontSize: 11,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular },
 });

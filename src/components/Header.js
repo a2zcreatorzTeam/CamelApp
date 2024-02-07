@@ -5,21 +5,22 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
+  Platform,
 } from 'react-native';
-import { Styles } from '../styles/globlestyle';
+import {Styles} from '../styles/globlestyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { useState } from 'react';
+import {useState} from 'react';
 import * as ArabicText from '../language/EnglishToArabic';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 
-const { width } = Dimensions.get('screen');
+const {width} = Dimensions.get('screen');
 const Header = props => {
   let {
     navRoute,
     onChangeText,
-    onPressSearch = () => { },
+    onPressSearch = () => {},
     filterIcon,
     onChangeTo,
     onChangeFrom,
@@ -34,7 +35,12 @@ const Header = props => {
     navigation.navigate('AppDetails');
   };
   return (
-    <View style={[Styles.header, { paddingVertical: 10 }, customStyle]}>
+    <View
+      style={[
+        Styles.header,
+        {paddingVertical: 10, paddingTop: Platform.OS == 'ios' ? 20 : 15},
+        customStyle,
+      ]}>
       <View style={Styles.subHeaderView}>
         {/* {filterIcon && (
           <TouchableOpacity
@@ -47,10 +53,8 @@ const Header = props => {
           iconName="arrow-back-sharp"
           onPress={() => onPressSearch()}
         />
-        {filterIcon ? (
-          null
-        ) : (
-          <View style={[Styles.searchbar, { width: filterIcon ? '60%' : '70%' }]}>
+        {filterIcon ? null : (
+          <View style={[Styles.searchbar, {width: filterIcon ? '60%' : '70%'}]}>
             <TextInput
               placeholder="البحث"
               value={props.onChangeText}
@@ -73,7 +77,7 @@ const Header = props => {
 
 export default Header;
 
-const CircularBTN = ({ onPress, iconName }) => (
+const CircularBTN = ({onPress, iconName}) => (
   <TouchableOpacity onPress={onPress} style={styles.btnContainer}>
     <Ionicons name={iconName} size={24} color="brown" />
   </TouchableOpacity>
@@ -97,6 +101,6 @@ const styles = StyleSheet.create({
     height: '100%',
     zIndex: 20,
     position: 'absolute',
-    fontFamily:family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
 });

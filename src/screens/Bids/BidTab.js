@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text,  TouchableOpacity} from 'react-native';
+import {View, Text,  TouchableOpacity, Platform} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Dimensions} from 'react-native';
@@ -31,7 +31,7 @@ export default class BidTab extends Component {
                 fontWeight: 'bold',
                 alignSelf: 'center',
                 fontSize: 35,
-                fontFamily:family.Neo_Regular
+                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
               }}>
               {ArabicText?.Bids}
             </Text>
@@ -84,7 +84,7 @@ export default class BidTab extends Component {
                         color: '#D2691Eff',
                         fontWeight: 'bold',
                         alignSelf: 'center',
-                        fontFamily:family.Neo_Regular
+                        fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
                       }}>
                       {ArabicText?.Bids_on_my_posts}
                     </Text>
@@ -102,7 +102,7 @@ export default class BidTab extends Component {
                         color: '#D2691Eff',
                         fontWeight: 'bold',
                         alignSelf: 'center',
-                        fontFamily:family.Neo_Regular
+                        fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
                       }}>
                       {ArabicText?.offer_Up_bid}
                     </Text>

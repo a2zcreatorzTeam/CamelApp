@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { Image, Text, View, TouchableOpacity, Dimensions } from 'react-native';
+import { Image, Text, View, TouchableOpacity, Dimensions, Platform } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { Styles } from '../styles/globlestyle';
@@ -40,7 +40,7 @@ const PostItem = ({
           width: width / 2 - 30,
           marginVertical: 8,
         }}>
-        <Text style={{ color: 'black', marginBottom: 10, marginHorizontal: 10, fontFamily:family.Neo_Regular }}>
+        <Text style={{ color: 'black', marginBottom: 10, marginHorizontal: 10, fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular, }}>
           {item?.user_name}
         </Text>
         <FastImage
@@ -140,7 +140,7 @@ const PostItem = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3, fontFamily: family.Neo_Regular }}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
             {viewCount}
           </Text>
           <Ionicons name="ios-eye-sharp" size={20} color="#CD853F" />
@@ -150,7 +150,7 @@ const PostItem = ({
             postComment();
           }}
           style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ marginRight: 5, color: 'black', fontFamily:family.Neo_Regular }}>{commentCount}</Text>
+          <Text style={{ marginRight: 5, color: 'black', fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular, }}>{commentCount}</Text>
           <Feather name="message-square" size={16} color="#CD853F" />
         </TouchableOpacity>
         <TouchableOpacity
@@ -158,7 +158,7 @@ const PostItem = ({
             postLike(item, setIsLiked, setLikeCount);
           }}
           style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ marginRight: 5, color: 'black', fontFamily:family.Neo_Regular }}>{likeCount}</Text>
+          <Text style={{ marginRight: 5, color: 'black', fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular, }}>{likeCount}</Text>
           {(
             isLiked !== undefined ? isLiked == true : item?.flagForLike == true
           ) ? (

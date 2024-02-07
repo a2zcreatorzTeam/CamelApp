@@ -9,6 +9,7 @@ import {
   ImageBackground,
   NativeModules,
   ScrollView,
+  Platform,
 } from 'react-native';
 import { Styles } from '../styles/globlestyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -368,7 +369,7 @@ class EditProfile extends Component {
                 animating={this.state.btnLoader}
               />
             ) : (
-              <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold', fontFamily: family.Neo_Regular, }}>
+              <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold',  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, }}>
                 {ArabicText?.UpdateProfile}
               </Text>
             )}

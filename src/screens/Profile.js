@@ -844,7 +844,7 @@ class Profile extends Component {
                         fontSize: 12,
                         textAlign: 'right',
                         marginRight: 4,
-                        fontFamily: family.Neo_Medium
+                         fontFamily: Platform.OS == 'ios' ? null: family.Neo_Medium
                       }}>
                       {subscription?.length
                         ? subscription
@@ -944,7 +944,7 @@ class Profile extends Component {
                         onPress={modalOffer => this.setState({ modal: false })}>
                         <Ionicons name="close" size={30} color="brown" />
                       </Pressable>
-                      <Text style={{ margin: 5, color: 'black', fontFamily: family.Neo_Regular }}>
+                      <Text style={{ margin: 5, color: 'black',  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>
                         {ArabicText?.AddWhatsappnumber}
                       </Text>
 
@@ -970,7 +970,7 @@ class Profile extends Component {
                             margin: 3,
                             fontWeight: 'bold',
                             color: 'black',
-                            fontFamily: family.Neo_Regular
+                             fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
                           }}>
                           {this.state.registerSwitch == true
                             ? ArabicText?.active
@@ -1016,7 +1016,7 @@ class Profile extends Component {
                         <Ionicons name="close" size={30} color="brown" />
                       </Pressable>
 
-                      <Text style={{ margin: 5, color: 'black', fontFamily: family.Neo_Regular }}>
+                      <Text style={{ margin: 5, color: 'black',  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>
                         {ArabicText?.Enable_dissableChat}
                       </Text>
 
@@ -1032,7 +1032,7 @@ class Profile extends Component {
                             margin: 3,
                             fontWeight: 'bold',
                             color: 'black',
-                            fontFamily: family.Neo_Regular
+                             fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
                           }}>
                           {this.state.chatFlag == true
                             ? ArabicText?.active
@@ -1075,7 +1075,7 @@ class Profile extends Component {
                         }>
                         <Ionicons name="close" size={30} color="brown" />
                       </Pressable>
-                      <Text style={{ margin: 5, color: 'black', fontFamily: family.Neo_Regular }}>
+                      <Text style={{ margin: 5, color: 'black',  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>
                         {ArabicText?.UpdatePhone}
                       </Text>
 
@@ -1101,7 +1101,7 @@ class Profile extends Component {
                             margin: 3,
                             fontWeight: 'bold',
                             color: 'black',
-                            fontFamily: family.Neo_Regular
+                             fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
                           }}>
                           {this.state.phoneStatusSwitch == true ||
                             this.state.phoneStatusSwitch == 'True'
@@ -1175,7 +1175,7 @@ class Profile extends Component {
                         color: '#8b4513',
                         fontSize: 15,
                         fontWeight: '600',
-                        fontFamily: family.Neo_Regular
+                         fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
                       }}>
                       {ArabicText?.EnterOTPHere}
                     </Text>
@@ -1220,7 +1220,7 @@ class Profile extends Component {
                       alignContent: 'center',
                       textAlign: 'center',
                       marginVertical: 30,
-                      fontFamily: family.Neo_Regular
+                       fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
                     }}>
                     {' '}
                     {ArabicText?.NoPostFound}
@@ -1309,7 +1309,7 @@ const Item = ({
             }}>
             <TouchableOpacity onPress={onCategoryClick} style={Styles.btnHome2}>
               <Text
-                style={{ color: '#D2691Eff', fontWeight: 'bold', fontSize: 15, fontFamily: family.Neo_Regular }}>
+                style={{ color: '#D2691Eff', fontWeight: 'bold', fontSize: 15,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>
                 {category}
               </Text>
             </TouchableOpacity>
@@ -1328,7 +1328,7 @@ const Item = ({
                   paddingRight: 5,
                   color: 'black',
                   textAlign: 'right',
-                  fontFamily: family.Neo_Regular
+                   fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
                 }}>
                 {user_name}
               </Text>
@@ -1340,7 +1340,7 @@ const Item = ({
                     paddingRight: 5,
                     color: 'black',
                     textAlign: 'right',
-                    fontFamily: family.Neo_Regular
+                     fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
                   }}>
                   {user_location}
                 </Text>
@@ -1353,7 +1353,7 @@ const Item = ({
                     paddingRight: 5,
                     color: 'black',
                     textAlign: 'right',
-                    fontFamily: family.Neo_Regular
+                     fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
                   }}>
                   {date}
                 </Text>
@@ -1504,7 +1504,7 @@ const Item = ({
             marginRight: 5,
           }}>
 
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3, fontFamily: family.Neo_Regular }}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>
             {' '}
             {viewCount}
           </Text>
@@ -1519,7 +1519,7 @@ const Item = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3, fontFamily: family.Neo_Regular }}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>
             {shares}
           </Text>
           <Ionicons name="share-social-sharp" size={20} color="#CD853F" />
@@ -1533,7 +1533,7 @@ const Item = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3, fontFamily: family.Neo_Regular }}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>
             {comments}
           </Text>
           <Feather name="message-square" size={18} color="#CD853F" />
@@ -1546,7 +1546,7 @@ const Item = ({
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3, fontFamily: family.Neo_Regular }}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>
             {likeCount}
           </Text>
           {isLiked == 'true' || isLiked == true ? (
@@ -1564,7 +1564,7 @@ const Item = ({
             onDetailsClick(viewCount, setViewCount);
           }}>
           <View style={Styles.btnHome}>
-            <Text style={{ color: '#fff', fontFamily: family.Neo_Regular }}>
+            <Text style={{ color: '#fff',  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>
               {ArabicText.Details}
             </Text>
           </View>
@@ -1583,7 +1583,7 @@ const Item = ({
             top: 12,
             color: '#000',
             // fontWeight: '600',
-            fontFamily: family.Neo_Regular
+             fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
           }}>
           {title}
         </Text>
@@ -1721,7 +1721,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  textcolor: { color: '#fff', fontFamily: family.Neo_Medium },
+  textcolor: { color: '#fff',  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Medium },
 
   headerContainer: {
     backgroundColor: '#d2691e',
@@ -1756,7 +1756,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    fontFamily: family.Neo_Regular
+     fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
   },
   icons: {
     flexDirection: 'row',
@@ -1793,7 +1793,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 15,
     // fontWeight: '600',
-    fontFamily: family.Neo_Regular
+     fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
 
   },
   priceContainer: {
@@ -1815,14 +1815,14 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '800',
     fontSize: 14,
-    fontFamily: family.Neo_Regular
+     fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
   },
   bidPrice: {
     textAlign: 'center',
     color: 'white',
     fontWeight: '500',
     fontSize: 13,
-    fontFamily: family.Neo_Regular
+     fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
 
   },
 });

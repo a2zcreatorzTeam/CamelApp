@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Image,
+  Platform,
 } from 'react-native';
 import camelapp from '../api/camelapp';
 import { connect } from 'react-redux';
@@ -138,7 +139,7 @@ class Surveyform extends Component {
             fontSize: 30,
             fontWeight: 'bold',
             color: '#d2691e',
-            fontFamily: family.Neo_Regular,
+             fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
             marginBottom: 5,
             textAlign: 'center',
           }}>
@@ -178,7 +179,7 @@ class Surveyform extends Component {
                         fontWeight: 'bold',
                         color: 'black',
                         marginBottom: 10,
-                        fontFamily: family.Neo_Regular,
+                         fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
                       }}>
                       {item?.question}
                     </Text>
@@ -234,7 +235,7 @@ class Surveyform extends Component {
                               marginRight: 10,
                               alignSelf: 'flex-end',
                               padding: 10,
-                              fontFamily: family.Neo_Regular,
+                               fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
                             }}>
                             {val?.answer}
                           </Text>
@@ -250,7 +251,7 @@ class Surveyform extends Component {
                                 fontSize: 16,
                                 marginRight: 10,
                                 marginLeft: 10,
-                                fontFamily: family.Neo_Regular,
+                                 fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
                               }}>
                               {parseFloat(
                                 (val?.answer_count + 1) /
@@ -277,7 +278,7 @@ class Surveyform extends Component {
                                 fontSize: 16,
                                 marginRight: 10,
                                 marginLeft: 10,
-                                fontFamily: family.Neo_Regular,
+                                 fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
                               }}>
                               {parseFloat(
                                 (
@@ -338,7 +339,7 @@ class Surveyform extends Component {
                         fontWeight: 'bold',
                         color: 'black',
                         marginBottom: 10,
-                        fontFamily: family.Neo_Regular,
+                         fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
                       }}>
                       {item?.question}
                     </Text>
@@ -393,7 +394,7 @@ class Surveyform extends Component {
                               marginRight: 10,
                               alignSelf: 'flex-end',
                               padding: 10,
-                              fontFamily: family.Neo_Regular,
+                               fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
                             }}>
                             {val.answer}
                           </Text>
@@ -406,7 +407,7 @@ class Surveyform extends Component {
                               fontSize: 16,
                               marginRight: 10,
                               marginLeft: 10,
-                              fontFamily: family.Neo_Regular,
+                               fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
                             }}>
                             {isNaN(percentage) ? 0 : percentage}%
                           </Text>

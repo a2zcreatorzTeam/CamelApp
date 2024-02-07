@@ -11,6 +11,7 @@ import {
   Modal,
   Switch,
   Dimensions,
+  Platform,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { RadioButton } from 'react-native-paper';
@@ -584,7 +585,7 @@ class SellingCamelForm extends React.Component {
                     fontWeight: '500',
                     color: this.state.selectedItem == '' ? '#a6a3a2' : 'black',
                     marginRight: 15,
-                    fontFamily: family.Neo_Regular,
+                     fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
                   }}>
                   {!!this.state.selectedItem
                     ? this.state.selectedItem.name
@@ -644,7 +645,7 @@ class SellingCamelForm extends React.Component {
                                 ? 'white'
                                 : 'black',
                             alignSelf: 'flex-end',
-                            fontFamily: family.Neo_Regular,
+                             fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
                           }}>
                           {val?.name}
                         </Text>
@@ -661,7 +662,7 @@ class SellingCamelForm extends React.Component {
               marginTop: 50,
               color: 'black',
               fontSize: 18,
-              fontFamily: family.Neo_Regular,
+               fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
             }}>
             {ArabicText.Please_select_price_type}
           </Text>
@@ -673,7 +674,7 @@ class SellingCamelForm extends React.Component {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text style={{ color: 'black', fontSize: 16, fontFamily: family.Neo_Regular, }}>
+            <Text style={{ color: 'black', fontSize: 16,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, }}>
               {ArabicText.fixed}
             </Text>
 
@@ -691,7 +692,7 @@ class SellingCamelForm extends React.Component {
               }}
             />
 
-            <Text style={{ color: 'black', alignSelf: 'center', fontSize: 16, fontFamily: family.Neo_Regular, }}>
+            <Text style={{ color: 'black', alignSelf: 'center', fontSize: 16,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, }}>
               {ArabicText.offer_Up}
             </Text>
 
@@ -853,7 +854,7 @@ class SellingCamelForm extends React.Component {
               alignItems: 'center',
               marginTop: 10,
             }}>
-            <Text style={{ margin: 3, fontWeight: 'bold', color: 'black', fontFamily: family.Neo_Regular, }}>
+            <Text style={{ margin: 3, fontWeight: 'bold', color: 'black',  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, }}>
               {ArabicText.I_am_registered_to_ministry_of_articulator}
             </Text>
 
@@ -910,7 +911,7 @@ class SellingCamelForm extends React.Component {
                   style={{ marginLeft: width - 140 }}
                 />
               </Pressable>
-              <Text style={{ color: 'black', fontSize: 20, fontFamily: family.Neo_Regular, }}>
+              <Text style={{ color: 'black', fontSize: 20,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, }}>
                 {ArabicText.fixed}
               </Text>
 
@@ -952,7 +953,7 @@ class SellingCamelForm extends React.Component {
                 />
               </Pressable>
 
-              <Text style={{ color: 'black', fontSize: 20, fontFamily: family.Neo_Regular, }}>
+              <Text style={{ color: 'black', fontSize: 20,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, }}>
                 {ArabicText.offer_Up}
               </Text>
 

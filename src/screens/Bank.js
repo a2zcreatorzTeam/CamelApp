@@ -9,6 +9,7 @@ import {
   ScrollView,
   Dimensions,
   LogBox,
+  Platform,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 import Item from '../components/BankItem';
@@ -152,14 +153,14 @@ const styles = StyleSheet.create({
     color: '#D2691E',
     marginTop: 20,
     marginBottom: 20,
-    fontFamily: family.Neo_Regular
+     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
   },
   description: {
     fontSize: 20,
     color: '#D2691E',
     marginTop: 10,
     textAlign: 'center', 
-    fontFamily: family.Neo_Regular
+     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
   },
   textHeader: {
     fontSize: 20,
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
     color: '#D2691E',
     marginTop: 15,
     marginBottom: 10,
-    fontFamily: family.Neo_Regular
+     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
   },
   textInput: {
     borderColor: '#D2691E',
@@ -191,6 +192,6 @@ const styles = StyleSheet.create({
     color: 'black',
     justifyContent: 'center',
     textAlign: 'right',
-    fontFamily: family.Neo_Regular
+     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
   },
 });

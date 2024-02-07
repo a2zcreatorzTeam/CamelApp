@@ -27,7 +27,7 @@ const BankItem = ({ name, address, userImage, phone }) => (
               color: '#D2691E',
               fontSize: 16,
               padding: 5,
-              fontFamily: family.Neo_Regular
+               fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
             }}>
             {ArabicText.Title}:{name}{' '}
           </Text>
@@ -39,7 +39,7 @@ const BankItem = ({ name, address, userImage, phone }) => (
               fontSize: 16,
               color: '#D2691E',
               padding: 5,
-              fontFamily: family.Neo_Regular
+               fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
             }}>
             {ArabicText.Address}:{address}
           </Text>
@@ -51,7 +51,7 @@ const BankItem = ({ name, address, userImage, phone }) => (
               fontSize: 16,
               color: '#D2691E',
               padding: 5,
-              fontFamily: family.Neo_Regular
+               fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
             }}>
             {ArabicText.phone}:{phone?.slice(8, 11)}********
           </Text>

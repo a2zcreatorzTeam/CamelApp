@@ -5,6 +5,7 @@ import {
   ScrollView,
   ActivityIndicator,
   Dimensions,
+  Platform,
 } from 'react-native';
 import HTML from 'react-native-render-html';
 import Toast from 'react-native-toast-message';
@@ -63,7 +64,7 @@ class AboutUs extends Component {
               fontWeight: 'bold',
               color: '#D2691Eff',
               marginBottom: 15,
-              fontFamily: family.Neo_Regular
+               fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
             }}>
             {ArabicText.AboutUs}
           </Text>

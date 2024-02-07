@@ -544,7 +544,7 @@ class DetailsComponent extends Component {
                     }>
                     <Ionicons name="close" size={30} color="brown" />
                   </Pressable>
-                  <Text style={{ margin: 5, fontFamily: family.Neo_Regular, marginBottom: 0 }}>{ArabicText.offer_Up}</Text>
+                  <Text style={{ margin: 5,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, marginBottom: 0 }}>{ArabicText.offer_Up}</Text>
                   <TextInput
                     keyboardType="numeric"
                     value={price}

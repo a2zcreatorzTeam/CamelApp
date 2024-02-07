@@ -242,7 +242,7 @@ class SignUp extends Component {
                   color: 'crimson',
                   fontSize: 12,
                   textAlign: 'right',
-                  fontFamily: family.Neo_Regular,
+                   fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
                 }}>
                 {ArabicText?.Thenamemustcontainatleast3letters}
               </Text>
@@ -263,7 +263,7 @@ class SignUp extends Component {
                   color: 'crimson',
                   fontSize: 12,
                   textAlign: 'right',
-                  fontFamily: family.Neo_Regular,
+                   fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
                 }}>
                 {ArabicText?.Thephonenumbermustonlyhavenumbers}
               </Text>
@@ -295,7 +295,7 @@ class SignUp extends Component {
               )}
 
               <TextInput
-                style={{ textAlign: 'right', color: 'black', fontFamily: family.Neo_Regular, }}
+                style={{ textAlign: 'right', color: 'black',  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, }}
                 placeholderTextColor="#000000"
                 placeholder={ArabicText.passwords}
                 onChangeText={text => this.setState({ password: text })}
@@ -309,7 +309,7 @@ class SignUp extends Component {
                   color: 'crimson',
                   fontSize: 12,
                   textAlign: 'right',
-                  fontFamily: family.Neo_Regular,
+                   fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
                 }}>
                 {ArabicText?.Thenamemustcontainatleast6letters}
               </Text>
@@ -341,7 +341,7 @@ class SignUp extends Component {
               )}
 
               <TextInput
-                style={{ textAlign: 'right', color: 'black', fontFamily: family.Neo_Regular, }}
+                style={{ textAlign: 'right', color: 'black',  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, }}
                 placeholderTextColor="#000000"
                 placeholder={ArabicText.confirm_password}
                 onChangeText={text => this.setState({ confirm_password: text })}
@@ -355,7 +355,7 @@ class SignUp extends Component {
                   color: 'crimson',
                   fontSize: 12,
                   textAlign: 'right',
-                  fontFamily: family.Neo_Regular,
+                   fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
                 }}>
                 {ArabicText?.Thenamemustcontainatleast6letters}
               </Text>
@@ -369,7 +369,7 @@ class SignUp extends Component {
                 fontSize: 14,
                 margin: 5,
                 marginRight: 25,
-                fontFamily: family.Neo_Regular,
+                 fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
               }}
               onPress={() => this.props.navigation.navigate('Login')}>
               {ArabicText.Already_an_account}
@@ -411,7 +411,7 @@ class SignUp extends Component {
               alignSelf: 'center',
               alignItems: 'center',
             }}>
-            <Text style={{ color: 'black', fontSize: 14, fontFamily: family.Neo_Regular, }}>
+            <Text style={{ color: 'black', fontSize: 14,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, }}>
               {ArabicText?.Iagreetothetermsandconditions}
             </Text>
             <Checkbox
@@ -428,7 +428,7 @@ class SignUp extends Component {
                 textDecorationLine: 'underline',
                 color: '#D2691Eff',
                 fontSize: 14,
-                fontFamily: family.Neo_Regular,
+                 fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
               }}>
               {ArabicText?.Learnmoreabouttermsandconditions}
             </Text>

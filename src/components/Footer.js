@@ -14,6 +14,7 @@ import Stack from '../routes/Stack';
 import * as ArabicText from '../language/EnglishToArabic';
 
 import ChatTopTab from '../screens/chat/ChatTopTab';
+import {Platform} from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,7 +22,22 @@ const BottomTab = () => {
   return (
     <Tab.Navigator
       initialRouteName={ArabicText.home}
-      screenOptions={{backgroundColor: '#f8f8ff', unmountOnBlur: true}}>
+      screenOptions={{
+        backgroundColor: '#f8f8ff',
+        unmountOnBlur: true,
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: '600',
+          tabBarInactiveTintColor: '#D2691E',
+          marginBottom: Platform.OS == 'ios' ? 0 : 4,
+        },
+        tabBarStyle: {
+          height: Platform.OS == 'ios' ? 90 : 60, // Adjust the height as needed
+        },
+        tabBarIconStyle: {
+          marginTop: Platform.OS == 'ios' ? 6 : 2, // Adjust icon margin as needed
+        },
+      }}>
       <Tab.Screen
         name={ArabicText.home}
         component={Stack}
@@ -39,7 +55,7 @@ const BottomTab = () => {
           tabBarIcon: () => (
             <MaterialIcons
               name="notifications-none"
-              size={35}
+              size={28}
               color="#D2691E"
             />
           ),
@@ -53,7 +69,7 @@ const BottomTab = () => {
         component={Addnew}
         options={{
           tabBarIcon: () => (
-            <MaterialCommunityIcons name="plus" size={33} color="#D2691E" />
+            <MaterialCommunityIcons name="plus" size={32} color="#D2691E" />
           ),
           headerShown: false,
           tabBarInactiveTintColor: '#D2691E',
@@ -67,7 +83,7 @@ const BottomTab = () => {
           tabBarIcon: () => (
             <MaterialCommunityIcons
               name="email-outline"
-              size={35}
+              size={28}
               color="#D2691E"
             />
           ),
@@ -82,7 +98,7 @@ const BottomTab = () => {
         component={Profile}
         options={{
           tabBarIcon: () => (
-            <FontAwesome5 name="user" size={25} color="#D2691E" />
+            <FontAwesome5 name="user" size={23} color="#D2691E" />
           ),
           headerShown: false,
           tabBarInactiveTintColor: '#D2691E',

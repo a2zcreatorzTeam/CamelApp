@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, Platform } from 'react-native';
 import { Styles } from '../styles/globlestyle';
 import { ProgressBar } from 'react-native-paper';
 import BackBtnHeader from '../components/headerWithBackBtn';
@@ -62,7 +62,7 @@ class WinnerBeauty extends Component {
                     top: 10,
                     right: 100,
                     color: '#D2691E',
-                    fontFamily: family.Neo_Regular
+                     fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
                   }}>
                   {el.user_name}
                 </Text>
@@ -72,7 +72,7 @@ class WinnerBeauty extends Component {
                     left: 15,
                     top: 10,
                     color: '#D2691E',
-                    fontFamily: family.Neo_Regular
+                     fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
                   }}>
                   {el.like_count}
                 </Text>

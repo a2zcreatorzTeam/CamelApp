@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   RefreshControl,
   TextInput,
+  Platform,
 } from 'react-native';
 import Post from '../components/MovingPost';
 import camelapp from '../api/camelapp';
@@ -390,6 +391,6 @@ const styles = StyleSheet.create({
     height: '100%',
     zIndex: 20,
     position: 'absolute',
-    fontFamily: family.Neo_Regular
+     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
   },
 });

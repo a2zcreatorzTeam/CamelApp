@@ -12,6 +12,7 @@ import {
   TouchableWithoutFeedback,
   RefreshControl,
   StyleSheet,
+  Platform,
 } from 'react-native';
 import 'react-native-gesture-handler';
 import HTML from 'react-native-render-html';
@@ -335,7 +336,7 @@ class BeautyOfCompetition extends Component {
             fontWeight: 'bold',
             marginTop: 10,
             color: 'black',
-            fontFamily: family.Neo_Regular
+             fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
           }}>
           {name ? name : ''}
         </Text>
@@ -367,7 +368,7 @@ class BeautyOfCompetition extends Component {
             fontWeight: '700',
             marginRight: 10,
             marginBottom: 5,
-            fontFamily: family.Neo_Regular
+             fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
           }}>
           {userName}
         </Text>
@@ -494,7 +495,7 @@ class BeautyOfCompetition extends Component {
           <TouchableWithoutFeedback>
             <View style={Styles.centeredView}>
               <View style={Styles.modalView}>
-                <Text style={{ margin: 5, color: 'black', fontFamily: family.Neo_Regular }}>
+                <Text style={{ margin: 5, color: 'black',  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
                   {ArabicText.Reward}
                 </Text>
                 {competition_item?.competition_prize && (
@@ -594,7 +595,7 @@ class BeautyOfCompetition extends Component {
                     />
                   </Pressable> */}
                   <Text
-                    style={{ margin: 5, color: 'black', textAlign: 'center', fontFamily: family.Neo_Regular }}>
+                    style={{ margin: 5, color: 'black', textAlign: 'center',  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
                     {ArabicText.General_Rule}
                   </Text>
 

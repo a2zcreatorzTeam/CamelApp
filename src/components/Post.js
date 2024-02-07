@@ -11,6 +11,7 @@ import {
   ScrollView,
   ActivityIndicator,
   Share,
+  Platform,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -358,7 +359,7 @@ const Post = ({
                   </View>
                 )}
                 {!isImage && !isVideo && (
-                  <Text style={{ color: '#000', fontFamily: family.Neo_Regular }}>Media not available</Text>
+                  <Text style={{ color: '#000',  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>Media not available</Text>
                 )}
               </View>
             </TouchableWithoutFeedback>
@@ -502,7 +503,7 @@ const Post = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3, fontFamily: family.Neo_Regular }}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
             {viewCount}
           </Text>
           <Ionicons name="ios-eye-sharp" size={20} color="#CD853F" />
@@ -517,7 +518,7 @@ const Post = ({
           }}
           // onPress={handleShareClick}
           onPress={() => onShare()}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3, fontFamily: family.Neo_Regular }}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
             {share_count}
           </Text>
           <Ionicons name="share-social-sharp" size={20} color="#CD853F" />
@@ -531,7 +532,7 @@ const Post = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3, fontFamily: family.Neo_Regular }}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
             {comment_count}
           </Text>
           <Feather name="message-square" size={18} color="#CD853F" />
@@ -544,7 +545,7 @@ const Post = ({
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3, fontFamily: family.Neo_Regular }}>
+          <Text style={{ color: 'black', fontSize: 15, marginRight: 3,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
             {likeCount}
           </Text>
 
@@ -558,7 +559,7 @@ const Post = ({
 
       <View style={Styles.posticon}>
         <TouchableOpacity onPress={handleDetailsClick} style={Styles.btnHome}>
-          <Text style={{ color: '#fff', fontWeight: 'bold', fontFamily: family.Neo_Regular }}>
+          <Text style={{ color: '#fff', fontWeight: 'bold',  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
             {ArabicText.Details}
           </Text>
         </TouchableOpacity>
@@ -568,7 +569,7 @@ const Post = ({
             color: 'black',
             fontSize: 15,
             fontWeight: '600',
-            fontFamily: family.Neo_Regular
+             fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
           }}>
           {title}
         </Text>
@@ -593,7 +594,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 10,
   },
-  catBtnText: { color: '#D2691Eff', fontWeight: 'bold', fontSize: 15, fontFamily: family.Neo_Regular },
+  catBtnText: { color: '#D2691Eff', fontWeight: 'bold', fontSize: 15,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular },
   userIcon: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -605,19 +606,19 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#000',
     textAlign: 'right',
-    fontFamily: family.Neo_Regular
+     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
   },
   postDate: {
     fontSize: 10,
     color: 'grey',
     textAlign: 'right',
-    fontFamily: family.Neo_Regular
+     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
   },
   userLocation: {
     fontSize: 10,
     color: '#000',
     textAlign: 'right',
-    fontFamily: family.Neo_Regular
+     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
   },
   modalContainer: {
     height: '100%',
@@ -655,15 +656,13 @@ const styles = StyleSheet.create({
   },
   priceContainer: {
     position: 'absolute',
-    // left: -350,
     left: 20,
     top: 20,
     paddingTop: 5,
     alignItems: 'center',
     alignContent: 'center',
-    // width: 60,
     backgroundColor: '#D2691Eff',
-    height: height * 0.065,
+    height: height * 0.072,
     borderBottomRightRadius: 50,
     borderBottomLeftRadius: 50,
     zIndex: 1111,
@@ -673,14 +672,14 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '800',
     fontSize: 14,
-    fontFamily: family.Neo_Regular
+     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
   },
   bidPrice: {
     textAlign: 'center',
     color: 'white',
     fontWeight: '500',
     fontSize: 13,
-    fontFamily: family.Neo_Regular
+     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
   },
   userProfileContainer: {
     flexDirection: 'row',
@@ -696,6 +695,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 15,
     fontWeight: '600',
-    fontFamily: family.Neo_Regular
+     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
   },
 });

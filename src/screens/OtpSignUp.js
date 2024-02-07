@@ -199,7 +199,7 @@ class App extends Component {
               color: 'black',
               width: '80%',
               textAlign: 'center',
-              fontFamily:family.Neo_Regular
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
             }}
             numberOfLines={3}>
             {ArabicText?.EntertheOTPSenttoYourMobile}
@@ -344,6 +344,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
     width: '12%',
     color: 'black',
-    fontFamily:family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity, Platform} from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import {Dimensions} from 'react-native';
 import FastImage from 'react-native-fast-image';
@@ -70,7 +70,7 @@ const NewsPost = ({
                   fontWeight: '700',
                   marginRight: 10,
                   color: 'black',
-                  fontFamily:family.Neo_Regular
+                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
                 }}
                 // numberOfLines={4}
               >
@@ -84,7 +84,7 @@ const NewsPost = ({
                   fontSize: 10,
                   marginHorizontal: 20,
                   marginTop: 'auto',
-                  fontFamily:family.Neo_Regular
+                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
                 }}>
                 {date}
               </Text>

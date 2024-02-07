@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  Platform,
 } from 'react-native';
 import 'react-native-gesture-handler';
 import {bindActionCreators} from 'redux';
@@ -38,7 +39,7 @@ class AddNew extends Component {
             {'\n'}
           </Text>
 
-          <Text style={{fontSize: 14, textAlign: 'right', color: 'black', fontFamily: family.Neo_Regular}}>
+          <Text style={{fontSize: 14, textAlign: 'right', color: 'black',  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular}}>
             أتعهد ان جميع المعلومات التي سوف اذكرها صحيحة ومطابقة لحالة السلعة
             الحالية - اتعهد بفحص السلعة ومعاينتها قبل الشراء - أتعهد بأتباع شروط
             التطبيق
@@ -188,7 +189,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     alignSelf: 'center',
-    fontFamily: family.Neo_Regular
+     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
   },
   subHeading: {
     alignItems: 'center',
@@ -197,6 +198,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'center',
     textAlign: 'center',
-    fontFamily: family.Neo_Regular
+     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
   },
 });

@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   RefreshControl,
+  Platform
 } from 'react-native';
 import { Card } from 'react-native-paper';
 import { Dimensions } from 'react-native';
@@ -111,7 +112,7 @@ class FollowersList extends Component {
               color: '#565756',
               marginRight: 10,
               marginBottom: 5,
-              fontFamily: family.Neo_Medium,
+               fontFamily: Platform.OS == 'ios' ? null: family.Neo_Medium,
             }}>
             {userName}
           </Text>

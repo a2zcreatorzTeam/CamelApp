@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import { Styles } from '../styles/globlestyle';
 import * as ArabicText from '../language/EnglishToArabic';
@@ -207,7 +208,7 @@ class CreateProfile extends Component {
               padding: 5,
               borderRadius: 10,
             }}>
-            <Text style={{ fontFamily: family.Neo_Regular }}>{ArabicText.Skip}</Text>
+            <Text style={{  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>{ArabicText.Skip}</Text>
           </TouchableOpacity>
           {/* PROFILE IMAGE  */}
           <View
@@ -339,7 +340,7 @@ class CreateProfile extends Component {
                 animating={this?.state?.btnLoader}
               />
             ) : (
-              <Text style={{ color: '#fff', fontSize: 16, fontFamily: family.Neo_Regular }}>
+              <Text style={{ color: '#fff', fontSize: 16,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>
                 {ArabicText?.CreateProfile}
               </Text>
             )}

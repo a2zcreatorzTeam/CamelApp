@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 
 import { Styles } from '../styles/globlestyle';
 import { Card } from 'react-native-paper';
@@ -170,6 +170,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     padding: 5,
     color: 'black',
-    fontFamily:family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
 });

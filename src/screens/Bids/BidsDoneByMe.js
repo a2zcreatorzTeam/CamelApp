@@ -7,6 +7,7 @@ import {
   RefreshControl,
   ActivityIndicator,
   Dimensions,
+  Platform,
 } from 'react-native';
 import { Styles } from '../../styles/globlestyle';
 import { withdrawBid } from '../../context/DataContext';
@@ -196,7 +197,7 @@ class Bids extends Component {
               textAlign: 'right',
               fontWeight: 'bold',
               color: 'black',
-              fontFamily:family.Neo_Regular
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
             }}>
             {userName}
           </Text>
@@ -206,7 +207,7 @@ class Bids extends Component {
               textAlign: 'right',
               fontWeight: 'bold',
               color: 'black',
-              fontFamily:family.Neo_Regular
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
             }}>
             {bidPrice}
           </Text>
@@ -216,7 +217,7 @@ class Bids extends Component {
               color: 'black',
               width: '99%',
               textAlign: 'center',
-              fontFamily:family.Neo_Regular
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
             }}>
             {item?.item?.post?.title}
           </Text>
@@ -227,7 +228,7 @@ class Bids extends Component {
               activeOpacity={0.99}
               style={Styles.bidsButtonAccept}
               onPress={() => { }}>
-              <Text style={{ color: '#D2691Eff', fontWeight: 'bold' , fontFamily:family.Neo_Regular}}>
+              <Text style={{ color: '#D2691Eff', fontWeight: 'bold' , fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,}}>
                 {ArabicText?.bidClosed}
               </Text>
             </TouchableOpacity>
@@ -235,7 +236,7 @@ class Bids extends Component {
             <TouchableOpacity
               style={Styles.bidsButtonAccept}
               onPress={onWithdrawBid}>
-              <Text style={{ color: '#D2691Eff', fontWeight: 'bold' ,fontFamily:family.Neo_Regular}}>
+              <Text style={{ color: '#D2691Eff', fontWeight: 'bold' ,fontFamily: Platform.OS == 'ios' ? '' : family.Neo_Regular,}}>
                 {ArabicText?.WithDraw}
               </Text>
             </TouchableOpacity>
@@ -244,7 +245,7 @@ class Bids extends Component {
           <TouchableOpacity
             style={Styles.bidsButtonAccept}
             onPress={onViewPost}>
-            <Text style={{ color: '#D2691Eff', fontWeight: 'bold' ,fontFamily:family.Neo_Regular}}>
+            <Text style={{ color: '#D2691Eff', fontWeight: 'bold' ,fontFamily: Platform.OS == 'ios' ? '' : family.Neo_Regular,}}>
               {ArabicText?.View_Post}
             </Text>
           </TouchableOpacity>

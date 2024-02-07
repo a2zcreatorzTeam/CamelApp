@@ -13,6 +13,7 @@ import {
   StyleSheet,
   Dimensions,
   Keyboard,
+  Platform,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Feather from 'react-native-vector-icons/Feather';
@@ -275,7 +276,7 @@ class Comments extends Component {
         ) : (
           <View
             style={{flex: 1, alignSelf: 'center', justifyContent: 'center'}}>
-            <Text style={{color: 'black', alignSelf: 'center', fontFamily: family.Neo_Regular}}>
+            <Text style={{color: 'black', alignSelf: 'center',  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular}}>
               {ArabicText?.NoCommentFound}
             </Text>
           </View>

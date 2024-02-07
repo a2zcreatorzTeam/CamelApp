@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity, Platform} from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Dimensions} from 'react-native';
@@ -47,7 +47,7 @@ const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
             textAlign: 'right',
             fontWeight: '600',
             fontSize: 14,
-            fontFamily:family.Neo_Regular
+            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
           }}>
           {name}
         </Text>
@@ -60,7 +60,7 @@ const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
             textAlign: 'right',
             fontWeight: '600',
             fontSize: 12,
-            fontFamily:family.Neo_Regular
+            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
           }}>
           {start_date} :{' '}
         </Text>
@@ -70,7 +70,7 @@ const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
             color: 'black',
             fontWeight: 'bold',
             fontSize: 12,
-            fontFamily:family.Neo_Regular
+            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
           }}>
           {ArabicText.Start_Date}
         </Text>
@@ -82,7 +82,7 @@ const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
             textAlign: 'right',
             fontWeight: '600',
             fontSize: 12,
-            fontFamily:family.Neo_Regular
+            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
           }}>
           {end_date} :{' '}
         </Text>
@@ -92,7 +92,7 @@ const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
             color: 'black',
             fontWeight: 'bold',
             fontSize: 12,
-            fontFamily:family.Neo_Regular
+            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
           }}>
           {ArabicText.End_Date}
         </Text>

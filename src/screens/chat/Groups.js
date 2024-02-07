@@ -8,6 +8,7 @@ import {
   Image,
   Pressable,
   TouchableWithoutFeedback,
+  Platform,
 } from 'react-native';
 import React, {useEffect, useState, useCallback} from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -219,7 +220,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 17,
     textAlign: 'right',
-    fontFamily:family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
   userName: {
     color: '#000',

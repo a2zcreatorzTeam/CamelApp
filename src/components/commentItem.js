@@ -1,14 +1,14 @@
 import React from 'react';
-import { Card } from 'react-native-paper';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import {Card} from 'react-native-paper';
+import {View, Text, Image, TouchableOpacity, Platform} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { useState } from 'react';
-import { Styles } from '../styles/globlestyle';
+import {useState} from 'react';
+import {Styles} from '../styles/globlestyle';
 import FastImage from 'react-native-fast-image';
-import { FlatList } from 'react-native';
-import { profileBaseUrl } from '../constants/urls';
+import {FlatList} from 'react-native';
+import {profileBaseUrl} from '../constants/urls';
 import * as ArabicText from '../language/EnglishToArabic';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 
 const Item = ({
   userName,
@@ -19,7 +19,7 @@ const Item = ({
   onLikesClick,
   time,
   date,
-  Reply = () => { },
+  Reply = () => {},
 }) => {
   console.log(item?.comment_reply);
   const [isLiked, setIsLiked] = useState();
@@ -48,13 +48,13 @@ const Item = ({
           <Text
             style={{
               color: 'black',
-              fontFamily: family.Neo_Regular
+               fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
             }}>
             {likeCount}
           </Text>
 
           <TouchableOpacity
-            style={{ left: 5 }}
+            style={{left: 5}}
             // style={{left: 5, position: 'absolute', bottom: 0, }}
 
             onPress={() => {
@@ -94,7 +94,12 @@ const Item = ({
             alignItems: 'center',
             width: 30,
           }}>
-          <Text style={{ color: 'black', fontWeight: 'bold', fontFamily: family.Neo_Regular }}>
+          <Text
+            style={{
+              color: 'black',
+              fontWeight: 'bold',
+               fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            }}>
             {ArabicText.Reply}
           </Text>
         </TouchableOpacity>
@@ -110,7 +115,7 @@ const Item = ({
               flexDirection: 'row',
               // width: '100%',
             }}>
-            <View style={{ width: '90%', marginLeft: 'auto' }}>
+            <View style={{width: '90%', marginLeft: 'auto'}}>
               <Text
                 style={{
                   fontSize: 16,
@@ -118,7 +123,7 @@ const Item = ({
                   color: 'black',
                   fontWeight: 'bold',
                   textAlign: 'right',
-                  fontFamily: family.Neo_Regular
+                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
                 }}>
                 {userName}
               </Text>
@@ -129,7 +134,7 @@ const Item = ({
                   color: 'black',
                   fontWeight: '400',
                   textAlign: 'right',
-                  fontFamily: family.Neo_Regular
+                   fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
                 }}>
                 {date}
               </Text>
@@ -141,7 +146,7 @@ const Item = ({
                   textAlign: 'right',
                   paddingHorizontal: 20,
                   marginVertical: 10,
-                  fontFamily: family.Neo_Regular
+                   fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
 
                   // width: '90%',
                   // marginLeft: 10,
@@ -166,8 +171,8 @@ const Item = ({
               source={
                 userImage
                   ? {
-                    uri: profileBaseUrl + userImage,
-                  }
+                      uri: profileBaseUrl + userImage,
+                    }
                   : require('../../assets/dummyImage.jpeg')
               }
               resizeMode={FastImage?.resizeMode.cover}
@@ -179,7 +184,7 @@ const Item = ({
         <FlatList
           showsVerticalScrollIndicator={false}
           data={item?.comment_reply}
-          renderItem={({ item }) => {
+          renderItem={({item}) => {
             return (
               <View
                 style={{
@@ -258,7 +263,7 @@ const Item = ({
                     style={{
                       flexDirection: 'row',
                     }}>
-                    <View style={{ width: '90%', marginLeft: 'auto' }}>
+                    <View style={{width: '90%', marginLeft: 'auto'}}>
                       <Text
                         style={{
                           fontSize: 16,
@@ -266,7 +271,7 @@ const Item = ({
                           color: 'black',
                           fontWeight: 'bold',
                           textAlign: 'right',
-                          fontFamily: family.Neo_Regular
+                           fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
                         }}>
                         {item?.name}
                       </Text>
@@ -277,7 +282,7 @@ const Item = ({
                           color: 'black',
                           fontWeight: '400',
                           textAlign: 'right',
-                          fontFamily: family.Neo_Regular
+                           fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
                         }}>
                         {date}
                       </Text>
@@ -289,7 +294,7 @@ const Item = ({
                           textAlign: 'right',
                           paddingHorizontal: 20,
                           marginVertical: 10,
-                          fontFamily: family.Neo_Regular
+                           fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
                         }}>
                         {item?.reply}
                       </Text>

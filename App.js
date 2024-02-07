@@ -1,6 +1,7 @@
 // appcenter codepush release-react -a a2zcreatorzz-gmail.com/Camel -d Staging
+// appcenter codepush release-react -a a2zcreatorzz-gmail.com/Camel_Ios -d Staging
 import firebase from '@react-native-firebase/app';
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Navigation from './src/routes/Navigation';
 import SplashScreen from 'react-native-splash-screen';
 import {
@@ -11,18 +12,18 @@ import {
   View,
   Text,
 } from 'react-native';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 import * as userActions from './src/redux/actions/user_actions';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
 import firebaseConfig from './src/components/firebase';
-import { getStorage } from 'firebase/storage';
-import { notificationListener } from './src/services/Helper';
+import {getStorage} from 'firebase/storage';
+import {notificationListener} from './src/services/Helper';
 import DeviceInfo from 'react-native-device-info';
 import codePush from 'react-native-code-push';
-import { ProgressBar } from 'react-native-paper';
-import { family } from './src/constants/Family';
+import {ProgressBar} from 'react-native-paper';
+import {family} from './src/constants/Family';
 import * as ArabicText from './src/language/EnglishToArabic';
 
 LogBox.ignoreAllLogs(true);
@@ -47,14 +48,14 @@ const toastConfig = {
         color: 'black',
         textAlign: 'right',
         writingDirection: 'rtl',
-        fontFamily: family.Neo_Regular
+        fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
       }}
       text2Style={{
         fontSize: 14,
         color: 'black',
         textAlign: 'right',
         writingDirection: 'rtl',
-        fontFamily: family.Neo_Regular
+        fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
       }}
     />
   ),
@@ -74,7 +75,7 @@ const toastConfig = {
         fontSize: 14,
         color: 'black',
         textAlign: 'right',
-        fontFamily: family.Neo_Regular
+        fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
       }}
     />
   ),
@@ -88,7 +89,6 @@ class App extends Component {
     };
   }
   componentDidMount() {
-
     this.syncImmediate();
     this.takePermission();
     notificationListener();
@@ -125,11 +125,11 @@ class App extends Component {
     }
   };
   codePushDownloadDidProgress = progress => {
-    this.setState({ updateProcess: true });
+    this.setState({updateProcess: true});
     const downloaded = Math.round(
       (progress?.receivedBytes / progress?.totalBytes) * 100,
     );
-    this.setState({ downloaded: downloaded });
+    this.setState({downloaded: downloaded});
     console.log('downloaded', downloaded);
     // this.setState({progress, downloading: true, downloaded: downloaded});
   };
@@ -173,7 +173,7 @@ class App extends Component {
         console.log('=================UP_TO_DATE===================');
         console.log(codePush.SyncStatus.UP_TO_DATE);
         console.log('====================================');
-        this.setState({ updateProcess: false });
+        this.setState({updateProcess: false});
 
         // setTimeout(() => {
         //   this.setState({
@@ -184,13 +184,13 @@ class App extends Component {
         // }, 100);
         break;
       case codePush.SyncStatus.UPDATE_IGNORED:
-        this.setState({ updateProcess: false });
+        this.setState({updateProcess: false});
         break;
       case codePush.SyncStatus.UPDATE_INSTALLED:
-        this.setState({ updateProcess: false });
+        this.setState({updateProcess: false});
         break;
       case codePush.SyncStatus.UNKNOWN_ERROR:
-        this.setState({ updateProcess: false });
+        this.setState({updateProcess: false});
         break;
     }
   };
@@ -206,7 +206,7 @@ class App extends Component {
           if (granted === PermissionsAndroid?.RESULTS?.GRANTED) {
           } else {
           }
-        } catch (err) { }
+        } catch (err) {}
       }
     }
   };
@@ -228,7 +228,7 @@ class App extends Component {
               style={{
                 color: 'black',
                 fontSize: 20,
-                fontFamily: family.Neo_Regular
+                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
               }}>
               {ArabicText.AppisUpdatingPleaseWait}
             </Text>
@@ -244,7 +244,7 @@ class App extends Component {
                   color: 'black',
                   alignSelf: 'center',
                   marginVertical: 10,
-                  fontFamily: family.Neo_Regular
+                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
                 }}>
                 {this.state.downloaded}%
               </Text>

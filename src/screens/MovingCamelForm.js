@@ -10,6 +10,7 @@ import {
   ScrollView,
   Modal,
   StyleSheet,
+  Platform,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -30,7 +31,7 @@ import BackBtnHeader from '../components/headerWithBackBtn';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
 import {createThumbnail} from 'react-native-create-thumbnail';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 
 class MovingCamelForm extends React.Component {
   constructor(props) {
@@ -95,7 +96,7 @@ class MovingCamelForm extends React.Component {
       pay,
       register,
     } = this.state;
-     let thumbnailObj;
+    let thumbnailObj;
     if (thumbnail && thumbnail != {}) {
       const thumbnailContent =
         thumbnail && (await RNFS?.readFile(thumbnail?.path, 'base64'));
@@ -151,9 +152,7 @@ class MovingCamelForm extends React.Component {
           price: price,
           to_location: to_location,
           account_activity: pay,
-                              thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null
-
-,
+          thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null,
         })
         .then(response => {
           console.log(response?.data?.status, 'statusss');
@@ -569,7 +568,12 @@ class MovingCamelForm extends React.Component {
                 alignItems: 'center',
                 marginTop: 10,
               }}>
-              <Text style={{margin: 3, color: 'black', fontFamily: family.Neo_Medium}}>
+              <Text
+                style={{
+                  margin: 3,
+                  color: 'black',
+                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Medium,
+                }}>
                 {ArabicText?.Iaccepttermsandconditions}
               </Text>
 
@@ -590,7 +594,12 @@ class MovingCamelForm extends React.Component {
                 alignItems: 'center',
                 marginTop: 10,
               }}>
-              <Text style={{margin: 3,fontFamily: family.Neo_Medium, color: 'black'}}>
+              <Text
+                style={{
+                  margin: 3,
+                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Medium,
+                  color: 'black',
+                }}>
                 {ArabicText.In_order_to_activity_your_account_pay}
               </Text>
               <Switch
@@ -641,7 +650,12 @@ class MovingCamelForm extends React.Component {
                     alignItems: 'center',
                   }}>
                   <Text
-                    style={{color: '#8b4513', fontSize: 15, ffontFamily: family.Neo_Medium}}>
+                    style={{
+                      color: '#8b4513',
+                      fontSize: 15,
+                      fontFamily:
+                        Platform.OS == 'ios' ? null : family.Neo_Medium,
+                    }}>
                     {ArabicText?.EnterBankDetails}
                   </Text>
                 </View>
@@ -650,8 +664,20 @@ class MovingCamelForm extends React.Component {
                     Styles.forminputs,
                     {justifyContent: 'space-between'},
                   ]}>
-                  <Text style={{color: '#000', fontSize: 15, fontFamily: family.Neo_Medium}}>
-                    <Text style={{color: 'grey', fontSize: 13, fontFamily: family.Neo_Medium}}>
+                  <Text
+                    style={{
+                      color: '#000',
+                      fontSize: 15,
+                      fontFamily:
+                        Platform.OS == 'ios' ? null : family.Neo_Medium,
+                    }}>
+                    <Text
+                      style={{
+                        color: 'grey',
+                        fontSize: 13,
+                        fontFamily:
+                          Platform.OS == 'ios' ? null : family.Neo_Medium,
+                      }}>
                       {ArabicText?.AccountTitle}:{' '}
                     </Text>
                     Mansoor Akhter
@@ -662,8 +688,20 @@ class MovingCamelForm extends React.Component {
                     Styles.forminputs,
                     {justifyContent: 'space-between'},
                   ]}>
-                  <Text style={{color: '#000', fontSize: 15, fontFamily: family.Neo_Medium}}>
-                    <Text style={{color: 'grey', fontSize: 13, fontFamily: family.Neo_Medium}}>
+                  <Text
+                    style={{
+                      color: '#000',
+                      fontSize: 15,
+                      fontFamily:
+                        Platform.OS == 'ios' ? null : family.Neo_Medium,
+                    }}>
+                    <Text
+                      style={{
+                        color: 'grey',
+                        fontSize: 13,
+                        fontFamily:
+                          Platform.OS == 'ios' ? null : family.Neo_Medium,
+                      }}>
                       {ArabicText?.AccountNumber}:{' '}
                     </Text>
                     0000-1111-2222-33
@@ -674,8 +712,20 @@ class MovingCamelForm extends React.Component {
                     Styles.forminputs,
                     {justifyContent: 'space-between'},
                   ]}>
-                  <Text style={{color: '#000', fontSize: 15, fontFamily: family.Neo_Medium}}>
-                    <Text style={{color: 'grey', fontSize: 13, fontFamily: family.Neo_Medium}}>
+                  <Text
+                    style={{
+                      color: '#000',
+                      fontSize: 15,
+                      fontFamily:
+                        Platform.OS == 'ios' ? null : family.Neo_Medium,
+                    }}>
+                    <Text
+                      style={{
+                        color: 'grey',
+                        fontSize: 13,
+                        fontFamily:
+                          Platform.OS == 'ios' ? null : family.Neo_Medium,
+                      }}>
                       {ArabicText?.BranchCode}:{' '}
                     </Text>
                     SC7512

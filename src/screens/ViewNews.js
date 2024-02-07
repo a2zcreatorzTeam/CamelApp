@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableOpacity,
   Dimensions,
+  Platform,
 } from 'react-native';
 import { Card } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -206,7 +207,7 @@ class ViewNews extends Component {
               <Text style={{ color: 'black', fontSize: 17, fontFamily: family.Neo_Bold }}>
                 {newsdata?.user?.name}
               </Text>
-              <Text style={{ color: 'grey', fontSize: 10, fontFamily: family.Neo_Regular }}>
+              <Text style={{ color: 'grey', fontSize: 10,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>
                 {newsdata?.date}
               </Text>
             </View>
@@ -256,7 +257,7 @@ class ViewNews extends Component {
               marginBottom: 10,
               color: 'black',
             }}>
-            <Text style={{ color: 'black', fontFamily: family.Neo_Regular }}>{ArabicText?.comments}</Text>
+            <Text style={{ color: 'black',  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>{ArabicText?.comments}</Text>
           </View>
           <FlatList
             keyExtractor={item => item.id}
@@ -342,7 +343,7 @@ const Item = ({
                 fontWeight: 'bold',
                 textAlign: 'right',
                 color: 'black',
-                fontFamily: family.Neo_Regular
+                 fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
               }}>
               {likeCount}
             </Text>
@@ -369,7 +370,7 @@ const Item = ({
               paddingRight: 5,
               textAlign: 'right',
               color: 'black',
-              fontFamily: family.Neo_Regular
+               fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
             }}>
             {name}
           </Text>
@@ -379,7 +380,7 @@ const Item = ({
               textAlign: 'right',
               color: 'grey',
               marginBottom: 5,
-              fontFamily: family.Neo_Regular
+               fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
             }}>
             {moment(date).format('YYYY-MM-DD')}
           </Text>
@@ -391,7 +392,7 @@ const Item = ({
               paddingRight: 5,
               textAlign: 'right',
               color: 'black',
-              fontFamily: family.Neo_Regular
+               fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
             }}>
             {comments}
           </Text>

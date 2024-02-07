@@ -497,7 +497,7 @@ class DetailsComponent extends Component {
                   // style={{ marginLeft: width - 140 }}
                   />
                 </Pressable>
-                <Text style={{ margin: 5, fontFamily: family.Neo_Regular }}>{ArabicText.offer_Up}</Text>
+                <Text style={{ margin: 5,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>{ArabicText.offer_Up}</Text>
 
                 <TextInput
                   value={price}

@@ -9,6 +9,7 @@ import {
   ScrollView,
   Modal,
   Pressable,
+  Platform
 } from 'react-native';
 import { Styles } from '../styles/globlestyle';
 import camelapp from '../api/camelapp';
@@ -504,7 +505,7 @@ class CamelFood extends React.Component {
                     style={{ marginLeft: width - 140 }}
                   />
                 </Pressable>
-                <Text style={{ color: 'black', fontSize: 20, fontFamily: family.Neo_Regular }}>
+                <Text style={{ color: 'black', fontSize: 20,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
                   {ArabicText.fixed}
                 </Text>
                 <TextInput
@@ -540,7 +541,7 @@ class CamelFood extends React.Component {
                     style={{ marginLeft: width - 140 }}
                   />
                 </Pressable>
-                <Text style={{ color: 'black', fontSize: 20, fontFamily: family.Neo_Regular }}>
+                <Text style={{ color: 'black', fontSize: 20,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
                   {ArabicText.offer_Up}
                 </Text>
                 <TextInput
@@ -568,7 +569,7 @@ class CamelFood extends React.Component {
               marginTop: 50,
               color: 'black',
               fontSize: 18,
-              fontFamily: family.Neo_Regular
+               fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
             }}>
             {ArabicText.Please_select_price_type}
           </Text>
@@ -579,7 +580,7 @@ class CamelFood extends React.Component {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text style={{ color: 'black', alignSelf: 'center', fontSize: 16, fontFamily: family.Neo_Regular }}>
+            <Text style={{ color: 'black', alignSelf: 'center', fontSize: 16,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
               {ArabicText.fixed}
             </Text>
 
@@ -597,7 +598,7 @@ class CamelFood extends React.Component {
               }}
             />
 
-            <Text style={{ color: 'black', alignSelf: 'center', fontSize: 16, fontFamily: family.Neo_Regular }}>
+            <Text style={{ color: 'black', alignSelf: 'center', fontSize: 16,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
               {ArabicText.offer_Up}
             </Text>
 

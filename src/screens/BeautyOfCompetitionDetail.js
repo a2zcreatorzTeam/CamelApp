@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   Text,
   View,
@@ -16,12 +16,12 @@ import {
 } from 'react-native';
 import 'react-native-gesture-handler';
 import HTML from 'react-native-render-html';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import moment from 'moment';
 import Toast from 'react-native-toast-message';
 import * as ArabicText from '../language/EnglishToArabic';
-import { Styles } from '../styles/globlestyle';
+import {Styles} from '../styles/globlestyle';
 import camelapp from '../api/camelapp';
 import PostItem from '../components/CompetitionPostItem';
 import Header from '../components/Header';
@@ -32,7 +32,7 @@ import {
   profileBaseUrl,
 } from '../constants/urls';
 import PaginationDots from '../components/pagination';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 
 const width = Dimensions.get('screen').width;
 class BeautyOfCompetition extends Component {
@@ -66,8 +66,8 @@ class BeautyOfCompetition extends Component {
     };
   }
   selectedCompetition() {
-    const { competition } = this.state;
-    let { user } = this.props;
+    const {competition} = this.state;
+    let {user} = this.props;
     user = user?.user?.user;
     if (user != undefined) {
       this.props.navigation.navigate('BeautyCompetitionForm', {
@@ -78,9 +78,9 @@ class BeautyOfCompetition extends Component {
     }
   }
   async competitionDetails() {
-    const { key } = this.state;
+    const {key} = this.state;
     try {
-      let { user } = this.props;
+      let {user} = this.props;
       user = user?.user?.user;
       return await camelapp
         .post('/get/competition_details', {
@@ -89,15 +89,15 @@ class BeautyOfCompetition extends Component {
           user_id: user?.id,
         })
         .then(res => {
-          console.log(res, "detailsssss");
+          console.log(res, 'detailsssss');
           const arrayPosts = res?.data?.competition_posts;
           arrayPosts?.map((item, index) => {
             let array = item?.img;
             let imagesArray = [];
             array?.forEach(element => {
-              imagesArray?.push({ type: 'image', source: element });
+              imagesArray?.push({type: 'image', source: element});
             });
-            imagesArray?.push({ type: 'video', source: item?.video });
+            imagesArray?.push({type: 'video', source: item?.video});
             item['imagesArray'] = imagesArray;
             arrayPosts[index] = item;
           });
@@ -122,7 +122,7 @@ class BeautyOfCompetition extends Component {
       start_date: Date.parse(
         this.props.route.params.competition_item?.length
           ? this.props.route.params.competition_item[0].competition[0]
-            .start_date
+              .start_date
           : '',
       ),
       end_date: Date.parse(
@@ -135,58 +135,64 @@ class BeautyOfCompetition extends Component {
   }
   ScrollToRefresh() {
     this.competitionDetails();
-    this.setState({ refreshing: false });
+    this.setState({refreshing: false});
   }
   // SEARCH HANDLER
   searchHandler = value => {
-    const { posts, sponsors } = this.state;
+    const {posts, sponsors} = this.state;
     if (!value?.length) {
-      this.setState({ filterPosts: posts });
+      this.setState({filterPosts: posts});
     } else {
-      this.setState({ searchedItem: value });
+      this.setState({searchedItem: value});
       // // Data Filtration
       const filteredData = posts.filter(item => {
-        const { user_name } = item;
+        const {user_name} = item;
         return user_name?.toLowerCase().includes(value.toLowerCase());
       });
       const filteredSponsers = sponsors?.filter(item => {
-        const { name } = item;
+        const {name} = item;
         return name?.toLowerCase().includes(value.toLowerCase());
       });
-      this.setState({ filteredSponsers: filteredSponsers });
+      this.setState({filteredSponsers: filteredSponsers});
       if (filteredData?.length > 0) {
-        this.setState({ filterPosts: filteredData, dataNotFound: false });
+        this.setState({filterPosts: filteredData, dataNotFound: false});
       } else {
-        this.setState({ filterPosts: [], dataNotFound: true });
+        this.setState({filterPosts: [], dataNotFound: true});
       }
     }
   };
   // SEARCH HANDLER
   searchParticipantsHandler = value => {
-    const { participants, searchParticipants } = this.state;
+    const {participants, searchParticipants} = this.state;
     if (!value?.length) {
-      this.setState({ searchParticipants: participants });
+      this.setState({searchParticipants: participants});
     } else {
-      this.setState({ searchParticipants: value });
+      this.setState({searchParticipants: value});
       // // Data Filtration
       const filteredData = participants.filter(item => {
-        const { user_name } = item;
+        const {user_name} = item;
         return user_name?.toLowerCase().includes(value.toLowerCase());
       });
       console.log(filteredData, 'filterdataaa');
       if (filteredData?.length > 0) {
-        this.setState({ filteredParticipants: filteredData });
+        this.setState({filteredParticipants: filteredData});
       } else {
-        this.setState({ filteredParticipants: [] });
+        this.setState({filteredParticipants: []});
       }
     }
   };
   search(text) {
-    this.setState({ searchText: text });
+    this.setState({searchText: text});
   }
   render() {
-    const { competition, posts, refreshing, searchParticipantsText, activeSlide,
-      flatListRef, } = this.state;
+    const {
+      competition,
+      posts,
+      refreshing,
+      searchParticipantsText,
+      activeSlide,
+      flatListRef,
+    } = this.state;
     const competition_item = this.props.route.params.competition_item[0];
     const NewDate = moment().format('YYYY-MM-DD');
     const {
@@ -212,7 +218,7 @@ class BeautyOfCompetition extends Component {
     };
     // COMMENT
     onCommentsClick = async item => {
-      let { user } = this.props;
+      let {user} = this.props;
       user = user?.user?.user;
       let post_id = item.id;
       // if (user != undefined) {
@@ -237,8 +243,8 @@ class BeautyOfCompetition extends Component {
     };
     // LIKE
     onLikesClick = async (item, setIsLiked, setLikeCount) => {
-      this.setState({ loading: false });
-      let { user } = this.props;
+      this.setState({loading: false});
+      let {user} = this.props;
       user = user?.user?.user;
       let post_id = item.post_id;
       if (user != undefined) {
@@ -266,15 +272,15 @@ class BeautyOfCompetition extends Component {
               visibilityTime: 3000,
             });
             console.log('error', error);
-            this.setState({ loading: false });
+            this.setState({loading: false});
           });
       } else {
         this.props.navigation.navigate('Login');
       }
     };
     postViewed = async (item, viewCount, setViewCount) => {
-      this.setState({ loading: false });
-      let { user } = this.props;
+      this.setState({loading: false});
+      let {user} = this.props;
       user = user?.user?.user;
       let post_id = item?.post_id;
       console.log(item, 'iemmm2055');
@@ -291,7 +297,7 @@ class BeautyOfCompetition extends Component {
           })
           .catch(error => {
             console.log('error', error);
-            this.setState({ loading: false });
+            this.setState({loading: false});
           });
       } else {
         this.props.navigation.navigate('Login');
@@ -303,7 +309,7 @@ class BeautyOfCompetition extends Component {
       });
       postViewed(item, viewCount, setViewCount);
     };
-    const renderPostItem = ({ item }) => {
+    const renderPostItem = ({item}) => {
       return (
         <PostItem
           viewCount={item?.view_count}
@@ -323,12 +329,12 @@ class BeautyOfCompetition extends Component {
         />
       );
     };
-    const SponsorItem = ({ name, image }) => (
-      <View style={{ alignItems: 'center', width: width - 10, padding: 10 }}>
+    const SponsorItem = ({name, image}) => (
+      <View style={{alignItems: 'center', width: width - 10, padding: 10}}>
         <Image
-          resizeMode='contain'
-          source={{ uri: profileBaseUrl + image }}
-          style={{ width: width - 10, height: 120, }}
+          resizeMode="contain"
+          source={{uri: profileBaseUrl + image}}
+          style={{width: width - 10, height: 120}}
         />
         <Text
           style={{
@@ -336,17 +342,17 @@ class BeautyOfCompetition extends Component {
             fontWeight: 'bold',
             marginTop: 10,
             color: 'black',
-             fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
           }}>
           {name ? name : ''}
         </Text>
       </View>
     );
-    const renderSponserItem = ({ item }) => {
+    const renderSponserItem = ({item}) => {
       return <SponsorItem item={item} name={item.name} image={item.image} />;
     };
     // PARTICIPANTS LIST
-    const Item = ({ userName, userImage, onUserMessageClick }) => (
+    const Item = ({userName, userImage, onUserMessageClick}) => (
       // <Card>
       <View
         style={{
@@ -368,7 +374,7 @@ class BeautyOfCompetition extends Component {
             fontWeight: '700',
             marginRight: 10,
             marginBottom: 5,
-             fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
           }}>
           {userName}
         </Text>
@@ -396,7 +402,7 @@ class BeautyOfCompetition extends Component {
       </View>
       // </Card>
     );
-    const renderItem = ({ item }) => {
+    const renderItem = ({item}) => {
       return (
         <Item
           item={item}
@@ -405,17 +411,20 @@ class BeautyOfCompetition extends Component {
         />
       );
     };
-    console.log(competition_item?.competition_posts, "competition_itemcompetition_item");
+    console.log(
+      competition_item?.competition_posts,
+      'competition_itemcompetition_item',
+    );
 
     return (
-      <View style={[Styles.containerBeauty, { position: 'relative' }]}>
+      <View style={[Styles.containerBeauty, {position: 'relative'}]}>
         <Header
           navRoute="CamelClubList"
           onChangeText={text => {
             if (text) {
               this.search(text);
             } else {
-              this.setState({ searchedItem: '', searchText: '' });
+              this.setState({searchedItem: '', searchText: ''});
             }
           }}
           onPressSearch={() => this.searchHandler(searchText)}
@@ -427,14 +436,16 @@ class BeautyOfCompetition extends Component {
             width: '100%',
             width: '90%',
           }}>
-
           <ScrollView
             showsHorizontalScrollIndicator={false}
             horizontal
-            contentContainerStyle={{ justifyContent: 'space-around', width: '100%' }}
+            contentContainerStyle={{
+              justifyContent: 'space-around',
+              width: '100%',
+            }}
             style={styles.scrollView}>
             {/* Reward MODAL  */}
-            <Pressable onPress={() => this.setState({ modal: true })}>
+            <Pressable onPress={() => this.setState({modal: true})}>
               <Text style={Styles.ButtonBeauty}>{ArabicText.Reward}</Text>
             </Pressable>
             {/* HOW TO PARTICIPATE */}
@@ -444,7 +455,7 @@ class BeautyOfCompetition extends Component {
               </Text>
             </Pressable> */}
             {/* Rules Modal  */}
-            <Pressable onPress={() => this.setState({ generalRulesModal: true })}>
+            <Pressable onPress={() => this.setState({generalRulesModal: true})}>
               <Text style={Styles.ButtonBeauty}>{ArabicText.General_Rule}</Text>
             </Pressable>
             {/* WINNER  */}
@@ -479,7 +490,7 @@ class BeautyOfCompetition extends Component {
               </Text>
             </Pressable>
             {/* PARTICIPANTS  */}
-            <Pressable onPress={() => this.setState({ participantsModal: true })}>
+            <Pressable onPress={() => this.setState({participantsModal: true})}>
               <Text style={Styles.ButtonBeauty}>{ArabicText.PARTICIPANTS}</Text>
             </Pressable>
           </ScrollView>
@@ -490,17 +501,23 @@ class BeautyOfCompetition extends Component {
           transparent={false}
           visible={modal}
           onRequestClose={() => {
-            this.setState({ modal: false });
+            this.setState({modal: false});
           }}>
           <TouchableWithoutFeedback>
             <View style={Styles.centeredView}>
               <View style={Styles.modalView}>
-                <Text style={{ margin: 5, color: 'black',  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
+                <Text
+                  style={{
+                    margin: 5,
+                    color: 'black',
+                    fontFamily:
+                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  }}>
                   {ArabicText.Reward}
                 </Text>
                 {competition_item?.competition_prize && (
                   <Image
-                    style={{ width: 250, height: 250 }}
+                    style={{width: 250, height: 250}}
                     source={{
                       uri:
                         `${mainCompImageUrl}prizes/` +
@@ -509,8 +526,8 @@ class BeautyOfCompetition extends Component {
                   />
                 )}
                 <TouchableOpacity
-                  style={{ marginTop: 'auto' }}
-                  onPress={() => this.setState({ modal: false })}>
+                  style={{marginTop: 'auto'}}
+                  onPress={() => this.setState({modal: false})}>
                   <View style={Styles.btnform}>
                     <Text style={Styles.textbtn}>{ArabicText.close}</Text>
                   </View>
@@ -569,14 +586,15 @@ class BeautyOfCompetition extends Component {
           transparent={false}
           visible={generalRulesModal}
           onRequestClose={() => {
-            this.setState({ generalRulesModal: false });
+            this.setState({generalRulesModal: false});
           }}>
           <View style={Styles.centeredView}>
             <View style={[Styles.modalView]}>
               {competition?.length && (
                 <ScrollView
-                  contentContainerStyle={{ flexGrow: 1 }}
-                  style={{ width: '90%', height: '50%', flexGrow: 1 }}>
+                  showsVerticalScrollIndicator={false}
+                  contentContainerStyle={{flexGrow: 1}}
+                  style={{width: '90%', height: '50%', flexGrow: 1}}>
                   {/* <Pressable
                     style={{
                       position: 'absolute',
@@ -595,11 +613,17 @@ class BeautyOfCompetition extends Component {
                     />
                   </Pressable> */}
                   <Text
-                    style={{ margin: 5, color: 'black', textAlign: 'center',  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
+                    style={{
+                      margin: 5,
+                      color: 'black',
+                      textAlign: 'center',
+                      fontFamily:
+                        Platform.OS == 'ios' ? null : family.Neo_Regular,
+                    }}>
                     {ArabicText.General_Rule}
                   </Text>
 
-                  <View style={{ padding: 10 }}>
+                  <View style={{padding: 10}}>
                     <HTML
                       tagsStyles={tagsStyles}
                       source={{
@@ -611,8 +635,8 @@ class BeautyOfCompetition extends Component {
                   {/* <Text style={{ margin: 5 }}>{this.state.competition[0].rules}</Text> */}
 
                   <TouchableOpacity
-                    style={{ marginTop: 'auto' }}
-                    onPress={() => this.setState({ generalRulesModal: false })}>
+                    style={{marginTop: 'auto'}}
+                    onPress={() => this.setState({generalRulesModal: false})}>
                     <View style={Styles.btnform}>
                       <Text style={Styles.textbtn}>{ArabicText.close}</Text>
                     </View>
@@ -628,17 +652,17 @@ class BeautyOfCompetition extends Component {
           transparent={true}
           visible={participantsModal}
           onRequestClose={() => {
-            this.setState({ participantsModal: false });
+            this.setState({participantsModal: false});
           }}>
           <View style={Styles.centeredView}>
             <View
-              style={[Styles.modalView, { paddingTop: 0, paddingHorizontal: 0 }]}>
+              style={[Styles.modalView, {paddingTop: 0, paddingHorizontal: 0}]}>
               <Header
                 hideCircle
-                customStyle={{ width: width - 100 }}
+                customStyle={{width: width - 100}}
                 onChangeText={text => {
                   if (text) {
-                    this.setState({ searchParticipantsText: text });
+                    this.setState({searchParticipantsText: text});
                   } else {
                     this.setState({
                       searchParticipants: '',
@@ -663,8 +687,8 @@ class BeautyOfCompetition extends Component {
                       onRefresh={() => this.ScrollToRefresh()}
                     />
                   }
-                  contentContainerStyle={{ flexGrow: 1 }}
-                  style={{ height: '70%' }}
+                  contentContainerStyle={{flexGrow: 1}}
+                  style={{height: '70%'}}
                   ListEmptyComponent={() => <EmptyComponent />}
                   data={
                     searchParticipants
@@ -676,8 +700,8 @@ class BeautyOfCompetition extends Component {
                 />
               )}
               <TouchableOpacity
-                style={{ marginTop: 'auto' }}
-                onPress={() => this.setState({ participantsModal: false })}>
+                style={{marginTop: 'auto'}}
+                onPress={() => this.setState({participantsModal: false})}>
                 <View style={Styles.btnform}>
                   <Text style={Styles.textbtn}>{ArabicText.close}</Text>
                 </View>
@@ -693,8 +717,13 @@ class BeautyOfCompetition extends Component {
           <>
             <View style={Styles.BeautyOfComp}>
               <FlatList
-                style={{ width: '100%', flex: 1, }}
-                contentContainerStyle={{ alignContent: "center", alignItems: 'center', flexGrow: 1, justifyContent: 'center' }}
+                style={{width: '100%', flex: 1}}
+                contentContainerStyle={{
+                  alignContent: 'center',
+                  alignItems: 'center',
+                  flexGrow: 1,
+                  justifyContent: 'center',
+                }}
                 ref={flatListRef}
                 data={
                   searchedItem ? filteredSponsers : competition_item?.sponsors
@@ -703,14 +732,16 @@ class BeautyOfCompetition extends Component {
                 renderItem={renderSponserItem}
                 horizontal={true}
                 pagingEnabled
-                snapToAlignment='center'
+                snapToAlignment="center"
                 showsHorizontalScrollIndicator={false}
-                onMomentumScrollEnd={(event) => {
+                onMomentumScrollEnd={event => {
                   const slideWidth = Dimensions.get('window').width;
-                  const currentIndex = Math.round(event.nativeEvent.contentOffset.x / slideWidth);
-                  console.log(currentIndex, "indexxx");
+                  const currentIndex = Math.round(
+                    event.nativeEvent.contentOffset.x / slideWidth,
+                  );
+                  console.log(currentIndex, 'indexxx');
                   console.log(currentIndex, slideWidth);
-                  this.setState({ activeSlide: currentIndex });
+                  this.setState({activeSlide: currentIndex});
                 }}
               />
             </View>
@@ -718,8 +749,8 @@ class BeautyOfCompetition extends Component {
               <PaginationDots
                 totalItems={competition_item?.sponsors?.length}
                 activeIndex={activeSlide}
-                onPressDot={(index) =>
-                  flatListRef.current.scrollToIndex({ index, animated: true })
+                onPressDot={index =>
+                  flatListRef.current.scrollToIndex({index, animated: true})
                 }
               />
             )}
@@ -735,17 +766,17 @@ class BeautyOfCompetition extends Component {
                 marginVertical: 20,
               }}
               onPress={() => this.selectedCompetition()}>
-              <Text style={[Styles.ButtonBeauty, { width: width - 20 }]}>
+              <Text style={[Styles.ButtonBeauty, {width: width - 20}]}>
                 {ArabicText.Click_to_Participate}
               </Text>
             </TouchableOpacity>
           )}
 
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
           {/* {posts?.length && ( */}
           <FlatList
             key={key}
-            style={{ flex: 1, flexGrow: 1 }}
+            style={{flex: 1, flexGrow: 1}}
             contentContainerStyle={{
               flexGrow: 1,
               alignItems: 'flex-end',

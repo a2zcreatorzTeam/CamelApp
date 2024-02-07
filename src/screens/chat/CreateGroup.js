@@ -222,7 +222,7 @@ const CreateGroup = props => {
       <BackBtnHeader />
 
       <View style={{height: '60%', marginTop: 20}}>
-        <ScrollView contentContainerStyle={{paddingBottom: 40}}>
+        <ScrollView showsVerticalScrollIndicator={false}  contentContainerStyle={{paddingBottom: 40}}>
           <View
             style={{
               backgroundColor: 'lightgrey',
@@ -326,6 +326,7 @@ const CreateGroup = props => {
           display: isKeyboardVisible == false ? 'flex' : 'none',
         }}>
         <ScrollView
+        showsVerticalScrollIndicator={false} 
           style={{
             width: width,
             height: 280,

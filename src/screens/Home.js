@@ -652,6 +652,7 @@ class Home extends Component {
                 backgroundColor: '#fff',
               }}>
               <ScrollView
+                showsVerticalScrollIndicator={false}
                 snapToAlignment="end"
                 horizontal={true}
                 snapToEnd={true}

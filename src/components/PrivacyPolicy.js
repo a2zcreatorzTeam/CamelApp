@@ -55,7 +55,7 @@ class PrivacyPolicy extends Component {
       html: `<p>${this.state.html}</p>`,
     };
     return (
-      <ScrollView style={{backgroundColor: 'white'}}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: 'white'}}>
         <BackBtnHeader />
         <View
           style={{backgroundColor: '#fff', padding: 10, textAlign: 'right'}}>

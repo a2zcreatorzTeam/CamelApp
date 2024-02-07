@@ -200,7 +200,7 @@ class CompetitionPostDetails extends Component {
     const thumbnail = itemFromDetails?.thumbnail?.thumbnail;
 
     return (
-      <ScrollView style={{ backgroundColor: '#ffff' }}>
+      <ScrollView showsVerticalScrollIndicator={false}  style={{ backgroundColor: '#ffff' }}>
         <BackBtnHeader />
         {/* POST OWNER DETAILS  */}
         <View

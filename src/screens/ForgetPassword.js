@@ -98,7 +98,7 @@ class ForgetPassword extends Component {
   render() {
     return (
       <View style={Styles.container}>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false} >
           <View
             style={{
               marginTop: 40,

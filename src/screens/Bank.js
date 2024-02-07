@@ -70,7 +70,7 @@ class Bank extends Component {
     return (
       <View style={styles.container}>
         <BackBtnHeader />
-        <ScrollView nestedScrollEnabled={true} style={{ flex: 1 }}>
+        <ScrollView showsVerticalScrollIndicator={false}  nestedScrollEnabled={true} style={{ flex: 1 }}>
           {loader && (
             <ActivityIndicator
               size="large"

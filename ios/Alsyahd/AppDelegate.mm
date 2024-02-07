@@ -41,10 +41,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   } else {
     rootView.backgroundColor = [UIColor whiteColor];
   }
-  // Set background color of status bar
-  UIColor *statusBarColor = [UIColor colorWithRed:210/255.0 green:105/255.0 blue:30/255.0 alpha:1.0];
-  UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
-  statusBar.backgroundColor = statusBarColor;
+
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;

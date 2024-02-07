@@ -194,7 +194,7 @@ class ViewNews extends Component {
       <View style={Styles.container}>
         <Loader loading={this.state.loading} />
         <BackBtnHeader />
-        <ScrollView style={{ alignSelf: 'center' }}>
+        <ScrollView showsVerticalScrollIndicator={false}  style={{ alignSelf: 'center' }}>
           <View
             style={{
               flexDirection: 'row',

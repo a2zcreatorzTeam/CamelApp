@@ -210,6 +210,7 @@ class CamelClubDetailsComponent extends Component {
 
     return (
       <ScrollView
+      showsVerticalScrollIndicator={false} 
         style={{backgroundColor: '#ffff', paddingBottom: width * 0.4}}>
         <BackBtnHeader />
         <View

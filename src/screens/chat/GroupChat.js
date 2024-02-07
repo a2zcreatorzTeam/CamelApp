@@ -1099,7 +1099,7 @@ const GroupChat = props => {
             {groupInfoDetails?.length &&
               groupInfoDetails?.map(item => {
                 return (
-                  <ScrollView>
+                  <ScrollView showsVerticalScrollIndicator={false} >
                     <View
                       style={{
                         flexDirection: 'row',

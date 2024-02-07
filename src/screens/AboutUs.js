@@ -55,7 +55,7 @@ class AboutUs extends Component {
       },
     };
     return (
-      <ScrollView style={{ backgroundColor: '#fff' }}>
+      <ScrollView  showsVerticalScrollIndicator={false}  style={{ backgroundColor: '#fff' }}>
         <View style={{ backgroundColor: '#fff', marginRight: 5 }}>
           <Text
             style={{

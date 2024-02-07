@@ -215,7 +215,8 @@ class App extends Component {
   render() {
     return (
       <SafeAreaProvider>
-        <StatusBar barStyle="default" backgroundColor="#d2691e" />
+        {/* <StatusBar barStyle="default" backgroundColor="#d2691e" /> */}
+        <StatusBar hidden={true} />
         {this.state.updateProcess ? (
           <View
             style={{

@@ -411,7 +411,7 @@ class DetailsComponent extends Component {
     const thumbnail = itemFromDetails?.thumbnail?.thumbnail;
 
     return (
-      <ScrollView style={{ backgroundColor: '#fff' }}>
+      <ScrollView showsVerticalScrollIndicator={false}  style={{ backgroundColor: '#fff' }}>
         <BackBtnHeader />
         <View
           style={Styles.firstView}>

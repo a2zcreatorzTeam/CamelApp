@@ -260,6 +260,7 @@ class participateInCompetition extends Component {
       this.state;
     return (
       <ScrollView
+      showsVerticalScrollIndicator={false} 
         contentContainerStyle={Styles.scrollContentContainer}
         style={{ backgroundColor: '#FFFFFF', flex: 1 }}>
         <BackBtnHeader />

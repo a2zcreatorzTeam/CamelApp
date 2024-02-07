@@ -14,6 +14,8 @@ import {
   Dimensions,
   Keyboard,
   Platform,
+  ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Feather from 'react-native-vector-icons/Feather';
@@ -23,7 +25,8 @@ import Loader from '../components/PleaseWait';
 import * as ArabicText from '../language/EnglishToArabic';
 import Header from '../components/Header';
 import Item from '../components/commentItem';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 const {width} = Dimensions.get('screen');
 class Comments extends Component {
   constructor(props) {
@@ -226,120 +229,146 @@ class Comments extends Component {
     let {post_id} = this.props?.route.params;
 
     return (
-      <SafeAreaView style={Styles.containerComments}>
-        {loader == true && (
-          <>
+      <View style={Styles.containerComments}>
+        {/* <ScrollView
+          style={{flex: 1}}
+          contentContainerStyle={{flexGrow: 1}}
+          automaticallyAdjustKeyboardInsets={true}> */}
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={Platform.OS === 'ios' ? 'padding' : null}>
+          {loader == true && (
+            <>
+              <Header
+                onChangeText={text => {
+                  if (text) {
+                    this.search(text);
+                  }
+                }}
+                onPressSearch={() => this.searchFunction(searchText)}
+              />
+              <ActivityIndicator
+                size="large"
+                color="#D2691Eff"
+                animating={loader}
+                style={styles.activityIndicator}
+              />
+            </>
+          )}
+          {loader == false && (
             <Header
               onChangeText={text => {
                 if (text) {
                   this.search(text);
+                } else {
+                  this.setState({searchedItem: '', searchText: ''});
                 }
               }}
-              onPressSearch={() => this.searchFunction(searchText)}
+              onPressSearch={() => this?.searchHandler(this.state.searchText)}
             />
-            <ActivityIndicator
-              size="large"
-              color="#D2691Eff"
-              animating={loader}
-              style={styles.activityIndicator}
-            />
-          </>
-        )}
-
-        {loader == false && (
-          <Header
-            onChangeText={text => {
-              if (text) {
-                this.search(text);
-              } else {
-                this.setState({searchedItem: '', searchText: ''});
+          )}
+          {/* FLATLIST   */}
+          {this.state.commentsList?.length && loader == false ? (
+            <FlatList
+              // style={{flex: 1}}
+              // contentContainerStyle={{
+              //   flexGrow: 1,
+              //   backgroundColor: 'green',
+              // }}
+              showsVerticalScrollIndicator={false}
+              extraData={commentsList}
+              key={dataNotFound}
+              refreshControl={
+                <RefreshControl
+                  onRefresh={() => this.onRefresh()}
+                  refreshing={this?.state?.isRefreshing}
+                />
               }
-            }}
-            onPressSearch={() => this?.searchHandler(this.state.searchText)}
-          />
-        )}
-        {this.state.commentsList?.length && loader == false ? (
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            extraData={commentsList}
-            key={dataNotFound}
-            refreshControl={
-              <RefreshControl
-                onRefresh={() => this.onRefresh()}
-                refreshing={this?.state?.isRefreshing}
-              />
-            }
-            data={searchedItem ? filterPosts : commentsList}
-            renderItem={item => renderItem(item)}
-            keyExtractor={item => item?.id}
-          />
-        ) : (
-          <View
-            style={{flex: 1, alignSelf: 'center', justifyContent: 'center'}}>
-            <Text style={{color: 'black', alignSelf: 'center',  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular}}>
-              {ArabicText?.NoCommentFound}
-            </Text>
-          </View>
-        )}
+              data={searchedItem ? filterPosts : commentsList}
+              renderItem={item => renderItem(item)}
+              keyExtractor={item => item?.id}
+              ListFooterComponentStyle={{flex: 1, justifyContent: 'flex-end'}}
+              ListFooterComponent={() => {
+                return <View style={{}}></View>;
+              }}
+            />
+          ) : (
+            <View
+              style={{flex: 1, alignSelf: 'center', justifyContent: 'center'}}>
+              <Text
+                style={{
+                  color: 'black',
+                  alignSelf: 'center',
+                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                }}>
+                {ArabicText?.NoCommentFound}
+              </Text>
+            </View>
+          )}
 
-        <Loader loading={this.state.loading} />
-
-        {this?.state?.flagForNewComment && (
-          <View
-            style={{
-              flexDirection: 'row',
-              marginBottom: 10,
-              alignItems: 'center',
-              justifyContent: 'space-evenly',
-              marginTop: 'auto',
-            }}>
-            <TouchableOpacity
+          <Loader loading={this.state.loading} />
+          {this?.state?.flagForNewComment && (
+            <View
               style={{
-                transform: [{rotate: '215deg'}],
-                justifyContent: 'center',
+                flexDirection: 'row',
+                marginBottom: 10,
                 alignItems: 'center',
-                marginTop: 10,
-                marginLeft: 5,
-              }}
-              onPress={() => this.addNewComment()}>
-              <Feather name="send" size={30} color="#CD853F" />
-            </TouchableOpacity>
-            <TextInput
-              style={Styles.forminputs}
-              onChangeText={text => {
-                this.setState({newComment: text}),
-                  console.log(text?.length, 'textttttttt', newComment?.length);
-              }}
-              placeholder={ArabicText.comments}
-              placeholderTextColor="#b0b0b0"
-              value={this.state?.newComment}></TextInput>
-          </View>
-        )}
-        {this.state.flagForReplyComment && (
-          <View
-            style={{
-              flexDirection: 'row',
-              marginBottom: 10,
-              alignItems: 'center',
-              justifyContent: 'space-evenly',
-            }}>
-            <TouchableOpacity
-              style={{transform: [{rotate: '180deg'}]}}
-              onPress={() => this.addReplyToComment()}>
-              <Ionicons name="send" size={24} color="#D2691E" />
-            </TouchableOpacity>
-
-            <TextInput
-              style={Styles.forminputs}
-              onChangeText={text => {
-                this.setState({newReply: text});
-              }}
-              placeholder={ArabicText.Reply}
-              placeholderTextColor="#b0b0b0"
-              value={this?.state?.newReply}></TextInput>
-          </View>
-        )}
-      </SafeAreaView>
+                justifyContent: 'space-evenly',
+                marginBottom: Platform.OS == 'ios' ? '8%' : '5%',
+              }}>
+              <TouchableOpacity
+                style={{
+                  transform: [{rotate: '215deg'}],
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: 10,
+                  marginLeft: 5,
+                }}
+                onPress={() => this.addNewComment()}>
+                <Feather name="send" size={30} color="#CD853F" />
+              </TouchableOpacity>
+              <TextInput
+                style={Styles.forminputs}
+                onChangeText={text => {
+                  this.setState({newComment: text}),
+                    console.log(
+                      text?.length,
+                      'textttttttt',
+                      newComment?.length,
+                    );
+                }}
+                placeholder={ArabicText.comments}
+                placeholderTextColor="#b0b0b0"
+                value={this.state?.newComment}></TextInput>
+            </View>
+          )}
+          {this.state.flagForReplyComment && (
+            <View
+              style={{
+                flexDirection: 'row',
+                marginBottom: 10,
+                alignItems: 'center',
+                justifyContent: 'space-evenly',
+                marginBottom: Platform.OS == 'android' ? '5%' : 0,
+              }}>
+              <TouchableOpacity
+                style={{transform: [{rotate: '180deg'}]}}
+                onPress={() => this.addReplyToComment()}>
+                <Ionicons name="send" size={24} color="#D2691E" />
+              </TouchableOpacity>
+              <TextInput
+                style={Styles.forminputs}
+                onChangeText={text => {
+                  this.setState({newReply: text});
+                }}
+                placeholder={ArabicText.Reply}
+                placeholderTextColor="#b0b0b0"
+                value={this?.state?.newReply}></TextInput>
+            </View>
+          )}
+          {/* </ScrollView> */}
+        </KeyboardAvoidingView>
+      </View>
     );
   }
 }

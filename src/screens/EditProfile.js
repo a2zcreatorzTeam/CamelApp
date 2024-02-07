@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   TextInput,
@@ -10,31 +10,34 @@ import {
   NativeModules,
   ScrollView,
   Platform,
+  Dimensions,
+  KeyboardAvoidingView,
 } from 'react-native';
-import { Styles } from '../styles/globlestyle';
+import {Styles} from '../styles/globlestyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ArabicText from '../language/EnglishToArabic';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import camelapp from '../api/camelapp';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
-import { bindActionCreators } from 'redux';
+import {bindActionCreators} from 'redux';
 import * as EmailValidator from 'email-validator';
 import Toast from 'react-native-toast-message';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import CookieManager from '@react-native-cookies/cookies';
 import Loader from '../components/PleaseWait';
 import GooglePlaceAutocomplete from '../components/GooglePlaceHolder';
-import { profileBaseUrl } from '../constants/urls';
-import { family } from '../constants/Family';
-
-const { RNTwitterSignIn } = NativeModules;
+import {profileBaseUrl} from '../constants/urls';
+import {family} from '../constants/Family';
+const {width} = Dimensions.get('window');
+const {RNTwitterSignIn} = NativeModules;
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 class EditProfile extends Component {
   constructor(props) {
     super(props);
-    let { user } = props;
+    let {user} = props;
     user = user?.user?.user;
     this.state = {
       userName: user?.name ? user?.name : null,
@@ -77,10 +80,10 @@ class EditProfile extends Component {
   };
   logOut = async () => {
     try {
-      let { user, actions } = this.props;
+      let {user, actions} = this.props;
       let id = user?.user?.user?.id;
       let userdetail = user?.user?.user;
-      this.setState({ loading: true });
+      this.setState({loading: true});
       await camelapp
         .get('/logout/' + id)
         .then(
@@ -97,7 +100,7 @@ class EditProfile extends Component {
             AsyncStorage.removeItem('@UserPassword');
             AsyncStorage.removeItem('@UserPhone');
             AsyncStorage.removeItem('fcmToken');
-            this.setState({ loading: false });
+            this.setState({loading: false});
             console.log(this.props.user, 'userFromedittttt');
             this.props.navigation.replace('Home');
             Toast.show({
@@ -108,7 +111,7 @@ class EditProfile extends Component {
           }),
         )
         .catch(error => {
-          this.setState({ loading: false });
+          this.setState({loading: false});
           Toast.show({
             text1: ArabicText.somethingwentwrong,
             type: 'error',
@@ -154,7 +157,7 @@ class EditProfile extends Component {
   };
   updateProfile = async () => {
     const image = this.props.user?.user?.user?.image;
-    const { email, location, pickedImage, userName } = this.state;
+    const {email, location, pickedImage, userName} = this.state;
     // if (!pickedImage && !image) {
     //   Toast.show({
     //     text1: ArabicText.ImageCantBeEmpty,
@@ -193,7 +196,7 @@ class EditProfile extends Component {
     this.setState({
       btnLoader: true,
     });
-    let { actions } = this.props;
+    let {actions} = this.props;
     if (this.state.imageShow == undefined) {
       console.log('99999');
       await camelapp
@@ -206,8 +209,8 @@ class EditProfile extends Component {
             pickedImage !== undefined
               ? pickedImage
               : image?.length
-                ? image
-                : null,
+              ? image
+              : null,
         })
         .then(res => {
           if (res.data.status == true) {
@@ -237,28 +240,23 @@ class EditProfile extends Component {
     }
   };
   callback = (formatted_address, geometry) => {
-    this.setState({ location: formatted_address });
+    this.setState({location: formatted_address});
     console.log(formatted_address, geometry, 'gejghgh');
   };
 
   render() {
-    const { image, pickedImage } = this.state;
-    let { user } = this.props;
+    const {image, pickedImage} = this.state;
+    let {user} = this.props;
     user = user?.user?.user;
 
     return (
-      <ScrollView
-        nestedScrollEnabled={true}
-        keyboardShouldPersistTaps="handled"
-        style={{ flex: 1 }}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          backgroundColor: '#fff',
-          flexGrow: 1,
-          alignItems: 'center',
-        }}>
-        <View style={Styles.container}>
-          <BackBtnHeader showToolTip style={{ justifyContent: 'space-around' }} />
+      <View style={{flex: 1}}>
+        <BackBtnHeader showToolTip style={{justifyContent: 'space-around'}} />
+        <KeyboardAwareScrollView
+          keyboardShouldPersistTaps={'always'}
+          style={{flex: 1, backgroundColor: '#fff'}}
+          contentContainerStyle={{alignItems: 'center'}}
+          showsVerticalScrollIndicator={false}>
           <ImageBackground
             imageStyle={{
               borderRadius: 100,
@@ -274,14 +272,14 @@ class EditProfile extends Component {
             }}
             source={
               pickedImage?.length
-                ? { uri: image }
+                ? {uri: image}
                 : this.props.user?.user?.user?.image
-                  ? {
+                ? {
                     uri:
                       // 'http://www.tasdeertech.com/public/images/profiles/' +
                       profileBaseUrl + this.props.user?.user?.user?.image,
                   }
-                  : require('../../assets/dummyImage.jpeg')
+                : require('../../assets/dummyImage.jpeg')
             }>
             <TouchableOpacity
               onPress={() => this.openGallery()}
@@ -308,7 +306,9 @@ class EditProfile extends Component {
             </TouchableOpacity>
           </ImageBackground>
           <Loader loading={this.state.loading} />
-          <Text style={Styles.text}>{ArabicText.Edit_profile}</Text>
+          <Text style={[Styles.text, {marginVertical: 20}]}>
+            {ArabicText.Edit_profile}
+          </Text>
 
           <View style={Styles.profileQuestioncard}>
             <TextInput
@@ -321,7 +321,7 @@ class EditProfile extends Component {
                 );
                 const isArabicOnly = /^[\u0600-\u06FF\s]*$/.test(text);
                 if (isInitiallyEnglish || isArabicOnly) {
-                  this.setState({ userName: text });
+                  this.setState({userName: text});
                 }
               }}
               placeholder={ArabicText.Name}
@@ -330,19 +330,11 @@ class EditProfile extends Component {
             <TextInput
               style={Styles.inputs}
               value={this?.state?.email}
-              onChangeText={text => this.setState({ email: text })}
+              onChangeText={text => this.setState({email: text})}
               placeholder={ArabicText.EMAIL}
               placeholderTextColor="#b0b0b0"
               keyboardType="email-address"
             />
-
-            {/* <TextInput
-            style={Styles.inputs}
-            value={this.state.location}
-            onChangeText={text => this.setState({location: text})}
-            placeholder={ArabicText.Location}
-            placeholderTextColor="#b0b0b0"
-          /> */}
             <GooglePlaceAutocomplete
               placeholder={user?.location}
               callback={(formatted_address, geometry) => {
@@ -369,7 +361,13 @@ class EditProfile extends Component {
                 animating={this.state.btnLoader}
               />
             ) : (
-              <Text style={{ color: '#fff', fontSize: 16, fontWeight: 'bold',  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, }}>
+              <Text
+                style={{
+                  color: '#fff',
+                  fontSize: 16,
+                  fontWeight: 'bold',
+                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                }}>
                 {ArabicText?.UpdateProfile}
               </Text>
             )}
@@ -378,48 +376,11 @@ class EditProfile extends Component {
           {/* logout button */}
           <TouchableOpacity
             onPress={() => this.logOut()}
-            style={{ alignSelf: 'center', marginBottom: 20, marginTop: 10 }}>
+            style={{alignSelf: 'center', marginBottom: 20, marginTop: 10}}>
             <AntDesign name="poweroff" size={25} color="red" />
           </TouchableOpacity>
-        </View>
-        {/* 
-      // <Modal
-      //   animationType="slide"
-      //   visible={this.state.modalVisible}
-      //   transparent={true}
-      //   onRequestClose={() => this.setState({ modalVisible: false })}
-      // >
-      //   <TouchableOpacity activeOpacity={1} style={{ height: height }}
-      //     onPress={() => this.setState({ modalVisible: false })}
-      //   />
-      //   <View style={{
-      //     height: '20%',
-      //     width: width,
-      //     marginTop: 'auto',
-      //     backgroundColor: '#ccc',
-      //     borderTopEndRadius: 20,
-      //     borderTopStartRadius: 20,
-      //     position: "absolute",
-      //     bottom: 0
-      //   }}>
-      //     <View style={{
-      //       height: 30,
-      //       borderTopEndRadius: 25,
-      //       borderTopStartRadius: 25,
-      //       justifyContent: "center",
-      //       alignItems: "center"
-      //     }}>
-      //       <Text style={{ color: "#8b4513", fontSize: 15, fontWeight: "600" }}>Enter OTP Here</Text>
-      //     </View>
-
-      //     <OTPTextInput
-      //       tintColor="#8b4513"
-      //       ref={e => (this.otpInput = e)}
-      //       containerStyle={{ width: "90%", alignSelf: "center", bottom: 10 }}
-      //       handleTextChange={(e) => this.setState({ optVal: e })} />
-      //   </View>
-      // </Modal> */}
-      </ScrollView>
+        </KeyboardAwareScrollView>
+      </View>
     );
   }
 }

@@ -5,7 +5,7 @@ const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 export const Styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     backgroundColor: '#ffffff',
     alignItems: 'center',
     width: width,
@@ -59,7 +59,7 @@ export const Styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
     width: width,
-    height: hight,
+    // height: hight,
   },
   containerHome: {
     flex: 1,
@@ -252,17 +252,20 @@ export const Styles = StyleSheet.create({
     height: 136,
     borderRadius: 10,
   },
-  ButtonBeauty: {
-    padding: 10,
-    backgroundColor: '#D2691Eff',
-    marginLeft: 5,
+  beautyBtnView: {
     borderRadius: 10,
-    fontSize: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
     borderColor: 'black',
     borderWidth: 0.5,
+    backgroundColor: '#D2691Eff',
+    padding: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 80,
+    borderColor: '#D2691Eff',
+  },
+  ButtonBeauty: {
+    fontSize: 16,
+    textAlign: 'center',
     color: '#fff',
     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
@@ -398,7 +401,7 @@ export const Styles = StyleSheet.create({
   },
   cardsignup: {
     shadowColor: 'black',
-    shadowOffset: { width: 0, height: 7 },
+    shadowOffset: {width: 0, height: 7},
     shadowOpacity: 0.27,
     shadowRadius: 25,
     backgroundColor: 'white',
@@ -451,8 +454,9 @@ export const Styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     width: width,
-    height: 50,
+    height: Platform.OS == 'ios' ? 80 : 50,
     flexDirection: 'row',
+    paddingBottom: Platform.OS == 'ios' ? 30 : 0,
   },
   msginput: {
     height: 40,
@@ -807,19 +811,19 @@ export const Styles = StyleSheet.create({
     backgroundColor: '#d2691e',
     width: '100%',
     paddingVertical: 5,
-    flexDirection:'row',
-    justifyContent:'space-around'
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
-  textView:{
+  textView: {
     alignItems: 'center',
-    justifyContent:'center'
+    justifyContent: 'center',
   },
-  viewText:{
-    color: '#fff'
+  viewText: {
+    color: '#fff',
   },
-  OR:{
+  OR: {
     fontSize: 30,
     fontWeight: '400',
     color: '#fff',
-  }
+  },
 });

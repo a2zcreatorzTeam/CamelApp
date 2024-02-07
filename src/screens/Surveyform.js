@@ -424,7 +424,7 @@ class Surveyform extends Component {
           todaysData <= surveyEndDate &&
           submitStatus == false ? (
           <TouchableOpacity
-            style={[Styles.btn, { position: 'absolute', bottom: 10 }]}
+            style={[Styles.btn, { position: 'absolute', bottom: 20 }]}
             onPress={() => this.submitSurvey()}>
             {this.state.loader == true ? (
               <ActivityIndicator

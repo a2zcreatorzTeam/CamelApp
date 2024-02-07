@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity, Platform} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Dimensions} from 'react-native';
@@ -7,7 +14,7 @@ const width = Dimensions.get('screen').width;
 import * as ArabicText from '../language/EnglishToArabic';
 import FastImage from 'react-native-fast-image';
 import {mainImageUrl} from '../constants/urls';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 const itemWidth = (width - 15) / 2;
 const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
   <View
@@ -27,6 +34,7 @@ const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
+        width: '100%',
       }}>
       <FastImage
         style={Styles.BeautyImages}
@@ -37,6 +45,7 @@ const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
         }}
         resizeMode={FastImage?.resizeMode.cover}
       />
+      {/* TITLE VIEW  */}
       <View style={{flexDirection: 'row', alignSelf: 'center'}}>
         <Text
           numberOfLines={2}
@@ -53,7 +62,13 @@ const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
         </Text>
         {/* <Text style={{ textAlign: 'right', fontWeight: '600', fontSize: 14 }}> {ArabicText.Title} </Text> */}
       </View>
-      <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+
+      <View
+        style={{
+          flexDirection: 'row',
+          alignSelf: 'center',
+          alignItems: 'center',
+        }}>
         <Text
           style={{
             color: 'black',
@@ -75,7 +90,13 @@ const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
           {ArabicText.Start_Date}
         </Text>
       </View>
-      <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignSelf: 'center',
+          alignSelf: 'center',
+          alignItems: 'center',
+        }}>
         <Text
           style={{
             color: 'black',

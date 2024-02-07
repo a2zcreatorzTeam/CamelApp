@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -8,19 +8,19 @@ import {
   Platform,
 } from 'react-native';
 import camelapp from '../api/camelapp';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import { bindActionCreators } from 'redux';
-import { Dimensions } from 'react-native';
+import {bindActionCreators} from 'redux';
+import {Dimensions} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import EmptyComponent from '../components/EmptyComponent';
 import Header from '../components/Header';
-import { RefreshControl } from 'react-native';
-import { TouchableOpacity } from 'react-native';
+import {RefreshControl} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import Toast from 'react-native-toast-message';
 import * as ArabicText from '../language/EnglishToArabic';
 import BackBtnHeader from '../components/headerWithBackBtn';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 
 const width = Dimensions.get('screen').width;
 
@@ -41,7 +41,7 @@ class Notification extends Component {
     this.checkUserLogedIn();
   }
   checkUserLogedIn() {
-    let { user } = this.props;
+    let {user} = this.props;
     // //console.log("user", this.props.user?.user?.user.id)
     if (user?.user?.user != undefined) {
       this.viewPosts();
@@ -50,9 +50,9 @@ class Notification extends Component {
     }
   }
   async viewPosts() {
-    let { user } = this.props;
+    let {user} = this.props;
     user = user?.user?.user.id;
-    const { key } = this.state;
+    const {key} = this.state;
     await camelapp
       .get('/notification/' + user)
       .then(res => {
@@ -71,30 +71,30 @@ class Notification extends Component {
       });
   }
   searchHandler = value => {
-    const { key } = this.state;
+    const {key} = this.state;
     if (!value?.length) {
-      this.setState({ filterPosts: this.state.posts });
+      this.setState({filterPosts: this.state.posts});
     } else {
-      this.setState({ searchedItem: value });
+      this.setState({searchedItem: value});
       // Data Filtration
       const filteredData = this.state.posts.filter(item => {
-        const { description } = item;
+        const {description} = item;
         return description?.toLowerCase().includes(value.toLowerCase());
       });
       if (filteredData.length > 0) {
-        this.setState({ filterPosts: filteredData, key: !key });
+        this.setState({filterPosts: filteredData, key: !key});
       } else {
-        this.setState({ filterPosts: [], key: !key });
+        this.setState({filterPosts: [], key: !key});
       }
     }
   };
   // =============NEW Search Handler==============
   search(text) {
-    this.setState({ searchText: text });
+    this.setState({searchText: text});
   }
   ScrollToRefresh() {
     this.viewPosts();
-    this.setState({ refreshing: false });
+    this.setState({refreshing: false});
   }
   onPressNotificaion = item => {
     if (
@@ -120,8 +120,8 @@ class Notification extends Component {
     }
   };
   render() {
-    const { filterPosts, key, searchedItem, posts } = this.state;
-    const renderItem = ({ item }) => {
+    const {filterPosts, key, searchedItem, posts} = this.state;
+    const renderItem = ({item}) => {
       console.log(item, 'decccc');
       let d = new Date(item.created_at);
       return (
@@ -154,7 +154,7 @@ class Notification extends Component {
             size="large"
             color="#D2691Eff"
             animating={this.state.loader}
-            style={{ marginTop: 20 }}
+            style={{marginTop: 20}}
           />
         )}
 
@@ -188,8 +188,9 @@ class Notification extends Component {
   }
 }
 
-const Post = ({ description, date, item, onPress = () => { }, name }) => (
+const Post = ({description, date, item, onPress = () => {}, name}) => (
   <TouchableOpacity
+    activeOpacity={0.99}
     onPress={() => onPress(item)}
     style={{
       width: width,
@@ -208,13 +209,19 @@ const Post = ({ description, date, item, onPress = () => { }, name }) => (
         height: '70%',
         alignSelf: 'center',
       }}>
-      <View style={{ flexDirection: 'row', alignSelf: 'flex-end' }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignSelf: 'flex-end',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
         <Text
           style={{
             color: 'black',
             fontSize: 16,
             textAlign: 'right',
-             fontFamily: Platform.OS == 'ios' ? null: family.Neo_Medium
+            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Medium,
           }}>
           {description}
         </Text>
@@ -223,12 +230,18 @@ const Post = ({ description, date, item, onPress = () => { }, name }) => (
             color: 'black',
             fontSize: 16,
             textAlign: 'right',
-             fontFamily: Platform.OS == 'ios' ? null: family.Neo_Medium
+            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Medium,
           }}>
           {' ' + name + ' '}
         </Text>
       </View>
-      <Text style={{ color: 'black', fontSize: 12, width: width - 100,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>
+      <Text
+        style={{
+          color: 'black',
+          fontSize: 12,
+          width: width - 100,
+          fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+        }}>
         {date}
       </Text>
 

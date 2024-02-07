@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -14,16 +14,16 @@ import camelapp from '../api/camelapp';
 import EmptyComponent from '../components/EmptyComponent';
 import AddButton from '../components/AddButton';
 import * as ArabicText from '../language/EnglishToArabic';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import { bindActionCreators } from 'redux';
+import {bindActionCreators} from 'redux';
 import Header from '../components/Header';
-import { Styles } from '../styles/globlestyle';
-import { TouchableOpacity } from 'react-native';
+import {Styles} from '../styles/globlestyle';
+import {TouchableOpacity} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import shadows from '../helper/shadows';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 class CamelMovingList extends Component {
   constructor(props) {
     super(props);
@@ -44,12 +44,12 @@ class CamelMovingList extends Component {
     };
   }
   search(text) {
-    this.setState({ searchText: text });
+    this.setState({searchText: text});
   }
   searchFunction(searchtext) {
-    const { key } = this.state;
+    const {key} = this.state;
     if (searchtext != undefined && searchtext?.length != 0) {
-      this.setState({ searchedItem: searchtext });
+      this.setState({searchedItem: searchtext});
       let tempPost = this.state?.posts.filter(item => {
         return (
           item?.user_name?.toLowerCase().includes(searchtext.toLowerCase()) ||
@@ -62,28 +62,27 @@ class CamelMovingList extends Component {
           item?.type?.toLowerCase()?.includes(searchtext.toLowerCase())
         );
       });
-      this.setState({ filterPosts: tempPost, key: !key });
+      this.setState({filterPosts: tempPost, key: !key});
     }
   }
   searchLocationFunction(To, From) {
-    this.setState({ searchedTo: To, searchedFrom: From });
-    const { key } = this.state;
+    this.setState({searchedTo: To, searchedFrom: From});
+    const {key} = this.state;
     if ((To && To.length > 0) || (From && From.length > 0)) {
       let tempPost = this.state?.posts?.filter(item => {
-        return (
-          (To && From) ?
-            (item?.location?.toLowerCase().includes(From.toLowerCase())) &&
-            (item?.to_location?.toLowerCase().includes(To.toLowerCase())) :
-            (From &&
+        return To && From
+          ? item?.location?.toLowerCase().includes(From.toLowerCase()) &&
+              item?.to_location?.toLowerCase().includes(To.toLowerCase())
+          : (From &&
               item?.location?.toLowerCase().includes(From.toLowerCase())) ||
-            (To && item?.to_location?.toLowerCase().includes(To.toLowerCase()))
-        );
+              (To &&
+                item?.to_location?.toLowerCase().includes(To.toLowerCase()));
       });
-      this.setState({ filterPosts: tempPost, key: !key });
+      this.setState({filterPosts: tempPost, key: !key});
     }
   }
   async viewPosts() {
-    const { key } = this.state;
+    const {key} = this.state;
     const user = this.props?.user;
     userData = user?.user?.user;
     try {
@@ -104,8 +103,8 @@ class CamelMovingList extends Component {
     }
   }
   postViewed = async (item, viewCount, setViewCount) => {
-    this.setState({ loading: false });
-    let { user } = this.props;
+    this.setState({loading: false});
+    let {user} = this.props;
     user = user?.user?.user;
     let post_id = item?.id;
     if (user != undefined) {
@@ -120,7 +119,7 @@ class CamelMovingList extends Component {
           }
         })
         .catch(error => {
-          this.setState({ loading: false });
+          this.setState({loading: false});
         });
     } else {
       this.props.navigation.navigate('Login');
@@ -128,7 +127,7 @@ class CamelMovingList extends Component {
   };
   ScrollToRefresh() {
     this.viewPosts();
-    this.setState({ refreshing: false });
+    this.setState({refreshing: false});
   }
   componentDidMount = () => {
     this.focusListener = this.props.navigation.addListener('focus', () => {
@@ -150,9 +149,9 @@ class CamelMovingList extends Component {
       searchText,
       locationInput,
     } = this.state;
-    let { user } = this.props;
+    let {user} = this.props;
     user = user?.user?.user;
-    const renderItem = ({ item }) => {
+    const renderItem = ({item}) => {
       return (
         <Post
           thumbnail={item?.thumbnail}
@@ -182,7 +181,7 @@ class CamelMovingList extends Component {
       // }
     };
     const onAddButtonClick = () => {
-      let { user } = this.props;
+      let {user} = this.props;
       if (user?.user?.status == true) {
         this.props.navigation.navigate('MovingCamelForm');
       } else {
@@ -191,40 +190,40 @@ class CamelMovingList extends Component {
     };
     return (
       <View style={styles.container}>
-        {
-          locationInput ? <BackBtnHeader />
-            :
-            <Header
-              filterIcon={locationInput}
-              onChangeText={text => {
-                if (text) {
-                  this.search(text);
-                } else {
-                  this.setState({ searchedItem: '', searchText: '' });
-                }
-              }}
-              // onChangeTo={text => {
-              //   if (text) {
-              //     this.setState({ To: text });
-              //   } else {
-              //     this.setState({ To: '', searchedItem: '', searchedTo: '' });
-              //   }
-              // }}
-              // onChangeFrom={text => {
-              //   if (text) {
-              //     this.setState({ From: text });
-              //   } else {
-              //     this.setState({ From: '', searchedItem: '', searchedFrom: '' });
-              //   }
-              // }}
-              onPressSearch={() => {
-                // To?.length || From?.length
-                //   ? this.searchLocationFunction(To, From)
-                //   : 
-                this.searchFunction(searchText);
-              }}
-            />
-        }
+        {locationInput ? (
+          <BackBtnHeader />
+        ) : (
+          <Header
+            filterIcon={locationInput}
+            onChangeText={text => {
+              if (text) {
+                this.search(text);
+              } else {
+                this.setState({searchedItem: '', searchText: ''});
+              }
+            }}
+            // onChangeTo={text => {
+            //   if (text) {
+            //     this.setState({ To: text });
+            //   } else {
+            //     this.setState({ To: '', searchedItem: '', searchedTo: '' });
+            //   }
+            // }}
+            // onChangeFrom={text => {
+            //   if (text) {
+            //     this.setState({ From: text });
+            //   } else {
+            //     this.setState({ From: '', searchedItem: '', searchedFrom: '' });
+            //   }
+            // }}
+            onPressSearch={() => {
+              // To?.length || From?.length
+              //   ? this.searchLocationFunction(To, From)
+              //   :
+              this.searchFunction(searchText);
+            }}
+          />
+        )}
         <View
           style={{
             flexDirection: 'row',
@@ -233,17 +232,32 @@ class CamelMovingList extends Component {
             alignItems: 'center',
           }}>
           <TouchableOpacity
-            onPress={() => this.setState({ locationInput: !locationInput })}
-            style={[styles.btnContainer, { marginLeft: 10, marginRight: 0 }]}>
+            onPress={() =>
+              this.setState({
+                locationInput: !locationInput,
+                To: '',
+                From: '',
+                searchedItem: '',
+                searchText: '',
+              })
+            }
+            style={[styles.btnContainer, {marginLeft: 10, marginRight: 0}]}>
             <FontAwesome name={'filter'} size={28} color="white" />
           </TouchableOpacity>
 
-
-          <View style={{ width: '80%', flexDirection: 'row', justifyContent: 'space-around' }}>
-            {
-              locationInput && <>
+          <View
+            style={{
+              width: '80%',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+            }}>
+            {locationInput && (
+              <>
                 <View
-                  style={[Styles.searchbar, { width: '40%', paddingHorizontal: 5, ...shadows.shadow5 },]}>
+                  style={[
+                    Styles.searchbar,
+                    {width: '40%', paddingHorizontal: 5, ...shadows.shadow5},
+                  ]}>
                   <TextInput
                     value={To}
                     style={[
@@ -254,20 +268,26 @@ class CamelMovingList extends Component {
                       },
                     ]}
                     placeholder={ArabicText.To}
-                    placeholderTextColor='black'
+                    placeholderTextColor="black"
                     onChangeText={text => {
                       if (text) {
-                        this.setState({ To: text });
-                        this.searchLocationFunction(text, From)
+                        this.setState({To: text});
+                        this.searchLocationFunction(text, From);
                       } else {
-                        this.setState({ To: '', searchedItem: '', searchedTo: '' });
+                        this.setState({
+                          To: '',
+                          searchedItem: '',
+                          searchedTo: '',
+                        });
                       }
-                    }
-                    }
+                    }}
                   />
                 </View>
                 <View
-                  style={[Styles.searchbar, { width: '40%', paddingHorizontal: 5, ...shadows.shadow5 }]}>
+                  style={[
+                    Styles.searchbar,
+                    {width: '40%', paddingHorizontal: 5, ...shadows.shadow5},
+                  ]}>
                   <TextInput
                     value={From}
                     style={[
@@ -278,35 +298,35 @@ class CamelMovingList extends Component {
                       },
                     ]}
                     placeholder={ArabicText.From}
-                    placeholderTextColor='black'
+                    placeholderTextColor="black"
                     onChangeText={text => {
                       if (text) {
-                        this.setState({ From: text });
-                        this.searchLocationFunction(To, text)
+                        this.setState({From: text});
+                        this.searchLocationFunction(To, text);
                       } else {
-                        this.setState({ From: '', searchedItem: '', searchedFrom: '' });
+                        this.setState({
+                          From: '',
+                          searchedItem: '',
+                          searchedFrom: '',
+                        });
                       }
                     }}
                   />
                 </View>
               </>
-            }
-
+            )}
           </View>
-
-
-
         </View>
         {loader && (
           <ActivityIndicator
             size="large"
             color="#D2691Eff"
             animating={loader}
-            style={{ marginTop: 20 }}
+            style={{marginTop: 20}}
           />
         )}
         {loader == false && (
-          <View style={{ flex: 1, width: '100%' }}>
+          <View style={{flex: 1, width: '100%'}}>
             <View
               style={{
                 flexDirection: 'row',
@@ -324,16 +344,16 @@ class CamelMovingList extends Component {
                     borderRadius: 10,
                   },
                 ]}
-                onPress={() => { }}>
+                onPress={() => {}}>
                 <Text style={Styles.catBtnText}>{ArabicText?.MovingCamel}</Text>
               </TouchableOpacity>
               <AddButton onPress={() => onAddButtonClick()} />
             </View>
             <FlatList
-              style={{ flex: 1 }}
+              style={{flex: 1}}
               ListEmptyComponent={() => <EmptyComponent />}
               key={key}
-              contentContainerStyle={{ paddingBottom: '20%' }}
+              contentContainerStyle={{paddingBottom: '20%'}}
               data={
                 searchedItem || To || From ? filterPosts : this.state?.posts
               }
@@ -391,6 +411,6 @@ const styles = StyleSheet.create({
     height: '100%',
     zIndex: 20,
     position: 'absolute',
-     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
 });

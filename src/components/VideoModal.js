@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000db',
     justifyContent: 'center',
   },
-  modalCloseBTN: {top: 10, right: 15, position: 'absolute'},
+  modalCloseBTN: {top: 30, right: 15, position: 'absolute'},
   modalMediaWrpr: {
     width: width,
     height: 60,

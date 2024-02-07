@@ -905,7 +905,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000db',
     justifyContent: 'center',
   },
-  modalCloseBTN: {top: 10, right: 15, position: 'absolute'},
+  modalCloseBTN: {top: 30, right: 15, position: 'absolute'},
   containerHeight: {
     borderRadius: 25,
     borderTopStartRadius: 0,

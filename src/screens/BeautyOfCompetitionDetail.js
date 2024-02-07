@@ -445,21 +445,15 @@ class BeautyOfCompetition extends Component {
             }}
             style={styles.scrollView}>
             {/* Reward MODAL  */}
-            <Pressable onPress={() => this.setState({modal: true})}>
+            <Pressable style={Styles.beautyBtnView} onPress={() => this.setState({modal: true})}>
               <Text style={Styles.ButtonBeauty}>{ArabicText.Reward}</Text>
             </Pressable>
-            {/* HOW TO PARTICIPATE */}
-            {/* <Pressable onPress={() => this.setState({ particpateModal: true })}>
-              <Text style={Styles.ButtonBeauty}>
-                {ArabicText.How_to_Participate}
-              </Text>
-            </Pressable> */}
             {/* Rules Modal  */}
-            <Pressable onPress={() => this.setState({generalRulesModal: true})}>
+            <Pressable  style={Styles.beautyBtnView} onPress={() => this.setState({generalRulesModal: true})}>
               <Text style={Styles.ButtonBeauty}>{ArabicText.General_Rule}</Text>
             </Pressable>
             {/* WINNER  */}
-            <Pressable
+            <Pressable style={Styles.beautyBtnView}
               onPress={() => {
                 if (this?.state?.posts?.length > 0) {
                   if (competition_item.competition_winner?.length) {
@@ -490,7 +484,7 @@ class BeautyOfCompetition extends Component {
               </Text>
             </Pressable>
             {/* PARTICIPANTS  */}
-            <Pressable onPress={() => this.setState({participantsModal: true})}>
+            <Pressable style={Styles.beautyBtnView} onPress={() => this.setState({participantsModal: true})}>
               <Text style={Styles.ButtonBeauty}>{ArabicText.PARTICIPANTS}</Text>
             </Pressable>
           </ScrollView>

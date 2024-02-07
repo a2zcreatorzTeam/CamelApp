@@ -54,7 +54,7 @@ const Item = ({
           </Text>
 
           <TouchableOpacity
-            style={{left: 5}}
+            style={{ left: 5 }}
             // style={{left: 5, position: 'absolute', bottom: 0, }}
 
             onPress={() => {

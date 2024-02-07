@@ -15,23 +15,23 @@ import {
 } from 'react-native';
 const {RNTwitterSignIn} = NativeModules;
 import * as ArabicText from '../language/EnglishToArabic';
-import {Styles} from '../styles/globlestyle';
+import { Styles } from '../styles/globlestyle';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Feather from 'react-native-vector-icons/Feather';
 import camelapp from '../api/camelapp';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import {bindActionCreators} from 'redux';
-import {Dimensions} from 'react-native';
+import { bindActionCreators } from 'redux';
+import { Dimensions } from 'react-native';
 import OTPTextView from 'react-native-otp-textinput';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {getFCMToken} from '../services/Helper';
+import { getFCMToken } from '../services/Helper';
 import Toast from 'react-native-toast-message';
 import InstagramLogin from 'react-native-instagram-login';
 import CookieManager from '@react-native-cookies/cookies';
 import BackBtnHeader from '../components/headerWithBackBtn';
-import {family} from '../constants/Family';
+import { family } from '../constants/Family';
 const width = Dimensions.get('screen').width;
 
 RNTwitterSignIn.init(
@@ -220,7 +220,7 @@ class Login extends Component {
       do {
         number = Math.floor(Math.random() * 10000) + 1;
       } while (number < 1000 || number > 10000);
-      this.setState({randomIndex: number});
+      this.setState({ randomIndex: number });
       if (this.state.contactNumber.length >= 10 && this.state.password != '') {
         var response = null;
         try {
@@ -303,7 +303,7 @@ class Login extends Component {
         />
         <ScrollView
           showsVerticalScrollIndicator={false}
-          style={{flex: 1, backgroundColor: '#fff'}}>
+          style={{ flex: 1, backgroundColor: '#fff' }}>
           <Image
             source={require('../../assets/logo-camel.png')}
             style={{
@@ -348,14 +348,14 @@ class Login extends Component {
                   name="eye"
                   size={18}
                   color="brown"
-                  onPress={() => this.setState({hidePassword: false})}
+                  onPress={() => this.setState({ hidePassword: false })}
                 />
               ) : (
                 <Ionicons
                   name="eye-off"
                   size={18}
                   color="brown"
-                  onPress={() => this.setState({hidePassword: true})}
+                  onPress={() => this.setState({ hidePassword: true })}
                 />
               )}
               <TextInput
@@ -367,7 +367,7 @@ class Login extends Component {
                 placeholder={ArabicText.passwords}
                 secureTextEntry={this.state.hidePassword}
                 placeholderTextColor="#000000"
-                onChangeText={text => this.setState({password: text})}
+                onChangeText={text => this.setState({ password: text })}
               />
             </View>
 
@@ -381,7 +381,7 @@ class Login extends Component {
             </Text>
 
             <TouchableOpacity
-              style={{alignSelf: 'flex-end', marginRight: 15}}
+              style={{ alignSelf: 'flex-end', marginRight: 15 }}
               onPress={() => this.props.navigation.navigate('Forgetpass')}>
               <Text
                 style={{
@@ -395,7 +395,7 @@ class Login extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={{alignSelf: 'flex-end', marginRight: 15, marginTop: 20}}
+              style={{ alignSelf: 'flex-end', marginRight: 15, marginTop: 20 }}
               onPress={() => this.props.navigation.navigate('Signup')}>
               <Text
                 style={{
@@ -410,7 +410,7 @@ class Login extends Component {
           </View>
 
           <View
-            style={{flexDirection: 'row', alignSelf: 'center', marginTop: 20}}>
+            style={{ flexDirection: 'row', alignSelf: 'center', marginTop: 20 }}>
             <TouchableOpacity
               onPress={() => {
                 // this.onClear();
@@ -422,7 +422,7 @@ class Login extends Component {
                 name="instagram"
                 size={24}
                 color="#d2691e"
-                style={{margin: 5}}
+                style={{ margin: 5 }}
               />
 
               <Text
@@ -446,7 +446,7 @@ class Login extends Component {
                 name="twitter"
                 size={24}
                 color="#d2691e"
-                style={{margin: 5}}
+                style={{ margin: 5 }}
               />
 
               <Text
@@ -463,7 +463,7 @@ class Login extends Component {
 
           <TouchableOpacity
             onPress={() => authentication()}
-            style={{alignSelf: 'center'}}>
+            style={{ alignSelf: 'center' }}>
             <View
               style={[
                 Styles.btn,
@@ -491,10 +491,10 @@ class Login extends Component {
           transparent={true}
           visible={this.state.modalVisible}
           onRequestClose={() => {
-            this.setState({modalVisible: false});
+            this.setState({ modalVisible: false });
           }}>
           {this.state.otp === true && (
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
               <View
                 style={{
                   flex: 1,
@@ -515,13 +515,13 @@ class Login extends Component {
                   handleTextChange={e => {
                     if (parseInt(e) == this.state.randomIndex) {
                       // setTimeout(() => {
-                      this.setState({otp: false, loader: true});
+                      this.setState({ otp: false, loader: true });
 
                       setTimeout(() => {
-                        this.setState({checked: true, loader: false});
+                        this.setState({ checked: true, loader: false });
 
                         setTimeout(() => {
-                          this.setState({checked: false, modalVisible: false});
+                          this.setState({ checked: false, modalVisible: false });
                           this.props.navigation.navigate('Home');
                         }, 1000);
                       }, 1000);

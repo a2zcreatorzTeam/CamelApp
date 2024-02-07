@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, Platform } from 'react-native';
 import { Styles } from '../styles/globlestyle';
 import * as ArabicText from '../language/EnglishToArabic';
 import { Dimensions } from 'react-native';

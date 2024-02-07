@@ -77,7 +77,7 @@ const Header = props => {
 
 export default Header;
 
-const CircularBTN = ({onPress, iconName}) => (
+const CircularBTN = ({ onPress, iconName }) => (
   <TouchableOpacity onPress={onPress} style={styles.btnContainer}>
     <Ionicons name={iconName} size={24} color="brown" />
   </TouchableOpacity>

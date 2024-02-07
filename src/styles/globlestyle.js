@@ -398,7 +398,7 @@ export const Styles = StyleSheet.create({
   },
   cardsignup: {
     shadowColor: 'black',
-    shadowOffset: {width: 0, height: 7},
+    shadowOffset: { width: 0, height: 7 },
     shadowOpacity: 0.27,
     shadowRadius: 25,
     backgroundColor: 'white',

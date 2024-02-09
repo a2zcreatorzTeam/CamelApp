@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {
   Text,
@@ -11,6 +12,7 @@ import {
   ImageBackground,
   ActivityIndicator,
   Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {Styles} from '../../styles/globlestyle';
 import {Card} from 'react-native-paper';
@@ -503,283 +505,292 @@ const MessageView = ({route}) => {
         backgroundColor: '#d2691e',
       }}>
       <BackBtnHeader reciever_data={reciever_data} />
-      <View
-        style={{flex: 1, width: width, height: hight, backgroundColor: '#fff'}}>
-        <RenderList />
-        <View style={styles.inputContainer}>
-          <View
-            style={{
-              width: '10%',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <TouchableOpacity
-              activeOpacity={0.99}
-              onPress={() => {
-                inputValue?.length && handlePress();
-              }}>
-              {loader ? (
-                <ActivityIndicator size={20} color={'orange'} />
-              ) : (
-                <Feather
-                  name="send"
-                  size={30}
-                  color="#D2691E"
-                  style={{
-                    transform: [{rotate: '225deg'}],
-                  }}
-                />
-              )}
-            </TouchableOpacity>
-          </View>
-          <View
-            style={{
-              width: '80%',
-              backgroundColor: '#fff',
-              height: '75%',
-              borderRadius: 25,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              flexDirection: 'row',
-              paddingHorizontal: 10,
-            }}>
-            <TouchableOpacity
-              onPress={() => setModalVisible(true)}
-              style={{width: '15%'}}>
-              <Entypo name="attachment" size={18} color="#bbb" style={{}} />
-            </TouchableOpacity>
-            <TextInput
-              style={{
-                width: '85%',
-                textAlign: 'right',
-                color: '#000',
-                marginRight: 10,
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
-              }}
-              placeholder={ArabicText?.Message}
-              placeholderTextColor="#b0b0b0"
-              onChangeText={text => setInputValue(text)}
-              value={inputValue}
-            />
-          </View>
-        </View>
-        {/* attachment modal */}
-        <PickerModal
-          modalVisible={modalVisible}
-          setModalVisible={setModalVisible}
-          openGallery={openGallery}
-          selectOneFile={selectOneFile}
-          getLocation={getLocation}
-        />
-        {/* media send confirmtion modal */}
-        <Modal
-          visible={confirmModal}
-          transparent={false}
-          animationType="fade"
-          onRequestClose={() => {
-            setConfirmModal(false);
-            setImage(null);
-            setVideo(null);
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === 'ios' ? 'padding' : null}>
+        <View
+          style={{
+            flex: 1,
+            width: width,
+            height: hight,
+            backgroundColor: '#fff',
           }}>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: '#3C3937',
-            }}>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => {
-                setConfirmModal(false);
-                setImage(null);
-                setVideo(null);
-                setModalVisible(false);
-              }}
-              style={{
-                marginVertical: 20,
-                zIndex: 1111,
-                marginHorizontal: 20,
-                marginLeft: 'auto',
-              }}>
-              <AntDesign name="closecircle" size={35} color="#D2691E" />
-            </TouchableOpacity>
+          <RenderList />
+          <View style={styles.inputContainer}>
             <View
               style={{
-                alignContent: 'center',
-                backgroundColor: '#3C3937',
-                flex: 1,
+                width: '10%',
                 justifyContent: 'center',
+                alignItems: 'center',
               }}>
-              {image ? (
-                <Image
-                  resizeMode="contain"
-                  source={{uri: image?.imageShow}}
-                  style={{
-                    width: width,
-                    height: hight * 0.6,
-                    marginBottom: '20%',
-                  }}
-                />
-              ) : null}
-              {video ? (
-                <Image
-                  resizeMode="contain"
-                  source={require('../../../assets/videoImage.png')}
-                  style={{width: width, height: hight * 0.7}}
-                />
-              ) : null}
-              <View
-                style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  justifyContent: 'space-around',
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                  marginHorizontal: 20,
-                  marginVertical: 10,
+              <TouchableOpacity
+                activeOpacity={0.99}
+                onPress={() => {
+                  inputValue?.length && handlePress();
                 }}>
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: '#D2691E',
-                    padding: 10,
-                    borderRadius: 100,
-                    marginBottom: 20,
-                  }}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      setLoader(true), handlePress();
-                    }}>
-                    {loader ? (
-                      <ActivityIndicator size={20} color={'white'} />
-                    ) : (
-                      <Feather
-                        name="send"
-                        size={28}
-                        color="white"
-                        style={{
-                          transform: [{rotate: '225deg'}],
-                        }}
-                      />
-                    )}
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          </View>
-        </Modal>
-        {/* IMAGE_ VIDEO MODAL  */}
-        <Modal
-          visible={modal}
-          transparent={true}
-          animationType="fade"
-          onRequestClose={() => {
-            setModal(false), setpausedCheck(true);
-          }}>
-          <View style={styles.modalContainer}>
-            {/* Modal Close Button */}
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => {
-                setModal(false), setpausedCheck(true);
-              }}
-              style={styles.modalCloseBTN}>
-              <AntDesign name="closecircle" size={35} color="#fff" />
-            </TouchableOpacity>
-
-            <View style={{height: 300}}>
-              <View style={Styles.imageCarousal}>
-                {modalItemType === 'image' && (
-                  <FastImage
-                    style={Styles.image}
-                    source={modalItem}
-                    resizeMode={FastImage?.resizeMode.contain}
+                {loader ? (
+                  <ActivityIndicator size={20} color={'orange'} />
+                ) : (
+                  <Feather
+                    name="send"
+                    size={30}
+                    color="#D2691E"
+                    style={{
+                      transform: [{rotate: '225deg'}],
+                    }}
                   />
                 )}
-                {modalItemType == 'video' && (
-                  <View style={{flex: 1, backgroundColor: '#ededed'}}>
-                    <Video
-                      onError={error => console.error('Video error:', error)}
-                      onLoadStart={() => {
-                        setLoad(true);
-                      }}
-                      onReadyForDisplay={() => {
-                        setLoad(false);
-                      }}
-                      source={modalItem}
-                      resizeMode="contain"
-                      repeat={true}
-                      controls={false}
-                      paused={pausedCheck}
-                      style={[
-                        Styles.image,
-                        {
-                          width: width,
-                          height: hight / 2.5,
-                        },
-                      ]}
-                    />
-                    {/* } */}
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                width: '80%',
+                backgroundColor: '#fff',
+                height: '75%',
+                borderRadius: 25,
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexDirection: 'row',
+                paddingHorizontal: 10,
+              }}>
+              <TouchableOpacity
+                onPress={() => setModalVisible(true)}
+                style={{width: '15%'}}>
+                <Entypo name="attachment" size={18} color="#bbb" style={{}} />
+              </TouchableOpacity>
+              <TextInput
+                style={{
+                  width: '85%',
+                  textAlign: 'right',
+                  color: '#000',
+                  marginRight: 10,
+                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                }}
+                placeholder={ArabicText?.Message}
+                placeholderTextColor="#b0b0b0"
+                onChangeText={text => setInputValue(text)}
+                value={inputValue}
+              />
+            </View>
+          </View>
+          {/* attachment modal */}
+          <PickerModal
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            openGallery={openGallery}
+            selectOneFile={selectOneFile}
+            getLocation={getLocation}
+          />
+          {/* media send confirmtion modal */}
+          <Modal
+            visible={confirmModal}
+            transparent={false}
+            animationType="fade"
+            onRequestClose={() => {
+              setConfirmModal(false);
+              setImage(null);
+              setVideo(null);
+            }}>
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: '#3C3937',
+              }}>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => {
+                  setConfirmModal(false);
+                  setImage(null);
+                  setVideo(null);
+                  setModalVisible(false);
+                }}
+                style={{
+                  marginVertical: 20,
+                  zIndex: 1111,
+                  marginHorizontal: 20,
+                  marginLeft: 'auto',
+                }}>
+                <AntDesign name="closecircle" size={35} color="#D2691E" />
+              </TouchableOpacity>
+              <View
+                style={{
+                  alignContent: 'center',
+                  backgroundColor: '#3C3937',
+                  flex: 1,
+                  justifyContent: 'center',
+                }}>
+                {image ? (
+                  <Image
+                    resizeMode="contain"
+                    source={{uri: image?.imageShow}}
+                    style={{
+                      width: width,
+                      height: hight * 0.6,
+                      marginBottom: '20%',
+                    }}
+                  />
+                ) : null}
+                {video ? (
+                  <Image
+                    resizeMode="contain"
+                    source={require('../../../assets/videoImage.png')}
+                    style={{width: width, height: hight * 0.7}}
+                  />
+                ) : null}
+                <View
+                  style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    marginHorizontal: 20,
+                    marginVertical: 10,
+                  }}>
+                  <View
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      backgroundColor: '#D2691E',
+                      padding: 10,
+                      borderRadius: 100,
+                      marginBottom: 20,
+                    }}>
                     <TouchableOpacity
-                      style={{
-                        height: 70,
-                        width: 70,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        position: 'absolute',
-                        elevation: 2,
-                        bottom: hight / 6,
-                        left: width / 2.3,
-                      }}
                       onPress={() => {
-                        setpausedCheck(true);
-                        load ? null : setpausedCheck(!pausedCheck);
+                        setLoader(true), handlePress();
                       }}>
-                      {load ? (
-                        <ActivityIndicator size="large" />
+                      {loader ? (
+                        <ActivityIndicator size={20} color={'white'} />
                       ) : (
-                        <Image
-                          activeOpacity={0.4}
-                          source={
-                            pausedCheck
-                              ? require('../../../assets/play.png')
-                              : require('../../../assets/pause.png')
-                          }
-                          resizeMode={'cover'}
-                          style={{width: 70, height: 70}}
+                        <Feather
+                          name="send"
+                          size={28}
+                          color="white"
+                          style={{
+                            transform: [{rotate: '225deg'}],
+                          }}
                         />
                       )}
                     </TouchableOpacity>
                   </View>
-                )}
+                </View>
               </View>
             </View>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => {
-                console.log('logggggg');
-                fileDownload(modalItemType, modalItem);
-              }}
-              style={{
-                bottom: 0,
-                // top: 10,
-                // right: 15,
-                marginHorizontal: 30,
-                marginVertical: 30,
-                position: 'absolute',
-                backgroundColor: 'white',
-                padding: 10,
-                borderRadius: 100,
-              }}>
-              {downloadFiles == true ? (
-                <ActivityIndicator size={20} color={'#D2691E'} />
-              ) : (
-                <AntDesign name="download" size={25} color="black" />
-              )}
-            </TouchableOpacity>
-          </View>
-        </Modal>
-      </View>
+          </Modal>
+          {/* IMAGE_ VIDEO MODAL  */}
+          <Modal
+            visible={modal}
+            transparent={true}
+            animationType="fade"
+            onRequestClose={() => {
+              setModal(false), setpausedCheck(true);
+            }}>
+            <View style={styles.modalContainer}>
+              {/* Modal Close Button */}
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => {
+                  setModal(false), setpausedCheck(true);
+                }}
+                style={styles.modalCloseBTN}>
+                <AntDesign name="closecircle" size={35} color="#fff" />
+              </TouchableOpacity>
+
+              <View style={{height: 300}}>
+                <View style={Styles.imageCarousal}>
+                  {modalItemType === 'image' && (
+                    <FastImage
+                      style={Styles.image}
+                      source={modalItem}
+                      resizeMode={FastImage?.resizeMode.contain}
+                    />
+                  )}
+                  {modalItemType == 'video' && (
+                    <View style={{flex: 1, backgroundColor: '#ededed'}}>
+                      <Video
+                        onError={error => console.error('Video error:', error)}
+                        onLoadStart={() => {
+                          setLoad(true);
+                        }}
+                        onReadyForDisplay={() => {
+                          setLoad(false);
+                        }}
+                        source={modalItem}
+                        resizeMode="contain"
+                        repeat={true}
+                        controls={false}
+                        paused={pausedCheck}
+                        style={[
+                          Styles.image,
+                          {
+                            width: width,
+                            height: hight / 2.5,
+                          },
+                        ]}
+                      />
+                      {/* } */}
+                      <TouchableOpacity
+                        style={{
+                          height: 70,
+                          width: 70,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          position: 'absolute',
+                          elevation: 2,
+                          bottom: hight / 6,
+                          left: width / 2.3,
+                        }}
+                        onPress={() => {
+                          setpausedCheck(true);
+                          load ? null : setpausedCheck(!pausedCheck);
+                        }}>
+                        {load ? (
+                          <ActivityIndicator size="large" />
+                        ) : (
+                          <Image
+                            activeOpacity={0.4}
+                            source={
+                              pausedCheck
+                                ? require('../../../assets/play.png')
+                                : require('../../../assets/pause.png')
+                            }
+                            resizeMode={'cover'}
+                            style={{width: 70, height: 70}}
+                          />
+                        )}
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                </View>
+              </View>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => {
+                  console.log('logggggg');
+                  fileDownload(modalItemType, modalItem);
+                }}
+                style={{
+                  bottom: 0,
+                  // top: 10,
+                  // right: 15,
+                  marginHorizontal: 30,
+                  marginVertical: 30,
+                  position: 'absolute',
+                  backgroundColor: 'white',
+                  padding: 10,
+                  borderRadius: 100,
+                }}>
+                {downloadFiles == true ? (
+                  <ActivityIndicator size={20} color={'#D2691E'} />
+                ) : (
+                  <AntDesign name="download" size={25} color="black" />
+                )}
+              </TouchableOpacity>
+            </View>
+          </Modal>
+        </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -874,8 +885,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rightChatImageContainer: {
-    width: 200,
-    height: 150,
     backgroundColor: '#D2691E',
     margin: 10,
     padding: 10,
@@ -883,8 +892,6 @@ const styles = StyleSheet.create({
     borderTopStartRadius: 25,
     borderBottomEndRadius: 25,
     borderBottomStartRadius: 25,
-    left: width - 220,
-
     width: 250,
     left: width - 270,
     height: 185,
@@ -917,6 +924,11 @@ const styles = StyleSheet.create({
     width: '100%',
     marginLeft: 10,
     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+  },
+  container: {
+    flex: 1,
+    width: width,
+    backgroundColor: '#eee',
   },
 });
 

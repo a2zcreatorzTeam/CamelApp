@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable eqeqeq */
 import React from 'react';
 import {
   Text,
@@ -11,6 +13,7 @@ import {
   Modal,
   StyleSheet,
   Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -377,144 +380,81 @@ class MovingCamelForm extends React.Component {
     const {pausedCheck, loadVideo, videoModal, modalItem, thumbnail} =
       this.state;
     return (
-      <SafeAreaView style={Styles.container}>
+      <View style={{flex: 1}}>
         <BackBtnHeader />
-        {/* <Ads /> */}
-        <ScrollView
-          style={{flex: 1}}
-          contentContainerStyle={Styles.scrollContentContainer}
-          alwaysBounceVertical={false}
-          showsVerticalScrollIndicator={false}>
-          <View style={Styles.container}>
-            <Text style={[Styles.headingPostText, {marginTop: 30}]}>
-              {ArabicText?.Movingcamel}
-            </Text>
-            <HorizontalCarousel
-              thumbnail={thumbnail?.path}
-              removeItem={index => this.removeItem(index)}
-              price={
-                this.state.itemFromDetails?.price
-                  ? this.state.itemFromDetails?.price
-                  : ''
-              }
-              CustomUrl
-              imagesArray={this.state.mixed}
-              onPress={mediaSource => {
-                this.setState({
-                  pausedCheck: false,
-                  videoModal: true,
-                  modalItem: mediaSource,
-                });
-              }}
-              pausedCheck={pausedCheck}
-              pauseVideo={() => {
-                this.setState({pausedCheck: true});
-              }}
-            />
-            <View style={{flexDirection: 'row', marginTop: 10}}>
-              <View style={Styles.cameraview}>
-                <TouchableOpacity onPress={() => this.videoPicker()}>
-                  <FontAwesome
-                    name="video-camera"
-                    size={30}
-                    color="#D2691Eff"
-                  />
-                </TouchableOpacity>
+        <KeyboardAvoidingView
+          style={Styles.keyboardView}
+          behavior={Platform.OS === 'ios' ? 'padding' : null}>
+          {/* <Ads /> */}
+          <ScrollView
+            style={{flex: 1}}
+            contentContainerStyle={Styles.scrollContentContainer}
+            alwaysBounceVertical={false}
+            showsVerticalScrollIndicator={false}>
+            <View style={Styles.container}>
+              <Text style={[Styles.headingPostText, {marginTop: 30}]}>
+                {ArabicText?.Movingcamel}
+              </Text>
+              <HorizontalCarousel
+                thumbnail={thumbnail?.path}
+                removeItem={index => this.removeItem(index)}
+                price={
+                  this.state.itemFromDetails?.price
+                    ? this.state.itemFromDetails?.price
+                    : ''
+                }
+                CustomUrl
+                imagesArray={this.state.mixed}
+                onPress={mediaSource => {
+                  this.setState({
+                    pausedCheck: false,
+                    videoModal: true,
+                    modalItem: mediaSource,
+                  });
+                }}
+                pausedCheck={pausedCheck}
+                pauseVideo={() => {
+                  this.setState({pausedCheck: true});
+                }}
+              />
+              <View style={{flexDirection: 'row', marginTop: 10}}>
+                <View style={Styles.cameraview}>
+                  <TouchableOpacity onPress={() => this.videoPicker()}>
+                    <FontAwesome
+                      name="video-camera"
+                      size={30}
+                      color="#D2691Eff"
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View style={Styles.cameraview}>
+                  <TouchableOpacity onPress={() => this.openCameraForCapture()}>
+                    <Ionicons
+                      name="md-camera-sharp"
+                      size={30}
+                      color="#D2691Eff"
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View style={Styles.cameraview}>
+                  <TouchableOpacity onPress={() => this.openGallery()}>
+                    <Ionicons
+                      name="images-outline"
+                      size={30}
+                      color="#D2691Eff"
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
-              <View style={Styles.cameraview}>
-                <TouchableOpacity onPress={() => this.openCameraForCapture()}>
-                  <Ionicons
-                    name="md-camera-sharp"
-                    size={30}
-                    color="#D2691Eff"
-                  />
-                </TouchableOpacity>
-              </View>
-              <View style={Styles.cameraview}>
-                <TouchableOpacity onPress={() => this.openGallery()}>
-                  <Ionicons name="images-outline" size={30} color="#D2691Eff" />
-                </TouchableOpacity>
-              </View>
-            </View>
 
-            <TextInput
-              style={Styles.forminputs}
-              placeholder={ArabicText.Title}
-              placeholderTextColor="#b0b0b0"
-              value={this.state.title}
-              onChangeText={text => {
-                if (text.length <= 24) {
-                  this.setState({title: text});
-                } else {
-                  Toast.show({
-                    text1: ArabicText?.limitCharacters,
-                    type: 'error',
-                    visibilityTime: 3000,
-                  });
-                }
-              }}></TextInput>
-
-            <TextInput
-              style={Styles.forminputs}
-              placeholder={ArabicText.Car_Name}
-              placeholderTextColor="#b0b0b0"
-              value={this.state.car_name}
-              onChangeText={text => {
-                if (text.length <= 24) {
-                  this.setState({car_name: text});
-                } else {
-                  Toast.show({
-                    text1: ArabicText?.limitCharacters,
-                    type: 'error',
-                    visibilityTime: 3000,
-                  });
-                }
-              }}></TextInput>
-
-            <TextInput
-              style={Styles.forminputs}
-              placeholder={ArabicText.car_type}
-              placeholderTextColor="#b0b0b0"
-              value={this.state.car_type}
-              onChangeText={text => {
-                if (text.length <= 24) {
-                  this.setState({car_type: text});
-                } else {
-                  Toast.show({
-                    text1: ArabicText?.limitCharacters,
-                    type: 'error',
-                    visibilityTime: 3000,
-                  });
-                }
-              }}></TextInput>
-
-            <TextInput
-              style={Styles.forminputs}
-              keyboardType="numeric"
-              placeholder={ArabicText.Price}
-              placeholderTextColor="#b0b0b0"
-              value={this.state.price}
-              onChangeText={text => {
-                if (text.length <= 24) {
-                  this.setState({price: text.replace(/[^0-9]/g, '')});
-                } else {
-                  Toast.show({
-                    text1: ArabicText?.limitCharacters,
-                    type: 'error',
-                    visibilityTime: 3000,
-                  });
-                }
-              }}></TextInput>
-
-            <View style={{flexDirection: 'row', margin: 5}}>
               <TextInput
-                style={Styles.mforminputs}
-                placeholder={ArabicText.From}
+                style={Styles.forminputs}
+                placeholder={ArabicText.Title}
                 placeholderTextColor="#b0b0b0"
-                value={this.state.location}
+                value={this.state.title}
                 onChangeText={text => {
                   if (text.length <= 24) {
-                    this.setState({location: text});
+                    this.setState({title: text});
                   } else {
                     Toast.show({
                       text1: ArabicText?.limitCharacters,
@@ -522,16 +462,17 @@ class MovingCamelForm extends React.Component {
                       visibilityTime: 3000,
                     });
                   }
-                }}></TextInput>
+                }}
+              />
 
               <TextInput
-                style={Styles.mforminputs}
-                placeholder={ArabicText.To}
+                style={Styles.forminputs}
+                placeholder={ArabicText.Car_Name}
                 placeholderTextColor="#b0b0b0"
-                value={this.state.to_location}
+                value={this.state.car_name}
                 onChangeText={text => {
-                  if (text.length <= 300) {
-                    this.setState({to_location: text});
+                  if (text.length <= 24) {
+                    this.setState({car_name: text});
                   } else {
                     Toast.show({
                       text1: ArabicText?.limitCharacters,
@@ -539,199 +480,277 @@ class MovingCamelForm extends React.Component {
                       visibilityTime: 3000,
                     });
                   }
-                }}></TextInput>
-            </View>
-
-            <TextInput
-              textAlignVertical="top"
-              style={[Styles.inputdecrp, {marginTop: 20}]}
-              placeholder={ArabicText.Description}
-              placeholderTextColor="#b0b0b0"
-              value={this.state.description}
-              onChangeText={text => {
-                if (text.length <= 300) {
-                  this.setState({description: text});
-                } else {
-                  Toast.show({
-                    text1: ArabicText?.limitCharacters,
-                    type: 'error',
-                    visibilityTime: 3000,
-                  });
-                }
-              }}></TextInput>
-
-            <View
-              style={{
-                flexDirection: 'row',
-                alignSelf: 'flex-end',
-                margin: 20,
-                alignItems: 'center',
-                marginTop: 10,
-              }}>
-              <Text
-                style={{
-                  margin: 3,
-                  color: 'black',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Medium,
-                }}>
-                {ArabicText?.Iaccepttermsandconditions}
-              </Text>
-
-              <Switch
-                trackColor={{false: '#767577', true: '#D2691Eff'}}
-                thumbColor={this.state.registerSwitch ? '#f5dd4b' : '#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={value => this.onRegisterSwitchChanged(value)}
-                value={this.state.registerSwitch}
+                }}
               />
-            </View>
 
-            <View
-              style={{
-                flexDirection: 'row',
-                alignSelf: 'flex-end',
-                margin: 20,
-                alignItems: 'center',
-                marginTop: 10,
-              }}>
-              <Text
-                style={{
-                  margin: 3,
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Medium,
-                  color: 'black',
-                }}>
-                {ArabicText.In_order_to_activity_your_account_pay}
-              </Text>
-              <Switch
-                trackColor={{false: '#767577', true: '#D2691Eff'}}
-                thumbColor={this.state.paySwitch ? '#f5dd4b' : '#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={value => this.onpaySwitchChanged(value)}
-                value={this.state.paySwitch}
+              <TextInput
+                style={Styles.forminputs}
+                placeholder={ArabicText.car_type}
+                placeholderTextColor="#b0b0b0"
+                value={this.state.car_type}
+                onChangeText={text => {
+                  if (text.length <= 24) {
+                    this.setState({car_type: text});
+                  } else {
+                    Toast.show({
+                      text1: ArabicText?.limitCharacters,
+                      type: 'error',
+                      visibilityTime: 3000,
+                    });
+                  }
+                }}
               />
-            </View>
 
-            <Loader loading={this.state.loading} />
-            <TouchableOpacity onPress={() => this.createPostMovingCamel()}>
-              <View style={Styles.btnform}>
-                <Text style={Styles.textbtn}>{ArabicText.add}</Text>
+              <TextInput
+                style={Styles.forminputs}
+                keyboardType="numeric"
+                placeholder={ArabicText.Price}
+                placeholderTextColor="#b0b0b0"
+                value={this.state.price}
+                onChangeText={text => {
+                  if (text.length <= 24) {
+                    this.setState({price: text.replace(/[^0-9]/g, '')});
+                  } else {
+                    Toast.show({
+                      text1: ArabicText?.limitCharacters,
+                      type: 'error',
+                      visibilityTime: 3000,
+                    });
+                  }
+                }}
+              />
+
+              <View style={{flexDirection: 'row', margin: 5}}>
+                <TextInput
+                  style={Styles.mforminputs}
+                  placeholder={ArabicText.From}
+                  placeholderTextColor="#b0b0b0"
+                  value={this.state.location}
+                  onChangeText={text => {
+                    if (text.length <= 24) {
+                      this.setState({location: text});
+                    } else {
+                      Toast.show({
+                        text1: ArabicText?.limitCharacters,
+                        type: 'error',
+                        visibilityTime: 3000,
+                      });
+                    }
+                  }}
+                />
+
+                <TextInput
+                  style={Styles.mforminputs}
+                  placeholder={ArabicText.To}
+                  placeholderTextColor="#b0b0b0"
+                  value={this.state.to_location}
+                  onChangeText={text => {
+                    if (text.length <= 300) {
+                      this.setState({to_location: text});
+                    } else {
+                      Toast.show({
+                        text1: ArabicText?.limitCharacters,
+                        type: 'error',
+                        visibilityTime: 3000,
+                      });
+                    }
+                  }}
+                />
               </View>
-            </TouchableOpacity>
 
-            <Modal
-              animationType="slide"
-              visible={this.state.modalVisible}
-              transparent={true}
-              onRequestClose={() =>
-                this.setState({paySwitch: false, modalVisible: false})
-              }>
-              <TouchableOpacity
-                activeOpacity={1}
-                style={{height: height}}
-                onPress={() =>
-                  this.setState({paySwitch: false, modalVisible: false})
-                }
+              <TextInput
+                multiline
+                textAlignVertical="top"
+                style={[Styles.inputdecrp, {marginTop: 20}]}
+                placeholder={ArabicText.Description}
+                placeholderTextColor="#b0b0b0"
+                value={this.state.description}
+                onChangeText={text => {
+                  if (text.length <= 300) {
+                    this.setState({description: text});
+                  } else {
+                    Toast.show({
+                      text1: ArabicText?.limitCharacters,
+                      type: 'error',
+                      visibilityTime: 3000,
+                    });
+                  }
+                }}
               />
+
               <View
                 style={{
-                  height: 300,
-                  width: width,
-                  marginTop: 'auto',
-                  backgroundColor: '#ddd',
-                  borderRadius: 20,
+                  flexDirection: 'row',
+                  alignSelf: 'flex-end',
+                  margin: 20,
                   alignItems: 'center',
+                  marginTop: 10,
                 }}>
+                <Text
+                  style={{
+                    margin: 3,
+                    color: 'black',
+                    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Medium,
+                  }}>
+                  {ArabicText?.Iaccepttermsandconditions}
+                </Text>
+
+                <Switch
+                  trackColor={{false: '#767577', true: '#D2691Eff'}}
+                  thumbColor={this.state.registerSwitch ? '#f5dd4b' : '#f4f3f4'}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={value => this.onRegisterSwitchChanged(value)}
+                  value={this.state.registerSwitch}
+                />
+              </View>
+
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignSelf: 'flex-end',
+                  margin: 20,
+                  alignItems: 'center',
+                  marginTop: 10,
+                }}>
+                <Text
+                  style={{
+                    margin: 3,
+                    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Medium,
+                    color: 'black',
+                  }}>
+                  {ArabicText.In_order_to_activity_your_account_pay}
+                </Text>
+                <Switch
+                  trackColor={{false: '#767577', true: '#D2691Eff'}}
+                  thumbColor={this.state.paySwitch ? '#f5dd4b' : '#f4f3f4'}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={value => this.onpaySwitchChanged(value)}
+                  value={this.state.paySwitch}
+                />
+              </View>
+
+              <Loader loading={this.state.loading} />
+              <TouchableOpacity onPress={() => this.createPostMovingCamel()}>
+                <View style={Styles.btnform}>
+                  <Text style={Styles.textbtn}>{ArabicText.add}</Text>
+                </View>
+              </TouchableOpacity>
+
+              <Modal
+                animationType="slide"
+                visible={this.state.modalVisible}
+                transparent={true}
+                onRequestClose={() =>
+                  this.setState({paySwitch: false, modalVisible: false})
+                }>
+                <TouchableOpacity
+                  activeOpacity={1}
+                  style={{height: height}}
+                  onPress={() =>
+                    this.setState({paySwitch: false, modalVisible: false})
+                  }
+                />
                 <View
                   style={{
-                    height: 30,
-                    borderTopEndRadius: 25,
-                    borderTopStartRadius: 25,
-                    justifyContent: 'center',
+                    height: 300,
+                    width: width,
+                    marginTop: 'auto',
+                    backgroundColor: '#ddd',
+                    borderRadius: 20,
                     alignItems: 'center',
                   }}>
-                  <Text
+                  <View
                     style={{
-                      color: '#8b4513',
-                      fontSize: 15,
-                      fontFamily:
-                        Platform.OS == 'ios' ? null : family.Neo_Medium,
-                    }}>
-                    {ArabicText?.EnterBankDetails}
-                  </Text>
-                </View>
-                <View
-                  style={[
-                    Styles.forminputs,
-                    {justifyContent: 'space-between'},
-                  ]}>
-                  <Text
-                    style={{
-                      color: '#000',
-                      fontSize: 15,
-                      fontFamily:
-                        Platform.OS == 'ios' ? null : family.Neo_Medium,
+                      height: 30,
+                      borderTopEndRadius: 25,
+                      borderTopStartRadius: 25,
+                      justifyContent: 'center',
+                      alignItems: 'center',
                     }}>
                     <Text
                       style={{
-                        color: 'grey',
-                        fontSize: 13,
+                        color: '#8b4513',
+                        fontSize: 15,
                         fontFamily:
                           Platform.OS == 'ios' ? null : family.Neo_Medium,
                       }}>
-                      {ArabicText?.AccountTitle}:{' '}
+                      {ArabicText?.EnterBankDetails}
                     </Text>
-                    Mansoor Akhter
-                  </Text>
-                </View>
-                <View
-                  style={[
-                    Styles.forminputs,
-                    {justifyContent: 'space-between'},
-                  ]}>
-                  <Text
-                    style={{
-                      color: '#000',
-                      fontSize: 15,
-                      fontFamily:
-                        Platform.OS == 'ios' ? null : family.Neo_Medium,
-                    }}>
+                  </View>
+                  <View
+                    style={[
+                      Styles.forminputs,
+                      {justifyContent: 'space-between'},
+                    ]}>
                     <Text
                       style={{
-                        color: 'grey',
-                        fontSize: 13,
+                        color: '#000',
+                        fontSize: 15,
                         fontFamily:
                           Platform.OS == 'ios' ? null : family.Neo_Medium,
                       }}>
-                      {ArabicText?.AccountNumber}:{' '}
+                      <Text
+                        style={{
+                          color: 'grey',
+                          fontSize: 13,
+                          fontFamily:
+                            Platform.OS == 'ios' ? null : family.Neo_Medium,
+                        }}>
+                        {ArabicText?.AccountTitle}:{' '}
+                      </Text>
+                      Mansoor Akhter
                     </Text>
-                    0000-1111-2222-33
-                  </Text>
-                </View>
-                <View
-                  style={[
-                    Styles.forminputs,
-                    {justifyContent: 'space-between'},
-                  ]}>
-                  <Text
-                    style={{
-                      color: '#000',
-                      fontSize: 15,
-                      fontFamily:
-                        Platform.OS == 'ios' ? null : family.Neo_Medium,
-                    }}>
+                  </View>
+                  <View
+                    style={[
+                      Styles.forminputs,
+                      {justifyContent: 'space-between'},
+                    ]}>
                     <Text
                       style={{
-                        color: 'grey',
-                        fontSize: 13,
+                        color: '#000',
+                        fontSize: 15,
                         fontFamily:
                           Platform.OS == 'ios' ? null : family.Neo_Medium,
                       }}>
-                      {ArabicText?.BranchCode}:{' '}
+                      <Text
+                        style={{
+                          color: 'grey',
+                          fontSize: 13,
+                          fontFamily:
+                            Platform.OS == 'ios' ? null : family.Neo_Medium,
+                        }}>
+                        {ArabicText?.AccountNumber}:{' '}
+                      </Text>
+                      0000-1111-2222-33
                     </Text>
-                    SC7512
-                  </Text>
-                </View>
-                {/* <TextInput
+                  </View>
+                  <View
+                    style={[
+                      Styles.forminputs,
+                      {justifyContent: 'space-between'},
+                    ]}>
+                    <Text
+                      // eslint-disable-next-line react-native/no-inline-styles
+                      style={{
+                        color: '#000',
+                        fontSize: 15,
+                        fontFamily:
+                          Platform.OS == 'ios' ? null : family.Neo_Medium,
+                      }}>
+                      <Text
+                        style={{
+                          color: 'grey',
+                          fontSize: 13,
+                          fontFamily:
+                            Platform.OS == 'ios' ? null : family.Neo_Medium,
+                        }}>
+                        {ArabicText?.BranchCode}:{' '}
+                      </Text>
+                      SC7512
+                    </Text>
+                  </View>
+                  {/* <TextInput
                   style={Styles.forminputs}
                   placeholder="Account Title"
                   placeholderTextColor="#aaa"
@@ -755,38 +774,39 @@ class MovingCamelForm extends React.Component {
                   onChangeText={(text) => this.setState({ branchCode: text })}
                 /> */}
 
-                <TouchableOpacity
-                  style={{alignSelf: 'center', marginTop: 20}}
-                  onPress={() => this.bankDetailHandler()}>
-                  <View style={Styles.btn}>
-                    <Text style={Styles.textbtn}>{ArabicText?.Close}</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </Modal>
+                  <TouchableOpacity
+                    style={{alignSelf: 'center', marginTop: 20}}
+                    onPress={() => this.bankDetailHandler()}>
+                    <View style={Styles.btn}>
+                      <Text style={Styles.textbtn}>{ArabicText?.Close}</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </Modal>
 
-            {/* VIDEO MODAL */}
-            <VideoModal
-              onLoadStart={() => {
-                this.setState({loadVideo: true});
-              }}
-              onReadyForDisplay={() => {
-                this.setState({loadVideo: false});
-              }}
-              onPress={() => {
-                !loadVideo && this.setState({pausedCheck: !pausedCheck});
-              }}
-              closeModal={() => {
-                this.setState({videoModal: false, pausedCheck: true});
-              }}
-              pausedCheck={pausedCheck}
-              loadVideo={loadVideo}
-              videoModal={videoModal}
-              modalItem={modalItem}
-            />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+              {/* VIDEO MODAL */}
+              <VideoModal
+                onLoadStart={() => {
+                  this.setState({loadVideo: true});
+                }}
+                onReadyForDisplay={() => {
+                  this.setState({loadVideo: false});
+                }}
+                onPress={() => {
+                  !loadVideo && this.setState({pausedCheck: !pausedCheck});
+                }}
+                closeModal={() => {
+                  this.setState({videoModal: false, pausedCheck: true});
+                }}
+                pausedCheck={pausedCheck}
+                loadVideo={loadVideo}
+                videoModal={videoModal}
+                modalItem={modalItem}
+              />
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </View>
     );
   }
 }

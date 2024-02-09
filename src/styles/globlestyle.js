@@ -803,9 +803,14 @@ export const Styles = StyleSheet.create({
     margin: 8,
   },
   scrollContentContainer: {
-    minHeight: '100%',
+    flexGrow: 1,
     paddingBottom: width * 0.1,
     backgroundColor: '#fff',
+    minHeight: '100%',
+  },
+  keyboardView: {
+    flex: 1,
+    // alignItems: 'center',
   },
   textinfo: {
     backgroundColor: '#d2691e',
@@ -825,5 +830,22 @@ export const Styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: '400',
     color: '#fff',
+  },
+  radioBtnView: {
+    width: 20,
+    height: 20,
+    borderRadius: 25,
+    borderColor: '#d2691e',
+    borderWidth: 2,
+    marginTop: 4,
+    marginHorizontal: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkRadioBtn: {
+    width: 10,
+    height: 10,
+    backgroundColor: '#d2691e',
+    borderRadius: 25,
   },
 });

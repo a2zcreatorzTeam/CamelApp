@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
   Text,
@@ -12,19 +13,20 @@ import {
   Switch,
   Dimensions,
   Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { RadioButton } from 'react-native-paper';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import {RadioButton} from 'react-native-paper';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import 'react-native-gesture-handler';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
-import { createThumbnail } from 'react-native-create-thumbnail';
+import {createThumbnail} from 'react-native-create-thumbnail';
 import RNFS from 'react-native-fs';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
 import Loader from '../components/PleaseWait';
-import { Styles } from '../styles/globlestyle';
+import {Styles} from '../styles/globlestyle';
 import * as ArabicText from '../language/EnglishToArabic';
 import camelapp from '../api/camelapp';
 import * as userActions from '../redux/actions/user_actions';
@@ -32,7 +34,7 @@ import VideoModal from '../components/VideoModal';
 import Ads from '../components/Ads';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 
@@ -56,7 +58,7 @@ class SellingCamelForm extends React.Component {
       register: 0,
       checked_register: 'first',
       register_value: 0,
-      images: { uri: '', name: '', type: '' },
+      images: {uri: '', name: '', type: ''},
       localUrii: '',
       fileName: '',
       user: '',
@@ -88,7 +90,7 @@ class SellingCamelForm extends React.Component {
   }
   // SELECT VIDEO
   selectVideo = async () => {
-    this.setState({ video: {} });
+    this.setState({video: {}});
     ImageCropPicker.openPicker({
       mediaType: 'video',
     }).then(async video => {
@@ -104,12 +106,12 @@ class SellingCamelForm extends React.Component {
           timeStamp: 10000,
         })
           .then(response => {
-            console.log(response?.path), this.setState({ thumbnail: response });
+            console.log(response?.path), this.setState({thumbnail: response});
           })
-          .catch(err => console.log({ err }));
+          .catch(err => console.log({err}));
         RNFS.readFile(video.path, 'base64')
           .then(res => {
-            this.setState({ videoForPost: 'data:video/mp4;base64,' + res });
+            this.setState({videoForPost: 'data:video/mp4;base64,' + res});
             let tempMixed = this.state.mixed;
             let mixed = this.state.mixed;
             let videoFlag = false;
@@ -125,10 +127,10 @@ class SellingCamelForm extends React.Component {
               if (videoFlag === false) {
                 mixed.push(video);
               }
-              this.setState({ mixed: mixed, video: video });
+              this.setState({mixed: mixed, video: video});
             } else {
               tempMixed.push(video);
-              this.setState({ mixed: tempMixed, video: video });
+              this.setState({mixed: tempMixed, video: video});
             }
           })
           .catch(err => {
@@ -154,9 +156,9 @@ class SellingCamelForm extends React.Component {
           bse64images.push('data:image/png;base64,' + images[i].data);
           mixedTemp.push(tempImage[i]);
         }
-        this.setState({ imagesForPost: bse64images, image: tempImage });
+        this.setState({imagesForPost: bse64images, image: tempImage});
         this.setState(previousState => {
-          return { mixed: [...previousState?.mixed, ...mixedTemp] };
+          return {mixed: [...previousState?.mixed, ...mixedTemp]};
         });
         // } else {
         //   alert('Only 4 images allowed');
@@ -168,7 +170,7 @@ class SellingCamelForm extends React.Component {
   }
   // CAPTURE IMAGE FROM CAMERA
   openCameraForCapture() {
-    const { cameraimagesForPost, mixed } = this.state;
+    const {cameraimagesForPost, mixed} = this.state;
     ImageCropPicker.openCamera({
       mediaType: 'photo',
       includeBase64: true,
@@ -266,9 +268,9 @@ class SellingCamelForm extends React.Component {
       // &&
       // (price_type == ArabicText?.offer_Up ? selectedBidOption !== '' : true)
     ) {
-      let { user } = this.props;
+      let {user} = this.props;
       let user_id = user?.user?.user.id;
-      this.setState({ loading: true });
+      this.setState({loading: true});
       camelapp
         .post(
           '/add/selling',
@@ -322,7 +324,7 @@ class SellingCamelForm extends React.Component {
         })
         .catch(error => {
           console.log('error12', error);
-          this.setState({ loading: false });
+          this.setState({loading: false});
         });
     } else {
       return Toast.show({
@@ -333,35 +335,35 @@ class SellingCamelForm extends React.Component {
     }
   };
   updateUser = commission => {
-    this.setState({ commission: commission });
+    this.setState({commission: commission});
   };
   onSelectedItem(val) {
-    this.setState({ showOption: false });
-    this.setState({ selectedItem: val });
+    this.setState({showOption: false});
+    this.setState({selectedItem: val});
   }
   onBidExpireOption(val) {
-    this.setState({ showBidOption: false });
-    this.setState({ selectedBidOption: val });
+    this.setState({showBidOption: false});
+    this.setState({selectedBidOption: val});
   }
   onRegisterSwitchChanged(value) {
-    this.setState({ registerSwitch: value });
+    this.setState({registerSwitch: value});
     if (value === false) {
-      this.setState({ register: 0 });
+      this.setState({register: 0});
     }
     if (value === true) {
-      this.setState({ register: 1 });
+      this.setState({register: 1});
     }
   }
   modalOpen = () => {
-    this.setState({ modal: true });
+    this.setState({modal: true});
   };
   // REMOVE ITEM
   removeItem = i => {
-    const { mixed } = this.state;
+    const {mixed} = this.state;
     const filteredList = mixed?.filter((item, index) => {
       return index !== i;
     });
-    this.setState({ mixed: filteredList });
+    this.setState({mixed: filteredList});
   };
 
   render() {
@@ -402,318 +404,377 @@ class SellingCamelForm extends React.Component {
     ];
 
     return (
-      <ScrollView
-        style={{ flex: 1 }}
-        contentContainerStyle={Styles.scrollContentContainer}
-        alwaysBounceVertical={false}
-        showsVerticalScrollIndicator={false}>
+      <View style={{flex: 1}}>
         <BackBtnHeader />
-        {/* <Ads /> */}
-        <View style={Styles.containerSellingCamel}>
-          <Text style={[Styles.headingPostText, { marginTop: 30 }]}>
-            بيع الحلال
-          </Text>
-          <HorizontalCarousel
-            thumbnail={thumbnail?.path}
-            removeItem={index => this.removeItem(index)}
-            CustomUrl
-            price={
-              this.state.itemFromDetails?.price
-                ? this.state.itemFromDetails?.price
-                : ''
-            }
-            imagesArray={this.state.mixed?.length ? this.state.mixed : []}
-            onPress={mediaSource => {
-              this.setState({
-                pausedCheck: false,
-                videoModal: true,
-                modalItem: mediaSource,
-              });
-            }}
-            pausedCheck={pausedCheck}
-            pauseVideo={() => {
-              this.setState({ pausedCheck: true });
-            }}
-          />
-          {this.state.imageFlage && (
-            <Image
-              source={{
-                uri: this.state.image,
-              }}
-              style={Styles.image}
-            // style={{ width: 320, height: 200 }}
-            ></Image>
-          )}
+        <KeyboardAvoidingView
+          style={Styles.keyboardView}
+          behavior={Platform.OS === 'ios' ? 'padding' : null}>
+          <ScrollView
+            style={{flex: 1}}
+            contentContainerStyle={Styles.scrollContentContainer}
+            alwaysBounceVertical={false}
+            showsVerticalScrollIndicator={false}>
+            {/* <Ads /> */}
+            <View style={Styles.containerSellingCamel}>
+              <Text style={[Styles.headingPostText, {marginTop: 30}]}>
+                بيع الحلال
+              </Text>
+              <HorizontalCarousel
+                thumbnail={thumbnail?.path}
+                removeItem={index => this.removeItem(index)}
+                CustomUrl
+                price={
+                  this.state.itemFromDetails?.price
+                    ? this.state.itemFromDetails?.price
+                    : ''
+                }
+                imagesArray={this.state.mixed?.length ? this.state.mixed : []}
+                onPress={mediaSource => {
+                  this.setState({
+                    pausedCheck: false,
+                    videoModal: true,
+                    modalItem: mediaSource,
+                  });
+                }}
+                pausedCheck={pausedCheck}
+                pauseVideo={() => {
+                  this.setState({pausedCheck: true});
+                }}
+              />
+              {this.state.imageFlage && (
+                <Image
+                  source={{
+                    uri: this.state.image,
+                  }}
+                  style={Styles.image}
+                  // style={{ width: 320, height: 200 }}
+                ></Image>
+              )}
 
-          <View style={{ flexDirection: 'row', marginTop: 10 }}>
-            <View style={Styles.cameraview}>
-              <TouchableOpacity onPress={() => this.selectVideo()}>
-                <FontAwesome name="video-camera" size={30} color="#D2691Eff" />
-              </TouchableOpacity>
-            </View>
-            <View style={Styles.cameraview}>
-              <TouchableOpacity onPress={() => this.openCameraForCapture()}>
-                <Ionicons name="md-camera-sharp" size={30} color="#D2691Eff" />
-              </TouchableOpacity>
-            </View>
-            <View style={Styles.cameraview}>
-              <TouchableOpacity onPress={() => this.openGallery()}>
-                <Ionicons name="images-outline" size={30} color="#D2691Eff" />
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          <TextInput
-            style={Styles.forminputs}
-            placeholder={ArabicText.Title}
-            placeholderTextColor="#b0b0b0"
-            value={this.state.title}
-            onChangeText={text => {
-              if (text.length <= 24) {
-                this.setState({ title: text });
-              } else {
-                Toast.show({
-                  text1: ArabicText?.limitCharacters,
-                  type: 'error',
-                  visibilityTime: 3000,
-                });
-              }
-            }}></TextInput>
-          <TextInput
-            style={Styles.forminputs}
-            placeholder={ArabicText.Color}
-            placeholderTextColor="#b0b0b0"
-            value={this.state.color}
-            onChangeText={text => {
-              if (text.length <= 24) {
-                this.setState({ color: text });
-              } else {
-                Toast.show({
-                  text1: ArabicText?.limitCharacters,
-                  type: 'error',
-                  visibilityTime: 3000,
-                });
-              }
-            }}></TextInput>
-
-          <TextInput
-            style={Styles.forminputs}
-            placeholderTextColor="#b0b0b0"
-            placeholder={ArabicText.Type}
-            value={this.state.camel_type}
-            onChangeText={text => {
-              if (text.length <= 24) {
-                this.setState({ camel_type: text });
-              } else {
-                Toast.show({
-                  text1: ArabicText?.limitCharacters,
-                  type: 'error',
-                  visibilityTime: 3000,
-                });
-              }
-            }}></TextInput>
-
-          <TextInput
-            style={Styles.forminputs}
-            placeholder={ArabicText.Location}
-            placeholderTextColor="#b0b0b0"
-            value={this.state.location}
-            onChangeText={text => {
-              if (text.length <= 24) {
-                this.setState({ location: text });
-              } else {
-                Toast.show({
-                  text1: ArabicText?.limitCharacters,
-                  type: 'error',
-                  visibilityTime: 3000,
-                });
-              }
-            }}></TextInput>
-
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <View style={{ alignItems: 'center' }}>
-              <View
-                style={{
-                  width: '45%',
-                  height: 20,
-                  backgroundColor: 'white',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  alignSelf: 'flex-end',
-                  marginBottom: -9,
-                  zIndex: 10,
-                  marginRight: 20,
-                }}>
-                <View
-                  style={{
-                    width: '100%',
-                    height: 12,
-                    backgroundColor: '#fff',
-                    marginTop: -3,
-                  }}></View>
+              <View style={{flexDirection: 'row', marginTop: 10}}>
+                <View style={Styles.cameraview}>
+                  <TouchableOpacity onPress={() => this.selectVideo()}>
+                    <FontAwesome
+                      name="video-camera"
+                      size={30}
+                      color="#D2691Eff"
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View style={Styles.cameraview}>
+                  <TouchableOpacity onPress={() => this.openCameraForCapture()}>
+                    <Ionicons
+                      name="md-camera-sharp"
+                      size={30}
+                      color="#D2691Eff"
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View style={Styles.cameraview}>
+                  <TouchableOpacity onPress={() => this.openGallery()}>
+                    <Ionicons
+                      name="images-outline"
+                      size={30}
+                      color="#D2691Eff"
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
 
-              <TouchableOpacity
-                style={[
-                  styles.dropDownstyle,
-                  {
-                    flexDirection: 'row-reverse',
-                    borderColor:
-                      this.state.showOption == true ? '#d2691e' : '#d2691e',
-                    borderWidth: this.state.showOption == true ? 2 : 1,
-                    borderTopEndRadius: this.state.showOption == true ? 20 : 20,
-                    borderTopStartRadius:
-                      this.state.showOption == true ? 20 : 20,
-                    borderBottomEndRadius:
-                      this.state.showOption == true ? 0 : 20,
-                    borderBottomStartRadius:
-                      this.state.showOption == true ? 0 : 20,
-                  },
-                ]}
-                activeOpacity={0.8}
-                onPress={() =>
-                  this.setState({ showOption: !this.state.showOption })
-                }>
+              <TextInput
+                style={Styles.forminputs}
+                placeholder={ArabicText.Title}
+                placeholderTextColor="#b0b0b0"
+                value={this.state.title}
+                onChangeText={text => {
+                  if (text.length <= 24) {
+                    this.setState({title: text});
+                  } else {
+                    Toast.show({
+                      text1: ArabicText?.limitCharacters,
+                      type: 'error',
+                      visibilityTime: 3000,
+                    });
+                  }
+                }}></TextInput>
+              <TextInput
+                style={Styles.forminputs}
+                placeholder={ArabicText.Color}
+                placeholderTextColor="#b0b0b0"
+                value={this.state.color}
+                onChangeText={text => {
+                  if (text.length <= 24) {
+                    this.setState({color: text});
+                  } else {
+                    Toast.show({
+                      text1: ArabicText?.limitCharacters,
+                      type: 'error',
+                      visibilityTime: 3000,
+                    });
+                  }
+                }}></TextInput>
+
+              <TextInput
+                style={Styles.forminputs}
+                placeholderTextColor="#b0b0b0"
+                placeholder={ArabicText.Type}
+                value={this.state.camel_type}
+                onChangeText={text => {
+                  if (text.length <= 24) {
+                    this.setState({camel_type: text});
+                  } else {
+                    Toast.show({
+                      text1: ArabicText?.limitCharacters,
+                      type: 'error',
+                      visibilityTime: 3000,
+                    });
+                  }
+                }}></TextInput>
+
+              <TextInput
+                style={Styles.forminputs}
+                placeholder={ArabicText.Location}
+                placeholderTextColor="#b0b0b0"
+                value={this.state.location}
+                onChangeText={text => {
+                  if (text.length <= 24) {
+                    this.setState({location: text});
+                  } else {
+                    Toast.show({
+                      text1: ArabicText?.limitCharacters,
+                      type: 'error',
+                      visibilityTime: 3000,
+                    });
+                  }
+                }}></TextInput>
+
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <View style={{alignItems: 'center'}}>
+                  <View
+                    style={{
+                      width: '45%',
+                      height: 20,
+                      backgroundColor: 'white',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      alignSelf: 'flex-end',
+                      marginBottom: -9,
+                      zIndex: 10,
+                      marginRight: 20,
+                    }}>
+                    <View
+                      style={{
+                        width: '100%',
+                        height: 12,
+                        backgroundColor: '#fff',
+                        marginTop: -3,
+                      }}></View>
+                  </View>
+
+                  <TouchableOpacity
+                    style={[
+                      styles.dropDownstyle,
+                      {
+                        flexDirection: 'row-reverse',
+                        borderColor:
+                          this.state.showOption == true ? '#d2691e' : '#d2691e',
+                        borderWidth: this.state.showOption == true ? 2 : 1,
+                        borderTopEndRadius:
+                          this.state.showOption == true ? 20 : 20,
+                        borderTopStartRadius:
+                          this.state.showOption == true ? 20 : 20,
+                        borderBottomEndRadius:
+                          this.state.showOption == true ? 0 : 20,
+                        borderBottomStartRadius:
+                          this.state.showOption == true ? 0 : 20,
+                      },
+                    ]}
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      this.setState({showOption: !this.state.showOption})
+                    }>
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        fontWeight: '500',
+                        color:
+                          this.state.selectedItem == '' ? '#a6a3a2' : 'black',
+                        marginRight: 15,
+                        fontFamily:
+                          Platform.OS == 'ios' ? null : family.Neo_Regular,
+                      }}>
+                      {!!this.state.selectedItem
+                        ? this.state.selectedItem.name
+                        : ArabicText.How_will_you_pay_the_application_percentage}
+                    </Text>
+                    <Image
+                      style={{
+                        transform: [
+                          {rotate: this.state.showOption ? '180deg' : '0deg'},
+                        ],
+                        width: 20,
+                        height: 20,
+                        marginLeft: 10,
+                      }}
+                      source={require('../../assets/dropdown.jpg')}
+                    />
+                  </TouchableOpacity>
+                  {this.state.showOption && (
+                    <View
+                      style={{
+                        backgroundColor: 'white',
+                        marginLeft: 15,
+                        width: width - 50,
+                        borderBottomEndRadius: 6,
+                        borderBottomStartRadius: 6,
+                        borderBottomWidth: 2,
+                        borderLeftWidth: 2,
+                        borderColor: '#d2691e',
+                        elevation: 10,
+                        position: 'absolute',
+                        marginTop: 65,
+                        zIndex: 80,
+                      }}>
+                      {/* DROP DOWN */}
+                      {Period.map((val, i) => {
+                        return (
+                          <TouchableOpacity
+                            key={String(i)}
+                            onPress={() => this.onSelectedItem(val)}
+                            style={{
+                              backgroundColor:
+                                this.state.selectedItem.id == val.id
+                                  ? '#d2691e'
+                                  : 'white',
+                              paddingVertical: 8,
+                              paddingHorizontal: 10,
+                              marginLeft: 0,
+                              width: '100%',
+                              marginBottom: 4,
+                            }}>
+                            <Text
+                              style={{
+                                fontSize: 18,
+                                fontWeight: '500',
+                                color:
+                                  this.state.selectedItem.id == val.id
+                                    ? 'white'
+                                    : 'black',
+                                alignSelf: 'flex-end',
+                                fontFamily:
+                                  Platform.OS == 'ios'
+                                    ? null
+                                    : family.Neo_Regular,
+                              }}>
+                              {val?.name}
+                            </Text>
+                          </TouchableOpacity>
+                        );
+                      })}
+                    </View>
+                  )}
+                </View>
+              </View>
+              <Text
+                style={{
+                  alignSelf: 'center',
+                  marginTop: 50,
+                  color: 'black',
+                  fontSize: 18,
+                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                }}>
+                {ArabicText.Please_select_price_type}
+              </Text>
+
+              {/* SELECT PRICE TYPE */}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
                 <Text
                   style={{
-                    fontSize: 14,
-                    fontWeight: '500',
-                    color: this.state.selectedItem == '' ? '#a6a3a2' : 'black',
-                    marginRight: 15,
-                     fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
+                    color: 'black',
+                    fontSize: 16,
+                    fontFamily:
+                      Platform.OS == 'ios' ? null : family.Neo_Regular,
                   }}>
-                  {!!this.state.selectedItem
-                    ? this.state.selectedItem.name
-                    : ArabicText.How_will_you_pay_the_application_percentage}
+                  {ArabicText.fixed}
                 </Text>
-                <Image
-                  style={{
-                    transform: [
-                      { rotate: this.state.showOption ? '180deg' : '0deg' },
-                    ],
-                    width: 20,
-                    height: 20,
-                    marginLeft: 10,
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState({
+                      checked: 'first',
+                      price_type: ArabicText.fixed,
+                      modal: true,
+                      modalOffer: false,
+                    });
                   }}
-                  source={require('../../assets/dropdown.jpg')}
-                />
-              </TouchableOpacity>
-              {this.state.showOption && (
-                <View
+                  style={[Styles.radioBtnView, {marginRight: 20}]}>
+                  {checked === 'first' && <View style={Styles.checkRadioBtn} />}
+                </TouchableOpacity>
+                {/* <RadioButton
+                  style={{marginTop: 10}}
+                  value={ArabicText.fixed}
+                  status={checked === 'first' ? 'checked' : 'unchecked'}
+                  onPress={() => {
+                    this.setState({
+                      checked: 'first',
+                      price_type: ArabicText.fixed,
+                      modal: true,
+                      modalOffer: false,
+                    });
+                  }}
+                /> */}
+                <Text
                   style={{
-                    backgroundColor: 'white',
-                    marginLeft: 15,
-                    width: width - 50,
-                    borderBottomEndRadius: 6,
-                    borderBottomStartRadius: 6,
-                    borderBottomWidth: 2,
-                    borderLeftWidth: 2,
-                    borderColor: '#d2691e',
-                    elevation: 10,
-                    position: 'absolute',
-                    marginTop: 65,
-                    zIndex: 80,
+                    color: 'black',
+                    alignSelf: 'center',
+                    fontSize: 16,
+                    fontFamily:
+                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                    marginLeft: 20,
                   }}>
-                  {/* DROP DOWN */}
-                  {Period.map((val, i) => {
-                    return (
-                      <TouchableOpacity
-                        key={String(i)}
-                        onPress={() => this.onSelectedItem(val)}
-                        style={{
-                          backgroundColor:
-                            this.state.selectedItem.id == val.id
-                              ? '#d2691e'
-                              : 'white',
-                          paddingVertical: 8,
-                          paddingHorizontal: 10,
-                          marginLeft: 0,
-                          width: '100%',
-                          marginBottom: 4,
-                        }}>
-                        <Text
-                          style={{
-                            fontSize: 18,
-                            fontWeight: '500',
-                            color:
-                              this.state.selectedItem.id == val.id
-                                ? 'white'
-                                : 'black',
-                            alignSelf: 'flex-end',
-                             fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
-                          }}>
-                          {val?.name}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  })}
-                </View>
-              )}
-            </View>
-          </View>
-          <Text
-            style={{
-              alignSelf: 'center',
-              marginTop: 50,
-              color: 'black',
-              fontSize: 18,
-               fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
-            }}>
-            {ArabicText.Please_select_price_type}
-          </Text>
+                  {ArabicText.offer_Up}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.setState({
+                      checked: 'second',
+                      price_type: ArabicText.offer_Up,
+                      modal: false,
+                      modalOffer: true,
+                    });
+                  }}
+                  style={Styles.radioBtnView}>
+                  {checked === 'second' && (
+                    <View style={Styles.checkRadioBtn} />
+                  )}
+                </TouchableOpacity>
+                {/* <RadioButton
+                  style={{marginTop: 5}}
+                  value={ArabicText.offer_Up}
+                  status={checked === 'second' ? 'checked' : 'unchecked'}
+                  onPress={() => {
+                    // this.modalOpen()
+                    this.setState({
+                      checked: 'second',
+                      price_type: ArabicText.offer_Up,
+                      modal: false,
+                      modalOffer: true,
+                    });
+                  }}
+                /> */}
+              </View>
 
-          {/* SELECT PRICE TYPE */}
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text style={{ color: 'black', fontSize: 16,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, }}>
-              {ArabicText.fixed}
-            </Text>
-
-            <RadioButton
-              style={{ marginTop: 10 }}
-              value={ArabicText.fixed}
-              status={checked === 'first' ? 'checked' : 'unchecked'}
-              onPress={() => {
-                this.setState({
-                  checked: 'first',
-                  price_type: ArabicText.fixed,
-                  modal: true,
-                  modalOffer: false,
-                });
-              }}
-            />
-
-            <Text style={{ color: 'black', alignSelf: 'center', fontSize: 16,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, }}>
-              {ArabicText.offer_Up}
-            </Text>
-
-            <RadioButton
-              style={{ marginTop: 5 }}
-              value={ArabicText.offer_Up}
-              status={checked === 'second' ? 'checked' : 'unchecked'}
-              onPress={() => {
-                // this.modalOpen()
-                this.setState({
-                  checked: 'second',
-                  price_type: ArabicText.offer_Up,
-                  modal: false,
-                  modalOffer: true,
-                });
-              }}
-            />
-          </View>
-
-          {/* //SELECT BID EXPIRE DAYS */}
-          {/* {price_type == ArabicText.offer_Up && (
+              {/* //SELECT BID EXPIRE DAYS */}
+              {/* {price_type == ArabicText.offer_Up && (
             <View
               style={{
                 flex: 1,
@@ -834,150 +895,171 @@ class SellingCamelForm extends React.Component {
               </View>
             </View>
           )} */}
-          {/* SECTION BID EXPIRE END  */}
+              {/* SECTION BID EXPIRE END  */}
 
-          <TextInput
-            textAlignVertical="top"
-            style={[Styles.inputdecrp, { marginTop: 20 }]}
-            placeholder={ArabicText.Description}
-            placeholderTextColor="#b0b0b0"
-            multiline
-            onChangeText={text =>
-              this.setState({ description: text })
-            }></TextInput>
+              <TextInput
+                textAlignVertical="top"
+                style={[Styles.inputdecrp, {marginTop: 20}]}
+                placeholder={ArabicText.Description}
+                placeholderTextColor="#b0b0b0"
+                multiline
+                onChangeText={text =>
+                  this.setState({description: text})
+                }></TextInput>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              alignSelf: 'flex-end',
-              margin: 20,
-              alignItems: 'center',
-              marginTop: 10,
-            }}>
-            <Text style={{ margin: 3, fontWeight: 'bold', color: 'black',  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, }}>
-              {ArabicText.I_am_registered_to_ministry_of_articulator}
-            </Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignSelf: 'flex-end',
+                  margin: 20,
+                  alignItems: 'center',
+                  marginTop: 10,
+                }}>
+                <Text
+                  style={{
+                    margin: 3,
+                    fontWeight: 'bold',
+                    color: 'black',
+                    fontFamily:
+                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  }}>
+                  {ArabicText.I_am_registered_to_ministry_of_articulator}
+                </Text>
 
-            <Switch
-              trackColor={{ false: '#767577', true: '#D2691Eff' }}
-              thumbColor={this.state.registerSwitch ? '#f5dd4b' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={value => this.onRegisterSwitchChanged(value)}
-              value={this.state.registerSwitch}
+                <Switch
+                  trackColor={{false: '#767577', true: '#D2691Eff'}}
+                  thumbColor={this.state.registerSwitch ? '#f5dd4b' : '#f4f3f4'}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={value => this.onRegisterSwitchChanged(value)}
+                  value={this.state.registerSwitch}
+                />
+              </View>
+
+              {/* SUBMIT BUTTON */}
+              <Loader loading={this.state.loading} />
+              <TouchableOpacity onPress={() => this.createPostSellingCamel()}>
+                <View style={Styles.btnform}>
+                  <Text style={Styles.textbtn}>{ArabicText.submit}</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            {/* VIDEO MODAL */}
+            <VideoModal
+              onLoadStart={() => {
+                this.setState({loadVideo: true});
+              }}
+              onReadyForDisplay={() => {
+                this.setState({loadVideo: false});
+              }}
+              onPress={() => {
+                !loadVideo && this.setState({pausedCheck: !pausedCheck});
+              }}
+              closeModal={() => {
+                this.setState({videoModal: false, pausedCheck: true});
+              }}
+              pausedCheck={pausedCheck}
+              loadVideo={loadVideo}
+              videoModal={videoModal}
+              modalItem={modalItem}
             />
-          </View>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={this.state.modal}
+              onRequestClose={() => {
+                setModalVisible(!modalVisible);
+              }}>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Pressable onPress={modal => this.setState({modal: !modal})}>
+                    <Ionicons
+                      name="close"
+                      size={30}
+                      color="brown"
+                      style={{marginLeft: width - 140}}
+                    />
+                  </Pressable>
+                  <Text
+                    style={{
+                      color: 'black',
+                      fontSize: 20,
+                      fontFamily:
+                        Platform.OS == 'ios' ? null : family.Neo_Regular,
+                    }}>
+                    {ArabicText.fixed}
+                  </Text>
 
-          {/* SUBMIT BUTTON */}
-          <Loader loading={this.state.loading} />
-          <TouchableOpacity onPress={() => this.createPostSellingCamel()}>
-            <View style={Styles.btnform}>
-              <Text style={Styles.textbtn}>{ArabicText.submit}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        {/* VIDEO MODAL */}
-        <VideoModal
-          onLoadStart={() => {
-            this.setState({ loadVideo: true });
-          }}
-          onReadyForDisplay={() => {
-            this.setState({ loadVideo: false });
-          }}
-          onPress={() => {
-            !loadVideo && this.setState({ pausedCheck: !pausedCheck });
-          }}
-          closeModal={() => {
-            this.setState({ videoModal: false, pausedCheck: true });
-          }}
-          pausedCheck={pausedCheck}
-          loadVideo={loadVideo}
-          videoModal={videoModal}
-          modalItem={modalItem}
-        />
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.state.modal}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Pressable onPress={modal => this.setState({ modal: !modal })}>
-                <Ionicons
-                  name="close"
-                  size={30}
-                  color="brown"
-                  style={{ marginLeft: width - 140 }}
-                />
-              </Pressable>
-              <Text style={{ color: 'black', fontSize: 20,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, }}>
-                {ArabicText.fixed}
-              </Text>
+                  <TextInput
+                    style={Styles.forminputsPrice}
+                    placeholder={ArabicText.Price}
+                    placeholderTextColor="#b0b0b0"
+                    keyboardType="numeric"
+                    onChangeText={text =>
+                      this.setState({price: text.replace(/[^0-9]/g, '')})
+                    }></TextInput>
 
-              <TextInput
-                style={Styles.forminputsPrice}
-                placeholder={ArabicText.Price}
-                placeholderTextColor="#b0b0b0"
-                keyboardType="numeric"
-                onChangeText={text =>
-                  this.setState({ price: text.replace(/[^0-9]/g, '') })
-                }></TextInput>
-
-              <TouchableOpacity
-                onPress={() => {
-                  this.setState({ modal: false });
-                }}>
-                <View style={Styles.btnform}>
-                  <Text style={Styles.textbtn}>{ArabicText.fixed}</Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.setState({modal: false});
+                    }}>
+                    <View style={Styles.btnform}>
+                      <Text style={Styles.textbtn}>{ArabicText.fixed}</Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.state.modalOffer}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Pressable
-                onPress={modalOffer =>
-                  this.setState({ modalOffer: !modalOffer })
-                }>
-                <Ionicons
-                  name="close"
-                  size={30}
-                  color="brown"
-                  style={{ marginLeft: width - 140 }}
-                />
-              </Pressable>
+              </View>
+            </Modal>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={this.state.modalOffer}>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Pressable
+                    onPress={modalOffer =>
+                      this.setState({modalOffer: !modalOffer})
+                    }>
+                    <Ionicons
+                      name="close"
+                      size={30}
+                      color="brown"
+                      style={{marginLeft: width - 140}}
+                    />
+                  </Pressable>
 
-              <Text style={{ color: 'black', fontSize: 20,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, }}>
-                {ArabicText.offer_Up}
-              </Text>
+                  <Text
+                    style={{
+                      color: 'black',
+                      fontSize: 20,
+                      fontFamily:
+                        Platform.OS == 'ios' ? null : family.Neo_Regular,
+                    }}>
+                    {ArabicText.offer_Up}
+                  </Text>
 
-              <TextInput
-                style={Styles.forminputsPrice}
-                placeholder={ArabicText.Price}
-                placeholderTextColor="#b0b0b0"
-                keyboardType="numeric"
-                onChangeText={text =>
-                  this.setState({ price: text.replace(/[^0-9]/g, '') })
-                }></TextInput>
+                  <TextInput
+                    style={Styles.forminputsPrice}
+                    placeholder={ArabicText.Price}
+                    placeholderTextColor="#b0b0b0"
+                    keyboardType="numeric"
+                    onChangeText={text =>
+                      this.setState({price: text.replace(/[^0-9]/g, '')})
+                    }></TextInput>
 
-              <TouchableOpacity
-                onPress={() => {
-                  this.setState({ modalOffer: false });
-                }}>
-                <View style={Styles.btnform}>
-                  <Text style={Styles.textbtn}>{ArabicText.offer_Up}</Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.setState({modalOffer: false});
+                    }}>
+                    <View style={Styles.btnform}>
+                      <Text style={Styles.textbtn}>{ArabicText.offer_Up}</Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
-      </ScrollView>
+              </View>
+            </Modal>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </View>
     );
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {
   View,
@@ -8,6 +9,8 @@ import {
   ScrollView,
   Dimensions,
   StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import RNFS from 'react-native-fs';
 import {connect} from 'react-redux';
@@ -303,159 +306,173 @@ class CamelClubForm extends Component {
     const {pausedCheck, loadVideo, videoModal, modalItem, mixed, thumbnail} =
       this.state;
     return (
-      <View style={{backgroundColor: 'blue', flex: 1}}>
+      <View style={{flex: 1}}>
         <BackBtnHeader />
         {/* <Ads /> */}
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={{flex: 1}}
-          contentContainerStyle={Styles.scrollContentContainer}
-          alwaysBounceVertical={false}>
-          <View style={Styles.containerScroll}>
-            <Text style={Styles.headingPostText}>{ArabicText.Camel_Club}</Text>
-            {/* IMAGES CAROUSAL */}
-            {mixed?.length ? (
-              <HorizontalCarousel
-                thumbnail={thumbnail?.path}
-                removeItem={(index, type, path) =>
-                  this.removeItem(index, type, path)
-                }
-                CustomUrl
-                price={
-                  this.state.itemFromDetails?.price
-                    ? this.state.itemFromDetails?.price
-                    : ''
-                }
-                imagesArray={this.state.mixed}
-                onPress={mediaSource => {
-                  this.setState({
-                    pausedCheck: false,
-                    videoModal: true,
-                    modalItem: mediaSource,
-                  });
-                }}
-                pausedCheck={pausedCheck}
-                pauseVideo={() => {
-                  this.setState({pausedCheck: true});
+        <KeyboardAvoidingView
+          style={Styles.keyboardView}
+          behavior={Platform.OS === 'ios' ? 'padding' : null}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{flex: 1}}
+            contentContainerStyle={Styles.scrollContentContainer}
+            alwaysBounceVertical={false}>
+            <View style={Styles.containerScroll}>
+              <Text style={Styles.headingPostText}>
+                {ArabicText.Camel_Club}
+              </Text>
+              {/* IMAGES CAROUSAL */}
+              {mixed?.length ? (
+                <HorizontalCarousel
+                  thumbnail={thumbnail?.path}
+                  removeItem={(index, type, path) =>
+                    this.removeItem(index, type, path)
+                  }
+                  CustomUrl
+                  price={
+                    this.state.itemFromDetails?.price
+                      ? this.state.itemFromDetails?.price
+                      : ''
+                  }
+                  imagesArray={this.state.mixed}
+                  onPress={mediaSource => {
+                    this.setState({
+                      pausedCheck: false,
+                      videoModal: true,
+                      modalItem: mediaSource,
+                    });
+                  }}
+                  pausedCheck={pausedCheck}
+                  pauseVideo={() => {
+                    this.setState({pausedCheck: true});
+                  }}
+                />
+              ) : null}
+              <View style={{flexDirection: 'row', marginTop: 10}}>
+                {/* VIDEO PICKER */}
+                <View style={Styles.cameraview}>
+                  <TouchableOpacity onPress={() => this.selectOneFile()}>
+                    <FontAwesome
+                      name="video-camera"
+                      size={30}
+                      color="#D2691Eff"
+                    />
+                  </TouchableOpacity>
+                </View>
+                {/* Click pic from camera */}
+                <View style={Styles.cameraview}>
+                  <TouchableOpacity onPress={() => this.openCamera()}>
+                    <Ionicons
+                      name="md-camera-sharp"
+                      size={30}
+                      color="#D2691Eff"
+                    />
+                  </TouchableOpacity>
+                </View>
+                {/* SELECT FROM GALLERY */}
+                <View style={Styles.cameraview}>
+                  <TouchableOpacity onPress={() => this.openGallery()}>
+                    <Ionicons
+                      name="images-outline"
+                      size={30}
+                      color="#D2691Eff"
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+              {this.state.imageFlage && (
+                <Image
+                  source={{
+                    uri: this.state.image,
+                  }}
+                  style={Styles.image}
+                />
+              )}
+              {/* TEXT INPUTS */}
+              <TextInput
+                style={Styles.forminputs}
+                placeholder={ArabicText.Title}
+                placeholderTextColor="#b0b0b0"
+                value={this.state.title}
+                onChangeText={text => {
+                  if (text.length <= 24) {
+                    this.setState({title: text});
+                  } else {
+                    Toast.show({
+                      text1: ArabicText?.limitCharacters,
+                      type: 'error',
+                      visibilityTime: 3000,
+                    });
+                  }
                 }}
               />
-            ) : null}
-            <View style={{flexDirection: 'row', marginTop: 10}}>
-              {/* VIDEO PICKER */}
-              <View style={Styles.cameraview}>
-                <TouchableOpacity onPress={() => this.selectOneFile()}>
-                  <FontAwesome
-                    name="video-camera"
-                    size={30}
-                    color="#D2691Eff"
-                  />
-                </TouchableOpacity>
-              </View>
-              {/* Click pic from camera */}
-              <View style={Styles.cameraview}>
-                <TouchableOpacity onPress={() => this.openCamera()}>
-                  <Ionicons
-                    name="md-camera-sharp"
-                    size={30}
-                    color="#D2691Eff"
-                  />
-                </TouchableOpacity>
-              </View>
-              {/* SELECT FROM GALLERY */}
-              <View style={Styles.cameraview}>
-                <TouchableOpacity onPress={() => this.openGallery()}>
-                  <Ionicons name="images-outline" size={30} color="#D2691Eff" />
-                </TouchableOpacity>
-              </View>
-            </View>
-            {this.state.imageFlage && (
-              <Image
-                source={{
-                  uri: this.state.image,
+
+              <TextInput
+                style={Styles.forminputs}
+                placeholder={ArabicText.Location}
+                placeholderTextColor="#b0b0b0"
+                value={this.state.location}
+                onChangeText={text => {
+                  if (text.length <= 24) {
+                    this.setState({location: text});
+                  } else {
+                    Toast.show({
+                      text1: ArabicText?.limitCharacters,
+                      type: 'error',
+                      visibilityTime: 3000,
+                    });
+                  }
                 }}
-                style={Styles.image}></Image>
-            )}
-            {/* TEXT INPUTS */}
-            <TextInput
-              style={Styles.forminputs}
-              placeholder={ArabicText.Title}
-              placeholderTextColor="#b0b0b0"
-              value={this.state.title}
-              onChangeText={text => {
-                if (text.length <= 24) {
-                  this.setState({title: text});
-                } else {
-                  Toast.show({
-                    text1: ArabicText?.limitCharacters,
-                    type: 'error',
-                    visibilityTime: 3000,
-                  });
-                }
-              }}></TextInput>
+              />
 
-            <TextInput
-              style={Styles.forminputs}
-              placeholder={ArabicText.Location}
-              placeholderTextColor="#b0b0b0"
-              value={this.state.location}
-              onChangeText={text => {
-                if (text.length <= 24) {
-                  this.setState({location: text});
-                } else {
-                  Toast.show({
-                    text1: ArabicText?.limitCharacters,
-                    type: 'error',
-                    visibilityTime: 3000,
-                  });
-                }
-              }}></TextInput>
-
-            <TextInput
-              textAlignVertical="top"
-              style={[Styles.inputdecrp, {marginTop: 20}]}
-              placeholder={ArabicText.Description}
-              placeholderTextColor="#b0b0b0"
-              value={this.state.description}
-              multiline
-              onChangeText={text => {
-                if (text.length <= 300) {
-                  this.setState({description: text});
-                } else {
-                  Toast.show({
-                    text1: ArabicText?.description,
-                    type: 'error',
-                    visibilityTime: 3000,
-                  });
-                }
-              }}></TextInput>
-            <Loader loading={this.state.loading} />
-            {/* CREATE POST */}
-            <TouchableOpacity onPress={() => this.createPostCamelClub()}>
-              <View style={Styles.btnform}>
-                <Text style={Styles.textbtn}>{ArabicText.add}</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-          {/* VIDEO MODAL */}
-          <VideoModal
-            onLoadStart={() => {
-              this.setState({loadVideo: true});
-            }}
-            onReadyForDisplay={() => {
-              this.setState({loadVideo: false});
-            }}
-            onPress={() => {
-              !loadVideo && this.setState({pausedCheck: !pausedCheck});
-            }}
-            closeModal={() => {
-              this.setState({videoModal: false, pausedCheck: true});
-            }}
-            pausedCheck={pausedCheck}
-            loadVideo={loadVideo}
-            videoModal={videoModal}
-            modalItem={modalItem}
-          />
-        </ScrollView>
+              <TextInput
+                textAlignVertical="top"
+                style={[Styles.inputdecrp, {marginTop: 20}]}
+                placeholder={ArabicText.Description}
+                placeholderTextColor="#b0b0b0"
+                value={this.state.description}
+                multiline
+                onChangeText={text => {
+                  if (text.length <= 300) {
+                    this.setState({description: text});
+                  } else {
+                    Toast.show({
+                      text1: ArabicText?.description,
+                      type: 'error',
+                      visibilityTime: 3000,
+                    });
+                  }
+                }}
+              />
+              <Loader loading={this.state.loading} />
+              {/* CREATE POST */}
+              <TouchableOpacity onPress={() => this.createPostCamelClub()}>
+                <View style={Styles.btnform}>
+                  <Text style={Styles.textbtn}>{ArabicText.add}</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            {/* VIDEO MODAL */}
+            <VideoModal
+              onLoadStart={() => {
+                this.setState({loadVideo: true});
+              }}
+              onReadyForDisplay={() => {
+                this.setState({loadVideo: false});
+              }}
+              onPress={() => {
+                !loadVideo && this.setState({pausedCheck: !pausedCheck});
+              }}
+              closeModal={() => {
+                this.setState({videoModal: false, pausedCheck: true});
+              }}
+              pausedCheck={pausedCheck}
+              loadVideo={loadVideo}
+              videoModal={videoModal}
+              modalItem={modalItem}
+            />
+          </ScrollView>
+        </KeyboardAvoidingView>
       </View>
     );
   }
@@ -476,6 +493,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
 });

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -6,21 +6,23 @@ import {
   TextInput,
   ScrollView,
   StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import 'react-native-gesture-handler';
 import RNFS from 'react-native-fs';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Toast from 'react-native-toast-message';
-import { createThumbnail } from 'react-native-create-thumbnail';
+import {createThumbnail} from 'react-native-create-thumbnail';
 import VideoModal from '../components/VideoModal';
 import * as userActions from '../redux/actions/user_actions';
 import camelapp from '../api/camelapp';
 import HorizontalCarousel from '../components/HorizontalCarousel';
-import { Styles } from '../styles/globlestyle';
+import {Styles} from '../styles/globlestyle';
 import * as ArabicText from '../language/EnglishToArabic';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Loader from '../components/PleaseWait';
@@ -55,7 +57,7 @@ class participateInCompetition extends Component {
     };
   }
   videoPicker = async () => {
-    this.setState({ video: {} });
+    this.setState({video: {}});
     ImagePicker.openPicker({
       mediaType: 'video',
     }).then(async video => {
@@ -71,12 +73,12 @@ class participateInCompetition extends Component {
           timeStamp: 10000,
         })
           .then(response => {
-            this.setState({ thumbnail: response });
+            this.setState({thumbnail: response});
           })
-          .catch(err => console.log({ err }));
+          .catch(err => console.log({err}));
         RNFS.readFile(video.path, 'base64')
           .then(res => {
-            this.setState({ videoForPost: 'data:video/mp4;base64,' + res });
+            this.setState({videoForPost: 'data:video/mp4;base64,' + res});
             let tempMixed = this.state.mixed;
             let mixed = this.state.mixed;
             let videoFlag = false;
@@ -92,10 +94,10 @@ class participateInCompetition extends Component {
               if (videoFlag === false) {
                 mixed.push(video);
               }
-              this.setState({ mixed: mixed, video: video });
+              this.setState({mixed: mixed, video: video});
             } else {
               tempMixed.push(video);
-              this.setState({ mixed: tempMixed, video: video });
+              this.setState({mixed: tempMixed, video: video});
             }
           })
           .catch(err => {
@@ -106,7 +108,7 @@ class participateInCompetition extends Component {
   };
   // CAPTURE IMAGE
   openCameraForCapture() {
-    const { cameraimagesForPost, mixed } = this.state;
+    const {cameraimagesForPost, mixed} = this.state;
     ImagePicker.openCamera({
       mediaType: 'photo',
       includeBase64: true,
@@ -156,9 +158,9 @@ class participateInCompetition extends Component {
           bse64images.push('data:image/png;base64,' + images[i].data);
           mixedTemp.push(tempImage[i]);
         }
-        this.setState({ imagesForPost: bse64images, image: tempImage });
+        this.setState({imagesForPost: bse64images, image: tempImage});
         this.setState(previousState => {
-          return { mixed: [...previousState?.mixed, ...mixedTemp] };
+          return {mixed: [...previousState?.mixed, ...mixedTemp]};
         });
         // } else {
         //   alert('Only 4 images allowed');
@@ -211,8 +213,8 @@ class participateInCompetition extends Component {
       });
     }
     if (title != '' && description != '' && location != '' && age != '') {
-      this.setState({ loading: true });
-      let { user } = this.props;
+      this.setState({loading: true});
+      let {user} = this.props;
       let user_id = user?.user?.user.id;
       let competition_id = this.props.route.params.competitionItem;
       camelapp
@@ -226,7 +228,6 @@ class participateInCompetition extends Component {
           images: combineImages ? combineImages : [],
           video: videoForPost ? videoForPost : null,
           thumbnail: thumbnailObj ? JSON.stringify(thumbnailObj) : null,
-
         })
         .then(response => {
           Toast.show({
@@ -245,7 +246,7 @@ class participateInCompetition extends Component {
           this.props.navigation.goBack();
         })
         .catch(error => {
-          this.setState({ loading: false });
+          this.setState({loading: false});
         });
     } else {
       return Toast.show({
@@ -256,149 +257,168 @@ class participateInCompetition extends Component {
     }
   };
   render() {
-    const { pausedCheck, loadVideo, videoModal, modalItem, thumbnail } =
+    const {pausedCheck, loadVideo, videoModal, modalItem, thumbnail} =
       this.state;
     return (
-      <ScrollView
-      showsVerticalScrollIndicator={false} 
-        contentContainerStyle={Styles.scrollContentContainer}
-        style={{ backgroundColor: '#FFFFFF', flex: 1 }}>
+      <View style={{flex: 1}}>
         <BackBtnHeader />
-        <View style={Styles.containerScroll}>
-          <HorizontalCarousel
-            thumbnail={thumbnail?.path}
-            CustomUrl
-            imagesArray={this.state.mixed?.length ? this.state.mixed : []}
-            onPress={mediaSource => {
-              this.setState({
-                pausedCheck: false,
-                videoModal: true,
-                modalItem: mediaSource,
-              });
-            }}
-            pausedCheck={pausedCheck}
-            pauseVideo={() => {
-              this.setState({ pausedCheck: true });
-            }}
-          />
-          <View style={{ flexDirection: 'row', marginTop: 10 }}>
-            <View style={Styles.cameraview}>
-              <TouchableOpacity onPress={() => this.videoPicker()}>
-                <FontAwesome name="video-camera" size={30} color="#D2691Eff" />
+        <KeyboardAvoidingView
+          style={Styles.keyboardView}
+          behavior={Platform.OS === 'ios' ? 'padding' : null}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={Styles.scrollContentContainer}
+            style={{backgroundColor: '#FFFFFF', flex: 1}}>
+            <BackBtnHeader />
+            <View style={Styles.containerScroll}>
+              <HorizontalCarousel
+                thumbnail={thumbnail?.path}
+                CustomUrl
+                imagesArray={this.state.mixed?.length ? this.state.mixed : []}
+                onPress={mediaSource => {
+                  this.setState({
+                    pausedCheck: false,
+                    videoModal: true,
+                    modalItem: mediaSource,
+                  });
+                }}
+                pausedCheck={pausedCheck}
+                pauseVideo={() => {
+                  this.setState({pausedCheck: true});
+                }}
+              />
+              <View style={{flexDirection: 'row', marginTop: 10}}>
+                <View style={Styles.cameraview}>
+                  <TouchableOpacity onPress={() => this.videoPicker()}>
+                    <FontAwesome
+                      name="video-camera"
+                      size={30}
+                      color="#D2691Eff"
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View style={Styles.cameraview}>
+                  <TouchableOpacity onPress={() => this.openCameraForCapture()}>
+                    <Ionicons
+                      name="md-camera-sharp"
+                      size={30}
+                      color="#D2691Eff"
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View style={Styles.cameraview}>
+                  <TouchableOpacity onPress={() => this.openGallery()}>
+                    <Ionicons
+                      name="images-outline"
+                      size={30}
+                      color="#D2691Eff"
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              <TextInput
+                style={Styles.forminputs}
+                placeholder={ArabicText.Title}
+                placeholderTextColor="#b0b0b0"
+                value={this.state.title}
+                onChangeText={text => {
+                  if (text?.length <= 24) {
+                    this.setState({title: text});
+                  } else {
+                    Toast.show({
+                      text1: ArabicText?.limitCharacters,
+                      type: 'error',
+                      visibilityTime: 3000,
+                    });
+                    // alert(ArabicText.limitCharacters);
+                  }
+                }}></TextInput>
+              <Loader loading={this.state.loading} />
+
+              <TextInput
+                style={Styles.forminputs}
+                placeholder={ArabicText.Location}
+                placeholderTextColor="#b0b0b0"
+                value={this.state.location}
+                onChangeText={text => {
+                  if (text?.length <= 24) {
+                    this.setState({location: text});
+                  } else {
+                    Toast.show({
+                      text1: ArabicText?.limitCharacters,
+                      type: 'error',
+                      visibilityTime: 3000,
+                    });
+                    // alert(ArabicText.limitCharacters);
+                  }
+                }}></TextInput>
+
+              <TextInput
+                style={Styles.forminputs}
+                placeholder={ArabicText.age}
+                placeholderTextColor="#b0b0b0"
+                keyboardType="numeric"
+                value={this.state.age}
+                onChangeText={text => {
+                  if (text?.length <= 3) {
+                    this.setState({age: text});
+                  } else {
+                    Toast.show({
+                      text1: ArabicText?.ageLimit,
+                      type: 'error',
+                      visibilityTime: 3000,
+                    });
+                    // alert(ArabicText.ageLimit);
+                  }
+                }}></TextInput>
+              <TextInput
+                style={[Styles.inputdecrp, {marginTop: 20}]}
+                placeholder={ArabicText.Description}
+                placeholderTextColor="#b0b0b0"
+                value={this.state.description}
+                multiline
+                onChangeText={text => {
+                  if (text?.length <= 300) {
+                    this.setState({description: text});
+                  } else {
+                    Toast.show({
+                      text1: ArabicText?.description,
+                      type: 'error',
+                      visibilityTime: 3000,
+                    });
+                    // alert(ArabicText.description);
+                  }
+                }}></TextInput>
+
+              <TouchableOpacity onPress={() => this.createPostCamelClub()}>
+                <View style={Styles.btnform}>
+                  <Text style={Styles.textbtn}>{ArabicText.add}</Text>
+                </View>
               </TouchableOpacity>
             </View>
-            <View style={Styles.cameraview}>
-              <TouchableOpacity onPress={() => this.openCameraForCapture()}>
-                <Ionicons name="md-camera-sharp" size={30} color="#D2691Eff" />
-              </TouchableOpacity>
-            </View>
-            <View style={Styles.cameraview}>
-              <TouchableOpacity onPress={() => this.openGallery()}>
-                <Ionicons name="images-outline" size={30} color="#D2691Eff" />
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          <TextInput
-            style={Styles.forminputs}
-            placeholder={ArabicText.Title}
-            placeholderTextColor="#b0b0b0"
-            value={this.state.title}
-            onChangeText={text => {
-              if (text?.length <= 24) {
-                this.setState({ title: text });
-              } else {
-                Toast.show({
-                  text1: ArabicText?.limitCharacters,
-                  type: 'error',
-                  visibilityTime: 3000,
-                });
-                // alert(ArabicText.limitCharacters);
-              }
-            }}></TextInput>
-          <Loader loading={this.state.loading} />
-
-          <TextInput
-            style={Styles.forminputs}
-            placeholder={ArabicText.Location}
-            placeholderTextColor="#b0b0b0"
-            value={this.state.location}
-            onChangeText={text => {
-              if (text?.length <= 24) {
-                this.setState({ location: text });
-              } else {
-                Toast.show({
-                  text1: ArabicText?.limitCharacters,
-                  type: 'error',
-                  visibilityTime: 3000,
-                });
-                // alert(ArabicText.limitCharacters);
-              }
-            }}></TextInput>
-
-          <TextInput
-            style={Styles.forminputs}
-            placeholder={ArabicText.age}
-            placeholderTextColor="#b0b0b0"
-            keyboardType="numeric"
-            value={this.state.age}
-            onChangeText={text => {
-              if (text?.length <= 3) {
-                this.setState({ age: text });
-              } else {
-                Toast.show({
-                  text1: ArabicText?.ageLimit,
-                  type: 'error',
-                  visibilityTime: 3000,
-                });
-                // alert(ArabicText.ageLimit);
-              }
-            }}></TextInput>
-          <TextInput
-            style={[Styles.inputdecrp, { marginTop: 20 }]}
-            placeholder={ArabicText.Description}
-            placeholderTextColor="#b0b0b0"
-            value={this.state.description}
-            multiline
-            onChangeText={text => {
-              if (text?.length <= 300) {
-                this.setState({ description: text });
-              } else {
-                Toast.show({
-                  text1: ArabicText?.description,
-                  type: 'error',
-                  visibilityTime: 3000,
-                });
-                // alert(ArabicText.description);
-              }
-            }}></TextInput>
-
-          <TouchableOpacity onPress={() => this.createPostCamelClub()}>
-            <View style={Styles.btnform}>
-              <Text style={Styles.textbtn}>{ArabicText.add}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        {/* VIDEO MODAL */}
-        <VideoModal
-          onLoadStart={() => {
-            this.setState({ loadVideo: true });
-          }}
-          onReadyForDisplay={() => {
-            this.setState({ loadVideo: false });
-          }}
-          onPress={() => {
-            !loadVideo && this.setState({ pausedCheck: !pausedCheck });
-          }}
-          closeModal={() => {
-            this.setState({ videoModal: false, pausedCheck: true });
-          }}
-          pausedCheck={pausedCheck}
-          loadVideo={loadVideo}
-          videoModal={videoModal}
-          modalItem={modalItem}
-        />
-      </ScrollView>
+            {/* VIDEO MODAL */}
+            <VideoModal
+              onLoadStart={() => {
+                this.setState({loadVideo: true});
+              }}
+              onReadyForDisplay={() => {
+                this.setState({loadVideo: false});
+              }}
+              onPress={() => {
+                !loadVideo && this.setState({pausedCheck: !pausedCheck});
+              }}
+              closeModal={() => {
+                this.setState({videoModal: false, pausedCheck: true});
+              }}
+              pausedCheck={pausedCheck}
+              loadVideo={loadVideo}
+              videoModal={videoModal}
+              modalItem={modalItem}
+            />
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </View>
     );
   }
 }

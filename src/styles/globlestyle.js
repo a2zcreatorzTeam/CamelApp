@@ -314,7 +314,7 @@ export const Styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 22,
     backgroundColor: '#DCDCDC',
-    opacity: 0.9,
+    borderRadius:20
   },
   modalView: {
     backgroundColor: 'white',

@@ -1,5 +1,11 @@
 import React from 'react';
-import {View, TextInput, TouchableOpacity, StyleSheet, Platform} from 'react-native';
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Platform,
+} from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -9,7 +15,7 @@ import FastImage from 'react-native-fast-image';
 import {Tooltip} from 'react-native-elements';
 import {useRef} from 'react';
 import {profileBaseUrl} from '../constants/urls';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 const BackBtnHeader = props => {
   let {style} = props;
   const tooltipRef = useRef(null);

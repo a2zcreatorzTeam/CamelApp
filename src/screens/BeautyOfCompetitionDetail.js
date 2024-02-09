@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {
   Text,
@@ -433,7 +435,6 @@ class BeautyOfCompetition extends Component {
           style={{
             flexDirection: 'row',
             marginTop: 20,
-            width: '100%',
             width: '90%',
           }}>
           <ScrollView
@@ -445,15 +446,20 @@ class BeautyOfCompetition extends Component {
             }}
             style={styles.scrollView}>
             {/* Reward MODAL  */}
-            <Pressable style={Styles.beautyBtnView} onPress={() => this.setState({modal: true})}>
+            <Pressable
+              style={Styles.beautyBtnView}
+              onPress={() => this.setState({modal: true})}>
               <Text style={Styles.ButtonBeauty}>{ArabicText.Reward}</Text>
             </Pressable>
             {/* Rules Modal  */}
-            <Pressable  style={Styles.beautyBtnView} onPress={() => this.setState({generalRulesModal: true})}>
+            <Pressable
+              style={Styles.beautyBtnView}
+              onPress={() => this.setState({generalRulesModal: true})}>
               <Text style={Styles.ButtonBeauty}>{ArabicText.General_Rule}</Text>
             </Pressable>
             {/* WINNER  */}
-            <Pressable style={Styles.beautyBtnView}
+            <Pressable
+              style={Styles.beautyBtnView}
               onPress={() => {
                 if (this?.state?.posts?.length > 0) {
                   if (competition_item.competition_winner?.length) {
@@ -484,7 +490,9 @@ class BeautyOfCompetition extends Component {
               </Text>
             </Pressable>
             {/* PARTICIPANTS  */}
-            <Pressable style={Styles.beautyBtnView} onPress={() => this.setState({participantsModal: true})}>
+            <Pressable
+              style={Styles.beautyBtnView}
+              onPress={() => this.setState({participantsModal: true})}>
               <Text style={Styles.ButtonBeauty}>{ArabicText.PARTICIPANTS}</Text>
             </Pressable>
           </ScrollView>
@@ -653,7 +661,11 @@ class BeautyOfCompetition extends Component {
               style={[Styles.modalView, {paddingTop: 0, paddingHorizontal: 0}]}>
               <Header
                 hideCircle
-                customStyle={{width: width - 100}}
+                customStyle={{
+                  width: width - 100,
+                  borderTopLeftRadius: 20,
+                  borderTopRightRadius: 20,
+                }}
                 onChangeText={text => {
                   if (text) {
                     this.setState({searchParticipantsText: text});
@@ -733,8 +745,6 @@ class BeautyOfCompetition extends Component {
                   const currentIndex = Math.round(
                     event.nativeEvent.contentOffset.x / slideWidth,
                   );
-                  console.log(currentIndex, 'indexxx');
-                  console.log(currentIndex, slideWidth);
                   this.setState({activeSlide: currentIndex});
                 }}
               />
@@ -769,6 +779,7 @@ class BeautyOfCompetition extends Component {
         <View style={{flex: 1}}>
           {/* {posts?.length && ( */}
           <FlatList
+            showsVerticalScrollIndicator={false}
             key={key}
             style={{flex: 1, flexGrow: 1}}
             contentContainerStyle={{

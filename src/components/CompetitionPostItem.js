@@ -1,21 +1,32 @@
-import React, { memo, useState } from 'react';
-import { Image, Text, View, TouchableOpacity, Dimensions, Platform } from 'react-native';
+import React, {memo, useState} from 'react';
+import {
+  Image,
+  Text,
+  View,
+  TouchableOpacity,
+  Dimensions,
+  Platform,
+} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { Styles } from '../styles/globlestyle';
-const { width, height } = Dimensions.get('screen');
+import {Styles} from '../styles/globlestyle';
+const {width, height} = Dimensions.get('screen');
 import FastImage from 'react-native-fast-image';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { imageBaseUrl, profileBaseUrl, thumbnailBaseUrl } from '../constants/urls';
-import { family } from '../constants/Family';
+import {
+  imageBaseUrl,
+  profileBaseUrl,
+  thumbnailBaseUrl,
+} from '../constants/urls';
+import {family} from '../constants/Family';
 
 const PostItem = ({
   item,
   image,
   commentCount,
-  postLike = () => { },
-  postComment = () => { },
-  onClickItem = () => { },
+  postLike = () => {},
+  postComment = () => {},
+  onClickItem = () => {},
 }) => {
   // console.log(item?.thumbnail,"rthumkbghhh");
   const [isLiked, setIsLiked] = useState();
@@ -40,7 +51,13 @@ const PostItem = ({
           width: width / 2 - 30,
           marginVertical: 8,
         }}>
-        <Text style={{ color: 'black', marginBottom: 10, marginHorizontal: 10, fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular, }}>
+        <Text
+          style={{
+            color: 'black',
+            marginBottom: 10,
+            marginHorizontal: 10,
+            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+          }}>
           {item?.user_name}
         </Text>
         <FastImage
@@ -81,17 +98,23 @@ const PostItem = ({
               }}
             />
           ) : (
-            <View style={{ backgroundColor: '#ededed' }}>
-
+            <View style={{backgroundColor: '#ededed'}}>
               <FastImage
-                style={Styles.BeautyImages}
+                style={[
+                  Styles.BeautyImages,
+                  {
+                    borderTopLeftRadius: 0,
+                    borderTopRightRadius: 0,
+                    width: width / 2 - 20,
+                  },
+                ]}
                 source={
                   item?.thumbnail !== null
                     ? {
-                      uri: thumbnailBaseUrl + item?.thumbnail?.thumbnail,
-                      headers: { Authorization: 'someAuthToken' },
-                      priority: FastImage.priority.high,
-                    }
+                        uri: thumbnailBaseUrl + item?.thumbnail?.thumbnail,
+                        headers: {Authorization: 'someAuthToken'},
+                        priority: FastImage.priority.high,
+                      }
                     : require('../../assets/camel.png')
                 }
                 resizeMode={FastImage?.resizeMode.cover}
@@ -113,7 +136,7 @@ const PostItem = ({
                   activeOpacity={0.4}
                   source={require('../../assets/play.png')}
                   resizeMode={'cover'}
-                  style={{ width: 50, height: 50 }}
+                  style={{width: 50, height: 50}}
                 />
               </TouchableOpacity>
             </View>
@@ -131,7 +154,7 @@ const PostItem = ({
           borderRadius: 15,
           flexDirection: 'row',
           justifyContent: 'space-between',
-          left: 5
+          left: 5,
         }}>
         <TouchableOpacity
           style={{
@@ -140,7 +163,13 @@ const PostItem = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 15,
+              marginRight: 3,
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            }}>
             {viewCount}
           </Text>
           <Ionicons name="ios-eye-sharp" size={20} color="#CD853F" />
@@ -149,16 +178,30 @@ const PostItem = ({
           onPress={() => {
             postComment();
           }}
-          style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ marginRight: 5, color: 'black', fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular, }}>{commentCount}</Text>
+          style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Text
+            style={{
+              marginRight: 5,
+              color: 'black',
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            }}>
+            {commentCount}
+          </Text>
           <Feather name="message-square" size={16} color="#CD853F" />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             postLike(item, setIsLiked, setLikeCount);
           }}
-          style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={{ marginRight: 5, color: 'black', fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular, }}>{likeCount}</Text>
+          style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Text
+            style={{
+              marginRight: 5,
+              color: 'black',
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            }}>
+            {likeCount}
+          </Text>
           {(
             isLiked !== undefined ? isLiked == true : item?.flagForLike == true
           ) ? (

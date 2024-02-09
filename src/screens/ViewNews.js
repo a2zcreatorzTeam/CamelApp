@@ -195,11 +195,15 @@ class ViewNews extends Component {
       },
     };
     return (
-      <View style={[Styles.container, {flex: 1, height: '100%'}]}>
+      <View
+        style={[
+          Styles.container,
+          {flex: 1, height: '100%', backgroundColor: '#D2691Eff'},
+        ]}>
         <Loader loading={this.state.loading} />
         <BackBtnHeader />
         <KeyboardAvoidingView
-          style={{flex: 1}}
+          style={Styles.keyboardView}
           behavior={Platform.OS === 'ios' ? 'padding' : null}>
           <ScrollView
             showsVerticalScrollIndicator={false}

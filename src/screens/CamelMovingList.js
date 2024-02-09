@@ -224,152 +224,157 @@ class CamelMovingList extends Component {
             }}
           />
         )}
-        <View
-          style={{
-            flexDirection: 'row',
-            width: '100%',
-            justifyContent: 'space-around',
-            alignItems: 'center',
-          }}>
-          <TouchableOpacity
-            onPress={() =>
-              this.setState({
-                locationInput: !locationInput,
-                To: '',
-                From: '',
-                searchedItem: '',
-                searchText: '',
-              })
-            }
-            style={[styles.btnContainer, {marginLeft: 10, marginRight: 0}]}>
-            <FontAwesome name={'filter'} size={28} color="white" />
-          </TouchableOpacity>
-
+        <View style={{backgroundColor: '#fff', flex: 1, alignItems: 'center'}}>
           <View
             style={{
-              width: '80%',
               flexDirection: 'row',
+              width: '100%',
               justifyContent: 'space-around',
+              alignItems: 'center',
+              backgroundColor: '#fff',
             }}>
-            {locationInput && (
-              <>
-                <View
-                  style={[
-                    Styles.searchbar,
-                    {width: '40%', paddingHorizontal: 5, ...shadows.shadow5},
-                  ]}>
-                  <TextInput
-                    value={To}
-                    style={[
-                      styles.searchInput,
-                      {
-                        width: '100%',
-                        position: 'relative',
-                      },
-                    ]}
-                    placeholder={ArabicText.To}
-                    placeholderTextColor="black"
-                    onChangeText={text => {
-                      if (text) {
-                        this.setState({To: text});
-                        this.searchLocationFunction(text, From);
-                      } else {
-                        this.setState({
-                          To: '',
-                          searchedItem: '',
-                          searchedTo: '',
-                        });
-                      }
-                    }}
-                  />
-                </View>
-                <View
-                  style={[
-                    Styles.searchbar,
-                    {width: '40%', paddingHorizontal: 5, ...shadows.shadow5},
-                  ]}>
-                  <TextInput
-                    value={From}
-                    style={[
-                      styles.searchInput,
-                      {
-                        width: '100%',
-                        position: 'relative',
-                      },
-                    ]}
-                    placeholder={ArabicText.From}
-                    placeholderTextColor="black"
-                    onChangeText={text => {
-                      if (text) {
-                        this.setState({From: text});
-                        this.searchLocationFunction(To, text);
-                      } else {
-                        this.setState({
-                          From: '',
-                          searchedItem: '',
-                          searchedFrom: '',
-                        });
-                      }
-                    }}
-                  />
-                </View>
-              </>
-            )}
-          </View>
-        </View>
-        {loader && (
-          <ActivityIndicator
-            size="large"
-            color="#D2691Eff"
-            animating={loader}
-            style={{marginTop: 20}}
-          />
-        )}
-        {loader == false && (
-          <View style={{flex: 1, width: '100%'}}>
+            <TouchableOpacity
+              onPress={() =>
+                this.setState({
+                  locationInput: !locationInput,
+                  To: '',
+                  From: '',
+                  searchedItem: '',
+                  searchText: '',
+                })
+              }
+              style={[styles.btnContainer, {marginLeft: 10, marginRight: 0}]}>
+              <FontAwesome name={'filter'} size={28} color="white" />
+            </TouchableOpacity>
+
             <View
               style={{
+                width: '80%',
                 flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                paddingHorizontal: 20,
+                justifyContent: 'space-around',
               }}>
-              <TouchableOpacity
-                activeOpacity={1}
-                style={[
-                  Styles.btnHome2,
-                  {
-                    width: '30%',
-                    height: 40,
-                    borderRadius: 10,
-                  },
-                ]}
-                onPress={() => {}}>
-                <Text style={Styles.catBtnText}>{ArabicText?.MovingCamel}</Text>
-              </TouchableOpacity>
-              <AddButton onPress={() => onAddButtonClick()} />
+              {locationInput && (
+                <>
+                  <View
+                    style={[
+                      Styles.searchbar,
+                      {width: '40%', paddingHorizontal: 5, ...shadows.shadow5},
+                    ]}>
+                    <TextInput
+                      value={To}
+                      style={[
+                        styles.searchInput,
+                        {
+                          width: '100%',
+                          position: 'relative',
+                        },
+                      ]}
+                      placeholder={ArabicText.To}
+                      placeholderTextColor="black"
+                      onChangeText={text => {
+                        if (text) {
+                          this.setState({To: text});
+                          this.searchLocationFunction(text, From);
+                        } else {
+                          this.setState({
+                            To: '',
+                            searchedItem: '',
+                            searchedTo: '',
+                          });
+                        }
+                      }}
+                    />
+                  </View>
+                  <View
+                    style={[
+                      Styles.searchbar,
+                      {width: '40%', paddingHorizontal: 5, ...shadows.shadow5},
+                    ]}>
+                    <TextInput
+                      value={From}
+                      style={[
+                        styles.searchInput,
+                        {
+                          width: '100%',
+                          position: 'relative',
+                        },
+                      ]}
+                      placeholder={ArabicText.From}
+                      placeholderTextColor="black"
+                      onChangeText={text => {
+                        if (text) {
+                          this.setState({From: text});
+                          this.searchLocationFunction(To, text);
+                        } else {
+                          this.setState({
+                            From: '',
+                            searchedItem: '',
+                            searchedFrom: '',
+                          });
+                        }
+                      }}
+                    />
+                  </View>
+                </>
+              )}
             </View>
-            <FlatList
-              style={{flex: 1}}
-              ListEmptyComponent={() => <EmptyComponent />}
-              key={key}
-              contentContainerStyle={{paddingBottom: '20%'}}
-              data={
-                searchedItem || To || From ? filterPosts : this.state?.posts
-              }
-              renderItem={renderItem}
-              keyExtractor={item => item.id}
-              refreshControl={
-                <RefreshControl
-                  refreshing={refreshing}
-                  onRefresh={() => this.ScrollToRefresh()}
-                />
-              }
-              initialNumToRender={5}
-              maxToRenderPerBatch={5}
-            />
           </View>
-        )}
+          {loader && (
+            <ActivityIndicator
+              size="large"
+              color="#D2691Eff"
+              animating={loader}
+              style={{marginTop: 20}}
+            />
+          )}
+          {loader == false && (
+            <View style={{flex: 1, width: '100%', backgroundColor: '#fff'}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  paddingHorizontal: 20,
+                }}>
+                <TouchableOpacity
+                  activeOpacity={1}
+                  style={[
+                    Styles.btnHome2,
+                    {
+                      width: '30%',
+                      height: 40,
+                      borderRadius: 10,
+                    },
+                  ]}
+                  onPress={() => {}}>
+                  <Text style={Styles.catBtnText}>
+                    {ArabicText?.MovingCamel}
+                  </Text>
+                </TouchableOpacity>
+                <AddButton onPress={() => onAddButtonClick()} />
+              </View>
+              <FlatList
+                style={{flex: 1}}
+                ListEmptyComponent={() => <EmptyComponent />}
+                key={key}
+                contentContainerStyle={{paddingBottom: '20%'}}
+                data={
+                  searchedItem || To || From ? filterPosts : this.state?.posts
+                }
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={() => this.ScrollToRefresh()}
+                  />
+                }
+                initialNumToRender={5}
+                maxToRenderPerBatch={5}
+              />
+            </View>
+          )}
+        </View>
       </View>
     );
   }
@@ -389,13 +394,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     height: '100%',
-    backgroundColor: 'white',
+    width: '100%',
+    backgroundColor: '#D2691Eff',
+
+    // backgroundColor: 'white',
   },
   btnContainer: {
     width: 35,
     height: 35,
     borderRadius: 10,
-    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 10,

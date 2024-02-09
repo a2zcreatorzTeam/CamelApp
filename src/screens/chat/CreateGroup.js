@@ -22,8 +22,8 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import Toast from 'react-native-toast-message';
 import * as ArabicText from '../../language/EnglishToArabic';
 import BackBtnHeader from '../../components/headerWithBackBtn';
-import { profileBaseUrl } from '../../constants/urls';
-import { family } from '../../constants/Family';
+import {profileBaseUrl} from '../../constants/urls';
+import {family} from '../../constants/Family';
 
 const width = Dimensions.get('screen').width;
 
@@ -218,11 +218,12 @@ const CreateGroup = props => {
   }, []);
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: '#D2691Eff'}}>
       <BackBtnHeader />
-
-      <View style={{height: '60%', marginTop: 20}}>
-        <ScrollView showsVerticalScrollIndicator={false}  contentContainerStyle={{paddingBottom: 40}}>
+      <View style={{height: '60%', marginTop: 20, backgroundColor: '#fff'}}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{paddingBottom: 40}}>
           <View
             style={{
               backgroundColor: 'lightgrey',
@@ -287,7 +288,13 @@ const CreateGroup = props => {
               {groupLoader == true ? (
                 <ActivityIndicator color={'white'} size={'large'} />
               ) : (
-                <Text style={{color: '#fff', fontSize: 15,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular}}>
+                <Text
+                  style={{
+                    color: '#fff',
+                    fontSize: 15,
+                    fontFamily:
+                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  }}>
                   {ArabicText.createGroup}
                 </Text>
               )}
@@ -326,7 +333,7 @@ const CreateGroup = props => {
           display: isKeyboardVisible == false ? 'flex' : 'none',
         }}>
         <ScrollView
-        showsVerticalScrollIndicator={false} 
+          showsVerticalScrollIndicator={false}
           style={{
             width: width,
             height: 280,
@@ -356,8 +363,7 @@ const UserComp = ({item, addGroupUser}) => {
             source={{
               uri:
                 // 'http://www.tasdeertech.com/public/images/profiles/' +
-                profileBaseUrl+
-                item?.firend_image,
+                profileBaseUrl + item?.firend_image,
             }}
             style={styles.userImageStyle}
           />
@@ -370,7 +376,13 @@ const UserComp = ({item, addGroupUser}) => {
             activeOpacity={0.5}
             style={styles.addBTN}
             onPress={() => addGroupUser(item)}>
-            <Text style={{color: '#fff',  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular}}>{ArabicText.add}</Text>
+            <Text
+              style={{
+                color: '#fff',
+                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              }}>
+              {ArabicText.add}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -386,8 +398,7 @@ const NewUserComp = ({item, removeGroupUser}) => {
           source={{
             uri:
               // 'http://www.tasdeertech.com/public/images/profiles/' +
-              profileBaseUrl+
-              item?.firend_image,
+              profileBaseUrl + item?.firend_image,
           }}
           style={styles.userImageStyle}
         />
@@ -428,7 +439,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     color: '#000',
     marginBottom: 30,
-     fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
   createGroupBTN: {
     width: 150,
@@ -452,7 +463,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 17,
     textAlign: 'right',
-     fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
   userImageContainer: {
     width: 60,

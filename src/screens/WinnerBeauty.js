@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import { View, Text, Image, Platform } from 'react-native';
-import { Styles } from '../styles/globlestyle';
-import { ProgressBar } from 'react-native-paper';
+/* eslint-disable react-native/no-inline-styles */
+import React, {Component} from 'react';
+import {View, Text, Image, Platform} from 'react-native';
+import {Styles} from '../styles/globlestyle';
+import {ProgressBar} from 'react-native-paper';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import FastImage from 'react-native-fast-image';
-import { profileBaseUrl } from '../constants/urls';
-import { family } from '../constants/Family';
+import {profileBaseUrl} from '../constants/urls';
+import {family} from '../constants/Family';
 class WinnerBeauty extends Component {
   constructor(props) {
     super(props);
@@ -16,11 +17,17 @@ class WinnerBeauty extends Component {
   }
   render() {
     return (
-      <View style={[Styles.container]}>
+      <View style={[Styles.container, {backgroundColor: '#D2691Eff'}]}>
         <BackBtnHeader />
-        <View style={{ marginTop: 30, justifyContent: 'center' }}>
+        <View
+          style={{
+            flex: 1,
+            marginTop: 30,
+            justifyContent: 'center',
+            backgroundColor: '#fff',
+          }}>
           {this.state.winnerList.map((el, i) => (
-            <View style={[Styles.WinnerIcon, { marginBottom: 20 }]}>
+            <View style={[Styles.WinnerIcon, {marginBottom: 20}]}>
               <View style={Styles.winnerBeauty}>
                 <ProgressBar
                   key={i}
@@ -62,7 +69,8 @@ class WinnerBeauty extends Component {
                     top: 10,
                     right: 100,
                     color: '#D2691E',
-                     fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
+                    fontFamily:
+                      Platform.OS == 'ios' ? null : family.Neo_Regular,
                   }}>
                   {el.user_name}
                 </Text>
@@ -72,7 +80,8 @@ class WinnerBeauty extends Component {
                     left: 15,
                     top: 10,
                     color: '#D2691E',
-                     fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
+                    fontFamily:
+                      Platform.OS == 'ios' ? null : family.Neo_Regular,
                   }}>
                   {el.like_count}
                 </Text>

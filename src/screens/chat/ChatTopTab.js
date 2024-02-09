@@ -5,12 +5,13 @@ import Groups from './Groups';
 import FriendList from './FriendList';
 import * as ArabicText from '../../language/EnglishToArabic';
 import BackBtnHeader from '../../components/headerWithBackBtn';
+import {View} from 'react-native';
 
 const ChatTopTab = prop => {
   const TopTab = createMaterialTopTabNavigator();
 
   return (
-    <>
+    <View style={{flex: 1, backgroundColor: '#d2691e'}}>
       <BackBtnHeader />
       <TopTab.Navigator
         screenOptions={{
@@ -34,7 +35,7 @@ const ChatTopTab = prop => {
           component={Messages}
         />
       </TopTab.Navigator>
-    </>
+    </View>
   );
 };
 

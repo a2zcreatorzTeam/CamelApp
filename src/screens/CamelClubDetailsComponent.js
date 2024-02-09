@@ -25,7 +25,7 @@ import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import {profileBaseUrl, thumbnailBaseUrl} from '../constants/urls';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 
 const width = Dimensions.get('screen').width;
 class CamelClubDetailsComponent extends Component {
@@ -210,8 +210,8 @@ class CamelClubDetailsComponent extends Component {
 
     return (
       <ScrollView
-      showsVerticalScrollIndicator={false} 
-        style={{backgroundColor: '#ffff', paddingBottom: width * 0.4}}>
+        showsVerticalScrollIndicator={false}
+        style={{paddingBottom: width * 0.4, backgroundColor: '#d2691e'}}>
         <BackBtnHeader />
         <View
           style={{
@@ -220,6 +220,7 @@ class CamelClubDetailsComponent extends Component {
             justifyContent: 'flex-end',
             paddingHorizontal: 20,
             marginTop: 15,
+            backgroundColor: '#fff',
           }}>
           <View style={{alignItems: 'flex-end'}}>
             <Text
@@ -228,11 +229,17 @@ class CamelClubDetailsComponent extends Component {
                 fontSize: 20,
                 fontWeight: '700',
                 marginRight: 20,
-                 fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
               }}>
               {itemFromDetails.name}
             </Text>
-            <Text style={{color: '#000', fontSize: 14, marginRight: 20,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular}}>
+            <Text
+              style={{
+                color: '#000',
+                fontSize: 14,
+                marginRight: 20,
+                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              }}>
               {itemFromDetails.user_location}
             </Text>
           </View>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -16,7 +16,7 @@ import Item from '../components/BankItem';
 import camelapp from '../api/camelapp';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import * as ArabicText from '../language/EnglishToArabic';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 const width = Dimensions.get('screen').width;
 
 class Bank extends Component {
@@ -55,8 +55,8 @@ class Bank extends Component {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }
   render() {
-    const { loader, text, posts } = this.state;
-    const renderItem = ({ item }) => {
+    const {loader, text, posts} = this.state;
+    const renderItem = ({item}) => {
       return (
         <Item
           item={item}
@@ -70,18 +70,25 @@ class Bank extends Component {
     return (
       <View style={styles.container}>
         <BackBtnHeader />
-        <ScrollView showsVerticalScrollIndicator={false}  nestedScrollEnabled={true} style={{ flex: 1 }}>
+        <ScrollView
+          contentContainerStyle={{
+            backgroundColor: '#fff',
+            flexGrow: 1,
+          }}
+          showsVerticalScrollIndicator={false}
+          nestedScrollEnabled={true}
+          style={{flex: 1, width: '100%'}}>
           {loader && (
             <ActivityIndicator
               size="large"
               color="#D2691Eff"
               animating={loader}
-              style={{ marginTop: 30 }}
+              style={{marginTop: 30}}
             />
           )}
           {loader == false && (
             <View>
-              <View style={{ marginBottom: 20 }}>
+              <View style={{marginBottom: 20}}>
                 <View style={styles.textView}>
                   <Text style={styles.heading}>
                     {ArabicText.Commissionrate}
@@ -93,19 +100,19 @@ class Bank extends Component {
                     {ArabicText.bankDescription2}
                   </Text>
                 </View>
-                <View style={{ marginTop: 25 }}>
-                  <View style={{ alignItems: 'center' }}>
+                <View style={{marginTop: 25}}>
+                  <View style={{alignItems: 'center'}}>
                     <Text style={styles.textHeader}>
                       {ArabicText.Toknowtheapplicationrate}
                     </Text>
                     <TextInput
                       style={styles.textInput}
                       keyboardType={'numeric'}
-                      onChangeText={newText => this.setState({ text: newText })}
+                      onChangeText={newText => this.setState({text: newText})}
                       value={text}
                     />
                   </View>
-                  <View style={{ alignItems: 'center' }}>
+                  <View style={{alignItems: 'center'}}>
                     <Text style={styles.textHeader}>
                       {ArabicText.Applicationrate}
                     </Text>
@@ -140,7 +147,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    height: '100%',
+    backgroundColor: '#D2691Eff',
+    width: '100%',
   },
   textView: {
     alignSelf: 'center',
@@ -153,14 +161,14 @@ const styles = StyleSheet.create({
     color: '#D2691E',
     marginTop: 20,
     marginBottom: 20,
-     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
   description: {
     fontSize: 20,
     color: '#D2691E',
     marginTop: 10,
-    textAlign: 'center', 
-     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+    textAlign: 'center',
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
   textHeader: {
     fontSize: 20,
@@ -168,7 +176,7 @@ const styles = StyleSheet.create({
     color: '#D2691E',
     marginTop: 15,
     marginBottom: 10,
-     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
   textInput: {
     borderColor: '#D2691E',
@@ -192,6 +200,6 @@ const styles = StyleSheet.create({
     color: 'black',
     justifyContent: 'center',
     textAlign: 'right',
-     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
 });

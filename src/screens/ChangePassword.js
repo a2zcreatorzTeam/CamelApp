@@ -11,7 +11,7 @@ import {TextInput} from 'react-native';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Toast from 'react-native-toast-message';
 import camelapp from '../api/camelapp';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 
 class ChangePassword extends Component {
   constructor() {
@@ -115,9 +115,9 @@ class ChangePassword extends Component {
       }
     };
     return (
-      <View style={Styles.container}>
+      <View style={[Styles.container, {backgroundColor: '#D2691Eff'}]}>
         <BackBtnHeader />
-        <View style={{marginTop: 20, flex: 1}}>
+        <View style={{marginTop: 20, flex: 1, backgroundColor: '#fff'}}>
           <Text
             style={{
               color: 'grey',
@@ -126,7 +126,7 @@ class ChangePassword extends Component {
               fontSize: 22,
               fontWeight: '600',
               marginBottom: 20,
-               fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
             }}
             numberOfLines={3}>
             {ArabicText?.Changepassword}

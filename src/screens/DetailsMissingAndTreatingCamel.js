@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   StyleSheet,
@@ -12,24 +12,24 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { Styles } from '../styles/globlestyle';
+import {Styles} from '../styles/globlestyle';
 import camelapp from '../api/camelapp';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import { bindActionCreators } from 'redux';
+import {bindActionCreators} from 'redux';
 import * as ArabicText from '../language/EnglishToArabic';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import VideoModal from '../components/VideoModal';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Toast from 'react-native-toast-message';
-import { Platform } from 'react-native';
-import { profileBaseUrl, thumbnailBaseUrl } from '../constants/urls';
-import { family } from '../constants/Family';
+import {Platform} from 'react-native';
+import {profileBaseUrl, thumbnailBaseUrl} from '../constants/urls';
+import {family} from '../constants/Family';
 
 class DetailsComponent extends Component {
   constructor(props) {
     super(props);
-    const { route } = props;
+    const {route} = props;
     const itemFromDetails = route.params?.itemFromDetails || {};
     const {
       img,
@@ -63,18 +63,18 @@ class DetailsComponent extends Component {
     let imagesArray = [];
     array[0] !== '' &&
       array.forEach(element => {
-        imagesArray.push({ type: 'image', source: element });
+        imagesArray.push({type: 'image', source: element});
       });
     itemFromDetails?.video !== null &&
       imagesArray.push({
         type: 'video',
         source: itemFromDetails?.video,
       });
-    this.setState({ imagesArray: imagesArray });
+    this.setState({imagesArray: imagesArray});
   }
   onCommentsClick = () => {
     let item = this.props.route.params?.itemFromDetails || {};
-    let { user } = this.props;
+    let {user} = this.props;
     user = user?.user?.user;
     let post_id = item.id;
     if (user != undefined) {
@@ -95,7 +95,7 @@ class DetailsComponent extends Component {
   };
   // DAIL NUMBER
   audioCall() {
-    let { user } = this.props;
+    let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
     let otherUser = this.props.route.params.itemFromDetails;
     if (user != undefined) {
@@ -147,7 +147,7 @@ class DetailsComponent extends Component {
   // WHATSAPP
   sendWhatsAppMessage() {
     let otherUser = this.props.route.params.itemFromDetails;
-    let { user } = this.props;
+    let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
       if (
@@ -198,7 +198,7 @@ class DetailsComponent extends Component {
   }
 
   render() {
-    const { pausedCheck, loadVideo, videoModal, modalItem, imagesArray } =
+    const {pausedCheck, loadVideo, videoModal, modalItem, imagesArray} =
       this.state;
     let user = this.props?.user;
     user = user?.user?.user;
@@ -206,22 +206,19 @@ class DetailsComponent extends Component {
     const thumbnail = itemFromDetails?.thumbnail?.thumbnail;
 
     return (
-      <ScrollView showsVerticalScrollIndicator={false} >
+      <ScrollView
+        style={{backgroundColor: '#d2691e'}}
+        showsVerticalScrollIndicator={false}>
         <BackBtnHeader />
-        <View
-          style={Styles.firstView}>
+        <View style={Styles.firstView}>
           <View style={Styles.userDetailView}>
-            <Text
-              style={Styles.userName}>
-              {itemFromDetails?.name}
-            </Text>
+            <Text style={Styles.userName}>{itemFromDetails?.name}</Text>
             <Text style={Styles.userLocation}>
               {itemFromDetails?.user_location}
             </Text>
           </View>
 
-          <View
-            style={Styles.imageView}>
+          <View style={Styles.imageView}>
             <Image
               source={{
                 uri: profileBaseUrl + itemFromDetails?.user_images,
@@ -244,11 +241,11 @@ class DetailsComponent extends Component {
             }}
             pausedCheck={pausedCheck}
             pauseVideo={() => {
-              this.setState({ pausedCheck: true });
+              this.setState({pausedCheck: true});
             }}
           />
 
-          <View style={{ textAlign: 'right' }}>
+          <View style={{textAlign: 'right'}}>
             <Text style={Styles.textHeadingg}>{ArabicText.Title}</Text>
             <TextInput
               value={itemFromDetails.title}
@@ -289,26 +286,25 @@ class DetailsComponent extends Component {
             </Text>
             {/* SOCIAL ICONS */}
             {user !== undefined && user?.id !== this?.state?.user?.id && (
-              <View
-                style={Styles.socialIconView}>
+              <View style={Styles.socialIconView}>
                 {/* CHAT ICON  */}
                 <TouchableOpacity
                   onPress={() => {
                     itemFromDetails?.chat_status == 1 ||
-                      itemFromDetails?.chat_status == 'true' ||
-                      itemFromDetails?.chat_status == true
+                    itemFromDetails?.chat_status == 'true' ||
+                    itemFromDetails?.chat_status == true
                       ? this.props.navigation.navigate('MessageViewScreen', {
-                        messageData: {
-                          id: this?.state?.user?.id,
-                          user_name: itemFromDetails?.name,
-                          user_image: itemFromDetails.user_images,
-                        },
-                      })
+                          messageData: {
+                            id: this?.state?.user?.id,
+                            user_name: itemFromDetails?.name,
+                            user_image: itemFromDetails.user_images,
+                          },
+                        })
                       : Toast.show({
-                        text1: ArabicText?.Thisuserhasdisabledchat,
-                        type: 'error',
-                        visibilityTime: 3000,
-                      });
+                          text1: ArabicText?.Thisuserhasdisabledchat,
+                          type: 'error',
+                          visibilityTime: 3000,
+                        });
                     //  this.chatRequestNotification();
                   }}
                   style={Styles.socialIcon}>
@@ -343,16 +339,16 @@ class DetailsComponent extends Component {
         {/* VIDEO MODAL */}
         <VideoModal
           onLoadStart={() => {
-            this.setState({ loadVideo: true });
+            this.setState({loadVideo: true});
           }}
           onReadyForDisplay={() => {
-            this.setState({ loadVideo: false });
+            this.setState({loadVideo: false});
           }}
           onPress={() => {
-            !loadVideo && this.setState({ pausedCheck: !pausedCheck });
+            !loadVideo && this.setState({pausedCheck: !pausedCheck});
           }}
           closeModal={() => {
-            this.setState({ videoModal: false, pausedCheck: true });
+            this.setState({videoModal: false, pausedCheck: true});
           }}
           pausedCheck={pausedCheck}
           loadVideo={loadVideo}

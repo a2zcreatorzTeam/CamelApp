@@ -122,7 +122,6 @@ class Notification extends Component {
   render() {
     const {filterPosts, key, searchedItem, posts} = this.state;
     const renderItem = ({item}) => {
-      console.log(item, 'decccc');
       let d = new Date(item.created_at);
       return (
         <Post
@@ -149,40 +148,43 @@ class Notification extends Component {
           }}
           onPressSearch={() => this.searchFunction(this.state.searchText)}
         /> */}
-        {this.state.loader && (
-          <ActivityIndicator
-            size="large"
-            color="#D2691Eff"
-            animating={this.state.loader}
-            style={{marginTop: 20}}
-          />
-        )}
+        <View style={{backgroundColor: '#fff', flex: 1, width: '100%'}}>
+          {this.state.loader && (
+            <ActivityIndicator
+              size="large"
+              color="#D2691Eff"
+              animating={this.state.loader}
+              style={{marginTop: 20}}
+            />
+          )}
 
-        {this.state.loader == false && (
-          <FlatList
-            style={{
-              flex: 1,
-              width: '100%',
-            }}
-            key={key}
-            ListEmptyComponent={() => <EmptyComponent />}
-            data={searchedItem ? filterPosts : posts}
-            contentContainerStyle={{
-              paddingBottom: '10%',
-              flexGrow: 1,
-            }}
-            renderItem={renderItem}
-            keyExtractor={item => item.id}
-            initialNumToRender={10}
-            maxToRenderPerBatch={5}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={() => this.ScrollToRefresh()}
-              />
-            }
-          />
-        )}
+          {this.state.loader == false && (
+            <FlatList
+              style={{
+                flex: 1,
+                width: '100%',
+                backgroundColor: 'white',
+              }}
+              key={key}
+              ListEmptyComponent={() => <EmptyComponent />}
+              data={searchedItem ? filterPosts : posts}
+              contentContainerStyle={{
+                paddingBottom: '10%',
+                flexGrow: 1,
+              }}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              initialNumToRender={10}
+              maxToRenderPerBatch={5}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={() => this.ScrollToRefresh()}
+                />
+              }
+            />
+          )}
+        </View>
       </View>
     );
   }
@@ -196,7 +198,6 @@ const Post = ({description, date, item, onPress = () => {}, name}) => (
       width: width,
       height: 80,
       marginBottom: 5,
-      backgroundColor: '#f3f3f3',
       alignItems: 'center',
       justifyContent: 'space-around',
       flexDirection: 'row',
@@ -283,6 +284,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     height: '100%',
-    backgroundColor: 'white',
+    backgroundColor: '#d2691e',
   },
 });

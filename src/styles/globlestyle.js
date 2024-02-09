@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import {StyleSheet, Platform, StatusBar} from 'react-native';
 import {Dimensions} from 'react-native';
 import {family} from '../constants/Family';
@@ -5,8 +6,6 @@ const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 export const Styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    backgroundColor: '#ffffff',
     alignItems: 'center',
     width: width,
   },
@@ -121,7 +120,8 @@ export const Styles = StyleSheet.create({
     margin: 3,
   },
   textbtn: {
-    fontSize: 18,
+    textAlign: 'center',
+    fontSize: 17,
     fontWeight: 'bold',
     color: '#fff',
     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
@@ -254,7 +254,6 @@ export const Styles = StyleSheet.create({
   },
   beautyBtnView: {
     borderRadius: 10,
-    borderColor: 'black',
     borderWidth: 0.5,
     backgroundColor: '#D2691Eff',
     padding: 2,
@@ -271,7 +270,7 @@ export const Styles = StyleSheet.create({
   },
   containerAddNew: {
     flex: 1,
-    backgroundColor: '#7E7E7E',
+    backgroundColor: '#d2691e',
     alignItems: 'center',
     justifyContent: 'center',
     width: width,
@@ -314,7 +313,7 @@ export const Styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 22,
     backgroundColor: '#DCDCDC',
-    borderRadius:20
+    borderRadius: 20,
   },
   modalView: {
     backgroundColor: 'white',
@@ -544,8 +543,9 @@ export const Styles = StyleSheet.create({
   bottomimg: {
     width: width,
     height: hight / 4.8,
-    bottom: 0,
-    position: 'absolute',
+    marginTop: 'auto',
+    // bottom: 0,
+    // position: 'absolute',
   },
   Beautycard: {
     backgroundColor: '#f0f8ff',
@@ -640,18 +640,24 @@ export const Styles = StyleSheet.create({
     marginRight: -10,
   },
   newsbox1: {
+    minHeight: 190,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row', //remved for news screen
+    justifyContent: 'space-around',
+    flexDirection: 'row-reverse', //remved for news screen
     width: width - 20,
-    height: 190,
     alignSelf: 'center',
     marginBottom: 10,
     elevation: 5,
     borderRadius: 15,
-    overflow: 'hidden',
     paddingHorizontal: 30,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
   },
   profileQuestioncard: {
     backgroundColor: '#fff',
@@ -704,7 +710,6 @@ export const Styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     marginLeft: 10,
-    marginBottom: 5,
     borderWidth: 2,
     marginBottom: 10,
     borderColor: 'grey',
@@ -740,6 +745,7 @@ export const Styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginTop: 15,
     width: '100%',
+    backgroundColor: '#fff',
   },
   userName: {
     color: '#000',
@@ -810,6 +816,7 @@ export const Styles = StyleSheet.create({
   },
   keyboardView: {
     flex: 1,
+    backgroundColor: '#fff',
     // alignItems: 'center',
   },
   textinfo: {

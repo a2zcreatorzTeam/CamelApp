@@ -364,7 +364,7 @@ class CamelFood extends React.Component {
     ];
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1,  backgroundColor: '#D2691Eff'}}>
         <BackBtnHeader />
         <KeyboardAvoidingView
           style={Styles.keyboardView}

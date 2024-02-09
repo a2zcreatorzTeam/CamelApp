@@ -2,11 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-<!-- added by me  -->
 	<key>AppSecret</key>
-    <string>0e64d9c9-b98e-4323-a6dc-79c7f84291be</string>
+	<string>0e64d9c9-b98e-4323-a6dc-79c7f84291be</string>
 	<key>CFBundleDevelopmentRegion</key>
-
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>Alsyahd</string>
@@ -39,34 +37,12 @@
 			</dict>
 		</dict>
 	</dict>
-
 	<key>NSCameraUsageDescription</key>
 	<string>Our app needs access to your camera to take photos and videos for sharing with friends.</string>
-
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Our app needs access to your photo library to select images for posting on your profile.</string>
-
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Our app needs access to your location to provide location-based services such as finding nearby places.</string>
-
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
-	<key>UIStatusBarBackgroundColor</key>
-	<string>#d2691e</string>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-	</array>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Our app needs access to your photo library to select images for posting on your profile.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -92,5 +68,21 @@
 		<string>NeoSansArabicLight.ttf</string>
 		<string>NeoSansArabicRegular.ttf</string>
 	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen.storyboard</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UIStatusBarBackgroundColor</key>
+	<string>#d2691e</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<true/>
 </dict>
 </plist>

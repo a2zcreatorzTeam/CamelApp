@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   StyleSheet,
@@ -13,18 +13,18 @@ import {
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { Styles } from '../styles/globlestyle';
+import {Styles} from '../styles/globlestyle';
 import camelapp from '../api/camelapp';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import { bindActionCreators } from 'redux';
+import {bindActionCreators} from 'redux';
 import * as ArabicText from '../language/EnglishToArabic';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import VideoModal from '../components/VideoModal';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Toast from 'react-native-toast-message';
-import { profileBaseUrl, thumbnailBaseUrl } from '../constants/urls';
-import { family } from '../constants/Family';
+import {profileBaseUrl, thumbnailBaseUrl} from '../constants/urls';
+import {family} from '../constants/Family';
 class DetailsMarketingCamel extends Component {
   constructor(props) {
     super(props);
@@ -59,18 +59,18 @@ class DetailsMarketingCamel extends Component {
     let imagesArray = [];
     array[0] !== '' &&
       array.forEach(element => {
-        imagesArray.push({ type: 'image', source: element });
+        imagesArray.push({type: 'image', source: element});
       });
     itemFromDetails?.video !== null &&
       imagesArray.push({
         type: 'video',
         source: itemFromDetails?.video,
       });
-    this.setState({ imagesArray: imagesArray });
+    this.setState({imagesArray: imagesArray});
   }
   onCommentsClick = () => {
     const item = this.props.route.params?.itemFromDetails || {};
-    let { user } = this.props;
+    let {user} = this.props;
     user = user?.user?.user;
     let post_id = item.id;
     if (user != undefined) {
@@ -91,7 +91,7 @@ class DetailsMarketingCamel extends Component {
   };
   // DAIL NUMBER
   audioCall() {
-    let { user } = this.props;
+    let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
     let otherUser = this.props.route.params.itemFromDetails;
     if (user != undefined) {
@@ -143,7 +143,7 @@ class DetailsMarketingCamel extends Component {
   // WHATSAPP
   sendWhatsAppMessage() {
     let otherUser = this.props.route.params.itemFromDetails;
-    let { user } = this.props;
+    let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
       if (
@@ -193,47 +193,36 @@ class DetailsMarketingCamel extends Component {
     }
   }
   render() {
-    const { pausedCheck, loadVideo, videoModal, modalItem, imagesArray } =
+    const {pausedCheck, loadVideo, videoModal, modalItem, imagesArray} =
       this.state;
     let user = this.props?.user;
     user = user?.user?.user;
     const itemFromDetails = this.props.route.params?.itemFromDetails || {};
     const thumbnail = itemFromDetails?.thumbnail?.thumbnail;
     return (
-      <ScrollView showsVerticalScrollIndicator={false}  style={{ backgroundColor: '#ffff' }}>
+      <ScrollView
+        style={{backgroundColor: '#d2691e'}}
+        showsVerticalScrollIndicator={false}>
         <BackBtnHeader />
-        <View
-          style={Styles.firstView}>
+        <View style={Styles.firstView}>
           {/* PRICE SECTION */}
-          <View
-            style={Styles.priceView}>
-            <Text
-              style={Styles.priceTag}>
-              {' '}
-              {ArabicText?.Price}
-            </Text>
-            <Text
-              numberOfLines={2}
-              style={Styles.price}>
+          <View style={Styles.priceView}>
+            <Text style={Styles.priceTag}> {ArabicText?.Price}</Text>
+            <Text numberOfLines={2} style={Styles.price}>
               {itemFromDetails?.bid_price > 0
                 ? itemFromDetails?.bid_price
                 : itemFromDetails?.price}
             </Text>
           </View>
           {/* PROFILE SECTION  */}
-          <View
-            style={Styles.userDetailView}>
-            <Text
-              style={Styles.userName}>
-              {itemFromDetails.name}
-            </Text>
+          <View style={Styles.userDetailView}>
+            <Text style={Styles.userName}>{itemFromDetails.name}</Text>
             <Text style={Styles.userLocation}>
               {itemFromDetails.user_location}
             </Text>
           </View>
 
-          <View
-            style={Styles.imageView}>
+          <View style={Styles.imageView}>
             <Image
               source={{
                 uri: profileBaseUrl + itemFromDetails.user_images,
@@ -257,11 +246,11 @@ class DetailsMarketingCamel extends Component {
             }}
             pausedCheck={pausedCheck}
             pauseVideo={() => {
-              this.setState({ pausedCheck: true });
+              this.setState({pausedCheck: true});
             }}
           />
-          <View style={{ textAlign: 'right' }}>
-            <Text style={[Styles.textHeadingg, { right: 0 }]}>
+          <View style={{textAlign: 'right'}}>
+            <Text style={[Styles.textHeadingg, {right: 0}]}>
               {ArabicText.Title}
             </Text>
             <TextInput
@@ -270,7 +259,7 @@ class DetailsMarketingCamel extends Component {
               placeholder={itemFromDetails.title}
               editable={false}></TextInput>
 
-            <Text style={[Styles.textHeadingg, { right: 0 }]}>
+            <Text style={[Styles.textHeadingg, {right: 0}]}>
               {ArabicText.Location}
             </Text>
             <TextInput
@@ -279,7 +268,7 @@ class DetailsMarketingCamel extends Component {
               placeholder={itemFromDetails.location}
               editable={false}></TextInput>
 
-            <Text style={[Styles.textHeadingg, { right: 0 }]}>
+            <Text style={[Styles.textHeadingg, {right: 0}]}>
               {ArabicText.Price}
             </Text>
             <TextInput
@@ -288,7 +277,7 @@ class DetailsMarketingCamel extends Component {
               placeholder={itemFromDetails.price}
               editable={false}></TextInput>
 
-            <Text style={[Styles.textHeadingg, { right: 0 }]}>
+            <Text style={[Styles.textHeadingg, {right: 0}]}>
               {ArabicText.Description}
             </Text>
             <Text
@@ -305,26 +294,25 @@ class DetailsMarketingCamel extends Component {
           </View>
           {/* SOCIAL ICONS */}
           {user !== undefined && user?.id !== this?.state?.user?.id && (
-            <View
-            style={Styles.socialIconView}>
+            <View style={Styles.socialIconView}>
               {/* CHAT ICON  */}
               <TouchableOpacity
                 onPress={() => {
                   itemFromDetails?.chat_status == 1 ||
-                    itemFromDetails?.chat_status == 'true' ||
-                    itemFromDetails?.chat_status == true
+                  itemFromDetails?.chat_status == 'true' ||
+                  itemFromDetails?.chat_status == true
                     ? this.props.navigation.navigate('MessageViewScreen', {
-                      messageData: {
-                        id: this?.state?.user?.id,
-                        user_name: itemFromDetails?.name,
-                        user_image: itemFromDetails.user_images,
-                      },
-                    })
+                        messageData: {
+                          id: this?.state?.user?.id,
+                          user_name: itemFromDetails?.name,
+                          user_image: itemFromDetails.user_images,
+                        },
+                      })
                     : Toast.show({
-                      text1: ArabicText?.Thisuserhasdisabledchat,
-                      type: 'error',
-                      visibilityTime: 3000,
-                    });
+                        text1: ArabicText?.Thisuserhasdisabledchat,
+                        type: 'error',
+                        visibilityTime: 3000,
+                      });
                   //  this.chatRequestNotification();
                 }}
                 style={Styles.socialIcon}>
@@ -334,7 +322,7 @@ class DetailsMarketingCamel extends Component {
               {/* COMMENT ICON */}
               <TouchableOpacity
                 onPress={() => this.onCommentsClick()}
-                 style={Styles.socialIcon}>
+                style={Styles.socialIcon}>
                 <Feather name="message-square" size={30} color="#CD853F" />
                 <Text style={Styles.fontDetails}>{ArabicText.comments}</Text>
               </TouchableOpacity>
@@ -348,7 +336,7 @@ class DetailsMarketingCamel extends Component {
               {/* CALL USER */}
               <TouchableOpacity
                 onPress={() => this.audioCall()}
-                 style={Styles.socialIcon}>
+                style={Styles.socialIcon}>
                 <AntDesign name="mobile1" size={30} color="#CD853F" />
                 <Text style={Styles.fontDetails}>{ArabicText.phone}</Text>
               </TouchableOpacity>
@@ -358,16 +346,16 @@ class DetailsMarketingCamel extends Component {
         {/* VIDEO MODAL */}
         <VideoModal
           onLoadStart={() => {
-            this.setState({ loadVideo: true });
+            this.setState({loadVideo: true});
           }}
           onReadyForDisplay={() => {
-            this.setState({ loadVideo: false });
+            this.setState({loadVideo: false});
           }}
           onPress={() => {
-            !loadVideo && this.setState({ pausedCheck: !pausedCheck });
+            !loadVideo && this.setState({pausedCheck: !pausedCheck});
           }}
           closeModal={() => {
-            this.setState({ videoModal: false, pausedCheck: true });
+            this.setState({videoModal: false, pausedCheck: true});
           }}
           pausedCheck={pausedCheck}
           loadVideo={loadVideo}

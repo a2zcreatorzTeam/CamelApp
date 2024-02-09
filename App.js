@@ -216,7 +216,11 @@ class App extends Component {
     return (
       <SafeAreaProvider>
         {/* <StatusBar barStyle="default" backgroundColor="#d2691e" /> */}
-        <StatusBar hidden={true} />
+        <StatusBar
+          hidden={false}
+          backgroundColor="#d2691e"
+          // translucent={true}
+        />
         {this.state.updateProcess ? (
           <View
             style={{

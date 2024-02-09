@@ -1,8 +1,15 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Text, StyleSheet, TouchableOpacity, Dimensions, Platform} from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+  Platform,
+} from 'react-native';
 import * as ArabicText from '../language/EnglishToArabic';
 import {Styles} from '../styles/globlestyle';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 
 const AddButton = ({onPress}) => (
   <TouchableOpacity

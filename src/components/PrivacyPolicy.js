@@ -55,10 +55,17 @@ class PrivacyPolicy extends Component {
       html: `<p>${this.state.html}</p>`,
     };
     return (
-      <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: 'white'}}>
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1}}
+        style={{flex: 1, backgroundColor: '#D2691Eff'}}
+        showsVerticalScrollIndicator={false}>
         <BackBtnHeader />
         <View
-          style={{backgroundColor: '#fff', padding: 10, textAlign: 'right'}}>
+          style={{
+            padding: 10,
+            flex: 1,
+            backgroundColor: '#fff',
+          }}>
           {this.state.loader && (
             <ActivityIndicator
               size="large"

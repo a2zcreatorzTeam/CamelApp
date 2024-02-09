@@ -306,7 +306,7 @@ class CamelClubForm extends Component {
     const {pausedCheck, loadVideo, videoModal, modalItem, mixed, thumbnail} =
       this.state;
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1,  backgroundColor: '#D2691Eff'}}>
         <BackBtnHeader />
         {/* <Ads /> */}
         <KeyboardAvoidingView

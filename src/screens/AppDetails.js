@@ -17,12 +17,12 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Entypo from 'react-native-vector-icons/Entypo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import * as ArabicText from '../language/EnglishToArabic';
-import { Styles } from '../styles/globlestyle';
+import {Styles} from '../styles/globlestyle';
 import BackBtnHeader from '../components/headerWithBackBtn';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 
 const width = Dimensions.get('screen').width;
 
@@ -121,105 +121,116 @@ export default function AppDetails() {
   };
   const navigation = useNavigation();
   return (
-    <View style={Styles.container}>
+    <View style={[Styles.container, {backgroundColor: '#D2691Eff'}]}>
       <BackBtnHeader />
-      <Text style={styles.heading}>{ArabicText.shareWithYourFriends}</Text>
-      <TouchableOpacity style={Styles.sharebtn} onPress={() => { onShare() }}>
-        <Ionicons name="arrow-undo-circle" size={24} color="#fff" />
-      </TouchableOpacity>
-      {/* ABOUT US  */}
-      <View style={Styles.quesmark}>
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#efefef',
+        }}>
+        <Text style={styles.heading}>{ArabicText.shareWithYourFriends}</Text>
         <TouchableOpacity
-          onPress={() => navigation.navigate('AboutUs')}
-          style={Styles.aboutUsTouchableOpacity}>
-          <Text style={Styles.boxtext}>{ArabicText.AboutUs}</Text>
-
-          <View style={Styles.iconbox}>
-            <AntDesign name="questioncircle" size={26} color="#8b4513" />
-          </View>
+          style={Styles.sharebtn}
+          onPress={() => {
+            onShare();
+          }}>
+          <Ionicons name="arrow-undo-circle" size={24} color="#fff" />
         </TouchableOpacity>
-        <View style={Styles.iconbox}>
-          <TouchableOpacity onPress={() => navigation.navigate('AboutUs')}>
-            <AntDesign
-              name="questioncircle"
-              size={26}
-              color="#8b4513"
-              style={{ position: 'absolute', left: -13, top: -12 }}
-            />
+        {/* ABOUT US  */}
+        <View style={Styles.quesmark}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('AboutUs')}
+            style={Styles.aboutUsTouchableOpacity}>
+            <Text style={Styles.boxtext}>{ArabicText.AboutUs}</Text>
+
+            <View style={Styles.iconbox}>
+              <AntDesign name="questioncircle" size={26} color="#8b4513" />
+            </View>
           </TouchableOpacity>
+          <View style={Styles.iconbox}>
+            <TouchableOpacity onPress={() => navigation.navigate('AboutUs')}>
+              <AntDesign
+                name="questioncircle"
+                size={26}
+                color="#8b4513"
+                style={{position: 'absolute', left: -13, top: -12}}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-      {/* Sponcers */}
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Sponcers')}
-        style={Styles.hand}>
+        {/* Sponcers */}
         <TouchableOpacity
           onPress={() => navigation.navigate('Sponcers')}
-          style={Styles.aboutUsTouchableOpacity}>
-          <Text style={Styles.boxtext}>{ArabicText.start_partner}</Text>
+          style={Styles.hand}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Sponcers')}
+            style={Styles.aboutUsTouchableOpacity}>
+            <Text style={Styles.boxtext}>{ArabicText.start_partner}</Text>
 
-          <View style={Styles.iconbox}>
-            <FontAwesome5 name="handshake" size={28} color="#deb887" />
-          </View>
+            <View style={Styles.iconbox}>
+              <FontAwesome5 name="handshake" size={28} color="#deb887" />
+            </View>
+          </TouchableOpacity>
         </TouchableOpacity>
-      </TouchableOpacity>
-      {/* PrivacyPolicy */}
-      <TouchableOpacity
-        onPress={() => navigation.navigate('PrivacyPolicy')}
-        style={Styles.warning}>
+        {/* PrivacyPolicy */}
         <TouchableOpacity
           onPress={() => navigation.navigate('PrivacyPolicy')}
-          style={Styles.aboutUsTouchableOpacity}>
-          <Text style={Styles.boxtext}>{ArabicText.PrivacyPolicy}</Text>
-          <View style={Styles.iconbox}>
-            <FontAwesome name="warning" size={28} color="#a9a9a9" />
-          </View>
+          style={Styles.warning}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PrivacyPolicy')}
+            style={Styles.aboutUsTouchableOpacity}>
+            <Text style={Styles.boxtext}>{ArabicText.PrivacyPolicy}</Text>
+            <View style={Styles.iconbox}>
+              <FontAwesome name="warning" size={28} color="#a9a9a9" />
+            </View>
+          </TouchableOpacity>
         </TouchableOpacity>
-      </TouchableOpacity>
-      {/* Bank */}
-      <TouchableOpacity
-        onPress={() => navigation.navigate('Bank')}
-        style={Styles.bank}>
+        {/* Bank */}
         <TouchableOpacity
           onPress={() => navigation.navigate('Bank')}
-          style={Styles.aboutUsTouchableOpacity}>
-          <Text style={Styles.boxtext}>{ArabicText.Bank}</Text>
+          style={Styles.bank}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Bank')}
+            style={Styles.aboutUsTouchableOpacity}>
+            <Text style={Styles.boxtext}>{ArabicText.Bank}</Text>
 
-          <View style={Styles.iconbox}>
-            <MaterialCommunityIcons name="bank" size={28} color="#0000cd" />
-          </View>
+            <View style={Styles.iconbox}>
+              <MaterialCommunityIcons name="bank" size={28} color="#0000cd" />
+            </View>
+          </TouchableOpacity>
         </TouchableOpacity>
-      </TouchableOpacity>
-      <Text style={styles.socialMediaText}>
-        {ArabicText?.Socialmediaaccounts}
-      </Text>
-      {/* Social Share  */}
-      <View style={styles.socialMediaView}>
-        {/* Twitter  */}
-        <TouchableOpacity onPress={() => tweetNow()}>
-          <Entypo name="twitter-with-circle" size={45} color="#d2691e" />
-        </TouchableOpacity>
-        {/* instagram  */}
-        <TouchableOpacity
-          onPress={() => {
-            openIstagram();
-          }}
-          style={styles.socialIcon}>
-          <FontAwesome5 name="instagram" size={28} color="#fff" />
-        </TouchableOpacity>
-        {/* WhatsApp  */}
-        <TouchableOpacity
-          onPress={() => openWhatsApp()}
-          style={styles.socialIcon}>
-          <Fontisto name="whatsapp" size={28} color="#fff" />
-        </TouchableOpacity>
+        <Text style={styles.socialMediaText}>
+          {ArabicText?.Socialmediaaccounts}
+        </Text>
+        {/* Social Share  */}
+        <View style={styles.socialMediaView}>
+          {/* Twitter  */}
+          <TouchableOpacity onPress={() => tweetNow()}>
+            <Entypo name="twitter-with-circle" size={45} color="#d2691e" />
+          </TouchableOpacity>
+          {/* instagram  */}
+          <TouchableOpacity
+            onPress={() => {
+              openIstagram();
+            }}
+            style={styles.socialIcon}>
+            <FontAwesome5 name="instagram" size={28} color="#fff" />
+          </TouchableOpacity>
+          {/* WhatsApp  */}
+          <TouchableOpacity
+            onPress={() => openWhatsApp()}
+            style={styles.socialIcon}>
+            <Fontisto name="whatsapp" size={28} color="#fff" />
+          </TouchableOpacity>
+        </View>
+        {/* Contact */}
+        <Text style={styles.email}>Contact@Alsyahd.com</Text>
+        <Text style={styles.website}>WWW.ALSYAHD.COM</Text>
+        <Image
+          source={require('../../assets/image.png')}
+          style={Styles.bottomimg}></Image>
       </View>
-      {/* Contact */}
-      <Text style={styles.email}>Contact@Alsyahd.com</Text>
-      <Text style={styles.website}>WWW.ALSYAHD.COM</Text>
-      <Image
-        source={require('../../assets/image.png')}
-        style={Styles.bottomimg}></Image>
     </View>
   );
 }
@@ -229,7 +240,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#d2691e',
     marginTop: 100,
-     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
   socialMediaText: {
     fontWeight: '400',
@@ -237,7 +248,7 @@ const styles = StyleSheet.create({
     color: 'grey',
     margin: 3,
     marginVertical: 10,
-     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
   socialMediaView: {
     flexDirection: 'row',
@@ -254,6 +265,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  email: { fontSize: 12, color: '#d2691e', margin: 3,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular },
-  website: { fontSize: 15, color: '#d2691e', fontWeight: '400',  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular },
+  email: {
+    fontSize: 12,
+    color: '#d2691e',
+    margin: 3,
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+  },
+  website: {
+    fontSize: 15,
+    color: '#d2691e',
+    fontWeight: '400',
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+  },
 });

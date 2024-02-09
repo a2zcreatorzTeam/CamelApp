@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {Component} from 'react';
 import {
   View,
   Image,
@@ -13,17 +14,17 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import camelapp from '../api/camelapp';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
-import { bindActionCreators } from 'redux';
-import { Styles } from '../styles/globlestyle';
+import {bindActionCreators} from 'redux';
+import {Styles} from '../styles/globlestyle';
 import * as ArabicText from '../language/EnglishToArabic';
 import VideoModal from '../components/VideoModal';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import Toast from 'react-native-toast-message';
-import { profileBaseUrl, thumbnailBaseUrl } from '../constants/urls';
-import { family } from '../constants/Family';
+import {profileBaseUrl, thumbnailBaseUrl} from '../constants/urls';
+import {family} from '../constants/Family';
 
 class CompetitionPostDetails extends Component {
   constructor(props) {
@@ -53,19 +54,19 @@ class CompetitionPostDetails extends Component {
     let imagesArray = [];
     array[0] !== '' &&
       array.forEach(element => {
-        imagesArray.push({ type: 'image', source: element });
+        imagesArray.push({type: 'image', source: element});
       });
     itemFromDetails?.video !== null &&
       imagesArray.push({
         type: 'video',
         source: itemFromDetails?.video,
       });
-    this.setState({ imagesArray: imagesArray });
+    this.setState({imagesArray: imagesArray});
   }
   onCommentsClick = () => {
     let item = this.props.route.params.itemFromDetails;
     console.log(item?.post_id, 'itemitem');
-    let { user } = this.props;
+    let {user} = this.props;
     user = user?.user?.user;
     let post_id = item.id;
     if (user != undefined) {
@@ -87,7 +88,7 @@ class CompetitionPostDetails extends Component {
   };
   // DAIL NUMBER
   audioCall() {
-    let { user } = this.props;
+    let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
     let otherUser = this.props.route.params.itemFromDetails;
     if (user != undefined) {
@@ -140,7 +141,7 @@ class CompetitionPostDetails extends Component {
   sendWhatsAppMessage() {
     let otherUser = this.props.route.params.itemFromDetails;
     console.log(otherUser, 'profileee');
-    let { user } = this.props;
+    let {user} = this.props;
     console.log(otherUser?.whatsapp_status);
     user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
@@ -191,7 +192,7 @@ class CompetitionPostDetails extends Component {
     }
   }
   render() {
-    const { pausedCheck, loadVideo, videoModal, modalItem, imagesArray } =
+    const {pausedCheck, loadVideo, videoModal, modalItem, imagesArray} =
       this.state;
     const itemFromDetails = this.props.route.params.itemFromDetails;
     const loggedUser = this.state.user;
@@ -200,25 +201,18 @@ class CompetitionPostDetails extends Component {
     const thumbnail = itemFromDetails?.thumbnail?.thumbnail;
 
     return (
-      <ScrollView showsVerticalScrollIndicator={false}  style={{ backgroundColor: '#ffff' }}>
+      <ScrollView
+        style={{backgroundColor: '#d2691e'}}
+        showsVerticalScrollIndicator={false}>
         <BackBtnHeader />
         {/* POST OWNER DETAILS  */}
-        <View
-          style={Styles.firstView}>
-          <View
-            style={Styles.userDetailView}>
-            <Text
-              style={Styles.userName}>
-              {itemFromDetails.user_name}
-            </Text>
-            <Text
-              style={Styles.userLocation}>
-              {itemFromDetails.location}
-            </Text>
+        <View style={Styles.firstView}>
+          <View style={Styles.userDetailView}>
+            <Text style={Styles.userName}>{itemFromDetails.user_name}</Text>
+            <Text style={Styles.userLocation}>{itemFromDetails.location}</Text>
           </View>
           {/* IMAGE VIEW  */}
-          <View
-            style={Styles.imageView}>
+          <View style={Styles.imageView}>
             <Image
               source={{
                 uri: profileBaseUrl + itemFromDetails.user_image,
@@ -243,11 +237,11 @@ class CompetitionPostDetails extends Component {
             }}
             pausedCheck={pausedCheck}
             pauseVideo={() => {
-              this.setState({ pausedCheck: true });
+              this.setState({pausedCheck: true});
             }}
           />
           {/* POST DETAILS VIEW  */}
-          <View style={{ textAlign: 'right' }}>
+          <View style={{textAlign: 'right'}}>
             <Text style={Styles.textHeadingg}>{ArabicText.Title}</Text>
             <TextInput
               value={itemFromDetails.title}
@@ -293,20 +287,20 @@ class CompetitionPostDetails extends Component {
               <TouchableOpacity
                 onPress={() => {
                   itemFromDetails?.chat_status == 1 ||
-                    itemFromDetails?.chat_status == 'true' ||
-                    itemFromDetails?.chat_status == true
+                  itemFromDetails?.chat_status == 'true' ||
+                  itemFromDetails?.chat_status == true
                     ? this.props.navigation.navigate('MessageViewScreen', {
-                      messageData: {
-                        id: loggedUser?.id,
-                        user_name: itemFromDetails?.name,
-                        user_image: itemFromDetails.user_images,
-                      },
-                    })
+                        messageData: {
+                          id: loggedUser?.id,
+                          user_name: itemFromDetails?.name,
+                          user_image: itemFromDetails.user_images,
+                        },
+                      })
                     : Toast.show({
-                      text1: ArabicText?.Thisuserhasdisabledchat,
-                      type: 'error',
-                      visibilityTime: 3000,
-                    });
+                        text1: ArabicText?.Thisuserhasdisabledchat,
+                        type: 'error',
+                        visibilityTime: 3000,
+                      });
                 }}
                 style={{
                   justifyContent: 'center',
@@ -355,17 +349,17 @@ class CompetitionPostDetails extends Component {
         {/* VIDEO MODAL */}
         <VideoModal
           onLoadStart={() => {
-            this.setState({ loadVideo: true });
+            this.setState({loadVideo: true});
           }}
           onReadyForDisplay={() => {
             console.log('readyyy');
-            this.setState({ loadVideo: false });
+            this.setState({loadVideo: false});
           }}
           onPress={() => {
-            !loadVideo && this.setState({ pausedCheck: !pausedCheck });
+            !loadVideo && this.setState({pausedCheck: !pausedCheck});
           }}
           closeModal={() => {
-            this.setState({ videoModal: false, pausedCheck: true });
+            this.setState({videoModal: false, pausedCheck: true});
           }}
           pausedCheck={pausedCheck}
           loadVideo={loadVideo}

@@ -23,7 +23,7 @@ import * as userActions from '../redux/actions/user_actions';
 import EmptyComponent from '../components/EmptyComponent';
 import Header from '../components/Header';
 import {profileBaseUrl} from '../constants/urls';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 
@@ -43,22 +43,24 @@ class MyFriendList extends Component {
   getUsersDetails = async data => {
     let {user} = this.props;
     user = user?.user?.user;
+    console.log(user?.id);
     try {
       return await camelapp.get('/friendlist/' + user?.id).then(res => {
-        console.log(res?.data, 'dataaaa');
+        console.log(res?.data?.FriendRequest, 'dataaaa');
         this.setState({userList: res?.data});
       });
     } catch (error) {
       this.setState({loader: false});
-      console.log('Error Message--- view post', error?.response);
+      this.setState({userList: []});
+      console.log('Error Message--- view post', error?.response?.data);
     }
   };
   componentDidMount() {
     this.getUsersDetails();
   }
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
+  // componentWillUnmount() {
+  //   clearInterval(this.interval);
+  // }
   navigateToMessages = item => {
     let payload = {
       user_name: item?.firend_name,
@@ -110,7 +112,7 @@ class MyFriendList extends Component {
               fontWeight: '700',
               marginRight: 10,
               marginBottom: 5,
-               fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
             }}>
             {userName}
           </Text>
@@ -149,8 +151,7 @@ class MyFriendList extends Component {
       );
     };
     return (
-      <View
-        style={{flex: 1, backgroundColor: '#fff', width: width, height: hight}}>
+      <View style={{flex: 1, backgroundColor: '#fff', width: width}}>
         <Header
           onChangeText={text => {
             if (text) {
@@ -165,7 +166,7 @@ class MyFriendList extends Component {
           size="large"
           color="#D2691Eff"
           animating={this.state.loader}
-          style={styles.activityIndicator}
+          // style={styles.activityIndicator}
         />
         {this.state.loader == false && (
           <FlatList

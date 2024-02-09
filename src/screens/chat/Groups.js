@@ -63,7 +63,6 @@ const Groups = prop => {
             id: doc.id,
             data: doc.data(),
           }));
-          console.log('first', querySnapshot1?.docs);
           setGroupList(data);
         }
         if (querySnapshot2?.docs?.length) {

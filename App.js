@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 // appcenter codepush release-react -a a2zcreatorzz-gmail.com/Camel -d Staging
 // appcenter codepush release-react -a a2zcreatorzz-gmail.com/Camel_Ios -d Staging
 import firebase from '@react-native-firebase/app';
@@ -89,7 +90,6 @@ class App extends Component {
     };
   }
   componentDidMount() {
-
     this.syncImmediate();
     this.takePermission();
     notificationListener();
@@ -126,11 +126,11 @@ class App extends Component {
     }
   };
   codePushDownloadDidProgress = progress => {
-    this.setState({ updateProcess: true });
+    this.setState({updateProcess: true});
     const downloaded = Math.round(
       (progress?.receivedBytes / progress?.totalBytes) * 100,
     );
-    this.setState({ downloaded: downloaded });
+    this.setState({downloaded: downloaded});
     console.log('downloaded', downloaded);
     // this.setState({progress, downloading: true, downloaded: downloaded});
   };
@@ -174,7 +174,7 @@ class App extends Component {
         console.log('=================UP_TO_DATE===================');
         console.log(codePush.SyncStatus.UP_TO_DATE);
         console.log('====================================');
-        this.setState({ updateProcess: false });
+        this.setState({updateProcess: false});
 
         // setTimeout(() => {
         //   this.setState({

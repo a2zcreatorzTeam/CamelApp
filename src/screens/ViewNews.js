@@ -1,3 +1,5 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable react-native/no-inline-styles */
 import React, {Component, useState} from 'react';
 import {
   View,
@@ -11,7 +13,6 @@ import {
   Platform,
   KeyboardAvoidingView,
 } from 'react-native';
-import {Card} from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import HTML from 'react-native-render-html';
@@ -133,7 +134,7 @@ class ViewNews extends Component {
     this.getComments();
   }
   render() {
-    const {key, rated} = this.state;
+    const {key} = this.state;
     const newsdata = this.props.route.params.newsItem;
     let {user} = this.props;
     user = user?.user?.user;
@@ -309,7 +310,8 @@ class ViewNews extends Component {
               style={Styles.inputNews}
               placeholderTextColor="#b0b0b0"
               onChangeText={text => this.setState({newComment: text})}
-              placeholder={ArabicText.comments}></TextInput>
+              placeholder={ArabicText.comments}
+            />
           </View>
         </KeyboardAvoidingView>
       </View>
@@ -336,31 +338,26 @@ const Item = ({
   const [isLiked, setIsLiked] = useState(item?.flagForLike);
   const [likeCount, setLikeCount] = useState(likesCount);
   return (
-    <Card
+    <View
       style={{
         width: '100%',
-        margintop: 5,
-        marginBottom: 5,
         paddingVertical: 5,
         backgroundColor: '#f3f3f3',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
       }}>
       {/* LIKE COMMENT>>>>>>> */}
       <View
         style={{
-          // position: 'absolute',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          alignSelf:'flex-start',
-          // top: 5,
-          // left: 8,
+          width: '20%',
+          marginLeft: 10,
+          marginTop: 10,
         }}>
         <TouchableOpacity
           onPress={() => {
-            console.log('hellllloooo')
-            // likeCommentHandler(setIsLiked, setLikeCount)
+            likeCommentHandler(setIsLiked, setLikeCount);
           }}
-          style={{width: 40, backgroundColor:'red'}}>
+          style={{width: 40}}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <AntDesign
               name={isLiked == true ? 'heart' : 'hearto'}
@@ -385,10 +382,9 @@ const Item = ({
       <View
         style={{
           flexDirection: 'row',
-          justifyContent: 'flex-end',
-          width: '100%',
           paddingRight: 10,
           paddingVertical: 5,
+          width: '80%',
         }}>
         <View
           style={{
@@ -416,9 +412,8 @@ const Item = ({
             {moment(date).format('YYYY-MM-DD')}
           </Text>
           <Text
-            numberOfLines={4}
+            // numberOfLines={4}
             style={{
-              // flex: 1,
               fontSize: 14,
               paddingRight: 5,
               textAlign: 'right',
@@ -429,14 +424,15 @@ const Item = ({
           </Text>
         </View>
 
-        {/* <View
-            style={{
-              alignItems: 'center',
-              right: 60,
-              top: 45,
-              position: 'absolute',
-              marginBottom: 10,
-            }}></View> */}
+        <View
+          style={{
+            alignItems: 'center',
+            right: 60,
+            top: 45,
+            position: 'absolute',
+            marginBottom: 10,
+          }}
+        />
         <View style={[Styles.user_HomeComment]}>
           <Image
             source={{
@@ -446,9 +442,10 @@ const Item = ({
               width: 50,
               height: 50,
               borderRadius: 30,
-            }}></Image>
+            }}
+          />
         </View>
       </View>
-    </Card>
+    </View>
   );
 };

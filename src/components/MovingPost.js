@@ -58,11 +58,11 @@ const MovingPost = ({
         ) : (
           <View
             style={{
-              marginLeft: 'auto',
               height: 170,
               width: '40%',
               alignSelf: 'center',
               justifyContent: 'center',
+              borderRadius: 10,
             }}>
             {
               <FastImage

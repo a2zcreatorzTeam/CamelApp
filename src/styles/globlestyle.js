@@ -778,6 +778,7 @@ export const Styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 10,
     alignItems: 'center',
+    marginTop: 5,
   },
   userDetailView: {
     alignItems: 'flex-end',

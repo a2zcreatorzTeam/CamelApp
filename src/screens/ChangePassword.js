@@ -1,3 +1,5 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {Component} from 'react';
 import {View, Text, Platform} from 'react-native';
@@ -115,23 +117,28 @@ class ChangePassword extends Component {
       }
     };
     return (
-      <View style={[Styles.container, {backgroundColor: '#D2691Eff'}]}>
+      <View style={[Styles.container, {backgroundColor: '#D2691Eff', flex: 1}]}>
         <BackBtnHeader />
-        <View style={{marginTop: 20, flex: 1, backgroundColor: '#fff'}}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: '#fff',
+            width: '100%',
+
+          }}>
           <Text
             style={{
               color: 'grey',
               textAlign: 'center',
-              justifyContent: 'center',
               fontSize: 22,
               fontWeight: '600',
-              marginBottom: 20,
+              marginVertical: 20,
               fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
-            }}
-            numberOfLines={3}>
+            }}>
             {ArabicText?.Changepassword}
           </Text>
-          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <View
+            style={{justifyContent: 'center', alignItems: 'center'}}>
             {/* Current password  */}
             <View
               style={[

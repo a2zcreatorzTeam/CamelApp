@@ -17,14 +17,19 @@ class WinnerBeauty extends Component {
   }
   render() {
     return (
-      <View style={[Styles.container, {backgroundColor: '#D2691Eff'}]}>
+      <View
+        style={[
+          Styles.container,
+          {backgroundColor: '#D2691Eff', flex: 1, width: '100%'},
+        ]}>
         <BackBtnHeader />
         <View
           style={{
             flex: 1,
-            marginTop: 30,
-            justifyContent: 'center',
+            alignItems: 'center',
             backgroundColor: '#fff',
+            width: '100%',
+            paddingTop: 20,
           }}>
           {this.state.winnerList.map((el, i) => (
             <View style={[Styles.WinnerIcon, {marginBottom: 20}]}>

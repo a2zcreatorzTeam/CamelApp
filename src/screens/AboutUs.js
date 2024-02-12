@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -11,7 +12,7 @@ import HTML from 'react-native-render-html';
 import Toast from 'react-native-toast-message';
 import * as ArabicText from '../language/EnglishToArabic';
 import camelapp from '../api/camelapp';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 const width = Dimensions.get('screen').width;
 class AboutUs extends Component {
   state = {
@@ -20,7 +21,7 @@ class AboutUs extends Component {
   };
 
   componentDidMount() {
-    this.setState({ loader: true });
+    this.setState({loader: true});
     async function renderHtml() {
       let response;
       response = await camelapp.get('/getAbout');
@@ -36,11 +37,11 @@ class AboutUs extends Component {
       }
     }
     renderHtml().then(result =>
-      this.setState({ html: result.data[0].details, loader: false }),
+      this.setState({html: result.data[0].details, loader: false}),
     );
   }
   render() {
-    const { loader, html } = this.state;
+    const {loader, html} = this.state;
     const source = {
       html: `<p >${html}</p>`,
     };
@@ -55,26 +56,29 @@ class AboutUs extends Component {
       },
     };
     return (
-      <ScrollView  showsVerticalScrollIndicator={false}  style={{ backgroundColor: '#fff' }}>
-        <View style={{ backgroundColor: '#fff', marginRight: 5 }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{backgroundColor: '#fff'}}>
+        <View style={{backgroundColor: '#fff', marginRight: 5}}>
           <Text
             style={{
+              textAlign: 'center',
               marginTop: 5,
               fontSize: 18,
               fontWeight: 'bold',
               color: '#D2691Eff',
               marginBottom: 15,
-               fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
             }}>
             {ArabicText.AboutUs}
           </Text>
-          <View style={{ padding: 10 }}>
+          <View style={{padding: 10}}>
             {loader && (
               <ActivityIndicator
                 size="large"
                 color="#D2691Eff"
                 animating={loader}
-                style={{ marginTop: 20 }}
+                style={{marginTop: 20}}
               />
             )}
             <HTML

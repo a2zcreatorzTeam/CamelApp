@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   TextInput,
@@ -8,20 +8,20 @@ import {
   ActivityIndicator,
   Platform,
 } from 'react-native';
-import { Styles } from '../styles/globlestyle';
+import {Styles} from '../styles/globlestyle';
 import * as ArabicText from '../language/EnglishToArabic';
 import camelapp from '../api/camelapp';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
-import { bindActionCreators } from 'redux';
-import { ImageBackground } from 'react-native';
+import {bindActionCreators} from 'redux';
+import {ImageBackground} from 'react-native';
 import * as EmailValidator from 'email-validator';
-import { ScrollView } from 'react-native';
+import {ScrollView} from 'react-native';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import GooglePlaceAutocomplete from '../components/GooglePlaceHolder';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -36,9 +36,9 @@ class CreateProfile extends Component {
     };
   }
   componentDidMount() {
-    let { user } = this.props;
+    let {user} = this.props;
     user = user?.user?.user;
-    this.setState({ user: user, image: user?.image, location: user?.location });
+    this.setState({user: user, image: user?.image, location: user?.location});
   }
   saveData() {
     let phone = this.state.phoneNumber;
@@ -72,8 +72,8 @@ class CreateProfile extends Component {
   }
   createProfile = async () => {
     console.log(this.props.route.params.response, 'rrespkneee');
-    const { pickedImage, location, email, userName, phoneNumber } = this.state;
-    const { screen, response } = this.props.route?.params;
+    const {pickedImage, location, email, userName, phoneNumber} = this.state;
+    const {screen, response} = this.props.route?.params;
     if (screen == 'socialLogin' && !phoneNumber) {
       Toast.show({
         text1: ArabicText.phonenumbercantbeempty,
@@ -123,7 +123,7 @@ class CreateProfile extends Component {
     //   });
     // }
     else {
-      this.setState({ btnLoader: true });
+      this.setState({btnLoader: true});
       await camelapp
         .post('/update', {
           // user_id: userdata?.user?.id,
@@ -146,7 +146,7 @@ class CreateProfile extends Component {
             this.setState({
               btnLoader: false,
             });
-            let { actions } = this.props;
+            let {actions} = this.props;
             actions.userData(res?.data);
             this.saveData();
             this.props.navigation.navigate('Home');
@@ -173,19 +173,23 @@ class CreateProfile extends Component {
     }
   };
   callback = (formatted_address, geometry) => {
-    this.setState({ location: formatted_address });
+    this.setState({location: formatted_address});
   };
   render() {
-    const { image, btnLoader, location } = this.state;
+    const {image, btnLoader, location} = this.state;
     const screen = this.props.route?.params?.screen;
     const response = this.props.route?.params?.response;
-    let { actions } = this.props;
+    let {actions} = this.props;
     return (
-      <View style={Styles.container}>
+      <View
+        style={[
+          Styles.container,
+          {flex: 1, backgroundColor: '#D2691Eff', width: '100%'},
+        ]}>
         <ScrollView
           nestedScrollEnabled={true}
           keyboardShouldPersistTaps="handled"
-          style={{ flex: 1 }}
+          style={{flex: 1, backgroundColor: '#fff', width: '100%'}}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             paddingTop: 10,
@@ -208,7 +212,12 @@ class CreateProfile extends Component {
               padding: 5,
               borderRadius: 10,
             }}>
-            <Text style={{  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>{ArabicText.Skip}</Text>
+            <Text
+              style={{
+                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              }}>
+              {ArabicText.Skip}
+            </Text>
           </TouchableOpacity>
           {/* PROFILE IMAGE  */}
           <View
@@ -234,7 +243,7 @@ class CreateProfile extends Component {
                 alignSelf: 'center',
               }}
               source={
-                image ? { uri: image } : require('../../assets/dummyImage.jpeg')
+                image ? {uri: image} : require('../../assets/dummyImage.jpeg')
               }>
               <TouchableOpacity
                 onPress={() => this.imagePick()}
@@ -264,7 +273,7 @@ class CreateProfile extends Component {
             </ImageBackground>
           </View>
 
-          <Text style={[Styles.text, { marginVertical: 20 }]}>
+          <Text style={[Styles.text, {marginVertical: 20}]}>
             {ArabicText?.Edit_profile}
           </Text>
           {/* INPUT FIELDS  */}
@@ -278,7 +287,7 @@ class CreateProfile extends Component {
                   maxLength={10}
                   placeholderTextColor="#b0b0b0"
                   onChangeText={text =>
-                    this.setState({ phoneNumber: text.replace(/[^0-9]/g, '') })
+                    this.setState({phoneNumber: text.replace(/[^0-9]/g, '')})
                   }></TextInput>
                 <TextInput
                   maxLength={30}
@@ -289,7 +298,7 @@ class CreateProfile extends Component {
                       /^[\u0600-\u06FF\s]+$/.test(char),
                     );
                     if (isArabic) {
-                      this.setState({ userName: text });
+                      this.setState({userName: text});
                     }
                   }}
                   placeholder={ArabicText.name}
@@ -300,7 +309,7 @@ class CreateProfile extends Component {
             <TextInput
               style={Styles.inputs}
               value={this?.state?.email}
-              onChangeText={text => this.setState({ email: text })}
+              onChangeText={text => this.setState({email: text})}
               placeholder={ArabicText.EMAIL}
               placeholderTextColor="#b0b0b0"
               keyboardType="email-address"
@@ -340,7 +349,12 @@ class CreateProfile extends Component {
                 animating={this?.state?.btnLoader}
               />
             ) : (
-              <Text style={{ color: '#fff', fontSize: 16,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular }}>
+              <Text
+                style={{
+                  color: '#fff',
+                  fontSize: 16,
+                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                }}>
                 {ArabicText?.CreateProfile}
               </Text>
             )}

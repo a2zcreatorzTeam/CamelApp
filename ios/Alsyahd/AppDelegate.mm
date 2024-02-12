@@ -4,6 +4,10 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTAppSetupUtils.h>
+#import "RNSplashScreen.h"
+#import <TwitterKit/TWTRKit.h>
+#import <CodePush/CodePush.h>
+
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
 #import <React/RCTCxxBridgeDelegate.h>
@@ -12,7 +16,6 @@
 #import <React/RCTSurfacePresenterBridgeAdapter.h>
 #import <ReactCommon/RCTTurboModuleManager.h>
 #import <react/config/ReactNativeConfig.h>
-// #import "RNSplashScreen.h" 
 static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 @interface AppDelegate () <RCTCxxBridgeDelegate, RCTTurboModuleManagerDelegate> {
   RCTTurboModuleManager *_turboModuleManager;
@@ -23,6 +26,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 @end
 #endif
 @implementation AppDelegate
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   [FIRApp configure];
@@ -47,19 +51,26 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  // [RNSplashScreen show];
+
+  [RNSplashScreen show];
   return YES;
 }
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
+  return [[Twitter sharedInstance] application:application openURL:url options:options];
+}
+
 /// This method controls whether the `concurrentRoot`feature of React18 is turned on or off.
 ///
 /// @see: https://reactjs.org/blog/2022/03/29/react-v18.html
 /// @note: This requires to be rendering on Fabric (i.e. on the New Architecture).
-/// @return: `true` if the `concurrentRoot` feture is enabled. Otherwise, it returns `false`.
+/// @return: `true` if the `concurrentRoot` feature is enabled, otherwise, it returns `false`.
 - (BOOL)concurrentRootEnabled
 {
   // Switch this bool to turn on and off the concurrent root
   return true;
 }
+
 - (NSDictionary *)prepareInitialProps
 {
   NSMutableDictionary *initProps = [NSMutableDictionary new];
@@ -68,6 +79,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 #endif
   return initProps;
 }
+
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
 {
 #if DEBUG
@@ -77,6 +89,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   return [CodePush bundleURL];
 #endif
 }
+
 #if RCT_NEW_ARCH_ENABLED
 #pragma mark - RCTCxxBridgeDelegate
 - (std::unique_ptr<facebook::react::JSExecutorFactory>)jsExecutorFactoryForBridge:(RCTBridge *)bridge
@@ -86,25 +99,30 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
                                                             jsInvoker:bridge.jsCallInvoker];
   return RCTAppSetupDefaultJsExecutorFactory(bridge, _turboModuleManager);
 }
+
 #pragma mark RCTTurboModuleManagerDelegate
 - (Class)getModuleClassFromName:(const char *)name
 {
   return RCTCoreModulesClassProvider(name);
 }
+
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const std::string &)name
                                                       jsInvoker:(std::shared_ptr<facebook::react::CallInvoker>)jsInvoker
 {
   return nullptr;
 }
+
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const std::string &)name
                                                      initParams:
                                                          (const facebook::react::ObjCTurboModule::InitParams &)params
 {
   return nullptr;
 }
+
 - (id<RCTTurboModule>)getModuleInstanceFromClass:(Class)moduleClass
 {
   return RCTAppSetupDefaultModuleFromClass(moduleClass);
 }
 #endif
+
 @end

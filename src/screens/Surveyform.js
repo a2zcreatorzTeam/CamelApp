@@ -140,7 +140,12 @@ class Surveyform extends Component {
           backgroundColor: '#D2691Eff',
         }}>
         <BackBtnHeader style={{marginBottom: 15}} />
-        <View style={{flex: 1, backgroundColor: '#fff'}}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: '#fff',
+            alignItems: 'center',
+          }}>
           <Text
             style={{
               fontSize: 30,

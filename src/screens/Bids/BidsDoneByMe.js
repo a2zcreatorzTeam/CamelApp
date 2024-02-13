@@ -236,7 +236,7 @@ class Bids extends Component {
             <TouchableOpacity
               style={Styles.bidsButtonAccept}
               onPress={onWithdrawBid}>
-              <Text style={{ color: '#D2691Eff', fontWeight: 'bold' ,fontFamily: Platform.OS == 'ios' ? '' : family.Neo_Regular,}}>
+              <Text style={{ color: '#D2691Eff', fontWeight: 'bold' ,fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,}}>
                 {ArabicText?.WithDraw}
               </Text>
             </TouchableOpacity>

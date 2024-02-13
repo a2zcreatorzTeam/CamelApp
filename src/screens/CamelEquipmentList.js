@@ -6,6 +6,7 @@ import {
   FlatList,
   ActivityIndicator,
   RefreshControl,
+  Dimensions,
 } from 'react-native';
 import Post from '../components/Post';
 import camelapp from '../api/camelapp';
@@ -18,6 +19,7 @@ import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import {Dimensions} from 'react-native';
 const hight = Dimensions.get('screen').height;
+const {width} = Dimensions.get('window');
 class CamelEquipmentList extends Component {
   constructor(props) {
     super(props);
@@ -149,6 +151,7 @@ class CamelEquipmentList extends Component {
     }
   };
   render() {
+    console.log('CamelEquipmentListttt');
     const {
       key,
       searchedItem,
@@ -313,10 +316,15 @@ class CamelEquipmentList extends Component {
           />
         )}
         {loader == false && (
-          <View>
+          <View style={{flex: 1}}>
             <AddButton onPress={() => onAddButtonClick()} />
             <Loader loading={loading} />
             <FlatList
+              style={{flex: 1}}
+              contentContainerStyle={{
+                flexGrow: 1,
+                paddingBottom: width * 0.1,
+              }}
               ListEmptyComponent={() => <EmptyComponent />}
               key={key}
               data={searchedItem ? filterPosts : posts}
@@ -331,7 +339,6 @@ class CamelEquipmentList extends Component {
               initialNumToRender={5}
               maxToRenderPerBatch={5}
             />
-            <View style={{marginBottom: 70}}></View>
           </View>
         )}
       </View>
@@ -350,7 +357,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    height: '100%',
     backgroundColor: 'white',
   },
 });

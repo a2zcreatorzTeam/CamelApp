@@ -10,6 +10,8 @@ import {
   ActivityIndicator,
   Image,
   Platform,
+  ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -221,251 +223,266 @@ export default class App extends Component {
       borderBottomWidth: threeFocus ? 2 : 1,
     };
     return (
-      <View style={[styles.container, {backgroundColor: '#D2691Eff'}]}>
-        {this.state?.optButtonController == true ? (
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: '#fff',
-              justifyContent: 'center',
-            }}>
-            <Text
-              style={{
-                color: 'grey',
-                textAlign: 'center',
-                justifyContent: 'center',
-                fontSize: 22,
-                fontWeight: '600',
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
-              }}
-              numberOfLines={3}>
-              {ArabicText?.EntertheOTPSenttoYourMobile}
-            </Text>
-            <View style={styles.inputcontainer}>
-              <TextInput
-                placeholderTextColor={'grey'}
-                ref={this.first}
-                style={[styles.textInput, {...oneStyle}]}
-                autoCorrect={false}
-                autoCapitalize="none"
-                keyboardType="number-pad"
-                caretHidden
-                onFocus={() => this.setState({oneFocus: true})}
-                onBlur={() => this.setState({oneFocus: false})}
-                maxLength={1}
-                onChangeText={text => {
-                  this.handleChangeTextOne(text);
-                }}
-                value={this.state.one}
-              />
-              <TextInput
-                placeholderTextColor={'grey'}
-                ref={this.second}
-                onKeyPress={({nativeEvent}) =>
-                  nativeEvent.key === 'Backspace' ? this.backspace('two') : null
-                }
-                style={[styles.textInput, {...twoStyle}]}
-                autoCorrect={false}
-                autoCapitalize="none"
-                maxLength={1}
-                onFocus={() => this.setState({twoFocus: true})}
-                onBlur={() => this.setState({twoFocus: false})}
-                caretHidden
-                keyboardType="number-pad"
-                onChangeText={text => {
-                  this.handleChangeTextTwo(text);
-                }}
-                value={this.state.two}
-              />
-              <TextInput
-                placeholderTextColor={'grey'}
-                ref={this.third}
-                onKeyPress={({nativeEvent}) =>
-                  nativeEvent.key === 'Backspace'
-                    ? this.backspace('three')
-                    : null
-                }
-                style={[styles.textInput, {...threeStyle}]}
-                autoCorrect={false}
-                autoCapitalize="none"
-                onFocus={() => this.setState({threeFocus: true})}
-                onBlur={() => this.setState({threeFocus: false})}
-                maxLength={1}
-                caretHidden
-                keyboardType="number-pad"
-                onChangeText={text => {
-                  this.handleChangeTextThree(text);
-                }}
-                value={this.state.three}
-              />
-              <TextInput
-                placeholderTextColor={'grey'}
-                ref={this.fourth}
-                onKeyPress={({nativeEvent}) =>
-                  nativeEvent.key === 'Backspace'
-                    ? this.backspace('four')
-                    : null
-                }
-                style={[styles.textInput, {...fourStyle}]}
-                autoCorrect={false}
-                autoCapitalize="none"
-                onFocus={() => this.setState({fourFocus: true})}
-                onBlur={() => this.setState({fourFocus: false})}
-                maxLength={1}
-                caretHidden
-                keyboardType="number-pad"
-                onChangeText={text => {
-                  this.handleChangeTextFour(text);
-                }}
-                value={this.state.four}
-              />
-            </View>
-            <TouchableOpacity
-              onPress={() => {
-                if (this.state.btnPressed != true) {
-                  this.checkOtp();
-                } else {
-                  //console.log("Waiting For Response")
-                }
-              }}
-              style={{alignSelf: 'center', margin: 10}}>
+      <View style={[styles.container, {flex: 1, backgroundColor: '#D2691Eff'}]}>
+        <KeyboardAvoidingView
+          style={Styles.keyboardView}
+          behavior={Platform.OS === 'ios' ? 'padding' : null}>
+          <ScrollView
+            style={{flex: 1}}
+            contentContainerStyle={Styles.scrollContentContainer}
+            alwaysBounceVertical={false}
+            showsVerticalScrollIndicator={false}>
+            {this.state?.optButtonController == true ? (
               <View
-                style={[
-                  Styles.btn,
-                  {
-                    backgroundColor:
-                      this.state.loader == false ? '#8b4513' : '#cccbca',
-                  },
-                ]}>
-                {this.state.loader && (
-                  <ActivityIndicator
-                    size="large"
-                    color="#D2691Eff"
-                    animating={this.state.loader}
+                style={{
+                  flex: 1,
+                  backgroundColor: '#fff',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    color: 'grey',
+                    textAlign: 'center',
+                    justifyContent: 'center',
+                    fontSize: 22,
+                    fontWeight: '600',
+                    fontFamily:
+                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  }}>
+                  {ArabicText?.EntertheOTPSenttoYourMobile}
+                </Text>
+                <View style={styles.inputcontainer}>
+                  <TextInput
+                    placeholderTextColor={'grey'}
+                    ref={this.first}
+                    style={[styles.textInput, {...oneStyle}]}
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                    keyboardType="number-pad"
+                    caretHidden
+                    onFocus={() => this.setState({oneFocus: true})}
+                    onBlur={() => this.setState({oneFocus: false})}
+                    maxLength={1}
+                    onChangeText={text => {
+                      this.handleChangeTextOne(text);
+                    }}
+                    value={this.state.one}
                   />
-                )}
-                {this.state.loader == false && (
-                  <Text style={Styles.textbtn}>{ArabicText.Confirm}</Text>
-                )}
+                  <TextInput
+                    placeholderTextColor={'grey'}
+                    ref={this.second}
+                    onKeyPress={({nativeEvent}) =>
+                      nativeEvent.key === 'Backspace'
+                        ? this.backspace('two')
+                        : null
+                    }
+                    style={[styles.textInput, {...twoStyle}]}
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                    maxLength={1}
+                    onFocus={() => this.setState({twoFocus: true})}
+                    onBlur={() => this.setState({twoFocus: false})}
+                    caretHidden
+                    keyboardType="number-pad"
+                    onChangeText={text => {
+                      this.handleChangeTextTwo(text);
+                    }}
+                    value={this.state.two}
+                  />
+                  <TextInput
+                    placeholderTextColor={'grey'}
+                    ref={this.third}
+                    onKeyPress={({nativeEvent}) =>
+                      nativeEvent.key === 'Backspace'
+                        ? this.backspace('three')
+                        : null
+                    }
+                    style={[styles.textInput, {...threeStyle}]}
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                    onFocus={() => this.setState({threeFocus: true})}
+                    onBlur={() => this.setState({threeFocus: false})}
+                    maxLength={1}
+                    caretHidden
+                    keyboardType="number-pad"
+                    onChangeText={text => {
+                      this.handleChangeTextThree(text);
+                    }}
+                    value={this.state.three}
+                  />
+                  <TextInput
+                    placeholderTextColor={'grey'}
+                    ref={this.fourth}
+                    onKeyPress={({nativeEvent}) =>
+                      nativeEvent.key === 'Backspace'
+                        ? this.backspace('four')
+                        : null
+                    }
+                    style={[styles.textInput, {...fourStyle}]}
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                    onFocus={() => this.setState({fourFocus: true})}
+                    onBlur={() => this.setState({fourFocus: false})}
+                    maxLength={1}
+                    caretHidden
+                    keyboardType="number-pad"
+                    onChangeText={text => {
+                      this.handleChangeTextFour(text);
+                    }}
+                    value={this.state.four}
+                  />
+                </View>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (this.state.btnPressed != true) {
+                      this.checkOtp();
+                    } else {
+                      //console.log("Waiting For Response")
+                    }
+                  }}
+                  style={{alignSelf: 'center', margin: 30}}>
+                  <View
+                    style={[
+                      Styles.btn,
+                      {
+                        backgroundColor:
+                          this.state.loader == false ? '#8b4513' : '#cccbca',
+                      },
+                    ]}>
+                    {this.state.loader && (
+                      <ActivityIndicator
+                        size="large"
+                        color="#D2691Eff"
+                        animating={this.state.loader}
+                      />
+                    )}
+                    {this.state.loader == false && (
+                      <Text style={Styles.textbtn}>{ArabicText.Confirm}</Text>
+                    )}
+                  </View>
+                </TouchableOpacity>
               </View>
-            </TouchableOpacity>
-          </View>
-        ) : (
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: '#fff',
-              justifyContent: 'center',
-            }}>
-            <Text
-              style={{
-                color: 'grey',
-                textAlign: 'center',
-                justifyContent: 'center',
-                fontSize: 22,
-                // fontWeight: '600',
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
-              }}
-              numberOfLines={3}>
-              {ArabicText?.EnterYourNewPassword}
-            </Text>
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            ) : (
               <View
-                style={[
-                  Styles.inputs,
-                  {
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  },
-                ]}>
-                {this.state.hidePassword === true ? (
-                  <Ionicons
-                    name="eye"
-                    size={18}
-                    color="brown"
-                    onPress={() => this.setState({hidePassword: false})}
-                  />
-                ) : (
-                  <Ionicons
-                    name="eye-off"
-                    size={18}
-                    color="brown"
-                    onPress={() => this.setState({hidePassword: true})}
-                  />
-                )}
-                <TextInput
-                  secureTextEntry={this.state.hidePassword}
-                  placeholderTextColor={'grey'}
-                  style={Styles.inputs}
-                  placeholder={ArabicText.passwords}
-                  onChangeText={text =>
-                    this.setState({password: text})
-                  }></TextInput>
+                style={{
+                  flex: 1,
+                  backgroundColor: '#fff',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    color: 'grey',
+                    textAlign: 'center',
+                    justifyContent: 'center',
+                    fontSize: 22,
+                    // fontWeight: '600',
+                    fontFamily:
+                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  }}
+                  numberOfLines={3}>
+                  {ArabicText?.EnterYourNewPassword}
+                </Text>
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                  <View
+                    style={[
+                      Styles.inputs,
+                      {
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      },
+                    ]}>
+                    {this.state.hidePassword === true ? (
+                      <Ionicons
+                        name="eye"
+                        size={18}
+                        color="brown"
+                        onPress={() => this.setState({hidePassword: false})}
+                      />
+                    ) : (
+                      <Ionicons
+                        name="eye-off"
+                        size={18}
+                        color="brown"
+                        onPress={() => this.setState({hidePassword: true})}
+                      />
+                    )}
+                    <TextInput
+                      secureTextEntry={this.state.hidePassword}
+                      placeholderTextColor={'grey'}
+                      style={Styles.inputs}
+                      placeholder={ArabicText.passwords}
+                      onChangeText={text =>
+                        this.setState({password: text})
+                      }></TextInput>
+                  </View>
+                  <View
+                    style={[
+                      Styles.inputs,
+                      {
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      },
+                    ]}>
+                    {this.state.hidePassword2 === true ? (
+                      <Ionicons
+                        name="eye"
+                        size={18}
+                        color="brown"
+                        onPress={() => this.setState({hidePassword2: false})}
+                      />
+                    ) : (
+                      <Ionicons
+                        name="eye-off"
+                        size={18}
+                        color="brown"
+                        onPress={() => this.setState({hidePassword2: true})}
+                      />
+                    )}
+                    <TextInput
+                      placeholderTextColor={'grey'}
+                      style={Styles.inputs}
+                      placeholder={ArabicText.confirm_password}
+                      onChangeText={text =>
+                        this.setState({confirm_password: text})
+                      }
+                      secureTextEntry={this.state.hidePassword2}></TextInput>
+                  </View>
+                </View>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (this.state.btnPressed != true) {
+                      this.submitOTP();
+                    } else {
+                      //console.log("Waiting For Response")
+                    }
+                  }}
+                  style={{alignSelf: 'center', margin: 10}}>
+                  <View
+                    style={[
+                      Styles.btn,
+                      {
+                        backgroundColor:
+                          this.state.loader == false ? '#8b4513' : '#cccbca',
+                      },
+                    ]}>
+                    {this.state.loader && (
+                      <ActivityIndicator
+                        size="large"
+                        color="#D2691Eff"
+                        animating={this.state.loader}
+                      />
+                    )}
+                    {this.state.loader == false && (
+                      <Text style={Styles.textbtn}>{ArabicText.Confirm}</Text>
+                    )}
+                  </View>
+                </TouchableOpacity>
               </View>
-              <View
-                style={[
-                  Styles.inputs,
-                  {
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  },
-                ]}>
-                {this.state.hidePassword2 === true ? (
-                  <Ionicons
-                    name="eye"
-                    size={18}
-                    color="brown"
-                    onPress={() => this.setState({hidePassword2: false})}
-                  />
-                ) : (
-                  <Ionicons
-                    name="eye-off"
-                    size={18}
-                    color="brown"
-                    onPress={() => this.setState({hidePassword2: true})}
-                  />
-                )}
-                <TextInput
-                  placeholderTextColor={'grey'}
-                  style={Styles.inputs}
-                  placeholder={ArabicText.confirm_password}
-                  onChangeText={text => this.setState({confirm_password: text})}
-                  secureTextEntry={this.state.hidePassword2}></TextInput>
-              </View>
-            </View>
-            <TouchableOpacity
-              onPress={() => {
-                if (this.state.btnPressed != true) {
-                  this.submitOTP();
-                } else {
-                  //console.log("Waiting For Response")
-                }
-              }}
-              style={{alignSelf: 'center', margin: 10}}>
-              <View
-                style={[
-                  Styles.btn,
-                  {
-                    backgroundColor:
-                      this.state.loader == false ? '#8b4513' : '#cccbca',
-                  },
-                ]}>
-                {this.state.loader && (
-                  <ActivityIndicator
-                    size="large"
-                    color="#D2691Eff"
-                    animating={this.state.loader}
-                  />
-                )}
-                {this.state.loader == false && (
-                  <Text style={Styles.textbtn}>{ArabicText.Confirm}</Text>
-                )}
-              </View>
-            </TouchableOpacity>
-          </View>
-        )}
+            )}
+          </ScrollView>
+        </KeyboardAvoidingView>
       </View>
     );
   }
@@ -492,5 +509,6 @@ const styles = StyleSheet.create({
     width: '12%',
     color: 'black',
     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    marginVertical: 20,
   },
 });

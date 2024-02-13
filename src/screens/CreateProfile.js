@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import * as ArabicText from '../language/EnglishToArabic';
@@ -24,6 +25,8 @@ import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import GooglePlaceAutocomplete from '../components/GooglePlaceHolder';
 import {family} from '../constants/Family';
+import BackBtnHeader from '../components/headerWithBackBtn';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -190,17 +193,12 @@ class CreateProfile extends Component {
           Styles.container,
           {flex: 1, backgroundColor: '#D2691Eff', width: '100%'},
         ]}>
-        <ScrollView
-          nestedScrollEnabled={true}
-          keyboardShouldPersistTaps="handled"
+        <BackBtnHeader />
+        <KeyboardAwareScrollView
+          keyboardShouldPersistTaps={'always'}
           style={{flex: 1, backgroundColor: '#fff', width: '100%'}}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingTop: 10,
-            backgroundColor: '#fff',
-            flexGrow: 1,
-            alignItems: 'center',
-          }}>
+          contentContainerStyle={{alignItems: 'center', width:'100%'}}
+          showsVerticalScrollIndicator={false}>
           {screen != 'socialLogin' && (
             <TouchableOpacity
               onPress={() => {
@@ -220,6 +218,8 @@ class CreateProfile extends Component {
               <Text
                 style={{
                   fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  paddingHorizontal: 10,
+                  color:'#fff'
                 }}>
                 {ArabicText.Skip}
               </Text>
@@ -233,9 +233,8 @@ class CreateProfile extends Component {
               width: 150,
               height: 150,
               borderRadius: 100,
-              marginTop: 100,
+              marginTop: 30,
               marginBottom: 30,
-              // alignSelf: 'center',
             }}>
             <ImageBackground
               imageStyle={{
@@ -367,7 +366,7 @@ class CreateProfile extends Component {
               </Text>
             )}
           </TouchableOpacity>
-        </ScrollView>
+        </KeyboardAwareScrollView>
       </View>
     );
   }

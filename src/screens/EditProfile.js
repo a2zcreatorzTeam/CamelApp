@@ -250,7 +250,7 @@ class EditProfile extends Component {
     user = user?.user?.user;
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: '#D2691Eff'}}>
         <BackBtnHeader showToolTip style={{justifyContent: 'space-around'}} />
         <KeyboardAwareScrollView
           keyboardShouldPersistTaps={'always'}

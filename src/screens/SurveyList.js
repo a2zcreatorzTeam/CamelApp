@@ -191,7 +191,7 @@ class SurveyList extends Component {
                 flexGrow: 1,
                 width: width,
                 alignSelf: 'center',
-                paddingBottom: '20%',
+                paddingBottom:width*0.1
               }}
               initialNumToRender={5}
               maxToRenderPerBatch={5}

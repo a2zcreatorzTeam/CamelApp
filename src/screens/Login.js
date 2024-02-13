@@ -141,9 +141,10 @@ class Login extends Component {
   };
   // TWITTERLOGIN
   signInWithTwitter = async () => {
+    console.log("Twittterrrrrrrr");
     try {
       const loginData = await RNTwitterSignIn.logIn();
-      console.log(loginData, 'loginnn');
+      console.log(loginData, 'loginnn147777');
       const {authToken, authTokenSecret} = loginData;
       console.log(authToken, 'authToken', authTokenSecret);
       if (authToken && authTokenSecret) {
@@ -211,9 +212,13 @@ class Login extends Component {
     const authentication = async () => {
       const {contactNumber, password} = this.state;
       this.setState({loader: true});
-      await getFCMToken();
-      const deviceToken = await AsyncStorage?.getItem('fcmToken');
-      console.log(deviceToken, 'deviceTokeennnn');
+      // await getFCMToken();
+      // const deviceToken = await AsyncStorage?.getItem('fcmToken');
+      const [_, deviceToken] = await Promise.all([
+        getFCMToken(),
+        AsyncStorage.getItem('fcmToken'),
+      ]);
+      console.log(deviceToken, 'deviceTokeennnn', Platform?.OS);
       let number = 0;
       do {
         number = Math.floor(Math.random() * 10000) + 1;
@@ -230,9 +235,9 @@ class Login extends Component {
               device_token: deviceToken,
             })
             .then(res => {
-              console.log(res);
-              response = res.data;
-              if (response.status == true) {
+              console.log(res, 'login responseee');
+              response = res?.data;
+              if (response?.status == true) {
                 this.setState({loader: false});
                 if (
                   response?.data?.is_complete == 1 ||

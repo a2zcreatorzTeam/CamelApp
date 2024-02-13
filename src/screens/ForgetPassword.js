@@ -9,6 +9,7 @@ import {
   ScrollView,
   ActivityIndicator,
   Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import camelapp from '../api/camelapp';
@@ -98,83 +99,86 @@ class ForgetPassword extends Component {
   render() {
     return (
       <View style={[Styles.container, {flex: 1, backgroundColor: '#D2691Eff'}]}>
-        <ScrollView
-          style={{flex: 1}}
-          contentContainerStyle={{flexGrow: 1, backgroundColor: '#fff'}}
-          showsVerticalScrollIndicator={false}>
-          <View
-            style={{
-              marginTop: 40,
-              width: width,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#fff',
-            }}>
-            <Text style={Styles.text}> {ArabicText.forget_Password}</Text>
-            <Image
-              source={require('../../assets/password.png')}
-              style={styles.image}></Image>
-
-            <Text
+        <KeyboardAvoidingView
+          style={Styles.keyboardView}
+          behavior={Platform.OS === 'ios' ? 'padding' : null}>
+          <ScrollView
+            style={{flex: 1}}
+            contentContainerStyle={Styles.scrollContentContainer}
+            showsVerticalScrollIndicator={false}>
+            <View
               style={{
-                fontSize: 22,
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                marginTop: 40,
+                width: width,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#fff',
               }}>
-              {ArabicText.Enter_Phone_Number}
-            </Text>
+              <Text style={Styles.text}> {ArabicText.forget_Password}</Text>
+              <Image
+                source={require('../../assets/password.png')}
+                style={styles.image}></Image>
 
-            <Text
-              style={{
-                fontSize: 18,
-                // fontWeight: '300',
-                color: 'grey',
-                marginTop: 70,
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
-              }}>
-              {ArabicText.We_will_send_you_a_code_to_reset}
-            </Text>
+              <Text
+                style={{
+                  fontSize: 22,
+                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                }}>
+                {ArabicText.Enter_Phone_Number}
+              </Text>
 
-            <TextInput
-              autoFocus={true}
-              style={Styles.inputs}
-              placeholder={ArabicText.Enter_Phone_Number}
-              keyboardType="numeric"
-              maxLength={10}
-              onChangeText={text =>
-                this.setState({phone: text.replace(/[^0-9]/g, '')})
-              }></TextInput>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: 'grey',
+                  marginTop: 10,
+                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                }}>
+                {ArabicText.We_will_send_you_a_code_to_reset}
+              </Text>
 
-            <TouchableOpacity
-              style={{marginTop: 20}}
-              onPress={() => {
-                if (this.state.loader == false) {
-                  this.sendOTP();
-                } else {
-                  console.log('Waiting For Response');
-                }
-              }}>
-              <View
-                style={[
-                  Styles.btn,
-                  {
-                    backgroundColor:
-                      this.state.loader == false ? '#8b4513' : '#cccbca',
-                  },
-                ]}>
-                {this.state.loader && (
-                  <ActivityIndicator
-                    size="large"
-                    color="#D2691Eff"
-                    animating={this.state.loader}
-                  />
-                )}
-                {this.state.loader == false && (
-                  <Text style={Styles.textbtn}>{ArabicText.send}</Text>
-                )}
-              </View>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
+              <TextInput
+                autoFocus={true}
+                style={Styles.inputs}
+                placeholder={ArabicText.Enter_Phone_Number}
+                keyboardType="numeric"
+                maxLength={10}
+                onChangeText={text =>
+                  this.setState({phone: text.replace(/[^0-9]/g, '')})
+                }></TextInput>
+
+              <TouchableOpacity
+                style={{marginTop: 20}}
+                onPress={() => {
+                  if (this.state.loader == false) {
+                    this.sendOTP();
+                  } else {
+                    console.log('Waiting For Response');
+                  }
+                }}>
+                <View
+                  style={[
+                    Styles.btn,
+                    {
+                      backgroundColor:
+                        this.state.loader == false ? '#8b4513' : '#cccbca',
+                    },
+                  ]}>
+                  {this.state.loader && (
+                    <ActivityIndicator
+                      size="large"
+                      color="#D2691Eff"
+                      animating={this.state.loader}
+                    />
+                  )}
+                  {this.state.loader == false && (
+                    <Text style={Styles.textbtn}>{ArabicText.send}</Text>
+                  )}
+                </View>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </View>
     );
   }
@@ -187,7 +191,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  image: {width: 190, height: 190, marginBottom: 10},
+  image: {width: 190, height: 190},
   textInputContainer: {
     marginBottom: 20,
     padding: 10,

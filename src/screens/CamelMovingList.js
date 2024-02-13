@@ -8,6 +8,7 @@ import {
   RefreshControl,
   TextInput,
   Platform,
+  Dimensions,
 } from 'react-native';
 import Post from '../components/MovingPost';
 import camelapp from '../api/camelapp';
@@ -24,6 +25,8 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import shadows from '../helper/shadows';
 import {family} from '../constants/Family';
+const {width} = Dimensions.get('window');
+
 class CamelMovingList extends Component {
   constructor(props) {
     super(props);
@@ -355,9 +358,9 @@ class CamelMovingList extends Component {
               </View>
               <FlatList
                 style={{flex: 1}}
+                contentContainerStyle={{flexGrow: 1, paddingBottom: width * 0.1}}
                 ListEmptyComponent={() => <EmptyComponent />}
                 key={key}
-                contentContainerStyle={{paddingBottom: '20%'}}
                 data={
                   searchedItem || To || From ? filterPosts : this.state?.posts
                 }

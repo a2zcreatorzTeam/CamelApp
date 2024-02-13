@@ -134,8 +134,12 @@ class SignUp extends Component {
       isChecked == true
     ) {
       this.setState({btnPressed: true, loader: true});
-      await getFCMToken();
-      const deviceToken = await AsyncStorage?.getItem('fcmToken');
+      // await getFCMToken();
+      // const deviceToken = await AsyncStorage?.getItem('fcmToken');
+      const [_, deviceToken] = await Promise.all([
+        getFCMToken(),
+        AsyncStorage.getItem('fcmToken'),
+      ]);
       camelapp
         .get('checkemail?phone=' + this.state.phone)
         .then(response => {

@@ -107,7 +107,7 @@ export default function Navigation() {
         <Stack.Screen
           name="CreateProfile"
           component={CreateProfile}
-          options={{header: () => <BackBtnHeader />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="Messages"

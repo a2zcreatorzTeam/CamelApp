@@ -66,33 +66,41 @@ const GroupChat = props => {
   const navigation = useNavigation();
   let {user} = props;
   const requestLocationPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: `Alsyahd Mobile App`,
-          message:
-            ArabicText?.Alsyahdneedslocationaccesstogetyourcurrentlocation,
-          buttonNeutral: ArabicText?.AskMeLater,
-          buttonNegative: ArabicText?.Cancel,
-          buttonPositive: ArabicText?.OK,
-        },
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        Toast.show({
-          text1: ArabicText?.Youcanusethelocation,
-          type: 'error',
-          visibilityTime: 3000,
-        });
-      } else {
-        Toast.show({
-          text1: ArabicText?.locationpermissiondenied,
-          type: 'error',
-          visibilityTime: 3000,
-        });
+    if (Platform.OS == 'ios') {
+      // your code using Geolocation and asking for authorisation with
+      const result = Geolocation.requestAuthorization();
+      console.log(result, 'sreuuuuuuu');
+    } else {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: `Alsyahd Mobile App`,
+            message:
+              ArabicText?.Alsyahdneedslocationaccesstogetyourcurrentlocation,
+            buttonNeutral: ArabicText?.AskMeLater,
+            buttonNegative: ArabicText?.Cancel,
+            buttonPositive: ArabicText?.OK,
+          },
+        );
+        console.log(granted, 'grantedddddddd');
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          Toast.show({
+            text1: ArabicText?.Youcanusethelocation,
+            type: 'success',
+            visibilityTime: 3000,
+          });
+        } else {
+          Toast.show({
+            text1: ArabicText?.locationpermissiondenied,
+            type: 'error',
+            visibilityTime: 3000,
+          });
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
+      // ask for PermissionAndroid as written in your code
     }
   };
   const getLocation = () => {
@@ -1099,7 +1107,7 @@ const GroupChat = props => {
             {groupInfoDetails?.length &&
               groupInfoDetails?.map(item => {
                 return (
-                  <ScrollView showsVerticalScrollIndicator={false} >
+                  <ScrollView showsVerticalScrollIndicator={false}>
                     <View
                       style={{
                         flexDirection: 'row',

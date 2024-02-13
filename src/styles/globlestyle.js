@@ -194,7 +194,7 @@ export const Styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bidsButtonAccept: {
-    padding: 5,
+    padding: 3,
     borderRadius: 20,
     backgroundColor: '#f3f3f3',
     borderWidth: 2,
@@ -815,6 +815,7 @@ export const Styles = StyleSheet.create({
     paddingBottom: width * 0.1,
     backgroundColor: '#fff',
     minHeight: '100%',
+    
   },
   keyboardView: {
     flex: 1,

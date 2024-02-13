@@ -8,6 +8,7 @@ import {
   Dimensions,
   Image,
   RefreshControl,
+  Dimensions,
 } from 'react-native';
 import Post from '../components/Post';
 import AddButton from '../components/AddButton';
@@ -19,7 +20,7 @@ import {bindActionCreators} from 'redux';
 import Loader from '../components/PleaseWait';
 import Header from '../components/Header';
 import EmptyComponent from '../components/EmptyComponent';
-
+const {width} = Dimensions.get('window');
 class CamelClubList extends Component {
   constructor(props) {
     super(props);
@@ -331,6 +332,8 @@ class CamelClubList extends Component {
             <Loader loading={loading} />
 
             <FlatList
+              style={{flex: 1}}
+              contentContainerStyle={{flexGrow: 1, paddingBottom: width * 0.1}}
               ListEmptyComponent={() => <EmptyComponent />}
               extraData={posts}
               key={key}

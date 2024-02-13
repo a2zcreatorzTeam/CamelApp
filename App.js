@@ -20,7 +20,7 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
 import firebaseConfig from './src/components/firebase';
 import {getStorage} from 'firebase/storage';
-import {notificationListener} from './src/services/Helper';
+import {notificationListener, requestUserPermission} from './src/services/Helper';
 import DeviceInfo from 'react-native-device-info';
 import codePush from 'react-native-code-push';
 import {ProgressBar} from 'react-native-paper';
@@ -90,6 +90,7 @@ class App extends Component {
     };
   }
   componentDidMount() {
+    requestUserPermission()
     this.syncImmediate();
     this.takePermission();
     notificationListener();
@@ -97,9 +98,11 @@ class App extends Component {
     let app;
     if (firebase.apps.length === 0) {
       app = firebase.initializeApp(firebaseConfig);
+      console.log(app, 'apppppppp');
       const storage = getStorage(app);
     } else {
       app = firebase.app();
+      console.log(app, 'apppp');
     }
   }
   // CODE PUSH FUNCTIONS

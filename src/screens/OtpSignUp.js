@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import {connect} from 'react-redux';
@@ -21,6 +22,8 @@ import {Platform} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 import {family} from '../constants/Family';
+import BackBtnHeader from '../components/headerWithBackBtn';
+const {width} = Dimensions.get('window');
 class App extends Component {
   constructor(props) {
     super(props);
@@ -193,6 +196,7 @@ class App extends Component {
     };
     return (
       <View style={styles.container}>
+        <BackBtnHeader />
         <KeyboardAvoidingView
           style={Styles.keyboardView}
           behavior={Platform.OS === 'ios' ? 'padding' : null}>
@@ -205,6 +209,7 @@ class App extends Component {
               paddingTop: 10,
               backgroundColor: '#fff',
               paddingBottom: width * 0.2,
+              justifyContent: 'center',
             }}>
             <View style={{width: '100%', alignItems: 'center'}}>
               <Text
@@ -347,6 +352,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+    backgroundColor: '#D2691Eff',
   },
   inputcontainer: {
     marginVertical: 25,

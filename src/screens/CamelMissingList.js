@@ -5,6 +5,7 @@ import {
   FlatList,
   ActivityIndicator,
   RefreshControl,
+  Dimensions,
 } from 'react-native';
 import Post from '../components/Post';
 import camelapp from '../api/camelapp';
@@ -14,7 +15,7 @@ import Header from '../components/Header';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
-
+const {width} = Dimensions.get('window');
 class CamelFoodList extends Component {
   constructor(props) {
     super(props);
@@ -221,7 +222,7 @@ class CamelFoodList extends Component {
       }
     };
     const onLikesClick = (item, setIsLiked, setLikeCount) => {
-      console.log(item,"itmmm");
+      console.log(item, 'itmmm');
       let post_id = item.id;
       this.setState({loading: false});
       if (user != undefined) {
@@ -294,6 +295,8 @@ class CamelFoodList extends Component {
             <AddButton onPress={() => onAddButtonClick()} />
             <Loader loading={loading} />
             <FlatList
+              style={{flex: 1}}
+              contentContainerStyle={{flexGrow: 1, paddingBottom: width * 0.1}}
               key={key}
               data={searchedItem ? filterPosts : posts}
               renderItem={renderItem}

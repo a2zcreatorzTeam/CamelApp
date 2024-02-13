@@ -6,6 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
+  KeyboardAvoidingView,
+  ScrollView,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import {connect} from 'react-redux';
@@ -18,7 +20,7 @@ import camelapp from '../api/camelapp';
 import {Platform} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -191,122 +193,141 @@ class App extends Component {
     };
     return (
       <View style={styles.container}>
-        <View style={{width: '100%', alignItems: 'center'}}>
-          <Text
-            style={{
-              justifyContent: 'center',
-              fontSize: 24,
-              color: 'black',
-              width: '80%',
-              textAlign: 'center',
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
-            }}
-            numberOfLines={3}>
-            {ArabicText?.EntertheOTPSenttoYourMobile}
-          </Text>
-        </View>
+        <KeyboardAvoidingView
+          style={Styles.keyboardView}
+          behavior={Platform.OS === 'ios' ? 'padding' : null}>
+          <ScrollView
+            alwaysBounceVertical={false}
+            style={{flex: 1}}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              flexGrow: 1,
+              paddingTop: 10,
+              backgroundColor: '#fff',
+              paddingBottom: width * 0.2,
+            }}>
+            <View style={{width: '100%', alignItems: 'center'}}>
+              <Text
+                style={{
+                  justifyContent: 'center',
+                  fontSize: 24,
+                  color: 'black',
+                  width: '80%',
+                  textAlign: 'center',
+                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                }}
+                numberOfLines={3}>
+                {ArabicText?.EntertheOTPSenttoYourMobile}
+              </Text>
+            </View>
 
-        <View style={styles.inputcontainer}>
-          <TextInput
-            ref={this.first}
-            style={[styles.textInput, {...oneStyle}]}
-            autoCorrect={false}
-            autoCapitalize="none"
-            keyboardType="number-pad"
-            caretHidden
-            onFocus={() => this.setState({oneFocus: true})}
-            onBlur={() => this.setState({oneFocus: false})}
-            maxLength={1}
-            onChangeText={text => {
-              this.handleChangeTextOne(text);
-            }}
-            value={this.state.one}
-          />
-          <TextInput
-            ref={this.second}
-            onKeyPress={({nativeEvent}) =>
-              nativeEvent.key === 'Backspace' ? this.backspace('two') : null
-            }
-            style={[styles.textInput, {...twoStyle}]}
-            autoCorrect={false}
-            autoCapitalize="none"
-            maxLength={1}
-            onFocus={() => this.setState({twoFocus: true})}
-            onBlur={() => this.setState({twoFocus: false})}
-            caretHidden
-            keyboardType="number-pad"
-            onChangeText={text => {
-              this.handleChangeTextTwo(text);
-            }}
-            value={this.state.two}
-          />
-          <TextInput
-            ref={this.third}
-            onKeyPress={({nativeEvent}) =>
-              nativeEvent.key === 'Backspace' ? this.backspace('three') : null
-            }
-            style={[styles.textInput, {...threeStyle}]}
-            autoCorrect={false}
-            autoCapitalize="none"
-            onFocus={() => this.setState({threeFocus: true})}
-            onBlur={() => this.setState({threeFocus: false})}
-            maxLength={1}
-            caretHidden
-            keyboardType="number-pad"
-            onChangeText={text => {
-              this.handleChangeTextThree(text);
-            }}
-            value={this.state.three}
-          />
-          <TextInput
-            ref={this.fourth}
-            onKeyPress={({nativeEvent}) =>
-              nativeEvent.key === 'Backspace' ? this.backspace('four') : null
-            }
-            style={[styles.textInput, {...fourStyle}]}
-            autoCorrect={false}
-            autoCapitalize="none"
-            onFocus={() => this.setState({fourFocus: true})}
-            onBlur={() => this.setState({fourFocus: false})}
-            maxLength={1}
-            caretHidden
-            keyboardType="number-pad"
-            onChangeText={text => {
-              this.handleChangeTextFour(text);
-            }}
-            value={this.state.five}
-          />
-        </View>
-
-        <TouchableOpacity
-          onPress={() => {
-            if (this.state.btnPressed != true) {
-              this.submitOTP();
-            } else {
-              //console.log("Waiting For Response")
-            }
-          }}
-          style={{alignSelf: 'center', margin: 10}}>
-          <View
-            style={[
-              Styles.btn,
-              {
-                backgroundColor:
-                  this.state.loader == false ? '#8b4513' : '#cccbca',
-              },
-            ]}>
-            {this.state.loader && (
-              <ActivityIndicator
-                size="large"
-                color="#D2691Eff"
-                animating={this.state.loader}
+            <View style={styles.inputcontainer}>
+              <TextInput
+                ref={this.first}
+                style={[styles.textInput, {...oneStyle}]}
+                autoCorrect={false}
+                autoCapitalize="none"
+                keyboardType="number-pad"
+                caretHidden
+                onFocus={() => this.setState({oneFocus: true})}
+                onBlur={() => this.setState({oneFocus: false})}
+                maxLength={1}
+                onChangeText={text => {
+                  this.handleChangeTextOne(text);
+                }}
+                value={this.state.one}
               />
-            )}
-            {this.state.loader == false && (
-              <Text style={Styles.textbtn}>{ArabicText.Confirm}</Text>
-            )}
-          </View>
-        </TouchableOpacity>
+              <TextInput
+                ref={this.second}
+                onKeyPress={({nativeEvent}) =>
+                  nativeEvent.key === 'Backspace' ? this.backspace('two') : null
+                }
+                style={[styles.textInput, {...twoStyle}]}
+                autoCorrect={false}
+                autoCapitalize="none"
+                maxLength={1}
+                onFocus={() => this.setState({twoFocus: true})}
+                onBlur={() => this.setState({twoFocus: false})}
+                caretHidden
+                keyboardType="number-pad"
+                onChangeText={text => {
+                  this.handleChangeTextTwo(text);
+                }}
+                value={this.state.two}
+              />
+              <TextInput
+                ref={this.third}
+                onKeyPress={({nativeEvent}) =>
+                  nativeEvent.key === 'Backspace'
+                    ? this.backspace('three')
+                    : null
+                }
+                style={[styles.textInput, {...threeStyle}]}
+                autoCorrect={false}
+                autoCapitalize="none"
+                onFocus={() => this.setState({threeFocus: true})}
+                onBlur={() => this.setState({threeFocus: false})}
+                maxLength={1}
+                caretHidden
+                keyboardType="number-pad"
+                onChangeText={text => {
+                  this.handleChangeTextThree(text);
+                }}
+                value={this.state.three}
+              />
+              <TextInput
+                ref={this.fourth}
+                onKeyPress={({nativeEvent}) =>
+                  nativeEvent.key === 'Backspace'
+                    ? this.backspace('four')
+                    : null
+                }
+                style={[styles.textInput, {...fourStyle}]}
+                autoCorrect={false}
+                autoCapitalize="none"
+                onFocus={() => this.setState({fourFocus: true})}
+                onBlur={() => this.setState({fourFocus: false})}
+                maxLength={1}
+                caretHidden
+                keyboardType="number-pad"
+                onChangeText={text => {
+                  this.handleChangeTextFour(text);
+                }}
+                value={this.state.five}
+              />
+            </View>
+
+            <TouchableOpacity
+              onPress={() => {
+                if (this.state.btnPressed != true) {
+                  this.submitOTP();
+                } else {
+                  //console.log("Waiting For Response")
+                }
+              }}
+              style={{alignSelf: 'center', margin: 10}}>
+              <View
+                style={[
+                  Styles.btn,
+                  {
+                    backgroundColor:
+                      this.state.loader == false ? '#8b4513' : '#cccbca',
+                  },
+                ]}>
+                {this.state.loader && (
+                  <ActivityIndicator
+                    size="large"
+                    color="#D2691Eff"
+                    animating={this.state.loader}
+                  />
+                )}
+                {this.state.loader == false && (
+                  <Text style={Styles.textbtn}>{ArabicText.Confirm}</Text>
+                )}
+              </View>
+            </TouchableOpacity>
+          </ScrollView>
+        </KeyboardAvoidingView>
       </View>
     );
   }

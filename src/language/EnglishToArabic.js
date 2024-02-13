@@ -19,7 +19,6 @@ export const SIGNUP = 'اشتراك';
 export const PLACEHOLDER_NAME = 'اسم العنصر النائب';
 export const PLACEHOLDER_PHONE = 'هاتف نائب';
 
-
 //CHANGE PASSWORD
 export const PLACEHOLDER_PASSWORD = 'كلمة مرور العنصر النائب';
 export const PLACEHOLDER_CONFIRM_PASSWORD = 'تأكيد كلمة المرور';
@@ -39,12 +38,13 @@ export const PRICE_FIX = 'إصلاح السعر';
 export const PRICE_OFFER = 'سعر العرض';
 export const PLACEHOLDER_PLEASE_SELECT_PRICE_TYPE = 'الرجاء تحديد نوع السعر';
 export const PLACEHOLDER_ARE_YOU_REGISTERD = 'هل أنت مسجل؟';
-export const PLACEHOLDER_NO_I_AM_NOT_REGISTERED =
-  'لا أنا غير مسجل';
+export const PLACEHOLDER_NO_I_AM_NOT_REGISTERED = 'لا أنا غير مسجل';
 export const PLACEHOLDER_COMMISSION = 'عمولة';
 export const PLACEHOLDER_HOW_WILL_YOU_PAY_COMMISSION = 'كيف ستدفع العمولة؟';
-export const PLACEHOLDER_HOW_WILL_YOU_PAY_COMMISSION_BUYER = 'كيف ستدفع العمولة للمشتري؟';
-export const PLACEHOLDER_HOW_WILL_YOU_PAY_COMMISSION_SELLER = 'كيف ستدفع العمولة للبائع؟';
+export const PLACEHOLDER_HOW_WILL_YOU_PAY_COMMISSION_BUYER =
+  'كيف ستدفع العمولة للمشتري؟';
+export const PLACEHOLDER_HOW_WILL_YOU_PAY_COMMISSION_SELLER =
+  'كيف ستدفع العمولة للبائع؟';
 export const PLACEHOLDER_ADD_TYPES = 'إضافة أنواع';
 export const PLACEHOLDER_AGE = 'عمر';
 export const PLACEHOLDER_PRICE = 'سعر';
@@ -84,7 +84,8 @@ export const Error = 'خطأ';
 
 export const Success = 'نجاح';
 export const Record_Found = 'تم العثور على السجل';
-export const No_Record_Found_of_this_Number = 'لم يتم العثور على سجل لهذا الرقم';
+export const No_Record_Found_of_this_Number =
+  'لم يتم العثور على سجل لهذا الرقم';
 export const Password_Reset_Successfully = 'تمت إعادة تعيين كلمة المرور بنجاح';
 export const Rating_Added = 'تمت إضافة التقييم';
 export const Deleted = 'تم الحذف';
@@ -151,7 +152,8 @@ export const shareWithYourFriends = 'نشر الطبيق مع الا صدقاء'
 export const Add_picutres_and_video = 'إضافة الصور والفيديو';
 export const fixed_placeholder = ' السعر النهائي السعر';
 export const offer_Up_placeholder = ' بداية سعر السوم السعر';
-export const How_will_pay_app_percentage = 'كيف سيتم دفع النسبة المئوية للتطبيق';
+export const How_will_pay_app_percentage =
+  'كيف سيتم دفع النسبة المئوية للتطبيق';
 export const Section_tag = 'علامة القسم';
 export const Logo = 'شعار';
 export const age = 'العمر';
@@ -184,7 +186,8 @@ export const Reply = 'رد';
 ///jkjkj
 export const Enter_the_Phone_number_associated_with_your_account =
   'أدخل رقم الهاتف المرتبط بحسابك';
-export const We_will_send_you_a_code_to_reset = 'سوف نرسل لك رمزًا لإعادة التعيين';
+export const We_will_send_you_a_code_to_reset =
+  'سوف نرسل لك رمزًا لإعادة التعيين';
 export const Enter_Phone_Number = 'أدخل رقم الهاتف';
 export const signUp = 'اشتراك';
 export const name = 'اسم';
@@ -254,7 +257,7 @@ export const Bank = 'الحسابات البنكية والعمولة';
 export const You_can_not_Place_bid_on_your_price =
   'لا يمكنك تقديم عرض على السعر الخاص بك';
 export const Offer_can_not_be_less_than_base_price =
-  'لا يمكن أن يكون العرض أقل من السعر الأساسي'
+  'لا يمكن أن يكون العرض أقل من السعر الأساسي';
 export const Address = 'عنوان';
 export const account = 'حساب';
 export const TypeMisscamel = 'نوع المركبة';
@@ -269,8 +272,7 @@ export const Only1imageallowed = 'مسموح بصورة واحدة فقط';
 export const UsernameCantBeEmpty = 'اسم المستخدم لا يمكن أن يكون فارغا';
 export const phoneNumberAlreadyExist = 'رقم الهاتف موجود بالفعل';
 export const PleaseCompleteThefields = 'الرجاء إكمال الحقول';
-export const PleaseSpecifyTheTermsAndConditions =
-  'يرجى تحديد الشروط والأحكام';
+export const PleaseSpecifyTheTermsAndConditions = 'يرجى تحديد الشروط والأحكام';
 export const Started = 'بدأت';
 export const Ended = 'انتهى';
 export const RequestToBuy = 'طلب شراء';
@@ -355,8 +357,7 @@ export const logoutsuccessfully = 'تسجيل الخروج بنجاح';
 export const otphasbeensenttoyourphonenumber = 'تم إرسال otp إلى رقم هاتفك';
 export const passwordsuccessfullychanged = 'تم إرسال رمز التحقق إلى رقم هاتفك';
 export const Socialmediaaccounts = 'حسابات وسائل التواصل الاجتماعي';
-export const Andfulfillyourcovenant =
-  'والوفاء بعهدك';
+export const Andfulfillyourcovenant = 'والوفاء بعهدك';
 export const Pledge = 'يتعهد';
 export const Howtosubscribe = 'كيفية الاشتراك';
 export const GeneralTerms = 'شروط عامة';
@@ -429,5 +430,5 @@ export const Sellingequipment = 'بيع المعدات';
 export const TreatingCamel = 'علاج الحلال';
 export const User = 'عضو';
 export const VIP = 'عضو مهم';
-export const famous = 'عضو مميز'
-export const AppisUpdatingPleaseWait = '... يتم تحديث التطبيق، يرجى الانتظار'
+export const famous = 'عضو مميز';
+export const AppisUpdatingPleaseWait = 'يتم تحديث التطبيق، يرجى الانتظار';

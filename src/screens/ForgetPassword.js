@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -10,12 +10,12 @@ import {
   ActivityIndicator,
   Platform,
 } from 'react-native';
-import { Styles } from '../styles/globlestyle';
+import {Styles} from '../styles/globlestyle';
 import camelapp from '../api/camelapp';
 import * as ArabicText from '../language/EnglishToArabic';
-import { Dimensions } from 'react-native';
+import {Dimensions} from 'react-native';
 import Toast from 'react-native-toast-message';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 class ForgetPassword extends Component {
@@ -35,17 +35,17 @@ class ForgetPassword extends Component {
 
   sendOTP() {
     if (this.state.phone.length > 9) {
-      this.setState({ btnPressed: true, loader: true });
+      this.setState({btnPressed: true, loader: true});
       camelapp.get('checkemail?phone=' + this.state.phone).then(response => {
         if (response.data?.message == 'الهاتف موجود بالفعل') {
           console.log('response', response?.data);
-          this.setState({ otp: true });
+          this.setState({otp: true});
           camelapp
             .post('/reset/otp', {
               phone: this.state.phone,
             })
             .then(response => {
-              this.setState({ btnPressed: false, loader: false });
+              this.setState({btnPressed: false, loader: false});
               console.log(response?.data, 'respnesse4888');
               if (response) {
                 Toast.show({
@@ -67,7 +67,7 @@ class ForgetPassword extends Component {
               }
             })
             .catch(error => {
-              this.setState({ btnPressed: false, loader: false });
+              this.setState({btnPressed: false, loader: false});
               Toast.show({
                 text1: ArabicText?.somethingwentwrong,
                 type: 'error',
@@ -76,7 +76,7 @@ class ForgetPassword extends Component {
               //console.log("error", error)
             });
         } else {
-          this.setState({ loader: false });
+          this.setState({loader: false});
           Toast.show({
             text1: ArabicText.Pleaseentervalidphonenumber,
             type: 'error',
@@ -86,7 +86,7 @@ class ForgetPassword extends Component {
         }
       });
     } else {
-      this.setState({ loader: false });
+      this.setState({loader: false});
       Toast?.show({
         text1: ArabicText.Pleaseentervalidphonenumber,
         type: 'error',
@@ -97,8 +97,11 @@ class ForgetPassword extends Component {
   }
   render() {
     return (
-      <View style={Styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false} >
+      <View style={[Styles.container, {flex: 1, backgroundColor: '#D2691Eff'}]}>
+        <ScrollView
+          style={{flex: 1}}
+          contentContainerStyle={{flexGrow: 1, backgroundColor: '#fff'}}
+          showsVerticalScrollIndicator={false}>
           <View
             style={{
               marginTop: 40,
@@ -112,7 +115,11 @@ class ForgetPassword extends Component {
               source={require('../../assets/password.png')}
               style={styles.image}></Image>
 
-            <Text style={{ fontSize: 22,  fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular, }}>
+            <Text
+              style={{
+                fontSize: 22,
+                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              }}>
               {ArabicText.Enter_Phone_Number}
             </Text>
 
@@ -122,7 +129,7 @@ class ForgetPassword extends Component {
                 // fontWeight: '300',
                 color: 'grey',
                 marginTop: 70,
-                 fontFamily: Platform.OS == 'ios' ? null: family.Neo_Regular,
+                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
               }}>
               {ArabicText.We_will_send_you_a_code_to_reset}
             </Text>
@@ -134,11 +141,11 @@ class ForgetPassword extends Component {
               keyboardType="numeric"
               maxLength={10}
               onChangeText={text =>
-                this.setState({ phone: text.replace(/[^0-9]/g, '') })
+                this.setState({phone: text.replace(/[^0-9]/g, '')})
               }></TextInput>
 
             <TouchableOpacity
-              style={{ marginTop: 20 }}
+              style={{marginTop: 20}}
               onPress={() => {
                 if (this.state.loader == false) {
                   this.sendOTP();
@@ -180,7 +187,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  image: { width: 190, height: 190, marginBottom: 10 },
+  image: {width: 190, height: 190, marginBottom: 10},
   textInputContainer: {
     marginBottom: 20,
     padding: 10,

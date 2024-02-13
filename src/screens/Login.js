@@ -99,10 +99,8 @@ class Login extends Component {
   // InstagramTwitterLogin
   setIgToken = async data => {
     this.setState({loader: true});
-    console.log(data, 'dattaaaa');
     await getFCMToken();
     const deviceToken = await AsyncStorage?.getItem('fcmToken');
-    console.log(deviceToken, 'dattattt');
     try {
       camelapp
         .post('/social/login', {
@@ -113,8 +111,6 @@ class Login extends Component {
         })
 
         .then(res => {
-          console.log(res, 'data?.user_iddata?.user_id');
-          console.log(res?.data, 'responsesocial');
           if (res?.data?.user?.is_complete == 1) {
             let {actions} = this.props;
             actions.userData(res?.data);
@@ -217,6 +213,7 @@ class Login extends Component {
       this.setState({loader: true});
       await getFCMToken();
       const deviceToken = await AsyncStorage?.getItem('fcmToken');
+      console.log(deviceToken, 'deviceTokeennnn');
       let number = 0;
       do {
         number = Math.floor(Math.random() * 10000) + 1;
@@ -233,7 +230,7 @@ class Login extends Component {
               device_token: deviceToken,
             })
             .then(res => {
-              console.log(res.data);
+              console.log(res);
               response = res.data;
               if (response.status == true) {
                 this.setState({loader: false});

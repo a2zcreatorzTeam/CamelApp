@@ -1,3 +1,5 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {
   View,
@@ -71,9 +73,9 @@ class CreateProfile extends Component {
       });
   }
   createProfile = async () => {
-    console.log(this.props.route.params.response, 'rrespkneee');
     const {pickedImage, location, email, userName, phoneNumber} = this.state;
     const {screen, response} = this.props.route?.params;
+    console.log(response, 'responseee');
     if (screen == 'socialLogin' && !phoneNumber) {
       Toast.show({
         text1: ArabicText.phonenumbercantbeempty,
@@ -129,7 +131,9 @@ class CreateProfile extends Component {
           // user_id: userdata?.user?.id,
           user_id: response?.user?.id
             ? response?.user?.id
-            : response?.user_details?.id,
+            : response?.user_details?.id
+            ? response?.user_details?.id
+            : response?.user_id,
           location: location,
           email: email,
           image: pickedImage,
@@ -137,7 +141,7 @@ class CreateProfile extends Component {
           name: userName ? userName : null,
         })
         .then(res => {
-          console.log(res.data, 'res.data.status');
+          console.log(res, 'res.data.status');
           this.setState({
             btnLoader: false,
           });
@@ -164,8 +168,7 @@ class CreateProfile extends Component {
           }
         })
         .catch(error => {
-          console.log(error?.response, 'errorrr');
-
+          console.log(error, 'errorrr');
           this.setState({
             btnLoader: false,
           });
@@ -179,6 +182,7 @@ class CreateProfile extends Component {
     const {image, btnLoader, location} = this.state;
     const screen = this.props.route?.params?.screen;
     const response = this.props.route?.params?.response;
+    console.log(response, 'responseeeee');
     let {actions} = this.props;
     return (
       <View
@@ -197,28 +201,31 @@ class CreateProfile extends Component {
             flexGrow: 1,
             alignItems: 'center',
           }}>
-          <TouchableOpacity
-            onPress={() => {
-              actions.userData(response);
-              this.saveData();
-              this.props.navigation.navigate('Home', {
-                screen: ArabicText?.home,
-              });
-            }}
-            style={{
-              marginLeft: 'auto',
-              backgroundColor: '#8b4513',
-              marginRight: 20,
-              padding: 5,
-              borderRadius: 10,
-            }}>
-            <Text
+          {screen != 'socialLogin' && (
+            <TouchableOpacity
+              onPress={() => {
+                actions.userData(response);
+                this.saveData();
+                this.props.navigation.navigate('Home', {
+                  screen: ArabicText?.home,
+                });
+              }}
               style={{
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                marginLeft: 'auto',
+                backgroundColor: '#8b4513',
+                marginRight: 20,
+                padding: 5,
+                borderRadius: 10,
               }}>
-              {ArabicText.Skip}
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                }}>
+                {ArabicText.Skip}
+              </Text>
+            </TouchableOpacity>
+          )}
+
           {/* PROFILE IMAGE  */}
           <View
             style={{
@@ -288,7 +295,8 @@ class CreateProfile extends Component {
                   placeholderTextColor="#b0b0b0"
                   onChangeText={text =>
                     this.setState({phoneNumber: text.replace(/[^0-9]/g, '')})
-                  }></TextInput>
+                  }
+                />
                 <TextInput
                   maxLength={30}
                   style={Styles.inputs}

@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable eqeqeq */
 import React, {Component} from 'react';
 import {
   Text,
@@ -7,14 +9,14 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Image,
-  Platform
+  Platform,
 } from 'react-native';
 import {Styles} from '../styles/globlestyle';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as ArabicText from '../language/EnglishToArabic';
 import camelapp from '../api/camelapp';
 import Toast from 'react-native-toast-message';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -219,9 +221,14 @@ export default class App extends Component {
       borderBottomWidth: threeFocus ? 2 : 1,
     };
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, {backgroundColor: '#D2691Eff'}]}>
         {this.state?.optButtonController == true ? (
-          <>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: '#fff',
+              justifyContent: 'center',
+            }}>
             <Text
               style={{
                 color: 'grey',
@@ -342,9 +349,14 @@ export default class App extends Component {
                 )}
               </View>
             </TouchableOpacity>
-          </>
+          </View>
         ) : (
-          <>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: '#fff',
+              justifyContent: 'center',
+            }}>
             <Text
               style={{
                 color: 'grey',
@@ -452,7 +464,7 @@ export default class App extends Component {
                 )}
               </View>
             </TouchableOpacity>
-          </>
+          </View>
         )}
       </View>
     );

@@ -92,12 +92,12 @@ export default function Navigation() {
         <Stack.Screen
           name="Signup"
           component={Signup}
-          options={{header: () => <BackBtnHeader />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="OtpSignUp"
           component={OtpSignUp}
-          options={{header: () => <BackBtnHeader />}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="Forgetpass"

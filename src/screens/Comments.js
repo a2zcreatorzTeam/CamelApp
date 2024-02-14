@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {Component, useState} from 'react';
 import {
   Text,
@@ -346,10 +347,9 @@ class Comments extends Component {
             <View
               style={{
                 flexDirection: 'row',
-                marginBottom: 10,
                 alignItems: 'center',
                 justifyContent: 'space-evenly',
-                marginBottom: Platform.OS == 'android' ? '5%' : 0,
+                marginBottom: Platform.OS == 'ios' ? '8%' : '5%',
               }}>
               <TouchableOpacity
                 style={{transform: [{rotate: '180deg'}]}}

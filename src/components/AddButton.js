@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Dimensions,
   Platform,
 } from 'react-native';
 import * as ArabicText from '../language/EnglishToArabic';

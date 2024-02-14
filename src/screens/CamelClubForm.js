@@ -158,28 +158,30 @@ class CamelClubForm extends Component {
       includeBase64: true,
     })
       .then(async images => {
-        // if (mixed?.length < 4) {
-        let mixedTemp = [];
-        mixedTemp.push(images);
-        if (imagesForPost?.length > 0) {
+        if (images) {
+          // if (mixed?.length < 4) {
+          let mixedTemp = [];
+          mixedTemp?.push(images);
+          if (imagesForPost?.length > 0) {
+            this.setState(previousState => {
+              return {
+                imagesForPost: [
+                  'data:image/png;base64,' + images?.data,
+                  ...previousState?.imagesForPost,
+                ],
+              };
+            });
+          } else {
+            this.setState({
+              imagesForPost: ['data:image/png;base64,' + images?.data],
+            });
+          }
           this.setState(previousState => {
             return {
-              imagesForPost: [
-                'data:image/png;base64,' + images?.data,
-                ...previousState?.imagesForPost,
-              ],
+              mixed: [...mixedTemp, ...previousState?.mixed],
             };
           });
-        } else {
-          this.setState({
-            imagesForPost: ['data:image/png;base64,' + images?.data],
-          });
         }
-        this.setState(previousState => {
-          return {
-            mixed: [...mixedTemp, ...previousState?.mixed],
-          };
-        });
       })
       .catch(error => {
         console.log('error', error);
@@ -306,7 +308,7 @@ class CamelClubForm extends Component {
     const {pausedCheck, loadVideo, videoModal, modalItem, mixed, thumbnail} =
       this.state;
     return (
-      <View style={{flex: 1,  backgroundColor: '#D2691Eff'}}>
+      <View style={{flex: 1, backgroundColor: '#D2691Eff'}}>
         <BackBtnHeader />
         {/* <Ads /> */}
         <KeyboardAvoidingView

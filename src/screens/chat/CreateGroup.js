@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   StyleSheet,
   Text,
@@ -11,6 +12,7 @@ import {
   ImageBackground,
   ActivityIndicator,
   Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import camelapp from '../../api/camelapp';
@@ -24,6 +26,7 @@ import * as ArabicText from '../../language/EnglishToArabic';
 import BackBtnHeader from '../../components/headerWithBackBtn';
 import {profileBaseUrl} from '../../constants/urls';
 import {family} from '../../constants/Family';
+import {Styles} from '../../styles/globlestyle';
 
 const width = Dimensions.get('screen').width;
 
@@ -220,136 +223,141 @@ const CreateGroup = props => {
   return (
     <View style={{flex: 1, backgroundColor: '#D2691Eff'}}>
       <BackBtnHeader />
-      <View style={{height: '60%', marginTop: 20, backgroundColor: '#fff'}}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{paddingBottom: 40}}>
-          <View
-            style={{
-              backgroundColor: 'lightgrey',
-              width: 150,
-              height: 150,
-              borderRadius: 100,
-              alignSelf: 'center',
-            }}>
-            <ImageBackground
-              imageStyle={{
-                borderRadius: 100,
-                borderColor: 'orange',
-                borderWidth: 2,
-              }}
+      <KeyboardAvoidingView
+        style={Styles.keyboardView}
+        behavior={Platform.OS === 'ios' ? 'padding' : null}>
+        <View style={{height: '60%', marginTop: 20, backgroundColor: '#fff'}}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{paddingBottom: 40}}>
+            <View
               style={{
+                backgroundColor: 'lightgrey',
                 width: 150,
                 height: 150,
                 borderRadius: 100,
                 alignSelf: 'center',
-              }}
-              source={
-                image
-                  ? {uri: image?.imageShow}
-                  : require('../../../assets/dummyImage.jpeg')
-              }>
-              <TouchableOpacity
-                onPress={() => imagePick()}
-                style={{
-                  marginTop: -30,
-                  position: 'absolute',
-                  bottom: 0,
+              }}>
+              <ImageBackground
+                imageStyle={{
                   borderRadius: 100,
-                  backgroundColor: 'orange',
-                  alignContent: 'center',
+                  borderColor: 'orange',
+                  borderWidth: 2,
+                }}
+                style={{
+                  width: 150,
+                  height: 150,
+                  borderRadius: 100,
                   alignSelf: 'center',
-                  padding: 10,
-                }}>
-                <Image
-                  source={require('../../../assets/edit.png')}
-                  resizeMode="contain"
+                }}
+                source={
+                  image
+                    ? {uri: image?.imageShow}
+                    : require('../../../assets/dummyImage.jpeg')
+                }>
+                <TouchableOpacity
+                  onPress={() => imagePick()}
                   style={{
-                    tintColor: 'white',
-                    width: 20,
-                    height: 20,
-                  }}
-                  name="upload"
-                />
-              </TouchableOpacity>
-            </ImageBackground>
-          </View>
-          {/* Create Group Section */}
-          <View style={styles.createGroupSection}>
-            <TextInput
-              placeholder={ArabicText.createGroup}
-              placeholderTextColor="grey"
-              style={styles.inputField}
-              onChangeText={e => setGroupName(e)}
-            />
-            <TouchableOpacity
-              onPress={createGroup}
-              style={styles.createGroupBTN}>
-              {groupLoader == true ? (
-                <ActivityIndicator color={'white'} size={'large'} />
-              ) : (
-                <Text
-                  style={{
-                    color: '#fff',
-                    fontSize: 15,
-                    fontFamily:
-                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                    marginTop: -30,
+                    position: 'absolute',
+                    bottom: 0,
+                    borderRadius: 100,
+                    backgroundColor: 'orange',
+                    alignContent: 'center',
+                    alignSelf: 'center',
+                    padding: 10,
                   }}>
-                  {ArabicText.createGroup}
-                </Text>
-              )}
-            </TouchableOpacity>
-          </View>
-
-          {/* Group UserList */}
-          {newParticipant?.length ? (
-            <View style={{width: width, alignItems: 'center', marginTop: -40}}>
-              <FlatList
-                contentContainerStyle={{marginBottom: width * 0.2}}
-                data={newParticipant}
-                nestedScrollEnabled={true}
-                renderItem={({item}) => (
-                  <NewUserComp
-                    item={item}
-                    removeGroupUser={removeGroupUser}
-                    newUser={item}
+                  <Image
+                    source={require('../../../assets/edit.png')}
+                    resizeMode="contain"
+                    style={{
+                      tintColor: 'white',
+                      width: 20,
+                      height: 20,
+                    }}
+                    name="upload"
                   />
-                )}
-              />
+                </TouchableOpacity>
+              </ImageBackground>
             </View>
-          ) : null}
-        </ScrollView>
-      </View>
+            {/* Create Group Section */}
+            <View style={styles.createGroupSection}>
+              <TextInput
+                placeholder={ArabicText.createGroup}
+                placeholderTextColor="grey"
+                style={styles.inputField}
+                onChangeText={e => setGroupName(e)}
+              />
+              <TouchableOpacity
+                onPress={createGroup}
+                style={styles.createGroupBTN}>
+                {groupLoader == true ? (
+                  <ActivityIndicator color={'white'} size={'large'} />
+                ) : (
+                  <Text
+                    style={{
+                      color: '#fff',
+                      fontSize: 15,
+                      fontFamily:
+                        Platform.OS == 'ios' ? null : family.Neo_Regular,
+                    }}>
+                    {ArabicText.createGroup}
+                  </Text>
+                )}
+              </TouchableOpacity>
+            </View>
 
-      {/* FriendList */}
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          zIndex: 30,
-          backgroundColor: '#ddd',
-          borderTopRightRadius: 25,
-          borderTopLeftRadius: 25,
-          display: isKeyboardVisible == false ? 'flex' : 'none',
-        }}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
+            {/* Group UserList */}
+            {newParticipant?.length ? (
+              <View
+                style={{width: width, alignItems: 'center', marginTop: -40}}>
+                <FlatList
+                  contentContainerStyle={{marginBottom: width * 0.2}}
+                  data={newParticipant}
+                  nestedScrollEnabled={true}
+                  renderItem={({item}) => (
+                    <NewUserComp
+                      item={item}
+                      removeGroupUser={removeGroupUser}
+                      newUser={item}
+                    />
+                  )}
+                />
+              </View>
+            ) : null}
+          </ScrollView>
+        </View>
+
+        {/* FriendList */}
+        <View
           style={{
-            width: width,
-            height: 280,
+            position: 'absolute',
+            bottom: 0,
+            zIndex: 30,
+            backgroundColor: '#ddd',
+            borderTopRightRadius: 25,
+            borderTopLeftRadius: 25,
+            display: isKeyboardVisible == false ? 'flex' : 'none',
           }}>
-          <FlatList
-            data={friendlist}
-            nestedScrollEnabled={true}
-            contentContainerStyle={{}}
-            initialNumToRender={5}
-            maxToRenderPerBatch={5}
-            renderItem={({item}) => (
-              <UserComp item={item} addGroupUser={addGroupUser} />
-            )}
-          />
-        </ScrollView>
-      </View>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{
+              width: width,
+              height: 280,
+            }}>
+            <FlatList
+              data={friendlist}
+              nestedScrollEnabled={true}
+              contentContainerStyle={{}}
+              initialNumToRender={5}
+              maxToRenderPerBatch={5}
+              renderItem={({item}) => (
+                <UserComp item={item} addGroupUser={addGroupUser} />
+              )}
+            />
+          </ScrollView>
+        </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };

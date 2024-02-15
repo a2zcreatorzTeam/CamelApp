@@ -8,7 +8,6 @@ import {
   Dimensions,
   Image,
   RefreshControl,
-  Dimensions,
 } from 'react-native';
 import Post from '../components/Post';
 import AddButton from '../components/AddButton';

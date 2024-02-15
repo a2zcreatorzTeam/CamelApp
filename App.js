@@ -114,7 +114,7 @@ class App extends Component {
           installMode: codePush.InstallMode.IMMEDIATE,
           updateDialog: {
             appendReleaseDescription: false,
-            optionalIgnoreButtonLabel: null,
+            optionalIgnoreButtonLabel: 'Cancel',
             optionalInstallButtonLabel: 'Install',
             optionalUpdateMessage: 'New update available. Install update',
             title: 'Update Required',

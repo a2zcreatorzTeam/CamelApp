@@ -17,7 +17,6 @@ import Loader from '../components/PleaseWait';
 import {connect} from 'react-redux';
 import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
-import {Dimensions} from 'react-native';
 const hight = Dimensions.get('screen').height;
 const {width} = Dimensions.get('window');
 class CamelEquipmentList extends Component {

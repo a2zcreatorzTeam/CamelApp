@@ -511,6 +511,7 @@ const MessageView = ({route}) => {
         width: width,
         height: hight,
         backgroundColor: '#d2691e',
+        padddingTop:30
       }}>
       <BackBtnHeader reciever_data={reciever_data} />
       <KeyboardAvoidingView

@@ -41,20 +41,6 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
-	<!-- <dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>localhost</key>
-        <dict>
-            <key>NSExceptionAllowsInsecureHTTPLoads</key>
-            <true/>
-        </dict>
-		</dict>
-		 <key>NSAllowsLocalNetworking</key>
-        <true/>
-	</dict> -->
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
@@ -66,7 +52,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Our app needs access to your camera to take photos and videos for sharing with friends.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Our app needs access to your photo library to select images for posting on your profile.</string>
 	<key>UIAppFonts</key>
@@ -87,13 +73,15 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>NeoSansArabicRegular.ttf</string>
 		<string>Neo_Sans_Medium.ttf</string>
 		<string>NeoSansArabic.ttf</string>
 		<string>Neo Sans Arabic Regular.ttf</string>
 		<string>NeoSansArabicBlack.ttf</string>
 		<string>NeoSansArabicBold.ttf</string>
 		<string>NeoSansArabicLight.ttf</string>
-		<string>NeoSansArabicRegular.ttf</string>
+		<string>NeoSansArabicMedium.ttf</string>
+		<string>NeoSansArabicUltra.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

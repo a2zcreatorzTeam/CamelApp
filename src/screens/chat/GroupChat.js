@@ -474,7 +474,7 @@ const GroupChat = props => {
 
   const {groupName} = props?.route?.params;
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{flex: 1, backgroundColor: '#fff', paddingTop: 30}}>
       <View
         style={{
           backgroundColor: 'white',
@@ -542,7 +542,7 @@ const GroupChat = props => {
                           textAlign: 'left',
                           fontSize: 14,
                           fontFamily:
-                            Platform.OS == 'ios' ? '' : family.Neo_Regular,
+                            Platform.OS == 'ios' ? null : family.Neo_Regular,
                         }}>
                         {item?.message}
                       </Text>
@@ -552,7 +552,7 @@ const GroupChat = props => {
                           fontSize: 10,
                           textAlign: 'left',
                           fontFamily:
-                            Platform.OS == 'ios' ? '' : family.Neo_Regular,
+                            Platform.OS == 'ios' ? null : family.Neo_Regular,
                         }}>
                         {moment(item.timestamp?.toDate())?.format('h:mm a')}
                       </Text>
@@ -595,7 +595,7 @@ const GroupChat = props => {
                           fontSize: 10,
                           textAlign: 'left',
                           fontFamily:
-                            Platform.OS == 'ios' ? '' : family.Neo_Regular,
+                            Platform.OS == 'ios' ? null : family.Neo_Regular,
                         }}>
                         {moment(item.timestamp?.toDate())?.format('h:mm a')}
                       </Text>
@@ -641,7 +641,7 @@ const GroupChat = props => {
                             fontSize: 10,
                             textAlign: 'left',
                             fontFamily:
-                              Platform.OS == 'ios' ? '' : family.Neo_Regular,
+                              Platform.OS == 'ios' ? null : family.Neo_Regular,
                           }}>
                           {moment(item.timestamp?.toDate())?.format('h:mm a')}
                         </Text>
@@ -675,7 +675,7 @@ const GroupChat = props => {
                             fontSize: 10,
                             textAlign: 'left',
                             fontFamily:
-                              Platform.OS == 'ios' ? '' : family.Neo_Regular,
+                              Platform.OS == 'ios' ? null : family.Neo_Regular,
                           }}>
                           {moment(item.timestamp?.toDate())?.format('h:mm a')}
                         </Text>
@@ -707,7 +707,7 @@ const GroupChat = props => {
                           fontSize: 13,
                           fontWeight: '700',
                           fontFamily:
-                            Platform.OS == 'ios' ? '' : family.Neo_Regular,
+                            Platform.OS == 'ios' ? null : family.Neo_Regular,
                         }}>
                         {item?.user_name}
                       </Text>
@@ -717,7 +717,7 @@ const GroupChat = props => {
                           fontSize: 14,
                           marginVertical: 5,
                           fontFamily:
-                            Platform.OS == 'ios' ? '' : family.Neo_Regular,
+                            Platform.OS == 'ios' ? null : family.Neo_Regular,
                         }}>
                         {item?.message}
                       </Text>
@@ -727,7 +727,7 @@ const GroupChat = props => {
                           textAlign: 'left',
                           fontSize: 10,
                           fontFamily:
-                            Platform.OS == 'ios' ? '' : family.Neo_Regular,
+                            Platform.OS == 'ios' ? null : family.Neo_Regular,
                         }}>
                         {moment(item.timestamp?.toDate())?.format('h:mm a')}
                       </Text>
@@ -748,7 +748,7 @@ const GroupChat = props => {
                           fontWeight: '700',
                           marginBottom: 5,
                           fontFamily:
-                            Platform.OS == 'ios' ? '' : family.Neo_Regular,
+                            Platform.OS == 'ios' ? null : family.Neo_Regular,
                         }}>
                         {item?.user_name}
                       </Text>
@@ -775,7 +775,7 @@ const GroupChat = props => {
                           fontSize: 10,
                           textAlign: 'right',
                           fontFamily:
-                            Platform.OS == 'ios' ? '' : family.Neo_Regular,
+                            Platform.OS == 'ios' ? null : family.Neo_Regular,
                         }}>
                         {moment(item?.timestamp?.toDate())?.format('h:mm a')}
                       </Text>
@@ -797,7 +797,7 @@ const GroupChat = props => {
                             fontWeight: '700',
                             marginBottom: 5,
                             fontFamily:
-                              Platform.OS == 'ios' ? '' : family.Neo_Regular,
+                              Platform.OS == 'ios' ? null : family.Neo_Regular,
                           }}>
                           {item?.user_name}
                         </Text>
@@ -832,7 +832,7 @@ const GroupChat = props => {
                             fontSize: 10,
                             textAlign: 'left',
                             fontFamily:
-                              Platform.OS == 'ios' ? '' : family.Neo_Regular,
+                              Platform.OS == 'ios' ? null : family.Neo_Regular,
                           }}>
                           {moment(item.timestamp?.toDate())?.format('h:mm a')}
                         </Text>
@@ -861,7 +861,7 @@ const GroupChat = props => {
                             fontWeight: '700',
                             marginBottom: 5,
                             fontFamily:
-                              Platform.OS == 'ios' ? '' : family.Neo_Regular,
+                              Platform.OS == 'ios' ? null : family.Neo_Regular,
                           }}>
                           {item?.user_name}
                         </Text>
@@ -883,7 +883,7 @@ const GroupChat = props => {
                             fontSize: 10,
                             textAlign: 'left',
                             fontFamily:
-                              Platform.OS == 'ios' ? '' : family.Neo_Regular,
+                              Platform.OS == 'ios' ? null : family.Neo_Regular,
                           }}>
                           {moment(item.timestamp?.toDate())?.format('h:mm a')}
                         </Text>
@@ -1122,7 +1122,7 @@ const GroupChat = props => {
                           fontSize: 18,
                           fontWeight: '700',
                           fontFamily:
-                            Platform.OS == 'ios' ? '' : family.Neo_Regular,
+                            Platform.OS == 'ios' ? null : family.Neo_Regular,
                         }}>
                         {item?.user_name}
                       </Text>

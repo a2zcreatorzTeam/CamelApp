@@ -13,10 +13,10 @@ import {
   ActivityIndicator,
   Platform,
   KeyboardAvoidingView,
+  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import camelapp from '../../api/camelapp';
-import {ScrollView} from 'react-native-gesture-handler';
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
@@ -448,6 +448,7 @@ const styles = StyleSheet.create({
     color: '#000',
     marginBottom: 30,
     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    height: Platform.OS == 'ios' ? 50 : 'undefined',
   },
   createGroupBTN: {
     width: 150,

@@ -5,6 +5,7 @@ import {
   FlatList,
   ActivityIndicator,
   RefreshControl,
+  Dimensions,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -15,6 +16,7 @@ import * as userActions from '../redux/actions/user_actions';
 import Loader from '../components/PleaseWait';
 import Header from '../components/Header';
 import EmptyComponent from '../components/EmptyComponent';
+const {width} = Dimensions.get('window');
 class CamelTreatmentList extends Component {
   constructor(props) {
     super(props);
@@ -299,10 +301,15 @@ class CamelTreatmentList extends Component {
         )}
 
         {loader == false && (
-          <View>
+          <View style={{flex: 1}}>
             <AddButton onPress={() => onAddButtonClick()} />
             <Loader loading={loading} />
             <FlatList
+              style={{flex: 1}}
+              contentContainerStyle={{
+                flexGrow: 1,
+                paddingBottom: width * 0.1,
+              }}
               scrollsToTop={false}
               ListEmptyComponent={() => <EmptyComponent />}
               key={key}
@@ -320,7 +327,6 @@ class CamelTreatmentList extends Component {
                 />
               }
             />
-            <View style={{marginBottom: 70}}></View>
           </View>
         )}
       </View>

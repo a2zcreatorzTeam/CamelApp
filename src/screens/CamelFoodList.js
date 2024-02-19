@@ -329,7 +329,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    height: '100%',
     backgroundColor: '#fff',
   },
 });

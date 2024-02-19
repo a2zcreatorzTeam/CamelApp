@@ -358,7 +358,10 @@ class CamelMovingList extends Component {
               </View>
               <FlatList
                 style={{flex: 1}}
-                contentContainerStyle={{flexGrow: 1, paddingBottom: width * 0.1}}
+                contentContainerStyle={{
+                  flexGrow: 1,
+                  paddingBottom: width * 0.1,
+                }}
                 ListEmptyComponent={() => <EmptyComponent />}
                 key={key}
                 data={
@@ -396,11 +399,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    height: '100%',
     width: '100%',
     backgroundColor: '#D2691Eff',
-
-    // backgroundColor: 'white',
   },
   btnContainer: {
     width: 35,

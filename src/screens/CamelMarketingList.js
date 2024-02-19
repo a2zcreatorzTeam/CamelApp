@@ -295,12 +295,12 @@ class CamelMarketingList extends Component {
           />
         )}
         {loader == false && (
-          <View>
+          <View style={{flex: 1}}>
             <AddButton onPress={() => onAddButtonClick()} />
             <Loader loading={loading} />
             <FlatList
-             style={{flex: 1}}
-             contentContainerStyle={{flexGrow: 1, paddingBottom: width * 0.1}}
+              style={{flex: 1}}
+              contentContainerStyle={{flexGrow: 1, paddingBottom: width * 0.1}}
               ListEmptyComponent={() => <EmptyComponent />}
               key={key}
               data={searchedItem ? filterPosts : posts}
@@ -315,7 +315,6 @@ class CamelMarketingList extends Component {
               initialNumToRender={5}
               maxToRenderPerBatch={5}
             />
-            <View style={{marginBottom: 70}}></View>
           </View>
         )}
       </View>
@@ -334,7 +333,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    height: '100%',
     backgroundColor: 'white',
   },
 });

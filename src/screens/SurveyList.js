@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {
   Text,
@@ -172,31 +173,28 @@ class SurveyList extends Component {
         )}
 
         {this.state.loader == false && (
-          <View>
-            <FlatList
-              style={{flex: 1}}
-              ListEmptyComponent={() => <EmptyComponent />}
-              key={key}
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.state.isRefreshing}
-                  onRefresh={() => this.ScrollToRefresh()}
-                />
-              }
-              data={searchedItem ? filterPosts : posts}
-              renderItem={renderItem}
-              keyExtractor={item => item.id}
-              contentContainerStyle={{
-                marginTop: 20,
-                flexGrow: 1,
-                width: width,
-                alignSelf: 'center',
-                paddingBottom:width*0.1
-              }}
-              initialNumToRender={5}
-              maxToRenderPerBatch={5}
-            />
-          </View>
+          <FlatList
+            style={{flex: 1}}
+            ListEmptyComponent={() => <EmptyComponent />}
+            key={key}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.isRefreshing}
+                onRefresh={() => this.ScrollToRefresh()}
+              />
+            }
+            data={searchedItem ? filterPosts : posts}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            contentContainerStyle={{
+              marginTop: 20,
+              flexGrow: 1,
+              width: width,
+              paddingBottom: width * 0.2,
+            }}
+            initialNumToRender={5}
+            maxToRenderPerBatch={5}
+          />
         )}
       </View>
     );
@@ -214,7 +212,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    height: '100%',
     backgroundColor: 'white',
   },
 });

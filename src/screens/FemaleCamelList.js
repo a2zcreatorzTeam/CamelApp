@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   RefreshControl,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import Post from '../components/MovingPost';
 import camelapp from '../api/camelapp';
@@ -19,7 +20,7 @@ import {bindActionCreators} from 'redux';
 import Header from '../components/Header';
 import EmptyComponent from '../components/EmptyComponent';
 import {Styles} from '../styles/globlestyle';
-
+const {width} = Dimensions.get('window');
 class CamelFemaleList extends Component {
   constructor(props) {
     super(props);
@@ -188,9 +189,13 @@ class CamelFemaleList extends Component {
               <AddButton onPress={() => onAddButtonClick()} />
             </View>
             <FlatList
+              style={{flex: 1}}
+              contentContainerStyle={{
+                flexGrow: 1,
+                paddingBottom: width * 0.1,
+              }}
               ListEmptyComponent={() => <EmptyComponent />}
               key={key}
-              contentContainerStyle={{paddingBottom: '20%'}}
               data={searchedItem ? filterPosts : posts}
               renderItem={renderItem}
               keyExtractor={item => item.id}

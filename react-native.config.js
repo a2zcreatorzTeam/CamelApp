@@ -6,7 +6,6 @@ module.exports = {
           sourceDir: '../node_modules/react-native-video/android-exoplayer',
         },
       },
-      assets: ['./assets/fonts/'], // This should be outside the 'platforms' object
     },
     'react-native-vector-icons': {
       platforms: {
@@ -14,4 +13,5 @@ module.exports = {
       },
     },
   },
+  assets: ['./assets/fonts/'], // This should be outside the 'platforms' object
 };

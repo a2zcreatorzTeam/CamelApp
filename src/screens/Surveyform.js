@@ -7,6 +7,9 @@ import {
   SafeAreaView,
   Image,
   Platform,
+  ActivityIndicator,
+  Dimensions,
+  FlatList
 } from 'react-native';
 import camelapp from '../api/camelapp';
 import {connect} from 'react-redux';
@@ -17,12 +20,9 @@ import {Styles} from '../styles/globlestyle';
 import {RadioButton} from 'react-native-paper';
 import * as ArabicText from '../language/EnglishToArabic';
 import {DataContext} from '../context/DataContext';
-import {Dimensions} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
 const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 import Loader from '../components/PleaseWait';
-import {ActivityIndicator} from 'react-native';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import moment from 'moment';
 import Toast from 'react-native-toast-message';
@@ -240,6 +240,15 @@ class Surveyform extends Component {
                               alignSelf: 'flex-end',
                               flexDirection: 'row-reverse',
                               justifyContent: 'space-between',
+                              shadowColor: '#000',
+                              shadowOffset: {
+                                width: 0,
+                                height: 1,
+                              },
+                              shadowOpacity: 0.2,
+                              shadowRadius: 1.41,
+
+                              elevation: 2,
                             }}>
                             <Text
                               style={{
@@ -407,6 +416,15 @@ class Surveyform extends Component {
                               alignSelf: 'flex-end',
                               flexDirection: 'row-reverse',
                               justifyContent: 'space-between',
+                              shadowColor: '#000',
+                              shadowOffset: {
+                                width: 0,
+                                height: 1,
+                              },
+                              shadowOpacity: 0.2,
+                              shadowRadius: 1.41,
+
+                              elevation: 2,
                             }}>
                             <Text
                               style={{

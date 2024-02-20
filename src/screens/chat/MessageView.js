@@ -108,7 +108,6 @@ const MessageView = ({route}) => {
       <View style={{width: '100%'}}>
         {item?.latitude && item?.longitude ? (
           <>
-            {/* C:\Users\joti.kumari\Desktop\CamelApp\assets\maps.jpg */}
             <TouchableOpacity
               style={[styles.rightChatImageContainer]}
               onPress={() => proceed(item?.latitude, item?.longitude)}>

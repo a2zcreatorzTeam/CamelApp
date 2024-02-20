@@ -98,6 +98,7 @@ class Login extends Component {
 
   // InstagramTwitterLogin
   setIgToken = async data => {
+    console.log(data?.access_token, 'data?.access_tokendata?.access_token');
     this.setState({loader: true});
     await getFCMToken();
     const deviceToken = await AsyncStorage?.getItem('fcmToken');
@@ -111,7 +112,11 @@ class Login extends Component {
         })
 
         .then(res => {
-          if (res?.data?.user?.is_complete == 1) {
+          console.log(res?.data?.user_details?.is_complete, 'dataaa');
+          if (
+            res?.data?.user?.is_complete == 1 ||
+            res?.data?.user_details?.is_complete == 1
+          ) {
             let {actions} = this.props;
             actions.userData(res?.data);
             this.saveData();

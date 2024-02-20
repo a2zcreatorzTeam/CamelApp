@@ -38,23 +38,24 @@ const Item = ({
           paddingVertical: 10,
           justifyContent: 'center',
         }}>
+        {/* LIKE BTN */}
         <View
           style={{
             flexDirection: 'row',
-            position: 'absolute',
+            // position: 'absolute',
             top: 10,
             alignItems: 'center',
           }}>
           <Text
             style={{
               color: 'black',
-               fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
             }}>
             {likeCount}
           </Text>
 
           <TouchableOpacity
-            style={{ left: 5 }}
+            style={{left: 5,}}
             // style={{left: 5, position: 'absolute', bottom: 0, }}
 
             onPress={() => {
@@ -98,7 +99,7 @@ const Item = ({
             style={{
               color: 'black',
               fontWeight: 'bold',
-               fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
             }}>
             {ArabicText.Reply}
           </Text>
@@ -134,7 +135,7 @@ const Item = ({
                   color: 'black',
                   fontWeight: '400',
                   textAlign: 'right',
-                   fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
                 }}>
                 {date}
               </Text>
@@ -146,7 +147,7 @@ const Item = ({
                   textAlign: 'right',
                   paddingHorizontal: 20,
                   marginVertical: 10,
-                   fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
 
                   // width: '90%',
                   // marginLeft: 10,
@@ -271,7 +272,8 @@ const Item = ({
                           color: 'black',
                           fontWeight: 'bold',
                           textAlign: 'right',
-                           fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                          fontFamily:
+                            Platform.OS == 'ios' ? null : family.Neo_Regular,
                         }}>
                         {item?.name}
                       </Text>
@@ -282,7 +284,8 @@ const Item = ({
                           color: 'black',
                           fontWeight: '400',
                           textAlign: 'right',
-                           fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                          fontFamily:
+                            Platform.OS == 'ios' ? null : family.Neo_Regular,
                         }}>
                         {date}
                       </Text>
@@ -294,7 +297,8 @@ const Item = ({
                           textAlign: 'right',
                           paddingHorizontal: 20,
                           marginVertical: 10,
-                           fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                          fontFamily:
+                            Platform.OS == 'ios' ? null : family.Neo_Regular,
                         }}>
                         {item?.reply}
                       </Text>

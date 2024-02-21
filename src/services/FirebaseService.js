@@ -37,7 +37,9 @@ const sendMessage = async (
   image,
   video,
   reciever_id,
+  thumbnail,
 ) => {
+  console.log(thumbnail, 'thumbnailllll');
   let imageUrl;
   let videoUrl;
   console.log(image, 'image42');
@@ -84,6 +86,7 @@ const sendMessage = async (
     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     date: new Date(),
     reciever: reciever_id,
+    thumbnail: thumbnail ? thumbnail : {},
   };
   const messagesRef = firebase
     .firestore()

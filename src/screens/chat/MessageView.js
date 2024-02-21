@@ -37,6 +37,7 @@ import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 import {PermissionsAndroid} from 'react-native';
 import {family} from '../../constants/Family';
+import {createThumbnail} from 'react-native-create-thumbnail';
 const MessageView = ({route}) => {
   const [inputValue, setInputValue] = useState('');
   const [dataSource, setDataSource] = useState([]);
@@ -47,6 +48,7 @@ const MessageView = ({route}) => {
   const [long, setlong] = useState(null);
   const [image, setImage] = useState(null);
   const [video, setVideo] = useState(null);
+  const [thumbnail, setThumbnail] = useState();
   const [modal, setModal] = useState(false);
   const [pausedCheck, setpausedCheck] = useState(true);
   const [load, setLoad] = useState(false);
@@ -81,6 +83,7 @@ const MessageView = ({route}) => {
       image,
       video,
       reciever_id,
+      thumbnail,
     ).then(success => {
       success && setModalVisible(false),
         setConfirmModal(false),
@@ -102,6 +105,7 @@ const MessageView = ({route}) => {
     }
   };
   _renderItem = ({item, index}) => {
+    console.log(item,"itemmmm");
     const formattedDateTime = moment.unix(item?.timestamp).format('h:mm:a');
     let sender_id = user?.user?.user.id;
     return item?.sender == sender_id ? (
@@ -147,7 +151,11 @@ const MessageView = ({route}) => {
                 imageStyle={{
                   borderRadius: 25,
                 }}
-                source={require('../../../assets/camel.png')}
+                source={
+                  item?.thumbnail
+                    ? {uri: item?.thumbnail?.path}
+                    : require('../../../assets/camel.png')
+                }
                 style={[
                   styles.chatImage,
                   {
@@ -261,7 +269,11 @@ const MessageView = ({route}) => {
                 imageStyle={{
                   borderRadius: 25,
                 }}
-                source={require('../../../assets/camel.png')}
+                source={
+                  item?.thumbnail
+                    ? {uri: item?.thumbnail?.path}
+                    : require('../../../assets/camel.png')
+                }
                 style={[
                   styles.chatImage,
                   {
@@ -329,7 +341,7 @@ const MessageView = ({route}) => {
     if (Platform.OS == 'ios') {
       // your code using Geolocation and asking for authorisation with
       const result = Geolocation.requestAuthorization();
-      console.log(result,"sreuuuuuuu");
+      console.log(result, 'sreuuuuuuu');
     } else {
       try {
         const granted = await PermissionsAndroid.request(
@@ -433,6 +445,15 @@ const MessageView = ({route}) => {
             visibilityTime: 3000,
           });
         } else {
+          createThumbnail({
+            url: video?.path,
+            timeStamp: 10000,
+          })
+            .then(response => {
+              console.log(response, 'responseeee');
+              setThumbnail(response);
+            })
+            .catch(err => console.log({err}, 'errorrrrrrrrrr'));
           setVideo(video?.path);
           setlat('');
           setlong('');
@@ -510,7 +531,7 @@ const MessageView = ({route}) => {
         width: width,
         height: hight,
         backgroundColor: '#d2691e',
-        padddingTop:30
+        padddingTop: 30,
       }}>
       <BackBtnHeader reciever_data={reciever_data} />
       <KeyboardAvoidingView
@@ -920,7 +941,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000db',
     justifyContent: 'center',
   },
-  modalCloseBTN: {top: 30, right: 15, position: 'absolute'},
+  modalCloseBTN: { top: 30, right: 15, position: 'absolute'},
   containerHeight: {
     borderRadius: 25,
     borderTopStartRadius: 0,

@@ -1,3 +1,5 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable react-native/no-inline-styles */
 import {
   StyleSheet,
   Text,
@@ -42,6 +44,8 @@ import Toast from 'react-native-toast-message';
 import EmptyComponent from '../../components/EmptyComponent';
 import {profileBaseUrl} from '../../constants/urls';
 import {family} from '../../constants/Family';
+import {createThumbnail} from 'react-native-create-thumbnail';
+
 const {width, height} = Dimensions.get('window');
 const GroupChat = props => {
   const [inputValue, setInputValue] = useState('');
@@ -52,6 +56,7 @@ const GroupChat = props => {
   const [image, setImage] = useState(null);
   const [mimeVedio, setMimeVideo] = useState(null);
   const [video, setVideo] = useState(null);
+  const [thumbnail, setThumbnail] = useState(null);
   const [videoName, setVideoName] = useState(null);
   const [loader, setLoader] = useState(false);
   const [pausedCheck, setPausedCheck] = useState(true);
@@ -206,6 +211,7 @@ const GroupChat = props => {
     console.log(localVideoUri, 'localVideoUri');
     var localImageoUri = image?.imageShow;
     const groupDocumentId = props?.route?.params?.group_id;
+    console.log(thumbnail, 'thumbnailllll');
     if (localVideoUri) {
       try {
         // Upload the video to Firebase Storage
@@ -227,6 +233,7 @@ const GroupChat = props => {
             videoName: videoName,
             downloadURL,
             timestamp: firebase?.firestore?.FieldValue.serverTimestamp(),
+            thumbnail: thumbnail ? thumbnail : {},
           });
         console.log('232222');
         setLoader(false);
@@ -338,6 +345,15 @@ const GroupChat = props => {
             visibilityTime: 3000,
           });
         } else {
+          createThumbnail({
+            url: video?.path,
+            timeStamp: 10000,
+          })
+            .then(response => {
+              console.log(response, 'responseeee');
+              setThumbnail(response);
+            })
+            .catch(err => console.log({err}, 'errorrrrrrrrrr'));
           RNFS.readFile(video.path, 'base64')
             .then(res => {
               console.log(res, 'responsee123');
@@ -395,7 +411,6 @@ const GroupChat = props => {
       console.log('Error Message', error?.response);
     }
   };
-
   fileDownload = async (type, item) => {
     const date = Date.now();
     setdownloadFiles(true);
@@ -471,12 +486,16 @@ const GroupChat = props => {
   const {groupName} = props?.route?.params;
   console.log('groupChatgroupChat', groupChat);
   return (
-    <View style={{flex: 1, backgroundColor: '#fff', paddingTop: 30}}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: '#fff',
+        paddingTop: Platform.OS == 'ios' ? 30 : 0,
+      }}>
       <View
         style={{
           backgroundColor: 'white',
           elevation: 0.9,
-          // padding: 20,
           paddingVertical: 20,
           paddingHorizontal: 10,
           borderBottomColor: 'black',
@@ -493,9 +512,9 @@ const GroupChat = props => {
           style={{
             color: 'black',
             fontSize: 19,
-            textAlign: 'left',
             fontWeight: '800',
             fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            textAlign: 'center',
           }}>
           {groupName ? groupName : ArabicText.groupChat}
         </Text>
@@ -508,7 +527,6 @@ const GroupChat = props => {
             backgroundColor: '#fff',
             justifyContent: 'center',
             alignItems: 'center',
-            marginHorizontal: 10,
           }}>
           <Ionicons name={'md-arrow-redo'} size={24} color="brown" />
         </TouchableOpacity>
@@ -615,7 +633,11 @@ const GroupChat = props => {
                             imageStyle={{
                               borderRadius: 25,
                             }}
-                            source={require('../../../assets/camel.png')}
+                            source={
+                              item?.thumbnail
+                                ? {uri: item?.thumbnail.path}
+                                : require('../../../assets/camel.png')
+                            }
                             style={[
                               styles.chatImage,
                               {
@@ -812,7 +834,11 @@ const GroupChat = props => {
                             imageStyle={{
                               borderRadius: 25,
                             }}
-                            source={require('../../../assets/camel.png')}
+                            source={
+                              item?.thumbnail
+                                ? {uri: item?.thumbnail.path}
+                                : require('../../../assets/camel.png')
+                            }
                             style={[
                               styles.chatImage,
                               {
@@ -1175,7 +1201,7 @@ const GroupChat = props => {
               height: '100%',
               width: width,
               backgroundColor: '#000000db',
-              justifyContent: 'center',
+              justifyContent: 'space-between',
             }}>
             {/* Modal Close Button */}
             <TouchableOpacity
@@ -1184,9 +1210,11 @@ const GroupChat = props => {
                 setModalItemForModal(false), setPausedCheck(true);
               }}
               style={{
-                top: 10,
-                right: 15,
-                position: 'absolute',
+                marginLeft: 'auto',
+                margin: 40,
+                // top: 30,
+                // right: 15,
+                // position: 'absolute',
               }}>
               <AntDesign name="closecircle" size={35} color="#fff" />
             </TouchableOpacity>
@@ -1263,15 +1291,16 @@ const GroupChat = props => {
                 fileDownload(modalItemType, modalItemsData);
               }}
               style={{
-                bottom: 0,
+                // bottom: 0,
                 // top: 10,
                 // right: 15,
                 marginHorizontal: 30,
                 marginVertical: 30,
-                position: 'absolute',
                 backgroundColor: 'white',
                 padding: 10,
                 borderRadius: 100,
+                width: 50,
+                alignItems: 'center',
               }}>
               {downloadFiles == true ? (
                 <ActivityIndicator size={20} color={'#D2691E'} />

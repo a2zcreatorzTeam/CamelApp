@@ -448,7 +448,7 @@ const styles = StyleSheet.create({
     color: '#000',
     marginBottom: 30,
     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
-    height: Platform.OS == 'ios' ? 50 : 'undefined',
+    height: Platform.OS == 'ios' ? 50 : undefined,
   },
   createGroupBTN: {
     width: 150,

@@ -265,7 +265,7 @@ const Item = ({
           fontFamily: Platform.OS == 'ios' ? null : family.Neo_Medium,
           // fontWeight: '600',
         }}>
-        {question?.length > 30 ? question?.slice(0, 30) : question}
+        {question?.length > 22 ? question?.slice(0, 22) + '...' : question}
       </Text>
       <View
         style={{

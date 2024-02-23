@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {Component, useState} from 'react';
 import {
   Text,
@@ -1863,18 +1864,17 @@ const styles = StyleSheet.create({
   },
   priceContainer: {
     position: 'absolute',
-    // left: -350,
     top: 70,
-    paddingTop: 5,
+    paddingTop: 1,
     alignItems: 'center',
-    alignContent: 'center',
-    width: 60,
     backgroundColor: '#D2691Eff',
-    height: height * 0.065,
+    height: height * 0.072,
     borderBottomRightRadius: 50,
     borderBottomLeftRadius: 50,
     zIndex: 111,
     left: 20,
+    paddingHorizontal: 10,
+    minWidth: 60,
   },
   priceTxt: {
     color: 'white',

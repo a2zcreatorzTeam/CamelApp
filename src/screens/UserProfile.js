@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, {Component, useState} from 'react';
 import {
   View,
   Text,
@@ -15,7 +15,7 @@ import {
   ActivityIndicator,
   Share,
 } from 'react-native';
-import { Card } from 'react-native-paper';
+import {Card} from 'react-native-paper';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -71,7 +71,7 @@ class UserProfile extends Component {
   }
   ScrollToRefresh() {
     this.userProfile();
-    this.setState({ refreshing: false });
+    this.setState({refreshing: false});
   }
   sendWhatsAppMessage() {
     const {OtherUserDetail} = this.state;
@@ -122,7 +122,7 @@ class UserProfile extends Component {
     }
   }
   audioCall() {
-    let { user } = this.props;
+    let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
       if (user?.id != this.props.route.params.userProfile.user_id) {
@@ -168,7 +168,7 @@ class UserProfile extends Component {
     }
   }
   sendMessage() {
-    let { user } = this.props;
+    let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
     if (user != undefined) {
       if (user?.id != this.props.route.params.userProfile.user?.id) {
@@ -197,7 +197,7 @@ class UserProfile extends Component {
     }
   }
   userProfile = async () => {
-    const { key } = this.state;
+    const {key} = this.state;
     const item = this.props.route?.params;
     this.setState({loading: true});
     let {user} = this.props;
@@ -264,7 +264,7 @@ class UserProfile extends Component {
           });
           console.log(noOfPosts, 'noOfPosts');
         }
-        this.setState({ loading: false });
+        this.setState({loading: false});
         if (user !== undefined) {
           this.checkFriendshipStatus();
         }
@@ -320,7 +320,7 @@ class UserProfile extends Component {
   // // check Friendship Status
   checkFriendshipStatus() {
     const user_friend = this.props.route?.params;
-    let { user } = this.props;
+    let {user} = this.props;
     user = user?.user?.user ? user?.user?.user : user?.user;
     console.log(
       user?.id,
@@ -362,8 +362,8 @@ class UserProfile extends Component {
     }
   }
   postViewed = async (item, viewCount, setViewCount) => {
-    this.setState({ loading: false });
-    let { user } = this.props;
+    this.setState({loading: false});
+    let {user} = this.props;
     user = user?.user?.user;
     let post_id = item?.id;
     if (user != undefined) {
@@ -386,11 +386,11 @@ class UserProfile extends Component {
   };
   //  SEARCH
   searchHandler = value => {
-    const { key, postData } = this.state;
+    const {key, postData} = this.state;
     if (!value) {
-      this.setState({ filterPosts: this.state.commentsList, searchedItem: '' });
+      this.setState({filterPosts: this.state.commentsList, searchedItem: ''});
     } else {
-      this.setState({ searchedItem: value });
+      this.setState({searchedItem: value});
       // Data Filtration
       const filteredData = postData?.filter(item => {
         const {
@@ -411,14 +411,14 @@ class UserProfile extends Component {
         );
       });
       if (filteredData?.length > 0) {
-        this.setState({ filterPosts: filteredData, key: !key });
+        this.setState({filterPosts: filteredData, key: !key});
       } else {
-        this.setState({ filterPosts: [], key: !key });
+        this.setState({filterPosts: [], key: !key});
       }
     }
   };
   search(text) {
-    this.setState({ searchText: text });
+    this.setState({searchText: text});
   }
   onShare = async () => {
     try {
@@ -556,7 +556,7 @@ class UserProfile extends Component {
     const subscription = OtherUserDetail?.subscription;
     const sharePosts = item => {
       const user = this.props.route?.params;
-      this.setState({ loading: true });
+      this.setState({loading: true});
       let post_id = item?.id;
       if (user != undefined) {
         camelapp
@@ -572,12 +572,12 @@ class UserProfile extends Component {
               let tempItem = item;
               tempItem['share_count'] = share_count;
               filterPosts[tempIndex] = tempItem;
-              this.setState({ loading: false, filterPosts: filterPosts });
+              this.setState({loading: false, filterPosts: filterPosts});
             }
           })
           .catch(error => {
             console.log('error', error);
-            this.setState({ loading: false });
+            this.setState({loading: false});
           });
       } else {
         this.props.navigation.navigate('Login');
@@ -656,7 +656,7 @@ class UserProfile extends Component {
           sharePost={() => this.onShare()}
           onVideoPlay={item => this.VideoPlay(item)}
           pausedCheck={this.state.pausedCheck}
-          pauseCheckHandler={txt => this.setState({ pausedCheck: txt })}
+          pauseCheckHandler={txt => this.setState({pausedCheck: txt})}
           flagForLike={item?.flagForLike}
           postViewed={(viewCount, setViewCount) =>
             this.postViewed(item, viewCount, setViewCount)
@@ -681,7 +681,7 @@ class UserProfile extends Component {
               name="user-plus"
               size={30}
               color="#D2691Eff"
-              style={{ margin: 5 }}
+              style={{margin: 5}}
             />
           </TouchableOpacity>
         );
@@ -692,7 +692,7 @@ class UserProfile extends Component {
               name="user-times"
               size={30}
               color="#D2691Eff"
-              style={{ margin: 5 }}
+              style={{margin: 5}}
             />
           </TouchableOpacity>
         );
@@ -703,7 +703,7 @@ class UserProfile extends Component {
               name="user-friends"
               size={30}
               color="#D2691Eff"
-              style={{ margin: 5 }}
+              style={{margin: 5}}
             />
           </TouchableOpacity>
         );
@@ -720,17 +720,17 @@ class UserProfile extends Component {
                 name="user-times"
                 size={30}
                 color="#D2691Eff"
-                style={{ margin: 5 }}
+                style={{margin: 5}}
               />
             </TouchableOpacity>
             <View
-              style={{ width: 2, height: 20, backgroundColor: '#D3D3D3' }}></View>
+              style={{width: 2, height: 20, backgroundColor: '#D3D3D3'}}></View>
             <TouchableOpacity onPress={() => this.friendRequestHandler('A')}>
               <FontAwesome5
                 name="user-check"
                 size={30}
                 color="#D2691Eff"
-                style={{ margin: 5 }}
+                style={{margin: 5}}
               />
             </TouchableOpacity>
           </View>
@@ -760,7 +760,7 @@ class UserProfile extends Component {
             if (text) {
               this.search(text);
             } else {
-              this.setState({ searchedItem: '', searchText: '' });
+              this.setState({searchedItem: '', searchText: ''});
             }
           }}
           onPressSearch={() => this.searchHandler(searchText)}
@@ -775,13 +775,13 @@ class UserProfile extends Component {
         )}
         <View style={Styles.headerProfile}>
           {/* FOLLOW VIEW */}
-          <View style={{ position: 'absolute', top: 40, right: 20 }}>
+          <View style={{position: 'absolute', top: 40, right: 20}}>
             <TouchableOpacity onPress={() => this.followRequest()}>
               <Entypo
                 name="link"
                 size={30}
                 color="#D2691Eff"
-                style={{ margin: 5 }}
+                style={{margin: 5}}
               />
             </TouchableOpacity>
           </View>
@@ -791,7 +791,7 @@ class UserProfile extends Component {
           </View>
 
           <View>
-            <TouchableOpacity onPress={() => this.setState({ modal: true })}>
+            <TouchableOpacity onPress={() => this.setState({modal: true})}>
               <Image
                 source={{
                   uri:
@@ -985,7 +985,7 @@ class UserProfile extends Component {
           visible={this.state.modal}
           transparent={true}
           animationType={'fade'}
-          onRequestClose={() => this.setState({ modal: false })}>
+          onRequestClose={() => this.setState({modal: false})}>
           <View
             style={{
               height: '100%',
@@ -995,8 +995,8 @@ class UserProfile extends Component {
             }}>
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => this.setState({ modal: false })}
-              style={{ top: 10, right: 15, position: 'absolute' }}>
+              onPress={() => this.setState({modal: false})}
+              style={{top: 10, right: 15, position: 'absolute'}}>
               <AntDesign name="closecircle" size={35} color="#fff" />
             </TouchableOpacity>
 
@@ -1013,7 +1013,7 @@ class UserProfile extends Component {
                     // 'http://www.tasdeertech.com/public/images/profiles/' +
                     profileBaseUrl + this?.state?.user?.image,
                 }}
-                style={{ width: width, aspectRatio: 1 }}
+                style={{width: width, aspectRatio: 1}}
               />
             </View>
           </View>
@@ -1056,7 +1056,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000db',
     justifyContent: 'center',
   },
-  modalCloseBTN: { top: 30, right: 15, position: 'absolute' },
+  modalCloseBTN: {top: 30, right: 15, position: 'absolute'},
   modalMediaWrpr: {
     width: width,
     height: 60,
@@ -1075,7 +1075,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 30,
   },
-  titleContainer: { position: 'absolute', right: 5, width: 220 },
+  titleContainer: {position: 'absolute', right: 5, width: 220},
   titleText: {
     color: '#fff',
     fontSize: 15,
@@ -1084,16 +1084,16 @@ const styles = StyleSheet.create({
   priceContainer: {
     position: 'absolute',
     top: 70,
-    paddingTop: 5,
+    paddingTop: 1,
     alignItems: 'center',
-    alignContent: 'center',
-    width: 60,
     backgroundColor: '#D2691Eff',
     height: height * 0.065,
     borderBottomRightRadius: 50,
     borderBottomLeftRadius: 50,
     zIndex: 111,
     left: 20,
+    paddingHorizontal: 10,
+    minWidth: 60,
   },
   priceTxt: {
     color: 'white',
@@ -1122,7 +1122,7 @@ const Item = ({
   onDetailsClick,
   onCommentsClick,
   onCategoryClick,
-  onLikesClick = () => { },
+  onLikesClick = () => {},
   imagesArray,
   pauseCheckHandler,
   onVideoPlay,
@@ -1145,7 +1145,7 @@ const Item = ({
   const user = useSelector(state => state?.user?.user?.user);
   const navigation = useNavigation();
   return (
-    <Card style={{ elevation: 5, marginTop: 10 }}>
+    <Card style={{elevation: 5, marginTop: 10}}>
       <View style={Styles.homesec}>
         <View
           style={{
@@ -1166,7 +1166,7 @@ const Item = ({
               onPress={onCategoryClick}
               style={Styles.btnHome2}>
               <Text
-                style={{ color: '#D2691Eff', fontWeight: 'bold', fontSize: 15 }}>
+                style={{color: '#D2691Eff', fontWeight: 'bold', fontSize: 15}}>
                 {category}
               </Text>
             </TouchableOpacity>
@@ -1230,7 +1230,7 @@ const Item = ({
         data={imagesArray}
         layout={'default'}
         scrollEnabled={true}
-        renderItem={({ item, index }) => {
+        renderItem={({item, index}) => {
           const mediaSource =
             item?.type == 'image'
               ? {uri: imageBaseUrl + item.source}
@@ -1263,7 +1263,7 @@ const Item = ({
                 />
               )}
               {item?.type == 'video' && (
-                <View style={{ flex: 1, backgroundColor: '#ededed' }}>
+                <View style={{flex: 1, backgroundColor: '#ededed'}}>
                   {pausedCheck && (
                     <FastImage
                       style={[
@@ -1310,7 +1310,7 @@ const Item = ({
                           : require('../../assets/pause.png')
                       }
                       resizeMode={'cover'}
-                      style={{ width: 70, height: 70 }}
+                      style={{width: 70, height: 70}}
                     />
                   </TouchableOpacity>
                 </View>
@@ -1345,7 +1345,7 @@ const Item = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
             {' '}
             {viewCount}
           </Text>
@@ -1360,7 +1360,7 @@ const Item = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
             {shares}
           </Text>
           <Ionicons name="share-social-sharp" size={20} color="#CD853F" />
@@ -1374,7 +1374,7 @@ const Item = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
             {comments}
           </Text>
           <Feather name="message-square" size={18} color="#CD853F" />
@@ -1387,7 +1387,7 @@ const Item = ({
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3 }}>
+          <Text style={{color: 'black', fontSize: 15, marginRight: 3}}>
             {likeCount}
           </Text>
           {isLiked == 'true' || isLiked == true ? (
@@ -1398,12 +1398,12 @@ const Item = ({
         </TouchableOpacity>
       </View>
 
-      <View style={{ width: width, height: 50 }}>
+      <View style={{width: width, height: 50}}>
         <TouchableOpacity
-          style={{ position: 'absolute', left: 10, top: 5 }}
+          style={{position: 'absolute', left: 10, top: 5}}
           onPress={onDetailsClick}>
           <View style={Styles.btnHome}>
-            <Text style={{ color: '#fff', fontWeight: 'bold' }}>
+            <Text style={{color: '#fff', fontWeight: 'bold'}}>
               {ArabicText.Details}
             </Text>
           </View>
@@ -1439,7 +1439,7 @@ const Item = ({
             <AntDesign name="closecircle" size={35} color="#fff" />
           </TouchableOpacity>
 
-          <View style={{ height: 300, backgroundColor: 'red' }}>
+          <View style={{height: 300, backgroundColor: 'red'}}>
             <View style={Styles.imageCarousal}>
               {modalItemType === 'image' && (
                 <FastImage
@@ -1454,7 +1454,7 @@ const Item = ({
                 // />
               )}
               {modalItemType == 'video' && (
-                <View style={{ flex: 1, backgroundColor: '#ededed' }}>
+                <View style={{flex: 1, backgroundColor: '#ededed'}}>
                   <Video
                     onLoadStart={() => setLoad(true)}
                     onReadyForDisplay={() => setLoad(false)}
@@ -1498,7 +1498,7 @@ const Item = ({
                             : require('../../assets/pause.png')
                         }
                         resizeMode={'cover'}
-                        style={{ width: 70, height: 70 }}
+                        style={{width: 70, height: 70}}
                       />
                     )}
                   </TouchableOpacity>
@@ -1510,7 +1510,7 @@ const Item = ({
           <View style={styles.modalMediaWrpr}>
             <TouchableOpacity
               activeOpacity={0.99}
-              onPress={() => { }}
+              onPress={() => {}}
               style={styles.userProfileContainer}>
               <Image
                 source={{
@@ -1520,10 +1520,10 @@ const Item = ({
               />
             </TouchableOpacity>
             <View style={styles.userInfoContainer}>
-              <Text style={[styles.userName, { color: '#fff' }]}>
+              <Text style={[styles.userName, {color: '#fff'}]}>
                 {user_name}
               </Text>
-              <Text style={[styles.userLocation, { color: '#fff' }]}>
+              <Text style={[styles.userLocation, {color: '#fff'}]}>
                 {user_location}
               </Text>
             </View>

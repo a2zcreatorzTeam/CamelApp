@@ -1,4 +1,5 @@
-import React, { useState, memo, useCallback, useMemo } from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useState, memo, useCallback, useMemo} from 'react';
 import {
   Text,
   View,
@@ -18,11 +19,11 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Video from 'react-native-video';
 import * as ArabicText from '../language/EnglishToArabic';
-const { width, height } = Dimensions.get('screen');
-import { useSelector } from 'react-redux';
+const {width, height} = Dimensions.get('screen');
+import {useSelector} from 'react-redux';
 //------Global Styling--------------//
-import { Styles } from '../styles/globlestyle';
-import { useNavigation } from '@react-navigation/native';
+import {Styles} from '../styles/globlestyle';
+import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 import {
@@ -31,11 +32,11 @@ import {
   profileBaseUrl,
   thumbnailBaseUrl,
 } from '../constants/urls';
-import { family } from '../constants/Family';
+import {family} from '../constants/Family';
 const Post = ({
   item,
   onCommentsClick,
-  onDetailsClick = () => { },
+  onDetailsClick = () => {},
   onLikesClick,
   // onUserProfileClick,
   onCategoryClick,
@@ -45,7 +46,7 @@ const Post = ({
   pauseVideo,
   createdDate,
   category,
-  postViewed = () => { },
+  postViewed = () => {},
 }) => {
   const user = useSelector(state => state?.user?.user?.user);
   const navigation = useNavigation();
@@ -62,7 +63,7 @@ const Post = ({
       if (item?.user_id == user?.id) {
         console.log('حسابي', 'ArabicText?.profilee');
         // navigation?.navigate('Profile');
-        navigation.navigate('Profile', { screen: 'حسابي' });
+        navigation.navigate('Profile', {screen: 'حسابي'});
 
         // navigation?.navigate('Home', {screen: ArabicText.profilee});
         console.log('helllo');
@@ -216,13 +217,13 @@ const Post = ({
           activeOpacity={0.9}
           onPress={() => onUserProfileClick(item)}
           style={styles.userIcon}>
-          <View style={{ maxWidth: 200, paddingRight: 5, marginBottom: 2 }}>
+          <View style={{maxWidth: 200, paddingRight: 5, marginBottom: 2}}>
             <Text style={styles.userName}>{name}</Text>
             <Text style={styles.postDate}>{date ? date : createdDate}</Text>
             <Text style={styles.userLocation}>{user_location}</Text>
           </View>
           <FastImage
-            style={{ width: 55, height: 55, borderRadius: 30 }}
+            style={{width: 55, height: 55, borderRadius: 30}}
             source={{
               uri: profileBaseUrl + user_images,
             }}
@@ -244,10 +245,10 @@ const Post = ({
           const isVideo = item.type === 'video';
 
           const mediaSource = isImage
-            ? { uri: imageBaseUrl + item?.source }
+            ? {uri: imageBaseUrl + item?.source}
             : isVideo
-              ? { uri: VideoBaseUrl + item?.source }
-              : null;
+            ? {uri: VideoBaseUrl + item?.source}
+            : null;
           return (
             <TouchableWithoutFeedback
               key={index}
@@ -265,7 +266,7 @@ const Post = ({
               <View
                 style={[
                   Styles.imageCarousal,
-                  { backgroundColor: '#f3f3f3', overflow: 'visible' },
+                  {backgroundColor: '#f3f3f3', overflow: 'visible'},
                 ]}>
                 {price?.length ? (
                   <TouchableOpacity style={styles.priceContainer}>
@@ -280,7 +281,7 @@ const Post = ({
                     style={Styles.image}
                     source={{
                       uri: imageBaseUrl + item?.source,
-                      headers: { Authorization: 'someAuthToken' },
+                      headers: {Authorization: 'someAuthToken'},
                       priority: FastImage.priority.high,
                     }}
                     resizeMode={FastImage?.resizeMode.cover}
@@ -288,7 +289,7 @@ const Post = ({
                 )}
                 {/* {console.log(thumbnailBaseUrl + item?.thumbnail?.thumbnail, 'hj', item?.price)} */}
                 {isVideo && (
-                  <View style={{ flex: 1, backgroundColor: '#ededed' }}>
+                  <View style={{flex: 1, backgroundColor: '#ededed'}}>
                     {pausedCheck && (
                       <FastImage
                         style={[
@@ -301,10 +302,10 @@ const Post = ({
                         source={
                           thumbnail !== null
                             ? {
-                              uri: thumbnailBaseUrl + thumbnail?.thumbnail,
-                              headers: { Authorization: 'someAuthToken' },
-                              priority: FastImage.priority.high,
-                            }
+                                uri: thumbnailBaseUrl + thumbnail?.thumbnail,
+                                headers: {Authorization: 'someAuthToken'},
+                                priority: FastImage.priority.high,
+                              }
                             : require('../../assets/camel.png')
                         }
                         resizeMode={FastImage?.resizeMode.cover}
@@ -353,13 +354,20 @@ const Post = ({
                             : require('../../assets/pause.png')
                         }
                         resizeMode={'cover'}
-                        style={{ width: 70, height: 70 }}
+                        style={{width: 70, height: 70}}
                       />
                     </TouchableOpacity>
                   </View>
                 )}
                 {!isImage && !isVideo && (
-                  <Text style={{ color: '#000',  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>Media not available</Text>
+                  <Text
+                    style={{
+                      color: '#000',
+                      fontFamily:
+                        Platform.OS == 'ios' ? null : family.Neo_Regular,
+                    }}>
+                    Media not available
+                  </Text>
                 )}
               </View>
             </TouchableWithoutFeedback>
@@ -385,7 +393,7 @@ const Post = ({
             <AntDesign name="closecircle" size={35} color="#fff" />
           </TouchableOpacity>
 
-          <View style={{ height: 300 }}>
+          <View style={{height: 300}}>
             <View style={Styles.imageCarousal}>
               {modalItemType === 'image' && (
                 <FastImage
@@ -395,7 +403,7 @@ const Post = ({
                 />
               )}
               {modalItemType == 'video' && (
-                <View style={{ flex: 1, backgroundColor: '#ededed' }}>
+                <View style={{flex: 1, backgroundColor: '#ededed'}}>
                   <Video
                     onError={error => console.error('Video error:', error)}
                     onLoadStart={() => {
@@ -444,7 +452,7 @@ const Post = ({
                             : require('../../assets/pause.png')
                         }
                         resizeMode={'cover'}
-                        style={{ width: 70, height: 70 }}
+                        style={{width: 70, height: 70}}
                       />
                     )}
                   </TouchableOpacity>
@@ -456,7 +464,7 @@ const Post = ({
           <View style={styles.modalMediaWrpr}>
             <TouchableOpacity
               activeOpacity={0.7}
-              onPress={() => { }}
+              onPress={() => {}}
               style={styles.userProfileContainer}>
               <Image
                 source={{
@@ -466,8 +474,8 @@ const Post = ({
               />
             </TouchableOpacity>
             <View style={styles.userInfoContainer}>
-              <Text style={[styles.userName, { color: '#fff' }]}>{name}</Text>
-              <Text style={[styles.userLocation, { color: '#fff' }]}>
+              <Text style={[styles.userName, {color: '#fff'}]}>{name}</Text>
+              <Text style={[styles.userLocation, {color: '#fff'}]}>
                 {user_location}
               </Text>
             </View>
@@ -503,7 +511,13 @@ const Post = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 15,
+              marginRight: 3,
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            }}>
             {viewCount}
           </Text>
           <Ionicons name="ios-eye-sharp" size={20} color="#CD853F" />
@@ -518,7 +532,13 @@ const Post = ({
           }}
           // onPress={handleShareClick}
           onPress={() => onShare()}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 15,
+              marginRight: 3,
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            }}>
             {share_count}
           </Text>
           <Ionicons name="share-social-sharp" size={20} color="#CD853F" />
@@ -532,7 +552,13 @@ const Post = ({
             justifyContent: 'center',
             marginRight: 5,
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 15,
+              marginRight: 3,
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            }}>
             {comment_count}
           </Text>
           <Feather name="message-square" size={18} color="#CD853F" />
@@ -545,7 +571,13 @@ const Post = ({
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={{ color: 'black', fontSize: 15, marginRight: 3,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 15,
+              marginRight: 3,
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            }}>
             {likeCount}
           </Text>
 
@@ -559,7 +591,12 @@ const Post = ({
 
       <View style={Styles.posticon}>
         <TouchableOpacity onPress={handleDetailsClick} style={Styles.btnHome}>
-          <Text style={{ color: '#fff', fontWeight: 'bold',  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular }}>
+          <Text
+            style={{
+              color: '#fff',
+              fontWeight: 'bold',
+              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            }}>
             {ArabicText.Details}
           </Text>
         </TouchableOpacity>
@@ -569,7 +606,7 @@ const Post = ({
             color: 'black',
             fontSize: 15,
             fontWeight: '600',
-             fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
           }}>
           {title}
         </Text>
@@ -594,31 +631,35 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 10,
   },
-  catBtnText: { color: '#D2691Eff', fontWeight: 'bold', fontSize: 15,  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular },
+  catBtnText: {
+    color: '#D2691Eff',
+    fontWeight: 'bold',
+    fontSize: 15,
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+  },
   userIcon: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-
   },
   userName: {
     fontSize: 15,
     fontWeight: '600',
     color: '#000',
     textAlign: 'right',
-     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
   postDate: {
     fontSize: 10,
     color: 'grey',
     textAlign: 'right',
-     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
   userLocation: {
     fontSize: 10,
     color: '#000',
     textAlign: 'right',
-     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
   modalContainer: {
     height: '100%',
@@ -626,7 +667,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000db',
     justifyContent: 'center',
   },
-  modalCloseBTN: { top: 30, right: 15, position: 'absolute' },
+  modalCloseBTN: {top: 30, right: 15, position: 'absolute'},
   modalMediaWrpr: {
     width: width,
     height: 60,
@@ -658,9 +699,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 20,
     top: 20,
-    paddingTop: 5,
+    paddingTop: 2,
     alignItems: 'center',
-    alignContent: 'center',
+    // alignContent: 'center',
     backgroundColor: '#D2691Eff',
     height: height * 0.072,
     borderBottomRightRadius: 50,
@@ -672,14 +713,14 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '800',
     fontSize: 14,
-     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
   bidPrice: {
     textAlign: 'center',
     color: 'white',
     fontWeight: '500',
     fontSize: 13,
-     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
   userProfileContainer: {
     flexDirection: 'row',
@@ -690,11 +731,11 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 30,
   },
-  titleContainer: { position: 'absolute', right: 5, width: 220 },
+  titleContainer: {position: 'absolute', right: 5, width: 220},
   titleText: {
     color: '#fff',
     fontSize: 15,
     fontWeight: '600',
-     fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
   },
 });

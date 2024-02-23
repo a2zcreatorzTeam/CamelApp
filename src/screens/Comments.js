@@ -28,6 +28,7 @@ import Header from '../components/Header';
 import Item from '../components/commentItem';
 import {family} from '../constants/Family';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import moment from 'moment';
 const {width} = Dimensions.get('screen');
 class Comments extends Component {
   constructor(props) {
@@ -195,6 +196,7 @@ class Comments extends Component {
   }
   render() {
     const renderItem = ({item}) => {
+      console.log(item?.created_at, 'createddd');
       return (
         <Item
           Reply={item => {
@@ -205,7 +207,7 @@ class Comments extends Component {
             });
           }}
           item={item}
-          date={item?.created_at?.slice(0, 9)}
+          date={moment(item?.created_at).format('YYYY-MM-DD')}
           comment={item?.comment}
           userImage={item?.image}
           userName={item?.name}

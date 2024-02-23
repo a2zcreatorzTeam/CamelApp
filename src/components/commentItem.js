@@ -1,3 +1,5 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {Card} from 'react-native-paper';
 import {View, Text, Image, TouchableOpacity, Platform} from 'react-native';
@@ -21,7 +23,7 @@ const Item = ({
   date,
   Reply = () => {},
 }) => {
-  console.log(item?.comment_reply);
+  console.log(date, 'datedate');
   const [isLiked, setIsLiked] = useState();
   const [likeCount, setLikeCount] = useState(commentsCount);
   return (
@@ -55,7 +57,7 @@ const Item = ({
           </Text>
 
           <TouchableOpacity
-            style={{left: 5,}}
+            style={{left: 5}}
             // style={{left: 5, position: 'absolute', bottom: 0, }}
 
             onPress={() => {
@@ -116,7 +118,11 @@ const Item = ({
               flexDirection: 'row',
               // width: '100%',
             }}>
-            <View style={{width: '90%', marginLeft: 'auto'}}>
+            <View
+              style={{
+                width: '90%',
+                marginLeft: 'auto',
+              }}>
               <Text
                 style={{
                   fontSize: 16,
@@ -131,7 +137,7 @@ const Item = ({
               <Text
                 style={{
                   fontSize: 12,
-                  paddingHorizontal: 20,
+                  paddingHorizontal: 25,
                   color: 'black',
                   fontWeight: '400',
                   textAlign: 'right',

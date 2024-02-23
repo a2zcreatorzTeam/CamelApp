@@ -21,6 +21,7 @@ import Toast from 'react-native-toast-message';
 import * as ArabicText from '../language/EnglishToArabic';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import {family} from '../constants/Family';
+import moment from 'moment';
 
 const width = Dimensions.get('screen').width;
 
@@ -122,7 +123,7 @@ class Notification extends Component {
   render() {
     const {filterPosts, key, searchedItem, posts} = this.state;
     const renderItem = ({item}) => {
-      let d = new Date(item.created_at);
+      // let d = new Date(item.created_at);
       return (
         <Post
           onPress={item => {
@@ -130,7 +131,8 @@ class Notification extends Component {
           }}
           item={item}
           description={item.description}
-          date={d.toLocaleString()}
+          // date={d.toLocaleString()}
+          date={moment(item?.created_at).format('YYYY-MM-DD hh:mm:ss')}
           name={item?.sender_name}
         />
       );

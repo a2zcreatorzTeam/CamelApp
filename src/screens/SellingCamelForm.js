@@ -629,17 +629,18 @@ class SellingCamelForm extends React.Component {
                     <View
                       style={{
                         backgroundColor: 'white',
-                        marginLeft: 15,
+                        // marginLeft: 15,
                         width: width - 50,
                         borderBottomEndRadius: 6,
                         borderBottomStartRadius: 6,
+                        borderWidth: 2,
                         borderBottomWidth: 2,
-                        borderLeftWidth: 2,
+                        borderTopWidth: 0,
+                        // borderLeftWidth: 2,
                         borderColor: '#d2691e',
                         elevation: 10,
-                        position: 'absolute',
-                        marginTop: 65,
-                        zIndex: 80,
+                        // position: 'absolute',
+                        // marginTop: 65,
                       }}>
                       {/* DROP DOWN */}
                       {Period.map((val, i) => {
@@ -652,11 +653,11 @@ class SellingCamelForm extends React.Component {
                                 this.state.selectedItem.id == val.id
                                   ? '#d2691e'
                                   : 'white',
-                              paddingVertical: 8,
+                              paddingVertical: 5,
                               paddingHorizontal: 10,
-                              marginLeft: 0,
-                              width: '100%',
-                              marginBottom: 4,
+                              // marginLeft: 0,
+                              // width: '100%',
+                              // marginBottom: 4,
                             }}>
                             <Text
                               style={{

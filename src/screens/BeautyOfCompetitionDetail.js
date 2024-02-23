@@ -171,12 +171,12 @@ class BeautyOfCompetition extends Component {
     } else {
       this.setState({searchParticipants: value});
       // // Data Filtration
-      const filteredData = participants.filter(item => {
+      const filteredData = participants?.filter(item => {
         const {user_name} = item;
         return user_name?.toLowerCase().includes(value.toLowerCase());
       });
       console.log(filteredData, 'filterdataaa');
-      if (filteredData?.length > 0) {
+      if (filteredData?.length > 0 || filteredData !== undefined) {
         this.setState({filteredParticipants: filteredData});
       } else {
         this.setState({filteredParticipants: []});
@@ -417,7 +417,13 @@ class BeautyOfCompetition extends Component {
       competition_item?.competition_posts,
       'competition_itemcompetition_item',
     );
-
+    console.log(
+      NewDate >= competition[0]?.start_date &&
+        NewDate <= competition[0]?.end_date,
+      NewDate,
+      competition[0]?.start_date,
+      competition[0]?.end_date,
+    );
     return (
       <View style={[Styles.containerBeauty, {position: 'relative'}]}>
         <Header
@@ -459,7 +465,17 @@ class BeautyOfCompetition extends Component {
             </Pressable>
             {/* WINNER  */}
             <Pressable
-              style={Styles.beautyBtnView}
+              style={[
+                Styles.beautyBtnView,
+                {
+                  backgroundColor: competition_item.competition_winner?.length
+                    ? '#D2691Eff'
+                    : '#808080',
+                  borderColor: competition_item.competition_winner?.length
+                    ? '#D2691Eff'
+                    : '#808080',
+                },
+              ]}
               onPress={() => {
                 if (this?.state?.posts?.length > 0) {
                   if (competition_item.competition_winner?.length) {
@@ -477,17 +493,7 @@ class BeautyOfCompetition extends Component {
                   // alert('No one has participated yet!');
                 }
               }}>
-              <Text
-                style={[
-                  Styles.ButtonBeauty,
-                  {
-                    backgroundColor: competition_item.competition_winner?.length
-                      ? '#D2691Eff'
-                      : '#808080',
-                  },
-                ]}>
-                {ArabicText.winner}
-              </Text>
+              <Text style={[Styles.ButtonBeauty, {}]}>{ArabicText.winner}</Text>
             </Pressable>
             {/* PARTICIPANTS  */}
             <Pressable
@@ -768,6 +774,8 @@ class BeautyOfCompetition extends Component {
                 justifyContent: 'center',
                 alignItems: 'center',
                 marginVertical: 20,
+                backgroundColor: '#D2691Eff',
+                borderRadius: 15,
               }}
               onPress={() => this.selectedCompetition()}>
               <Text style={[Styles.ButtonBeauty, {width: width - 20}]}>

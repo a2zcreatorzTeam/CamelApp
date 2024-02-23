@@ -256,10 +256,10 @@ export const Styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 0.5,
     backgroundColor: '#D2691Eff',
-    padding: 2,
     alignItems: 'center',
     justifyContent: 'center',
     width: 80,
+    padding: 2,
     borderColor: '#D2691Eff',
   },
   ButtonBeauty: {

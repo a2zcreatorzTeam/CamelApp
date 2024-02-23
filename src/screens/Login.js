@@ -13,6 +13,7 @@ import {
   Platform,
   BackHandler,
   NativeModules,
+  KeyboardAvoidingView,
 } from 'react-native';
 const {RNTwitterSignIn} = NativeModules;
 import * as ArabicText from '../language/EnglishToArabic';
@@ -313,247 +314,268 @@ class Login extends Component {
             this.props.navigation.navigate('Home', {screen: ArabicText?.home});
           }}
         />
-        <ScrollView
-          contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}
-          showsVerticalScrollIndicator={false}
-          style={{flex: 1, backgroundColor: '#fff', width: '100%'}}>
-          <Image
-            source={require('../../assets/logo-camel.png')}
-            style={{
-              height: 90,
-              width: 90,
-              marginTop: 60,
-              alignSelf: 'center',
+        <KeyboardAvoidingView
+          style={[Styles.keyboardView, {width: '100%'}]}
+          behavior={Platform.OS === 'ios' ? 'padding' : null}>
+          <ScrollView
+            contentContainerStyle={{
+              flexGrow: 1,
+              backgroundColor: '#fff',
+              paddingBottom: width * 0.2,
+              width: '100%',
+              alignItems: 'center',
             }}
-          />
-
-          <Text style={Styles.text}>{ArabicText.login}</Text>
-          <View style={Styles.card}>
-            <TextInput
-              style={Styles.inputs}
-              keyboardType="numeric"
-              placeholder={ArabicText.phone}
-              maxLength={10}
-              placeholderTextColor="#000000"
-              onChangeText={text =>
-                this.setState({contactNumber: text.replace(/[^0-9]/g, '')})
-              }
+            alwaysBounceVertical={false}
+            style={{flex: 1}}
+            showsVerticalScrollIndicator={false}>
+            <Image
+              source={require('../../assets/logo-camel.png')}
+              style={{
+                height: 90,
+                width: 90,
+                marginTop: 60,
+                alignSelf: 'center',
+              }}
             />
 
-            <Text
-              style={{
-                color: 'red',
-                marginRight: 200,
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
-              }}>
-              {this.state.contactNumberError}
-            </Text>
-
-            <View
-              style={[
-                Styles.inputs,
-                {
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                },
-              ]}>
-              {this.state.hidePassword === true ? (
-                <Ionicons
-                  name="eye"
-                  size={18}
-                  color="brown"
-                  onPress={() => this.setState({hidePassword: false})}
-                />
-              ) : (
-                <Ionicons
-                  name="eye-off"
-                  size={18}
-                  color="brown"
-                  onPress={() => this.setState({hidePassword: true})}
-                />
-              )}
+            <Text style={Styles.text}>{ArabicText.login}</Text>
+            <View style={Styles.card}>
               <TextInput
-                style={{
-                  textAlign: 'right',
-                  color: 'black',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
-                }}
-                placeholder={ArabicText.passwords}
-                secureTextEntry={this.state.hidePassword}
+                style={Styles.inputs}
+                keyboardType="numeric"
+                placeholder={ArabicText.phone}
+                maxLength={10}
                 placeholderTextColor="#000000"
-                onChangeText={text => this.setState({password: text})}
+                onChangeText={text =>
+                  this.setState({contactNumber: text.replace(/[^0-9]/g, '')})
+                }
               />
-            </View>
 
-            <Text
-              style={{
-                color: 'red',
-                marginRight: 160,
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
-              }}>
-              {this.state.passwordError}
-            </Text>
-
-            <TouchableOpacity
-              style={{alignSelf: 'flex-end', marginRight: 15}}
-              onPress={() => this.props.navigation.navigate('Forgetpass')}>
               <Text
                 style={{
-                  color: '#d2691e',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Medium,
-                  fontSize: 14,
-                  fontWeight: '700',
-                }}>
-                {ArabicText.forget_Password}
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{alignSelf: 'flex-end', marginRight: 15, marginTop: 20}}
-              onPress={() => this.props.navigation.navigate('Signup')}>
-              <Text
-                style={{
-                  color: '#d2691e',
+                  color: 'red',
+                  marginRight: 200,
                   fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
-                  fontSize: 14,
-                  // fontWeight: '700',
                 }}>
-                {ArabicText.Create_an_account}
+                {this.state.contactNumberError}
               </Text>
-            </TouchableOpacity>
-          </View>
-
-          <View
-            style={{flexDirection: 'row', alignSelf: 'center', marginTop: 20}}>
-            <TouchableOpacity
-              onPress={() => {
-                // this.onClear();
-                // this.props.navigation?.navigate('InstagramScreen');
-                this.instagramLogin.show();
-              }}
-              style={{flexDirection: 'row'}}>
-              <Fontisto
-                name="instagram"
-                size={24}
-                color="#d2691e"
-                style={{margin: 5}}
-              />
-
-              <Text
-                style={{
-                  margin: 5,
-                  color: '#d2691e',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
-                  // fontWeight: '700',
-                }}>
-                {ArabicText?.Instagram}
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                RNTwitterSignIn.logOut();
-                this.signInWithTwitter();
-              }}
-              style={{flexDirection: 'row'}}>
-              <Feather
-                name="twitter"
-                size={24}
-                color="#d2691e"
-                style={{margin: 5}}
-              />
-
-              <Text
-                style={{
-                  margin: 5,
-                  color: '#d2691e',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
-                  // fontWeight: '700',
-                }}>
-                {ArabicText?.Twitter}
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          <TouchableOpacity
-            onPress={() => authentication()}
-            style={{alignSelf: 'center'}}>
-            <View
-              style={[
-                Styles.btn,
-                {
-                  backgroundColor:
-                    this.state.loader == false ? '#8b4513' : '#cccbca',
-                },
-              ]}>
-              {this.state.loader && (
-                <ActivityIndicator
-                  size="large"
-                  color="#D2691Eff"
-                  animating={this.state.loader}
-                />
-              )}
-              {this.state.loader == false && (
-                <Text style={Styles.textbtn}>{ArabicText.login}</Text>
-              )}
-            </View>
-          </TouchableOpacity>
-        </ScrollView>
-
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            this.setState({modalVisible: false});
-          }}>
-          {this.state.otp === true && (
-            <View style={{flex: 1}}>
-              <View
-                style={{
-                  flex: 1,
-                  backgroundColor: 'black',
-                  opacity: 0.7,
-                }}
-              />
 
               <View
                 style={[
-                  styles.modalView,
+                  Styles.inputs,
                   {
-                    bottom: 0,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
                   },
                 ]}>
-                {/* <Text style={{ fontSize: 25, textAlign: "center", fontWeight: "700", color: "black" }}>Enter OTP</Text> */}
-                <OTPTextView
-                  ref={e => (this.input1 = e)}
-                  handleTextChange={e => {
-                    if (parseInt(e) == this.state.randomIndex) {
-                      // setTimeout(() => {
-                      this.setState({otp: false, loader: true});
-
-                      setTimeout(() => {
-                        this.setState({checked: true, loader: false});
-
-                        setTimeout(() => {
-                          this.setState({checked: false, modalVisible: false});
-                          this.props.navigation.navigate('Home');
-                        }, 1000);
-                      }, 1000);
-                      // }, 2000);
-                    }
+                {this.state.hidePassword === true ? (
+                  <Ionicons
+                    name="eye"
+                    size={18}
+                    color="brown"
+                    onPress={() => this.setState({hidePassword: false})}
+                  />
+                ) : (
+                  <Ionicons
+                    name="eye-off"
+                    size={18}
+                    color="brown"
+                    onPress={() => this.setState({hidePassword: true})}
+                  />
+                )}
+                <TextInput
+                  style={{
+                    textAlign: 'right',
+                    color: 'black',
+                    fontFamily:
+                      Platform.OS == 'ios' ? null : family.Neo_Regular,
                   }}
-                  containerStyle={styles.textInputContainer}
-                  textInputStyle={styles.roundedTextInput}
-                  inputCount={4}
-                  keyboardType="numeric"
+                  placeholder={ArabicText.passwords}
+                  secureTextEntry={this.state.hidePassword}
+                  placeholderTextColor="#000000"
+                  onChangeText={text => this.setState({password: text})}
                 />
               </View>
-            </View>
-          )}
 
-          {/* {this.state.checked === true &&
+              <Text
+                style={{
+                  color: 'red',
+                  marginRight: 160,
+                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                }}>
+                {this.state.passwordError}
+              </Text>
+
+              <TouchableOpacity
+                style={{alignSelf: 'flex-end', marginRight: 15}}
+                onPress={() => this.props.navigation.navigate('Forgetpass')}>
+                <Text
+                  style={{
+                    color: '#d2691e',
+                    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Medium,
+                    fontSize: 14,
+                    fontWeight: '700',
+                  }}>
+                  {ArabicText.forget_Password}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={{alignSelf: 'flex-end', marginRight: 15, marginTop: 20}}
+                onPress={() => this.props.navigation.navigate('Signup')}>
+                <Text
+                  style={{
+                    color: '#d2691e',
+                    fontFamily:
+                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                    fontSize: 14,
+                    // fontWeight: '700',
+                  }}>
+                  {ArabicText.Create_an_account}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                alignSelf: 'center',
+                marginTop: 20,
+              }}>
+              <TouchableOpacity
+                onPress={() => {
+                  // this.onClear();
+                  // this.props.navigation?.navigate('InstagramScreen');
+                  this.instagramLogin.show();
+                }}
+                style={{flexDirection: 'row'}}>
+                <Fontisto
+                  name="instagram"
+                  size={24}
+                  color="#d2691e"
+                  style={{margin: 5}}
+                />
+
+                <Text
+                  style={{
+                    margin: 5,
+                    color: '#d2691e',
+                    fontFamily:
+                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                    // fontWeight: '700',
+                  }}>
+                  {ArabicText?.Instagram}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => {
+                  RNTwitterSignIn.logOut();
+                  this.signInWithTwitter();
+                }}
+                style={{flexDirection: 'row'}}>
+                <Feather
+                  name="twitter"
+                  size={24}
+                  color="#d2691e"
+                  style={{margin: 5}}
+                />
+
+                <Text
+                  style={{
+                    margin: 5,
+                    color: '#d2691e',
+                    fontFamily:
+                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                    // fontWeight: '700',
+                  }}>
+                  {ArabicText?.Twitter}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity
+              onPress={() => authentication()}
+              style={{alignSelf: 'center'}}>
+              <View
+                style={[
+                  Styles.btn,
+                  {
+                    backgroundColor:
+                      this.state.loader == false ? '#8b4513' : '#cccbca',
+                  },
+                ]}>
+                {this.state.loader && (
+                  <ActivityIndicator
+                    size="large"
+                    color="#D2691Eff"
+                    animating={this.state.loader}
+                  />
+                )}
+                {this.state.loader == false && (
+                  <Text style={Styles.textbtn}>{ArabicText.login}</Text>
+                )}
+              </View>
+            </TouchableOpacity>
+          </ScrollView>
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              this.setState({modalVisible: false});
+            }}>
+            {this.state.otp === true && (
+              <View style={{flex: 1}}>
+                <View
+                  style={{
+                    flex: 1,
+                    backgroundColor: 'black',
+                    opacity: 0.7,
+                  }}
+                />
+
+                <View
+                  style={[
+                    styles.modalView,
+                    {
+                      bottom: 0,
+                    },
+                  ]}>
+                  {/* <Text style={{ fontSize: 25, textAlign: "center", fontWeight: "700", color: "black" }}>Enter OTP</Text> */}
+                  <OTPTextView
+                    ref={e => (this.input1 = e)}
+                    handleTextChange={e => {
+                      if (parseInt(e) == this.state.randomIndex) {
+                        // setTimeout(() => {
+                        this.setState({otp: false, loader: true});
+
+                        setTimeout(() => {
+                          this.setState({checked: true, loader: false});
+
+                          setTimeout(() => {
+                            this.setState({
+                              checked: false,
+                              modalVisible: false,
+                            });
+                            this.props.navigation.navigate('Home');
+                          }, 1000);
+                        }, 1000);
+                        // }, 2000);
+                      }
+                    }}
+                    containerStyle={styles.textInputContainer}
+                    textInputStyle={styles.roundedTextInput}
+                    inputCount={4}
+                    keyboardType="numeric"
+                  />
+                </View>
+              </View>
+            )}
+
+            {/* {this.state.checked === true &&
             <View style={{ flex: 1 }}>
               <View style={{ flex: 1, backgroundColor: "black", opacity: 0.7 }}>
               </View>
@@ -574,7 +596,7 @@ class Login extends Component {
               </View>
             </View>
           } */}
-          {/* {this.state.loader === true &&
+            {/* {this.state.loader === true &&
 
             <View style={{ flex: 1 }}>
               <View style={{ flex: 1, backgroundColor: "black", opacity: 0.7 }}>
@@ -597,7 +619,7 @@ class Login extends Component {
             </View>
           } */}
 
-          {/* {this.state.openloader == true &&
+            {/* {this.state.openloader == true &&
             <View
               style={
                 [styles.modalView, {
@@ -611,20 +633,21 @@ class Login extends Component {
 
             </View>
           } */}
-        </Modal>
+          </Modal>
 
-        <InstagramLogin
-          ref={ref => (this.instagramLogin = ref)}
-          appId="1623382674858969"
-          appSecret="7e912ae51583adeba9a174b5c468aba2"
-          redirectUrl="https://com.alsyahd.camel/redirect"
-          incognito={false}
-          // scopes={['user_profile', 'user_email']}
-          scopes={['user_profile', 'user_media']}
-          onLoginSuccess={this.setIgToken}
-          onLoginFailure={data => console.log(data, 'falseDataaaa')}
-          language="en" //default is 'en' for english
-        />
+          <InstagramLogin
+            ref={ref => (this.instagramLogin = ref)}
+            appId="1623382674858969"
+            appSecret="7e912ae51583adeba9a174b5c468aba2"
+            redirectUrl="https://com.alsyahd.camel/redirect"
+            incognito={false}
+            // scopes={['user_profile', 'user_email']}
+            scopes={['user_profile', 'user_media']}
+            onLoginSuccess={this.setIgToken}
+            onLoginFailure={data => console.log(data, 'falseDataaaa')}
+            language="en" //default is 'en' for english
+          />
+        </KeyboardAvoidingView>
       </View>
     );
   }

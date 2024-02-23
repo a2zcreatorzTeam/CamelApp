@@ -257,36 +257,42 @@ class participateInCompetition extends Component {
     }
   };
   render() {
-    const {pausedCheck, loadVideo, videoModal, modalItem, thumbnail} =
+    const {pausedCheck, loadVideo, videoModal, modalItem, thumbnail, mixed} =
       this.state;
     return (
-      <View style={{flex: 1,  backgroundColor: '#D2691Eff'}}>
+      <View style={{flex: 1, backgroundColor: '#D2691Eff'}}>
         <BackBtnHeader />
         <KeyboardAvoidingView
           style={Styles.keyboardView}
           behavior={Platform.OS === 'ios' ? 'padding' : null}>
           <ScrollView
-            showsVerticalScrollIndicator={false}
+            style={{flex: 1}}
             contentContainerStyle={Styles.scrollContentContainer}
-            style={{backgroundColor: '#FFFFFF', flex: 1}}>
-            <BackBtnHeader />
-            <View style={Styles.containerScroll}>
-              <HorizontalCarousel
-                thumbnail={thumbnail?.path}
-                CustomUrl
-                imagesArray={this.state.mixed?.length ? this.state.mixed : []}
-                onPress={mediaSource => {
-                  this.setState({
-                    pausedCheck: false,
-                    videoModal: true,
-                    modalItem: mediaSource,
-                  });
-                }}
-                pausedCheck={pausedCheck}
-                pauseVideo={() => {
-                  this.setState({pausedCheck: true});
-                }}
-              />
+            alwaysBounceVertical={false}
+            showsVerticalScrollIndicator={false}>
+            <View style={[Styles.containerScroll]}>
+              <Text style={[Styles.headingPostText, {marginTop: 30}]}>
+                {ArabicText.Beauty_Comp}
+              </Text>
+              {mixed?.length ? (
+                <HorizontalCarousel
+                  thumbnail={thumbnail?.path}
+                  CustomUrl
+                  imagesArray={this.state.mixed?.length ? this.state.mixed : []}
+                  onPress={mediaSource => {
+                    this.setState({
+                      pausedCheck: false,
+                      videoModal: true,
+                      modalItem: mediaSource,
+                    });
+                  }}
+                  pausedCheck={pausedCheck}
+                  pauseVideo={() => {
+                    this.setState({pausedCheck: true});
+                  }}
+                />
+              ) : null}
+
               <View style={{flexDirection: 'row', marginTop: 10}}>
                 <View style={Styles.cameraview}>
                   <TouchableOpacity onPress={() => this.videoPicker()}>

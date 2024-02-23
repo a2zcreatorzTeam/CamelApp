@@ -1110,13 +1110,21 @@ const GroupChat = props => {
             }}>
             <View
               style={{
+                borderRadius: 25,
                 backgroundColor: 'white',
-                elevation: 10,
                 marginHorizontal: 20,
                 position: 'relative',
                 top: height / 4,
                 height: undefined,
                 padding: 10,
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.23,
+                shadowRadius: 2.62,
+                elevation: 4,
               }}>
               <View
                 style={{

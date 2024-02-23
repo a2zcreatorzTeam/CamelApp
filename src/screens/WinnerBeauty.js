@@ -1,10 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {View, Text, Image, Platform} from 'react-native';
-import {Styles} from '../styles/globlestyle';
 import {ProgressBar} from 'react-native-paper';
-import BackBtnHeader from '../components/headerWithBackBtn';
 import FastImage from 'react-native-fast-image';
+import {Styles} from '../styles/globlestyle';
+import BackBtnHeader from '../components/headerWithBackBtn';
 import {profileBaseUrl} from '../constants/urls';
 import {family} from '../constants/Family';
 class WinnerBeauty extends Component {

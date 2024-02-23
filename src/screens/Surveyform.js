@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {
   View,
@@ -9,26 +10,23 @@ import {
   Platform,
   ActivityIndicator,
   Dimensions,
-  FlatList
+  FlatList,
 } from 'react-native';
-import camelapp from '../api/camelapp';
 import {connect} from 'react-redux';
-import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
-import {Styles} from '../styles/globlestyle';
-// import {CheckBox} from "@react-native-community/checkbox"
 import {RadioButton} from 'react-native-paper';
-import * as ArabicText from '../language/EnglishToArabic';
-import {DataContext} from '../context/DataContext';
-const width = Dimensions.get('screen').width;
-const hight = Dimensions.get('screen').height;
-import Loader from '../components/PleaseWait';
-import BackBtnHeader from '../components/headerWithBackBtn';
 import moment from 'moment';
 import Toast from 'react-native-toast-message';
-import {mainImageUrl} from '../constants/urls';
 import FastImage from 'react-native-fast-image';
+import * as ArabicText from '../language/EnglishToArabic';
+import * as userActions from '../redux/actions/user_actions';
+import camelapp from '../api/camelapp';
+import BackBtnHeader from '../components/headerWithBackBtn';
+import {Styles} from '../styles/globlestyle';
+import {mainImageUrl} from '../constants/urls';
 import {family} from '../constants/Family';
+const width = Dimensions.get('screen').width;
+const hight = Dimensions.get('screen').height;
 class Surveyform extends Component {
   constructor(props) {
     super(props);
@@ -491,18 +489,14 @@ class Surveyform extends Component {
     );
   }
 }
-
 const mapStateToProps = state => ({
   user: state.user,
 });
-
 const ActionCreators = Object.assign({}, userActions);
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(ActionCreators, dispatch),
 });
-
 export default connect(mapStateToProps, mapDispatchToProps)(Surveyform);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

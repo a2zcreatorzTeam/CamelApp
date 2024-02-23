@@ -12,7 +12,6 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import {Card} from 'react-native-paper';
 import Toast from 'react-native-toast-message';
 import moment from 'moment';
 import camelapp from '../api/camelapp';

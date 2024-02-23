@@ -10,24 +10,23 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import {Styles} from '../styles/globlestyle';
 import 'react-native-gesture-handler';
 import * as ArabicText from '../language/EnglishToArabic';
 import RNFS from 'react-native-fs';
-import camelapp from '../api/camelapp';
 import {connect} from 'react-redux';
-import * as userActions from '../redux/actions/user_actions';
 import {bindActionCreators} from 'redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Loader from '../components/PleaseWait';
 import * as ImageCropPicker from 'react-native-image-crop-picker';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {createThumbnail} from 'react-native-create-thumbnail';
+import Toast from 'react-native-toast-message';
+import camelapp from '../api/camelapp';
+import {Styles} from '../styles/globlestyle';
+import * as userActions from '../redux/actions/user_actions';
+import Loader from '../components/PleaseWait';
 import HorizontalCarousel from '../components/HorizontalCarousel';
 import VideoModal from '../components/VideoModal';
 import BackBtnHeader from '../components/headerWithBackBtn';
-const width = Dimensions.get('screen').width;
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Toast from 'react-native-toast-message';
-import {createThumbnail} from 'react-native-create-thumbnail';
 import {family} from '../constants/Family';
 
 class TreatingCamelForm extends Component {

@@ -40,7 +40,6 @@ const Item = ({
           <Text
             style={{
               color: '#D2691Eff',
-              fontWeight: 'bold',
               fontFamily: family.Neo_Regular,
             }}>
             {category}

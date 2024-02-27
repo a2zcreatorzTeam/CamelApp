@@ -75,7 +75,7 @@ class WinnerBeauty extends Component {
                     right: 100,
                     color: '#D2691E',
                     fontFamily:
-                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                      family.Neo_Regular,
                   }}>
                   {el.user_name}
                 </Text>
@@ -86,7 +86,7 @@ class WinnerBeauty extends Component {
                     top: 10,
                     color: '#D2691E',
                     fontFamily:
-                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                      family.Neo_Regular,
                   }}>
                   {el.like_count}
                 </Text>

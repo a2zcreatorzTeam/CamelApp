@@ -216,23 +216,23 @@ const styles = StyleSheet.create({
   },
   groupName: {
     color: '#000',
-    fontWeight: '700',
     fontSize: 17,
     textAlign: 'right',
-    fontFamily: family.Neo_Regular,
+    fontFamily: family.Neo_Medium,
   },
   userName: {
     color: '#000',
-    fontWeight: '600',
     fontSize: 16,
     textAlign: 'right',
     width: '100%',
+    fontFamily:family.Neo_Medium
   },
   lastMessage: {
     color: '#aaa',
-    fontWeight: '400',
     fontSize: 14,
     textAlign: 'right',
+    fontFamily:
+    family.Neo_Medium
   },
   groupImageContainer: {
     width: 60,

@@ -227,9 +227,8 @@ class CamelClubDetailsComponent extends Component {
               style={{
                 color: '#000',
                 fontSize: 20,
-                fontWeight: '700',
                 marginRight: 20,
-                fontFamily: family.Neo_Regular,
+                fontFamily: family.Neo_Medium,
               }}>
               {itemFromDetails.name}
             </Text>
@@ -429,11 +428,11 @@ const styles = StyleSheet.create({
   },
   textHeadingg: {
     textAlign: 'right',
-    fontWeight: '600',
-    fontSize: 16,
+    fontSize: 14,
     padding: 5,
     marginTop: 2,
     right: 0,
     color: 'black',
+    fontFamily:family.Neo_Regular
   },
 });

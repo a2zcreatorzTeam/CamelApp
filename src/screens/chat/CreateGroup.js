@@ -299,7 +299,7 @@ const CreateGroup = props => {
                       color: '#fff',
                       fontSize: 15,
                       fontFamily:
-                        Platform.OS == 'ios' ? null : family.Neo_Regular,
+                        family.Neo_Regular,
                     }}>
                     {ArabicText.createGroup}
                   </Text>
@@ -469,10 +469,9 @@ const styles = StyleSheet.create({
   },
   userName: {
     color: '#000',
-    fontWeight: '700',
     fontSize: 17,
     textAlign: 'right',
-    fontFamily: family.Neo_Regular,
+    fontFamily: family.Neo_Medium,
   },
   userImageContainer: {
     width: 60,

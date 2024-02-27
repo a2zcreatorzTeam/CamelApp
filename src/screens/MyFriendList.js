@@ -109,10 +109,9 @@ class MyFriendList extends Component {
               fontSize: 18,
               textAlign: 'right',
               color: '#565756',
-              fontWeight: '700',
               marginRight: 10,
               marginBottom: 5,
-              fontFamily: family.Neo_Regular,
+              fontFamily: family.Neo_Medium,
             }}>
             {userName}
           </Text>

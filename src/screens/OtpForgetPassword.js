@@ -245,9 +245,8 @@ export default class App extends Component {
                     textAlign: 'center',
                     justifyContent: 'center',
                     fontSize: 22,
-                    fontWeight: '600',
                     fontFamily:
-                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                      family.Neo_Regular,
                   }}>
                   {ArabicText?.EntertheOTPSenttoYourMobile}
                 </Text>
@@ -377,7 +376,7 @@ export default class App extends Component {
                     fontSize: 22,
                     // fontWeight: '600',
                     fontFamily:
-                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                      family.Neo_Regular,
                   }}
                   numberOfLines={3}>
                   {ArabicText?.EnterYourNewPassword}

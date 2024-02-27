@@ -6,6 +6,7 @@ import FriendList from './FriendList';
 import * as ArabicText from '../../language/EnglishToArabic';
 import BackBtnHeader from '../../components/headerWithBackBtn';
 import {View} from 'react-native';
+import {family} from '../../constants/Family';
 
 const ChatTopTab = prop => {
   const TopTab = createMaterialTopTabNavigator();
@@ -16,7 +17,9 @@ const ChatTopTab = prop => {
       <TopTab.Navigator
         screenOptions={{
           tabBarIndicatorStyle: {backgroundColor: '#D2691E'},
-          tabBarLabelStyle: {fontWeight: '600'},
+          tabBarLabelStyle: {
+            fontFamily: family.Neo_Medium,
+          },
         }}
         initialRouteName="Chat">
         <TopTab.Screen

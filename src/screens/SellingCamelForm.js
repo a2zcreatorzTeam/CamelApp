@@ -602,12 +602,11 @@ class SellingCamelForm extends React.Component {
                     <Text
                       style={{
                         fontSize: 14,
-                        fontWeight: '500',
                         color:
                           this.state.selectedItem == '' ? '#a6a3a2' : 'black',
                         marginRight: 15,
                         fontFamily:
-                          Platform.OS == 'ios' ? null : family.Neo_Regular,
+                          family.Neo_Regular,
                       }}>
                       {!!this.state.selectedItem
                         ? this.state.selectedItem.name
@@ -662,7 +661,6 @@ class SellingCamelForm extends React.Component {
                             <Text
                               style={{
                                 fontSize: 18,
-                                fontWeight: '500',
                                 color:
                                   this.state.selectedItem.id == val.id
                                     ? 'white'
@@ -705,7 +703,7 @@ class SellingCamelForm extends React.Component {
                     color: 'black',
                     fontSize: 16,
                     fontFamily:
-                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                      family.Neo_Regular,
                   }}>
                   {ArabicText.fixed}
                 </Text>
@@ -740,7 +738,7 @@ class SellingCamelForm extends React.Component {
                     alignSelf: 'center',
                     fontSize: 16,
                     fontFamily:
-                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                      family.Neo_Regular,
                     marginLeft: 20,
                   }}>
                   {ArabicText.offer_Up}
@@ -920,10 +918,9 @@ class SellingCamelForm extends React.Component {
                 <Text
                   style={{
                     margin: 3,
-                    fontWeight: 'bold',
                     color: 'black',
                     fontFamily:
-                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                      family.Neo_Regular,
                   }}>
                   {ArabicText.I_am_registered_to_ministry_of_articulator}
                 </Text>
@@ -986,7 +983,7 @@ class SellingCamelForm extends React.Component {
                       color: 'black',
                       fontSize: 20,
                       fontFamily:
-                        Platform.OS == 'ios' ? null : family.Neo_Regular,
+                        family.Neo_Regular,
                     }}>
                     {ArabicText.fixed}
                   </Text>
@@ -1034,7 +1031,7 @@ class SellingCamelForm extends React.Component {
                       color: 'black',
                       fontSize: 20,
                       fontFamily:
-                        Platform.OS == 'ios' ? null : family.Neo_Regular,
+                        family.Neo_Regular,
                     }}>
                     {ArabicText.offer_Up}
                   </Text>

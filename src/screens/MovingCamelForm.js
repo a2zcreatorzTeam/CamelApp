@@ -672,7 +672,7 @@ class MovingCamelForm extends React.Component {
                         color: '#8b4513',
                         fontSize: 15,
                         fontFamily:
-                          Platform.OS == 'ios' ? null : family.Neo_Medium,
+                          family.Neo_Medium,
                       }}>
                       {ArabicText?.EnterBankDetails}
                     </Text>
@@ -687,14 +687,14 @@ class MovingCamelForm extends React.Component {
                         color: '#000',
                         fontSize: 15,
                         fontFamily:
-                          Platform.OS == 'ios' ? null : family.Neo_Medium,
+                          family.Neo_Medium,
                       }}>
                       <Text
                         style={{
                           color: 'grey',
                           fontSize: 13,
                           fontFamily:
-                            Platform.OS == 'ios' ? null : family.Neo_Medium,
+                            family.Neo_Medium,
                         }}>
                         {ArabicText?.AccountTitle}:{' '}
                       </Text>
@@ -711,14 +711,14 @@ class MovingCamelForm extends React.Component {
                         color: '#000',
                         fontSize: 15,
                         fontFamily:
-                          Platform.OS == 'ios' ? null : family.Neo_Medium,
+                          family.Neo_Medium,
                       }}>
                       <Text
                         style={{
                           color: 'grey',
                           fontSize: 13,
                           fontFamily:
-                            Platform.OS == 'ios' ? null : family.Neo_Medium,
+                            family.Neo_Medium,
                         }}>
                         {ArabicText?.AccountNumber}:{' '}
                       </Text>
@@ -736,14 +736,14 @@ class MovingCamelForm extends React.Component {
                         color: '#000',
                         fontSize: 15,
                         fontFamily:
-                          Platform.OS == 'ios' ? null : family.Neo_Medium,
+                          family.Neo_Medium,
                       }}>
                       <Text
                         style={{
                           color: 'grey',
                           fontSize: 13,
                           fontFamily:
-                            Platform.OS == 'ios' ? null : family.Neo_Medium,
+                            family.Neo_Medium,
                         }}>
                         {ArabicText?.BranchCode}:{' '}
                       </Text>

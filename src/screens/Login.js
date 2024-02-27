@@ -344,7 +344,7 @@ class Login extends Component {
               style={{
                 color: 'red',
                 marginRight: 200,
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                fontFamily: family.Neo_Regular,
               }}>
               {this.state.contactNumberError}
             </Text>
@@ -377,7 +377,7 @@ class Login extends Component {
                 style={{
                   textAlign: 'right',
                   color: 'black',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                 }}
                 placeholder={ArabicText.passwords}
                 secureTextEntry={this.state.hidePassword}
@@ -390,7 +390,7 @@ class Login extends Component {
               style={{
                 color: 'red',
                 marginRight: 160,
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                fontFamily: family.Neo_Regular,
               }}>
               {this.state.passwordError}
             </Text>
@@ -401,9 +401,8 @@ class Login extends Component {
               <Text
                 style={{
                   color: '#d2691e',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Medium,
+                  fontFamily: family.Neo_Medium,
                   fontSize: 14,
-                  fontWeight: '700',
                 }}>
                 {ArabicText.forget_Password}
               </Text>
@@ -415,7 +414,7 @@ class Login extends Component {
               <Text
                 style={{
                   color: '#d2691e',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                   fontSize: 14,
                   // fontWeight: '700',
                 }}>
@@ -444,7 +443,7 @@ class Login extends Component {
                 style={{
                   margin: 5,
                   color: '#d2691e',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                   // fontWeight: '700',
                 }}>
                 {ArabicText?.Instagram}
@@ -468,7 +467,7 @@ class Login extends Component {
                 style={{
                   margin: 5,
                   color: '#d2691e',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                   // fontWeight: '700',
                 }}>
                 {ArabicText?.Twitter}

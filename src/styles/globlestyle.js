@@ -12,7 +12,6 @@ export const Styles = StyleSheet.create({
   headingPostText: {
     marginBottom: 20,
     fontSize: 18,
-    fontWeight: 'bold',
     color: '#D2691Eff',
     fontFamily: family.Neo_Regular,
   },
@@ -83,7 +82,6 @@ export const Styles = StyleSheet.create({
   },
   text: {
     fontSize: 30,
-    fontWeight: 'bold',
     color: '#d2691e',
     alignSelf: 'center',
     fontFamily: family.Neo_Regular,
@@ -122,7 +120,6 @@ export const Styles = StyleSheet.create({
   textbtn: {
     textAlign: 'center',
     fontSize: 17,
-    fontWeight: 'bold',
     color: '#fff',
     fontFamily: family.Neo_Regular,
   },
@@ -325,7 +322,6 @@ export const Styles = StyleSheet.create({
   },
   textHeadingg: {
     textAlign: 'right',
-    fontWeight: '600',
     fontSize: 16,
     padding: 5,
     marginTop: 2,
@@ -526,7 +522,6 @@ export const Styles = StyleSheet.create({
     right: 0,
   },
   boxtext: {
-    fontWeight: '400',
     fontSize: 16,
     color: '#fff',
     marginRight: 10,
@@ -743,7 +738,7 @@ export const Styles = StyleSheet.create({
   firstView: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     paddingHorizontal: 15,
     marginTop: 15,
     width: '100%',
@@ -763,16 +758,14 @@ export const Styles = StyleSheet.create({
   },
   priceTag: {
     color: 'white',
-    fontWeight: '800',
     fontSize: 14,
-    fontFamily: family.Neo_Regular,
+    fontFamily: family.Neo_Medium,
   },
   price: {
     textAlign: 'center',
     color: 'white',
-    fontWeight: '500',
     fontSize: 13,
-    fontFamily: family.Neo_Regular,
+    fontFamily: family.Neo_Medium,
   },
   priceView: {
     backgroundColor: '#D2691Eff',
@@ -784,7 +777,7 @@ export const Styles = StyleSheet.create({
   },
   userDetailView: {
     alignItems: 'flex-end',
-    width: '68%',
+    width: '60%',
   },
   imageView: {
     height: 63,
@@ -838,8 +831,8 @@ export const Styles = StyleSheet.create({
   },
   OR: {
     fontSize: 30,
-    fontWeight: '400',
     color: '#fff',
+    fontFamily: family.Neo_Regular,
   },
   radioBtnView: {
     width: 20,

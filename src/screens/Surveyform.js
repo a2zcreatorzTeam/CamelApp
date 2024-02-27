@@ -147,7 +147,6 @@ class Surveyform extends Component {
           <Text
             style={{
               fontSize: 30,
-              fontWeight: 'bold',
               color: '#d2691e',
               fontFamily: family.Neo_Regular,
               marginBottom: 5,
@@ -186,11 +185,10 @@ class Surveyform extends Component {
                         style={{
                           fontSize: 16,
                           textAlign: 'center',
-                          fontWeight: 'bold',
                           color: 'black',
                           marginBottom: 10,
                           fontFamily:
-                            Platform.OS == 'ios' ? null : family.Neo_Regular,
+                            family.Neo_Regular,
                         }}>
                         {item?.question}
                       </Text>
@@ -366,11 +364,10 @@ class Surveyform extends Component {
                         style={{
                           fontSize: 16,
                           textAlign: 'right',
-                          fontWeight: 'bold',
                           color: 'black',
                           marginBottom: 10,
                           fontFamily:
-                            Platform.OS == 'ios' ? null : family.Neo_Regular,
+                            family.Neo_Medium,
                         }}>
                         {item?.question}
                       </Text>

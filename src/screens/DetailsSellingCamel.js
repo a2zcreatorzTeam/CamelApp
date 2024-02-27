@@ -539,7 +539,7 @@ class DetailsComponent extends Component {
                     style={{
                       margin: 5,
                       fontFamily:
-                        Platform.OS == 'ios' ? null : family.Neo_Regular,
+                        family.Neo_Regular,
                       marginBottom: 0,
                     }}>
                     {ArabicText.offer_Up}

@@ -229,7 +229,7 @@ class ViewNews extends Component {
                     color: 'grey',
                     fontSize: 10,
                     fontFamily:
-                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                      family.Neo_Regular,
                   }}>
                   {newsdata?.date}
                 </Text>
@@ -372,10 +372,9 @@ const Item = ({
               style={{
                 fontSize: 16,
                 paddingLeft: 5,
-                fontWeight: 'bold',
                 textAlign: 'right',
                 color: 'black',
-                fontFamily: family.Neo_Regular,
+                fontFamily: family.Neo_Medium,
               }}>
               {likeCount}
             </Text>

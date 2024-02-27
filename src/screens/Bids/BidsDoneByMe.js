@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -9,18 +9,18 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
-import { Styles } from '../../styles/globlestyle';
-import { withdrawBid } from '../../context/DataContext';
+import {Styles} from '../../styles/globlestyle';
+import {withdrawBid} from '../../context/DataContext';
 import * as ArabicText from '../../language/EnglishToArabic';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as userActions from '../../redux/actions/user_actions';
-import { bindActionCreators } from 'redux';
+import {bindActionCreators} from 'redux';
 import camelapp from '../../api/camelapp';
 import EmptyComponent from '../../components/EmptyComponent';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
-import { profileBaseUrl } from '../../constants/urls';
-import { family } from '../../constants/Family';
+import {profileBaseUrl} from '../../constants/urls';
+import {family} from '../../constants/Family';
 const width = Dimensions.get('screen').width;
 class Bids extends Component {
   constructor(props) {
@@ -33,10 +33,10 @@ class Bids extends Component {
     };
   }
   async viewPosts() {
-    this.setState({ loader: true });
+    this.setState({loader: true});
     try {
-      let { user } = this.props;
-      const { key } = this.state;
+      let {user} = this.props;
+      const {key} = this.state;
       return await camelapp
         .post('/get/bids', {
           user_id: user?.user?.user.id,
@@ -60,7 +60,7 @@ class Bids extends Component {
   }
   ScrollToRefresh() {
     this.viewPosts();
-    this.setState({ refreshing: false });
+    this.setState({refreshing: false});
   }
   onViewPostClick(item) {
     if (item.post.category_id == '1') {
@@ -129,11 +129,11 @@ class Bids extends Component {
     });
   }
   onProfileClick = item => {
-    let { user } = this.props;
+    let {user} = this.props;
     user = user?.user?.user;
     if (user != undefined) {
       if (item?.user_id == user?.id) {
-        this.props.navigation.navigate('Profile', { screen: 'حسابي' });
+        this.props.navigation.navigate('Profile', {screen: 'حسابي'});
       } else {
         this.props.navigation?.navigate('UserProfile', {
           user_id: item?.user_id,
@@ -148,7 +148,7 @@ class Bids extends Component {
     }
   };
   render() {
-    const { key, posts, refreshing, loader } = this.state;
+    const {key, posts, refreshing, loader} = this.state;
     const BidsItem = ({
       item,
       userName,
@@ -167,7 +167,7 @@ class Bids extends Component {
           alignContent: 'center',
           marginTop: 10,
           marginBottom: 10,
-          alignItems: 'center'
+          alignItems: 'center',
         }}>
         <TouchableOpacity onPress={() => this.onProfileClick(item?.item)}>
           <FastImage
@@ -179,7 +179,7 @@ class Bids extends Component {
             }}
             source={{
               uri: profileBaseUrl + userImage,
-              headers: { Authorization: 'someAuthToken' },
+              headers: {Authorization: 'someAuthToken'},
               priority: FastImage.priority.high,
             }}
             resizeMode={FastImage?.resizeMode.cover}
@@ -195,9 +195,8 @@ class Bids extends Component {
             style={{
               fontSize: 16,
               textAlign: 'right',
-              fontWeight: 'bold',
               color: 'black',
-              fontFamily: family.Neo_Regular,
+              fontFamily: family.Neo_Medium,
             }}>
             {userName}
           </Text>
@@ -205,30 +204,29 @@ class Bids extends Component {
             style={{
               fontSize: 16,
               textAlign: 'right',
-              fontWeight: 'bold',
               color: 'black',
-              fontFamily: family.Neo_Regular,
+              fontFamily: family.Neo_Medium,
+              marginVertical: 5,
             }}>
             {bidPrice}
           </Text>
           <Text
             style={{
-              fontWeight: 'bold',
               color: 'black',
               width: '99%',
               textAlign: 'center',
-              fontFamily: family.Neo_Regular,
+              fontFamily: family.Neo_Medium,
             }}>
             {item?.item?.post?.title}
           </Text>
         </View>
-        <View style={{ flexDirection: 'column', justifyContent: 'space-around' }}>
+        <View style={{flexDirection: 'column', justifyContent: 'space-around'}}>
           {item?.item?.post?.bid_status == 1 ? (
             <TouchableOpacity
               activeOpacity={0.99}
               style={Styles.bidsButtonAccept}
-              onPress={() => { }}>
-              <Text style={{ color: '#D2691Eff', fontWeight: 'bold' , fontFamily: family.Neo_Regular,}}>
+              onPress={() => {}}>
+              <Text style={{color: '#D2691Eff', fontFamily: family.Neo_Medium}}>
                 {ArabicText?.bidClosed}
               </Text>
             </TouchableOpacity>
@@ -236,7 +234,11 @@ class Bids extends Component {
             <TouchableOpacity
               style={Styles.bidsButtonAccept}
               onPress={onWithdrawBid}>
-              <Text style={{ color: '#D2691Eff', fontWeight: 'bold' ,fontFamily: family.Neo_Regular,}}>
+              <Text
+                style={{
+                  color: '#D2691Eff',
+                  fontFamily: family.Neo_Medium
+                }}>
                 {ArabicText?.WithDraw}
               </Text>
             </TouchableOpacity>
@@ -245,7 +247,11 @@ class Bids extends Component {
           <TouchableOpacity
             style={Styles.bidsButtonAccept}
             onPress={onViewPost}>
-            <Text style={{ color: '#D2691Eff', fontWeight: 'bold' ,fontFamily: family.Neo_Regular,}}>
+            <Text
+              style={{
+                color: '#D2691Eff',
+                fontFamily: family.Neo_Medium
+              }}>
               {ArabicText?.View_Post}
             </Text>
           </TouchableOpacity>
@@ -271,7 +277,7 @@ class Bids extends Component {
             size="large"
             color="#D2691Eff"
             animating={loader}
-            style={{ marginTop: 20 }}
+            style={{marginTop: 20}}
           />
         )}
         {!loader && (
@@ -284,8 +290,8 @@ class Bids extends Component {
                 onRefresh={() => this.ScrollToRefresh()}
               />
             }
-            style={{ flex: 1 }}
-            contentContainerStyle={{ flexGrow: 1, paddingBottom: width * 0.5 }}
+            style={{flex: 1}}
+            contentContainerStyle={{flexGrow: 1, paddingBottom: width * 0.5}}
             data={posts}
             renderItem={renderBidItem}
           />

@@ -851,7 +851,7 @@ class Profile extends Component {
                         textAlign: 'right',
                         marginRight: 4,
                         fontFamily:
-                          Platform.OS == 'ios' ? null : family.Neo_Medium,
+                          family.Neo_Medium,
                       }}>
                       {subscription?.length
                         ? subscription
@@ -903,7 +903,7 @@ class Profile extends Component {
                   </TouchableOpacity>
                   {/* OR  */}
                   <Text
-                    style={{fontSize: 30, fontWeight: '400', color: '#fff'}}>
+                    style={{fontSize: 30,  color: '#fff'}}>
                     |
                   </Text>
                   {/* NO OF POSTS  */}
@@ -915,7 +915,7 @@ class Profile extends Component {
                   </View>
                   {/* OR  */}
                   <Text
-                    style={{fontSize: 30, fontWeight: '400', color: '#fff'}}>
+                    style={{fontSize: 30, color: '#fff'}}>
                     |
                   </Text>
                   {/* FOLLOWERS LIST  */}
@@ -956,7 +956,7 @@ class Profile extends Component {
                           margin: 5,
                           color: 'black',
                           fontFamily:
-                            Platform.OS == 'ios' ? null : family.Neo_Regular,
+                            family.Neo_Regular,
                         }}>
                         {ArabicText?.AddWhatsappnumber}
                       </Text>
@@ -981,10 +981,9 @@ class Profile extends Component {
                         <Text
                           style={{
                             margin: 3,
-                            fontWeight: 'bold',
                             color: 'black',
                             fontFamily:
-                              Platform.OS == 'ios' ? null : family.Neo_Regular,
+                              family.Neo_Medium,
                           }}>
                           {this.state.registerSwitch == true
                             ? ArabicText?.active
@@ -1035,7 +1034,7 @@ class Profile extends Component {
                           margin: 5,
                           color: 'black',
                           fontFamily:
-                            Platform.OS == 'ios' ? null : family.Neo_Regular,
+                            family.Neo_Regular,
                         }}>
                         {ArabicText?.Enable_dissableChat}
                       </Text>
@@ -1050,10 +1049,9 @@ class Profile extends Component {
                         <Text
                           style={{
                             margin: 3,
-                            fontWeight: 'bold',
                             color: 'black',
                             fontFamily:
-                              Platform.OS == 'ios' ? null : family.Neo_Regular,
+                              family.Neo_Medium,
                           }}>
                           {this.state.chatFlag == true
                             ? ArabicText?.active
@@ -1101,7 +1099,7 @@ class Profile extends Component {
                           margin: 5,
                           color: 'black',
                           fontFamily:
-                            Platform.OS == 'ios' ? null : family.Neo_Regular,
+                            family.Neo_Regular,
                         }}>
                         {ArabicText?.UpdatePhone}
                       </Text>
@@ -1126,10 +1124,9 @@ class Profile extends Component {
                         <Text
                           style={{
                             margin: 3,
-                            fontWeight: 'bold',
                             color: 'black',
                             fontFamily:
-                              Platform.OS == 'ios' ? null : family.Neo_Regular,
+                              family.Neo_Medium,
                           }}>
                           {this.state.phoneStatusSwitch == true ||
                           this.state.phoneStatusSwitch == 'True'
@@ -1202,9 +1199,8 @@ class Profile extends Component {
                       style={{
                         color: '#8b4513',
                         fontSize: 15,
-                        fontWeight: '600',
                         fontFamily:
-                          Platform.OS == 'ios' ? null : family.Neo_Regular,
+                          family.Neo_Regular,
                       }}>
                       {ArabicText?.EnterOTPHere}
                     </Text>
@@ -1250,7 +1246,7 @@ class Profile extends Component {
                       textAlign: 'center',
                       marginVertical: 30,
                       fontFamily:
-                        Platform.OS == 'ios' ? null : family.Neo_Regular,
+                        family.Neo_Regular,
                     }}>
                     {' '}
                     {ArabicText?.NoPostFound}
@@ -1341,7 +1337,6 @@ const Item = ({
               <Text
                 style={{
                   color: '#D2691Eff',
-                  fontWeight: 'bold',
                   fontSize: 15,
                   fontFamily: family.Neo_Regular,
                 }}>
@@ -1376,7 +1371,7 @@ const Item = ({
                     color: 'black',
                     textAlign: 'right',
                     fontFamily:
-                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                      family.Neo_Regular,
                   }}>
                   {user_location}
                 </Text>
@@ -1390,7 +1385,7 @@ const Item = ({
                     color: 'black',
                     textAlign: 'right',
                     fontFamily:
-                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                      family.Neo_Regular,
                   }}>
                   {date}
                 </Text>
@@ -1819,11 +1814,10 @@ const styles = StyleSheet.create({
   name: {
     margin: 3,
     color: '#D2691Eff',
-    fontWeight: '700',
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    fontFamily: family.Neo_Regular,
+    fontFamily: family.Neo_Medium,
   },
   icons: {
     flexDirection: 'row',

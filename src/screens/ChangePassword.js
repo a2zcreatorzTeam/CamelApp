@@ -124,21 +124,18 @@ class ChangePassword extends Component {
             flex: 1,
             backgroundColor: '#fff',
             width: '100%',
-
           }}>
           <Text
             style={{
               color: 'grey',
               textAlign: 'center',
               fontSize: 22,
-              fontWeight: '600',
               marginVertical: 20,
-              fontFamily: family.Neo_Regular,
+              fontFamily: family.Neo_Medium,
             }}>
             {ArabicText?.Changepassword}
           </Text>
-          <View
-            style={{justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
             {/* Current password  */}
             <View
               style={[

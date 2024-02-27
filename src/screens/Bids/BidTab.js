@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text,  TouchableOpacity, Platform} from 'react-native';
+import {View, Text, TouchableOpacity, Platform} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Dimensions} from 'react-native';
@@ -9,11 +9,16 @@ const width = Dimensions.get('screen').width;
 const hight = Dimensions.get('screen').height;
 const Tab = createMaterialTopTabNavigator();
 import * as ArabicText from '../../language/EnglishToArabic';
-import { family } from '../../constants/Family';
+import {family} from '../../constants/Family';
 export default class BidTab extends Component {
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View
+        style={{
+          flex: 1,
+          paddingTop: Platform.OS == 'ios' ? 30 : 0,
+          backgroundColor: '#D2691Eff',
+        }}>
         <View
           style={{width: width, height: hight, backgroundColor: '#D2691Eff'}}>
           <View
@@ -28,10 +33,9 @@ export default class BidTab extends Component {
             <Text
               style={{
                 color: '#fff',
-                fontWeight: 'bold',
                 alignSelf: 'center',
                 fontSize: 35,
-                fontFamily: family.Neo_Regular,
+                fontFamily: family.Neo_Medium,
               }}>
               {ArabicText?.Bids}
             </Text>
@@ -82,9 +86,8 @@ export default class BidTab extends Component {
                       style={{
                         fontSize: 18,
                         color: '#D2691Eff',
-                        fontWeight: 'bold',
                         alignSelf: 'center',
-                        fontFamily: family.Neo_Regular,
+                        fontFamily: family.Neo_Medium,
                       }}>
                       {ArabicText?.Bids_on_my_posts}
                     </Text>
@@ -100,9 +103,8 @@ export default class BidTab extends Component {
                       style={{
                         fontSize: 18,
                         color: '#D2691Eff',
-                        fontWeight: 'bold',
                         alignSelf: 'center',
-                        fontFamily: family.Neo_Regular,
+                        fontFamily: family.Neo_Medium,
                       }}>
                       {ArabicText?.offer_Up_bid}
                     </Text>

@@ -341,7 +341,6 @@ class BeautyOfCompetition extends Component {
         <Text
           style={{
             fontSize: 18,
-            fontWeight: 'bold',
             marginTop: 10,
             color: 'black',
             fontFamily: family.Neo_Regular,
@@ -373,10 +372,9 @@ class BeautyOfCompetition extends Component {
             fontSize: 16,
             textAlign: 'right',
             color: '#565756',
-            fontWeight: '700',
             marginRight: 10,
             marginBottom: 5,
-            fontFamily: family.Neo_Regular,
+            fontFamily: family.Neo_Medium,
           }}>
           {userName}
         </Text>
@@ -518,8 +516,7 @@ class BeautyOfCompetition extends Component {
                   style={{
                     margin: 5,
                     color: 'black',
-                    fontFamily:
-                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                    fontFamily: family.Neo_Regular,
                   }}>
                   {ArabicText.Reward}
                 </Text>
@@ -625,8 +622,7 @@ class BeautyOfCompetition extends Component {
                       margin: 5,
                       color: 'black',
                       textAlign: 'center',
-                      fontFamily:
-                        Platform.OS == 'ios' ? null : family.Neo_Regular,
+                      fontFamily: family.Neo_Regular,
                     }}>
                     {ArabicText.General_Rule}
                   </Text>
@@ -776,6 +772,7 @@ class BeautyOfCompetition extends Component {
                 marginVertical: 20,
                 backgroundColor: '#D2691Eff',
                 borderRadius: 15,
+                paddingVertical: 15,
               }}
               onPress={() => this.selectedCompetition()}>
               <Text style={[Styles.ButtonBeauty, {width: width - 20}]}>

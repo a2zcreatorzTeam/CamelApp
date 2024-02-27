@@ -42,6 +42,7 @@ import {
   profileBaseUrl,
   thumbnailBaseUrl,
 } from '../constants/urls';
+import {family} from '../constants/Family';
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
 
@@ -807,9 +808,9 @@ class UserProfile extends Component {
                 fontSize: 18,
                 margin: 3,
                 color: '#D2691Eff',
-                fontWeight: '500',
                 textAlign: 'center',
                 justifyContent: 'center',
+                fontFamily: family.Neo_Medium,
               }}>
               {OtherUserDetail?.name}
             </Text>
@@ -1079,7 +1080,6 @@ const styles = StyleSheet.create({
   titleText: {
     color: '#fff',
     fontSize: 15,
-    fontWeight: '600',
   },
   priceContainer: {
     position: 'absolute',
@@ -1097,13 +1097,13 @@ const styles = StyleSheet.create({
   },
   priceTxt: {
     color: 'white',
-    fontWeight: '800',
     fontSize: 14,
+    fontFamily: family.Neo_Regular,
   },
   bidPrice: {
     textAlign: 'center',
     color: 'white',
-    fontWeight: '500',
+    fontFamily: family.Neo_Regular,
     fontSize: 13,
   },
 });
@@ -1166,7 +1166,11 @@ const Item = ({
               onPress={onCategoryClick}
               style={Styles.btnHome2}>
               <Text
-                style={{color: '#D2691Eff', fontWeight: 'bold', fontSize: 15}}>
+                style={{
+                  color: '#D2691Eff',
+                  fontFamily: family.Neo_Regular,
+                  fontSize: 15,
+                }}>
                 {category}
               </Text>
             </TouchableOpacity>
@@ -1403,7 +1407,7 @@ const Item = ({
           style={{position: 'absolute', left: 10, top: 5}}
           onPress={onDetailsClick}>
           <View style={Styles.btnHome}>
-            <Text style={{color: '#fff', fontWeight: 'bold'}}>
+            <Text style={{color: '#fff', fontFamily: family.Neo_Regular}}>
               {ArabicText.Details}
             </Text>
           </View>
@@ -1415,7 +1419,7 @@ const Item = ({
             right: 10,
             top: 12,
             color: '#000',
-            fontWeight: '600',
+            fontFamily: family.Neo_Regular,
           }}>
           {title}
         </Text>

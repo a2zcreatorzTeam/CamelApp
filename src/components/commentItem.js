@@ -275,7 +275,7 @@ const Item = ({
                           color: 'black',
                           textAlign: 'right',
                           fontFamily:
-                            Platform.OS == 'ios' ? null : family.Neo_Regular,
+                            family.Neo_Regular,
                         }}>
                         {item?.name}
                       </Text>
@@ -286,7 +286,7 @@ const Item = ({
                           color: 'black',
                           textAlign: 'right',
                           fontFamily:
-                            Platform.OS == 'ios' ? null : family.Neo_Regular,
+                            family.Neo_Regular,
                         }}>
                         {date}
                       </Text>
@@ -299,7 +299,7 @@ const Item = ({
                           paddingHorizontal: 20,
                           marginVertical: 10,
                           fontFamily:
-                            Platform.OS == 'ios' ? null : family.Neo_Regular,
+                            family.Neo_Regular,
                         }}>
                         {item?.reply}
                       </Text>

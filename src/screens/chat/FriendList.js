@@ -125,8 +125,7 @@ const FriendList = prop => {
                     style={{
                       color: '#000',
                       fontSize: 11,
-                      fontFamily:
-                        Platform.OS == 'ios' ? null : family.Neo_Regular,
+                      fontFamily: family.Neo_Regular,
                     }}>
                     {ArabicText.reject}
                   </Text>
@@ -197,17 +196,16 @@ const styles = StyleSheet.create({
   groupName: {
     width: 90,
     color: '#000',
-    fontWeight: '700',
     fontSize: 17,
     textAlign: 'center',
-    fontFamily: family.Neo_Regular,
+    fontFamily: family.Neo_Medium,
   },
   userName: {
     color: '#000',
-    fontWeight: '600',
     fontSize: 16,
     textAlign: 'right',
     width: '100%',
+    fontFamily: family.Neo_Medium,
   },
   groupImageContainer: {
     width: 60,

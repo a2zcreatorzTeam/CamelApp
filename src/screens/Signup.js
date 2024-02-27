@@ -264,7 +264,7 @@ class SignUp extends Component {
                       fontSize: 12,
                       textAlign: 'right',
                       fontFamily:
-                        Platform.OS == 'ios' ? null : family.Neo_Regular,
+                        family.Neo_Regular,
                     }}>
                     {ArabicText?.Thenamemustcontainatleast3letters}
                   </Text>
@@ -287,7 +287,7 @@ class SignUp extends Component {
                       fontSize: 12,
                       textAlign: 'right',
                       fontFamily:
-                        Platform.OS == 'ios' ? null : family.Neo_Regular,
+                        family.Neo_Regular,
                     }}>
                     {ArabicText?.Thephonenumbermustonlyhavenumbers}
                   </Text>
@@ -323,7 +323,7 @@ class SignUp extends Component {
                       textAlign: 'right',
                       color: 'black',
                       fontFamily:
-                        Platform.OS == 'ios' ? null : family.Neo_Regular,
+                        family.Neo_Regular,
                     }}
                     placeholderTextColor="#000000"
                     placeholder={ArabicText.passwords}
@@ -339,7 +339,7 @@ class SignUp extends Component {
                       fontSize: 12,
                       textAlign: 'right',
                       fontFamily:
-                        Platform.OS == 'ios' ? null : family.Neo_Regular,
+                        family.Neo_Regular,
                     }}>
                     {ArabicText?.Thenamemustcontainatleast6letters}
                   </Text>
@@ -377,7 +377,7 @@ class SignUp extends Component {
                       textAlign: 'right',
                       color: 'black',
                       fontFamily:
-                        Platform.OS == 'ios' ? null : family.Neo_Regular,
+                        family.Neo_Regular,
                     }}
                     placeholderTextColor="#000000"
                     placeholder={ArabicText.confirm_password}
@@ -395,7 +395,7 @@ class SignUp extends Component {
                       fontSize: 12,
                       textAlign: 'right',
                       fontFamily:
-                        Platform.OS == 'ios' ? null : family.Neo_Regular,
+                        family.Neo_Regular,
                     }}>
                     {ArabicText?.Thenamemustcontainatleast6letters}
                   </Text>
@@ -414,7 +414,7 @@ class SignUp extends Component {
                     margin: 5,
                     marginRight: 5,
                     fontFamily:
-                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                      family.Neo_Regular,
                   }}
                   onPress={() => this.props.navigation.navigate('Login')}>
                   {ArabicText.Already_an_account}
@@ -461,7 +461,7 @@ class SignUp extends Component {
                     color: 'black',
                     fontSize: 14,
                     fontFamily:
-                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                      family.Neo_Regular,
                   }}>
                   {ArabicText?.Iagreetothetermsandconditions}
                 </Text>
@@ -498,7 +498,7 @@ class SignUp extends Component {
                     color: '#D2691Eff',
                     fontSize: 14,
                     fontFamily:
-                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                      family.Neo_Regular,
                   }}>
                   {ArabicText?.Learnmoreabouttermsandconditions}
                 </Text>

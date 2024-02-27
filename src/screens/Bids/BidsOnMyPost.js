@@ -1,19 +1,27 @@
-import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image, FlatList, RefreshControl, Platform } from 'react-native';
-import { Styles } from '../../styles/globlestyle';
-import { withdrawBid } from '../../context/DataContext';
+import React, {Component} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  FlatList,
+  RefreshControl,
+  Platform,
+} from 'react-native';
+import {Styles} from '../../styles/globlestyle';
+import {withdrawBid} from '../../context/DataContext';
 import * as ArabicText from '../../language/EnglishToArabic';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import * as userActions from '../../redux/actions/user_actions';
-import { bindActionCreators } from 'redux';
+import {bindActionCreators} from 'redux';
 import camelapp from '../../api/camelapp';
-import { Dimensions } from 'react-native';
+import {Dimensions} from 'react-native';
 import Toast from 'react-native-toast-message';
 import EmptyComponent from '../../components/EmptyComponent';
-import { ActivityIndicator } from 'react-native';
-import { profileBaseUrl } from '../../constants/urls';
+import {ActivityIndicator} from 'react-native';
+import {profileBaseUrl} from '../../constants/urls';
 import FastImage from 'react-native-fast-image';
-import { family } from '../../constants/Family';
+import {family} from '../../constants/Family';
 const width = Dimensions.get('screen').width;
 
 class Bids extends Component {
@@ -29,10 +37,10 @@ class Bids extends Component {
     this.viewPosts();
   }
   async viewPosts() {
-    this.setState({ loader: true });
+    this.setState({loader: true});
     try {
-      const { key } = this.state;
-      let { user } = this.props;
+      const {key} = this.state;
+      let {user} = this.props;
       return await camelapp
         .get(`/get/bids/${user?.user?.user?.id}`)
         .then(res => {
@@ -115,18 +123,16 @@ class Bids extends Component {
       }
     });
   }
-  onAcceptBid = async (item) => {
+  onAcceptBid = async item => {
     try {
-      return await camelapp
-        .post(`/accept/bid/${item?.bid_id}`)
-        .then(res => {
-          this.viewPosts();
-          Toast.show({
-            text1: res?.data?.message,
-            type: 'success',
-            visibilityTime: 3000,
-          });
+      return await camelapp.post(`/accept/bid/${item?.bid_id}`).then(res => {
+        this.viewPosts();
+        Toast.show({
+          text1: res?.data?.message,
+          type: 'success',
+          visibilityTime: 3000,
         });
+      });
     } catch (error) {
       Toast.show({
         text1: ArabicText.somethingwentwrong,
@@ -134,13 +140,13 @@ class Bids extends Component {
         visibilityTime: 3000,
       });
     }
-  }
+  };
   onProfileClick = item => {
-    let { user } = this.props;
+    let {user} = this.props;
     user = user?.user?.user;
     if (user != undefined) {
       if (item?.user_id == user?.id) {
-        this.props.navigation.navigate('Profile', { screen: 'حسابي' });
+        this.props.navigation.navigate('Profile', {screen: 'حسابي'});
       } else {
         this.props.navigation?.navigate('UserProfile', {
           user_id: item?.user_id,
@@ -156,10 +162,10 @@ class Bids extends Component {
   };
   ScrollToRefresh() {
     this.viewPosts();
-    this.setState({ refreshing: false });
+    this.setState({refreshing: false});
   }
   render() {
-    const { key, loader } = this.state;
+    const {key, loader} = this.state;
     const BidsItem = ({
       item,
       userName,
@@ -167,7 +173,7 @@ class Bids extends Component {
       bidPrice,
       onViewPost,
       onWithdrawBid,
-      onAcceptBid
+      onAcceptBid,
     }) => (
       <View
         style={{
@@ -191,7 +197,7 @@ class Bids extends Component {
             }}
             source={{
               uri: profileBaseUrl + userImage,
-              headers: { Authorization: 'someAuthToken' },
+              headers: {Authorization: 'someAuthToken'},
               priority: FastImage.priority.high,
             }}
             resizeMode={FastImage?.resizeMode.cover}
@@ -207,9 +213,8 @@ class Bids extends Component {
             style={{
               fontSize: 16,
               textAlign: 'right',
-              fontWeight: 'bold',
               color: 'black',
-               fontFamily: family.Neo_Regular
+              fontFamily: family.Neo_Medium,
             }}>
             {userName}
           </Text>
@@ -217,21 +222,18 @@ class Bids extends Component {
             style={{
               fontSize: 16,
               textAlign: 'right',
-              fontWeight: 'bold',
               color: 'black',
-               fontFamily: family.Neo_Regular
+              fontFamily: family.Neo,
             }}>
             {bidPrice}
           </Text>
           <Text
             style={{
               fontSize: 16,
-              // textAlign: 'right',
-              fontWeight: 'bold',
               color: 'black',
               width: '99%',
               textAlign: 'center',
-               fontFamily: family.Neo_Regular
+              fontFamily: family.Neo_Medium,
             }}>
             {item?.post?.title}
           </Text>
@@ -241,8 +243,8 @@ class Bids extends Component {
             <TouchableOpacity
               activeOpacity={0.99}
               style={Styles.bidsButtonAccept}
-              onPress={() => { }}>
-              <Text style={{ color: '#D2691Eff', fontWeight: 'bold',  fontFamily: family.Neo_Regular }}>
+              onPress={() => {}}>
+              <Text style={{color: '#D2691Eff', fontFamily: family.Neo_Medium}}>
                 {ArabicText?.bidClosed}
               </Text>
             </TouchableOpacity>
@@ -251,14 +253,16 @@ class Bids extends Component {
               <TouchableOpacity
                 style={Styles.bidsButtonAccept}
                 onPress={onWithdrawBid}>
-                <Text style={{ color: '#D2691Eff', fontWeight: 'bold',  fontFamily: family.Neo_Regular }}>
+                <Text
+                  style={{color: '#D2691Eff', fontFamily: family.Neo_Medium}}>
                   {ArabicText.WithDraw}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={Styles.bidsButtonAccept}
                 onPress={onAcceptBid}>
-                <Text style={{ color: '#D2691Eff', fontWeight: 'bold',  fontFamily: family.Neo_Regular }}>
+                <Text
+                  style={{color: '#D2691Eff', fontFamily: family.Neo_Medium}}>
                   {ArabicText.accept}
                 </Text>
               </TouchableOpacity>
@@ -268,14 +272,18 @@ class Bids extends Component {
           <TouchableOpacity
             style={Styles.bidsButtonAccept}
             onPress={onViewPost}>
-            <Text style={{ color: '#D2691Eff', fontWeight: 'bold',  fontFamily: family.Neo_Regular }}>
+            <Text
+              style={{
+                color: '#D2691Eff',
+                fontFamily: family.Neo_Medium,
+              }}>
               {ArabicText.View_Post}
             </Text>
           </TouchableOpacity>
         </View>
       </View>
     );
-    const renderBidItem = ({ item }) => {
+    const renderBidItem = ({item}) => {
       return (
         <BidsItem
           item={item}
@@ -295,15 +303,15 @@ class Bids extends Component {
             size="large"
             color="#D2691Eff"
             animating={loader}
-            style={{ marginTop: 20 }}
+            style={{marginTop: 20}}
           />
         )}
         {!loader && (
           <FlatList
             ListEmptyComponent={() => <EmptyComponent />}
             key={key}
-            style={{ flex: 1 }}
-            contentContainerStyle={{ paddingBottom: width * 0.5, flexGrow: 1 }}
+            style={{flex: 1}}
+            contentContainerStyle={{paddingBottom: width * 0.5, flexGrow: 1}}
             data={this.state.posts}
             renderItem={renderBidItem}
             refeshing={this.state.refreshing}

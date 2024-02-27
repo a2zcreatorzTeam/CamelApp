@@ -537,7 +537,7 @@ class SellingEquipmentForm extends React.Component {
                         color: 'black',
                         fontSize: 20,
                         fontFamily:
-                          Platform.OS == 'ios' ? null : family.Neo_Regular,
+                          family.Neo_Regular,
                       }}>
                       {ArabicText.fixed}
                     </Text>
@@ -583,7 +583,7 @@ class SellingEquipmentForm extends React.Component {
                         color: 'black',
                         fontSize: 20,
                         fontFamily:
-                          Platform.OS == 'ios' ? null : family.Neo_Regular,
+                          family.Neo_Regular,
                       }}>
                       {ArabicText.offer_Up}
                     </Text>
@@ -628,7 +628,7 @@ class SellingEquipmentForm extends React.Component {
                     alignSelf: 'center',
                     fontSize: 16,
                     fontFamily:
-                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                      family.Neo_Regular,
                   }}>
                   {ArabicText.fixed}
                 </Text>
@@ -666,7 +666,7 @@ class SellingEquipmentForm extends React.Component {
                     alignSelf: 'center',
                     fontSize: 16,
                     fontFamily:
-                      Platform.OS == 'ios' ? null : family.Neo_Regular,
+                      family.Neo_Regular,
                     marginLeft: 20,
                   }}>
                   {ArabicText.offer_Up}

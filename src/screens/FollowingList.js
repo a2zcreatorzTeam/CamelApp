@@ -107,7 +107,7 @@ class Following extends Component {
               color: '#565756',
               marginRight: 10,
               marginBottom: 5,
-               fontFamily: Platform.OS == 'ios' ? null: family.Neo_Medium,
+               fontFamily: family.Neo_Medium,
             }}>
             {userName}
           </Text>

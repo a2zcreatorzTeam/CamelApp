@@ -133,7 +133,7 @@ class ChangePassword extends Component {
               fontSize: 22,
               fontWeight: '600',
               marginVertical: 20,
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             {ArabicText?.Changepassword}
           </Text>

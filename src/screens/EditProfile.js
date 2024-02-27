@@ -366,7 +366,7 @@ class EditProfile extends Component {
                   color: '#fff',
                   fontSize: 16,
                   fontWeight: 'bold',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {ArabicText?.UpdateProfile}
               </Text>

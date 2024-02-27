@@ -229,7 +229,7 @@ class CamelClubDetailsComponent extends Component {
                 fontSize: 20,
                 fontWeight: '700',
                 marginRight: 20,
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                fontFamily: family.Neo_Regular,
               }}>
               {itemFromDetails.name}
             </Text>
@@ -238,7 +238,7 @@ class CamelClubDetailsComponent extends Component {
                 color: '#000',
                 fontSize: 14,
                 marginRight: 20,
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                fontFamily: family.Neo_Regular,
               }}>
               {itemFromDetails.user_location}
             </Text>

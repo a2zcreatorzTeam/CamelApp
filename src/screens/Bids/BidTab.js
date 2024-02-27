@@ -31,7 +31,7 @@ export default class BidTab extends Component {
                 fontWeight: 'bold',
                 alignSelf: 'center',
                 fontSize: 35,
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                fontFamily: family.Neo_Regular,
               }}>
               {ArabicText?.Bids}
             </Text>
@@ -84,7 +84,7 @@ export default class BidTab extends Component {
                         color: '#D2691Eff',
                         fontWeight: 'bold',
                         alignSelf: 'center',
-                        fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                        fontFamily: family.Neo_Regular,
                       }}>
                       {ArabicText?.Bids_on_my_posts}
                     </Text>
@@ -102,7 +102,7 @@ export default class BidTab extends Component {
                         color: '#D2691Eff',
                         fontWeight: 'bold',
                         alignSelf: 'center',
-                        fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                        fontFamily: family.Neo_Regular,
                       }}>
                       {ArabicText?.offer_Up_bid}
                     </Text>

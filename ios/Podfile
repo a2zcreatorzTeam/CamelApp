@@ -3,7 +3,6 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 pod 'TwitterKit5'
 pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 pod 'FirebaseAuth'
-
 platform :ios, '12.4'
 install! 'cocoapods', :deterministic_uuids => false
 

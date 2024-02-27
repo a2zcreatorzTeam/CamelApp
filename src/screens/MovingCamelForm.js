@@ -590,7 +590,7 @@ class MovingCamelForm extends React.Component {
                   style={{
                     margin: 3,
                     color: 'black',
-                    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Medium,
+                    fontFamily: family.Neo_Medium,
                   }}>
                   {ArabicText?.Iaccepttermsandconditions}
                 </Text>
@@ -615,7 +615,7 @@ class MovingCamelForm extends React.Component {
                 <Text
                   style={{
                     margin: 3,
-                    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Medium,
+                    fontFamily: family.Neo_Medium,
                     color: 'black',
                   }}>
                   {ArabicText.In_order_to_activity_your_account_pay}

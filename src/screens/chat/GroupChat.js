@@ -513,7 +513,7 @@ const GroupChat = props => {
             color: 'black',
             fontSize: 19,
             fontWeight: '800',
-            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            fontFamily: family.Neo_Regular,
             textAlign: 'center',
           }}>
           {groupName ? groupName : ArabicText.groupChat}
@@ -984,7 +984,7 @@ const GroupChat = props => {
                   width: '100%',
                   textAlign: 'right',
                   color: '#000',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                 }}
                 placeholder={ArabicText?.message}
                 placeholderTextColor="#b0b0b0"

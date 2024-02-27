@@ -157,26 +157,24 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontSize: 20,
-    fontWeight: 'bold',
     color: '#D2691E',
     marginTop: 20,
     marginBottom: 20,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Medium,
   },
   description: {
     fontSize: 20,
     color: '#D2691E',
     marginTop: 10,
     textAlign: 'center',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   textHeader: {
     fontSize: 20,
-    fontWeight: 'bold',
     color: '#D2691E',
     marginTop: 15,
     marginBottom: 10,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Medium,
   },
   textInput: {
     borderColor: '#D2691E',
@@ -200,6 +198,6 @@ const styles = StyleSheet.create({
     color: 'black',
     justifyContent: 'center',
     textAlign: 'right',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
 });

@@ -67,10 +67,9 @@ const NewsPost = ({
               <Text
                 style={{
                   fontSize: 14,
-                  fontWeight: '700',
                   marginRight: 10,
                   color: 'black',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Medium,
                 }}
                 // numberOfLines={4}
               >
@@ -84,7 +83,7 @@ const NewsPost = ({
                   fontSize: 10,
                   marginHorizontal: 20,
                   marginTop: 'auto',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {date}
               </Text>

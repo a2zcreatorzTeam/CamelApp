@@ -73,18 +73,18 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
-		<!-- <string>NeoSansArabicRegular.ttf</string>
-		<string>Neo_Sans_Medium.ttf</string>
+		<string>Neo Sans Arabic Regular.ttf</string>
 		<string>NeoSansArabic.ttf</string>
 		<string>NeoSansArabicBlack.ttf</string>
 		<string>NeoSansArabicBold.ttf</string>
 		<string>NeoSansArabicLight.ttf</string>
 		<string>NeoSansArabicMedium.ttf</string>
-		<string>NeoSansArabicUltra.ttf</string> -->
+		<string>NeoSansArabicRegular.ttf</string>
+		<string>NeoSansArabicUltra.ttf</string>
+		<string>Neo_Sans_Medium.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
-		<!-- <string>processing</string> -->
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

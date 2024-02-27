@@ -387,7 +387,7 @@ const UserComp = ({item, addGroupUser}) => {
             <Text
               style={{
                 color: '#fff',
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                fontFamily: family.Neo_Regular,
               }}>
               {ArabicText.add}
             </Text>
@@ -447,7 +447,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     color: '#000',
     marginBottom: 30,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
     height: Platform.OS == 'ios' ? 50 : undefined,
   },
   createGroupBTN: {
@@ -472,7 +472,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 17,
     textAlign: 'right',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   userImageContainer: {
     width: 60,

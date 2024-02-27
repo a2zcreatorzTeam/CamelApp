@@ -50,17 +50,16 @@ const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
         <Text
           numberOfLines={2}
           style={{
-            height: 40,
+            height: 30,
             alignSelf: 'center',
             color: 'black',
             textAlign: 'right',
-            fontWeight: '600',
             fontSize: 14,
-            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            fontFamily: family.Neo_Medium,
+            marginTop: 10,
           }}>
           {name}
         </Text>
-        {/* <Text style={{ textAlign: 'right', fontWeight: '600', fontSize: 14 }}> {ArabicText.Title} </Text> */}
       </View>
 
       <View
@@ -73,9 +72,8 @@ const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
           style={{
             color: 'black',
             textAlign: 'right',
-            fontWeight: '600',
             fontSize: 12,
-            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            fontFamily: family.Neo_Medium,
           }}>
           {start_date} :{' '}
         </Text>
@@ -83,9 +81,8 @@ const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
           style={{
             textAlign: 'right',
             color: 'black',
-            fontWeight: 'bold',
             fontSize: 12,
-            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            fontFamily: family.Neo_Medium,
           }}>
           {ArabicText.Start_Date}
         </Text>
@@ -101,9 +98,8 @@ const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
           style={{
             color: 'black',
             textAlign: 'right',
-            fontWeight: '600',
             fontSize: 12,
-            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            fontFamily: family.Neo_Medium,
           }}>
           {end_date} :{' '}
         </Text>
@@ -111,9 +107,8 @@ const Item = ({name, start_date, end_date, onItemClick, image, loader}) => (
           style={{
             textAlign: 'right',
             color: 'black',
-            fontWeight: 'bold',
             fontSize: 12,
-            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            fontFamily: family.Neo_Medium,
           }}>
           {ArabicText.End_Date}
         </Text>

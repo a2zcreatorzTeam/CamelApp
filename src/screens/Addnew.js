@@ -45,7 +45,7 @@ class AddNew extends Component {
               fontSize: 14,
               textAlign: 'right',
               color: 'black',
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             أتعهد ان جميع المعلومات التي سوف اذكرها صحيحة ومطابقة لحالة السلعة
             الحالية - اتعهد بفحص السلعة ومعاينتها قبل الشراء - أتعهد بأتباع شروط
@@ -194,17 +194,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     color: 'black',
     fontSize: 18,
-    fontWeight: 'bold',
     alignSelf: 'center',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Medium,
   },
   subHeading: {
     alignItems: 'center',
     color: 'black',
     fontSize: 16,
-    fontWeight: 'bold',
     alignSelf: 'center',
     textAlign: 'center',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Medium,
   },
 });

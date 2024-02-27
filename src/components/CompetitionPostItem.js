@@ -56,7 +56,7 @@ const PostItem = ({
             color: 'black',
             marginBottom: 10,
             marginHorizontal: 10,
-            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            fontFamily: family.Neo_Regular,
           }}>
           {item?.user_name}
         </Text>
@@ -168,7 +168,7 @@ const PostItem = ({
               color: 'black',
               fontSize: 15,
               marginRight: 3,
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             {viewCount}
           </Text>
@@ -183,7 +183,7 @@ const PostItem = ({
             style={{
               marginRight: 5,
               color: 'black',
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             {commentCount}
           </Text>
@@ -198,7 +198,7 @@ const PostItem = ({
             style={{
               marginRight: 5,
               color: 'black',
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             {likeCount}
           </Text>

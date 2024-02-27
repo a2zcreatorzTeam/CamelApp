@@ -14,7 +14,7 @@ export const Styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#D2691Eff',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   imageCarousal: {
     width: width,
@@ -86,7 +86,7 @@ export const Styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#d2691e',
     alignSelf: 'center',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   inputs: {
     height: 40,
@@ -95,7 +95,7 @@ export const Styles = StyleSheet.create({
     borderBottomWidth: 1,
     textAlign: 'right',
     color: 'black',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   card: {
     // shadowColor: 'black',
@@ -124,7 +124,7 @@ export const Styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: 'bold',
     color: '#fff',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   header: {
     backgroundColor: '#d2691e',
@@ -266,7 +266,7 @@ export const Styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     color: '#fff',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   containerAddNew: {
     flex: 1,
@@ -293,7 +293,7 @@ export const Styles = StyleSheet.create({
     textAlign: 'right',
     borderRadius: 20,
     color: 'black',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   forminputsPrice: {
     height: 40,
@@ -305,7 +305,7 @@ export const Styles = StyleSheet.create({
     textAlign: 'right',
     borderRadius: 6,
     color: 'black',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   centeredView: {
     flex: 1,
@@ -331,7 +331,7 @@ export const Styles = StyleSheet.create({
     marginTop: 2,
     right: 0,
     color: 'black',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   forminputsDetails: {
     padding: 10,
@@ -368,12 +368,12 @@ export const Styles = StyleSheet.create({
     textAlign: 'right',
     borderRadius: 6,
     color: 'black',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   fontDetails: {
     fontSize: 10,
     color: 'black',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   btnform: {
     height: hight / 20,
@@ -470,7 +470,7 @@ export const Styles = StyleSheet.create({
     marginLeft: 50,
     marginRight: 10,
     color: 'black',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   // Style Notofication
   winnerBeauty: {
@@ -484,7 +484,7 @@ export const Styles = StyleSheet.create({
   //Style whatsappShare Screen
   aboutUsTouchableOpacity: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
   },
   quesmark: {
@@ -530,7 +530,8 @@ export const Styles = StyleSheet.create({
     fontSize: 16,
     color: '#fff',
     marginRight: 10,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
+    marginLeft: 10,
   },
   sharebtn: {
     width: 43,
@@ -632,7 +633,7 @@ export const Styles = StyleSheet.create({
     borderBottomWidth: 1,
     textAlign: 'right',
     color: 'black',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   imageNews: {
     width: width - 245,
@@ -735,7 +736,7 @@ export const Styles = StyleSheet.create({
   catBtnText: {
     color: '#D2691Eff',
     fontSize: 15,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Medium,
+    fontFamily: family.Neo_Medium,
   },
 
   // DETAIL SCREENS STYLES
@@ -752,26 +753,26 @@ export const Styles = StyleSheet.create({
     color: '#000',
     fontSize: 18,
     marginRight: 10,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   userLocation: {
     color: '#000',
     fontSize: 14,
     marginRight: 10,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   priceTag: {
     color: 'white',
     fontWeight: '800',
     fontSize: 14,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   price: {
     textAlign: 'center',
     color: 'white',
     fontWeight: '500',
     fontSize: 13,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   priceView: {
     backgroundColor: '#D2691Eff',
@@ -815,7 +816,6 @@ export const Styles = StyleSheet.create({
     paddingBottom: width * 0.1,
     backgroundColor: '#fff',
     minHeight: '100%',
-    
   },
   keyboardView: {
     flex: 1,

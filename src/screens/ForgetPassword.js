@@ -122,7 +122,7 @@ class ForgetPassword extends Component {
               <Text
                 style={{
                   fontSize: 22,
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {ArabicText.Enter_Phone_Number}
               </Text>
@@ -132,7 +132,7 @@ class ForgetPassword extends Component {
                   fontSize: 18,
                   color: 'grey',
                   marginTop: 10,
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {ArabicText.We_will_send_you_a_code_to_reset}
               </Text>

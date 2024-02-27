@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 17,
     textAlign: 'right',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   userName: {
     color: '#000',

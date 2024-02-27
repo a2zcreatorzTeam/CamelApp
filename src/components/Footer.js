@@ -15,6 +15,7 @@ import * as ArabicText from '../language/EnglishToArabic';
 
 import ChatTopTab from '../screens/chat/ChatTopTab';
 import {Platform} from 'react-native';
+import {family} from '../constants/Family';
 
 const Tab = createBottomTabNavigator();
 
@@ -27,9 +28,9 @@ const BottomTab = () => {
         unmountOnBlur: true,
         tabBarLabelStyle: {
           fontSize: 12,
-          fontWeight: '600',
           tabBarInactiveTintColor: '#D2691E',
           marginBottom: Platform.OS == 'ios' ? 0 : 4,
+          fontFamily: family.Neo_Medium,
         },
         tabBarStyle: {
           height: Platform.OS == 'ios' ? 90 : 60, // Adjust the height as needed

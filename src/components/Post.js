@@ -360,12 +360,7 @@ const Post = ({
                   </View>
                 )}
                 {!isImage && !isVideo && (
-                  <Text
-                    style={{
-                      color: '#000',
-                      fontFamily:
-                        Platform.OS == 'ios' ? null : family.Neo_Regular,
-                    }}>
+                  <Text style={{color: '#000', fontFamily: family.Neo_Regular}}>
                     Media not available
                   </Text>
                 )}
@@ -516,7 +511,7 @@ const Post = ({
               color: 'black',
               fontSize: 15,
               marginRight: 3,
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             {viewCount}
           </Text>
@@ -537,7 +532,7 @@ const Post = ({
               color: 'black',
               fontSize: 15,
               marginRight: 3,
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             {share_count}
           </Text>
@@ -557,7 +552,7 @@ const Post = ({
               color: 'black',
               fontSize: 15,
               marginRight: 3,
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             {comment_count}
           </Text>
@@ -576,7 +571,7 @@ const Post = ({
               color: 'black',
               fontSize: 15,
               marginRight: 3,
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             {likeCount}
           </Text>
@@ -591,12 +586,7 @@ const Post = ({
 
       <View style={Styles.posticon}>
         <TouchableOpacity onPress={handleDetailsClick} style={Styles.btnHome}>
-          <Text
-            style={{
-              color: '#fff',
-              fontWeight: 'bold',
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
-            }}>
+          <Text style={{color: '#fff', fontFamily: family.Neo_Medium}}>
             {ArabicText.Details}
           </Text>
         </TouchableOpacity>
@@ -605,8 +595,7 @@ const Post = ({
           style={{
             color: 'black',
             fontSize: 15,
-            fontWeight: '600',
-            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            fontFamily: family.Neo_Medium,
           }}>
           {title}
         </Text>
@@ -631,12 +620,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 10,
   },
-  catBtnText: {
-    color: '#D2691Eff',
-    fontWeight: 'bold',
-    fontSize: 15,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
-  },
+  catBtnText: {color: '#D2691Eff', fontSize: 15, fontFamily: family.Neo_Medium},
   userIcon: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -644,22 +628,21 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontSize: 15,
-    fontWeight: '600',
     color: '#000',
     textAlign: 'right',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Medium,
   },
   postDate: {
     fontSize: 10,
     color: 'grey',
     textAlign: 'right',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   userLocation: {
     fontSize: 10,
     color: '#000',
     textAlign: 'right',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   modalContainer: {
     height: '100%',
@@ -711,16 +694,15 @@ const styles = StyleSheet.create({
   },
   priceTxt: {
     color: 'white',
-    fontWeight: '800',
     fontSize: 14,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Medium,
+    marginVertical: 8,
   },
   bidPrice: {
     textAlign: 'center',
     color: 'white',
-    fontWeight: '500',
     fontSize: 13,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Medium,
   },
   userProfileContainer: {
     flexDirection: 'row',
@@ -735,7 +717,6 @@ const styles = StyleSheet.create({
   titleText: {
     color: '#fff',
     fontSize: 15,
-    fontWeight: '600',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Medium,
   },
 });

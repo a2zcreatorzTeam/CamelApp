@@ -220,7 +220,7 @@ class ViewNews extends Component {
                   style={{
                     color: 'black',
                     fontSize: 17,
-                    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Bold,
+                    fontFamily:family.Neo_Bold,
                   }}>
                   {newsdata?.user?.name}
                 </Text>
@@ -254,7 +254,7 @@ class ViewNews extends Component {
                 color: 'black',
                 fontSize: 20,
                 textAlign: 'right',
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Bold,
+                fontFamily:family.Neo_Bold,
               }}>
               {newsdata?.title}
             </Text>
@@ -283,7 +283,7 @@ class ViewNews extends Component {
               <Text
                 style={{
                   color: 'black',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {ArabicText?.comments}
               </Text>
@@ -375,7 +375,7 @@ const Item = ({
                 fontWeight: 'bold',
                 textAlign: 'right',
                 color: 'black',
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                fontFamily: family.Neo_Regular,
               }}>
               {likeCount}
             </Text>
@@ -401,7 +401,7 @@ const Item = ({
               paddingRight: 5,
               textAlign: 'right',
               color: 'black',
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             {name}
           </Text>
@@ -411,7 +411,7 @@ const Item = ({
               textAlign: 'right',
               color: 'grey',
               marginBottom: 5,
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             {moment(date).format('YYYY-MM-DD')}
           </Text>
@@ -422,7 +422,7 @@ const Item = ({
               paddingRight: 5,
               textAlign: 'right',
               color: 'black',
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             {comments}
           </Text>

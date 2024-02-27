@@ -172,10 +172,9 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'right',
-    fontWeight: '600',
     fontSize: 16,
     // padding: 5,
     color: 'black',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Medium,
   },
 });

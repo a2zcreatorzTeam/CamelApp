@@ -25,22 +25,21 @@ export const Item = ({name, start_date, end_date, onItemClick, image}) => (
         <Text
           style={{
             textAlign: 'right',
-            fontWeight: 'bold',
             fontSize: 14,
-            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            fontFamily: family.Neo_Medium,
           }}>
           {' '}
           {name}
         </Text>
       </View>
       <View style={{flexDirection: 'row', alignSelf: 'flex-end'}}>
-        <Text style={{textAlign: 'right', fontWeight: 'bold', fontSize: 12, fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,}}>
+        <Text style={{textAlign: 'right',  fontSize: 12, fontFamily: family.Neo_Medium,}}>
           {' '}
           {end_date}
         </Text>
       </View>
       <View style={{flexDirection: 'row', alignSelf: 'flex-end'}}>
-        <Text style={{textAlign: 'right', fontWeight: 'bold', fontSize: 12, fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,}}>
+        <Text style={{textAlign: 'right', fontSize: 12, fontFamily: family.Neo_Medium,}}>
           {' '}
           {start_date}
         </Text>

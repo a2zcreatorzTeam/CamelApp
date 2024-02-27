@@ -9,15 +9,24 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* AlsyahdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AlsyahdTests.m */; };
 		0C80B921A6F3F58F76C31292 /* libPods-Alsyahd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-Alsyahd.a */; };
+		0DB8E89699574032B5109B99 /* NeoSansArabic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7BAC92A7F0EF4A80B3961C23 /* NeoSansArabic.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		2BD22860E44645C09AC093F9 /* NeoSansArabicUltra.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7FDFC3C431354BE084DB21AA /* NeoSansArabicUltra.ttf */; };
 		2F0877B82B7F769D009576FE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F26B89F2B764E1800339336 /* Launch Screen.storyboard */; };
 		2F0877B92B7F76A1009576FE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2F2131A92B83876E0009B6EF /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 2F2131A82B83876E0009B6EF /* Fonts */; };
 		2F26B8A02B764E1800339336 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F26B89F2B764E1800339336 /* Launch Screen.storyboard */; };
 		2FEBEBDD2B6BB59E00881FD1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FEBEBDC2B6BB59E00881FD1 /* GoogleService-Info.plist */; };
+		489809DDF44B462283231D69 /* Neo_Sans_Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DD2E04F9E78E4A69A92A59A0 /* Neo_Sans_Medium.ttf */; };
+		7105EC36973D4950A7C269CD /* NeoSansArabicMedium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 75C9ACEACF74443C81DF053E /* NeoSansArabicMedium.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-Alsyahd-AlsyahdTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Alsyahd-AlsyahdTests.a */; };
+		7D5FA47C776E43B38790836D /* Neo Sans Arabic Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 93D08AC8AC47480AB9177F83 /* Neo Sans Arabic Regular.ttf */; };
+		A09E82810439435B9EB6C8DA /* NeoSansArabicRegular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 767C5EA54B3C446DBF54A147 /* NeoSansArabicRegular.ttf */; };
+		AE8AE4E89EB54FAE8967F0E8 /* NeoSansArabicLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2FDFE1B10BB5437E87151C49 /* NeoSansArabicLight.ttf */; };
+		BF85C5E03FAF4BEF96707B48 /* NeoSansArabicBlack.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DCE2AC42475144CF85C06B58 /* NeoSansArabicBlack.ttf */; };
+		E9D5D99AB0D449CE8AF4B8DC /* NeoSansArabicBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3DBDD350AD84EA79EFC92C3 /* NeoSansArabicBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +55,7 @@
 		2F2131A82B83876E0009B6EF /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "../node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
 		2F26B89F2B764E1800339336 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		2F26B8A12B765DDF00339336 /* Alsyahd.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Alsyahd.entitlements; path = Alsyahd/Alsyahd.entitlements; sourceTree = "<group>"; };
+		2FDFE1B10BB5437E87151C49 /* NeoSansArabicLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = NeoSansArabicLight.ttf; path = ../assets/fonts/NeoSansArabicLight.ttf; sourceTree = "<group>"; };
 		2FEBEBDC2B6BB59E00881FD1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-Alsyahd.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Alsyahd.debug.xcconfig"; path = "Target Support Files/Pods-Alsyahd/Pods-Alsyahd.debug.xcconfig"; sourceTree = "<group>"; };
 		4847D1C81B304B0E8A3255EB /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = ../assets/fonts/Ionicons.ttf; sourceTree = "<group>"; };
@@ -53,16 +63,24 @@
 		5B7EB9410499542E8C5724F5 /* Pods-Alsyahd-AlsyahdTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Alsyahd-AlsyahdTests.debug.xcconfig"; path = "Target Support Files/Pods-Alsyahd-AlsyahdTests/Pods-Alsyahd-AlsyahdTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-Alsyahd.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Alsyahd.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E26FB295081456DA4C1B875 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = ../assets/fonts/AntDesign.ttf; sourceTree = "<group>"; };
+		75C9ACEACF74443C81DF053E /* NeoSansArabicMedium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = NeoSansArabicMedium.ttf; path = ../assets/fonts/NeoSansArabicMedium.ttf; sourceTree = "<group>"; };
+		767C5EA54B3C446DBF54A147 /* NeoSansArabicRegular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = NeoSansArabicRegular.ttf; path = ../assets/fonts/NeoSansArabicRegular.ttf; sourceTree = "<group>"; };
 		7A9C865B2FFE4BE48E7A7F4B /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = ../assets/fonts/Octicons.ttf; sourceTree = "<group>"; };
+		7BAC92A7F0EF4A80B3961C23 /* NeoSansArabic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = NeoSansArabic.ttf; path = ../assets/fonts/NeoSansArabic.ttf; sourceTree = "<group>"; };
 		7DBB9FF43A4648A89A93CF10 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = ../assets/fonts/FontAwesome.ttf; sourceTree = "<group>"; };
+		7FDFC3C431354BE084DB21AA /* NeoSansArabicUltra.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = NeoSansArabicUltra.ttf; path = ../assets/fonts/NeoSansArabicUltra.ttf; sourceTree = "<group>"; };
 		897FF7A569404104AF732DD0 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = ../assets/fonts/Foundation.ttf; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-Alsyahd-AlsyahdTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Alsyahd-AlsyahdTests.release.xcconfig"; path = "Target Support Files/Pods-Alsyahd-AlsyahdTests/Pods-Alsyahd-AlsyahdTests.release.xcconfig"; sourceTree = "<group>"; };
 		89CCF5E47F33400F99A8D295 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = ../assets/fonts/FontAwesome5_Solid.ttf; sourceTree = "<group>"; };
 		92E418D8EAF04E3EACBF8A61 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = ../assets/fonts/EvilIcons.ttf; sourceTree = "<group>"; };
+		93D08AC8AC47480AB9177F83 /* Neo Sans Arabic Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Neo Sans Arabic Regular.ttf"; path = "../assets/fonts/Neo Sans Arabic Regular.ttf"; sourceTree = "<group>"; };
 		A6929B8045FF4D4BB39913FD /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = ../assets/fonts/FontAwesome5_Brands.ttf; sourceTree = "<group>"; };
 		AEFF4C657AA7451D8C66F980 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = ../assets/fonts/MaterialIcons.ttf; sourceTree = "<group>"; };
 		D13075D91C8C4451BECD5904 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = ../assets/fonts/SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		D8AFF8F167094067ABA98925 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = ../assets/fonts/MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
+		DCE2AC42475144CF85C06B58 /* NeoSansArabicBlack.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = NeoSansArabicBlack.ttf; path = ../assets/fonts/NeoSansArabicBlack.ttf; sourceTree = "<group>"; };
+		DD2E04F9E78E4A69A92A59A0 /* Neo_Sans_Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Neo_Sans_Medium.ttf; path = ../assets/fonts/Neo_Sans_Medium.ttf; sourceTree = "<group>"; };
+		E3DBDD350AD84EA79EFC92C3 /* NeoSansArabicBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = NeoSansArabicBold.ttf; path = ../assets/fonts/NeoSansArabicBold.ttf; sourceTree = "<group>"; };
 		E9A0C36A1B264AC8AB024DCA /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = ../assets/fonts/FontAwesome5_Regular.ttf; sourceTree = "<group>"; };
 		EA3FF5B05254475EA1CCE100 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = ../assets/fonts/Feather.ttf; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -194,6 +212,15 @@
 				7A9C865B2FFE4BE48E7A7F4B /* Octicons.ttf */,
 				D13075D91C8C4451BECD5904 /* SimpleLineIcons.ttf */,
 				0B5DF71EDC2C4A0389C0F6EE /* Zocial.ttf */,
+				93D08AC8AC47480AB9177F83 /* Neo Sans Arabic Regular.ttf */,
+				7BAC92A7F0EF4A80B3961C23 /* NeoSansArabic.ttf */,
+				DCE2AC42475144CF85C06B58 /* NeoSansArabicBlack.ttf */,
+				E3DBDD350AD84EA79EFC92C3 /* NeoSansArabicBold.ttf */,
+				2FDFE1B10BB5437E87151C49 /* NeoSansArabicLight.ttf */,
+				75C9ACEACF74443C81DF053E /* NeoSansArabicMedium.ttf */,
+				767C5EA54B3C446DBF54A147 /* NeoSansArabicRegular.ttf */,
+				7FDFC3C431354BE084DB21AA /* NeoSansArabicUltra.ttf */,
+				DD2E04F9E78E4A69A92A59A0 /* Neo_Sans_Medium.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -300,6 +327,15 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				2FEBEBDD2B6BB59E00881FD1 /* GoogleService-Info.plist in Resources */,
 				2F2131A92B83876E0009B6EF /* Fonts in Resources */,
+				7D5FA47C776E43B38790836D /* Neo Sans Arabic Regular.ttf in Resources */,
+				0DB8E89699574032B5109B99 /* NeoSansArabic.ttf in Resources */,
+				BF85C5E03FAF4BEF96707B48 /* NeoSansArabicBlack.ttf in Resources */,
+				E9D5D99AB0D449CE8AF4B8DC /* NeoSansArabicBold.ttf in Resources */,
+				AE8AE4E89EB54FAE8967F0E8 /* NeoSansArabicLight.ttf in Resources */,
+				7105EC36973D4950A7C269CD /* NeoSansArabicMedium.ttf in Resources */,
+				A09E82810439435B9EB6C8DA /* NeoSansArabicRegular.ttf in Resources */,
+				2BD22860E44645C09AC093F9 /* NeoSansArabicUltra.ttf in Resources */,
+				489809DDF44B462283231D69 /* Neo_Sans_Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -563,6 +599,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5NERZEZ39T;
 				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
 				INFOPLIST_FILE = Alsyahd/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

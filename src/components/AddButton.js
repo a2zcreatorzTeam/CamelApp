@@ -30,7 +30,7 @@ const AddButton = ({onPress}) => (
           paddingBottom: 5,
           paddingLeft: 20,
           paddingRight: 20,
-          fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+          fontFamily: family.Neo_Regular,
         },
       ]}>
       {ArabicText.add}

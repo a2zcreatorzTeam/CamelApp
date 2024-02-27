@@ -421,6 +421,6 @@ const styles = StyleSheet.create({
     height: '100%',
     zIndex: 20,
     position: 'absolute',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
 });

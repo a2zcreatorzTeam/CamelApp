@@ -8,6 +8,7 @@ import FastImage from 'react-native-fast-image';
 const {width, height} = Dimensions.get('screen');
 import {ImageBackground} from 'react-native';
 import {VideoBaseUrl, imageBaseUrl} from '../constants/urls';
+import {family} from '../constants/Family';
 const HorizontalCarousel = ({
   imagesArray,
   pausedCheck,
@@ -220,13 +221,13 @@ const styles = StyleSheet.create({
   },
   priceTxt: {
     color: 'white',
-    fontWeight: '800',
     fontSize: 14,
+    fontFamily: family.Neo_Medium,
   },
   bidPrice: {
     textAlign: 'center',
     color: 'white',
-    fontWeight: '500',
+    fontFamily: family.Neo_Medium,
     fontSize: 13,
   },
 });

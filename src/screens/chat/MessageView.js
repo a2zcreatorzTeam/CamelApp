@@ -184,7 +184,7 @@ const MessageView = ({route}) => {
                   color: '#fff',
                   textAlign: 'right',
                   fontSize: 14,
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {item.text}
               </Text>
@@ -192,7 +192,7 @@ const MessageView = ({route}) => {
                 style={{
                   color: 'white',
                   fontSize: 10,
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {formattedDateTime}
               </Text>
@@ -307,7 +307,7 @@ const MessageView = ({route}) => {
                 color: '#fff',
                 textAlign: 'right',
                 fontSize: 14,
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                fontFamily: family.Neo_Regular,
               }}>
               {item.text}
             </Text>
@@ -315,7 +315,7 @@ const MessageView = ({route}) => {
               style={{
                 color: 'white',
                 fontSize: 10,
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                fontFamily: family.Neo_Regular,
               }}>
               {formattedDateTime}
             </Text>
@@ -593,7 +593,7 @@ const MessageView = ({route}) => {
                   textAlign: 'right',
                   color: '#000',
                   marginRight: 10,
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                 }}
                 placeholder={ArabicText?.Message}
                 placeholderTextColor="#b0b0b0"
@@ -952,7 +952,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     width: '100%',
     marginLeft: 10,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   container: {
     flex: 1,

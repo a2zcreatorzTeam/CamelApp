@@ -149,7 +149,7 @@ class Surveyform extends Component {
               fontSize: 30,
               fontWeight: 'bold',
               color: '#d2691e',
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
               marginBottom: 5,
               textAlign: 'center',
             }}>

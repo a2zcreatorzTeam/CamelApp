@@ -16,7 +16,7 @@ const EmptyComponent = ({text, textStyle}) => {
           {
             color: 'black',
             textAlign: 'center',
-            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            fontFamily: family.Neo_Regular,
           },
           textStyle,
         ]}>

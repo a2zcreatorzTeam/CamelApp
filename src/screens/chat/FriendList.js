@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 17,
     textAlign: 'center',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   userName: {
     color: '#000',
@@ -236,6 +236,6 @@ const styles = StyleSheet.create({
   reqBTNtext: {
     color: '#fff',
     fontSize: 11,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
 });

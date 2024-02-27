@@ -611,7 +611,7 @@ class SellingEquipmentForm extends React.Component {
                   marginTop: 50,
                   color: 'black',
                   fontSize: 18,
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {ArabicText.Please_select_price_type}
               </Text>

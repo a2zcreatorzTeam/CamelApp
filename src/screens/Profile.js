@@ -1343,7 +1343,7 @@ const Item = ({
                   color: '#D2691Eff',
                   fontWeight: 'bold',
                   fontSize: 15,
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {category}
               </Text>
@@ -1363,7 +1363,7 @@ const Item = ({
                   paddingRight: 5,
                   color: 'black',
                   textAlign: 'right',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {user_name}
               </Text>
@@ -1545,7 +1545,7 @@ const Item = ({
               color: 'black',
               fontSize: 15,
               marginRight: 3,
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             {' '}
             {viewCount}
@@ -1566,7 +1566,7 @@ const Item = ({
               color: 'black',
               fontSize: 15,
               marginRight: 3,
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             {shares}
           </Text>
@@ -1586,7 +1586,7 @@ const Item = ({
               color: 'black',
               fontSize: 15,
               marginRight: 3,
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             {comments}
           </Text>
@@ -1605,7 +1605,7 @@ const Item = ({
               color: 'black',
               fontSize: 15,
               marginRight: 3,
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             {likeCount}
           </Text>
@@ -1627,7 +1627,7 @@ const Item = ({
             <Text
               style={{
                 color: '#fff',
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                fontFamily: family.Neo_Regular,
               }}>
               {ArabicText.Details}
             </Text>
@@ -1647,7 +1647,7 @@ const Item = ({
             top: 12,
             color: '#000',
             // fontWeight: '600',
-            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            fontFamily: family.Neo_Regular,
           }}>
           {title}
         </Text>
@@ -1787,7 +1787,7 @@ const styles = StyleSheet.create({
 
   textcolor: {
     color: '#fff',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Medium,
+    fontFamily: family.Neo_Medium,
   },
 
   headerContainer: {
@@ -1823,7 +1823,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   icons: {
     flexDirection: 'row',
@@ -1860,7 +1860,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 15,
     // fontWeight: '600',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   priceContainer: {
     position: 'absolute',
@@ -1878,15 +1878,13 @@ const styles = StyleSheet.create({
   },
   priceTxt: {
     color: 'white',
-    fontWeight: '800',
     fontSize: 14,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   bidPrice: {
     textAlign: 'center',
     color: 'white',
-    fontWeight: '500',
     fontSize: 13,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
 });

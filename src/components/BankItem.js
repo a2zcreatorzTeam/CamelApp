@@ -23,11 +23,10 @@ const BankItem = ({ name, address, userImage, phone }) => (
             numberOfLines={1}
             style={{
               textAlign: 'right',
-              fontWeight: '600',
               color: '#D2691E',
               fontSize: 16,
               padding: 5,
-               fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+               fontFamily: family.Neo_Regular
             }}>
             {ArabicText.Title}:{name}{' '}
           </Text>
@@ -35,11 +34,10 @@ const BankItem = ({ name, address, userImage, phone }) => (
             numberOfLines={1}
             style={{
               textAlign: 'right',
-              fontWeight: '600',
               fontSize: 16,
               color: '#D2691E',
               padding: 5,
-               fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+               fontFamily: family.Neo_Regular
             }}>
             {ArabicText.Address}:{address}
           </Text>
@@ -47,11 +45,10 @@ const BankItem = ({ name, address, userImage, phone }) => (
             numberOfLines={1}
             style={{
               textAlign: 'right',
-              fontWeight: '600',
               fontSize: 16,
               color: '#D2691E',
               padding: 5,
-               fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular
+               fontFamily: family.Neo_Regular
             }}>
             {ArabicText.phone}:{phone?.slice(8, 11)}********
           </Text>

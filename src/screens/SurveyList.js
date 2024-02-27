@@ -261,7 +261,7 @@ const Item = ({
           fontSize: 16,
           color: 'black',
           marginHorizontal: 10,
-          fontFamily: Platform.OS == 'ios' ? null : family.Neo_Medium,
+          fontFamily: family.Neo_Medium,
           // fontWeight: '600',
         }}>
         {question?.length > 22 ? question?.slice(0, 22) + '...' : question}
@@ -279,7 +279,7 @@ const Item = ({
         <Text
           style={{
             color: '#fff',
-            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            fontFamily: family.Neo_Regular,
           }}>
           {item?.survey_end_status == 1
             ? 'غير نشط'

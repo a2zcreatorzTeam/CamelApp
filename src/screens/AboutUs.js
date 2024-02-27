@@ -65,10 +65,9 @@ class AboutUs extends Component {
               textAlign: 'center',
               marginTop: 5,
               fontSize: 18,
-              fontWeight: 'bold',
               color: '#D2691Eff',
               marginBottom: 15,
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Medium,
             }}>
             {ArabicText.AboutUs}
           </Text>

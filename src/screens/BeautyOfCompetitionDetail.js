@@ -344,7 +344,7 @@ class BeautyOfCompetition extends Component {
             fontWeight: 'bold',
             marginTop: 10,
             color: 'black',
-            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            fontFamily: family.Neo_Regular,
           }}>
           {name ? name : ''}
         </Text>
@@ -376,7 +376,7 @@ class BeautyOfCompetition extends Component {
             fontWeight: '700',
             marginRight: 10,
             marginBottom: 5,
-            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            fontFamily: family.Neo_Regular,
           }}>
           {userName}
         </Text>

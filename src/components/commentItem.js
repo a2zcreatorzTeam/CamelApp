@@ -51,7 +51,7 @@ const Item = ({
           <Text
             style={{
               color: 'black',
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             {likeCount}
           </Text>
@@ -100,8 +100,7 @@ const Item = ({
           <Text
             style={{
               color: 'black',
-              fontWeight: 'bold',
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Bold,
             }}>
             {ArabicText.Reply}
           </Text>
@@ -128,9 +127,8 @@ const Item = ({
                   fontSize: 16,
                   paddingHorizontal: 20,
                   color: 'black',
-                  fontWeight: 'bold',
                   textAlign: 'right',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {userName}
               </Text>
@@ -139,9 +137,8 @@ const Item = ({
                   fontSize: 12,
                   paddingHorizontal: 25,
                   color: 'black',
-                  fontWeight: '400',
                   textAlign: 'right',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {date}
               </Text>
@@ -153,7 +150,7 @@ const Item = ({
                   textAlign: 'right',
                   paddingHorizontal: 20,
                   marginVertical: 10,
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
 
                   // width: '90%',
                   // marginLeft: 10,
@@ -276,7 +273,6 @@ const Item = ({
                           fontSize: 16,
                           paddingHorizontal: 20,
                           color: 'black',
-                          fontWeight: 'bold',
                           textAlign: 'right',
                           fontFamily:
                             Platform.OS == 'ios' ? null : family.Neo_Regular,
@@ -288,7 +284,6 @@ const Item = ({
                           fontSize: 12,
                           paddingHorizontal: 20,
                           color: 'black',
-                          fontWeight: '400',
                           textAlign: 'right',
                           fontFamily:
                             Platform.OS == 'ios' ? null : family.Neo_Regular,

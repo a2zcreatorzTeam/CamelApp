@@ -49,14 +49,14 @@ const toastConfig = {
         color: 'black',
         textAlign: 'right',
         writingDirection: 'rtl',
-        fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+        fontFamily: family.Neo_Regular,
       }}
       text2Style={{
         fontSize: 14,
         color: 'black',
         textAlign: 'right',
         writingDirection: 'rtl',
-        fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+        fontFamily: family.Neo_Regular,
       }}
     />
   ),
@@ -76,7 +76,7 @@ const toastConfig = {
         fontSize: 14,
         color: 'black',
         textAlign: 'right',
-        fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+        fontFamily: family.Neo_Regular,
       }}
     />
   ),
@@ -237,7 +237,7 @@ class App extends Component {
               style={{
                 color: 'black',
                 fontSize: 20,
-                fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                fontFamily: family.Neo_Regular,
               }}>
               {ArabicText.AppisUpdatingPleaseWait}
             </Text>
@@ -253,7 +253,7 @@ class App extends Component {
                   color: 'black',
                   alignSelf: 'center',
                   marginVertical: 10,
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {this.state.downloaded}%
               </Text>

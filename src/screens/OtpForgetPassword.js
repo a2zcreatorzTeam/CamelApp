@@ -508,7 +508,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
     width: '12%',
     color: 'black',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
     marginVertical: 20,
   },
 });

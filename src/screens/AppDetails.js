@@ -190,15 +190,15 @@ export default function AppDetails() {
         <TouchableOpacity
           onPress={() => navigation.navigate('Bank')}
           style={Styles.bank}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => navigation.navigate('Bank')}
-            style={Styles.aboutUsTouchableOpacity}>
+            style={Styles.aboutUsTouchableOpacity}> */}
             <Text style={Styles.boxtext}>{ArabicText.Bank}</Text>
 
             <View style={Styles.iconbox}>
               <MaterialCommunityIcons name="bank" size={28} color="#0000cd" />
             </View>
-          </TouchableOpacity>
+          {/* </TouchableOpacity> */}
         </TouchableOpacity>
         <Text style={styles.socialMediaText}>
           {ArabicText?.Socialmediaaccounts}
@@ -236,19 +236,17 @@ export default function AppDetails() {
 }
 const styles = StyleSheet.create({
   heading: {
-    fontWeight: 'bold',
     fontSize: 18,
     color: '#d2691e',
     marginTop: 100,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Medium,
   },
   socialMediaText: {
-    fontWeight: '400',
     fontSize: 14,
     color: 'grey',
     margin: 3,
     marginVertical: 10,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   socialMediaView: {
     flexDirection: 'row',
@@ -269,12 +267,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#d2691e',
     margin: 3,
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
   website: {
     fontSize: 15,
     color: '#d2691e',
-    fontWeight: '400',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
 });

@@ -154,7 +154,7 @@ class Messages extends Component {
               fontWeight: '700',
               marginRight: 10,
               marginBottom: 5,
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             {userName}
           </Text>

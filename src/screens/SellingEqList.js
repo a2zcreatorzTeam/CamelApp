@@ -41,7 +41,7 @@ const Item = ({
             style={{
               color: '#D2691Eff',
               fontWeight: 'bold',
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Regular,
             }}>
             {category}
           </Text>
@@ -52,7 +52,7 @@ const Item = ({
           style={{
             fontSize: 18,
             paddingRight: 5,
-            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            fontFamily: family.Neo_Regular,
           }}>
           {userName}
         </Text>
@@ -60,7 +60,7 @@ const Item = ({
           style={{
             fontSize: 15,
             paddingRight: 5,
-            fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+            fontFamily: family.Neo_Regular,
           }}>
           {userCity}
         </Text>
@@ -91,14 +91,14 @@ const Item = ({
       <Text
         style={{
           color: '#ffffff',
-          fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+          fontFamily: family.Neo_Regular,
         }}>
         {ArabicText.Price}
       </Text>
       <Text
         style={{
           color: '#FFFFFF',
-          fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+          fontFamily: family.Neo_Regular,
         }}>
         {price}
       </Text>
@@ -109,7 +109,7 @@ const Item = ({
         style={{
           right: 155,
           position: 'absolute',
-          fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+          fontFamily: family.Neo_Regular,
         }}>
         {views}
       </Text>
@@ -120,7 +120,7 @@ const Item = ({
         style={{
           right: 120,
           position: 'absolute',
-          fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+          fontFamily: family.Neo_Regular,
         }}>
         {shares}
       </Text>
@@ -131,7 +131,7 @@ const Item = ({
         style={{
           right: 85,
           position: 'absolute',
-          fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+          fontFamily: family.Neo_Regular,
         }}>
         {comments}
       </Text>
@@ -144,7 +144,7 @@ const Item = ({
         style={{
           right: 45,
           position: 'absolute',
-          fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+          fontFamily: family.Neo_Regular,
         }}>
         {likes}
       </Text>

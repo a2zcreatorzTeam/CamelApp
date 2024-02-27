@@ -302,7 +302,7 @@ class Comments extends Component {
                 style={{
                   color: 'black',
                   alignSelf: 'center',
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {ArabicText?.NoCommentFound}
               </Text>

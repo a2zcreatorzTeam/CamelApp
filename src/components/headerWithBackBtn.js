@@ -43,10 +43,9 @@ const BackBtnHeader = props => {
           <Text
             style={{
               color: '#fff',
-              fontWeight: 'bold',
               fontSize: 20,
               marginHorizontal: 5,
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Medium,
             }}>
             {props?.reciever_data?.user_name?.length > 25
               ? props?.reciever_data?.user_name?.slice(0, 25)
@@ -78,9 +77,8 @@ const BackBtnHeader = props => {
           <Text
             style={{
               color: '#fff',
-              fontWeight: 'bold',
               fontSize: 20,
-              fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+              fontFamily: family.Neo_Medium,
             }}>
             {props?.title?.length > 25
               ? props?.title?.slice(0, 25)
@@ -186,6 +184,6 @@ const styles = StyleSheet.create({
 
   tooltipTitle: {
     color: 'black',
-    fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+    fontFamily: family.Neo_Regular,
   },
 });

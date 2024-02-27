@@ -217,7 +217,7 @@ class CreateProfile extends Component {
               }}>
               <Text
                 style={{
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                   paddingHorizontal: 10,
                   color:'#fff'
                 }}>
@@ -360,7 +360,7 @@ class CreateProfile extends Component {
                 style={{
                   color: '#fff',
                   fontSize: 16,
-                  fontFamily: Platform.OS == 'ios' ? null : family.Neo_Regular,
+                  fontFamily: family.Neo_Regular,
                 }}>
                 {ArabicText?.CreateProfile}
               </Text>

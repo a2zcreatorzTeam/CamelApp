@@ -81,7 +81,7 @@ export const Styles = StyleSheet.create({
     paddingBottom: width * 0.2,
   },
   text: {
-    fontSize: 30,
+    fontSize: 25,
     color: '#d2691e',
     alignSelf: 'center',
     fontFamily: family.Neo_Regular,

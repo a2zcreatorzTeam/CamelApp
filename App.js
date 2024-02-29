@@ -20,7 +20,10 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Toast, {BaseToast, ErrorToast} from 'react-native-toast-message';
 import firebaseConfig from './src/components/firebase';
 import {getStorage} from 'firebase/storage';
-import {notificationListener, requestUserPermission} from './src/services/Helper';
+import {
+  notificationListener,
+  requestUserPermission,
+} from './src/services/Helper';
 import DeviceInfo from 'react-native-device-info';
 import codePush from 'react-native-code-push';
 import {ProgressBar} from 'react-native-paper';
@@ -90,7 +93,7 @@ class App extends Component {
     };
   }
   componentDidMount() {
-    requestUserPermission()
+    requestUserPermission();
     this.syncImmediate();
     this.takePermission();
     notificationListener();
@@ -211,6 +214,22 @@ class App extends Component {
           } else {
           }
         } catch (err) {}
+      }
+    } else if (Platform.OS === 'ios') {
+      try {
+        const granted = await PermissionsIOS.request(
+          PermissionsIOS.PERMISSIONS.IOS.NOTIFICATIONS,
+        );
+        if (granted === PermissionsIOS.RESULTS.GRANTED) {
+          console.log('Notification permission granted');
+          // You can proceed with handling push notifications here
+        } else {
+          console.log('Notification permission denied');
+          // Handle the case where permission is denied
+        }
+      } catch (error) {
+        console.error('Error requesting notification permission:', error);
+        // Handle any errors that occur during the permission request
       }
     }
   };

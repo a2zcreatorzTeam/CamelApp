@@ -27,7 +27,7 @@ const BottomTab = () => {
         backgroundColor: '#f8f8ff',
         unmountOnBlur: true,
         tabBarLabelStyle: {
-          fontSize: 12,
+          fontSize: 11,
           tabBarInactiveTintColor: '#D2691E',
           marginBottom: Platform.OS == 'ios' ? 0 : 4,
           fontFamily: family.Neo_Medium,

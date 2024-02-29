@@ -230,8 +230,17 @@ class SignUp extends Component {
               paddingBottom: width * 0.2,
             }}>
             <View style={Styles.container}>
-              <Text style={Styles.text}>إنشاء حساب</Text>
               <Image
+                source={require('../../assets/Camel-logo (1).png')}
+                style={{
+                  height: 140,
+                  width: 140,
+                  marginTop: 60,
+                  alignSelf: 'center',
+                }}
+              />
+              <Text style={Styles.text}>إنشاء حساب</Text>
+              {/* <Image
                 source={require('../../assets/logo-camel.png')}
                 style={{
                   height: 90,
@@ -239,7 +248,7 @@ class SignUp extends Component {
                   alignSelf: 'center',
                   margin: 15,
                 }}
-              />
+              /> */}
               {/* INPUT FIELDS  */}
               <View style={Styles.cardsignup}>
                 <TextInput
@@ -263,8 +272,7 @@ class SignUp extends Component {
                       color: 'crimson',
                       fontSize: 12,
                       textAlign: 'right',
-                      fontFamily:
-                        family.Neo_Regular,
+                      fontFamily: family.Neo_Regular,
                     }}>
                     {ArabicText?.Thenamemustcontainatleast3letters}
                   </Text>
@@ -286,8 +294,7 @@ class SignUp extends Component {
                       color: 'crimson',
                       fontSize: 12,
                       textAlign: 'right',
-                      fontFamily:
-                        family.Neo_Regular,
+                      fontFamily: family.Neo_Regular,
                     }}>
                     {ArabicText?.Thephonenumbermustonlyhavenumbers}
                   </Text>
@@ -322,8 +329,7 @@ class SignUp extends Component {
                     style={{
                       textAlign: 'right',
                       color: 'black',
-                      fontFamily:
-                        family.Neo_Regular,
+                      fontFamily: family.Neo_Regular,
                     }}
                     placeholderTextColor="#000000"
                     placeholder={ArabicText.passwords}
@@ -338,8 +344,7 @@ class SignUp extends Component {
                       color: 'crimson',
                       fontSize: 12,
                       textAlign: 'right',
-                      fontFamily:
-                        family.Neo_Regular,
+                      fontFamily: family.Neo_Regular,
                     }}>
                     {ArabicText?.Thenamemustcontainatleast6letters}
                   </Text>
@@ -376,8 +381,7 @@ class SignUp extends Component {
                     style={{
                       textAlign: 'right',
                       color: 'black',
-                      fontFamily:
-                        family.Neo_Regular,
+                      fontFamily: family.Neo_Regular,
                     }}
                     placeholderTextColor="#000000"
                     placeholder={ArabicText.confirm_password}
@@ -394,8 +398,7 @@ class SignUp extends Component {
                       color: 'crimson',
                       fontSize: 12,
                       textAlign: 'right',
-                      fontFamily:
-                        family.Neo_Regular,
+                      fontFamily: family.Neo_Regular,
                     }}>
                     {ArabicText?.Thenamemustcontainatleast6letters}
                   </Text>
@@ -413,8 +416,7 @@ class SignUp extends Component {
                     fontSize: 14,
                     margin: 5,
                     marginRight: 5,
-                    fontFamily:
-                      family.Neo_Regular,
+                    fontFamily: family.Neo_Regular,
                   }}
                   onPress={() => this.props.navigation.navigate('Login')}>
                   {ArabicText.Already_an_account}
@@ -460,8 +462,7 @@ class SignUp extends Component {
                   style={{
                     color: 'black',
                     fontSize: 14,
-                    fontFamily:
-                      family.Neo_Regular,
+                    fontFamily: family.Neo_Regular,
                   }}>
                   {ArabicText?.Iagreetothetermsandconditions}
                 </Text>
@@ -497,8 +498,7 @@ class SignUp extends Component {
                     textDecorationLine: 'underline',
                     color: '#D2691Eff',
                     fontSize: 14,
-                    fontFamily:
-                      family.Neo_Regular,
+                    fontFamily: family.Neo_Regular,
                   }}>
                   {ArabicText?.Learnmoreabouttermsandconditions}
                 </Text>

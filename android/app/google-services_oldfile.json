@@ -30,13 +30,6 @@
             {
               "client_id": "550076269173-1e6h2ubeieql926dle26nt930220eufp.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "550076269173-gdh9d25uqknu1dq1b9hu58r2u31j4rpk.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.alsyahd"
-              }
             }
           ]
         }

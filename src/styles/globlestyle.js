@@ -105,7 +105,6 @@ export const Styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    alignContent: 'center',
     height: 300,
   },
   btn: {

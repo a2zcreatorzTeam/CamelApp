@@ -314,7 +314,11 @@ class Login extends Component {
           }}
         />
         <ScrollView
-          contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}
+          contentContainerStyle={{
+            flexGrow: 1,
+            alignItems: 'center',
+            width: '100%',
+          }}
           showsVerticalScrollIndicator={false}
           style={{flex: 1, backgroundColor: '#fff', width: '100%'}}>
           <Image
@@ -377,6 +381,7 @@ class Login extends Component {
                 style={{
                   textAlign: 'right',
                   color: 'black',
+                  width: width - 100,
                   fontFamily: family.Neo_Regular,
                 }}
                 placeholder={ArabicText.passwords}

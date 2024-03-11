@@ -18,7 +18,7 @@
 		2F0877B92B7F76A1009576FE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2F2131A92B83876E0009B6EF /* Fonts in Resources */ = {isa = PBXBuildFile; fileRef = 2F2131A82B83876E0009B6EF /* Fonts */; };
 		2F26B8A02B764E1800339336 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F26B89F2B764E1800339336 /* Launch Screen.storyboard */; };
-		2FC1F50E2B9F034A00C44E2D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FC1F50D2B9F034A00C44E2D /* GoogleService-Info.plist */; };
+		2FC1F5102B9F04E700C44E2D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FC1F50F2B9F04E700C44E2D /* GoogleService-Info.plist */; };
 		489809DDF44B462283231D69 /* Neo_Sans_Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DD2E04F9E78E4A69A92A59A0 /* Neo_Sans_Medium.ttf */; };
 		7105EC36973D4950A7C269CD /* NeoSansArabicMedium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 75C9ACEACF74443C81DF053E /* NeoSansArabicMedium.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-Alsyahd-AlsyahdTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Alsyahd-AlsyahdTests.a */; };
@@ -55,7 +55,7 @@
 		2F2131A82B83876E0009B6EF /* Fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Fonts; path = "../node_modules/react-native-vector-icons/Fonts"; sourceTree = "<group>"; };
 		2F26B89F2B764E1800339336 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		2F26B8A12B765DDF00339336 /* Alsyahd.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Alsyahd.entitlements; path = Alsyahd/Alsyahd.entitlements; sourceTree = "<group>"; };
-		2FC1F50D2B9F034A00C44E2D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2FC1F50F2B9F04E700C44E2D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2FDFE1B10BB5437E87151C49 /* NeoSansArabicLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = NeoSansArabicLight.ttf; path = ../assets/fonts/NeoSansArabicLight.ttf; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-Alsyahd.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Alsyahd.debug.xcconfig"; path = "Target Support Files/Pods-Alsyahd/Pods-Alsyahd.debug.xcconfig"; sourceTree = "<group>"; };
 		4847D1C81B304B0E8A3255EB /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = ../assets/fonts/Ionicons.ttf; sourceTree = "<group>"; };
@@ -158,7 +158,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				2FC1F50D2B9F034A00C44E2D /* GoogleService-Info.plist */,
+				2FC1F50F2B9F04E700C44E2D /* GoogleService-Info.plist */,
 				2F2131A82B83876E0009B6EF /* Fonts */,
 				13B07FAE1A68108700A75B9A /* Alsyahd */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -323,7 +323,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2FC1F50E2B9F034A00C44E2D /* GoogleService-Info.plist in Resources */,
+				2FC1F5102B9F04E700C44E2D /* GoogleService-Info.plist in Resources */,
 				2F26B8A02B764E1800339336 /* Launch Screen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				2F2131A92B83876E0009B6EF /* Fonts in Resources */,

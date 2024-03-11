@@ -214,22 +214,126 @@ class Login extends Component {
   };
 
   render() {
+    // const authentication = async () => {
+    //   const {contactNumber, password} = this.state;
+    //   this.setState({loader: true});
+    //   // await getFCMToken();
+    //   // const deviceToken = await AsyncStorage?.getItem('fcmToken');
+    //   const [_, deviceToken] = await Promise.all([
+    //     getFCMToken(),
+    //     AsyncStorage.getItem('fcmToken'),
+    //   ]);
+    //   console.log(deviceToken, 'deviceTokeennnn', Platform?.OS);
+    //   let number = 0;
+    //   do {
+    //     number = Math.floor(Math.random() * 10000) + 1;
+    //   } while (number < 1000 || number > 10000);
+    //   this.setState({randomIndex: number});
+    //   if (this.state.contactNumber.length >= 10 && this.state.password != '') {
+    //     var response = null;
+    //     try {
+    //       camelapp
+    //         .post('/login', {
+    //           phone: contactNumber,
+    //           password: password,
+    //           device_type: Platform?.OS,
+    //           device_token: deviceToken,
+    //         })
+    //         .then(res => {
+    //           console.log(res, 'login responseee');
+    //           response = res?.data;
+    //           if (response?.status == true) {
+    //             this.setState({loader: false});
+    //             if (
+    //               response?.data?.is_complete == 1 ||
+    //               response?.user?.is_complete == 1
+    //             ) {
+    //               let {actions} = this.props;
+    //               actions.userData(response);
+    //               AsyncStorage.setItem('@UserPhone', contactNumber);
+    //               AsyncStorage.setItem('@UserPassword', password);
+    //               this.props.navigation.navigate('Home');
+    //             } else {
+    //               this.props.navigation.navigate('CreateProfile', {
+    //                 response: response,
+    //               });
+    //             }
+    //             // this.props.navigation.navigate('Home', {
+    //             //   // response: response,
+    //             // });
+    //           } else {
+    //             Toast.show({
+    //               text1: response?.error + '',
+    //               type: 'error',
+    //               visibilityTime: 3000,
+    //             });
+    //             this.setState({loader: false});
+    //           }
+    //         })
+    //         .catch(error => {
+    //           console.log(error, 'errr000');
+    //           this.setState({loader: false});
+    //           Toast.show({
+    //             text1: error?.response?.message + '',
+    //             type: 'error',
+    //             visibilityTime: 3000,
+    //           });
+    //         });
+    //     } catch (error) {
+    //       console.log(error, 'errrr');
+    //       this.setState({loader: false});
+    //       Toast.show({
+    //         text1: error?.response + '',
+    //         type: 'error',
+    //         visibilityTime: 3000,
+    //       });
+    //       // alert(error?.response + '');
+    //       console.log('Error Message--- signin', error);
+    //     }
+    //   } else {
+    //     console.log('287777');
+    //     this.setState({loader: false});
+    //     Toast.show({
+    //       text1: ArabicText.Please_complete_the_fields + '',
+    //       type: 'error',
+    //       visibilityTime: 3000,
+    //     });
+    //     // alert(ArabicText.Please_complete_the_fields + '');
+    //   }
+    // };
     const authentication = async () => {
       const {contactNumber, password} = this.state;
       this.setState({loader: true});
-      // await getFCMToken();
-      // const deviceToken = await AsyncStorage?.getItem('fcmToken');
-      const [_, deviceToken] = await Promise.all([
-        getFCMToken(),
-        AsyncStorage.getItem('fcmToken'),
-      ]);
-      console.log(deviceToken, 'deviceTokeennnn', Platform?.OS);
+
+      let deviceToken = null;
+      while (!deviceToken) {
+        try {
+          // Get FCM token
+          deviceToken = await getFCMToken();
+
+          if (!deviceToken) {
+            // If FCM token is not obtained, wait for a short period before retrying
+            await new Promise(resolve => setTimeout(resolve, 1000));
+          }
+        } catch (error) {
+          console.error('Error while getting FCM token:', error);
+          Toast.show({
+            text1: 'An error occurred while getting FCM token',
+            type: 'error',
+            visibilityTime: 3000,
+          });
+          this.setState({loader: false});
+          return;
+        }
+      }
+      console.log(deviceToken, 'deviceToken', Platform?.OS);
       let number = 0;
       do {
         number = Math.floor(Math.random() * 10000) + 1;
       } while (number < 1000 || number > 10000);
       this.setState({randomIndex: number});
-      if (this.state.contactNumber.length >= 10 && this.state.password != '') {
+
+      if (contactNumber.length >= 10 && password !== '') {
         var response = null;
         try {
           camelapp
@@ -240,7 +344,7 @@ class Login extends Component {
               device_token: deviceToken,
             })
             .then(res => {
-              console.log(res, 'login responseee');
+              // console.log(res, 'login responseee');
               response = res?.data;
               if (response?.status == true) {
                 this.setState({loader: false});
@@ -271,10 +375,10 @@ class Login extends Component {
               }
             })
             .catch(error => {
-              console.log(error, 'errr000');
+              console.log(error?.response?.data?.message, 'errr000');
               this.setState({loader: false});
               Toast.show({
-                text1: error?.response?.message + '',
+                text1: error?.response?.data?.message + '',
                 type: 'error',
                 visibilityTime: 3000,
               });
@@ -291,16 +395,18 @@ class Login extends Component {
           console.log('Error Message--- signin', error);
         }
       } else {
-        console.log('287777');
+        console.log('Incomplete fields');
         this.setState({loader: false});
         Toast.show({
-          text1: ArabicText.Please_complete_the_fields + '',
+          text1:
+            ArabicText.Please_complete_the_fields ||
+            'Please complete the fields',
           type: 'error',
           visibilityTime: 3000,
         });
-        // alert(ArabicText.Please_complete_the_fields + '');
       }
     };
+
     return (
       <View
         style={[

@@ -101,11 +101,9 @@ class App extends Component {
     let app;
     if (firebase.apps.length === 0) {
       app = firebase.initializeApp(firebaseConfig);
-      console.log(app, 'apppppppp');
       const storage = getStorage(app);
     } else {
       app = firebase.app();
-      console.log(app, 'apppp');
     }
   }
   // CODE PUSH FUNCTIONS

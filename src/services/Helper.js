@@ -14,18 +14,19 @@ export async function requestUserPermission() {
 
   if (enabled) {
     console.log('Authorization status:', authStatus);
-    getFCMToken();
+    // getFCMToken();
   }
 }
 
 export const getFCMToken = async () => {
   const token = await AsyncStorage.getItem('fcmToken');
+  console.log(token, 'tokennnnnnn');
   await firebase.messaging().deleteToken();
 
   // if (!fcmToken) {
   try {
     const fcmToken = await messaging().getToken();
-    console.log(fcmToken,"fcm");
+    console.log(fcmToken, 'fcm');
     if (fcmToken) {
       await AsyncStorage.setItem('fcmToken', fcmToken);
       return fcmToken;

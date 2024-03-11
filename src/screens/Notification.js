@@ -57,7 +57,6 @@ class Notification extends Component {
     await camelapp
       .get('/notification/' + user)
       .then(res => {
-        console.log(res?.data?.notification, 'res?.data?.notification');
         this.setState({
           posts: res?.data?.notification,
           loader: false,

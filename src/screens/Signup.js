@@ -239,6 +239,7 @@ class SignUp extends Component {
                   alignSelf: 'center',
                 }}
               />
+              
               <Text style={Styles.text}>إنشاء حساب</Text>
               {/* <Image
                 source={require('../../assets/logo-camel.png')}

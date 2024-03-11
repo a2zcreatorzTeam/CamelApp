@@ -563,9 +563,9 @@ class Login extends Component {
 
             <TouchableOpacity
               onPress={() => {
-                // RNTwitterSignIn.logOut();
-                // this.signInWithTwitter();
-                this.setState({twitterModal: true});
+                RNTwitterSignIn.logOut();
+                this.signInWithTwitter();
+                // this.setState({twitterModal: true});
               }}
               style={{flexDirection: 'row'}}>
               <Feather

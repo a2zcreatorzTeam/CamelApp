@@ -12,6 +12,7 @@ import {
   PermissionsAndroid,
   View,
   Text,
+  PermissionsIOS,
 } from 'react-native';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -215,9 +216,10 @@ class App extends Component {
       }
     } else if (Platform.OS === 'ios') {
       try {
-        const granted = await PermissionsIOS.request(
+        const granted = await PermissionsIOS?.request(
           PermissionsIOS.PERMISSIONS.IOS.NOTIFICATIONS,
         );
+        console.log(granted, 'grantedddddd');
         if (granted === PermissionsIOS.RESULTS.GRANTED) {
           console.log('Notification permission granted');
           // You can proceed with handling push notifications here

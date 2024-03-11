@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>550076269173-gdh9d25uqknu1dq1b9hu58r2u31j4rpk.apps.googleusercontent.com</string>
+	<string>550076269173-8vvitaf3ufjjnjukcq2jdqnhqv41d97n.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.550076269173-gdh9d25uqknu1dq1b9hu58r2u31j4rpk</string>
+	<string>com.googleusercontent.apps.550076269173-8vvitaf3ufjjnjukcq2jdqnhqv41d97n</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDr8DNz6gk9zdLVz_zcJ4Vk30_SySOb37Q</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.alsyahd</string>
+	<string>org.reactjs.native.example.Alsyahd</string>
 	<key>PROJECT_ID</key>
 	<string>al-syahd-chatapp</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:550076269173:ios:7cc59d6f13c71a1b412e3c</string>
+	<string>1:550076269173:ios:a8fc3de3e0c89278412e3c</string>
 	<key>DATABASE_URL</key>
 	<string>https://al-syahd-chatapp-default-rtdb.firebaseio.com</string>
 </dict>

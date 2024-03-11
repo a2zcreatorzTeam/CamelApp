@@ -231,7 +231,7 @@ class SignUp extends Component {
             }}>
             <View style={Styles.container}>
               <Image
-                source={require('../../assets/Camel-logo (1).png')}
+                source={require('../../assets/Camel-logo.png')}
                 style={{
                   height: 140,
                   width: 140,

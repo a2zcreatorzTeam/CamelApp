@@ -33,6 +33,7 @@ import InstagramLogin from 'react-native-instagram-login';
 import CookieManager from '@react-native-cookies/cookies';
 import BackBtnHeader from '../components/headerWithBackBtn';
 import {family} from '../constants/Family';
+import shadows from '../helper/shadows';
 const width = Dimensions.get('screen').width;
 
 RNTwitterSignIn.init(
@@ -57,6 +58,7 @@ class Login extends Component {
       hidePassword: true,
       token: '',
       emailModal: false,
+      twitterModal: false,
     };
     this.backHandler = null;
     this.instagramLoginRef = createRef();
@@ -146,7 +148,6 @@ class Login extends Component {
   };
   // TWITTERLOGIN
   signInWithTwitter = async () => {
-    console.log('Twittterrrrrrrr');
     try {
       const loginData = await RNTwitterSignIn.logIn();
       console.log(loginData, 'loginnn147777');
@@ -428,15 +429,14 @@ class Login extends Component {
           showsVerticalScrollIndicator={false}
           style={{flex: 1, backgroundColor: '#fff', width: '100%'}}>
           <Image
-            source={require('../../assets/logo-camel.png')}
+            source={require('../../assets/Camel-logo.png')}
             style={{
-              height: 90,
-              width: 90,
+              height: 140,
+              width: 140,
               marginTop: 60,
               alignSelf: 'center',
             }}
           />
-
           <Text style={Styles.text}>{ArabicText.login}</Text>
           <View style={Styles.card}>
             <TextInput
@@ -563,8 +563,9 @@ class Login extends Component {
 
             <TouchableOpacity
               onPress={() => {
-                RNTwitterSignIn.logOut();
-                this.signInWithTwitter();
+                // RNTwitterSignIn.logOut();
+                // this.signInWithTwitter();
+                this.setState({twitterModal: true});
               }}
               style={{flexDirection: 'row'}}>
               <Feather
@@ -721,6 +722,116 @@ class Login extends Component {
 
             </View>
           } */}
+        </Modal>
+        {/* TWITTER MODAL  */}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.twitterModal}
+          onRequestClose={() => {
+            this.setState({twitterModal: false, number: '', password: ''});
+          }}>
+          <View
+            style={{
+              height: '80%',
+              width: '80%',
+              backgroundColor: 'white',
+              alignSelf: 'center',
+              borderRadius: 10,
+              ...shadows.shadow5,
+              alignItems: 'center',
+              padding: 20,
+            }}>
+            <View style={[Styles.card, {width: '100%'}]}>
+              <TextInput
+                style={[Styles.inputs, {width: '100%'}]}
+                keyboardType="numeric"
+                placeholder={ArabicText.phone}
+                maxLength={10}
+                placeholderTextColor="#000000"
+                onChangeText={text =>
+                  this.setState({contactNumber: text.replace(/[^0-9]/g, '')})
+                }
+              />
+
+              <Text
+                style={{
+                  color: 'red',
+                  marginRight: 200,
+                  fontFamily: family.Neo_Regular,
+                }}>
+                {this.state.contactNumberError}
+              </Text>
+
+              <View
+                style={[
+                  Styles.inputs,
+                  {
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    width: '100%',
+                  },
+                ]}>
+                {this.state.hidePassword === true ? (
+                  <Ionicons
+                    name="eye"
+                    size={18}
+                    color="brown"
+                    onPress={() => this.setState({hidePassword: false})}
+                  />
+                ) : (
+                  <Ionicons
+                    name="eye-off"
+                    size={18}
+                    color="brown"
+                    onPress={() => this.setState({hidePassword: true})}
+                  />
+                )}
+                <TextInput
+                  style={{
+                    textAlign: 'right',
+                    color: 'black',
+                    fontFamily: family.Neo_Regular,
+                    // width: '100%',
+                  }}
+                  placeholder={ArabicText.passwords}
+                  secureTextEntry={this.state.hidePassword}
+                  placeholderTextColor="#000000"
+                  onChangeText={text => this.setState({password: text})}
+                />
+              </View>
+
+              <Text
+                style={{
+                  color: 'red',
+                  marginRight: 160,
+                  fontFamily: family.Neo_Regular,
+                }}>
+                {this.state.passwordError}
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={[
+                Styles.btn,
+                {
+                  backgroundColor:
+                    this.state.loader == false ? '#8b4513' : '#cccbca',
+                  width: '100%',
+                },
+              ]}>
+              {this.state.loader && (
+                <ActivityIndicator
+                  size="large"
+                  color="#D2691Eff"
+                  animating={this.state.loader}
+                />
+              )}
+              {this.state.loader == false && (
+                <Text style={Styles.textbtn}>{ArabicText.login}</Text>
+              )}
+            </TouchableOpacity>
+          </View>
         </Modal>
 
         <InstagramLogin

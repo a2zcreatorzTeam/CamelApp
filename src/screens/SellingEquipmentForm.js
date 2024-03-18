@@ -613,7 +613,7 @@ class SellingEquipmentForm extends React.Component {
                   fontSize: 18,
                   fontFamily: family.Neo_Regular,
                 }}>
-                {ArabicText.Please_select_price_type}
+                {ArabicText.Payment_Types}
               </Text>
 
               <View

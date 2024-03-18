@@ -61,7 +61,7 @@ class ForgetPassword extends Component {
                 Toast.show({
                   text1: response?.data?.message
                     ? response?.data?.message
-                    : ArabicText?.somethingwentwrong,
+                    : ArabicText?.Somethingwentwrong,
                   type: 'error',
                   visibilityTime: 3000,
                 });
@@ -70,7 +70,7 @@ class ForgetPassword extends Component {
             .catch(error => {
               this.setState({btnPressed: false, loader: false});
               Toast.show({
-                text1: ArabicText?.somethingwentwrong,
+                text1: ArabicText?.Somethingwentwrong,
                 type: 'error',
                 visibilityTime: 3000,
               });
@@ -131,7 +131,7 @@ class ForgetPassword extends Component {
                 style={{
                   fontSize: 18,
                   color: 'grey',
-                  marginTop: 10,
+                  marginVertical: 20,
                   fontFamily: family.Neo_Regular,
                 }}>
                 {ArabicText.We_will_send_you_a_code_to_reset}

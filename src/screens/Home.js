@@ -673,7 +673,7 @@ class Home extends Component {
                     width: width,
                     justifyContent: 'space-around',
                     alignItems: 'center',
-                    flexDirection: 'row',
+                    flexDirection: 'row-reverse',
                   }}>
                   <TouchableOpacity
                     onPress={() => onCamelClubListClick()}
@@ -686,7 +686,7 @@ class Home extends Component {
                       padding: 10,
                     }}>
                     <Image
-                      source={require('../../assets/group_839_480.png')}
+                      source={require('../../assets/Camel_Club.png')}
                       style={Styles.HomeTopIcons}></Image>
                   </TouchableOpacity>
 
@@ -740,7 +740,7 @@ class Home extends Component {
                     width: width,
                     justifyContent: 'space-around',
                     alignItems: 'center',
-                    flexDirection: 'row',
+                    flexDirection: 'row-reverse',
                   }}>
                   {/* CAMEL FOOD  */}
                   <TouchableOpacity
@@ -799,7 +799,7 @@ class Home extends Component {
                       padding: 10,
                     }}>
                     <Image
-                      source={require('../../assets/group_842_480.png')}
+                      source={require('../../assets/Camel_moving.png')}
                       style={Styles.HomeTopIcons}></Image>
                   </TouchableOpacity>
                 </View>
@@ -808,7 +808,7 @@ class Home extends Component {
                     width: width,
                     justifyContent: 'space-around',
                     alignItems: 'center',
-                    flexDirection: 'row',
+                    flexDirection: 'row-reverse',
                   }}>
                   {/* CAMEL MARKETING  */}
                   <TouchableOpacity

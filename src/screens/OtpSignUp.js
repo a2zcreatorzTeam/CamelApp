@@ -159,7 +159,7 @@ class App extends Component {
         .catch(error => {
           console.log(error, 'errorrrr');
           Toast.show({
-            text1: ArabicText?.somethingwentwrong,
+            text1: ArabicText?.Somethingwentwrong,
             type: 'error',
             visibilityTime: 3000,
           });

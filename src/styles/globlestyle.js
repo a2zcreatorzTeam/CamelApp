@@ -506,9 +506,12 @@ export const Styles = StyleSheet.create({
   bank: {
     height: 50,
     width: width / 1.5,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     margin: 3,
     backgroundColor: '#0000cd',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 10,
   },
   iconbox: {
     width: 50,
@@ -525,7 +528,7 @@ export const Styles = StyleSheet.create({
     color: '#fff',
     marginRight: 10,
     fontFamily: family.Neo_Regular,
-    marginLeft: 10,
+    // marginLeft: 10,
   },
   sharebtn: {
     width: 43,
@@ -639,7 +642,7 @@ export const Styles = StyleSheet.create({
     minHeight: 190,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     flexDirection: 'row-reverse', //remved for news screen
     width: width - 20,
     alignSelf: 'center',

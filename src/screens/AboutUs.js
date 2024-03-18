@@ -30,7 +30,7 @@ class AboutUs extends Component {
         return backendHtmlString;
       } else {
         Toast.show({
-          text1: ArabicText?.somethingwentwrong,
+          text1: ArabicText?.Somethingwentwrong,
           type: 'error',
           visibilityTime: 3000,
         });

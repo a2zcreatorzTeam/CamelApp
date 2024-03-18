@@ -47,9 +47,8 @@ class AddNew extends Component {
               color: 'black',
               fontFamily: family.Neo_Regular,
             }}>
-            أتعهد ان جميع المعلومات التي سوف اذكرها صحيحة ومطابقة لحالة السلعة
-            الحالية - اتعهد بفحص السلعة ومعاينتها قبل الشراء - أتعهد بأتباع شروط
-            التطبيق
+            تعهد ان جميع المعلومات التي سوف اذكرها - صحيحة ومطابقة لحالة السلعة
+            الحالية اتعهد بفحص السلعة ومعاينتها قبل الشراء من - الغش والعبث
           </Text>
         </View>
         <ScrollView
@@ -62,7 +61,7 @@ class AddNew extends Component {
               onPress={() => onAddButtonClick('CamelClubForm')}
               style={Styles.OpacityAddnew}>
               <Image
-                source={require('../../assets/group_839_480.png')}
+                source={require('../../assets/Camel_Club.png')}
                 style={Styles.topImages}
                 resizeMode="cover"></Image>
             </TouchableOpacity>
@@ -128,7 +127,7 @@ class AddNew extends Component {
               onPress={() => onAddButtonClick('MovingCamelForm')}
               style={Styles.OpacityAddnew}>
               <Image
-                source={require('../../assets/group_842_480.png')}
+                source={require('../../assets/Camel_moving.png')}
                 style={Styles.topImages}
                 resizeMode="cover"></Image>
             </TouchableOpacity>

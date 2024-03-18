@@ -164,7 +164,7 @@ class CreateProfile extends Component {
             Toast.show({
               text1: res?.data?.message
                 ? res?.data?.message
-                : ArabicText?.somethingwentwrong,
+                : ArabicText?.Somethingwentwrong,
               type: 'error',
               visibilityTime: 3000,
             });
@@ -280,7 +280,7 @@ class CreateProfile extends Component {
           </View>
 
           <Text style={[Styles.text, {marginVertical: 20}]}>
-            {ArabicText?.Edit_profile}
+            {ArabicText?.CreateProfile}
           </Text>
           {/* INPUT FIELDS  */}
           <View style={Styles.profileQuestioncard}>

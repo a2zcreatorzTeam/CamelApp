@@ -44,7 +44,7 @@ class Bank extends Component {
         loader: false,
       });
       Toast.show({
-        text1: ArabicText?.somethingwentwrong,
+        text1: ArabicText?.Somethingwentwrong,
         type: 'error',
         visibilityTime: 3000,
       });

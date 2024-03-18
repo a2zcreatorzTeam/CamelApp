@@ -1,6 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 // appcenter codepush release-react -a a2zcreatorzz-gmail.com/Camel -d Staging
 // appcenter codepush release-react -a a2zcreatorzz-gmail.com/Camel_Ios -d Staging
+
+// APP SECRET -> "df401405-21de-4a75-a0ad-dcfb6214dc1c"
 import firebase from '@react-native-firebase/app';
 import React, {Component} from 'react';
 import Navigation from './src/routes/Navigation';

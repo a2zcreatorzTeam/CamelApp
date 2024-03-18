@@ -850,8 +850,7 @@ class Profile extends Component {
                         fontSize: 12,
                         textAlign: 'right',
                         marginRight: 4,
-                        fontFamily:
-                          family.Neo_Medium,
+                        fontFamily: family.Neo_Medium,
                       }}>
                       {subscription?.length
                         ? subscription
@@ -902,10 +901,7 @@ class Profile extends Component {
                     <Text style={styles.textcolor}>{ArabicText.Followers}</Text>
                   </TouchableOpacity>
                   {/* OR  */}
-                  <Text
-                    style={{fontSize: 30,  color: '#fff'}}>
-                    |
-                  </Text>
+                  <Text style={{fontSize: 30, color: '#fff'}}>|</Text>
                   {/* NO OF POSTS  */}
                   <View style={styles.video}>
                     <Text style={styles.textcolor}>
@@ -914,10 +910,7 @@ class Profile extends Component {
                     <Text style={styles.textcolor}>{ArabicText.posts}</Text>
                   </View>
                   {/* OR  */}
-                  <Text
-                    style={{fontSize: 30, color: '#fff'}}>
-                    |
-                  </Text>
+                  <Text style={{fontSize: 30, color: '#fff'}}>|</Text>
                   {/* FOLLOWERS LIST  */}
                   <TouchableOpacity
                     onPress={() => {
@@ -955,8 +948,7 @@ class Profile extends Component {
                         style={{
                           margin: 5,
                           color: 'black',
-                          fontFamily:
-                            family.Neo_Regular,
+                          fontFamily: family.Neo_Regular,
                         }}>
                         {ArabicText?.AddWhatsappnumber}
                       </Text>
@@ -982,12 +974,11 @@ class Profile extends Component {
                           style={{
                             margin: 3,
                             color: 'black',
-                            fontFamily:
-                              family.Neo_Medium,
+                            fontFamily: family.Neo_Medium,
                           }}>
                           {this.state.registerSwitch == true
                             ? ArabicText?.active
-                            : ArabicText?.disable}
+                            : ArabicText?.Inactive}
                         </Text>
 
                         <Switch
@@ -1033,8 +1024,7 @@ class Profile extends Component {
                         style={{
                           margin: 5,
                           color: 'black',
-                          fontFamily:
-                            family.Neo_Regular,
+                          fontFamily: family.Neo_Regular,
                         }}>
                         {ArabicText?.Enable_dissableChat}
                       </Text>
@@ -1050,12 +1040,11 @@ class Profile extends Component {
                           style={{
                             margin: 3,
                             color: 'black',
-                            fontFamily:
-                              family.Neo_Medium,
+                            fontFamily: family.Neo_Medium,
                           }}>
                           {this.state.chatFlag == true
                             ? ArabicText?.active
-                            : ArabicText?.disable}
+                            : ArabicText?.Inactive}
                         </Text>
 
                         <Switch
@@ -1098,8 +1087,7 @@ class Profile extends Component {
                         style={{
                           margin: 5,
                           color: 'black',
-                          fontFamily:
-                            family.Neo_Regular,
+                          fontFamily: family.Neo_Regular,
                         }}>
                         {ArabicText?.UpdatePhone}
                       </Text>
@@ -1125,13 +1113,12 @@ class Profile extends Component {
                           style={{
                             margin: 3,
                             color: 'black',
-                            fontFamily:
-                              family.Neo_Medium,
+                            fontFamily: family.Neo_Medium,
                           }}>
                           {this.state.phoneStatusSwitch == true ||
                           this.state.phoneStatusSwitch == 'True'
                             ? ArabicText?.active
-                            : ArabicText?.disable}
+                            : ArabicText?.Inactive}
                         </Text>
 
                         <Switch
@@ -1199,8 +1186,7 @@ class Profile extends Component {
                       style={{
                         color: '#8b4513',
                         fontSize: 15,
-                        fontFamily:
-                          family.Neo_Regular,
+                        fontFamily: family.Neo_Regular,
                       }}>
                       {ArabicText?.EnterOTPHere}
                     </Text>
@@ -1245,8 +1231,7 @@ class Profile extends Component {
                       alignContent: 'center',
                       textAlign: 'center',
                       marginVertical: 30,
-                      fontFamily:
-                        family.Neo_Regular,
+                      fontFamily: family.Neo_Regular,
                     }}>
                     {' '}
                     {ArabicText?.NoPostFound}
@@ -1370,8 +1355,7 @@ const Item = ({
                     paddingRight: 5,
                     color: 'black',
                     textAlign: 'right',
-                    fontFamily:
-                      family.Neo_Regular,
+                    fontFamily: family.Neo_Regular,
                   }}>
                   {user_location}
                 </Text>
@@ -1384,8 +1368,7 @@ const Item = ({
                     paddingRight: 5,
                     color: 'black',
                     textAlign: 'right',
-                    fontFamily:
-                      family.Neo_Regular,
+                    fontFamily: family.Neo_Regular,
                   }}>
                   {date}
                 </Text>

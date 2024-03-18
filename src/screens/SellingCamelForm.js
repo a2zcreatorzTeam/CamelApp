@@ -688,7 +688,7 @@ class SellingCamelForm extends React.Component {
                   fontSize: 18,
                   fontFamily: family.Neo_Regular,
                 }}>
-                {ArabicText.Please_select_price_type}
+                {ArabicText.Payment_Types}
               </Text>
 
               {/* SELECT PRICE TYPE */}
@@ -938,7 +938,7 @@ class SellingCamelForm extends React.Component {
               <Loader loading={this.state.loading} />
               <TouchableOpacity onPress={() => this.createPostSellingCamel()}>
                 <View style={Styles.btnform}>
-                  <Text style={Styles.textbtn}>{ArabicText.submit}</Text>
+                  <Text style={Styles.textbtn}>{ArabicText.add}</Text>
                 </View>
               </TouchableOpacity>
             </View>

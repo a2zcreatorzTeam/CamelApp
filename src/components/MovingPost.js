@@ -37,6 +37,7 @@ const MovingPost = ({
   return (
     <View style={Styles.container}>
       <View style={Styles.newsbox1}>
+
         {image ? (
           <FastImage
             style={{
@@ -45,6 +46,7 @@ const MovingPost = ({
               alignSelf: 'center',
               justifyContent: 'center',
               borderRadius: 10,
+              backgroundColor: 'gray',
             }}
             source={
               image
@@ -62,14 +64,16 @@ const MovingPost = ({
               width: '40%',
               alignSelf: 'center',
               justifyContent: 'center',
+              alignItems: 'center',
               borderRadius: 10,
+              backgroundColor: 'gray',
             }}>
             {
               <FastImage
                 style={{
                   height: 170,
                   width: '100%',
-                  left: 10,
+                  // left: 10,
                   borderRadius: 10,
                   opacity: 0.5,
                 }}
@@ -106,58 +110,60 @@ const MovingPost = ({
             </TouchableOpacity>
           </View>
         )}
-
-        <View
-          style={{
-            // top: 5,
-            // bottom: 35,
-            // right: width / 3,
-            // position: 'absolute',
-            padding: 20,
-            marginRight: 10,
-          }}>
-          <Text style={styles.text}>
-            {ArabicText.Title}: {title}{' '}
-          </Text>
-          <Text style={styles.text}>
-            {ArabicText.Type}: {type}
-          </Text>
-          {item?.category_name == 'تسبيل الفحول' ? (
+        <View style={{width: '60%'}}>
+          <View
+            style={{
+              // top: 5,
+              // bottom: 35,
+              // right: width / 3,
+              // position: 'absolute',
+              padding: 20,
+              marginRight: 10,
+              width: '100%',
+              paddingRight: 5,
+            }}>
             <Text style={styles.text}>
-              {ArabicText.Location}:{location}
+              {ArabicText.Title}: {title}{' '}
             </Text>
-          ) : (
-            <>
-              <Text style={styles.text}>
-                {ArabicText.Location_From}:{location}
-              </Text>
-
-              <Text style={styles.text}>
-                {ArabicText.Location_To}:{locationTo}
-              </Text>
-            </>
-          )}
-
-          {price ? (
             <Text style={styles.text}>
-              {' '}
-              {ArabicText.Price}:{price}
+              {ArabicText.Type}: {type}
             </Text>
-          ) : null}
-        </View>
+            {item?.category_name == 'تسبيل الفحول' ? (
+              <Text style={styles.text}>
+                {ArabicText.Location}:{location}
+              </Text>
+            ) : (
+              <>
+                <Text style={styles.text}>
+                  {ArabicText.Location_From}:{location}
+                </Text>
 
-        <TouchableOpacity
-          style={{
-            marginTop: 'auto',
-            marginBottom: 10,
-          }}
-          onPress={() => {
-            onDetailsClick(viewCount, setViewCount);
-          }}>
-          <View style={Styles.btnHome}>
-            <Text style={Styles.textbtn}>{ArabicText.Details}</Text>
+                <Text style={styles.text}>
+                  {ArabicText.Location_To}:{locationTo}
+                </Text>
+              </>
+            )}
+
+            {price ? (
+              <Text style={styles.text}>
+                {' '}
+                {ArabicText.Price}:{price}
+              </Text>
+            ) : null}
           </View>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              marginBottom: 10,
+              alignSelf: 'flex-start',
+            }}
+            onPress={() => {
+              onDetailsClick(viewCount, setViewCount);
+            }}>
+            <View style={Styles.btnHome}>
+              <Text style={Styles.textbtn}>{ArabicText.Details}</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

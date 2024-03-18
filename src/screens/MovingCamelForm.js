@@ -520,7 +520,7 @@ class MovingCamelForm extends React.Component {
                 }}
               />
 
-              <View style={{flexDirection: 'row', margin: 5}}>
+              <View style={{flexDirection: 'row-reverse', margin: 5}}>
                 <TextInput
                   style={Styles.mforminputs}
                   placeholder={ArabicText.From}

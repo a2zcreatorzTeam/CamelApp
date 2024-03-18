@@ -33,8 +33,8 @@ export const getFCMToken = async () => {
     }
   } catch (error) {
     console.log('token error===>>', error);
-    alert('ERROR', error.message);
-    return;
+    // alert('ERROR', error.message);
+    return null;
     // return 'null';
   }
   // }

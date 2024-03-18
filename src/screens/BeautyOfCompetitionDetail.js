@@ -110,7 +110,7 @@ class BeautyOfCompetition extends Component {
         });
     } catch (error) {
       Toast.show({
-        text1: ArabicText?.somethingwentwrong,
+        text1: ArabicText?.Somethingwentwrong,
         type: 'error',
         visibilityTime: 3000,
       });
@@ -269,7 +269,7 @@ class BeautyOfCompetition extends Component {
           })
           .catch(error => {
             Toast.show({
-              text1: ArabicText?.somethingwentwrong,
+              text1: ArabicText?.Somethingwentwrong,
               type: 'error',
               visibilityTime: 3000,
             });

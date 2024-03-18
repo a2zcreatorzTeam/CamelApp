@@ -1,4 +1,3 @@
-export const LOGIN = 'تسجيل الدخول';
 export const limitCharacters = '24 الشخصيات';
 export const ageLimit = '3 الشخصيات';
 export const description = '300 الشخصيات';
@@ -6,9 +5,6 @@ export const Selling_camel = 'بيع الحلال';
 export const Camel_Food = 'بيع الأعلاف';
 export const PHONE = 'هاتف';
 export const EMAIL = 'بريد إلكتروني';
-export const PASSWORD = 'كلمة المرور';
-export const FORGET_PASSWORD = 'نسيت كلمة المرور';
-export const CREATE_AN_ACCOUNT = 'إنشاء حساب';
 export const NEW_COMMENT = 'تعليق جديد';
 export const REPLY_COMMENT = 'الرد على التعليق';
 export const FORGET_PASSWORD_SCREEN = 'ننسى شاشة كلمة المرور';
@@ -23,11 +19,10 @@ export const PLACEHOLDER_PHONE = 'هاتف نائب';
 export const PLACEHOLDER_PASSWORD = 'كلمة مرور العنصر النائب';
 export const PLACEHOLDER_CONFIRM_PASSWORD = 'تأكيد كلمة المرور';
 export const ALREADY_AN_ACCOUNT = 'بالفعل حساب';
-export const EDIT_PROFILE = 'تعديل الملف الشخصي';
+export const EDIT_PROFILE = 'التعديل';
 export const SUBMIT = 'يُقدِّم';
 export const ADD_NEW_POST = 'إضافة مشاركة جديدة';
 export const HEADER_OF_ADD_NEW = 'رأس إضافة جديد';
-export const PLACEHOLDER_TITLE_OF_POST = 'عنوان';
 export const PLACEHOLDER_DESCRIPTION_OF_POST = 'وصف';
 export const PLACEHOLDER_lOCATION_OF_POST = 'موقع';
 export const PLACEHOLDER_IMAGE_OF_POST = 'الرجاء تحديد الصورة';
@@ -36,7 +31,6 @@ export const CREATE_POST = 'إنشاء مشاركة';
 export const PLACEHOLDER_COLOR_OF_CAMEL = 'لون';
 export const PRICE_FIX = 'إصلاح السعر';
 export const PRICE_OFFER = 'سعر العرض';
-export const PLACEHOLDER_PLEASE_SELECT_PRICE_TYPE = 'الرجاء تحديد نوع السعر';
 export const PLACEHOLDER_ARE_YOU_REGISTERD = 'هل أنت مسجل؟';
 export const PLACEHOLDER_NO_I_AM_NOT_REGISTERED = 'لا أنا غير مسجل';
 export const PLACEHOLDER_COMMISSION = 'عمولة';
@@ -46,7 +40,6 @@ export const PLACEHOLDER_HOW_WILL_YOU_PAY_COMMISSION_BUYER =
 export const PLACEHOLDER_HOW_WILL_YOU_PAY_COMMISSION_SELLER =
   'كيف ستدفع العمولة للبائع؟';
 export const PLACEHOLDER_ADD_TYPES = 'إضافة أنواع';
-export const PLACEHOLDER_AGE = 'عمر';
 export const PLACEHOLDER_PRICE = 'سعر';
 export const PLACEHOLDER_CAR_NAME = 'اسم السيارة';
 export const PLACEHOLDER_CAR_TYPE = 'نوع السيارة';
@@ -101,17 +94,18 @@ export const Bids = 'المزاد';
 export const WithDraw = 'سحب';
 export const active = 'نشط';
 export const disable = 'غير نشط';
+export const Inactive = 'تمكين';
 export const PhoneUpdatedSuccessfully = 'تم تحديث الهاتف بنجاح';
 export const UpdatePhone = 'تحديث الهاتف';
 export const add = 'إضافة';
 export const AddWhatsappnumber = 'أضف رقم الواتس اب';
-export const NoPostFound = 'لم يتم العثور على إضافة';
+export const NoPostFound = 'لم يتم العثور على إضافات';
 export const chat = 'محادثة';
 export const groups = 'مجموعات';
 export const friendlist = 'قائمة الاصدقاء';
 export const cannotpostwithoutmedia =
-  'لا يمكن النشر من دون صور او فيديو للسلعة';
-export const Payment_Types = 'أنواع الدفع';
+  'ال يمكن النشر من دون  صور او فيديو للسلعة';
+export const Payment_Types = 'طريقة البيع';
 export const Is_it_register_on_ministry_of_articulator =
   'هل هو مسجل في وزارة الزراعة';
 export const fixed = 'حد';
@@ -124,10 +118,10 @@ export const Add_types = 'النوع';
 export const Add_Description = 'الوصف';
 export const send = 'يرسل';
 //jkjkjkjk
-export const Thisuserhasdisabledchat = 'لقد قام هذا المستخدم بتعطيل الدردشة';
+export const Thisuserhasdisabledchat = 'قد قام المستخدم بتعطيل المحادثة';
 //jkjkjk
 export const Thisuserhasdisabledmobilenumber =
-  'لقد قام المستخدم بتعطيل اتصال الجوال';
+  'لقد قام المستخدم بتعطيل رقم الجوال';
 export const phone = 'الجوال';
 export const message = 'رسائل';
 export const comments = 'تعليقات';
@@ -137,9 +131,8 @@ export const Click_to_Participate = 'انقر للمشاركة';
 export const Start_Date = 'تاريخ البدء';
 export const End_Date = 'تاريخ الانتهاء';
 export const How_to_Participate = 'كيفية المشاركة';
-export const reward = 'جائزة';
 export const General_Rule = 'طريقة المشاركة';
-export const car_type = 'نوع السيارة';
+export const car_type = 'نوع المركبة';
 export const Price = 'السعر';
 export const From = 'من';
 export const To = 'الي';
@@ -169,16 +162,16 @@ export const Picture = 'صورة';
 export const More_Detail = 'تفاصيل اكثر';
 export const rating = 'تقييم';
 export const Add_comments = 'أضف تعليقات';
-export const home = 'بيت';
+export const home = 'الرئيسية';
 
-export const notification = 'إشعار';
+export const notification = 'التنبيهات';
 export const addnew = 'إضافة';
-export const profilee = 'الملف الشخصي';
+export const profilee = 'حسابي';
 export const Male = 'ذكر';
 export const female = 'تسبيل الفحول';
-export const login = 'تسجيل الدخول';
-export const passwords = 'كلمات المرور';
-export const forget_Password = 'نسيت كلمة المرور';
+export const login = 'الدخول';
+export const passwords = 'الرقم';
+export const forget_Password = 'نسيت الرقم السري';
 export const Create_an_account = 'إنشاء حساب';
 export const New_Comment = 'تعليق جديد';
 //jkjkjk
@@ -193,37 +186,35 @@ export const signUp = 'اشتراك';
 export const name = 'اسم';
 export const confirm_password = 'تأكيد كلمة المرور';
 export const Already_an_account = 'بالفعل حساب';
-export const Edit_profile = 'تعديل الملف الشخصي';
+export const Edit_profile = 'التعديل';
 export const submit = 'يُقدِّم';
 export const Update_Profile = 'تحديث الملف';
-export const Title = 'عنوان';
+export const Title = 'العنوان';
 export const Description = 'الوصف';
 export const Location = 'الموقع';
 export const Please_select_Image = 'الرجاء تحديد الصورة';
-export const create = 'إنشاء حساب جديد';
-export const Color = 'لون';
-export const Please_select_price_type = 'نوع السعر';
+export const Color = 'اللون';
 export const I_am_registered_to_ministry_of_articulator =
   'أنا مسجل في وزارة المفصلية';
 export const No_I_am_not_registered_to_ministry_of_articulator =
   'لم يتم وضع الشرائح الالكترونية';
 export const COMMISSION = 'عمولة';
 export const How_will_you_pay_the_application_percentage =
-  'كيف ستدفع نسبة السعى؟';
+  'من يقوم بدفع نسبة السعي ؟';
 export const Buyer = 'مشتر';
 export const Seller = 'تاجر';
 export const Type = 'النوع';
 export const Car = 'سيارة';
 
-export const Details = 'تفاصيل';
+export const Details = 'التفاصيل';
 export const Date = 'تاريخ';
 export const Start = 'يبدأ';
 export const End = 'نهاية';
 export const camel = 'الإبل';
 export const Treatings = 'علاج الابل';
 export const Followers = 'متابعون';
-export const posts = 'إضافات';
-export const Following = 'التالي';
+export const posts = 'اإلضافات';
+export const Following = 'متابع';
 export const followed = 'متابعة';
 export const unfollowed = 'غير متابع';
 export const View_Post = 'مشاهدة الإضافات';
@@ -232,10 +223,10 @@ export const Reject = 'يرفض';
 export const MyBids = 'مشترياتي';
 export const Bids_on_my_posts = 'مبيعاتي';
 export const club = 'النادي';
-export const Reward = 'جائزة';
+export const Reward = 'الجائزة';
 export const winner = 'الفائز';
 export const Succesfully_liked = 'تم الإعجاب بنجاح';
-export const Please_complete_the_fields = 'يرجى إكمال الحقول';
+export const Please_complete_the_fields = ' الرجاء اكمال الحقول';
 export const Post_added_successfully = 'تمت إضافة المشاركة بنجاح';
 export const Name = 'اسم';
 export const Take_Survey = 'قم بالأستفتاء';
@@ -271,7 +262,7 @@ export const UserUpdateFailed = 'فشل تحديث المستخدم';
 export const Only1imageallowed = 'مسموح بصورة واحدة فقط';
 export const UsernameCantBeEmpty = 'اسم المستخدم لا يمكن أن يكون فارغا';
 export const phoneNumberAlreadyExist = 'رقم الهاتف موجود بالفعل';
-export const PleaseCompleteThefields = 'الرجاء إكمال الحقول';
+// export const PleaseCompleteThefields = 'الرجاء إكمال الحقول';
 export const PleaseSpecifyTheTermsAndConditions = 'يرجى تحديد الشروط والأحكام';
 export const Started = 'بدأت';
 export const Ended = 'انتهى';
@@ -289,7 +280,6 @@ export const fiveDays = 'خمسة أيام';
 export const CloseOffer = 'إغلاق العرض';
 export const bidClosed = 'العرض مغلق';
 export const PleaseEnterMessage = 'الرجاء إدخال الرسالة';
-export const Somethingwentwrong = 'هناك خطأ ما';
 export const Videomustbelessthen10MB =
   'يجب أن يكون حجم الفيديو أقل من 10 ميغابايت';
 export const Bidsuccessfullywithdrawn = 'تم سحب السوم بنجاح';
@@ -317,7 +307,7 @@ export const Pleaseentermobileno = 'الرجاء إدخال رقم الجوال'
 export const Noonehasparticipatedyet = 'لم يشارك أحد حتى الآن';
 export const Thisisyourpost = 'هذه هي رسالتك';
 export const Errorinaddingbid = 'خطأ في إضافة السوم';
-export const somethingwentwrong = 'هناك خطأ ما';
+export const Somethingwentwrong = 'هناك خطأ ما';
 export const Phonenumberisnotavailable = 'رقم الهاتف غير متوفر';
 
 export const PleaseEnterGroupName = 'الرجاء إدخال اسم المجموعة';
@@ -333,7 +323,7 @@ export const Youcanusethelocation = 'يمكنك استخدام الموقع';
 export const locationpermissiondenied = 'تم رفض إذن تحديد الموقع';
 export const phonenumbercantbeempty = 'رقم الهاتف لا يمكن أن يكون فارغا';
 export const usernamecantbeempty = 'لا يمكن أن يكون اسم المستخدم فارغًا';
-export const PARTICIPANTS = 'مشاركون';
+export const PARTICIPANTS = 'المشاركون';
 export const currentpassword = 'كلمة السر الحالية';
 export const CurrentPasswordfieldcantbeempty =
   'لا يمكن أن يكون حقل كلمة المرور الحالية فارغاً';
@@ -356,8 +346,10 @@ export const Pleaseentercorrectphonenumber = 'الرجاء إدخال رقم ا�
 export const logoutsuccessfully = 'تسجيل الخروج بنجاح';
 export const otphasbeensenttoyourphonenumber = 'تم إرسال otp إلى رقم هاتفك';
 export const passwordsuccessfullychanged = 'تم إرسال رمز التحقق إلى رقم هاتفك';
-export const Socialmediaaccounts = 'حسابات وسائل التواصل الاجتماعي';
-export const Andfulfillyourcovenant = 'والوفاء بعهدك';
+export const Socialmediaaccounts = 'حسابات مواقع التواصل';
+// export const Andfulfillyourcovenant = 'والوفاء بعهدك';
+export const Andfulfillyourcovenant =
+  'وأوفوا بعهد الله إذا عاهدتم (الإيمان بعد توكيده ولا تنقضوه)';
 export const Pledge = 'يتعهد';
 export const Howtosubscribe = 'كيفية الاشتراك';
 export const GeneralTerms = 'شروط عامة';
@@ -368,7 +360,7 @@ export const MyBids1 = 'عروض الأسعار الخاصة بي';
 export const NoCommentFound = 'لم يتم العثور على تعليق';
 export const CreateProfile = 'إنشاء الملف الشخصي';
 export const UpdateProfile = 'تحديث الملف';
-export const Instagram = 'انستغرام';
+export const Instagram = 'إنستغرام';
 export const Twitter = 'تويتر';
 export const TypeMessage = 'اكتب رسالة';
 export const Movingcamel = 'نقل الحلال';
@@ -393,7 +385,7 @@ export const Learnmoreabouttermsandconditions =
 export const TakeaSurvey = 'قم بالاستفتاء';
 
 export const Createdat = 'أنشئت في';
-export const Nodatafound = 'لاتوجد بيانات';
+export const Nodatafound = 'ال يوجد محادثات';
 //TILLL HEREREREEE
 export const news = 'الاخبار';
 export const FemaleCamel = 'تسبيل الفحول';
@@ -411,7 +403,6 @@ export const reject = 'يرفض';
 export const block = 'حاجز';
 
 export const createGroup = 'إنشاء مجموعة';
-export const Add = 'يضيف';
 export const Remove = 'يزيل';
 export const groupChat = 'أسم المجموعة';
 //jkjkjk

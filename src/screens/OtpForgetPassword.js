@@ -152,7 +152,7 @@ export default class App extends Component {
     } else {
       this.setState({btnPressed: false, loader: false});
       Toast.show({
-        text1: ArabicText?.PleaseCompleteThefields,
+        text1: ArabicText?.Please_complete_the_fields,
         type: 'error',
         visibilityTime: 3000,
       });

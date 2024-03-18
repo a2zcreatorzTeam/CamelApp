@@ -175,7 +175,7 @@ class Login extends Component {
           } catch (e) {
             console.log(e, 'eeeeee');
             return Toast.show({
-              text1: ArabicText.somethingwentwrong,
+              text1: ArabicText.Somethingwentwrong,
               type: 'error',
               visibilityTime: 3000,
             });
@@ -190,7 +190,7 @@ class Login extends Component {
             });
           } else {
             return Toast.show({
-              text1: ArabicText.somethingwentwrong,
+              text1: ArabicText.Somethingwentwrong,
               type: 'error',
               visibilityTime: 3000,
             });
@@ -311,7 +311,7 @@ class Login extends Component {
         try {
           // Get FCM token
           deviceToken = await getFCMToken();
-
+          console.log(deviceToken, 'deviceee');
           if (!deviceToken) {
             // If FCM token is not obtained, wait for a short period before retrying
             await new Promise(resolve => setTimeout(resolve, 1000));

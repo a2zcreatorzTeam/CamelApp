@@ -279,7 +279,7 @@ class CamelSellingList extends Component {
       }
     };
     const onDetailsClick = (item, viewCount, setViewCount) => {
-      console.log(item?.category_id, 'idddd');
+      console.log(item, 'sellingCamelId');
       if (user != undefined) {
         this.props.navigation.navigate('DetailsSellingCamel', {
           itemFromDetails: item,

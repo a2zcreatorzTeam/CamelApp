@@ -63,6 +63,7 @@ class Bids extends Component {
     this.setState({refreshing: false});
   }
   onViewPostClick(item) {
+    console.log(item, 'itemFromDetails: item?.posts[0]');
     if (item.post.category_id == '1') {
       this.props.navigation.navigate('CamelClubDetailsComponent', {
         itemFromDetails: item?.posts[0],
@@ -237,7 +238,7 @@ class Bids extends Component {
               <Text
                 style={{
                   color: '#D2691Eff',
-                  fontFamily: family.Neo_Medium
+                  fontFamily: family.Neo_Medium,
                 }}>
                 {ArabicText?.WithDraw}
               </Text>
@@ -250,7 +251,7 @@ class Bids extends Component {
             <Text
               style={{
                 color: '#D2691Eff',
-                fontFamily: family.Neo_Medium
+                fontFamily: family.Neo_Medium,
               }}>
               {ArabicText?.View_Post}
             </Text>

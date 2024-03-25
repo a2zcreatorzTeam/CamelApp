@@ -283,7 +283,6 @@ class DetailsComponent extends Component {
       this.props.navigation.navigate('Login');
     }
   };
-
   // DAIL NUMBER
   audioCall() {
     let {user} = this.props;
@@ -388,7 +387,6 @@ class DetailsComponent extends Component {
       this.props.navigation.navigate('Login');
     }
   }
-
   render() {
     let user = this.props?.user;
     user = user?.user?.user;
@@ -407,6 +405,7 @@ class DetailsComponent extends Component {
       modalOffer,
     } = this.state;
     const postOwner = this.state.user;
+    console.log(itemFromDetails?.bid_status, 'bidddstatuss');
 
     const thumbnail = itemFromDetails?.thumbnail?.thumbnail;
 
@@ -474,7 +473,8 @@ class DetailsComponent extends Component {
               value={itemFromDetails.title}
               style={Styles.forminputsDetails}
               placeholder={itemFromDetails.title}
-              editable={false}></TextInput>
+              editable={false}
+            />
 
             <Text style={Styles.textHeadingg}>{ArabicText.Color}</Text>
 
@@ -482,20 +482,23 @@ class DetailsComponent extends Component {
               value={itemFromDetails.color}
               style={Styles.forminputsDetails}
               placeholder={itemFromDetails.color}
-              editable={false}></TextInput>
+              editable={false}
+            />
 
             <Text style={Styles.textHeadingg}>{ArabicText.Type}</Text>
             <TextInput
               value={itemFromDetails.camel_type}
               style={Styles.forminputsDetails}
               placeholder={itemFromDetails.camel_type}
-              editable={false}></TextInput>
+              editable={false}
+            />
             <Text style={Styles.textHeadingg}>{ArabicText.Location}</Text>
             <TextInput
               value={itemFromDetails.location}
               style={Styles.forminputsDetails}
               placeholder={itemFromDetails.location}
-              editable={false}></TextInput>
+              editable={false}
+            />
 
             <Text style={Styles.textHeadingg}>
               {ArabicText.How_will_you_pay_the_application_percentage}
@@ -504,14 +507,16 @@ class DetailsComponent extends Component {
               value={itemFromDetails.commission}
               style={Styles.forminputsDetails}
               placeholder={itemFromDetails.commission}
-              editable={false}></TextInput>
+              editable={false}
+            />
 
             <Text style={Styles.textHeadingg}>{ArabicText.Payment_Types}</Text>
             <TextInput
               value={itemFromDetails.price_type}
               style={Styles.forminputsDetails}
               placeholder={itemFromDetails.price_type}
-              editable={false}></TextInput>
+              editable={false}
+            />
 
             <Text style={Styles.textHeadingg}>{ArabicText.Description}</Text>
             <Text
@@ -538,8 +543,7 @@ class DetailsComponent extends Component {
                   <Text
                     style={{
                       margin: 5,
-                      fontFamily:
-                        family.Neo_Regular,
+                      fontFamily: family.Neo_Regular,
                       marginBottom: 0,
                     }}>
                     {ArabicText.offer_Up}
@@ -552,7 +556,8 @@ class DetailsComponent extends Component {
                     onChangeText={text =>
                       this.setState({price: text.replace(/[^0-9]/g, '')})
                     }
-                    placeholderTextColor="#b0b0b0"></TextInput>
+                    placeholderTextColor="#b0b0b0"
+                  />
                   <TouchableOpacity onPress={() => this.placeBid()}>
                     <View style={Styles.btnform}>
                       <Text style={Styles.textbtn}>{ArabicText.offer_Up}</Text>
@@ -638,6 +643,25 @@ class DetailsComponent extends Component {
                 </View>
               </TouchableOpacity>
             )}
+          {/* CLOSED STATUS  */}
+          {(closeOffer == 1 || closeOffer == true) && (
+            <TouchableOpacity
+              disabled
+              style={{marginBottom: 20, marginTop: 20}}
+              onPress={() => {
+                // this.closeBid();
+              }}>
+              <View
+                style={[
+                  Styles.btnform,
+                  {width: width / 3, backgroundColor: 'gray'},
+                ]}>
+                <Text style={[Styles.textbtn, {marginHorizontal: 10}]}>
+                  {ArabicText.bid_closed}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
           {/* SOCIAL ICONS */}
           {user?.id !== undefined && user?.id !== postOwner?.id && (
             <View style={Styles.socialIconView}>

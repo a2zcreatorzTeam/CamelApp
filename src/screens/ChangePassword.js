@@ -262,7 +262,7 @@ class ChangePassword extends Component {
                 />
               )}
               {this.state.loader == false && (
-                <Text style={Styles.textbtn}>{ArabicText.Confirm}</Text>
+                <Text style={Styles.textbtn}>{ArabicText.change}</Text>
               )}
             </View>
           </TouchableOpacity>

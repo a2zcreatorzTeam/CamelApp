@@ -496,8 +496,7 @@ class DetailsComponent extends Component {
                 <Text
                   style={{
                     margin: 5,
-                    fontFamily:
-                      family.Neo_Regular,
+                    fontFamily: family.Neo_Regular,
                   }}>
                   {ArabicText.offer_Up}
                 </Text>
@@ -599,6 +598,26 @@ class DetailsComponent extends Component {
                 </View>
               </TouchableOpacity>
             )}
+
+          {/* CLOSED STATUS  */}
+          {(closeOffer == true || closeOffer == 1) && (
+            <TouchableOpacity
+              disabled
+              style={{marginBottom: 20, marginTop: 20}}
+              onPress={() => {
+                // this.closeBid();
+              }}>
+              <View
+                style={[
+                  Styles.btnform,
+                  {width: width / 3, backgroundColor: 'gray'},
+                ]}>
+                <Text style={[Styles.textbtn, {marginHorizontal: 10}]}>
+                  {ArabicText.bid_closed}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
           {/* SOCIAL ICONS */}
           {user?.id !== undefined && user?.id !== loggedUser?.id && (
             <View style={Styles.socialIconView}>

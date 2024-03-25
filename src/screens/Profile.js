@@ -586,6 +586,7 @@ class Profile extends Component {
       }
     };
     onDetailsClick = async (item, viewCount, setViewCount) => {
+      console.log(item,"ityemmmm");
       const {user} = this.props;
       const post_id = item?.id;
       if (user != undefined) {

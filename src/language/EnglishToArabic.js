@@ -116,7 +116,7 @@ export const Add_Location = 'الموقع';
 export const Add_color = 'اللون';
 export const Add_types = 'النوع';
 export const Add_Description = 'الوصف';
-export const send = 'يرسل';
+export const send = 'إرسال';
 //jkjkjkjk
 export const Thisuserhasdisabledchat = 'قد قام المستخدم بتعطيل المحادثة';
 //jkjkjk
@@ -130,7 +130,7 @@ export const close = 'إغلاق';
 export const Click_to_Participate = 'انقر للمشاركة';
 export const Start_Date = 'تاريخ البدء';
 export const End_Date = 'تاريخ الانتهاء';
-export const How_to_Participate = 'كيفية المشاركة';
+export const How_to_Participate = 'الشروط والأحكام';
 export const General_Rule = 'طريقة المشاركة';
 export const car_type = 'نوع المركبة';
 export const Price = 'السعر';
@@ -185,7 +185,7 @@ export const Enter_Phone_Number = 'أدخل رقم الهاتف';
 export const signUp = 'اشتراك';
 export const name = 'اسم';
 export const confirm_password = 'تأكيد كلمة المرور';
-export const Already_an_account = 'بالفعل حساب';
+export const Already_an_account = 'لدي حساب العودة لتسجيل الدخول';
 export const Edit_profile = 'التعديل';
 export const submit = 'يُقدِّم';
 export const Update_Profile = 'تحديث الملف';
@@ -195,14 +195,12 @@ export const Location = 'الموقع';
 export const Please_select_Image = 'الرجاء تحديد الصورة';
 export const Color = 'اللون';
 export const I_am_registered_to_ministry_of_articulator =
-  'أنا مسجل في وزارة المفصلية';
-export const No_I_am_not_registered_to_ministry_of_articulator =
-  'لم يتم وضع الشرائح الالكترونية';
+  'هل تم وضع الشرائح الاالكترونية؟';
 export const COMMISSION = 'عمولة';
 export const How_will_you_pay_the_application_percentage =
   'من يقوم بدفع نسبة السعي ؟';
-export const Buyer = 'مشتر';
-export const Seller = 'تاجر';
+export const Buyer = 'المشتري';
+export const Seller = 'البائع';
 export const Type = 'النوع';
 export const Car = 'سيارة';
 
@@ -212,12 +210,12 @@ export const Start = 'يبدأ';
 export const End = 'نهاية';
 export const camel = 'الإبل';
 export const Treatings = 'علاج الابل';
-export const Followers = 'متابعون';
-export const posts = 'اإلضافات';
+export const Followers = 'المتابعين';
+export const posts = 'الاضافات';
 export const Following = 'متابع';
 export const followed = 'متابعة';
 export const unfollowed = 'غير متابع';
-export const View_Post = 'مشاهدة الإضافات';
+export const View_Post = 'مشاهدة';
 export const Confirm = 'يتأكد ';
 export const Reject = 'يرفض';
 export const MyBids = 'مشترياتي';
@@ -323,7 +321,7 @@ export const Youcanusethelocation = 'يمكنك استخدام الموقع';
 export const locationpermissiondenied = 'تم رفض إذن تحديد الموقع';
 export const phonenumbercantbeempty = 'رقم الهاتف لا يمكن أن يكون فارغا';
 export const usernamecantbeempty = 'لا يمكن أن يكون اسم المستخدم فارغًا';
-export const PARTICIPANTS = 'المشاركون';
+export const PARTICIPANTS = 'المشاركين';
 export const currentpassword = 'كلمة السر الحالية';
 export const CurrentPasswordfieldcantbeempty =
   'لا يمكن أن يكون حقل كلمة المرور الحالية فارغاً';
@@ -387,7 +385,7 @@ export const TakeaSurvey = 'قم بالاستفتاء';
 export const Createdat = 'أنشئت في';
 export const Nodatafound = 'ال يوجد محادثات';
 //TILLL HEREREREEE
-export const news = 'الاخبار';
+export const news = 'الأخبار';
 export const FemaleCamel = 'تسبيل الفحول';
 export const MovingCamel = 'نقل الحلال';
 export const followerslist = 'قائمة المتابعين';
@@ -398,7 +396,7 @@ export const AddLocation = 'أضف الموقع';
 export const Only4imagesareallowed = 'Only 4 images are allowed';
 export const marketingOffers = 'الأسواق حاليا';
 //jkkj
-export const accept = 'يقبل';
+export const accept = 'قبول';
 export const reject = 'يرفض';
 export const block = 'حاجز';
 
@@ -423,3 +421,7 @@ export const User = 'عضو';
 export const VIP = 'عضو مهم';
 export const famous = 'عضو مميز';
 export const AppisUpdatingPleaseWait = 'يتم تحديث التطبيق، يرجى الانتظار';
+export const verification = 'تحقق';
+export const EnterNewpassword = 'أدخل كلمة المرور الجديدة';
+export const change = 'تغيير';
+export const bid_closed = 'العرض انتهاء';

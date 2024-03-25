@@ -245,8 +245,7 @@ export default class App extends Component {
                     textAlign: 'center',
                     justifyContent: 'center',
                     fontSize: 22,
-                    fontFamily:
-                      family.Neo_Regular,
+                    fontFamily: family.Neo_Regular,
                   }}>
                   {ArabicText?.EntertheOTPSenttoYourMobile}
                 </Text>
@@ -356,7 +355,9 @@ export default class App extends Component {
                       />
                     )}
                     {this.state.loader == false && (
-                      <Text style={Styles.textbtn}>{ArabicText.Confirm}</Text>
+                      <Text style={Styles.textbtn}>
+                        {ArabicText.verification}
+                      </Text>
                     )}
                   </View>
                 </TouchableOpacity>
@@ -375,8 +376,7 @@ export default class App extends Component {
                     justifyContent: 'center',
                     fontSize: 22,
                     // fontWeight: '600',
-                    fontFamily:
-                      family.Neo_Regular,
+                    fontFamily: family.Neo_Regular,
                   }}
                   numberOfLines={3}>
                   {ArabicText?.EnterYourNewPassword}
@@ -410,7 +410,7 @@ export default class App extends Component {
                       secureTextEntry={this.state.hidePassword}
                       placeholderTextColor={'grey'}
                       style={Styles.inputs}
-                      placeholder={ArabicText.passwords}
+                      placeholder={ArabicText.EnterNewpassword}
                       onChangeText={text =>
                         this.setState({password: text})
                       }></TextInput>
@@ -442,7 +442,7 @@ export default class App extends Component {
                     <TextInput
                       placeholderTextColor={'grey'}
                       style={Styles.inputs}
-                      placeholder={ArabicText.confirm_password}
+                      placeholder={ArabicText.EnterNewpassword}
                       onChangeText={text =>
                         this.setState({confirm_password: text})
                       }
@@ -474,7 +474,7 @@ export default class App extends Component {
                       />
                     )}
                     {this.state.loader == false && (
-                      <Text style={Styles.textbtn}>{ArabicText.Confirm}</Text>
+                      <Text style={Styles.textbtn}>{ArabicText.change}</Text>
                     )}
                   </View>
                 </TouchableOpacity>

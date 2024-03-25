@@ -223,6 +223,7 @@ class Home extends Component {
     }
   };
   onDetailsClick = async (item, viewCount, setViewCount) => {
+    console.log(item, 'formatttttItemmm');
     let {user} = this.props;
     user = user?.user?.user;
     let post_id = item.id;

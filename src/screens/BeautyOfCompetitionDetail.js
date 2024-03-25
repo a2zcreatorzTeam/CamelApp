@@ -455,11 +455,19 @@ class BeautyOfCompetition extends Component {
               onPress={() => this.setState({modal: true})}>
               <Text style={Styles.ButtonBeauty}>{ArabicText.Reward}</Text>
             </Pressable>
+            {/* HOW TO PARTICIPATE  */}
+            {/* <Pressable
+              style={Styles.beautyBtnView}
+              onPress={() => this.setState({particpateModal: true})}>
+              <Text style={Styles.ButtonBeauty}>
+                {ArabicText.How_to_Participate}
+              </Text>
+            </Pressable> */}
             {/* Rules Modal  */}
             <Pressable
               style={Styles.beautyBtnView}
               onPress={() => this.setState({generalRulesModal: true})}>
-              <Text style={Styles.ButtonBeauty}>{ArabicText.General_Rule}</Text>
+              <Text style={Styles.ButtonBeauty}>{ArabicText.GeneralTerms}</Text>
             </Pressable>
             {/* WINNER  */}
             <Pressable
@@ -542,7 +550,7 @@ class BeautyOfCompetition extends Component {
           </TouchableWithoutFeedback>
         </Modal>
         {/* howToparticpateModal */}
-        {/* <Modal
+        <Modal
           animationType="slide"
           transparent={false}
           visible={particpateModal}
@@ -584,7 +592,7 @@ class BeautyOfCompetition extends Component {
               )}
             </View>
           </View>
-        </Modal> */}
+        </Modal>
         {/* General_Rule */}
         <Modal
           animationType="slide"
@@ -624,7 +632,7 @@ class BeautyOfCompetition extends Component {
                       textAlign: 'center',
                       fontFamily: family.Neo_Regular,
                     }}>
-                    {ArabicText.General_Rule}
+                    {ArabicText.GeneralTerms}
                   </Text>
 
                   <View style={{padding: 10}}>

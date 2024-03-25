@@ -112,25 +112,25 @@ class App extends Component {
   // CODE PUSH FUNCTIONS
   syncImmediate = async () => {
     const update = await codePush.checkForUpdate();
-    if (update) {
-      codePush.sync(
-        {
-          installMode: codePush.InstallMode.IMMEDIATE,
-          updateDialog: {
-            appendReleaseDescription: false,
-            optionalIgnoreButtonLabel: 'Cancel',
-            optionalInstallButtonLabel: 'Install',
-            optionalUpdateMessage: 'New update available. Install update',
-            title: 'Update Required',
-            modal: false,
-          },
-        },
-        this.codePushStatusDidChange.bind(this),
-        this.codePushDownloadDidProgress.bind(this),
-      );
-    } else {
-      console.log('elseee');
-    }
+    // if (update) {
+    //   codePush.sync(
+    //     {
+    //       installMode: codePush.InstallMode.IMMEDIATE,
+    //       updateDialog: {
+    //         appendReleaseDescription: false,
+    //         optionalIgnoreButtonLabel: 'Cancel',
+    //         optionalInstallButtonLabel: 'Install',
+    //         optionalUpdateMessage: 'New update available. Install update',
+    //         title: 'Update Required',
+    //         modal: false,
+    //       },
+    //     },
+    //     this.codePushStatusDidChange.bind(this),
+    //     this.codePushDownloadDidProgress.bind(this),
+    //   );
+    // } else {
+    //   console.log('elseee');
+    // }
   };
   codePushDownloadDidProgress = progress => {
     this.setState({updateProcess: true});

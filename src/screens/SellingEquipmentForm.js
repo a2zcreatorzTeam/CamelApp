@@ -599,7 +599,7 @@ class SellingEquipmentForm extends React.Component {
                     <TouchableOpacity
                       onPress={() => this.setState({modalOffer: false})}>
                       <View style={Styles.btnform}>
-                        <Text style={Styles.textbtn}>{ArabicText.fixed}</Text>
+                        <Text style={Styles.textbtn}>{ArabicText.offer_Up}</Text>
                       </View>
                     </TouchableOpacity>
                   </View>

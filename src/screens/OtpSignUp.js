@@ -327,7 +327,7 @@ class App extends Component {
                   />
                 )}
                 {this.state.loader == false && (
-                  <Text style={Styles.textbtn}>{ArabicText.Confirm}</Text>
+                  <Text style={Styles.textbtn}>{ArabicText.verification}</Text>
                 )}
               </View>
             </TouchableOpacity>

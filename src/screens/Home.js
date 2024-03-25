@@ -663,11 +663,6 @@ class Home extends Component {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{
                   flexDirection: 'row-reverse',
-                  // transform: [
-                  //   {
-                  //     rotate: '180deg',
-                  //   },
-                  // ],
                 }}>
                 <View
                   style={{

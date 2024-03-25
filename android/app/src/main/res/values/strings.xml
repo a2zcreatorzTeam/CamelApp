@@ -1,7 +1,7 @@
 <resources>
      <string name="app_name">Alsyahd</string>
      <string name="appAuthRedirectScheme">Alsyahd</string>
-     <string moduleConfig="true" name="CodePushDeploymentKey">hRJUQxb2uPfPbJaabNvPBPuWF6N6ThDZlbRpv</string>
+     <string moduleConfig="true" name="CodePushDeploymentKey">MWJ1lfw-oaq3z679Iu4xG-CQtiOSZ_DK3ueHA</string>
      <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">DO_NOT_ASK_JAVASCRIPT</string>
      <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
 </resources>

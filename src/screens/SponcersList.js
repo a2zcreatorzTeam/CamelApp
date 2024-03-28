@@ -11,6 +11,9 @@ import Item from '../components/SponserItem';
 import camelapp from '../api/camelapp';
 import Header from '../components/Header';
 import EmptyComponent from '../components/EmptyComponent';
+import FastImage from 'react-native-fast-image';
+import { mainImageUrl } from '../constants/urls';
+import { TouchableOpacity } from 'react-native';
 const width = Dimensions.get('screen').width;
 
 class Sponser extends Component {
@@ -67,10 +70,56 @@ class Sponser extends Component {
     this.setState({searchText: text});
   }
 
+  // const AdsComp = ({ item }) => {
+  //   return (
+  //     <TouchableOpacity
+  //       onPress={() => {
+  //         console.log('wokinghgg');
+  //         Linking.openURL(item?.url);
+  //       }}
+  //       style={{
+  //         width: width,
+  //         height: 110,
+  //         backgroundColor: '#fff',
+  //         padding: 2,
+  //         alignItems: 'center',
+  //       }}>
+  //       <FastImage
+  //         style={{ flex: 1, width: '100%', height: undefined, borderRadius: 7 }}
+  //         source={{
+  //           uri: `${mainImageUrl}advertisement/` + item?.image,
+
+  //           headers: { Authorization: 'someAuthToken' },
+  //           priority: FastImage.priority.high,
+  //         }}
+  //       resizeMode={FastImage?.resizeMode.contain}
+  //       />
+  //     </TouchableOpacity>
+  //   );
+  // };
   render() {
     const {posts, filterPosts, key, searchedItem} = this.state;
     const renderItem = ({item}) => {
       return (
+        // <TouchableOpacity
+        //   style={{
+        //     width: width,
+        //     height: 110,
+        //     backgroundColor: '#fff',
+        //     padding: 2,
+        //     alignItems: 'center',
+        //   }}>
+        //   <FastImage
+        //     style={{flex: 1, width: '100%', height: undefined, borderRadius: 7}}
+        //     source={{
+        //       uri: `${mainImageUrl}bank/` + item?.image,
+
+        //       headers: {Authorization: 'someAuthToken'},
+        //       priority: FastImage.priority.high,
+        //     }}
+        //     resizeMode={FastImage?.resizeMode.contain}
+        //   />
+        // </TouchableOpacity>
         <Item
           item={item}
           name={item.name}

@@ -57,6 +57,7 @@ class Bank extends Component {
   render() {
     const {loader, text, posts} = this.state;
     const renderItem = ({item}) => {
+      console.log(item, 'itemmm');
       return (
         <Item
           item={item}

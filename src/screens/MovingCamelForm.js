@@ -636,7 +636,7 @@ class MovingCamelForm extends React.Component {
                 </View>
               </TouchableOpacity>
 
-              <Modal
+              {/* <Modal
                 animationType="slide"
                 visible={this.state.modalVisible}
                 transparent={true}
@@ -671,8 +671,7 @@ class MovingCamelForm extends React.Component {
                       style={{
                         color: '#8b4513',
                         fontSize: 15,
-                        fontFamily:
-                          family.Neo_Medium,
+                        fontFamily: family.Neo_Medium,
                       }}>
                       {ArabicText?.EnterBankDetails}
                     </Text>
@@ -686,15 +685,13 @@ class MovingCamelForm extends React.Component {
                       style={{
                         color: '#000',
                         fontSize: 15,
-                        fontFamily:
-                          family.Neo_Medium,
+                        fontFamily: family.Neo_Medium,
                       }}>
                       <Text
                         style={{
                           color: 'grey',
                           fontSize: 13,
-                          fontFamily:
-                            family.Neo_Medium,
+                          fontFamily: family.Neo_Medium,
                         }}>
                         {ArabicText?.AccountTitle}:{' '}
                       </Text>
@@ -710,15 +707,13 @@ class MovingCamelForm extends React.Component {
                       style={{
                         color: '#000',
                         fontSize: 15,
-                        fontFamily:
-                          family.Neo_Medium,
+                        fontFamily: family.Neo_Medium,
                       }}>
                       <Text
                         style={{
                           color: 'grey',
                           fontSize: 13,
-                          fontFamily:
-                            family.Neo_Medium,
+                          fontFamily: family.Neo_Medium,
                         }}>
                         {ArabicText?.AccountNumber}:{' '}
                       </Text>
@@ -735,44 +730,19 @@ class MovingCamelForm extends React.Component {
                       style={{
                         color: '#000',
                         fontSize: 15,
-                        fontFamily:
-                          family.Neo_Medium,
+                        fontFamily: family.Neo_Medium,
                       }}>
                       <Text
                         style={{
                           color: 'grey',
                           fontSize: 13,
-                          fontFamily:
-                            family.Neo_Medium,
+                          fontFamily: family.Neo_Medium,
                         }}>
                         {ArabicText?.BranchCode}:{' '}
                       </Text>
                       SC7512
                     </Text>
                   </View>
-                  {/* <TextInput
-                  style={Styles.forminputs}
-                  placeholder="Account Title"
-                  placeholderTextColor="#aaa"
-                  value={this.state.accountTitle}
-                  onChangeText={(text) => this.setState({ accountTitle: text })}
-                />
-                <TextInput
-                  style={Styles.forminputs}
-                  placeholder="Account Number"
-                  placeholderTextColor="#aaa"
-                  keyboardType='number-pad'
-                  value={this.state.accountNumber}
-                  maxLength={14}
-                  onChangeText={(text) => this.setState({ accountNumber: text })}
-                />
-                <TextInput
-                  style={Styles.forminputs}
-                  placeholder="Branch Code"
-                  placeholderTextColor="#aaa"
-                  value={this.state.branchCode}
-                  onChangeText={(text) => this.setState({ branchCode: text })}
-                /> */}
 
                   <TouchableOpacity
                     style={{alignSelf: 'center', marginTop: 20}}
@@ -782,7 +752,7 @@ class MovingCamelForm extends React.Component {
                     </View>
                   </TouchableOpacity>
                 </View>
-              </Modal>
+              </Modal> */}
 
               {/* VIDEO MODAL */}
               <VideoModal

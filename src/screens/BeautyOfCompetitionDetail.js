@@ -530,7 +530,7 @@ class BeautyOfCompetition extends Component {
                 </Text>
                 {competition_item?.competition_prize && (
                   <Image
-                    style={{width: 250, height: 250}}
+                    style={{width: 250, height: 250, backgroundColor: 'gray'}}
                     source={{
                       uri:
                         `${mainCompImageUrl}prizes/` +
@@ -564,7 +564,7 @@ class BeautyOfCompetition extends Component {
                   contentContainerStyle={{flexGrow: 1}}
                   style={{
                     width: '90%',
-                    height: '50%',
+                    height: '70%',
                     flexGrow: 1,
                   }}>
                   <Text
@@ -607,7 +607,7 @@ class BeautyOfCompetition extends Component {
                 <ScrollView
                   showsVerticalScrollIndicator={false}
                   contentContainerStyle={{flexGrow: 1}}
-                  style={{width: '90%', height: '50%', flexGrow: 1}}>
+                  style={{width: '90%', height: '70%', flexGrow: 1}}>
                   {/* <Pressable
                     style={{
                       position: 'absolute',
@@ -635,7 +635,11 @@ class BeautyOfCompetition extends Component {
                     {ArabicText.GeneralTerms}
                   </Text>
 
-                  <View style={{padding: 10}}>
+                  <View
+                    style={{
+                      padding: 10,
+                      paddingVertical: 0,
+                    }}>
                     <HTML
                       tagsStyles={tagsStyles}
                       source={{
